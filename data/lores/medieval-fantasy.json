@@ -1,0 +1,160 @@
+{
+  "id": "MEDIEVAL_FANTASY",
+  "name": "Medieval Fantasy",
+  "tagline": "Dragones, hechiceros y leyendas ancestrales",
+  "description": "Un mundo de espadas y hechicería donde reinos antiguos luchan por el poder, dragones surcan los cielos y la magia fluye por la tierra. Héroes y villanos forjan su destino en batallas épicas.",
+  "icon": "🏰",
+  "theme": {
+    "primary": "#C9A84C",
+    "secondary": "#8B6914",
+    "accent": "#F5C842",
+    "background": "radial-gradient(ellipse at center, rgba(139, 26, 26, 0.15) 0%, transparent 50%)"
+  },
+  "archetypes": [
+    {
+      "id": "warrior",
+      "name": "Guerrero",
+      "description": "Maestro del combate cuerpo a cuerpo, experto en armas y armaduras pesadas",
+      "icon": "⚔️",
+      "stats": {
+        "strength": 16,
+        "dexterity": 12,
+        "constitution": 14,
+        "intelligence": 8,
+        "wisdom": 10,
+        "charisma": 10
+      },
+      "startingEquipment": ["Espada larga", "Escudo de acero", "Armadura de placas", "Poción de curación menor"]
+    },
+    {
+      "id": "wizard",
+      "name": "Mago",
+      "description": "Dominador de los arcanos, lanza hechizos devastadores desde la distancia",
+      "icon": "🧙",
+      "stats": {
+        "strength": 8,
+        "dexterity": 10,
+        "constitution": 10,
+        "intelligence": 16,
+        "wisdom": 12,
+        "charisma": 14
+      },
+      "startingEquipment": ["Vara mágica", "Libro de hechizos", "Túnica arcana", "Scroll de bola de fuego"]
+    },
+    {
+      "id": "rogue",
+      "name": "Pícaro",
+      "description": "Ágil y astuto, experto en sigilo, trampas y ataques por sorpresa",
+      "icon": "🗡️",
+      "stats": {
+        "strength": 10,
+        "dexterity": 16,
+        "constitution": 12,
+        "intelligence": 12,
+        "wisdom": 10,
+        "charisma": 14
+      },
+      "startingEquipment": ["Daga envenenada", "Arco corto", "Capa de sombras", "Herramientas de ladrón"]
+    }
+  ],
+  "factions": [
+    {
+      "name": "Reino de Eldoria",
+      "description": "El reino humano más antiguo y poderoso, gobernado por la Reina Lyanna",
+      "alignment": "Lawful Good",
+      "influence": "high"
+    },
+    {
+      "name": "Círculo de Magos",
+      "description": "Orden arcana que protege el conocimiento mágico y entrena a nuevos hechiceros",
+      "alignment": "Neutral",
+      "influence": "medium"
+    },
+    {
+      "name": "La Mano Negra",
+      "description": "Gremio de asesinos y ladrones que opera desde las sombras",
+      "alignment": "Chaotic Neutral",
+      "influence": "medium"
+    },
+    {
+      "name": "Culto del Dragón",
+      "description": "Fanáticos que adoran a los dragones antiguos y buscan su regreso",
+      "alignment": "Chaotic Evil",
+      "influence": "low"
+    }
+  ],
+  "locations": [
+    {
+      "name": "Ciudad de Aethermoor",
+      "type": "city",
+      "description": "Capital del reino, ciudad amurallada con torres de mármol y calles empedradas",
+      "features": ["Castillo Real", "Mercado Central", "Torre de Magos", "Puerto marítimo"]
+    },
+    {
+      "name": "Bosque Susurrante",
+      "type": "wilderness",
+      "description": "Bosque ancestral habitado por criaturas mágicas y espíritus de la naturaleza",
+      "features": ["Ruinas élficas", "Lago espejo", "Templo druida", "Guarida de lobos"]
+    },
+    {
+      "name": "Montañas del Dragón",
+      "type": "dungeon",
+      "description": "Cordillera peligrosa donde antiguos dragones duermen en cavernas profundas",
+      "features": ["Cavernas de cristal", "Nido del dragón rojo", "Minas enanas abandonadas"]
+    },
+    {
+      "name": "Ruinas de Zar'Thul",
+      "type": "dungeon",
+      "description": "Ciudad antigua destruida por magia oscura, ahora plagada de no-muertos",
+      "features": ["Cripta real", "Torre del nigromante", "Catacumbas malditas"]
+    }
+  ],
+  "compendium": {
+    "monsters": [
+      {
+        "name": "Dragón Rojo Antiguo",
+        "challenge": 17,
+        "type": "Dragon",
+        "description": "Criatura colosal de escamas carmesí que exhala fuego devastador",
+        "abilities": ["Aliento de fuego", "Vuelo", "Aura de miedo", "Resistencia mágica"]
+      },
+      {
+        "name": "Goblin Merodeador",
+        "challenge": 1,
+        "type": "Humanoid",
+        "description": "Pequeña criatura verde y maliciosa que ataca en grupos",
+        "abilities": ["Ataque furtivo", "Veneno débil"]
+      },
+      {
+        "name": "Lich Oscuro",
+        "challenge": 15,
+        "type": "Undead",
+        "description": "Hechicero no-muerto de inmenso poder que ha trascendido la muerte",
+        "abilities": ["Toque helado", "Hechizos de nivel 9", "Filacteria", "Inmunidad a veneno"]
+      }
+    ],
+    "items": [
+      {
+        "name": "Espada del Alba",
+        "rarity": "Legendary",
+        "type": "Weapon",
+        "description": "Espada sagrada que brilla con luz divina, efectiva contra no-muertos",
+        "properties": ["+3 a ataque", "2d6 daño radiante extra vs no-muertos", "Emite luz brillante"]
+      },
+      {
+        "name": "Anillo de Invisibilidad",
+        "rarity": "Rare",
+        "type": "Ring",
+        "description": "Permite al portador volverse invisible 3 veces al día",
+        "properties": ["Invisibilidad (1 hora, 3/día)", "Requiere sintonización"]
+      },
+      {
+        "name": "Poción de Curación Mayor",
+        "rarity": "Uncommon",
+        "type": "Consumable",
+        "description": "Restaura salud significativa al beberla",
+        "properties": ["Cura 4d4+4 HP", "Acción de bonificación para beber"]
+      }
+    ]
+  }
+}
