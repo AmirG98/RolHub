@@ -11,11 +11,14 @@ export default function HomePage() {
             RPG HUB
           </h1>
           <p className="font-heading text-2xl text-gold mb-4">
-            Dungeon Master Autónomo Powered by AI
+            Narrador / Game Master Autónomo
           </p>
-          <p className="font-body text-lg text-parchment/80 mb-8 max-w-2xl mx-auto">
+          <p className="font-body text-lg text-parchment/80 mb-2 max-w-2xl mx-auto">
+            Sistema completo de juego de rol para cualquier nivel
+          </p>
+          <p className="font-body text-base text-parchment/60 mb-8 max-w-2xl mx-auto">
             Embárcate en aventuras épicas en mundos infinitos. Desde la Tierra Media hasta galaxias lejanas,
-            tu historia se escribe en tiempo real con un DM que nunca duerme.
+            tu historia se escribe en tiempo real con un narrador IA que nunca duerme.
           </p>
 
           {/* CTA Buttons */}
@@ -60,7 +63,7 @@ export default function HomePage() {
           </div>
           <div className="glass-panel rounded-lg p-4">
             <div className="font-title text-3xl text-neon-blue">24/7</div>
-            <div className="font-ui text-sm text-parchment/60">DM Disponible</div>
+            <div className="font-ui text-sm text-parchment/60">Narrador Disponible</div>
           </div>
           <div className="glass-panel rounded-lg p-4">
             <div className="font-title text-3xl text-neon-purple">AI</div>

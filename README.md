@@ -1,6 +1,6 @@
-# RPG Hub - Digital Dungeon Master
+# RPG Hub - Narrador / Game Master Autónomo
 
-Hub de rol narrativo con DM autónomo powered by Claude API.
+Sistema completo de juego de rol para cualquier nivel, powered by Claude API.
 
 ## 🎮 ¿Qué es esto?
 
