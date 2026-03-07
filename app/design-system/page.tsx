@@ -1,6 +1,7 @@
 import { ParchmentPanel } from '@/components/medieval/ParchmentPanel'
 import { OrnateFrame } from '@/components/medieval/OrnateFrame'
 import { RunicButton } from '@/components/medieval/RunicButton'
+import { DiceRoller } from '@/components/medieval/DiceRoller'
 
 export default function DesignSystemPage() {
   return (
@@ -174,9 +175,17 @@ export default function DesignSystemPage() {
         </div>
       </section>
 
+      {/* Dice Roller */}
+      <section>
+        <h2 className="font-heading text-2xl text-gold mb-4">Sistema de Dados</h2>
+        <div className="max-w-2xl mx-auto">
+          <DiceRoller />
+        </div>
+      </section>
+
       <div className="text-center py-8">
         <p className="font-ui text-parchment/60 text-sm">
-          Sistema de Diseño Medieval - Fase 1 Complete
+          Sistema de Diseño Medieval - Fase 2
         </p>
       </div>
     </div>
