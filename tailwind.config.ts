@@ -26,6 +26,18 @@ const config: Config = {
         },
         ink: '#1C1208',
         emerald: '#1A3A2A',
+        neon: {
+          blue: '#00D9FF',
+          purple: '#B026FF',
+          green: '#39FF14',
+          pink: '#FF10F0',
+          orange: '#FF6C11'
+        },
+        cyber: {
+          dark: '#0A0E27',
+          darker: '#050816',
+          panel: '#1A1F3A'
+        }
       },
       fontFamily: {
         title: ['var(--font-title)', 'serif'],
