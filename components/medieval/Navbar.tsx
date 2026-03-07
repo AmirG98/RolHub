@@ -16,32 +16,44 @@ export function Navbar() {
           </span>
         </Link>
 
-        {isSignedIn ? (
-          <div className="flex items-center gap-6">
-            <Link href="/campaigns" className="font-heading text-parchment hover:text-gold transition relative group">
-              Campañas
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gold group-hover:w-full transition-all"></span>
-            </Link>
-            <Link href="/characters" className="font-heading text-parchment hover:text-neon-blue transition relative group">
-              Personajes
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-neon-blue group-hover:w-full transition-all"></span>
-            </Link>
-            <Link href="/compendium" className="font-heading text-parchment hover:text-neon-purple transition relative group">
-              Compendio
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-neon-purple group-hover:w-full transition-all"></span>
-            </Link>
-            <UserButton />
-          </div>
-        ) : (
-          <div className="flex gap-4">
-            <Link href="/login">
-              <RunicButton variant="secondary">Iniciar Sesión</RunicButton>
-            </Link>
-            <Link href="/register">
-              <RunicButton variant="primary">Registrarse</RunicButton>
-            </Link>
-          </div>
-        )}
+        <div className="flex items-center gap-6">
+          {/* Herramientas públicas */}
+          <Link href="/dados" className="font-heading text-parchment hover:text-gold transition relative group">
+            🎲 Dados
+            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gold group-hover:w-full transition-all"></span>
+          </Link>
+          <Link href="/hoja-personaje" className="font-heading text-parchment hover:text-neon-blue transition relative group">
+            📜 Hoja
+            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-neon-blue group-hover:w-full transition-all"></span>
+          </Link>
+
+          {isSignedIn ? (
+            <>
+              <Link href="/campaigns" className="font-heading text-parchment hover:text-gold transition relative group">
+                Campañas
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gold group-hover:w-full transition-all"></span>
+              </Link>
+              <Link href="/characters" className="font-heading text-parchment hover:text-neon-blue transition relative group">
+                Personajes
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-neon-blue group-hover:w-full transition-all"></span>
+              </Link>
+              <Link href="/compendium" className="font-heading text-parchment hover:text-neon-purple transition relative group">
+                Compendio
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-neon-purple group-hover:w-full transition-all"></span>
+              </Link>
+              <UserButton />
+            </>
+          ) : (
+            <div className="flex gap-4">
+              <Link href="/login">
+                <RunicButton variant="secondary">Iniciar Sesión</RunicButton>
+              </Link>
+              <Link href="/register">
+                <RunicButton variant="primary">Registrarse</RunicButton>
+              </Link>
+            </div>
+          )}
+        </div>
       </div>
     </nav>
   )
