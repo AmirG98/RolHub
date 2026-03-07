@@ -1,0 +1,356 @@
+{
+  "id": "LOTR",
+  "name": "Tierra Media",
+  "tagline": "Un mundo de magia antigua, pueblos nobles y la lucha eterna contra la oscuridad",
+  "tone": ["épico", "heroico", "melancólico", "esperanzador"],
+  "world_summary": "La Tierra Media es un vasto continente donde humanos, elfos, enanos y hobbits conviven bajo la amenaza constante de fuerzas oscuras. Es una era de magia decadente, donde los grandes poderes del pasado se desvanecen lentamente. Los elfos parten hacia el oeste, los enanos se refugian en sus montañas, y los humanos heredan un mundo que apenas comprenden. Antiguas fortalezas yacen en ruinas, bosques inmortales guardan secretos olvidados, y en las sombras, sirvientes del mal conspiran para sumir al mundo en tinieblas eternas. Es un tiempo donde pequeños actos de valentía pueden cambiar el destino de naciones enteras.",
+
+  "factions": [
+    {
+      "name": "Los Pueblos Libres",
+      "description": "Alianza de humanos, elfos, enanos y hobbits que defienden la libertad",
+      "alignment": "Bueno",
+      "influence": 2
+    },
+    {
+      "name": "Las Fuerzas de la Sombra",
+      "description": "Orcos, trolls y sirvientes oscuros que buscan dominar la Tierra Media",
+      "alignment": "Malvado",
+      "influence": 1
+    },
+    {
+      "name": "Los Istari",
+      "description": "Magos enviados para guiar a los pueblos libres sin dominarlos",
+      "alignment": "Neutral Bueno",
+      "influence": 1
+    },
+    {
+      "name": "Los Reinos de los Hombres",
+      "description": "Gondor, Rohan y otros reinos humanos en decadencia",
+      "alignment": "Bueno",
+      "influence": 1
+    }
+  ],
+
+  "locations": [
+    {
+      "name": "La Comarca",
+      "description": "Tierra pacífica de colinas verdes donde viven los hobbits",
+      "type": "asentamiento",
+      "danger_level": 0
+    },
+    {
+      "name": "Rivendel",
+      "description": "Refugio élfico oculto en las montañas, hogar de sabiduría antigua",
+      "type": "ciudad",
+      "danger_level": 0
+    },
+    {
+      "name": "Minas Tirith",
+      "description": "Gran ciudad fortaleza de Gondor, construida en siete niveles",
+      "type": "ciudad",
+      "danger_level": 1
+    },
+    {
+      "name": "Bosque Negro",
+      "description": "Bosque corrupto plagado de arañas gigantes y criaturas oscuras",
+      "type": "bosque",
+      "danger_level": 3
+    },
+    {
+      "name": "Moria",
+      "description": "Antigua ciudad enana bajo la montaña, ahora en ruinas y oscuridad",
+      "type": "mazmorra",
+      "danger_level": 4
+    },
+    {
+      "name": "Rohan",
+      "description": "Extensas llanuras donde cabalgan los señores de los caballos",
+      "type": "región",
+      "danger_level": 2
+    },
+    {
+      "name": "Isengard",
+      "description": "Torre fortificada que vigila la entrada a Rohan",
+      "type": "fortaleza",
+      "danger_level": 3
+    },
+    {
+      "name": "Mordor",
+      "description": "Tierra desolada donde la sombra tiene su fortaleza",
+      "type": "región",
+      "danger_level": 5
+    }
+  ],
+
+  "archetypes": [
+    {
+      "id": "ranger",
+      "name": "Montaraz",
+      "description": "Explorador y guerrero que protege las fronteras salvajes",
+      "simple_description": "Conoces los bosques y caminos secretos. Eres hábil con la espada y el arco. Proteges a los inocentes desde las sombras.",
+      "starting_stats": {
+        "hp": 20,
+        "maxHp": 20,
+        "combat": 3,
+        "exploration": 4,
+        "social": 2,
+        "lore": 2
+      },
+      "starting_inventory": [
+        "Espada larga",
+        "Arco largo y 20 flechas",
+        "Capa élfica",
+        "Pipa de fumar",
+        "Mapa de las Tierras Salvajes"
+      ],
+      "special_ability": "Rastreador Experto: Siempre sabes qué criaturas han pasado por un lugar y cuándo"
+    },
+    {
+      "id": "scholar",
+      "name": "Erudito",
+      "description": "Sabio que estudia la historia antigua y las lenguas olvidadas",
+      "simple_description": "Has dedicado tu vida al estudio de textos antiguos. Conoces historias y leyendas que otros han olvidado. Tu sabiduría puede revelar secretos cruciales.",
+      "starting_stats": {
+        "hp": 14,
+        "maxHp": 14,
+        "combat": 1,
+        "exploration": 2,
+        "social": 3,
+        "lore": 5
+      },
+      "starting_inventory": [
+        "Bastón de madera",
+        "Libro de crónicas antiguas",
+        "Kit de escritura",
+        "Lupa",
+        "Pergaminos en élfico"
+      ],
+      "special_ability": "Conocimiento Antiguo: Puedes leer lenguas antiguas y recordar leyendas sobre lugares y objetos"
+    },
+    {
+      "id": "warrior",
+      "name": "Guerrero",
+      "description": "Combatiente valiente entrenado en las artes de la guerra",
+      "simple_description": "Has sido entrenado en el combate desde joven. Tu valor en batalla es legendario. Defiendes a los débiles con tu acero.",
+      "starting_stats": {
+        "hp": 25,
+        "maxHp": 25,
+        "combat": 5,
+        "exploration": 2,
+        "social": 2,
+        "lore": 1
+      },
+      "starting_inventory": [
+        "Espada ancha",
+        "Escudo de acero",
+        "Armadura de mallas",
+        "Cuerno de guerra",
+        "Estandarte familiar"
+      ],
+      "special_ability": "Protector: Puedes interponerte para recibir daño en lugar de un aliado"
+    }
+  ],
+
+  "voice_id": "grave_pausado",
+  "npc_voices": {
+    "elfo": "etéreo_sabio",
+    "enano": "ronco_grave",
+    "hobbit": "amigable_cálido",
+    "humano": "noble_firme",
+    "orco": "gutural_agresivo",
+    "mago": "anciano_poderoso"
+  },
+  "music_mood": "exploration_calm",
+  "art_style": "fantasy oil painting, Tolkien illustrated style, dramatic lighting, Middle-earth aesthetic",
+
+  "roll_tables": {
+    "encounters": {
+      "formula": "1d20",
+      "results": [
+        { "range": [1, 4], "result": "Viajeros amistosos ofrecen compartir su fuego" },
+        { "range": [5, 8], "result": "Rastros de orcos - están cerca pero no te han visto" },
+        { "range": [9, 12], "result": "Encuentras ruinas antiguas con inscripciones élficas" },
+        { "range": [13, 15], "result": "Lobos huargos te acechan desde la distancia" },
+        { "range": [16, 17], "result": "Grupo de orcos en patrulla - conflicto inevitable" },
+        { "range": [18, 19], "result": "Encontrás un artefacto mágico menor entre los arbustos" },
+        { "range": [20, 20], "result": "Un elfo solitario aparece con un mensaje urgente" }
+      ]
+    },
+    "weather": {
+      "formula": "1d12",
+      "results": [
+        { "range": [1, 3], "result": "Cielo despejado, luz dorada filtrándose entre los árboles" },
+        { "range": [4, 6], "result": "Niebla densa que reduce la visibilidad" },
+        { "range": [7, 9], "result": "Lluvia persistente que dificulta el viaje" },
+        { "range": [10, 11], "result": "Tormenta con truenos, los caballos están nerviosos" },
+        { "range": [12, 12], "result": "Oscuridad antinatural se extiende desde el este" }
+      ]
+    },
+    "loot": {
+      "formula": "1d10",
+      "results": [
+        { "range": [1, 3], "result": "Raciones élficas (lembas) - nutritivas y duraderas" },
+        { "range": [4, 5], "result": "Cuerda élfica - 50 pies, ligera pero resistente" },
+        { "range": [6, 7], "result": "Hierbas medicinales (athelas) - curan heridas" },
+        { "range": [8, 9], "result": "Daga enana finamente forjada" },
+        { "range": [10, 10], "result": "Anillo menor con inscripciones - función desconocida" }
+      ]
+    },
+    "npc_names": {
+      "formula": "1d20",
+      "results": [
+        { "range": [1, 1], "result": "Aldor" },
+        { "range": [2, 2], "result": "Beorn" },
+        { "range": [3, 3], "result": "Celeborn" },
+        { "range": [4, 4], "result": "Denethor" },
+        { "range": [5, 5], "result": "Elrohir" },
+        { "range": [6, 6], "result": "Faramir" },
+        { "range": [7, 7], "result": "Galadhon" },
+        { "range": [8, 8], "result": "Halbarad" },
+        { "range": [9, 9], "result": "Imrahil" },
+        { "range": [10, 10], "result": "Legolas" },
+        { "range": [11, 11], "result": "Meriadoc" },
+        { "range": [12, 12], "result": "Peregrin" },
+        { "range": [13, 13], "result": "Radagast" },
+        { "range": [14, 14], "result": "Saradoc" },
+        { "range": [15, 15], "result": "Théoden" },
+        { "range": [16, 16], "result": "Ulfang" },
+        { "range": [17, 17], "result": "Voronwë" },
+        { "range": [18, 18], "result": "Wulfgar" },
+        { "range": [19, 19], "result": "Yavanna" },
+        { "range": [20, 20], "result": "Zimrahin" }
+      ]
+    },
+    "events": {
+      "formula": "1d8",
+      "results": [
+        { "range": [1, 1], "result": "Se avistan señales de humo en la distancia" },
+        { "range": [2, 2], "result": "Escuchás un cuerno de guerra resonando en las colinas" },
+        { "range": [3, 3], "result": "Bandada de cuervos vuela hacia el sur - mal presagio" },
+        { "range": [4, 4], "result": "Encontrás un campamento abandonado apresuradamente" },
+        { "range": [5, 5], "result": "Un mensajero herido colapsa frente a vos" },
+        { "range": [6, 6], "result": "Extrañas luces danzan en el bosque de noche" },
+        { "range": [7, 7], "result": "Se oyen cantos élficos a lo lejos" },
+        { "range": [8, 8], "result": "El camino está bloqueado por un árbol caído - ¿accidente o trampa?" }
+      ]
+    }
+  },
+
+  "active_effects_pool": [
+    {
+      "id": "inspirado",
+      "name": "Inspirado",
+      "description": "Los cantos élficos han renovado tu espíritu",
+      "type": "buff",
+      "duration": 3,
+      "effects": { "combat": 1, "social": 1 }
+    },
+    {
+      "id": "envenenado",
+      "name": "Envenenado",
+      "description": "Veneno de orco corre por tus venas",
+      "type": "debuff",
+      "duration": 2,
+      "effects": { "combat": -2, "hp_per_turn": -2 }
+    },
+    {
+      "id": "bendecido",
+      "name": "Bendecido",
+      "description": "Una bendición élfica te protege",
+      "type": "buff",
+      "duration": 5,
+      "effects": { "defense": 2 }
+    },
+    {
+      "id": "exhausto",
+      "name": "Exhausto",
+      "description": "Has marchado demasiado sin descanso",
+      "type": "debuff",
+      "duration": 1,
+      "effects": { "combat": -1, "exploration": -1 }
+    }
+  ],
+
+  "narrative_skeleton": {
+    "act_1": {
+      "name": "El Llamado a la Aventura",
+      "description": "Vida pacífica interrumpida por un evento que exige acción",
+      "anchors": [
+        "El personaje recibe una misión urgente",
+        "Se revela una amenaza creciente",
+        "Debe abandonar su hogar para un viaje peligroso"
+      ],
+      "typical_scenes": ["La Comarca", "Rivendel"],
+      "mood": "exploration_calm"
+    },
+    "act_2": {
+      "name": "El Camino de las Pruebas",
+      "description": "Viaje lleno de peligros donde el personaje es puesto a prueba",
+      "anchors": [
+        "Primera confrontación seria con el enemigo",
+        "Se forman alianzas inesperadas",
+        "Descubrimiento de la magnitud real de la amenaza"
+      ],
+      "typical_scenes": ["Bosque Negro", "Moria", "Rohan"],
+      "mood": "drama_tense"
+    },
+    "act_3": {
+      "name": "El Descenso a la Oscuridad",
+      "description": "Todo parece perdido - el punto más bajo del viaje",
+      "anchors": [
+        "Gran pérdida o sacrificio",
+        "La esperanza parece desvanecerse",
+        "Decisión crucial que definirá el destino"
+      ],
+      "typical_scenes": ["Isengard", "Fronteras de Mordor"],
+      "mood": "horror_ambient"
+    },
+    "act_4": {
+      "name": "La Batalla Final",
+      "description": "Confrontación decisiva contra las fuerzas de la oscuridad",
+      "anchors": [
+        "Enfrentamiento directo con el enemigo principal",
+        "Aliados acuden en el momento crítico",
+        "Victoria o derrota - el destino se decide"
+      ],
+      "typical_scenes": ["Minas Tirith", "Mordor"],
+      "mood": "combat_epic"
+    },
+    "act_5": {
+      "name": "El Regreso Transformado",
+      "description": "Las consecuencias de la aventura - el mundo ha cambiado",
+      "anchors": [
+        "Reflexión sobre lo perdido y ganado",
+        "El personaje regresa diferente",
+        "Nuevo equilibrio en el mundo - para bien o mal"
+      ],
+      "typical_scenes": ["La Comarca", "Rivendel", "Minas Tirith"],
+      "mood": "rest_peaceful"
+    }
+  },
+
+  "one_shot_hook": "Un mensajero desesperado llega a tu puerta al anochecer. Una aldea cercana ha sido atacada por orcos y necesitan ayuda urgente. El camino es peligroso y la noche oscura, pero no hay tiempo que perder. ¿Responderás al llamado?",
+
+  "engine_notes": {
+    "story_mode": "Enfocarse en decisiones morales y consecuencias narrativas. Las batallas son rápidas y cinematográficas. La atmósfera y descripción son prioritarias.",
+    "pbta": "Usar movimientos como 'Desafiar el Peligro' y 'Discernir Realidades'. Los fallos parciales crean complicaciones interesantes, no bloqueos.",
+    "year_zero": "Recursos escasos: raciones, flechas, antorchas. El estrés aumenta en lugares corrompidos. Empujar dados = arriesgar equipo o salud.",
+    "dnd_5e": "Usar clases estándar pero con flavor de Tierra Media. Magos son raros y poderosos. Focos en habilidades de supervivencia y conocimiento."
+  },
+
+  "tutorial_notes": "Para jugadores NOVICE: Comenzar en La Comarca con una misión simple de escolta. Introducir mecánicas gradualmente: exploración primero, combate después. Usar NPCs amigables como Gandalf o Aragorn para guiar sutilmente. Evitar términos como 'tirada' o 'check' - usar lenguaje natural.",
+
+  "glossary": {
+    "Hobbit": "Gente pequeña y pacífica que vive en La Comarca, amantes de la comodidad",
+    "Elfo": "Seres inmortales de gran sabiduría y belleza, maestros de la magia y las artes",
+    "Enano": "Pueblo de las montañas, expertos artesanos y guerreros formidables",
+    "Orco": "Criaturas corrompidas al servicio de la oscuridad, crueles y violentas",
+    "Istari": "Magos enviados para ayudar a los pueblos libres - Gandalf es uno de ellos",
+    "Tierra Media": "El continente donde transcurren las historias, hogar de muchos pueblos",
+    "Mordor": "Tierra oscura donde reside el enemigo más terrible",
+    "La Comarca": "Hogar de los hobbits, tierra de paz y abundancia",
+    "Mithril": "Metal precioso más fuerte que el acero pero ligero como una pluma",
+    "Lembas": "Pan élfico que nutre más que comida normal y dura mucho tiempo"
+  }
+}

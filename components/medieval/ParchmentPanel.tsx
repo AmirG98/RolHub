@@ -4,17 +4,25 @@ import { ReactNode } from 'react'
 interface ParchmentPanelProps {
   children: ReactNode
   className?: string
-  ornate?: boolean
+  variant?: 'default' | 'ornate'
+  onClick?: () => void
 }
 
-export function ParchmentPanel({ children, className, ornate = false }: ParchmentPanelProps) {
+export function ParchmentPanel({
+  children,
+  className,
+  variant = 'default',
+  onClick
+}: ParchmentPanelProps) {
   return (
     <div
       className={cn(
         'texture-parchment rounded-sm p-6',
-        ornate && 'ornate-border',
+        variant === 'ornate' && 'ornate-border',
+        onClick && 'cursor-pointer',
         className
       )}
+      onClick={onClick}
     >
       {children}
     </div>

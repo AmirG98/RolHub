@@ -13,7 +13,7 @@ export default function DesignSystemPage() {
       {/* Typography */}
       <section>
         <h2 className="font-heading text-2xl text-gold mb-4">Tipografía</h2>
-        <ParchmentPanel ornate>
+        <ParchmentPanel variant="ornate">
           <div className="space-y-4">
             <p className="font-title text-3xl text-ink">Cinzel Decorative - Títulos</p>
             <p className="font-heading text-2xl text-ink">Cinzel - Headings</p>
@@ -79,7 +79,7 @@ export default function DesignSystemPage() {
           </div>
           <div>
             <p className="text-sm mb-2 font-ui">Ornate (con borde decorado)</p>
-            <ParchmentPanel ornate>
+            <ParchmentPanel variant="ornate">
               <p className="text-ink font-body">Panel con borde ornamentado dorado. Ideal para destacar secciones importantes o contenido premium.</p>
             </ParchmentPanel>
           </div>
@@ -132,12 +132,12 @@ export default function DesignSystemPage() {
       <section>
         <h2 className="font-heading text-2xl text-gold mb-4">Animaciones</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <ParchmentPanel ornate>
+          <ParchmentPanel variant="ornate">
             <p className="text-ink font-body animate-flicker">
               Efecto Candlelight (flicker) - Simula el parpadeo de una vela medieval
             </p>
           </ParchmentPanel>
-          <ParchmentPanel ornate>
+          <ParchmentPanel variant="ornate">
             <p className="text-ink font-body animate-ink-reveal">
               Efecto Ink Reveal - Aparición suave como tinta en pergamino
             </p>
@@ -149,7 +149,7 @@ export default function DesignSystemPage() {
       <section>
         <h2 className="font-heading text-2xl text-gold mb-4">Combinaciones</h2>
         <OrnateFrame variant="gold" className="max-w-2xl mx-auto">
-          <ParchmentPanel ornate>
+          <ParchmentPanel variant="ornate">
             <h3 className="font-title text-2xl text-ink mb-4">Ejemplo Completo</h3>
             <p className="font-body text-ink mb-4">
               Este es un ejemplo de cómo se combinan todos los componentes: un OrnateFrame dorado envuelve un ParchmentPanel ornamentado con tipografía medieval.
