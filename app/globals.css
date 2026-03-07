@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-parchment: #F4E8C1;
+    --color-parchment-dark: #D4B896;
+    --color-ink: #1C1208;
+    --color-gold: #C9A84C;
+    --color-gold-bright: #F5C842;
+    --color-gold-dim: #8B6914;
+    --color-blood: #8B1A1A;
+    --color-shadow: #0D0A05;
+    --color-stone: #2C2416;
+    --color-emerald: #1A3A2A;
+    
+    --bg-main: #0D0A05;
+    --bg-panel: #1A1208;
+    --bg-card: #120C04;
+  }
+  
+  body {
+    @apply bg-shadow text-parchment font-body;
+    background: radial-gradient(ellipse at center, #1A1208 0%, #0D0A05 100%);
+    min-height: 100vh;
+  }
+}
+
+@layer utilities {
+  .texture-parchment {
+    background-color: var(--color-parchment);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+  }
+  
+  .ornate-border {
+    @apply border border-gold-dim shadow-ornate;
+  }
+}
