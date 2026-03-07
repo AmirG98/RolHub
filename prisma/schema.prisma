@@ -1,0 +1,280 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               String         @id @default(cuid())
+  clerkId          String         @unique
+  username         String
+  email            String         @unique
+  plan             Plan           @default(FREE)
+  tutorialLevel    TutorialLevel  @default(NOVICE)
+  tutorialProgress Json           @default("{}")
+  campaigns        Campaign[]
+  sessions         Session[]
+  characters       Character[]
+  journals         Journal[]
+  macros           Macro[]
+  createdAt        DateTime       @default(now())
+}
+
+model Campaign {
+  id               String         @id @default(cuid())
+  userId           String
+  user             User           @relation(fields: [userId], references: [id])
+  name             String
+  lore             Lore
+  engine           GameEngine
+  mode             GameMode       @default(CAMPAIGN)
+  worldState       Json
+  worldMap         Json?
+  scenes           Scene[]
+  sessions         Session[]
+  characters       Character[]
+  npcs             NPC[]
+  journals         Journal[]
+  playlists        Playlist[]
+  rollTables       RollTable[]
+  compendiumItems  CompendiumItem[]
+  status           CampaignStatus @default(ACTIVE)
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+}
+
+model Session {
+  id               String          @id @default(cuid())
+  campaignId       String
+  campaign         Campaign        @relation(fields: [campaignId], references: [id])
+  userId           String
+  user             User            @relation(fields: [userId], references: [id])
+  summary          String?
+  partyCheckLog    Json[]
+  turns            Turn[]
+  combatEncounters CombatEncounter[]
+  startedAt        DateTime        @default(now())
+  endedAt          DateTime?
+}
+
+model Turn {
+  id               String     @id @default(cuid())
+  sessionId        String
+  session          Session    @relation(fields: [sessionId], references: [id])
+  role             TurnRole
+  content          String
+  imageUrl         String?
+  audioUrl         String?
+  diceRolls        Json?
+  activeEffects    Json?
+  worldStatePatch  Json?
+  dmNotes          String?
+  createdAt        DateTime   @default(now())
+}
+
+model Character {
+  id               String     @id @default(cuid())
+  userId           String
+  user             User       @relation(fields: [userId], references: [id])
+  campaignId       String?
+  campaign         Campaign?  @relation(fields: [campaignId], references: [id])
+  name             String
+  lore             Lore
+  archetype        String
+  level            Int        @default(1)
+  experience       Int        @default(0)
+  stats            Json
+  inventory        Json
+  conditions       String[]
+  activeEffects    Json       @default("[]")
+  backstory        String?
+  avatarUrl        String?
+  tokenUrl         String?
+  relationships    Json       @default("{}")
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+}
+
+model NPC {
+  id               String     @id @default(cuid())
+  campaignId       String
+  campaign         Campaign   @relation(fields: [campaignId], references: [id])
+  name             String
+  description      String
+  personality      String
+  motivation       String
+  secrets          String?
+  voiceId          String?
+  tokenUrl         String?
+  stats            Json?
+  status           NPCStatus  @default(ALIVE)
+  relationships    Json       @default("{}")
+  createdAt        DateTime   @default(now())
+}
+
+model Scene {
+  id               String     @id @default(cuid())
+  campaignId       String
+  campaign         Campaign   @relation(fields: [campaignId], references: [id])
+  name             String
+  description      String
+  mapImageUrl      String?
+  ambientSoundUrl  String?
+  lightingConfig   Json?
+  regions          Json?
+  fogOfWar         Boolean    @default(false)
+  tokens           Json       @default("[]")
+  notes            Json       @default("[]")
+  createdAt        DateTime   @default(now())
+}
+
+model Journal {
+  id               String           @id @default(cuid())
+  userId           String?
+  user             User?            @relation(fields: [userId], references: [id])
+  campaignId       String?
+  campaign         Campaign?        @relation(fields: [campaignId], references: [id])
+  title            String
+  content          Json
+  category         JournalCategory  @default(NOTES)
+  isPublic         Boolean          @default(false)
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+}
+
+model Playlist {
+  id               String     @id @default(cuid())
+  campaignId       String
+  campaign         Campaign   @relation(fields: [campaignId], references: [id])
+  name             String
+  mood             String
+  tracks           Json
+  createdAt        DateTime   @default(now())
+}
+
+model RollTable {
+  id               String     @id @default(cuid())
+  campaignId       String
+  campaign         Campaign   @relation(fields: [campaignId], references: [id])
+  name             String
+  description      String?
+  formula          String
+  results          Json
+  createdAt        DateTime   @default(now())
+}
+
+model CombatEncounter {
+  id               String        @id @default(cuid())
+  sessionId        String
+  session          Session       @relation(fields: [sessionId], references: [id])
+  round            Int           @default(1)
+  initiatives      Json
+  log              Json          @default("[]")
+  status           CombatStatus  @default(ACTIVE)
+  createdAt        DateTime      @default(now())
+}
+
+model CompendiumItem {
+  id               String           @id @default(cuid())
+  campaignId       String
+  campaign         Campaign         @relation(fields: [campaignId], references: [id])
+  type             CompendiumType
+  name             String
+  description      String
+  stats            Json?
+  imageUrl         String?
+  tags             String[]
+  createdAt        DateTime         @default(now())
+}
+
+model Macro {
+  id               String     @id @default(cuid())
+  userId           String
+  user             User       @relation(fields: [userId], references: [id])
+  name             String
+  command          String
+  icon             String?
+  createdAt        DateTime   @default(now())
+}
+
+enum Lore {
+  LOTR
+  ZOMBIES
+  ISEKAI
+  VIKINGOS
+  CUSTOM
+}
+
+enum GameEngine {
+  STORY_MODE
+  PBTA
+  YEAR_ZERO
+  DND_5E
+}
+
+enum GameMode {
+  ONE_SHOT
+  CAMPAIGN
+}
+
+enum Plan {
+  FREE
+  PRO
+  GUILD
+}
+
+enum TurnRole {
+  USER
+  DM
+  SYSTEM
+}
+
+enum CampaignStatus {
+  ACTIVE
+  PAUSED
+  COMPLETED
+}
+
+enum NPCStatus {
+  ALIVE
+  DEAD
+  MISSING
+  UNKNOWN
+}
+
+enum CombatStatus {
+  ACTIVE
+  PAUSED
+  COMPLETED
+}
+
+enum JournalCategory {
+  NOTES
+  LORE
+  SESSION_LOG
+  NPC
+  LOCATION
+  QUEST
+}
+
+enum CompendiumType {
+  MONSTER
+  ITEM
+  SPELL
+  ABILITY
+  LOCATION
+  FACTION
+}
+
+enum TutorialLevel {
+  NOVICE
+  CASUAL
+  EXPERIENCED
+  VETERAN
+}
