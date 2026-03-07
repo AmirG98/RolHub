@@ -22,22 +22,21 @@ export function ArchetypeSelector({ archetypes, onSelect, onBack }: ArchetypeSel
   const [selectedArchetype, setSelectedArchetype] = useState<Archetype | null>(null)
 
   return (
-    <div className="min-h-screen bg-shadow flex items-center justify-center p-8">
-      <div className="max-w-6xl w-full">
-        <h1 className="font-title text-4xl md:text-5xl text-gold-bright text-center mb-4 ink-reveal">
+    <div className="min-h-screen particle-bg flex items-center justify-center p-8">
+      <div className="max-w-6xl w-full content-wrapper">
+        <h1 className="font-title text-4xl md:text-5xl text-gold-bright text-center mb-4 ink-reveal glow-effect-on-hover">
           Elegí Quién Sos
         </h1>
-        <p className="font-ui text-parchment text-center mb-12 text-lg">
+        <p className="font-ui text-parchment/80 text-center mb-12 text-lg">
           Tu arquetipo define tus habilidades y tu rol en la historia
         </p>
 
         <div className="grid md:grid-cols-3 gap-6 mb-8">
           {archetypes.map((archetype) => (
-            <ParchmentPanel
+            <div
               key={archetype.id}
-              variant={selectedArchetype?.id === archetype.id ? 'ornate' : 'default'}
-              className={`cursor-pointer transition-all duration-300 hover:scale-105 ${
-                selectedArchetype?.id === archetype.id ? 'ring-2 ring-gold-bright' : ''
+              className={`glass-panel rounded-lg p-6 cursor-pointer transition-all duration-300 hover:scale-105 ${
+                selectedArchetype?.id === archetype.id ? 'glow-effect ring-2 ring-gold-bright' : ''
               }`}
               onClick={() => setSelectedArchetype(archetype)}
             >
@@ -48,10 +47,10 @@ export function ArchetypeSelector({ archetypes, onSelect, onBack }: ArchetypeSel
                 </div>
 
                 {/* Nombre */}
-                <h3 className="font-heading text-2xl text-ink">{archetype.name}</h3>
+                <h3 className="font-heading text-2xl text-gold">{archetype.name}</h3>
 
                 {/* Descripción simple */}
-                <p className="font-body text-stone text-sm leading-relaxed">
+                <p className="font-body text-parchment/80 text-sm leading-relaxed">
                   {archetype.simple_description}
                 </p>
 
@@ -60,19 +59,19 @@ export function ArchetypeSelector({ archetypes, onSelect, onBack }: ArchetypeSel
                   <div className="grid grid-cols-2 gap-2 text-xs font-ui">
                     <div>
                       <span className="text-gold-dim">Vida:</span>{' '}
-                      <span className="text-ink font-semibold">{archetype.starting_stats.maxHp}</span>
+                      <span className="text-parchment font-semibold">{archetype.starting_stats.maxHp}</span>
                     </div>
                     <div>
                       <span className="text-gold-dim">Combate:</span>{' '}
-                      <span className="text-ink font-semibold">{archetype.starting_stats.combat}</span>
+                      <span className="text-parchment font-semibold">{archetype.starting_stats.combat}</span>
                     </div>
                     <div>
                       <span className="text-gold-dim">Exploración:</span>{' '}
-                      <span className="text-ink font-semibold">{archetype.starting_stats.exploration}</span>
+                      <span className="text-parchment font-semibold">{archetype.starting_stats.exploration}</span>
                     </div>
                     <div>
                       <span className="text-gold-dim">Social:</span>{' '}
-                      <span className="text-ink font-semibold">{archetype.starting_stats.social}</span>
+                      <span className="text-parchment font-semibold">{archetype.starting_stats.social}</span>
                     </div>
                   </div>
                 </div>
@@ -84,23 +83,23 @@ export function ArchetypeSelector({ archetypes, onSelect, onBack }: ArchetypeSel
                   </p>
                 </div>
               </div>
-            </ParchmentPanel>
+            </div>
           ))}
         </div>
 
         {/* Panel de detalles cuando hay selección */}
         {selectedArchetype && (
-          <ParchmentPanel variant="ornate" className="mb-8 ink-reveal">
-            <h3 className="font-heading text-xl text-ink mb-4">Equipamiento Inicial</h3>
+          <div className="glass-panel-dark rounded-lg p-6 mb-8 ink-reveal">
+            <h3 className="font-heading text-xl text-gold mb-4">Equipamiento Inicial</h3>
             <div className="grid md:grid-cols-2 gap-2">
               {selectedArchetype.starting_inventory.map((item, index) => (
-                <div key={index} className="flex items-center space-x-2 font-body text-stone text-sm">
+                <div key={index} className="flex items-center space-x-2 font-body text-parchment/80 text-sm">
                   <span className="text-gold-dim">•</span>
                   <span>{item}</span>
                 </div>
               ))}
             </div>
-          </ParchmentPanel>
+          </div>
         )}
 
         {/* Botones de navegación */}

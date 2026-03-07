@@ -51,43 +51,42 @@ export function LoreSelector({ onSelect }: LoreSelectorProps) {
   const [selectedLore, setSelectedLore] = useState<Lore | null>(null)
 
   return (
-    <div className="min-h-screen bg-shadow flex items-center justify-center p-8">
-      <div className="max-w-6xl w-full">
-        <h1 className="font-title text-5xl md:text-6xl text-gold-bright text-center mb-4 ink-reveal">
+    <div className="min-h-screen particle-bg flex items-center justify-center p-8">
+      <div className="max-w-6xl w-full content-wrapper">
+        <h1 className="font-title text-5xl md:text-6xl text-gold-bright text-center mb-4 ink-reveal glow-effect-on-hover">
           Elegí Tu Mundo
         </h1>
-        <p className="font-ui text-parchment text-center mb-12 text-lg">
+        <p className="font-ui text-parchment/80 text-center mb-12 text-lg">
           Cada mundo tiene su propia historia, desafíos y atmósfera única
         </p>
 
         <div className="grid md:grid-cols-2 gap-6 mb-12">
           {lores.map((lore) => (
-            <ParchmentPanel
+            <div
               key={lore.id}
-              variant={selectedLore === lore.id ? 'ornate' : 'default'}
-              className={`cursor-pointer transition-all duration-300 hover:scale-105 relative ${
-                selectedLore === lore.id ? 'ring-2 ring-gold-bright' : ''
+              className={`glass-panel rounded-lg transition-all duration-300 hover:scale-105 relative cursor-pointer ${
+                selectedLore === lore.id ? 'glow-effect ring-2 ring-gold-bright' : ''
               } ${!lore.available ? 'opacity-50' : ''}`}
               onClick={() => lore.available && setSelectedLore(lore.id)}
             >
-              <div className="flex flex-col items-center text-center space-y-4">
+              <div className="flex flex-col items-center text-center space-y-4 p-8">
                 {/* Icono */}
-                <div className="text-gold-bright">{lore.icon}</div>
+                <div className="text-gold-bright text-5xl">{lore.icon}</div>
 
                 {/* Nombre */}
-                <h3 className="font-heading text-3xl text-ink">{lore.name}</h3>
+                <h3 className="font-heading text-3xl text-gold">{lore.name}</h3>
 
                 {/* Tagline */}
-                <p className="font-body text-stone leading-relaxed">{lore.tagline}</p>
+                <p className="font-body text-parchment/80 leading-relaxed">{lore.tagline}</p>
 
                 {/* Badge de disponibilidad */}
                 {!lore.available && (
-                  <div className="absolute top-4 right-4 bg-gold-dim text-parchment px-3 py-1 rounded-full text-xs font-ui font-semibold">
+                  <div className="absolute top-4 right-4 bg-gold-dim text-shadow px-3 py-1 rounded-full text-xs font-ui font-semibold">
                     Próximamente
                   </div>
                 )}
               </div>
-            </ParchmentPanel>
+            </div>
           ))}
         </div>
 

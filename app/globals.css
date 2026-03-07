@@ -115,6 +115,16 @@
       0 0 60px rgba(0, 217, 255, 0.2);
   }
 
+  .glow-effect-on-hover {
+    transition: all 0.3s ease;
+  }
+
+  .glow-effect-on-hover:hover {
+    text-shadow:
+      0 0 20px rgba(201, 168, 76, 0.6),
+      0 0 40px rgba(201, 168, 76, 0.4);
+  }
+
   .particle-bg {
     position: relative;
     overflow: hidden;
@@ -147,5 +157,31 @@
   .content-wrapper {
     position: relative;
     z-index: 10;
+  }
+
+  .candlelight {
+    animation: flicker 3s ease-in-out infinite;
+  }
+
+  @keyframes flicker {
+    0%, 100% { opacity: 1; filter: brightness(1); }
+    50% { opacity: 0.85; filter: brightness(0.9); }
+  }
+
+  .ink-reveal {
+    animation: inkReveal 0.5s ease forwards;
+  }
+
+  @keyframes inkReveal {
+    from {
+      opacity: 0;
+      filter: blur(2px);
+      transform: translateY(4px);
+    }
+    to {
+      opacity: 1;
+      filter: blur(0);
+      transform: translateY(0);
+    }
   }
 }

@@ -37,15 +37,15 @@ export default async function PlayPage({ params }: PlayPageProps) {
 
   if (!session) {
     return (
-      <div className="min-h-screen bg-shadow flex items-center justify-center p-8">
-        <ParchmentPanel variant="ornate" className="max-w-2xl">
+      <div className="min-h-screen particle-bg flex items-center justify-center p-8">
+        <div className="glass-panel-dark rounded-lg p-8 max-w-2xl content-wrapper">
           <h1 className="font-title text-3xl text-blood text-center mb-4">
             Sesión No Encontrada
           </h1>
-          <p className="font-body text-stone text-center">
+          <p className="font-body text-parchment/80 text-center">
             La sesión que buscas no existe o no tienes acceso a ella.
           </p>
-        </ParchmentPanel>
+        </div>
       </div>
     )
   }
@@ -60,9 +60,9 @@ export default async function PlayPage({ params }: PlayPageProps) {
   const campaign = session.campaign
 
   return (
-    <div className="min-h-screen bg-shadow">
+    <div className="min-h-screen particle-bg">
       {/* Header con información del personaje */}
-      <div className="border-b border-gold-dim/30 bg-shadow-mid p-4">
+      <div className="border-b border-gold-dim/30 glass-panel-dark p-4">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div>
             <h1 className="font-heading text-2xl text-gold-bright">{campaign.name}</h1>
@@ -93,7 +93,7 @@ export default async function PlayPage({ params }: PlayPageProps) {
       </div>
 
       {/* Contenedor principal */}
-      <div className="max-w-7xl mx-auto p-8">
+      <div className="max-w-7xl mx-auto p-8 content-wrapper">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Panel principal - Narración */}
           <div className="lg:col-span-2 space-y-4">
@@ -107,12 +107,12 @@ export default async function PlayPage({ params }: PlayPageProps) {
                   {session.turns.map((turn) => (
                     <div
                       key={turn.id}
-                      className={`p-4 rounded-lg ${
+                      className={`p-4 rounded-lg glass-panel ${
                         turn.role === 'DM'
-                          ? 'bg-parchment-dark'
+                          ? 'border-l-2 border-gold'
                           : turn.role === 'USER'
-                          ? 'bg-emerald/10'
-                          : 'bg-gold-dim/10'
+                          ? 'border-l-2 border-neon-blue'
+                          : 'border-l-2 border-gold-dim'
                       }`}
                     >
                       <div className="flex items-start gap-3">
@@ -120,7 +120,7 @@ export default async function PlayPage({ params }: PlayPageProps) {
                           {turn.role === 'DM' ? 'Narrador' : turn.role === 'USER' ? character?.name : 'Sistema'}
                         </div>
                       </div>
-                      <p className="font-body text-ink mt-2 leading-relaxed ink-reveal">
+                      <p className="font-body text-parchment mt-2 leading-relaxed ink-reveal">
                         {turn.content}
                       </p>
                       {turn.imageUrl && (
@@ -135,8 +135,8 @@ export default async function PlayPage({ params }: PlayPageProps) {
                 </div>
 
                 {/* Placeholder para próxima implementación: input del jugador */}
-                <div className="mt-6 p-4 border-2 border-dashed border-gold-dim/30 rounded-lg text-center">
-                  <p className="font-ui text-stone text-sm">
+                <div className="mt-6 p-4 border-2 border-dashed border-gold-dim/30 rounded-lg text-center glass-panel">
+                  <p className="font-ui text-parchment/60 text-sm">
                     Próximamente: Aquí podrás escribir tus acciones y el DM responderá
                   </p>
                 </div>

@@ -92,8 +92,8 @@ export function ModeSelector({ onSelect, onBack }: ModeSelectorProps) {
   const canContinue = selectedMode && selectedEngine && selectedTutorial
 
   return (
-    <div className="min-h-screen bg-shadow flex items-center justify-center p-8">
-      <div className="max-w-6xl w-full space-y-12">
+    <div className="min-h-screen particle-bg flex items-center justify-center p-8">
+      <div className="max-w-6xl w-full space-y-12 content-wrapper">
         {/* Paso 1: Modo de juego */}
         <div>
           <h2 className="font-title text-4xl text-gold-bright text-center mb-4 ink-reveal">
@@ -105,20 +105,19 @@ export function ModeSelector({ onSelect, onBack }: ModeSelectorProps) {
 
           <div className="grid md:grid-cols-2 gap-6">
             {modes.map((mode) => (
-              <ParchmentPanel
+              <div
                 key={mode.id}
-                variant={selectedMode === mode.id ? 'ornate' : 'default'}
-                className={`cursor-pointer transition-all duration-300 hover:scale-105 ${
-                  selectedMode === mode.id ? 'ring-2 ring-gold-bright' : ''
+                className={`glass-panel rounded-lg p-6 cursor-pointer transition-all duration-300 hover:scale-105 ${
+                  selectedMode === mode.id ? 'glow-effect ring-2 ring-gold-bright' : ''
                 }`}
                 onClick={() => setSelectedMode(mode.id)}
               >
                 <div className="flex flex-col items-center text-center space-y-3">
                   <div className="text-gold-bright">{mode.icon}</div>
-                  <h3 className="font-heading text-2xl text-ink">{mode.name}</h3>
-                  <p className="font-body text-stone text-sm">{mode.description}</p>
+                  <h3 className="font-heading text-2xl text-gold">{mode.name}</h3>
+                  <p className="font-body text-parchment/80 text-sm">{mode.description}</p>
                 </div>
-              </ParchmentPanel>
+              </div>
             ))}
           </div>
         </div>
@@ -134,27 +133,26 @@ export function ModeSelector({ onSelect, onBack }: ModeSelectorProps) {
 
           <div className="grid md:grid-cols-2 gap-4">
             {engines.map((engine) => (
-              <ParchmentPanel
+              <div
                 key={engine.id}
-                variant={selectedEngine === engine.id ? 'ornate' : 'default'}
-                className={`cursor-pointer transition-all duration-300 hover:scale-105 relative ${
-                  selectedEngine === engine.id ? 'ring-2 ring-gold-bright' : ''
+                className={`glass-panel rounded-lg p-4 cursor-pointer transition-all duration-300 hover:scale-105 relative ${
+                  selectedEngine === engine.id ? 'glow-effect ring-2 ring-gold-bright' : ''
                 }`}
                 onClick={() => setSelectedEngine(engine.id)}
               >
                 <div className="flex flex-col items-center text-center space-y-2">
                   <div className="text-gold-bright">{engine.icon}</div>
                   <div className="flex items-center gap-2">
-                    <h3 className="font-heading text-xl text-ink">{engine.name}</h3>
+                    <h3 className="font-heading text-xl text-parchment">{engine.name}</h3>
                     {engine.recommended && (
                       <span className="bg-emerald text-parchment px-2 py-0.5 rounded-full text-xs font-ui font-semibold">
                         Recomendado
                       </span>
                     )}
                   </div>
-                  <p className="font-body text-stone text-xs">{engine.description}</p>
+                  <p className="font-body text-parchment/70 text-xs">{engine.description}</p>
                 </div>
-              </ParchmentPanel>
+              </div>
             ))}
           </div>
         </div>
@@ -170,19 +168,18 @@ export function ModeSelector({ onSelect, onBack }: ModeSelectorProps) {
 
           <div className="grid md:grid-cols-2 gap-4">
             {tutorialLevels.map((level) => (
-              <ParchmentPanel
+              <div
                 key={level.id}
-                variant={selectedTutorial === level.id ? 'ornate' : 'default'}
-                className={`cursor-pointer transition-all duration-300 hover:scale-105 ${
-                  selectedTutorial === level.id ? 'ring-2 ring-gold-bright' : ''
+                className={`glass-panel rounded-lg p-4 cursor-pointer transition-all duration-300 hover:scale-105 ${
+                  selectedTutorial === level.id ? 'glow-effect ring-2 ring-gold-bright' : ''
                 }`}
                 onClick={() => setSelectedTutorial(level.id)}
               >
                 <div className="text-center space-y-2">
-                  <h3 className="font-heading text-lg text-ink">{level.name}</h3>
-                  <p className="font-body text-stone text-xs">{level.description}</p>
+                  <h3 className="font-heading text-lg text-parchment">{level.name}</h3>
+                  <p className="font-body text-parchment/70 text-xs">{level.description}</p>
                 </div>
-              </ParchmentPanel>
+              </div>
             ))}
           </div>
         </div>

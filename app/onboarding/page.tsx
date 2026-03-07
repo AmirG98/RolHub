@@ -62,10 +62,15 @@ export default function OnboardingPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-shadow flex items-center justify-center">
-        <div className="text-center">
+      <div className="min-h-screen particle-bg flex items-center justify-center">
+        <div className="text-center content-wrapper">
           <div className="candlelight text-gold-bright text-6xl mb-4">⏳</div>
-          <p className="font-heading text-gold-bright text-2xl">Preparando tu aventura...</p>
+          <p className="font-heading text-gold-bright text-2xl glow-effect">Preparando tu aventura...</p>
+          <div className="mt-8 flex justify-center gap-2">
+            <div className="w-2 h-2 bg-gold-bright rounded-full animate-pulse" style={{ animationDelay: '0s' }}></div>
+            <div className="w-2 h-2 bg-gold-bright rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
+            <div className="w-2 h-2 bg-gold-bright rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
+          </div>
         </div>
       </div>
     )
