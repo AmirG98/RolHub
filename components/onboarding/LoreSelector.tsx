@@ -18,7 +18,7 @@ const lores: Array<{
   available: boolean
 }> = [
   {
-    id: 'LOTR',
+    id: 'MEDIEVAL_FANTASY',
     name: 'Medieval Fantasy',
     tagline: 'Dragones, hechiceros y leyendas ancestrales',
     description: 'Espadas, magia y reinos en guerra',
@@ -27,7 +27,7 @@ const lores: Array<{
     available: true,
   },
   {
-    id: 'ZOMBIES',
+    id: 'POST_APOCALYPTIC',
     name: 'Post-Apocalíptico',
     tagline: 'Sobrevive en un mundo devastado',
     description: 'Ruinas, mutantes y recursos escasos',
@@ -36,7 +36,7 @@ const lores: Array<{
     available: false,
   },
   {
-    id: 'ISEKAI',
+    id: 'HARRY_POTTER',
     name: 'Mundo Mágico',
     tagline: 'Hechizos, pociones y criaturas mágicas',
     description: 'Escuela de magia y aventuras místicas',
@@ -45,12 +45,30 @@ const lores: Array<{
     available: false,
   },
   {
-    id: 'VIKINGOS',
+    id: 'SCI_FI',
     name: 'Sci-Fi',
     tagline: 'Galaxias lejanas y tecnología avanzada',
     description: 'Naves espaciales, aliens y planetas exóticos',
     icon: '🚀',
     color: '#00D9FF',
+    available: false,
+  },
+  {
+    id: 'STAR_WARS',
+    name: 'Guerra de las Galaxias',
+    tagline: 'La Fuerza, Jedis y el Imperio',
+    description: 'Sables de luz en una galaxia muy lejana',
+    icon: '⭐',
+    color: '#FFE81F',
+    available: false,
+  },
+  {
+    id: 'CYBERPUNK',
+    name: 'Cyberpunk',
+    tagline: 'Alta tecnología, baja vida',
+    description: 'Megacorporaciones, hackers y cyborgs',
+    icon: '🏙️',
+    color: '#39FF14',
     available: false,
   },
 ]
