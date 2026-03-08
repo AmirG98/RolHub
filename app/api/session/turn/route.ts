@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    // Obtener la sesión con todos los datos necesarios
+    // Obtener la sesion con todos los datos necesarios
     const session = await prisma.session.findUnique({
       where: { id: sessionId },
       include: {
@@ -40,16 +40,16 @@ export async function POST(req: NextRequest) {
         },
         turns: {
           orderBy: { createdAt: 'asc' },
-          take: 10, // Últimos 10 turnos para contexto
+          take: 10, // Ultimos 10 turnos para contexto
         },
       },
     })
 
     if (!session) {
-      return NextResponse.json({ error: 'Sesión no encontrada' }, { status: 404 })
+      return NextResponse.json({ error: 'Sesion no encontrada' }, { status: 404 })
     }
 
-    // Verificar que el usuario es dueño de la sesión
+    // Verificar que el usuario es dueno de la sesion
     const user = await prisma.user.findUnique({
       where: { clerkId: userId },
     })
@@ -71,7 +71,7 @@ export async function POST(req: NextRequest) {
     const worldState = session.campaign.worldState as any
     const character = session.campaign.characters[0]
 
-    // Construir historial de conversación
+    // Construir historial de conversacion
     const conversationHistory = session.turns.slice(-6).map((turn) => ({
       role: turn.role === 'USER' ? 'user' : 'assistant',
       content: turn.content,
@@ -84,9 +84,9 @@ export async function POST(req: NextRequest) {
     })
 
     // 3. Llamar a Claude para obtener la respuesta del DM
-    const systemPrompt = `Sos el Dungeon Master de una partida de rol. Estás narrando una aventura en el mundo de ${session.campaign.lore}.
+    const systemPrompt = `Sos el Dungeon Master de una partida de rol. Estas narrando una aventura en el mundo de ${session.campaign.lore}.
 
-INFORMACIÓN DEL MUNDO:
+INFORMACION DEL MUNDO:
 - Lore: ${session.campaign.lore}
 - Motor de reglas: ${session.campaign.engine}
 - Acto actual: ${worldState.act}/5
@@ -97,18 +97,18 @@ INFORMACIÓN DEL MUNDO:
 PERSONAJE DEL JUGADOR:
 - Nombre: ${character.name}
 - Arquetipo: ${character.archetype}
-- HP: ${worldState.party[character.name]?.hp || character.stats.hp + '/' + character.stats.maxHp}
-- Stats: Combate ${character.stats.combat}, Exploración ${character.stats.exploration}, Social ${character.stats.social}, Lore ${character.stats.lore}
+- HP: ${worldState.party?.[character.name]?.hp || (character.stats as any)?.hp + '/' + (character.stats as any)?.maxHp}
+- Stats: Combate ${(character.stats as any)?.combat}, Exploracion ${(character.stats as any)?.exploration}, Social ${(character.stats as any)?.social}, Lore ${(character.stats as any)?.lore}
 
 INSTRUCCIONES:
-1. Narra la consecuencia de la acción del jugador de forma cinematográfica y emocionante
-2. Mantén la coherencia con el lore de ${session.campaign.lore}
-3. Si el motor es STORY_MODE, no uses dados - evalúa narrativamente
-4. Termina con una pregunta o situación que invite a la siguiente acción
-5. Usa un tono ${session.campaign.lore === 'LOTR' ? 'épico y mítico' : session.campaign.lore === 'ZOMBIES' ? 'tenso y survival horror' : session.campaign.lore === 'ISEKAI' ? 'anime y aventurero' : session.campaign.lore === 'VIKINGOS' ? 'brutal y honorable' : 'atmosférico'}
-6. Escribe en español, 2-3 párrafos máximo
+1. Narra la consecuencia de la accion del jugador de forma cinematografica y emocionante
+2. Manten la coherencia con el lore de ${session.campaign.lore}
+3. Si el motor es STORY_MODE, no uses dados - evalua narrativamente
+4. Termina con una pregunta o situacion que invite a la siguiente accion
+5. Usa un tono ${session.campaign.lore === 'LOTR' ? 'epico y mitico' : session.campaign.lore === 'ZOMBIES' ? 'tenso y survival horror' : session.campaign.lore === 'ISEKAI' ? 'anime y aventurero' : session.campaign.lore === 'VIKINGOS' ? 'brutal y honorable' : 'atmosferico'}
+6. Escribe en espanol, 2-3 parrafos maximo
 
-Narra lo que sucede a continuación:`
+Narra lo que sucede a continuacion:`
 
     const response = await anthropic.messages.create({
       model: 'claude-sonnet-4-20250514',
@@ -128,7 +128,7 @@ Narra lo que sucede a continuación:`
       },
     })
 
-    // 5. Retornar éxito
+    // 5. Retornar exito
     return NextResponse.json({
       success: true,
       narration: dmNarration,

@@ -108,11 +108,21 @@ export default function CampaignsPage() {
                     <span>{campaign.sessions.length} sesiones</span>
                   </div>
 
-                  <Link href={`/play/${campaign.sessions[campaign.sessions.length - 1]?.id || campaign.id}`}>
-                    <RunicButton variant="secondary" className="w-full">
-                      {campaign.sessions.length > 0 ? 'Continuar →' : 'Comenzar →'}
+                  {campaign.sessions.length > 0 ? (
+                    <Link href={`/play/${campaign.sessions[campaign.sessions.length - 1].id}`}>
+                      <RunicButton variant="secondary" className="w-full">
+                        Continuar →
+                      </RunicButton>
+                    </Link>
+                  ) : (
+                    <RunicButton
+                      variant="secondary"
+                      className="w-full opacity-50 cursor-not-allowed"
+                      disabled
+                    >
+                      Sin sesiones
                     </RunicButton>
-                  </Link>
+                  )}
                 </div>
               )
             })}
