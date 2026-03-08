@@ -97,7 +97,7 @@ export interface NarrativeAct {
   mood: string
 }
 
-export type Lore = 'MEDIEVAL_FANTASY' | 'POST_APOCALYPTIC' | 'HARRY_POTTER' | 'SCI_FI' | 'STAR_WARS' | 'CYBERPUNK' | 'HORROR_LOVECRAFT' | 'VIKINGS' | 'ZOMBIE_SURVIVAL' | 'CUSTOM'
+export type Lore = 'LOTR' | 'ZOMBIES' | 'ISEKAI' | 'VIKINGOS' | 'STAR_WARS' | 'CYBERPUNK' | 'LOVECRAFT_HORROR' | 'CUSTOM'
 export type GameEngine = 'STORY_MODE' | 'PBTA' | 'YEAR_ZERO' | 'DND_5E'
 export type GameMode = 'ONE_SHOT' | 'CAMPAIGN'
 export type TutorialLevel = 'NOVICE' | 'CASUAL' | 'EXPERIENCED' | 'VETERAN'
