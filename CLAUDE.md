@@ -1217,125 +1217,72 @@ REGLA: Una feature no está terminada hasta que tiene:
 
 ## 20. ESTADO ACTUAL DEL PROYECTO
 
-Última actualización: 2026-03-07
-Fase actual:         1 — Cimientos (COMPLETA)
-Última sesión:       Setup completo de Next.js 14 + Auth + Sistema de diseño medieval
+Ultima actualizacion: 2026-03-08
+Fase actual:         2 — Onboarding + DM Basico (MVP COMPLETO)
+Ultima sesion:       Mejoras en GameSession y deploy a produccion
 
-COMPLETADO:
+URL DE PRODUCCION: https://rol-hub.vercel.app (verificar en Vercel Dashboard)
+
+COMPLETADO - FASE 1 (Cimientos):
   ✅ Setup Next.js 14 con TypeScript + Tailwind CSS
-  ✅ Instalación de todas las dependencias base:
-     - @clerk/nextjs, @prisma/client, zustand, @tanstack/react-query
-     - framer-motion, class-variance-authority, clsx, tailwind-merge, lucide-react
-  ✅ Configuración completa de Tailwind con tokens medievales:
-     - Colores: parchment, gold (DEFAULT, bright, dim), blood, shadow, ink, emerald
-     - Fonts: Cinzel Decorative, Cinzel, EB Garamond, Crimson Text, Courier Prime
-     - Shadows: ornate, glow
-     - Animations: flicker, ink-reveal
-  ✅ globals.css con CSS variables + texture-parchment utility (SVG inline)
-  ✅ Estructura completa de carpetas según sección 3 del CLAUDE.md
-  ✅ Auth con Clerk completamente configurado:
-     - ClerkProvider en layout.tsx
-     - middleware.ts con protección de rutas
-     - Páginas /login y /register funcionales
-     - Rutas públicas: /, /login, /register, /api/health
-  ✅ Prisma schema completo definido (schema.prisma):
-     - Todos los modelos: User, Campaign, Session, Turn, Character, NPC, etc.
-     - Todos los enums correctamente formateados
-     - Prisma Client generado (usando Prisma 5.22.0 por compatibilidad)
-     - ⚠️ NO se hizo push a Supabase todavía (como estaba planeado)
-  ✅ Componentes base medievales (components/medieval/):
-     - ParchmentPanel.tsx (con variant ornate)
-     - OrnateFrame.tsx (variants: gold, shadow con SVG inline)
-     - RunicButton.tsx (variants: primary, secondary, danger)
-  ✅ lib/utils.ts con función cn() para merge de clases
-  ✅ Layout principal con Navbar medieval:
-     - Logo RPG HUB con font-title
-     - Links a Campañas, Personajes, Compendio
-     - UserButton de Clerk integrado
-     - Botones de Login/Register para usuarios no autenticados
-  ✅ Homepage mejorada con componentes medievales
-  ✅ Página /design-system completa (CHECKPOINT VISUAL CRÍTICO):
-     - Secciones: Tipografía, Colores, ParchmentPanel, OrnateFrame, RunicButton
-     - Animaciones (flicker, ink-reveal)
-     - Combinaciones de componentes
-     - Sombras y efectos
-  ✅ Páginas placeholder del dashboard:
-     - /(dashboard)/page.tsx
-     - /(dashboard)/campaigns/page.tsx
-     - /(dashboard)/characters/page.tsx
-     - /(dashboard)/compendium/page.tsx
-  ✅ Página /onboarding placeholder
-  ✅ README.md completo con instrucciones de setup
-  ✅ .env.local.example con todas las variables necesarias
-  ✅ Git inicializado con commit inicial
-  ✅ .gitignore configurado correctamente
+  ✅ Auth con Clerk completamente configurado y funcionando en produccion
+  ✅ Prisma schema completo + Supabase PostgreSQL conectado
+  ✅ Sistema de diseno medieval completo (ParchmentPanel, OrnateFrame, RunicButton)
+  ✅ Navbar con links a todas las secciones
+
+COMPLETADO - FASE 2 (MVP Funcional):
+  ✅ 7 lores completos con JSON estructurado:
+     - Tierra Media (LOTR), Apocalipsis Zombie, Mundo Isekai, Saga Vikinga
+     - Star Wars, Cyberpunk, Horrores Cosmicos (Lovecraft)
+  ✅ Flujo de onboarding completo (3 pantallas):
+     - Pantalla 1: Selector de lore con 7 mundos
+     - Pantalla 2: Modo (ONE_SHOT/CAMPAIGN) + Engine + Tutorial Level
+     - Pantalla 3: Selector de arquetipo (3 por lore)
+  ✅ Integracion Claude API funcionando:
+     - API route /api/session/turn
+     - Prompts del DM con contexto de lore, engine y world state
+     - Modelo: claude-sonnet-4-20250514
+  ✅ Sala de juego /play/[sessionId]:
+     - GameSession.tsx con actualizaciones en tiempo real (sin reload)
+     - NarratorPanel mostrando historial de turnos
+     - ActionInput con acciones sugeridas
+     - PartyTracker mostrando stats del personaje
+     - Optimistic updates para mejor UX
+  ✅ Dashboard de campanas:
+     - Lista de campanas del usuario
+     - Boton "Continuar" para campanas con sesiones
+     - Boton "Nueva Campana" redirige a /onboarding
+  ✅ Sistema de dados basico (DiceRoller.tsx)
+  ✅ Deploy a Vercel funcionando
 
 EN PROGRESO:
-  Nada — Fase 1 completamente terminada
+  Nada - MVP listo para testing con usuarios reales
 
-PRÓXIMOS PASOS INMEDIATOS (Fase 2 - Onboarding + DM Básico):
-  1. Configurar cuenta de Supabase y obtener DATABASE_URL
-  2. npx prisma db push (primera vez contra Supabase)
-  3. Crear primer lore completo: LOTR (data/lores/lotr.json)
-     - Estructura según sección 7: factions, locations, archetypes
-     - Roll tables: encounters, weather, loot, npc_names, events
-     - Narrative skeleton con 5 actos
-  4. Crear prompts del DM (lib/claude/prompts/):
-     - dm-master.ts (prompt maestro con estructura de 6 bloques)
-     - lores/lotr.ts (biblia de LOTR)
-     - engines/story-mode.ts (motor Story Mode para NOVICE)
-  5. Implementar flujo de onboarding (3 pantallas):
-     - Pantalla 1: Elegir mundo (solo LOTR por ahora)
-     - Pantalla 2: Modo (ONE_SHOT/CAMPAIGN) + Engine + Tutorial Level
-     - Pantalla 3: Elegir arquetipo (3 opciones del lore LOTR)
-  6. Integrar Claude API:
-     - Crear lib/claude/dm-engine.ts
-     - Crear lib/claude/context-manager.ts
-     - API route: app/api/dm/route.ts (streaming)
-  7. Crear componente ScrollText.tsx (streaming letra por letra)
-  8. Crear componente NarratorPanel.tsx principal
-  9. Implementar Story Mode engine básico
-  10. Guardar y continuar sesión (básico con Prisma)
-
-DECISIONES PENDIENTES:
-  - Nombre final del producto (por ahora: RPG HUB)
-  - Dominio
-  - Precio de planes Pro y Guild
-  - Voces específicas de ElevenLabs para cada lore
+PROXIMOS PASOS (Post-Launch):
+  1. Testing E2E con usuarios reales
+  2. Monitorear errores y feedback
+  3. Generacion de imagenes con Fal.ai (opcional)
+  4. Sistema de voz con ElevenLabs (opcional)
+  5. Mejoras basadas en feedback
 
 PROBLEMAS CONOCIDOS:
-  - Prisma 7.x tiene cambios breaking en datasource config
-    → Solución aplicada: downgrade a Prisma 5.22.0
-  - Clerk API keys vacías en .env.local (normal, usuario las agregará)
-  - Vulnerabilidades en npm audit (9 vulnerabilities: 5 moderate, 4 high)
-    → No críticas, son dependencias de desarrollo
+  - Prisma 7.x tiene cambios breaking → usando Prisma 5.22.0
+  - Warning de middleware deprecado en Next.js 16 (no afecta funcionalidad)
 
-NOTAS TÉCNICAS:
-  - Prisma Client generado pero NO conectado a DB real todavía
-  - Auth funciona en modo desarrollo (Clerk dev keys pendientes del usuario)
-  - Todos los feature flags en false excepto TUTORIAL_MODE=true
-  - El SVG inline para textura de pergamino funciona correctamente
-  - Fonts medievales se cargan via next/font/google (optimización automática)
+NOTAS TECNICAS:
+  - GameSession.tsx usa optimistic updates para UX fluida
+  - Turnos se guardan en DB inmediatamente
+  - Claude API llamada directamente desde API route (sin streaming por ahora)
+  - Encoding UTF-8 corregido en route.ts
 
-CONTEXTO PARA LA PRÓXIMA SESIÓN:
-  Fase 1 100% completa. El proyecto está listo para comenzar Fase 2.
+CONTEXTO PARA LA PROXIMA SESION:
+  MVP 100% completo y desplegado. El proyecto esta listo para:
+  1. Testing con usuarios reales
+  2. Recolectar feedback
+  3. Iterar basado en uso real
 
-  La base visual está sólida: sistema de diseño medieval funcionando perfectamente
-  (verificar en /design-system). Todos los componentes base creados y testeados.
-  Auth configurado pero sin keys reales todavía.
-
-  El siguiente paso crítico es crear el primer lore completo (LOTR) con toda su
-  estructura (biblias, roll tables, narrative skeleton) y los prompts del DM
-  para poder integrar Claude API y tener la primera experiencia de juego funcional.
-
-  Estructura de carpetas completa creada, lista para recibir todo el código de Fase 2.
-
-  IMPORTANTE: Antes de empezar Fase 2, el usuario debe:
-  1. Obtener Clerk API keys y agregarlas a .env.local
-  2. Crear proyecto en Supabase y obtener DATABASE_URL
-  3. Obtener Anthropic API key para Claude
-
-  Sin estas keys, la Fase 2 no puede arrancar.
+  Las features pendientes (imagenes, voz, multiplayer) son para Fase 3+.
+  El foco ahora debe ser estabilidad y UX basada en feedback real.
 
 ---
 
