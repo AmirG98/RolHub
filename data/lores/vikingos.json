@@ -97,8 +97,8 @@
   "active_effects_pool": [
     {"id": "bendicion_odin", "name": "Bendición de Odín", "description": "El Padre de Todos te favorece", "type": "buff", "duration": 10, "effects": {"lore": 3, "social": 2}},
     {"id": "furia_thor", "name": "Furia de Thor", "description": "Poder del dios del trueno en tus golpes", "type": "buff", "duration": 3, "effects": {"combat": 4}},
-    {"id": "maldicion_loki", "name": "Maldición de Loki", "description": "El engañador te hace tropezar", "type": "debuff", "duration": 5, "effects": {"exploration": -2, "social": -2"}},
-    {"id": "hipotermia", "name": "Hipotermia", "description": "El frío nórdico penetra tus huesos", "type": "debuff", "duration": 3, "effects": {"combat": -2, "hp_per_turn": -1"}}
+    {"id": "maldicion_loki", "name": "Maldición de Loki", "description": "El engañador te hace tropezar", "type": "debuff", "duration": 5, "effects": {"exploration": -2, "social": -2}},
+    {"id": "hipotermia", "name": "Hipotermia", "description": "El frío nórdico penetra tus huesos", "type": "debuff", "duration": 3, "effects": {"combat": -2, "hp_per_turn": -1}}
   ],
 
   "narrative_skeleton": {
