@@ -3,6 +3,9 @@ import { auth } from '@clerk/nextjs/server'
 import { prisma } from '@/lib/db/prisma'
 import { ParchmentPanel } from '@/components/medieval/ParchmentPanel'
 import { OrnateFrame } from '@/components/medieval/OrnateFrame'
+import NarratorPanel from '@/components/game/NarratorPanel'
+import PartyTracker from '@/components/game/PartyTracker'
+import ActionInput from '@/components/game/ActionInput'
 
 interface PlayPageProps {
   params: Promise<{
@@ -97,108 +100,24 @@ export default async function PlayPage({ params }: PlayPageProps) {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Panel principal - Narración */}
           <div className="lg:col-span-2 space-y-4">
-            <OrnateFrame variant="gold">
-              <ParchmentPanel variant="ornate" className="min-h-[600px]">
-                <h2 className="font-title text-3xl text-ink text-center mb-6">
-                  El Narrador
-                </h2>
+            <NarratorPanel
+              turns={session.turns}
+              campaignName={session.campaign.name}
+              lore={session.campaign.lore}
+            />
 
-                <div className="space-y-4">
-                  {session.turns.map((turn) => (
-                    <div
-                      key={turn.id}
-                      className={`p-4 rounded-lg glass-panel ${
-                        turn.role === 'DM'
-                          ? 'border-l-2 border-gold'
-                          : turn.role === 'USER'
-                          ? 'border-l-2 border-neon-blue'
-                          : 'border-l-2 border-gold-dim'
-                      }`}
-                    >
-                      <div className="flex items-start gap-3">
-                        <div className="font-heading text-xs text-gold-dim uppercase tracking-wide">
-                          {turn.role === 'DM' ? 'Narrador' : turn.role === 'USER' ? character?.name : 'Sistema'}
-                        </div>
-                      </div>
-                      <p className="font-body text-parchment mt-2 leading-relaxed ink-reveal">
-                        {turn.content}
-                      </p>
-                      {turn.imageUrl && (
-                        <img
-                          src={turn.imageUrl}
-                          alt="Scene"
-                          className="mt-4 rounded-lg w-full ink-reveal"
-                        />
-                      )}
-                    </div>
-                  ))}
-                </div>
-
-                {/* Placeholder para próxima implementación: input del jugador */}
-                <div className="mt-6 p-4 border-2 border-dashed border-gold-dim/30 rounded-lg text-center glass-panel">
-                  <p className="font-ui text-parchment/60 text-sm">
-                    Próximamente: Aquí podrás escribir tus acciones y el DM responderá
-                  </p>
-                </div>
-              </ParchmentPanel>
-            </OrnateFrame>
+            <ActionInput
+              sessionId={session.id}
+              campaignId={session.campaign.id}
+            />
           </div>
 
           {/* Panel lateral - Info del personaje */}
           <div className="space-y-4">
-            <OrnateFrame variant="shadow">
-              <ParchmentPanel>
-                <h3 className="font-heading text-xl text-ink mb-4">Tu Personaje</h3>
-
-                {character && (
-                  <div className="space-y-3">
-                    <div>
-                      <p className="font-ui text-xs text-gold-dim uppercase tracking-wide">Nombre</p>
-                      <p className="font-heading text-lg text-ink">{character.name}</p>
-                    </div>
-
-                    <div>
-                      <p className="font-ui text-xs text-gold-dim uppercase tracking-wide">Arquetipo</p>
-                      <p className="font-body text-stone">{character.archetype}</p>
-                    </div>
-
-                    <div className="pt-3 border-t border-gold-dim/30">
-                      <p className="font-ui text-xs text-gold-dim uppercase tracking-wide mb-2">Estadísticas</p>
-                      <div className="grid grid-cols-2 gap-2 text-sm">
-                        <div>
-                          <span className="font-ui text-gold-dim">Combate:</span>{' '}
-                          <span className="font-heading text-ink">{(character.stats as any)?.combat || 1}</span>
-                        </div>
-                        <div>
-                          <span className="font-ui text-gold-dim">Exploración:</span>{' '}
-                          <span className="font-heading text-ink">{(character.stats as any)?.exploration || 1}</span>
-                        </div>
-                        <div>
-                          <span className="font-ui text-gold-dim">Social:</span>{' '}
-                          <span className="font-heading text-ink">{(character.stats as any)?.social || 1}</span>
-                        </div>
-                        <div>
-                          <span className="font-ui text-gold-dim">Lore:</span>{' '}
-                          <span className="font-heading text-ink">{(character.stats as any)?.lore || 1}</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="pt-3 border-t border-gold-dim/30">
-                      <p className="font-ui text-xs text-gold-dim uppercase tracking-wide mb-2">Inventario</p>
-                      <div className="space-y-1">
-                        {(character.inventory as string[]).slice(0, 5).map((item, i) => (
-                          <div key={i} className="flex items-center gap-2 font-body text-stone text-xs">
-                            <span className="text-gold-dim">•</span>
-                            <span>{item}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </ParchmentPanel>
-            </OrnateFrame>
+            <PartyTracker
+              characters={session.campaign.characters}
+              worldState={worldState}
+            />
 
             {/* Info de la campaña */}
             <OrnateFrame variant="shadow">
