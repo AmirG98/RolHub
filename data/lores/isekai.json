@@ -5,36 +5,120 @@
   "tone": ["aventurero", "mágico", "esperanzador", "épico"],
   "world_summary": "Ayer eras una persona normal en la Tierra. Hoy despertaste en un mundo de magia, monstruos y aventura. Este reino fantástico tiene sus propias reglas: la magia es real, los gremios de aventureros existen, y los calabozos están llenos de tesoros y peligros. Como alguien de otro mundo, tenés habilidades únicas que los nativos no poseen. Los dioses son reales y otorgan poderes. Las razas fantásticas conviven en ciudades brillantes. Tu destino es salvar este mundo... o conquistarlo. La elección es tuya.",
 
+  "detailed_history": {
+    "ages": [
+      {
+        "name": "Era de la Creación",
+        "summary": "Los Dioses Primordiales crearon el mundo de Aetheria. Siete deidades mayores dieron forma a las razas: Solarius creó a los humanos, Lunara a los elfos, Terros a los enanos, y así sucesivamente. Cada dios otorgó dones únicos a sus creaciones."
+      },
+      {
+        "name": "Era de la Armonía",
+        "summary": "Durante mil años, las razas vivieron en paz. La magia fluía libremente, los calabozos no existían, y el mal era desconocido. Fue una época dorada que los bardos aún cantan con nostalgia."
+      },
+      {
+        "name": "Era del Primer Rey Demonio",
+        "summary": "Malachar, un humano corrompido por magia prohibida, se convirtió en el primer Rey Demonio. Creó los calabozos como fuentes de poder oscuro y liberó monstruos al mundo. Los dioses enviaron al primer Héroe Invocado para derrotarlo. Así comenzó el ciclo."
+      },
+      {
+        "name": "Era de los Héroes",
+        "summary": "Cada vez que un Rey Demonio surge, los dioses invocan un héroe de otro mundo. Han habido siete Reyes Demonio y siete Héroes. El actual Rey Demonio, Velzard, ha reinado por 300 años y su poder crece constantemente."
+      },
+      {
+        "name": "Era Actual",
+        "summary": "El octavo héroe ha sido invocado: tú. El Reino de Astraea te ha recibido, el Gremio de Aventureros te entrena, y el mundo espera que cumplas tu destino. Pero este ciclo podría ser diferente. Velzard parece estar planeando algo que ningún Rey Demonio anterior intentó."
+      }
+    ],
+    "current_situation": "El equilibrio de poder es tenso. El Reino de Astraea controla el continente central. El Imperio Oscuro de Velzard domina el continente norte. Entre ellos, naciones neutrales comercian con ambos. Los calabozos aparecen con más frecuencia, los monstruos son más fuertes, y hay rumores de que Velzard busca algo en las ruinas de la Era de la Creación. Los dioses guardan silencio inusual. Algo grande está por suceder."
+  },
+
+  "world_systems": {
+    "magic_system": {
+      "description": "La magia se divide en ocho elementos: Fuego, Agua, Tierra, Viento, Luz, Oscuridad, Tiempo y Espacio. Cada persona tiene afinidad natural con 1-3 elementos. Los Héroes Invocados pueden usar todos los elementos.",
+      "mana_rules": "El mana se regenera con descanso, pociones o lugares sagrados. Usar magia sin mana causa daño físico. El mana máximo aumenta con práctica y nivel.",
+      "forbidden_magic": "Nigromancia, magia de almas y manipulación temporal están prohibidas. Usarlas corrompe al usuario y atrae la atención de los dioses."
+    },
+    "adventurer_system": {
+      "ranks": ["F (Novato)", "E (Aprendiz)", "D (Regular)", "C (Veterano)", "B (Élite)", "A (Campeón)", "S (Héroe)", "SS (Leyenda)"],
+      "ranking_up": "Completar misiones del rango actual y pasar examen. De C a B requiere derrotar un jefe de calabozo. De A a S requiere hazaña reconocida por el reino.",
+      "guild_benefits": "Acceso a misiones, descuentos en tiendas afiliadas, seguro de vida, información sobre calabozos, y rescate si quedás atrapado."
+    },
+    "dungeon_system": {
+      "origin": "Los calabozos son manifestaciones de energía oscura. Aparecen espontáneamente y crecen si no se limpian. Un calabozo ignorado eventualmente causa una 'ruptura' que libera monstruos al mundo.",
+      "structure": "Cada calabozo tiene pisos con dificultad creciente. Cada 10 pisos hay un jefe. El núcleo del calabozo está en el piso final. Destruirlo elimina el calabozo pero pierde todos los recursos.",
+      "rewards": "Los monstruos dejan materiales y núcleos de mana. Los cofres contienen equipo. Los jefes dan objetos únicos. El núcleo del calabozo otorga habilidades especiales."
+    }
+  },
+
   "factions": [
     {
       "name": "Gremio de Aventureros",
       "description": "Organización que registra aventureros y asigna misiones",
       "alignment": "Neutral Bueno",
-      "influence": 2
+      "influence": 2,
+      "detailed_description": "Fundado hace 500 años para organizar la defensa contra monstruos. Opera independiente de naciones, con sedes en cada ciudad importante. Los Guildmasters son aventureros retirados de rango S. El Gremio mantiene neutralidad política estricta: acepta miembros de cualquier raza u origen, incluso del Imperio Oscuro.",
+      "key_figures": ["Gran Maestra Elara (elfa, ex-rango SS)", "Maestro de Luminaria Brock (humano, rango S)", "Recepcionista Luna (humana, cara del gremio local)"],
+      "goals": ["Proteger a los civiles de monstruos", "Mantener los calabozos bajo control", "Entrenar a la próxima generación de aventureros"],
+      "services": ["Registro de aventureros", "Tablón de misiones", "Compra de materiales de monstruos", "Información de calabozos", "Rescate de emergencia"]
     },
     {
       "name": "Reino de Astraea",
       "description": "Monarquía benevolente protegida por héroes invocados",
       "alignment": "Bueno",
-      "influence": 2
+      "influence": 2,
+      "detailed_description": "El reino más grande del continente central, fundado por el primer Héroe Invocado y la princesa que lo ayudó. La familia real tiene sangre de héroe y puede usar magia de luz. Astraea es próspero, sus ciudades brillan con magia, y su ejército está entre los más fuertes. Sin embargo, la nobleza corrupta causa problemas internos.",
+      "key_figures": ["Rey Aldric III (sabio y justo)", "Princesa Seria (heredera, maga prodigio)", "General Marcus (comandante del ejército)", "Duque Blackwood (noble corrupto)"],
+      "goals": ["Derrotar al Rey Demonio", "Proteger al Héroe Invocado", "Mantener la paz entre razas"],
+      "territories": ["Ciudad Capital Luminaria", "Aldea Iniciadora", "Puerto Comercial", "Academia Arcana"]
     },
     {
       "name": "Imperio Oscuro",
-      "description": "Nación expansionista liderada por un Rey Demonio",
+      "description": "Nación expansionista liderada por el Rey Demonio",
       "alignment": "Malvado",
-      "influence": 2
+      "influence": 2,
+      "detailed_description": "Contrario a su nombre, el Imperio Oscuro no es caótico. Velzard gobierna con orden estricto. Demonios, no-muertos y humanos descontentos viven aquí. Sorprendentemente, hay ciudades funcionales, comercio, y hasta academias. Velzard no busca destrucción sino 'liberación de la tiranía de los dioses'. Su filosofía atrae seguidores voluntarios.",
+      "key_figures": ["Rey Demonio Velzard (antiguo héroe invocado)", "Generala Lilith (súcubo estratega)", "Lord Mortis (lich comandante)", "Embajador Noir (diplomático demonio)"],
+      "goals": ["Romper el ciclo héroe-demonio", "Descubrir la verdad sobre los dioses", "Unificar el mundo bajo un solo gobierno"],
+      "territories": ["Castillo Demonio", "Ciudad Sombra", "Páramos Eternos", "Fortaleza Obsidiana"]
     },
     {
-      "name": "Academia de Magia",
+      "name": "Academia de Magia Arcana",
       "description": "Escuela donde se entrenan los mejores magos del reino",
       "alignment": "Neutral",
-      "influence": 1
+      "influence": 1,
+      "detailed_description": "Castillo flotante sobre las montañas, visible desde toda Astraea. Solo los más talentosos son aceptados, sin importar origen social. Los graduados pueden convertirse en magos de corte, investigadores o aventureros de élite. La academia guarda conocimientos de todas las eras, incluyendo magia prohibida sellada en la biblioteca restringida.",
+      "key_figures": ["Archimago Merlin (humano de 200 años)", "Profesora Sylvia (elfa de magia elemental)", "Director Adjunto Cid (enano de magia de runas)", "Estudiante Prodigio Mia (humana de 15 años, genio)"],
+      "goals": ["Avanzar el conocimiento mágico", "Entrenar magos responsables", "Proteger conocimientos peligrosos"],
+      "services": ["Educación mágica", "Investigación por encargo", "Identificación de objetos mágicos", "Consultoría arcana"]
     },
     {
       "name": "Iglesia de la Luz",
       "description": "Organización religiosa con poder político y militar",
       "alignment": "Neutral Bueno",
-      "influence": 1
+      "influence": 1,
+      "detailed_description": "Veneran a Solarius, dios de la luz y creador de humanos. Sus sacerdotes pueden usar magia de curación y purificación. La Iglesia opera hospitales, orfanatos y santuarios. Sin embargo, facciones extremistas dentro de la Iglesia ven a otras razas como inferiores y al Imperio Oscuro como herejía absoluta.",
+      "key_figures": ["Papa Celestine (líder espiritual, moderado)", "Cardenal Ignatius (líder militar, extremista)", "Santa Helena (sanadora milagrosa)", "Hermano Thomas (investigador de herejías)"],
+      "goals": ["Difundir la fe en Solarius", "Curar a los enfermos", "Erradicar la magia oscura"],
+      "services": ["Curación gratuita", "Resurreción (muy costosa)", "Bendiciones", "Exorcismos"]
+    },
+    {
+      "name": "Alianza de Comerciantes",
+      "description": "Red de mercaderes que controla el comercio internacional",
+      "alignment": "Neutral",
+      "influence": 1,
+      "detailed_description": "El dinero no tiene banderas. La Alianza comercia con todos: Astraea, el Imperio Oscuro, las naciones neutrales. Controlan rutas comerciales, fijan precios y tienen ejércitos mercenarios. Un comerciante exitoso puede ser más poderoso que un noble. Varios miembros son aventureros retirados que prefieren el oro a la gloria.",
+      "key_figures": ["Presidente Goldwin (humano más rico del mundo)", "Madame Rouge (controla el comercio de lujo)", "Señor de las Rutas Caravan (protector de caravanas)", "La Sombra (comerciante del mercado negro)"],
+      "goals": ["Maximizar ganancias", "Mantener rutas comerciales seguras", "Expandir mercados"],
+      "services": ["Compra/venta de cualquier cosa", "Préstamos", "Transporte seguro", "Información comercial"]
+    },
+    {
+      "name": "Los Olvidados",
+      "description": "Organización secreta de héroes invocados anteriores",
+      "alignment": "Desconocido",
+      "influence": 0,
+      "detailed_description": "No todos los héroes invocados murieron o volvieron a su mundo. Algunos permanecen, viviendo en las sombras. Los Olvidados son una red de ex-héroes que comparten información y recursos. Algunos ayudan a los nuevos héroes en secreto. Otros tienen agendas propias. Uno de ellos podría ser el actual Rey Demonio.",
+      "key_figures": ["El Fundador (primer héroe, supuestamente muerto)", "Sombra Blanca (héroe de hace 100 años)", "La Traidora (heroína que se unió al Imperio)", "El Observador (vigila a cada nuevo héroe)"],
+      "goals": ["Proteger a los héroes invocados", "Descubrir la verdad sobre las invocaciones", "Prepararse para 'lo que viene'"],
+      "rumors": ["Tienen base en una dimensión de bolsillo", "Pueden volver a la Tierra pero eligen no hacerlo", "Saben quién será el próximo Rey Demonio"]
     }
   ],
 
@@ -43,49 +127,174 @@
       "name": "Ciudad Capital Luminaria",
       "description": "Metrópolis brillante con torres de cristal y magia por doquier",
       "type": "ciudad",
-      "danger_level": 0
+      "danger_level": 0,
+      "detailed_description": "La ciudad más grande de Astraea, hogar de un millón de habitantes. Torres de cristal mágico capturan luz solar para iluminar calles de noche. Carruajes sin caballos impulsados por magia cruzan avenidas anchas. El Palacio Real brilla en el centro, rodeado por el Distrito Noble, el Distrito Comercial, y los barrios residenciales. El Gremio de Aventureros tiene su sede más grande aquí.",
+      "notable_npcs": ["Rey Aldric III", "Princesa Seria", "Guildmaster Brock", "Recepcionista Luna", "Herrero legendario Vulcan"],
+      "available_services": ["Gremio de Aventureros (central)", "Tiendas de equipo de todas las calidades", "Academia de Magia (entrada)", "Templo de todos los dioses", "Arena de combate"],
+      "plot_hooks": [
+        "La Princesa Seria busca un guardaespaldas para una misión secreta",
+        "Hay rumores de una organización criminal en los barrios bajos",
+        "El torneo anual de aventureros está por comenzar - el premio es un equipo legendario",
+        "Un noble corrupto quiere contratarte para un trabajo sucio"
+      ],
+      "districts": ["Palacio Real", "Distrito Noble", "Distrito Comercial", "Barrios Bajos", "Distrito del Gremio", "Templo Mayor"]
     },
     {
       "name": "Bosque de los Espíritus",
       "description": "Bosque encantado donde viven hadas y criaturas mágicas",
       "type": "bosque",
-      "danger_level": 2
+      "danger_level": 2,
+      "detailed_description": "Hogar de los elfos y criaturas feéricas. Los árboles son tan antiguos que tienen consciencia. Hadas luminosas bailan en claros de luna. Espíritus del bosque protegen a los viajeros amigables y confunden a los hostiles. En el corazón del bosque está el Árbol Mundo, conectado a todos los bosques de Aetheria. Los elfos permiten visitantes pero protegen celosamente sus secretos.",
+      "notable_npcs": ["Reina Titania (soberana de las hadas)", "Anciano Roble (árbol consciente)", "Guardián Verde (elfo protector)", "Puck (hada traviesa que guía... o extravía)"],
+      "available_services": ["Sanación natural", "Encantamientos élficos", "Información sobre magia antigua", "Acceso al Árbol Mundo (restringido)"],
+      "plot_hooks": [
+        "Las hadas han perdido a su princesa - fue secuestrada por goblins",
+        "El Árbol Mundo está enfermando y necesita agua de la fuente de los dioses",
+        "Un artefacto élfico antiguo ha sido robado por humanos",
+        "Los espíritus del bosque tienen visiones del futuro que quieren compartir"
+      ],
+      "special_rules": "La magia de luz es más fuerte aquí. La magia oscura atrae a los guardianes hostiles. Matar criaturas del bosque sin razón trae maldición."
     },
     {
       "name": "Calabozo de las Profundidades",
       "description": "Mazmorra con 100 niveles - cada uno más peligroso",
       "type": "mazmorra",
-      "danger_level": 4
+      "danger_level": 4,
+      "detailed_description": "El calabozo más antiguo y profundo conocido. Nadie ha llegado al piso 100. El récord actual es piso 87 por un party de rango SS hace 50 años. Cada 10 pisos el ambiente cambia: los primeros 10 son cuevas, 11-20 son ruinas, 21-30 son jungla subterránea, y así sucesivamente. Los jefes de cada decena otorgan habilidades únicas al derrotarlos.",
+      "notable_npcs": ["Guardián del Piso 10 (Goblin King)", "Jefe del Piso 50 (Dragón de Lava)", "Comerciante Misterioso (aparece cada 25 pisos)", "Fantasma del Aventurero (da pistas si lo ayudás)"],
+      "floor_breakdown": {
+        "1-10": "Goblins, slimes, murciélagos - Rango F-E",
+        "11-20": "No-muertos, trampas antiguas - Rango E-D",
+        "21-30": "Bestias mágicas, plantas carnívoras - Rango D-C",
+        "31-40": "Golems, elementales menores - Rango C-B",
+        "41-50": "Demonios menores, dragones jóvenes - Rango B-A",
+        "51-100": "Desconocido - Se estima Rango S mínimo"
+      },
+      "plot_hooks": [
+        "Un aventurero perdido envía señales de auxilio desde el piso 45",
+        "Hay rumores de un tesoro de la Era de la Creación en el piso 100",
+        "El calabozo está creciendo más rápido de lo normal - algo lo alimenta",
+        "Un party rival quiere competir por ver quién llega más profundo"
+      ]
     },
     {
       "name": "Academia Arcana",
       "description": "Castillo flotante donde estudian los aspirantes a magos",
       "type": "escuela",
-      "danger_level": 0
+      "danger_level": 0,
+      "detailed_description": "Suspendida mil metros sobre las Montañas Bruma, accesible solo por teletransporte o criatura voladora. Seis torres representan los seis elementos básicos (Tiempo y Espacio son secretos). Estudiantes de todas las razas y naciones estudian aquí. La biblioteca tiene textos de todas las eras. Los experimentos mágicos ocasionalmente causan 'incidentes' contenidos por los profesores.",
+      "notable_npcs": ["Archimago Merlin", "Profesora Sylvia", "Director Adjunto Cid", "Estudiante Prodigio Mia", "Bibliotecario Golem (guarda los libros prohibidos)"],
+      "available_services": ["Educación mágica (3 años mínimo)", "Identificación de objetos", "Encantamiento de equipo", "Investigación arcana", "Acceso a biblioteca (con permiso)"],
+      "plot_hooks": [
+        "Un experimento salió mal y hay una brecha dimensional en el ala este",
+        "Alguien está robando libros de la sección prohibida",
+        "Mia necesita ingredientes raros para su proyecto de graduación",
+        "El Archimago tiene una misión especial para alguien 'de otro mundo'"
+      ],
+      "secrets": "El piso más bajo tiene portales a otras dimensiones. Uno de ellos lleva a la Tierra, pero está sellado."
     },
     {
       "name": "Aldea Iniciadora",
       "description": "Pueblo pacífico donde empiezan muchos aventureros",
       "type": "aldea",
-      "danger_level": 1
+      "danger_level": 1,
+      "detailed_description": "Típica aldea de fantasía con 500 habitantes. Casas de madera con techos de paja, una posada acogedora, una herrería básica, y una pequeña capilla. Hay un calabozo de rango F cerca (perfecto para principiantes), granjas con problemas ocasionales de monstruos, y NPCs amigables dispuestos a enseñar lo básico. Es el lugar donde la mayoría de los héroes invocados 'despiertan'.",
+      "notable_npcs": ["Jefe de Aldea Thomas (ex-aventurero rango C)", "Posadera María (madre de todos)", "Herrero Apprentice Jack (quiere ser aventurero)", "Granjero Pedro (siempre tiene problemas con su campo)"],
+      "available_services": ["Posada económica", "Tienda de equipo básico", "Misiones de principiante", "Entrenamiento básico de combate"],
+      "plot_hooks": [
+        "Slimes están invadiendo los campos de Pedro - primera misión perfecta",
+        "Jack quiere que lo escoltes a Luminaria para unirse al Gremio",
+        "El jefe Thomas tiene un secreto sobre la invasión de hace 20 años",
+        "Una niña del pueblo ha sido secuestrada por goblins del calabozo cercano"
+      ],
+      "tutorial_location": true
     },
     {
       "name": "Montañas del Dragón",
       "description": "Hogar de dragones ancestrales y tesoros inimaginables",
       "type": "montaña",
-      "danger_level": 5
+      "danger_level": 5,
+      "detailed_description": "Cordillera volcánica donde habitan los dragones más antiguos. Los picos están perpetuamente cubiertos de ceniza y fuego. Solo los aventureros de rango S se atreven a entrar. En la cumbre más alta vive Ignis, el Dragón Emperador, quien ha vivido desde la Era de la Creación. Los dragones guardan tesoros de todas las eras y conocimientos olvidados.",
+      "notable_npcs": ["Ignis el Dragón Emperador (más antiguo que los dioses conocidos)", "Dragoness Sapphira (guardiana del conocimiento)", "Joven Dragón Rex (rebelde que quiere ver el mundo)", "Enano Loco Grimjaw (vive con dragones, comercia tesoros)"],
+      "available_services": ["Comercio con Grimjaw (objetos legendarios)", "Conocimiento de dragones (si te respetan)", "Entrenamiento de fuego (supervivencia no garantizada)"],
+      "plot_hooks": [
+        "Ignis quiere hablar con el nuevo Héroe Invocado sobre 'la verdad de este mundo'",
+        "Rex quiere escapar y necesita tu ayuda",
+        "Un artefacto necesario para derrotar a Velzard está en las montañas",
+        "Los dragones predicen una catástrofe y buscan aliados"
+      ],
+      "requirements": "Rango A mínimo recomendado. Resistencia al fuego obligatoria."
     },
     {
       "name": "Castillo Demonio",
       "description": "Fortaleza del Rey Demonio en tierras desoladas",
       "type": "castillo",
-      "danger_level": 5
+      "danger_level": 5,
+      "detailed_description": "Estructura gótica imposible que desafía la física. Torres invertidas, pasillos que cambian, gravedad inconsistente. Rodeado por los Páramos Eternos donde nada crece. Pero dentro del castillo hay sorpresas: ciudades funcionales de demonios, academias de magia oscura, e incluso un distrito comercial. Velzard gobierna desde el Trono de Obsidiana en la torre central.",
+      "notable_npcs": ["Rey Demonio Velzard", "Generala Lilith", "Lord Mortis", "Cocinera Demon (hace la mejor comida del mundo)", "Prisioneros varios (algunos quieren rescate, otros se unieron voluntariamente)"],
+      "layout": {
+        "exterior": "Páramos Eternos, murallas infranqueables, ejército de no-muertos",
+        "ciudad_interna": "Demonios civiles, comercio, vida normal pero oscura",
+        "castillo_medio": "Generales, salas de guerra, armería",
+        "torre_central": "Velzard, Trono de Obsidiana, secretos del pasado"
+      },
+      "plot_hooks": [
+        "Infiltrarse para rescatar prisioneros",
+        "Velzard envía invitación para negociar - ¿es trampa?",
+        "Un demonio desertor ofrece información a cambio de asilo",
+        "Descubrir qué planea Velzard en las ruinas de la Era de la Creación"
+      ]
     },
     {
-      "name": "Puerto Comercial",
+      "name": "Puerto Comercial de Mareas",
       "description": "Ciudad costera llena de mercaderes y oportunidades",
       "type": "ciudad",
-      "danger_level": 1
+      "danger_level": 1,
+      "detailed_description": "La ciudad más diversa de Aetheria. Humanos, elfos, enanos, hombres bestia, incluso algunos demonios comercian aquí. Piratas reformados manejan rutas comerciales. El gobernador es un ex-aventurero que mantiene la paz con puño de hierro. Hay rumores de rutas submarinas a ciudades de sirenas y tesoros hundidos.",
+      "notable_npcs": ["Gobernador Barbanegra (ex-pirata rango A)", "Capitana Sirena (mitad humana, comercia con el mar)", "Comerciante Jin (tiene de todo... literalmente)", "Informante Sombra (sabe todo por un precio)"],
+      "available_services": ["Barcos a cualquier destino", "Mercado negro (si sabés buscar)", "Información de todo el mundo", "Misiones marítimas"],
+      "plot_hooks": [
+        "Un barco fantasma ha aparecido en el puerto",
+        "Las sirenas piden ayuda contra monstruos marinos",
+        "Contrabando del Imperio Oscuro está llegando - ¿investigar?",
+        "Un mapa del tesoro auténtico está en subasta"
+      ],
+      "special_rules": "Las leyes son flexibles aquí. El Gremio tiene menos poder que la Alianza de Comerciantes."
+    },
+    {
+      "name": "Ruinas de la Era de la Creación",
+      "description": "Vestigios del mundo original, llenos de secretos divinos",
+      "type": "ruinas",
+      "danger_level": 5,
+      "detailed_description": "Dispersas por el mundo hay ruinas de cuando los dioses caminaban la tierra. Tecnología indistinguible de magia. Guardianes automáticos que aún funcionan. Registros de la verdad sobre la creación del mundo, las invocaciones de héroes, y el propósito de los Reyes Demonio. Velzard está buscando algo específico en estas ruinas.",
+      "notable_npcs": ["Guardianes Autómatas (protegen las ruinas)", "Eco de Divinidad (fragmento de consciencia divina)", "Investigador Loco (ha dedicado su vida a estas ruinas)", "Fantasma del Constructor (puede explicar la tecnología)"],
+      "secrets_to_discover": [
+        "Los héroes son invocados de mundos que los dioses 'cosecharon'",
+        "El ciclo héroe-demonio mantiene el mundo estable... ¿por qué?",
+        "Hay un octavo continente sellado bajo el mar",
+        "Velzard fue el séptimo héroe invocado"
+      ],
+      "plot_hooks": [
+        "Encontrar por qué Velzard está tan interesado en estas ruinas",
+        "Un artefacto de las ruinas puede revelar la verdad",
+        "Los guardianes se han activado y atacan ciudades cercanas",
+        "El Eco de Divinidad quiere comunicar algo urgente"
+      ]
+    },
+    {
+      "name": "Villa de los Hombres Bestia",
+      "description": "Comunidad de personas con rasgos animales",
+      "type": "aldea",
+      "danger_level": 1,
+      "detailed_description": "En las grandes llanuras viven los hombres bestia: personas con rasgos de lobo, gato, conejo, águila y más. Son guerreros naturales con sentidos superiores. Su sociedad es tribal pero unida. Desconfían de los humanos por siglos de esclavitud pasada, pero respetan a los fuertes. Ganar su confianza abre acceso a guerreros leales y técnicas de combate únicas.",
+      "notable_npcs": ["Jefe Lobo Fenrir (líder de la tribu del lobo)", "Sacerdotisa Coneja Luna (ve el futuro)", "Guerrero Tigre Stripes (el más fuerte)", "Anciana Búho (más sabia de todas las tribus)"],
+      "available_services": ["Entrenamiento de combate físico", "Rastreo experto", "Aliados guerreros", "Pociones naturales"],
+      "plot_hooks": [
+        "Los esclavistas han regresado y capturan hombres bestia",
+        "Fenrir ofrece alianza a cambio de ayudar contra los esclavistas",
+        "La Sacerdotisa Luna tiene profecía sobre el Héroe Invocado",
+        "Un torneo determina el próximo Jefe - puedes participar como invitado"
+      ]
     }
   ],
 
@@ -95,66 +304,323 @@
       "name": "Héroe Invocado",
       "description": "Fuiste traído específicamente para salvar este mundo",
       "simple_description": "Tenés un poder especial: una habilidad única de tu mundo. La gente espera grandes cosas de vos. Tu destino es salvar el reino.",
+      "detailed_background": "Un día normal en la Tierra: ibas a la escuela, al trabajo, o simplemente caminabas por la calle. Una luz te envolvió. Voces antiguas susurraron tu nombre. Despertaste en un altar rodeado de sacerdotes que te llamaban 'Salvador'. Los dioses te eligieron. Tienes el poder de ver el 'Sistema' - estadísticas, niveles, habilidades - como un videojuego. Creces diez veces más rápido que los nativos. El reino te venera. Pero la presión de ser el 'Elegido' pesa. ¿Realmente puedes salvar un mundo que apenas conoces?",
       "starting_stats": {
         "hp": 20,
         "maxHp": 20,
         "combat": 4,
         "exploration": 3,
         "social": 3,
-        "lore": 2
+        "lore": 2,
+        "growth_rate": 10
       },
       "starting_inventory": [
-        "Espada Sagrada (crece contigo)",
-        "Armadura Ligera",
+        "Espada Sagrada Excalion (crece contigo, actualmente +1)",
+        "Armadura Ligera de Héroe (regenera lentamente)",
         "Piedra de Traducción (entiendes todos los idiomas)",
-        "Mochila dimensional (espacio infinito)",
-        "Manual del Héroe"
+        "Mochila Dimensional (50 slots de inventario)",
+        "Manual del Héroe (explica el Sistema)",
+        "1000 monedas de oro (regalo del reino)"
       ],
-      "special_ability": "Poder del Otro Mundo: Podés ver las 'estadísticas' de personas y monstruos. Crecés más rápido que los nativos"
+      "special_ability": "Vista del Sistema: Ves estadísticas de personas, monstruos y objetos. Creces 10 veces más rápido que los nativos. Puedes 'guardar' antes de momentos peligrosos (1 vez por día).",
+      "advancement_paths": [
+        "Héroe de la Espada - maestría en combate físico",
+        "Héroe Mágico - despertar todos los elementos",
+        "Héroe del Pueblo - carisma y liderazgo",
+        "Héroe Oscuro - poderes prohibidos para el bien mayor"
+      ]
     },
     {
       "id": "merchant_traveler",
       "name": "Comerciante Viajero",
       "description": "Tenés conocimientos de tu mundo que aquí son revolucionarios",
       "simple_description": "Conocés tecnología y conceptos que aquí parecen mágicos. Podés comerciar y negociar como nadie. Tu ingenio es tu mejor arma.",
+      "detailed_background": "Eras emprendedor, estudiante de negocios, o simplemente alguien que entendía cómo funciona el mundo moderno. Cuando llegaste a Aetheria, te diste cuenta de algo: conocimientos básicos de tu mundo aquí son revolucionarios. Contabilidad, marketing, preservación de alimentos, conceptos de higiene. Podrías hacerte rico fácilmente. Pero también podrías cambiar este mundo para mejor. La Alianza de Comerciantes te observa con interés... y preocupación.",
       "starting_stats": {
         "hp": 16,
         "maxHp": 16,
         "combat": 2,
         "exploration": 3,
         "social": 5,
-        "lore": 2
+        "lore": 2,
+        "business": 5
       },
       "starting_inventory": [
-        "Carrito de Comerciante",
-        "1000 monedas de oro iniciales",
-        "Libreta de Negocios",
-        "Balanza de Precisión",
-        "Muestras de productos únicos"
+        "Carrito de Comerciante con Espacio Expandido",
+        "5000 monedas de oro (capital inicial)",
+        "Libreta de Negocios (registro de contactos y precios)",
+        "Balanza de Precisión mágica",
+        "Muestras de productos únicos de la Tierra (ideas)",
+        "Contrato en blanco mágico (se auto-ejecuta)",
+        "Daga oculta (por si acaso)"
       ],
-      "special_ability": "Ingenio Terrenal: Podés crear objetos 'modernos' que aquí no existen. Los NPCs te pagan más por tus servicios"
+      "special_ability": "Ingenio Terrenal: Puedes crear 'inventos' basados en conocimientos de la Tierra. Los NPCs pagan 50% más por tus productos. Detectas valor oculto en objetos que otros ignoran.",
+      "advancement_paths": [
+        "Magnate - construir un imperio comercial",
+        "Inventor - revolucionar el mundo con tecnología",
+        "Diplomático - usar riqueza para influencia política",
+        "Filántropo - mejorar la vida de los comunes"
+      ]
     },
     {
       "id": "magic_student",
       "name": "Estudiante de Magia",
-      "description": "Despertas te con un grimorio misterioso y potencial mágico infinito",
+      "description": "Despertaste con un grimorio misterioso y potencial mágico infinito",
       "simple_description": "Podés aprender cualquier tipo de magia. Tu grimorio registra todos los hechizos que ves. Tu potencial mágico es ilimitado.",
+      "detailed_background": "Te encantaban las historias de magia en tu mundo anterior. Cuando llegaste a Aetheria, un grimorio apareció en tus manos como si siempre hubiera estado esperándote. Descubriste que podías aprender cualquier magia que vieras, sin importar afinidad elemental. El Archimago de la Academia te quiere como estudiante. Los dioses parecen haber apostado todo tu poder en la magia en lugar del combate físico. Sos frágil pero tu potencial es literalmente infinito.",
       "starting_stats": {
         "hp": 14,
         "maxHp": 14,
         "combat": 1,
         "exploration": 2,
         "social": 3,
-        "lore": 6
+        "lore": 6,
+        "mana": 100
       },
       "starting_inventory": [
-        "Grimorio Infinito (aprende hechizos)",
-        "Vara Mágica",
-        "Túnica de Aprendiz",
-        "Pociones de Mana (5)",
-        "Libro de Hechizos Básicos"
+        "Grimorio Infinito (registra y aprende hechizos)",
+        "Vara Mágica +2 (amplifica hechizos)",
+        "Túnica de Aprendiz (reduce costo de mana 10%)",
+        "Pociones de Mana x10",
+        "Libro de Hechizos Básicos (10 hechizos iniciales)",
+        "Cristal de Comunicación (contacto con la Academia)",
+        "500 monedas de oro"
       ],
-      "special_ability": "Aprendizaje Acelerado: Podés copiar cualquier magia que veas. Tu mana se regenera el doble de rápido"
+      "special_ability": "Aprendizaje Infinito: Puedes copiar cualquier magia que veas al Grimorio. Mana se regenera el doble de rápido. Sin límite de elementos mágicos.",
+      "advancement_paths": [
+        "Archimago - dominar toda la magia conocida",
+        "Sabio - descubrir magia perdida de eras antiguas",
+        "Nigromante Blanco - usar magia prohibida para el bien",
+        "Avatar Elemental - fundirte con los elementos mismos"
+      ]
+    },
+    {
+      "id": "beast_tamer",
+      "name": "Domador de Bestias",
+      "description": "Los monstruos te siguen en lugar de atacarte",
+      "simple_description": "Podés domesticar monstruos y hacerlos tus aliados. Tu ejército personal crece con cada calabozo que visitas.",
+      "detailed_background": "Siempre tuviste afinidad con los animales en la Tierra. Aquí, esa afinidad se amplificó mil veces. Los monstruos que deberían atacarte se detienen, confundidos. Puedes comunicarte con ellos, entender sus emociones, y eventualmente, hacerlos tus compañeros. Un slime fue tu primer amigo en este mundo. Ahora viajas con una familia de monstruos leales. Los aventureros te miran raro, pero los resultados hablan solos.",
+      "starting_stats": {
+        "hp": 18,
+        "maxHp": 18,
+        "combat": 2,
+        "exploration": 4,
+        "social": 2,
+        "lore": 3,
+        "taming": 5
+      },
+      "starting_inventory": [
+        "Collar de Vinculación x5 (domestica monstruos)",
+        "Slime Compañero (mascota inicial, sorprendentemente útil)",
+        "Flauta de Bestias (calma monstruos hostiles)",
+        "Manual de Monstruos (información de especies)",
+        "Comida especial para monstruos x20",
+        "Armadura ligera de explorador",
+        "300 monedas de oro"
+      ],
+      "special_ability": "Corazón de Bestia: Puedes domesticar cualquier monstruo si reduces su HP sin matarlo. Máximo 6 monstruos activos, infinitos en reserva. Los monstruos te obedecen y crecen contigo.",
+      "advancement_paths": [
+        "Rey de las Bestias - comandar ejércitos de monstruos",
+        "Compañero de Dragón - domesticar un dragón verdadero",
+        "Ecologista - cambiar la relación entre humanos y monstruos",
+        "General de Monstruos - usar monstruos en guerra organizada"
+      ]
+    },
+    {
+      "id": "reincarnated_sage",
+      "name": "Sabio Reencarnado",
+      "description": "Moriste en la Tierra pero renaciste aquí con todos tus recuerdos",
+      "simple_description": "Empezás desde bebé pero con la mente de un adulto. 18 años de preparación te han hecho un prodigio en todo.",
+      "detailed_background": "No fuiste invocado; reencarnaste. Moriste en la Tierra (accidente, enfermedad, lo que sea) y despertaste como bebé en Aetheria. Con la mente de un adulto en un cuerpo infantil, aprovechaste cada momento. Aprendiste a caminar en semanas, a hablar en meses, magia a los 5 años. Ahora tienes 18 y eres considerado un genio. Nadie sabe tu secreto. Has tenido tiempo de estudiar este mundo a fondo y tienes planes.",
+      "starting_stats": {
+        "hp": 17,
+        "maxHp": 17,
+        "combat": 3,
+        "exploration": 3,
+        "social": 3,
+        "lore": 5,
+        "preparation": 5
+      },
+      "starting_inventory": [
+        "Equipo personalizado (diseñaste cada pieza)",
+        "Espada encantada por ti mismo",
+        "Grimorio con 20 años de investigación",
+        "Red de contactos (preparada durante años)",
+        "Base secreta (ubicación oculta)",
+        "3000 monedas de oro (ahorros)",
+        "Plan detallado para 'arreglar este mundo'"
+      ],
+      "special_ability": "18 Años de Preparación: Tienes contactos, bases, equipo y planes. Puedes declarar 'Ya lo había previsto' una vez por sesión para revelar una preparación conveniente.",
+      "advancement_paths": [
+        "Eminencia Gris - manipular eventos desde las sombras",
+        "Revolucionario - cambiar la estructura del mundo",
+        "Héroe Reluctante - actuar cuando ya no hay opción",
+        "Villano Benevolente - hacer el mal por el bien mayor"
+      ]
+    },
+    {
+      "id": "op_support",
+      "name": "Soporte Overpowered",
+      "description": "No podés pelear pero tus buffs hacen invencible a cualquiera",
+      "simple_description": "Tu magia de apoyo no tiene límites. Curación infinita, buffs absurdos, resurreción. Tu party nunca perderá.",
+      "detailed_background": "Los dioses te dieron poder, pero de forma extraña. No podés hacer daño. Literalmente. Tus ataques hacen 0 de daño sin importar qué. Pero tu magia de apoyo es ridículamente poderosa. Puedes curar heridas mortales, dar buffs que triplican estadísticas, incluso revivir a los recién muertos. Nadie te quería en su party al principio. Ahora todos pelean por tenerte.",
+      "starting_stats": {
+        "hp": 12,
+        "maxHp": 12,
+        "combat": 0,
+        "exploration": 3,
+        "social": 4,
+        "lore": 4,
+        "support": 6
+      },
+      "starting_inventory": [
+        "Báculo de Sanación Infinita",
+        "Togas del Santo (protección pasiva)",
+        "Biblia de Buffs (todos los hechizos de apoyo)",
+        "Incienso de Resurreción x3",
+        "Kit de primeros auxilios mágico",
+        "Contrato de Party (beneficios legales)",
+        "800 monedas de oro"
+      ],
+      "special_ability": "Apoyo Absoluto: Curación y buffs no tienen límite de uso. Puedes revivir a alguien que murió en los últimos 10 minutos (1 vez por día). No puedes hacer daño directo.",
+      "advancement_paths": [
+        "Santo Viviente - curación a escala de ciudades",
+        "Buffer Supremo - hacer temporalmente rango SS a cualquiera",
+        "Resurrector - traer de vuelta incluso a los muertos hace tiempo",
+        "Pacifista Absoluto - aura que impide combate en un área"
+      ]
+    }
+  ],
+
+  "notable_npcs": [
+    {
+      "name": "Princesa Seria Astraea",
+      "role": "Heredera al trono, maga prodigio",
+      "description": "Joven de 18 años con cabello plateado y ojos violeta. Viste elegantemente pero prefiere la practicidad. Siempre lleva un grimorio.",
+      "personality": "Inteligente, dedicada, algo socialmente torpe por su educación aislada. Tsundere clásica que oculta su preocupación con frialdad.",
+      "motivation": "Demostrar que puede proteger el reino sin depender del Héroe. Secretamente, teme no estar a la altura de sus ancestros.",
+      "secrets": "Está medio enamorada del Héroe pero nunca lo admitiría. También investiga por qué los héroes anteriores 'desaparecieron'.",
+      "typical_dialogue": [
+        "N-no es que me preocupe por ti o algo así. Solo sería inconveniente si el Héroe muere.",
+        "Mi magia es superior. Observa y aprende.",
+        "¿Por qué mi corazón late tan rápido cuando estás cerca? Debe ser una maldición..."
+      ]
+    },
+    {
+      "name": "Rey Demonio Velzard",
+      "role": "Antagonista principal... ¿o algo más?",
+      "description": "Hombre de apariencia joven (aparenta 30) con cuernos elegantes y ojos dorados. Viste de negro pero con gusto refinado.",
+      "personality": "Carismático, filosófico, sorprendentemente razonable. No es malvado por diversión sino por convicción.",
+      "motivation": "Romper el 'ciclo' de héroes y demonios. Descubrir por qué los dioses perpetúan este sistema.",
+      "secrets": "Fue el séptimo héroe invocado. Descubrió algo terrible sobre los dioses y eligió convertirse en Rey Demonio para tener poder de cambiar las cosas.",
+      "typical_dialogue": [
+        "Héroe, ¿alguna vez te preguntaste POR QUÉ fuiste invocado? ¿Quién se beneficia de esta guerra eterna?",
+        "No soy tu enemigo. Los verdaderos enemigos están más arriba.",
+        "Únete a mí y te mostraré la verdad. O pelea y perpetúa el ciclo. La elección es tuya."
+      ]
+    },
+    {
+      "name": "Recepcionista Luna",
+      "role": "Cara del Gremio de Aventureros en Luminaria",
+      "description": "Joven humana de 22 años, cabello castaño, sonrisa profesional permanente. Uniforme del gremio impecable.",
+      "personality": "Amable profesionalmente, secretamente exhausta por aventureros problemáticos. Competente y eficiente.",
+      "motivation": "Hacer bien su trabajo, eventualmente ser promovida a Guildmaster.",
+      "secrets": "Ex-aventurera rango B que se retiró por una lesión. Aún puede pelear si es necesario.",
+      "typical_dialogue": [
+        "¡Bienvenido al Gremio! ¿Primera vez? Déjame explicarte cómo funciona todo.",
+        "Esta misión es rango C pero paga como B porque nadie quiere hacerla. ¿Interesado?",
+        "Por favor, no destruyan la ciudad esta vez. El papeleo es horrible."
+      ]
+    },
+    {
+      "name": "Mia la Prodigio",
+      "role": "Estudiante genio de la Academia Arcana",
+      "description": "Niña de 15 años con gafas, cabello azul desordenado, siempre rodeada de libros flotantes y experimentos.",
+      "personality": "Obsesionada con la magia, socialmente desastrosa, genio genuino que no entiende por qué otros no captan teorías complejas.",
+      "motivation": "Descubrir los secretos de la magia, especialmente la magia de invocación de héroes.",
+      "secrets": "Es descendiente del primer Héroe Invocado. Tiene sangre de otro mundo.",
+      "typical_dialogue": [
+        "¡Fascinante! ¿Puedo estudiarte? Tu estructura mágica es completamente diferente a la nuestra.",
+        "Según mis cálculos, esto tiene un 73.6% de probabilidad de explotar. Procedamos.",
+        "¿Por qué nadie más ve lo obvio? La respuesta está claramente en la ecuación de flujo mágico."
+      ]
+    },
+    {
+      "name": "El Observador",
+      "role": "Miembro misterioso de Los Olvidados",
+      "description": "Figura encapuchada que aparece y desaparece. Nunca muestra su rostro. Voz distorsionada.",
+      "personality": "Críptico, servicial a su manera, claramente sabe más de lo que dice.",
+      "motivation": "Guiar al nuevo héroe para que no cometa los errores de los anteriores.",
+      "secrets": "Es el tercer héroe invocado. Descubrió cómo volverse inmortal pero perdió su humanidad en el proceso.",
+      "typical_dialogue": [
+        "Te observo desde que llegaste. Tienes potencial. No lo desperdicies como otros.",
+        "El camino que elijas definirá más que tu destino. Elegí sabiamente.",
+        "Cuando estés listo para la verdad, encuéntrame en [ubicación críptica]."
+      ]
+    },
+    {
+      "name": "Generala Lilith",
+      "role": "Mano derecha de Velzard, estratega del Imperio Oscuro",
+      "description": "Súcubo de belleza devastadora, cuernos pequeños, cola en forma de corazón, alas de murciélago. Viste armadura que no debería ser práctica pero lo es.",
+      "personality": "Seductora por naturaleza, pero genuinamente leal a Velzard. Disfruta los juegos mentales.",
+      "motivation": "Servir a Velzard y demostrar que los demonios no son inherentemente malvados.",
+      "secrets": "Fue creada por el primer Rey Demonio pero eligió a Velzard porque él la trata como persona, no como herramienta.",
+      "typical_dialogue": [
+        "Mmm, el nuevo héroe es lindo. ¿Puedo quedármelo si gano, Lord Velzard?",
+        "No confundas mi naturaleza con mis intenciones. Soy súcubo, no traidora.",
+        "Lord Velzard me salvó cuando era menos que nada. Por él, destruiría mundos."
+      ]
+    }
+  ],
+
+  "monster_types": [
+    {
+      "name": "Slime",
+      "description": "El monstruo más básico. Gelatinoso, viene en varios colores según el elemento.",
+      "danger_level": "F",
+      "characteristics": "Lento, débil, pero se divide al morir si no se elimina el núcleo",
+      "drops": "Núcleo de slime (común), gelatina mágica (raro)",
+      "variants": ["Slime básico", "Slime de fuego", "Slime de hielo", "Slime rey (raro, del tamaño de una casa)"]
+    },
+    {
+      "name": "Goblin",
+      "description": "Humanoides verdes pequeños. Débiles individualmente pero peligrosos en grupo.",
+      "danger_level": "F-D",
+      "characteristics": "Inteligentes para monstruos, usan armas, viven en tribus con jerarquía",
+      "drops": "Orejas de goblin (quest item), armas básicas, ocasionalmente tesoro robado",
+      "variants": ["Goblin común", "Goblin chamán (magia)", "Hobgoblin (grande)", "Goblin King (jefe)"]
+    },
+    {
+      "name": "Lobo Mágico",
+      "description": "Lobos que han absorbido mana del ambiente. Más grandes e inteligentes que lobos normales.",
+      "danger_level": "E-C",
+      "characteristics": "Cazan en manadas, extremadamente leales a su alfa, pueden usar magia elemental básica",
+      "drops": "Pelaje mágico, colmillos, núcleo de mana",
+      "variants": ["Lobo de hielo", "Lobo de sombras", "Lobo alfa (líder)", "Fenrir (legendario)"]
+    },
+    {
+      "name": "Dragón",
+      "description": "Las criaturas más poderosas. Inteligentes como humanos, viven miles de años.",
+      "danger_level": "A-SS",
+      "characteristics": "Aliento elemental, escamas casi impenetrables, pueden tomar forma humana los más viejos",
+      "drops": "Escamas de dragón (muy valiosas), sangre de dragón, tesoro acumulado",
+      "variants": ["Dragón joven", "Dragón adulto", "Dragón anciano", "Dragón Emperador (único)"]
+    },
+    {
+      "name": "No-muerto",
+      "description": "Criaturas que fueron revividas por magia oscura. Desde esqueletos hasta liches.",
+      "danger_level": "E-S",
+      "characteristics": "Inmunes a veneno y efectos mentales, débiles a magia de luz, algunos conservan inteligencia",
+      "drops": "Huesos mágicos, esencia oscura, a veces equipo del difunto",
+      "variants": ["Esqueleto", "Zombie", "Ghoul", "Vampiro", "Lich"]
+    },
+    {
+      "name": "Demonio",
+      "description": "Seres de otro plano. No necesariamente malvados pero su naturaleza es diferente a los mortales.",
+      "danger_level": "C-SS",
+      "characteristics": "Poderes únicos según tipo, pueden hacer contratos, debilidad variable",
+      "drops": "Cuernos demoníacos, esencia demoniaca, conocimiento prohibido",
+      "variants": ["Imp", "Súcubo/Íncubo", "Demonio de guerra", "Archdemonio", "Príncipe Demonio"]
     }
   ],
 
@@ -165,7 +631,9 @@
     "mago": "sabio_misterioso",
     "bestia": "rugido_profundo",
     "comerciante": "jovial_persuasivo",
-    "demonio": "oscuro_seductor"
+    "demonio": "oscuro_seductor",
+    "hada": "aguda_juguetona",
+    "dragon": "profunda_ancestral"
   },
   "music_mood": "exploration_calm",
   "art_style": "anime illustration, vibrant colors, Studio Ghibli inspired, fantasy JRPG aesthetic, colorful magic effects",
@@ -174,72 +642,115 @@
     "encounters": {
       "formula": "1d20",
       "results": [
-        { "range": [1, 4], "result": "Slimes amigables - perfectos para entrenar" },
-        { "range": [5, 8], "result": "Grupo de aventureros novatos pidiendo ayuda" },
-        { "range": [9, 12], "result": "Mercader con objetos raros y misiones secundarias" },
-        { "range": [13, 15], "result": "Gobli ns bandidos bloqueando el camino" },
-        { "range": [16, 17], "result": "Jefa de gremio con misión urgente y recompensa alta" },
-        { "range": [18, 19], "result": "Dragón bebé perdido - su madre está cerca y furiosa" },
-        { "range": [20, 20], "result": "Encuentro con la Princesa del Reino - ella necesita tu ayuda" }
+        { "range": [1, 2], "result": "Slimes pacíficos - perfectos para entrenar o recolectar materiales" },
+        { "range": [3, 4], "result": "Grupo de aventureros novatos pidiendo consejo o ayuda" },
+        { "range": [5, 6], "result": "Mercader ambulante con objetos raros y rumores" },
+        { "range": [7, 8], "result": "Goblins preparando emboscada - pueden negociar si te ven fuerte" },
+        { "range": [9, 10], "result": "Viajero misterioso que ofrece una misión secreta" },
+        { "range": [11, 12], "result": "Lobo mágico herido - ayudarlo podría dar aliado" },
+        { "range": [13, 14], "result": "Jefa de gremio con misión urgente y recompensa alta" },
+        { "range": [15, 16], "result": "Hada perdida que ofrece bendición si la ayudas" },
+        { "range": [17, 18], "result": "Dragón joven curioso sobre humanos - peligroso pero no hostil" },
+        { "range": [19, 19], "result": "Portal temporal a un evento del pasado" },
+        { "range": [20, 20], "result": "Encuentro con la Princesa disfrazada - ella necesita ayuda" }
       ]
     },
     "weather": {
-      "formula": "1d8",
+      "formula": "1d10",
       "results": [
-        { "range": [1, 3], "result": "Día soleado perfecto - bonus a moral" },
-        { "range": [4, 5], "result": "Lluvia mágica - regenera mana lentamente" },
-        { "range": [6, 6], "result": "Tormenta mana - hechizos más poderosos pero inestables" },
-        { "range": [7, 7], "result": "Noche de luna llena - monstruos más fuertes" },
-        { "range": [8, 8], "result": "Eclipse solar - evento especial, jefes raros aparecen" }
+        { "range": [1, 3], "result": "Día soleado perfecto - bonus a moral y regeneración de mana" },
+        { "range": [4, 5], "result": "Lluvia mágica - regenera mana 50% más rápido" },
+        { "range": [6, 7], "result": "Niebla mística - encuentros más frecuentes con criaturas mágicas" },
+        { "range": [8, 8], "result": "Tormenta de mana - hechizos 50% más poderosos pero inestables" },
+        { "range": [9, 9], "result": "Noche de luna llena - monstruos más fuertes, drops mejores" },
+        { "range": [10, 10], "result": "Eclipse solar - evento especial, jefes raros aparecen, portales se abren" }
       ]
     },
     "loot": {
-      "formula": "1d10",
+      "formula": "1d20",
       "results": [
-        { "range": [1, 3], "result": "Poción de Curación (restaura 20 HP)" },
-        { "range": [4, 5], "result": "Núcleo de Monstruo (vendible por buen precio)" },
-        { "range": [6, 7], "result": "Pergamino de Hechizo Aleatorio" },
-        { "range": [8, 8], "result": "Equipo Mágico +1 (arma o armadura mejora)" },
-        { "range": [9, 9], "result": "Gema de Invocación (convoca un aliado una vez)" },
-        { "range": [10, 10], "result": "Item Legendario (efecto especial único)" }
+        { "range": [1, 4], "result": "Poción de Curación Menor (restaura 20 HP)" },
+        { "range": [5, 7], "result": "Núcleo de Monstruo (vendible por 50-200 oro según tamaño)" },
+        { "range": [8, 9], "result": "Poción de Mana (restaura 30 mana)" },
+        { "range": [10, 11], "result": "Pergamino de Hechizo Aleatorio (1 uso)" },
+        { "range": [12, 13], "result": "Gema mágica (ingrediente para encantamientos)" },
+        { "range": [14, 15], "result": "Equipo Mágico +1 (arma o armadura random)" },
+        { "range": [16, 17], "result": "Libro de habilidad (aprende habilidad nueva)" },
+        { "range": [18, 18], "result": "Gema de Invocación (convoca aliado temporal)" },
+        { "range": [19, 19], "result": "Equipo Mágico +2 con efecto especial" },
+        { "range": [20, 20], "result": "¡Item Legendario! Efecto único y poderoso" }
+      ]
+    },
+    "quest_types": {
+      "formula": "1d12",
+      "results": [
+        { "range": [1, 2], "result": "Exterminio - eliminar X monstruos de tipo Y" },
+        { "range": [3, 4], "result": "Recolección - conseguir materiales de monstruos" },
+        { "range": [5, 5], "result": "Escolta - proteger caravana o persona importante" },
+        { "range": [6, 6], "result": "Rescate - salvar persona secuestrada por monstruos" },
+        { "range": [7, 7], "result": "Exploración - mapear zona nueva de calabozo" },
+        { "range": [8, 8], "result": "Jefe - derrotar monstruo específico poderoso" },
+        { "range": [9, 9], "result": "Investigación - descubrir causa de fenómeno mágico" },
+        { "range": [10, 10], "result": "Infiltración - conseguir información en territorio enemigo" },
+        { "range": [11, 11], "result": "Diplomacia - mediar conflicto entre facciones" },
+        { "range": [12, 12], "result": "Especial - misión única con recompensa extraordinaria" }
       ]
     },
     "npc_names": {
       "formula": "1d20",
       "results": [
-        { "range": [1, 1], "result": "Aria" },
-        { "range": [2, 2], "result": "Kai" },
-        { "range": [3, 3], "result": "Luna" },
-        { "range": [4, 4], "result": "Ren" },
-        { "range": [5, 5], "result": "Mira" },
-        { "range": [6, 6], "result": "Zeke" },
-        { "range": [7, 7], "result": "Stella" },
-        { "range": [8, 8], "result": "Ash" },
-        { "range": [9, 9], "result": "Nova" },
-        { "range": [10, 10], "result": "Lyra" },
-        { "range": [11, 11], "result": "Finn" },
-        { "range": [12, 12], "result": "Iris" },
-        { "range": [13, 13], "result": "Rex" },
-        { "range": [14, 14], "result": "Aurora" },
-        { "range": [15, 15], "result": "Dante" },
-        { "range": [16, 16], "result": "Celeste" },
-        { "range": [17, 17], "result": "Atlas" },
-        { "range": [18, 18], "result": "Seraphina" },
-        { "range": [19, 19], "result": "Orion" },
-        { "range": [20, 20], "result": "Nyx" }
+        { "range": [1, 1], "result": "Aria la Cantante" },
+        { "range": [2, 2], "result": "Kai el Espadachín" },
+        { "range": [3, 3], "result": "Luna la Sacerdotisa" },
+        { "range": [4, 4], "result": "Ren el Asesino" },
+        { "range": [5, 5], "result": "Mira la Arquera" },
+        { "range": [6, 6], "result": "Zeke el Guerrero" },
+        { "range": [7, 7], "result": "Stella la Maga" },
+        { "range": [8, 8], "result": "Ash el Domador" },
+        { "range": [9, 9], "result": "Nova la Exploradora" },
+        { "range": [10, 10], "result": "Lyra la Barda" },
+        { "range": [11, 11], "result": "Finn el Ladronzuelo" },
+        { "range": [12, 12], "result": "Iris la Alquimista" },
+        { "range": [13, 13], "result": "Rex el Gladiador" },
+        { "range": [14, 14], "result": "Aurora la Sanadora" },
+        { "range": [15, 15], "result": "Dante el Oscuro" },
+        { "range": [16, 16], "result": "Celeste la Invocadora" },
+        { "range": [17, 17], "result": "Atlas el Gigante" },
+        { "range": [18, 18], "result": "Seraphina la Ángel" },
+        { "range": [19, 19], "result": "Orion el Cazador" },
+        { "range": [20, 20], "result": "Nyx la Sombra" }
       ]
     },
     "events": {
-      "formula": "1d8",
+      "formula": "1d12",
       "results": [
-        { "range": [1, 1], "result": "Festival del Reino - descuentos en tiendas y misiones especiales" },
-        { "range": [2, 2], "result": "Invasión de Monstruos - el gremio necesita ayuda urgente" },
-        { "range": [3, 3], "result": "Torneo de Aventureros - competí por premios legendarios" },
-        { "range": [4, 4], "result": "Calabozo Aleatorio aparece - desaparece en 24 horas" },
-        { "range": [5, 5], "result": "Noble te ofrece convertirte en su caballero personal" },
-        { "range": [6, 6], "result": "Encuentras un Huevo de Mascota - ¿qué saldrá?" },
-        { "range": [7, 7], "result": "Portal a tu mundo se abre brevemente - ¿volvés o te quedás?" },
-        { "range": [8, 8], "result": "El Rey Demonio envía emisario con propuesta sorprendente" }
+        { "range": [1, 1], "result": "Festival del Reino - descuentos, minijuegos, misiones especiales" },
+        { "range": [2, 2], "result": "Invasión de Monstruos - el gremio necesita toda la ayuda posible" },
+        { "range": [3, 3], "result": "Torneo de Aventureros - premios legendarios para los ganadores" },
+        { "range": [4, 4], "result": "Calabozo Temporal aparece - desaparece en 24 horas, loot mejorado" },
+        { "range": [5, 5], "result": "Noble busca escoltas personales - paga muy bien" },
+        { "range": [6, 6], "result": "Encuentras Huevo de Mascota - incubar para sorpresa" },
+        { "range": [7, 7], "result": "Vislumbre de tu mundo - ¿homesickness o motivación?" },
+        { "range": [8, 8], "result": "Embajador del Imperio Oscuro con propuesta sorprendente" },
+        { "range": [9, 9], "result": "Un dios menor te contacta en sueños" },
+        { "range": [10, 10], "result": "Descubres pista sobre otros héroes invocados" },
+        { "range": [11, 11], "result": "Aparece tu 'rival' - otro héroe invocado al mismo tiempo" },
+        { "range": [12, 12], "result": "El Rey Demonio envía invitación directa" }
+      ]
+    },
+    "shop_special_items": {
+      "formula": "1d10",
+      "results": [
+        { "range": [1, 1], "result": "Espada que habla (da consejos, a veces molestos)" },
+        { "range": [2, 2], "result": "Capa de invisibilidad (10 minutos por día)" },
+        { "range": [3, 3], "result": "Botas de velocidad (+50% movimiento)" },
+        { "range": [4, 4], "result": "Anillo de almacenamiento (50 slots extra)" },
+        { "range": [5, 5], "result": "Grimorio en blanco (escribe tus propios hechizos)" },
+        { "range": [6, 6], "result": "Poción de cambio de género (permanente hasta otra poción)" },
+        { "range": [7, 7], "result": "Máscara del Disfraz (cambia apariencia)" },
+        { "range": [8, 8], "result": "Piedra de Regreso (teletransporta a última ciudad)" },
+        { "range": [9, 9], "result": "Muñeco de Paja (absorbe un golpe mortal, 1 uso)" },
+        { "range": [10, 10], "result": "Mapa Viviente (actualiza automáticamente)" }
       ]
     }
   },
@@ -248,10 +759,10 @@
     {
       "id": "bendicion_diosa",
       "name": "Bendición de la Diosa",
-      "description": "Una diosa te ha otorgado su favor",
+      "description": "Una diosa te ha otorgado su favor divino",
       "type": "buff",
       "duration": 10,
-      "effects": { "all_stats": 2 }
+      "effects": { "all_stats": 2, "luck": 5 }
     },
     {
       "id": "maldicion_demonio",
@@ -259,15 +770,17 @@
       "description": "Energía oscura debilita tu cuerpo",
       "type": "debuff",
       "duration": 5,
-      "effects": { "hp_max": -10, "combat": -2 }
+      "effects": { "hp_max": -10, "combat": -2 },
+      "cure": "Bendición de sacerdote o esperar"
     },
     {
       "id": "poder_heroe",
-      "name": "Modo Héroe",
-      "description": "Tu poder de otro mundo se activa",
+      "name": "Modo Héroe Activado",
+      "description": "Tu poder de otro mundo se despierta completamente",
       "type": "buff",
       "duration": 3,
-      "effects": { "combat": 4, "exploration": 2 }
+      "effects": { "combat": 5, "exploration": 3, "all_magic": 3 },
+      "trigger": "Momento de crisis o determinación extrema"
     },
     {
       "id": "sobrecarga_mana",
@@ -275,7 +788,43 @@
       "description": "Usaste demasiada magia de golpe",
       "type": "debuff",
       "duration": 2,
-      "effects": { "lore": -3, "cannot_cast": true }
+      "effects": { "lore": -4, "cannot_cast": true },
+      "cure": "Descanso completo o poción especial"
+    },
+    {
+      "id": "party_bond",
+      "name": "Vínculo de Party",
+      "description": "La amistad con tu party te fortalece",
+      "type": "buff",
+      "duration": -1,
+      "effects": { "all_stats": 1, "teamwork_bonus": true },
+      "note": "Permanente mientras la party esté unida"
+    },
+    {
+      "id": "level_up_high",
+      "name": "Euforia de Nivel",
+      "description": "Acabas de subir de nivel y te sientes invencible",
+      "type": "buff",
+      "duration": 1,
+      "effects": { "hp_full": true, "mana_full": true, "combat": 2 }
+    },
+    {
+      "id": "homesick",
+      "name": "Nostalgia del Hogar",
+      "description": "Extrañas tu mundo original",
+      "type": "debuff",
+      "duration": 3,
+      "effects": { "social": -2, "motivation": -1 },
+      "cure": "Éxito significativo o apoyo de amigos"
+    },
+    {
+      "id": "legendary_item",
+      "name": "Portador de Leyenda",
+      "description": "Llevas un item legendario que aumenta tu poder",
+      "type": "buff",
+      "duration": -1,
+      "effects": { "stat_relevant": 3, "reputation": 2 },
+      "note": "Mientras portes el item"
     }
   ],
 
@@ -289,18 +838,30 @@
         "Primeras misiones simples - aprender las reglas"
       ],
       "typical_scenes": ["Aldea Iniciadora", "Ciudad Capital Luminaria"],
-      "mood": "exploration_calm"
+      "mood": "exploration_calm",
+      "sample_events": [
+        "Despertar confundido en el altar de invocación",
+        "Conocer a los primeros aliados",
+        "Primera misión: slimes en el campo",
+        "Subir de rango F a E"
+      ]
     },
     "act_2": {
       "name": "Ascenso del Aventurero",
-      "description": "Haciéndote un nombre - poder creciente",
+      "description": "Haciéndote un nombre - poder creciente y party formada",
       "anchors": [
-        "Derrotar jefe de calabozo importante",
+        "Derrotar primer jefe de calabozo importante",
         "Ser reconocido por la realeza",
         "Formar party con compañeros leales"
       ],
       "typical_scenes": ["Calabozo de las Profundidades", "Academia Arcana"],
-      "mood": "victory_triumphant"
+      "mood": "victory_triumphant",
+      "sample_events": [
+        "Reclutar al primer miembro de la party",
+        "Alcanzar rango C",
+        "Primer encuentro con la Princesa",
+        "Derrotar al Goblin King"
+      ]
     },
     "act_3": {
       "name": "La Amenaza Demoníaca",
@@ -308,56 +869,128 @@
       "anchors": [
         "Invasión del ejército del Rey Demonio",
         "Misión de infiltración en territorio enemigo",
-        "Descubrimiento de plan apocalíptico"
+        "Descubrimiento de la verdad sobre el ciclo"
       ],
       "typical_scenes": ["Bosque de los Espíritus", "fronteras del reino"],
-      "mood": "drama_tense"
+      "mood": "drama_tense",
+      "sample_events": [
+        "Ver el poder real del Imperio Oscuro",
+        "Conocer a Velzard o sus generales",
+        "Descubrir que no todo es blanco y negro",
+        "Dilema moral sobre qué lado es el 'bueno'"
+      ]
     },
     "act_4": {
-      "name": "Asalto al Castillo Demonio",
-      "description": "La batalla final contra el mal supremo",
+      "name": "La Verdad de los Dioses",
+      "description": "Descubrir los secretos del mundo y elegir qué hacer",
       "anchors": [
-        "Reunir ejército de héroes",
-        "Infiltrarse en el Castillo Demonio",
-        "Enfrentar al Rey Demonio"
+        "Explorar las Ruinas de la Era de la Creación",
+        "Confrontar la verdad sobre las invocaciones",
+        "Elegir bando o crear el propio"
       ],
-      "typical_scenes": ["Castillo Demonio", "Montañas del Dragón"],
-      "mood": "combat_epic"
+      "typical_scenes": ["Ruinas de la Era de la Creación", "Castillo Demonio"],
+      "mood": "combat_epic",
+      "sample_events": [
+        "Los dioses no son lo que parecen",
+        "Velzard revela su historia",
+        "Decisión: seguir el ciclo o romperlo",
+        "Preparación para el enfrentamiento final"
+      ]
     },
     "act_5": {
-      "name": "Héroe del Reino",
-      "description": "La paz restaurada - pero ¿qué sigue?",
+      "name": "El Fin del Ciclo",
+      "description": "La batalla final y las consecuencias de tus elecciones",
       "anchors": [
-        "Celebración de la victoria",
-        "Decisión: quedarse o buscar forma de volver",
-        "Nuevo misterio o amenaza aparece"
+        "Enfrentamiento con el verdadero enemigo",
+        "Cambiar el mundo permanentemente",
+        "Decidir tu futuro en este mundo"
       ],
-      "typical_scenes": ["Ciudad Capital Luminaria", "Palacio Real"],
-      "mood": "rest_peaceful"
+      "typical_scenes": ["Ciudad Capital Luminaria", "Palacio Real", "ubicación final según elección"],
+      "mood": "rest_peaceful",
+      "sample_events": [
+        "Batalla épica final",
+        "Las consecuencias de tus elecciones",
+        "¿Volver a casa o quedarte?",
+        "Epílogo: el nuevo mundo que creaste"
+      ]
     }
   },
 
-  "one_shot_hook": "Despertás en una pradera desconocida. No es tu mundo. Un hada luminosa aparece frente a vos: 'Bienvenido, Héroe Invocado. El Reino de Astraea te necesita. Un dragón ha secuestrado a la Princesa y solo alguien de otro mundo puede derrotarlo.' Te entrega una espada brillante. Tu aventura comienza ahora. ¿Aceptás el desafío?",
+  "one_shot_hooks": [
+    {
+      "title": "El Primer Día",
+      "hook": "Despertás en una pradera desconocida. No es tu mundo. Un hada luminosa aparece frente a vos: 'Bienvenido, Héroe Invocado. El Reino de Astraea te necesita. Un dragón ha secuestrado a la Princesa y solo alguien de otro mundo puede derrotarlo.' Te entrega una espada brillante. Tu aventura comienza ahora. ¿Aceptás el desafío?",
+      "suggested_duration": "2-3 horas",
+      "difficulty": "Fácil (tutorial)"
+    },
+    {
+      "title": "El Torneo de Aventureros",
+      "hook": "El torneo anual del Gremio está por comenzar. El premio: un equipo legendario y reconocimiento del reino. Aventureros de todas partes compiten. Algunos pelean limpio, otros no tanto. Hay apuestas, intrigas, y alguien que quiere que pierdas a toda costa. ¿Podrás llegar a la final?",
+      "suggested_duration": "3-4 horas",
+      "difficulty": "Media"
+    },
+    {
+      "title": "El Calabozo Temporal",
+      "hook": "Un calabozo que solo aparece una vez por década ha emergido. Tiene solo 10 pisos pero cada uno contiene tesoros de eras pasadas. El problema: desaparece en 24 horas y todos los aventureros del reino van por él. Carrera contra el tiempo y contra otros parties.",
+      "suggested_duration": "2-3 horas",
+      "difficulty": "Media"
+    },
+    {
+      "title": "La Propuesta del Demonio",
+      "hook": "Un demonio elegante aparece con una oferta: infiltrarse en un noble corrupto de Astraea que está vendiendo esclavos a ambos bandos. A cambio, información sobre cómo volver a tu mundo. Es una trampa obvia... ¿o es genuino?",
+      "suggested_duration": "3-4 horas",
+      "difficulty": "Media-Difícil"
+    },
+    {
+      "title": "La Academia en Peligro",
+      "hook": "Un experimento mágico salió mal en la Academia Arcana. Brechas dimensionales aparecen por toda la escuela liberando monstruos de otros planos. Los estudiantes están atrapados. Tienes 2 horas antes de que todo el castillo sea absorbido por el vacío.",
+      "suggested_duration": "2-3 horas",
+      "difficulty": "Difícil"
+    },
+    {
+      "title": "El Huevo de Dragón",
+      "hook": "Encontraste un huevo de dragón. Está a punto de eclosionar y el bebé te verá como su padre/madre. El problema: la madre dragón te está buscando, los cazadores de dragones te están siguiendo, y el Imperio Oscuro ofrece una fortuna por huevos de dragón. ¿Qué hacés?",
+      "suggested_duration": "3-4 horas",
+      "difficulty": "Media"
+    },
+    {
+      "title": "Reunión de Héroes",
+      "hook": "Los Olvidados te han contactado. Quieren reunirse contigo y otros héroes invocados que aún viven. En la reunión, secretos serán revelados, alianzas ofrecidas, y la verdad sobre las invocaciones comenzará a develarse. Pero hay un traidor entre los héroes.",
+      "suggested_duration": "4-5 horas",
+      "difficulty": "Difícil"
+    },
+    {
+      "title": "Día Libre en la Capital",
+      "hook": "No hay misiones urgentes. Es día de festival en Luminaria. Puestos de comida, juegos, fuegos artificiales mágicos. La Princesa quiere salir disfrazada y necesita acompañante. Parece relajado... hasta que un grupo de asesinos arruina la fiesta.",
+      "suggested_duration": "2-3 horas",
+      "difficulty": "Fácil-Media"
+    }
+  ],
 
   "engine_notes": {
-    "story_mode": "Narrativa de JRPG clásico. Poder de amistad importa. Curva de poder clara: débil al inicio, semi-dios al final. Eventos dramáticos con giros anime.",
-    "pbta": "Movimientos como 'Usar Poder Especial' y 'Hacer Amigos'. Fallos parciales = complicaciones cómicas o dramáticas, nunca muerte permanente.",
-    "year_zero": "Adaptar recursos a mana, ítems mágicos, energía de héroe. Empujar dados = gastar mana extra, arriesgar sobrecarga mágica.",
-    "dnd_5e": "Usar sistema completo pero nivel inicial 3. Todos tienen feat gratuito 'Héroe de Otro Mundo'. XP acelerado x2. Muerte rara, siempre hay revivir."
+    "story_mode": "Narrativa de JRPG clásico. El poder de la amistad importa mecánicamente. Curva de poder clara: débil al inicio, semi-dios al final. Eventos dramáticos con giros anime. Muertes permanentes muy raras (siempre hay resurreción disponible).",
+    "pbta": "Movimientos como 'Usar Poder Especial', 'Hacer Amigos', 'Nivel Up Dramático'. Fallos parciales = complicaciones cómicas o dramáticas, nunca muerte permanente. Los vínculos de party dan bonificaciones mecánicas.",
+    "year_zero": "Adaptar recursos a mana, pociones, comida especial, energía de héroe. El estrés es 'fatiga de aventurero'. Empujar dados = gastar mana extra, arriesgar sobrecarga mágica. Menos letal que otros settings de Year Zero.",
+    "dnd_5e": "Nivel inicial 3 con XP acelerado x2. Todos tienen feat gratuito 'Héroe de Otro Mundo' que da ventaja en situaciones nuevas. Muerte rara: siempre hay templos que reviven. Long rest restaura todo. Es power fantasy."
   },
 
-  "tutorial_notes": "Para NOVICE: Este es el lore más amigable para principiantes. Explicar todo como RPG de videojuego: niveles, stats, misiones. El Gremio de Aventureros actúa como tutorial. Primera misión: derrotar slimes. Sistema de ranking: F -> E -> D -> C -> B -> A -> S -> SS.",
+  "tutorial_notes": "ISEKAI es el lore más amigable para principiantes absolutos. Explicar todo como si fuera un videojuego RPG. El Gremio actúa como tutorial con misiones graduadas. Primera misión SIEMPRE es 'elimina slimes en el campo del granjero'. El Sistema (ver estadísticas) es literal, no metafórico. Ranking de F a SS es la progresión. Nunca matar al personaje en primeras sesiones - siempre hay NPC que lo salva in extremis.",
 
   "glossary": {
-    "Isekai": "Género donde alguien es transportado a otro mundo",
-    "Gremio": "Organización que da misiones a aventureros",
-    "Ranking": "F (novato) hasta SS (legendario) - mide poder de aventurero",
-    "Party": "Grupo de aventureros que viajan juntos",
-    "Calabozo": "Lugar lleno de monstruos y tesoros",
-    "Rey Demonio": "Gobernante del Imperio Oscuro - enemigo principal",
-    "Mana": "Energía mágica usada para hechizos",
-    "Skill": "Habilidad especial única de cada aventurero",
+    "Isekai": "Género donde alguien es transportado a otro mundo, usualmente de fantasía",
+    "Héroe Invocado": "Persona de otro mundo (generalmente Tierra) traída por magia divina",
+    "Gremio de Aventureros": "Organización que da misiones y registra aventureros",
+    "Ranking": "Sistema de F (novato) a SS (legendario) que mide poder y confiabilidad",
+    "Party": "Grupo de aventureros que viajan y luchan juntos",
+    "Calabozo": "Lugar mágico lleno de monstruos y tesoros, con pisos y jefes",
+    "Rey Demonio": "Gobernante del Imperio Oscuro - el antagonista principal del ciclo",
+    "Mana": "Energía mágica usada para lanzar hechizos",
+    "Skill": "Habilidad especial única de cada persona",
     "Drop": "Objeto que dejan los monstruos al morir",
-    "Quest": "Misión del Gremio - recompensa por completarla"
+    "Quest": "Misión del Gremio con recompensa definida",
+    "NPC": "Personas del mundo que no son jugadores (término meta pero común en isekai)",
+    "Level Up": "Aumento de poder y estadísticas tras acumular experiencia",
+    "Sistema": "La capacidad del héroe de ver estadísticas como en un videojuego",
+    "Buff/Debuff": "Efecto temporal que aumenta o disminuye capacidades"
   }
 }

@@ -2,94 +2,943 @@
   "id": "VIKINGOS",
   "name": "Saga Vikinga",
   "tagline": "Conquista, gloria y el favor de los dioses",
-  "tone": ["épico", "brutal", "honorable", "místico"],
+  "tone": ["épico", "brutal", "honorable", "místico", "fatalista", "heroico"],
   "world_summary": "El año es 875 d.C. Sos un guerrero nórdico en una era de conquistas y exploraciones. Los dioses de Asgard son reales y caminan entre mortales. Tu destino está escrito en las runas pero podés desafiarlo con valentía. El Valhalla espera a los que mueren con honor en batalla. Los mares son tu camino hacia riquezas y gloria. Cada incursión puede ser tu última, pero la fama eterna vale más que una vida larga. Los jarls buscan guerreros valientes. Las Valquirias observan cada batalla. Tu saga será cantada por generaciones.",
 
+  "detailed_history": {
+    "cosmic_origin": {
+      "title": "El Nacimiento del Mundo",
+      "content": "En el principio solo existía el Ginnungagap, el vacío primordial. Al norte estaba Niflheim, reino de hielo eterno, y al sur Muspelheim, tierra de fuego devastador. Cuando el frío y el fuego se encontraron en el abismo, nació Ymir, el gigante primordial. De su sudor nacieron más gigantes, y de una vaca de hielo llamada Audhumla emergió Buri, el primer dios. Sus descendientes, Odín, Vili y Vé, mataron a Ymir y de su cuerpo crearon el mundo: su carne se convirtió en tierra, su sangre en océanos, sus huesos en montañas, su cráneo en el cielo. Los gusanos que devoraban su carne se transformaron en los primeros enanos. De dos árboles, los dioses crearon a Ask y Embla, los primeros humanos, dándoles vida, mente y espíritu."
+    },
+    "ages": [
+      {
+        "name": "Era de los Gigantes",
+        "period": "Tiempo Mítico",
+        "description": "Antes de la creación de Midgard, los gigantes de hielo y fuego dominaban la existencia. Los Jötnar construyeron fortalezas en los confines del mundo, y su guerra constante con los Æsir definió el orden del cosmos. Thor, hijo de Odín, se convirtió en el defensor de los dioses, matando gigantes con su martillo Mjölnir. La enemistad entre dioses y gigantes fue sellada con sangre y solo terminará en Ragnarök.",
+        "key_events": ["Creación de Midgard desde el cuerpo de Ymir", "Guerra entre Æsir y Jötnar", "Construcción del Bifröst", "Thor obtiene a Mjölnir", "Odín sacrifica su ojo por la sabiduría"]
+      },
+      {
+        "name": "Era de los Héroes Antiguos",
+        "period": "500-700 d.C.",
+        "description": "Los primeros grandes reyes vikingos establecieron los clanes que dominarían Escandinavia. Sigurd el Matadragones realizó hazañas que serían cantadas por milenios. Ragnar Lodbrok unificó Dinamarca y aterrorizó Inglaterra. Esta era vio el nacimiento de las tradiciones que definirían a los nórdicos: el Thing, el código de honor, los rituales de sacrificio a los dioses. Los drakkar comenzaron a surcar mares más lejanos.",
+        "key_events": ["Sigurd mata a Fafnir y obtiene el tesoro de los Nibelungos", "Fundación del Gran Heathen Army", "Primeros asentamientos en Islandia", "Establecimiento de las rutas comerciales hacia Oriente", "El sacrificio de Uppsala se convierte en tradición"]
+      },
+      {
+        "name": "Era de las Grandes Incursiones",
+        "period": "793-875 d.C.",
+        "description": "El año 793 marca el inicio de la Era Vikinga con el saqueo de Lindisfarne. Los monasterios cristianos, repletos de oro y sin defensas, se convirtieron en objetivos principales. Inglaterra, Francia e Irlanda temblaron ante el sonido de los cuernos vikingos. Los jarls acumularon riquezas inimaginables, y la fama de los guerreros del norte se extendió por todo el mundo conocido. Esta es TU era, un tiempo de gloria sin igual.",
+        "key_events": ["Saqueo de Lindisfarne (793)", "Sitio de París (845)", "Establecimiento del Danelaw en Inglaterra", "Fundación de Dublín vikingo", "Descubrimiento de Groenlandia"]
+      },
+      {
+        "name": "Era del Presente (875 d.C.)",
+        "period": "Actualidad",
+        "description": "Los reinos vikingos están en su apogeo. Varios jarls compiten por supremacía. Los cristianos predican su fe del dios clavado, amenazando las antiguas tradiciones. Los gigantes se agitan en los bordes del mundo. Las Nornas tejen destinos cada vez más oscuros. Hay rumores de que el Fimbulwinter se acerca, el preludio de Ragnarök. Los héroes de esta era decidirán el destino de Midgard.",
+        "key_events": ["Conflicto entre clanes por el control de Noruega", "Presión cristiana desde el sur", "Avistamientos de criaturas míticas", "Profecías de las Völvas sobre el fin de los tiempos", "Expediciones a tierras desconocidas en el oeste"]
+      },
+      {
+        "name": "El Fimbulwinter (Futuro Profetizado)",
+        "period": "Destino",
+        "description": "Tres inviernos sin verano anunciarán el fin. El lobo Sköll devorará el sol, y Hati consumirá la luna. Fenrir romperá sus cadenas. La serpiente Jörmungandr emergerá del océano. Los gigantes de Muspelheim cruzarán el Bifröst. Loki liderará a los muertos de Hel contra Asgard. En la llanura de Vígríðr, dioses y monstruos librarán la última batalla. Odín será devorado por Fenrir. Thor matará a Jörmungandr pero morirá por su veneno. El mundo arderá y se hundirá en el mar... pero de las aguas surgirá una nueva tierra, y algunos dioses sobrevivirán para reconstruir.",
+        "key_events": ["Fimbulwinter: tres años de invierno eterno", "Liberación de Fenrir y Jörmungandr", "Los muertos de Hel marchan", "Batalla de Vígríðr", "Muerte de Odín, Thor, Freyr y Heimdall", "Resurgimiento del mundo nuevo"]
+      }
+    ]
+  },
+
+  "the_nine_realms": {
+    "description": "El cosmos nórdico está dividido en nueve mundos conectados por Yggdrasil, el Árbol del Mundo",
+    "realms": [
+      {
+        "name": "Asgard",
+        "ruler": "Odín, Padre de Todos",
+        "description": "Reino de los Æsir, los dioses principales. Aquí está el Valhalla, donde los einherjar (guerreros caídos) festejan y entrenan para Ragnarök. Las murallas de Asgard fueron construidas por un gigante engañado por Loki. El Bifröst, el puente arcoíris, lo conecta con Midgard.",
+        "notable_locations": ["Valhalla - Salón de los caídos en batalla", "Valaskjálf - Trono de Odín donde ve los nueve mundos", "Bilskirnir - Palacio de Thor con 540 habitaciones", "Fólkvangr - Salón de Freyja para sus guerreros elegidos"]
+      },
+      {
+        "name": "Midgard",
+        "ruler": "Los Reyes Mortales",
+        "description": "El mundo de los humanos, creado del cuerpo de Ymir. Rodeado por el océano donde habita Jörmungandr, la serpiente del mundo. Los dioses visitan Midgard con frecuencia, disfrazados o en gloria. Es el campo de batalla donde se define el destino.",
+        "notable_locations": ["Escandinavia - Hogar de los vikingos", "Inglaterra - Tierra de saqueo y conquista", "Miklagard (Constantinopla) - Ciudad de riquezas", "Vinland - Tierras lejanas al oeste"]
+      },
+      {
+        "name": "Jötunheim",
+        "ruler": "Thrym, Rey de los Gigantes de Hielo",
+        "description": "Tierra de los gigantes (Jötnar), enemigos ancestrales de los dioses. Un lugar de montañas imposibles, tormentas eternas y frío que mata. Los gigantes son tan antiguos como los dioses, y algunos poseen sabiduría que ni Odín tiene.",
+        "notable_locations": ["Útgarðar - Fortaleza del gigante Útgarða-Loki", "Þrymheimr - Morada de Thrym", "Pozo de Mímir - Fuente de sabiduría infinita"]
+      },
+      {
+        "name": "Vanaheim",
+        "ruler": "Njörðr, Señor de los Vanir",
+        "description": "Reino de los Vanir, dioses de la fertilidad, el mar y la prosperidad. Tras la guerra Æsir-Vanir, se acordó una paz e intercambio de rehenes. Freyr y Freyja son Vanir que viven en Asgard.",
+        "notable_locations": ["Nóatún - Salón de Njörðr junto al mar", "Jardines de Abundancia - Campos que nunca mueren"]
+      },
+      {
+        "name": "Alfheim",
+        "ruler": "Freyr, Señor de los Elfos de Luz",
+        "description": "Hogar de los Ljósálfar (elfos de luz), seres de belleza sobrenatural y magia radiante. Aliados de los dioses, los elfos de luz pueden bendecir o maldecir a los mortales que encuentran.",
+        "notable_locations": ["Corte Brillante - Palacio de luz eterna", "Bosques Dorados - Donde el sol nunca se pone"]
+      },
+      {
+        "name": "Svartálfaheim (Nidavellir)",
+        "ruler": "Hreidmar, Rey de los Enanos",
+        "description": "Reino subterráneo de los enanos (Dvergar), maestros artesanos que forjaron los tesoros de los dioses. Mjölnir, Gungnir, Draupnir... todos fueron creados en estas forjas oscuras. Los enanos temen la luz del sol, que los convierte en piedra.",
+        "notable_locations": ["Las Grandes Forjas - Donde se crean armas legendarias", "Minas de Oro Negro - Riquezas infinitas bajo la tierra", "Salones de Piedra - Ciudad de pilares tallados"]
+      },
+      {
+        "name": "Niflheim",
+        "ruler": "Las Fuerzas del Frío Primordial",
+        "description": "Reino del hielo eterno y la niebla, uno de los dos mundos primordiales. Aquí nace el río Élivágar, cuyas aguas venenosas fluyen hacia el Ginnungagap. Es un lugar de muerte lenta y silenciosa.",
+        "notable_locations": ["Hvergelmir - La fuente de todos los ríos", "Campos de Hielo Eterno - Donde el tiempo se congela"]
+      },
+      {
+        "name": "Muspelheim",
+        "ruler": "Surtr, Señor del Fuego",
+        "description": "Reino del fuego eterno, hogar de los gigantes de fuego. Surtr espera con su espada llameante para quemar el mundo en Ragnarök. El calor de Muspelheim es lo que derrite el hielo de Niflheim para crear vida.",
+        "notable_locations": ["Fortaleza de Fuego de Surtr - Donde arde la espada del fin", "Campos de Ceniza - Tierra sin vida"]
+      },
+      {
+        "name": "Helheim",
+        "ruler": "Hel, Hija de Loki",
+        "description": "Reino de los muertos que no murieron en batalla. Hel, mitad bella mujer y mitad cadáver putrefacto, gobierna sobre los que murieron de enfermedad, vejez o cobardía. No es un lugar de tormento, sino de existencia gris y eterna.",
+        "notable_locations": ["Éljúðnir - Salón de Hel donde se recibe a los muertos", "Náströnd - Playa de cadáveres donde el dragón Níðhöggr devora a los peores", "Las Puertas de Hel - Entrada al reino de los muertos"]
+      }
+    ]
+  },
+
+  "the_gods": {
+    "aesir": [
+      {
+        "name": "Odín",
+        "title": "Padre de Todos, Señor de los Cuervos",
+        "domain": "Sabiduría, guerra, muerte, runas, poesía",
+        "description": "El dios supremo, tuerto desde que sacrificó un ojo en el pozo de Mímir por sabiduría. Se colgó de Yggdrasil durante nueve días, herido por su propia lanza, para obtener el secreto de las runas. Viaja disfrazado de vagabundo anciano probando a los mortales. Sus cuervos Hugin (pensamiento) y Munin (memoria) le traen noticias de los nueve mundos. Elegirá a los guerreros que irán al Valhalla.",
+        "symbols": ["Dos cuervos", "Lanza Gungnir", "Anillo Draupnir", "Un ojo"],
+        "blessings": "Conocimiento oculto, victoria en batalla, don de las runas",
+        "wrath": "Locura, derrota deshonrosa, ser olvidado por la historia"
+      },
+      {
+        "name": "Thor",
+        "title": "El Tronador, Protector de Midgard",
+        "domain": "Trueno, fuerza, protección, tormentas",
+        "description": "El más fuerte de los dioses, hijo de Odín y la giganta Jörð (Tierra). Empuña a Mjölnir, el martillo que siempre regresa, forjado por los enanos. Usa guantes de hierro (Járngreipr) y un cinturón que duplica su fuerza (Megingjörð). Es el defensor de Asgard y Midgard contra los gigantes. Los vikingos lo consideran el más cercano de los dioses.",
+        "symbols": ["Martillo Mjölnir", "Rayos y truenos", "Carro tirado por cabras"],
+        "blessings": "Fuerza sobrehumana, protección contra el mal, victoria sobre monstruos",
+        "wrath": "Tormentas destructivas, ser aplastado por enemigos superiores"
+      },
+      {
+        "name": "Freyr",
+        "title": "Señor de la Lluvia y el Sol",
+        "domain": "Fertilidad, prosperidad, paz, buen tiempo",
+        "description": "Vanir adoptado en Asgard, hermano de Freyja. Gobierna sobre Alfheim, el reino de los elfos de luz. Posee el barco Skíðblaðnir que siempre tiene viento favorable y puede plegarse para caber en un bolsillo. En Ragnarök morirá enfrentando a Surtr, pues regaló su espada mágica por amor a la giganta Gerðr.",
+        "symbols": ["Jabalí dorado Gullinbursti", "Barco Skíðblaðnir", "Falo (fertilidad)"],
+        "blessings": "Cosechas abundantes, buen clima, prosperidad en comercio",
+        "wrath": "Hambruna, sequía, fracaso en el amor"
+      },
+      {
+        "name": "Tyr",
+        "title": "El Manco, Dios del Honor",
+        "domain": "Justicia, guerra honorable, juramentos",
+        "description": "El dios más valiente, que sacrificó su mano derecha para encadenar al lobo Fenrir. Antes de la ascensión de Odín, Tyr era el dios principal de la guerra. Representa el combate justo, no la violencia caótica. Los juramentos hechos en su nombre son inquebrantables.",
+        "symbols": ["Mano cortada", "Espada de justicia", "Cadenas rotas"],
+        "blessings": "Coraje inquebrantable, victoria honorable, respeto de enemigos",
+        "wrath": "Juramento roto, muerte deshonrosa, cobardía en batalla"
+      },
+      {
+        "name": "Heimdall",
+        "title": "El Guardián del Bifröst",
+        "domain": "Vigilancia, protección, el alba",
+        "description": "Hijo de nueve madres (las nueve olas), con oídos tan agudos que puede escuchar crecer la hierba y vista que alcanza cien leguas de día o de noche. Guarda el Bifröst contra la invasión de gigantes. Cuando toque su cuerno Gjallarhorn, anunciará el inicio de Ragnarök. Matará a Loki en la batalla final, pero morirá con él.",
+        "symbols": ["Cuerno Gjallarhorn", "Puente arcoíris", "Dientes de oro"],
+        "blessings": "Sentidos agudizados, advertencias de peligro, protección durante viajes",
+        "wrath": "Ser sorprendido por enemigos, traición no detectada"
+      },
+      {
+        "name": "Baldur",
+        "title": "El Bello, El Luminoso",
+        "domain": "Luz, pureza, paz, sueños",
+        "description": "El más amado de los dioses, hijo de Odín y Frigg. Su muerte, causada por el engaño de Loki, desató eventos que llevarán a Ragnarök. Todo en la creación juró no hacerle daño excepto el muérdago, con el que Loki engañó a Höðr para matarlo. Está en Helheim hasta que el mundo renazca.",
+        "symbols": ["Luz dorada", "Muérdago (su perdición)", "Lágrimas de su madre"],
+        "blessings": "Protección de juramentos, sueños proféticos, carisma",
+        "wrath": "Raramente se enfurece; su ira es tristeza que oscurece el mundo"
+      },
+      {
+        "name": "Loki",
+        "title": "El Embaucador, Padre de Monstruos",
+        "domain": "Engaño, caos, cambio, fuego",
+        "description": "No es un Æsir sino un gigante de sangre, hermano de sangre de Odín. Es padre de Fenrir (el lobo), Jörmungandr (la serpiente del mundo) y Hel (señora de los muertos). Causó la muerte de Baldur y por ello está encadenado bajo la tierra, con veneno de serpiente goteando sobre él. En Ragnarök liderará a los muertos contra los dioses.",
+        "symbols": ["Fuego cambiante", "Serpiente", "Máscara"],
+        "blessings": "Astucia, escapar de situaciones imposibles, cambio de forma",
+        "wrath": "Traición por aliados, planes que fracasan catastróficamente"
+      }
+    ],
+    "vanir": [
+      {
+        "name": "Freyja",
+        "title": "Señora del Amor y la Guerra",
+        "domain": "Amor, fertilidad, guerra, magia seiðr, muerte",
+        "description": "La más bella de las diosas, hermana de Freyr. Elige la mitad de los guerreros caídos para su salón Fólkvangr (la otra mitad va con Odín). Posee el collar Brísingamen y un manto de plumas de halcón que permite volar. Es la maestra de la magia seiðr, que enseñó a Odín.",
+        "symbols": ["Collar Brísingamen", "Gatos tirando su carro", "Halcón"],
+        "blessings": "Amor apasionado, victoria en batalla, poder mágico",
+        "wrath": "Corazón roto, obsesión destructiva, muerte violenta"
+      },
+      {
+        "name": "Njörðr",
+        "title": "Señor de los Mares y la Riqueza",
+        "domain": "Mar, viento, riqueza, pesca",
+        "description": "Padre de Freyr y Freyja, señor de los Vanir que vino a Asgard como rehén de paz. Calma los mares para los marineros que lo honran. Su matrimonio con la giganta Skaði fracasó porque él ama el mar y ella las montañas.",
+        "symbols": ["Olas del mar", "Redes de pesca", "Oro del mar"],
+        "blessings": "Navegación segura, pesca abundante, riqueza comercial",
+        "wrath": "Tormentas marinas, naufragios, pobreza"
+      }
+    ],
+    "other_beings": [
+      {
+        "name": "Las Nornas",
+        "title": "Tejedoras del Destino",
+        "domain": "Destino, pasado, presente, futuro",
+        "description": "Tres gigantes que tejen el destino de todos los seres en el Pozo de Urðr bajo Yggdrasil. Urðr (lo que fue), Verðandi (lo que es) y Skuld (lo que será). Ni siquiera los dioses pueden escapar de lo que tejen, aunque los héroes pueden desafiar sus hilos por un tiempo.",
+        "symbols": ["Telar del destino", "Tres mujeres de diferentes edades", "Hilos de vida"]
+      },
+      {
+        "name": "Las Valquirias",
+        "title": "Elegidoras de los Caídos",
+        "domain": "Muerte honorable, batalla, el Valhalla",
+        "description": "Guerreras divinas que sirven a Odín. Vuelan sobre los campos de batalla eligiendo a los guerreros más valientes para llevarlos al Valhalla. Son hermosas y terribles, y su favor puede significar gloria eterna. Algunas han amado a mortales, siempre con consecuencias trágicas.",
+        "notable_valkyries": ["Brunilda - La más famosa, castigada por Odín", "Skuld - También una Norna", "Göndul - Portadora de la lanza de guerra", "Hildr - Cuyo nombre significa batalla"]
+      }
+    ]
+  },
+
   "factions": [
-    {"name": "Clan del Lobo", "description": "Tu clan familiar - guerreros feroces", "alignment": "Neutral", "influence": 2},
-    {"name": "Los Berserkers", "description": "Guerreros poseídos por furia divina", "alignment": "Caótico Neutral", "influence": 1},
-    {"name": "Seguidores de Odín", "description": "Sacerdotes y videntes del Padre de Todos", "alignment": "Neutral", "influence": 2},
-    {"name": "Mercaderes del Este", "description": "Comerciantes de Miklagard (Bizancio)", "alignment": "Neutral", "influence": 1},
-    {"name": "Los Anglosajones", "description": "Reinos cristianos del sur - víctimas de incursiones", "alignment": "Bueno", "influence": 1}
+    {
+      "name": "Clan del Lobo (Úlfhéðnar)",
+      "description": "Tu clan familiar - guerreros feroces que visten pieles de lobo. Fundado por un ancestro que bebió la sangre de un lobo de Fenrir. Conocidos por su ferocidad en batalla y su lealtad inquebrantable. La manada es todo.",
+      "alignment": "Neutral",
+      "influence": 3,
+      "leader": "Jarl Bjorn Lobo-Negro",
+      "leader_description": "Un veterano de cincuenta batallas, su barba gris trenzada con huesos de enemigos. Perdió un brazo contra un troll pero sigue siendo el mejor estratega del norte. Su palabra es ley.",
+      "base_of_operations": "Ulfsfjord - Un fiordo protegido donde los drakkars pueden ocultarse",
+      "goals": ["Mantener la independencia del clan", "Encontrar nuevas tierras para saquear", "Prepararse para el Fimbulwinter"],
+      "resources": ["Flota de 12 drakkars", "200 guerreros juramentados", "Forjadores de armas excepcionales"],
+      "relationships": {
+        "Los Berserkers": "Alianza de sangre - muchos Úlfhéðnar son berserkers",
+        "Seguidores de Odín": "Respeto mutuo - el jarl consulta a las völvas",
+        "Clan del Oso": "Rivalidad mortal desde hace tres generaciones",
+        "Los Anglosajones": "Presas favoritas - Inglaterra es oro"
+      }
+    },
+    {
+      "name": "Los Berserkers",
+      "description": "Guerreros poseídos por furia divina que no sienten dolor en batalla. Algunos dicen que son bendecidos por Odín; otros, que están malditos. En combate entran en un frenesí donde no distinguen amigo de enemigo.",
+      "alignment": "Caótico Neutral",
+      "influence": 2,
+      "leader": "El Sin Nombre",
+      "leader_description": "Nadie conoce su nombre verdadero. Lleva una máscara de hierro fundida a su rostro en batalla. Se dice que no ha hablado en diez años, comunicándose solo con gruñidos y gestos. Es el berserker más temido vivo.",
+      "base_of_operations": "Sin hogar fijo - vagan de batalla en batalla",
+      "goals": ["Encontrar una muerte gloriosa", "Servir a jarls que ofrezcan batallas dignas", "Alcanzar el Valhalla con honor máximo"],
+      "resources": ["100 berserkers veteranos", "Secretos de la furia ritual", "Terror como arma"],
+      "relationships": {
+        "Clan del Lobo": "Aliados de guerra - varios Úlfhéðnar son berserkers",
+        "Seguidores de Odín": "Conexión espiritual - los berserkers son favoritos de Odín",
+        "Todos los clanes": "Mercenarios buscados pero temidos",
+        "El Sin Nombre": "Nadie sabe su lealtad verdadera"
+      }
+    },
+    {
+      "name": "Seguidores de Odín (Los Videntes)",
+      "description": "Sacerdotes, völvas (videntes) y guardianes de la tradición. Interpretan las runas, realizan sacrificios, y mantienen el favor de los dioses. Su poder no está en la espada sino en el conocimiento.",
+      "alignment": "Neutral",
+      "influence": 4,
+      "leader": "Völva Grimhild la Ciega",
+      "leader_description": "Una anciana de más de cien años que perdió la vista pero ganó la visión verdadera. Los dioses le hablan directamente. Sus profecías nunca han fallado, aunque siempre son crípticas. Los jarls viajan semanas para consultarla.",
+      "base_of_operations": "El Templo de Uppsala - El santuario más sagrado del norte",
+      "goals": ["Mantener el favor de los dioses", "Interpretar las señales del Ragnarök", "Preservar las antiguas tradiciones contra el cristianismo"],
+      "resources": ["Conocimiento de runas", "Red de espías en todos los reinos", "Artefactos sagrados", "Venenos y remedios"],
+      "relationships": {
+        "Todos los clanes": "Respetados y temidos - nadie ataca a un völva",
+        "Los Cristianos": "Enemigos mortales - la nueva fe es una amenaza existencial",
+        "Los Dioses": "Conexión directa - los videntes son la voz de los dioses"
+      }
+    },
+    {
+      "name": "Mercaderes del Este (Varangios)",
+      "description": "Vikingos que comercian más que saquean, conectando el norte con Bizancio y el califato. Traen seda, especias y oro a cambio de pieles, ámbar y esclavos. Algunos sirven como guardia de élite del emperador en Constantinopla.",
+      "alignment": "Neutral",
+      "influence": 3,
+      "leader": "Harald Ojo-de-Plata",
+      "leader_description": "Un vikingo que perdió un ojo en batalla y lo reemplazó con una esfera de plata bizantina. Ha navegado hasta Bagdad y sobrevivido. Su red comercial es la más grande del mundo vikingo. Dicen que tiene amigos en cada puerto.",
+      "base_of_operations": "Birka - El gran mercado del norte",
+      "goals": ["Expandir las rutas comerciales", "Acumular riqueza", "Establecer contactos en Miklagard", "Evitar guerras que interrumpan el comercio"],
+      "resources": ["Flota mercante de 30 barcos", "Oro y plata", "Contactos en Bizancio", "Mapas de rutas secretas"],
+      "relationships": {
+        "Todos los clanes": "Relaciones comerciales - todos necesitan lo que traen",
+        "Bizancio": "Alianza comercial y militar (Guardia Varangia)",
+        "Los Saqueadores": "Tensión - los saqueos arruinan el comercio",
+        "Los Califatos": "Comercio cauteloso - los árabes pagan bien por esclavos"
+      }
+    },
+    {
+      "name": "Los Anglosajones",
+      "description": "Los reinos cristianos de Inglaterra - Wessex, Mercia, Northumbria. Víctimas principales de las incursiones vikingas, pero están aprendiendo a defenderse. Algunos jarls vikingos se han asentado en el Danelaw, creando una cultura híbrida.",
+      "alignment": "Legal Bueno",
+      "influence": 3,
+      "leader": "Rey Alfredo de Wessex",
+      "leader_description": "El único rey inglés que ha derrotado a los vikingos en batalla. Estudioso, estratega y devoto cristiano. Está construyendo fortalezas (burhs) y una flota para defender su reino. Los vikingos lo respetan como enemigo digno.",
+      "base_of_operations": "Winchester - Capital de Wessex",
+      "goals": ["Expulsar a los vikingos de Inglaterra", "Unificar los reinos anglosajones", "Difundir el cristianismo"],
+      "resources": ["Ejército de fyrd (milicias)", "Fortalezas defensivas", "Fe cristiana", "Apoyo del Papa"],
+      "relationships": {
+        "Todos los vikingos": "Enemigos mortales - pero pueden negociar",
+        "El Danelaw": "Tensión - vikingos asentados en territorio inglés",
+        "La Iglesia": "Alianza total - los monasterios financian la defensa",
+        "Francia": "Aliados contra la amenaza vikinga común"
+      }
+    },
+    {
+      "name": "Clan del Oso (Bjarnar)",
+      "description": "Rival mortal del Clan del Lobo. Guerreros que visten pieles de oso y reclaman descender del dios Bjorn, hijo de Odín transformado en oso. El conflicto entre lobos y osos ha durado tres generaciones.",
+      "alignment": "Neutral Maligno",
+      "influence": 3,
+      "leader": "Jarl Ivar el Despiadado",
+      "leader_description": "Un guerrero cruel que ganó su posición matando a sus propios hermanos. Odia al Clan del Lobo con pasión personal - Bjorn Lobo-Negro mató a su padre. No descansará hasta destruir a los Úlfhéðnar.",
+      "base_of_operations": "Björnheim - Una fortaleza en las montañas",
+      "goals": ["Destruir al Clan del Lobo", "Convertirse en el clan dominante del norte", "Saquear suficiente para comprar mercenarios"],
+      "resources": ["150 guerreros veteranos", "Alianzas con clanes menores", "Minas de hierro"],
+      "relationships": {
+        "Clan del Lobo": "Enemistad mortal - guerra abierta",
+        "Los Berserkers": "Intentan reclutarlos con oro",
+        "Clanes neutrales": "Presión para elegir bando"
+      }
+    },
+    {
+      "name": "Los Hijos de Loki",
+      "description": "Un culto secreto que adora al Embaucador. Creen que Ragnarök no es un fin sino un nuevo comienzo, y trabajan para acelerarlo. Usan engaño, veneno y asesinato. Algunos son cambiaformas.",
+      "alignment": "Caótico Maligno",
+      "influence": 1,
+      "leader": "Desconocido",
+      "leader_description": "El líder del culto es un misterio. Algunos dicen que es el propio Loki liberado temporalmente. Otros que es un mortal poseído. Nadie que ha buscado la verdad ha regresado.",
+      "base_of_operations": "En las sombras - células secretas en cada ciudad importante",
+      "goals": ["Liberar a Loki de sus cadenas", "Acelerar Ragnarök", "Sembrar caos y desconfianza"],
+      "resources": ["Red de espías", "Venenos exóticos", "Magia oscura", "Secretos comprometedores"],
+      "relationships": {
+        "Seguidores de Odín": "Enemigos mortales - los videntes los cazan",
+        "Todos los clanes": "Infiltrados en cada uno",
+        "Jötnar": "Alianza secreta con algunos gigantes"
+      }
+    }
   ],
 
   "locations": [
-    {"name": "Aldea Nórdica", "description": "Tu hogar - salón comunal y puerto", "type": "aldea", "danger_level": 0},
-    {"name": "Bosque de los Espíritus", "description": "Árboles antiguos donde moran dioses menores", "type": "bosque", "danger_level": 3},
-    {"name": "Monasterio Costero", "description": "Tesoros sin defensa - objetivo de incursión", "type": "monasterio", "danger_level": 2},
-    {"name": "Montañas de los Trolls", "description": "Hogar de gigantes y criaturas ancestrales", "type": "montaña", "danger_level": 4},
-    {"name": "Templo de Odín", "description": "Lugar sagrado donde se hacen sacrificios", "type": "templo", "danger_level": 1},
-    {"name": "Alta Mar", "description": "Mares traicioneros llenos de monstruos", "type": "mar", "danger_level": 3},
-    {"name": "Miklagard", "description": "Constantinopla - ciudad de riquezas inimaginables", "type": "ciudad", "danger_level": 2},
-    {"name": "Helheim", "description": "Reino de los muertos deshonrados", "type": "otro_plano", "danger_level": 5}
+    {
+      "name": "Ulfsfjord (Aldea Nórdica)",
+      "description": "Tu hogar - un fiordo protegido donde el Clan del Lobo ha vivido por generaciones. Casas largas de madera con techos de turba, un gran salón donde el jarl celebra festines, y un puerto natural donde descansan los drakkars. Aquí naciste, aquí te criaste, y si mueres con honor, aquí cantarán tu saga.",
+      "type": "aldea",
+      "danger_level": 1,
+      "notable_features": ["Gran Salón de Bjorn - Centro de reuniones y festines", "Puerto de los Lobos - Donde se guardan los drakkars", "Forja de Gunnar - El mejor herrero del norte", "Árbol de los Ancestros - Roble sagrado donde se cuelgan ofrendas", "Campos de Entrenamiento - Donde los jóvenes aprenden a luchar"],
+      "encounters": ["Festín con canciones y desafíos", "Entrenamiento con guerreros veteranos", "Asuntos del Thing (asamblea)", "Preparación para incursión", "Llegada de comerciantes o viajeros"],
+      "secrets": "Bajo el Gran Salón hay una cueva donde se dice que un lobo de Fenrir fue enterrado vivo. En noches de luna nueva, se escuchan aullidos bajo la tierra.",
+      "plot_hooks": ["El jarl te convoca para una misión especial", "Un berserker forastero desafía tu honor", "Rumores de que el Clan del Oso planea un ataque", "Una völva llega con una profecía sobre ti"]
+    },
+    {
+      "name": "Bosque de los Espíritus (Járnviðr)",
+      "description": "Un bosque antiguo donde los árboles son tan viejos como los dioses. Aquí moran espíritus, trolls y criaturas que no tienen nombre. Los videntes vienen a buscar visiones. Los cazadores vienen a probar su valía. Muchos entran. Pocos salen cuerdos.",
+      "type": "bosque",
+      "danger_level": 4,
+      "notable_features": ["Claro de las Runas - Piedras con runas antiguas que brillan de noche", "El Árbol Sangrante - Un roble que llora savia roja", "Cueva de la Völva Gris - Hogar de una vidente ermitaña", "Sendero de los Muertos - Camino que dicen lleva a Helheim"],
+      "encounters": ["Trolls de bosque que exigen tributo", "Espíritus de guerreros caídos", "Lobos gigantes con inteligencia humana", "Visiones del pasado o futuro", "Drugar (muertos vivientes) en tumbas antiguas"],
+      "secrets": "En el corazón del bosque hay un portal a Jötunheim que solo se abre en el solsticio de invierno. Un gigante lo guarda, pero puede ser engañado.",
+      "plot_hooks": ["Algo está matando a los cazadores - ningún cuerpo es encontrado", "La völva del bosque te ha convocado", "Se necesitan hierbas raras para curar una plaga", "Un guerrero perdido debe ser rescatado antes de la luna llena"]
+    },
+    {
+      "name": "Monasterio de Lindisfarne",
+      "description": "El primer monasterio saqueado por vikingos, ahora parcialmente reconstruido. Los monjes viven en terror, pero siguen acumulando oro y manuscritos. Las defensas han mejorado pero siguen siendo patéticas para estándares vikingos. Un objetivo tentador.",
+      "type": "monasterio",
+      "danger_level": 2,
+      "notable_features": ["Iglesia de Piedra - Donde se guarda el oro sagrado", "Scriptorium - Manuscritos con iluminaciones de oro", "Cementerio Sagrado - Donde entierran a sus santos", "Torres de Vigilancia - Nuevas, pero mal tripuladas", "Aldea de Pescadores - Siervos que podrían ser esclavizados"],
+      "encounters": ["Monjes rezando (no combatientes)", "Guardias sajones (pocos y mal entrenados)", "Aldeanos que intentan huir", "Abadía que ofrece rescate", "Un monje guerrero que era vikingo antes de convertirse"],
+      "secrets": "El abad tiene un secreto: conoce la ubicación de una reliquia que supuestamente puede invocar la protección de su dios. Si es verdad, podría ser peligroso.",
+      "plot_hooks": ["El jarl ordena una incursión de prueba", "Un monje escapado trae información sobre tesoros mayores", "Se rumorea que hay un vikingo prisionero allí", "Los sajones están preparando una emboscada"]
+    },
+    {
+      "name": "Montañas de los Trolls (Jötunnsfjall)",
+      "description": "Picos helados donde solo los locos o los héroes se aventuran. Hogar de trolls, gigantes de hielo y criaturas más antiguas. El clima solo puede matar. Pero en estas montañas hay tesoros de eras pasadas y entradas a Jötunheim.",
+      "type": "montaña",
+      "danger_level": 5,
+      "notable_features": ["Cueva del Rey Troll - Morada de Grímr el Viejo", "Glaciar de los Caídos - Donde guerreros congelados esperan Ragnarök", "Templo Abandonado - Ruinas de un culto olvidado", "Paso de los Huesos - Único camino transitable, lleno de esqueletos", "Pico de las Tormentas - Donde Thor supuestamente luchó contra un gigante"],
+      "encounters": ["Trolls de hielo y roca", "Tormentas sobrenaturales", "Gigantes de Jötunheim", "Espíritus de guerreros congelados", "El propio Thor si la tormenta es suficientemente épica"],
+      "secrets": "En la montaña más alta hay una forja enana abandonada. Todavía contiene herramientas capaces de crear armas legendarias, pero está guardada por un dragón de hielo dormido.",
+      "plot_hooks": ["Un guerrero legendario fue visto entrando - nadie lo vio salir", "Se necesita un ingrediente que solo crece aquí", "Los trolls están bajando en números inusuales - algo los empuja", "Una profecía indica que tu destino está en la cima"]
+    },
+    {
+      "name": "Templo de Uppsala",
+      "description": "El santuario más sagrado del norte. Cada nueve años se celebra el Gran Sacrificio donde nueve de cada criatura viviente son ofrecidos a los dioses. Aquí se toman las decisiones que afectan a todos los clanes. Aquí los dioses caminan entre mortales.",
+      "type": "templo",
+      "danger_level": 2,
+      "notable_features": ["Gran Templo - Donde se realizan sacrificios a Odín, Thor y Freyr", "Bosque Sagrado - Donde cuelgan los cuerpos de los sacrificios", "Pozos de Sangre - Donde se vierten ofrendas líquidas", "Casa de las Völvas - Donde viven las videntes más poderosas", "El Mercado Sagrado - Feria que acompaña las celebraciones"],
+      "encounters": ["Sacerdotes y völvas realizando rituales", "Peregrinos de todos los clanes", "Comerciantes de artefactos sagrados", "Espías de clanes rivales", "Manifestaciones divinas durante rituales"],
+      "secrets": "Bajo el templo hay una cámara donde las Nornas tejieron una copia del tapiz del destino para Midgard. Verlo puede revelar tu futuro... o destruir tu cordura.",
+      "plot_hooks": ["El Gran Sacrificio se acerca - debes conseguir un sacrificio digno", "Una völva te convoca para una misión divina", "Alguien está asesinando sacerdotes", "Los dioses exigen un campeón para una tarea"]
+    },
+    {
+      "name": "Alta Mar (Mar del Norte)",
+      "description": "El camino de los vikingos hacia la gloria. Mares traicioneros donde Njörðr puede bendecir o Rán puede ahogar. Tormentas, monstruos marinos, y la promesa de tierras ricas al otro lado. El drakkar es tu hogar lejos del hogar.",
+      "type": "mar",
+      "danger_level": 4,
+      "notable_features": ["Rutas hacia Inglaterra - Saqueo garantizado", "Ruta del Este - Hacia Miklagard y más allá", "Islas Orcadas - Punto intermedio con poblaciones vikingas", "Corrientes de la Muerte - Donde muchos barcos se pierden", "Banco de la Serpiente - Donde se dice que Jörmungandr duerme"],
+      "encounters": ["Tormentas enviadas por los dioses", "Serpientes marinas y krakens", "Barcos enemigos (sajones, francos, otros vikingos)", "Barcos fantasma de los ahogados", "Islas desconocidas con tesoros o peligros"],
+      "secrets": "En las profundidades, Rán colecciona ahogados en su salón submarino. Si la agradas con ofrendas de oro, puede devolver a un ser querido... pero siempre con un precio.",
+      "plot_hooks": ["Tormenta te arrastra a tierras desconocidas", "Encuentro con barco de otro clan - ¿amigo o enemigo?", "Avistamiento de criatura marina gigante", "El navegante está perdido - las estrellas no son las correctas"]
+    },
+    {
+      "name": "Miklagard (Constantinopla)",
+      "description": "La ciudad de las ciudades. Los vikingos la llaman Miklagard, 'La Gran Ciudad'. Capital del Imperio Romano de Oriente, con riquezas que superan la imaginación de cualquier jarl. Los vikingos más audaces sirven en la Guardia Varangia del emperador. Seda, oro, especias, maravillas.",
+      "type": "ciudad",
+      "danger_level": 3,
+      "notable_features": ["Hipódromo - Donde corren carros ante miles", "Santa Sofía - La iglesia más grande del mundo", "Palacio Imperial - Hogar del emperador y su guardia", "Gran Bazar - Donde se vende todo lo imaginable", "Puerto Dorado - Entrada a la ciudad desde el mar"],
+      "encounters": ["Guardias Varángios (vikingos imperiales)", "Comerciantes de toda tierra conocida", "Espías del emperador", "Nobles decadentes con secretos", "Asesinos en las sombras"],
+      "secrets": "El emperador tiene un tesoro que supera todo lo que los vikingos han robado jamás. Está guardado por magia bizantina y la Guardia Varangia. Nadie lo ha robado. Todavía.",
+      "plot_hooks": ["Oferta de unirse a la Guardia Varangia", "Misión de asesinato con pago imperial", "Robo imposible para un jarl desesperado", "Encontrar a un vikingo desaparecido en la ciudad"]
+    },
+    {
+      "name": "El Danelaw",
+      "description": "Territorios en Inglaterra bajo control vikingo. Una mezcla de culturas donde vikingos se han asentado, tomado esposas sajonas, y construido una sociedad híbrida. Algunos jarls aquí ya no saquean - gobiernan.",
+      "type": "reino",
+      "danger_level": 2,
+      "notable_features": ["Jorvik (York) - La capital del Danelaw", "Granjas vikingas - Tierra fértil trabajada por esclavos sajones", "Iglesias convertidas - Ahora templos a los dioses nórdicos", "Mercados prósperos - Comercio entre culturas", "Fortalezas de jarls - Poder local establecido"],
+      "encounters": ["Vikingos asentados con familias mixtas", "Sajones resentidos bajo dominio vikingo", "Jarls locales compitiendo por poder", "Misioneros cristianos persistentes", "Espías de Wessex preparando rebelión"],
+      "secrets": "Hay una profecía de que si los vikingos del Danelaw se unen con los de Escandinavia, podrían conquistar toda Inglaterra. El rey Alfredo lo sabe y trabaja para evitarlo.",
+      "plot_hooks": ["Un jarl del Danelaw te ofrece tierras a cambio de lealtad", "Rebelión sajona amenaza las posesiones vikingas", "Un familiar se ha convertido al cristianismo", "Mapas de la defensa de Wessex a la venta"]
+    },
+    {
+      "name": "Niflheim (El Camino a Hel)",
+      "description": "No llegas aquí por accidente. El reino del hielo eterno es un viaje de desesperación o necesidad absoluta. Los vivos pueden entrar si conocen el camino y tienen el valor. Salir es otra historia.",
+      "type": "otro_plano",
+      "danger_level": 5,
+      "notable_features": ["Río Gjöll - Frontera del mundo de los muertos", "Puente Gjallarbrú - Guardado por la giganta Módguðr", "Gnipahellir - Cueva donde Garmr, el perro de Hel, espera", "Éljúðnir - Salón de Hel donde moran los muertos", "Náströnd - Orilla de cadáveres donde sufren los peores"],
+      "encounters": ["Muertos sin honor vagando por la niebla", "Garmr el perro de Hel", "Hel misma si tienes suerte (o desgracia)", "Recuerdos de tu pasado manifestados", "Los que murieron de enfermedad, vejez o cobardía"],
+      "secrets": "Es posible traer a alguien de vuelta de Helheim, pero el precio es siempre otro alma. Y Hel no perdona a los que rompen sus tratos.",
+      "plot_hooks": ["Un ser querido murió sin honor - debes rescatarlo", "Se necesita información que solo un muerto tiene", "Un enemigo se esconde entre los muertos", "Una deuda con Hel debe ser pagada"]
+    },
+    {
+      "name": "Vinland (Tierras del Oeste)",
+      "description": "Costas lejanas más allá de Islandia y Groenlandia. Tierras de bosques infinitos, uvas silvestres, y pueblos extraños que nunca han visto vikingos. Pocos han llegado. Menos han regresado. ¿Qué secretos guardan estas tierras?",
+      "type": "tierras_desconocidas",
+      "danger_level": 4,
+      "notable_features": ["Costas Boscosas - Madera ilimitada", "Aldeas Skræling - Nativos de piel roja", "Ruinas Antiguas - ¿Quién construyó esto?", "Bestias Desconocidas - Animales que no existen en Europa", "Ríos de Salmón - Comida abundante"],
+      "encounters": ["Skrælings (nativos americanos) - ¿hostiles o amigables?", "Bestias nunca vistas", "Tormentas oceánicas en el viaje", "Enfermedades desconocidas", "Exploradores vikingos perdidos"],
+      "secrets": "Hay ruinas en Vinland que no fueron construidas por los Skrælings. Son más antiguas que cualquier cosa en Europa. Algo vivió aquí antes que los humanos.",
+      "plot_hooks": ["Expedición para establecer una colonia", "Buscar a exploradores perdidos años atrás", "Rumores de oro en ríos lejanos", "Los Skrælings tienen artefactos que no deberían existir"]
+    }
   ],
 
   "archetypes": [
     {
       "id": "berserker",
       "name": "Berserker",
-      "description": "Guerrero que pelea con furia divina sin sentir dolor",
+      "description": "Guerrero que pelea con furia divina sin sentir dolor. Bendecido (o maldecido) por Odín, entras en un trance de batalla donde no conoces miedo ni piedad. Los enemigos huyen ante tu presencia. Tus aliados te respetan... y te temen.",
       "simple_description": "En batalla, entrás en frenesí sagrado. No sentís dolor. Tu furia es legendaria. Los enemigos te temen.",
       "starting_stats": {"hp": 28, "maxHp": 28, "combat": 6, "exploration": 2, "social": 1, "lore": 1},
       "starting_inventory": ["Hacha de guerra danesa", "Piel de oso", "Amuleto de Odín", "Cuerno de hidromiel", "Pintura de guerra"],
-      "special_ability": "Furia Berserker: En combate, no podés morir hasta que termine (quedás con 1 HP). Después colapsás exhausto"
+      "special_ability": "Furia Berserker: En combate, no podés morir hasta que termine (quedás con 1 HP). Después colapsás exhausto",
+      "background": {
+        "origin": "Nadie nace berserker. El don llega en un momento de desesperación - una batalla perdida, la muerte de seres queridos, una herida mortal que no mata. Algo se rompe dentro. Algo se despierta. La primera vez que entraste en furia, no recordás nada. Solo los cuerpos después.",
+        "training": "No hay maestros de berserkers. La furia no se enseña. Pero los veteranos comparten secretos: hongos que facilitan el trance, cantos que invocan a Odín, rituales de sangre. Cada berserker encuentra su propio camino hacia la bestia interior.",
+        "social_standing": "Sos respetado y temido. En batalla, todos quieren un berserker a su lado. En paz, te evitan. Nadie confía completamente en alguien que puede perder el control. Pero ningún jarl rechaza tu hacha.",
+        "daily_life": "Cuando no hay batalla, luchas contra el vacío. La furia es como una droga - sin ella, el mundo parece gris. Bebés más que otros. Peleas más que otros. Buscás conflictos porque en ellos te sentís vivo. Algunos berserkers nunca envejecen. La furia los consume antes."
+      },
+      "advancement": {
+        "level_2": {"unlock": "Frenesí Menor - Podés entrar en furia parcial sin perder control total", "stat_boost": {"hp": 4, "combat": 1}},
+        "level_3": {"unlock": "Resistencia al Frío - La furia te calienta incluso en tormentas de nieve", "stat_boost": {"hp": 4, "exploration": 1}},
+        "level_4": {"unlock": "Terror de Batalla - Los enemigos deben pasar una prueba para no huir", "stat_boost": {"combat": 1, "social": 1}},
+        "level_5": {"unlock": "Forma del Oso/Lobo - En plena furia, transformación parcial en bestia", "stat_boost": {"hp": 6, "combat": 2}}
+      },
+      "relationships": {
+        "clan": "Te valoran como arma. Te temen como persona. La manada acepta al lobo rabioso mientras cace para ellos.",
+        "gods": "Odín te mira con favor. Thor respeta tu fuerza. Loki se ríe de tu falta de control. Tyr cuestiona tu honor.",
+        "enemies": "No tenés enemigos. Tenés presas. Algunos tardan más en morir que otros."
+      },
+      "notable_berserkers": [
+        "Kveldulf - El abuelo de Egil, poeta y berserker. Podía transformarse en lobo.",
+        "Arngrim - Berserker de doce brazos que servía al rey de Garðaríki.",
+        "Hjalti - Que luchó solo contra cien hombres en Fyrisvellir."
+      ]
     },
     {
       "id": "skald",
       "name": "Skald (Bardo)",
-      "description": "Poeta y narrador que inmortaliza hazañas en canciones",
+      "description": "Poeta, cantor e historiador. Tus palabras tienen poder: podés inmortalizar o destruir la reputación de un guerrero. Los skalds recuerdan las sagas, componen nuevas, y su lengua afilada puede ser más letal que cualquier espada. En una cultura donde la fama eterna importa más que la vida, vos controlás quién será recordado.",
       "simple_description": "Tus palabras inspiran a guerreros. Conocés las sagas antiguas. Tu lengua es tan poderosa como cualquier espada.",
       "starting_stats": {"hp": 16, "maxHp": 16, "combat": 2, "exploration": 3, "social": 5, "lore": 4},
       "starting_inventory": ["Lira de madera", "Pergaminos de sagas", "Ropa fina", "Anillo de plata", "Favor de un jarl"],
-      "special_ability": "Canto de Batalla: Tus aliados reciben +2 a combate mientras cantás. Podés desmoralizar enemigos con insultos épicos"
+      "special_ability": "Canto de Batalla: Tus aliados reciben +2 a combate mientras cantás. Podés desmoralizar enemigos con insultos épicos",
+      "background": {
+        "origin": "Desde joven mostraste talento con las palabras. Mientras otros niños jugaban con espadas de madera, vos memorizabas las sagas de los ancestros. Un skald viajero te escuchó recitar y te tomó como aprendiz. Te enseñó el arte de la poesía escáldica: kennings, metro, aliteración.",
+        "training": "Un skald debe conocer cientos de sagas de memoria. Debe improvisar versos en el calor de batalla o el festín. Debe saber qué decir para inspirar valor o destruir honor. Tu entrenamiento incluyó viajes a cada corte del norte, aprendiendo las historias locales.",
+        "social_standing": "Los skalds son intocables. Atacar a uno es peor que matar a un niño. Incluso los enemigos te dan paso seguro. Los jarls compiten por tu favor porque tu poema puede hacerlos inmortales o ridículos.",
+        "daily_life": "Viajás de corte en corte, festín en festín. Tu pago es hospitalidad, regalos, y respeto. Observás todo: las batallas, los romances, las traiciones. Todo se convierte en material. Nunca bebés demasiado - siempre debés estar listo para cantar."
+      },
+      "advancement": {
+        "level_2": {"unlock": "Nið (Poema de Vergüenza) - Tus insultos causan daño real a la reputación", "stat_boost": {"social": 2, "lore": 1}},
+        "level_3": {"unlock": "Voz del Trueno - Tu canto se escucha sobre el ruido de batalla", "stat_boost": {"hp": 2, "combat": 1}},
+        "level_4": {"unlock": "Conocedor de Runas - Podés leer y escribir runas mágicas básicas", "stat_boost": {"lore": 2, "exploration": 1}},
+        "level_5": {"unlock": "Galdr (Magia de Canto) - Tus cantos tienen efectos mágicos menores", "stat_boost": {"social": 2, "lore": 2}}
+      },
+      "relationships": {
+        "clan": "Sos el guardián de su historia. Te respetan como la memoria viviente del clan.",
+        "gods": "Bragi, dios de la poesía, es tu patrón. Odín, que inventó las runas, te inspira.",
+        "enemies": "No peleas directamente. Destruís con palabras. Un Nið bien compuesto puede llevar a un guerrero al suicidio."
+      },
+      "notable_skalds": [
+        "Bragi Boddason - El primer skald, ahora dios de la poesía.",
+        "Egil Skallagrímsson - Poeta, guerrero, berserker y mago. El skald más famoso.",
+        "Sigvatr Þórðarson - Skald del rey Olaf, que salvó su vida con un poema."
+      ]
     },
     {
       "id": "shieldmaiden",
-      "name": "Doncella Escudera",
-      "description": "Guerrera que demostró su valía en combate",
+      "name": "Doncella Escudera (Skjaldmær)",
+      "description": "Guerrera que ha demostrado su valía en combate. En una sociedad donde los hombres guerrean, elegiste tomar el escudo y la espada. Tuviste que ser el doble de buena para ganar la mitad del respeto, pero ahora nadie cuestiona tu lugar en el muro de escudos.",
       "simple_description": "Luchás tan bien como cualquier hombre. Tu escudo protege a tus compañeros. Has ganado tu lugar en el salón.",
       "starting_stats": {"hp": 22, "maxHp": 22, "combat": 4, "exploration": 3, "social": 3, "lore": 2},
       "starting_inventory": ["Espada y escudo", "Cota de mallas", "Lanza de caza", "Cuchillo de sacrificio", "Amuleto de Freyja"],
-      "special_ability": "Muro de Escudos: Podés proteger a aliados adyacentes. Los ataques a ellos te afectan a vos en su lugar"
+      "special_ability": "Muro de Escudos: Podés proteger a aliados adyacentes. Los ataques a ellos te afectan a vos en su lugar",
+      "background": {
+        "origin": "Las razones varían. Algunas nacen en familias sin hijos varones. Otras rechazan el telar por la espada. Algunas buscan venganza. Vos tomaste las armas porque era lo correcto para vos. Tu familia lo aceptó... eventualmente.",
+        "training": "Tuviste que entrenar el doble para que te tomaran en serio. Cada moretón, cada hueso roto, lo soportaste sin quejarte. Cuando finalmente venciste al mejor guerrero joven del clan, callaste a los dudosos. Pero siempre hay nuevos dudosos.",
+        "social_standing": "Respeto ganado con sangre. Los guerreros que han peleado a tu lado no cuestionan tu valor. Los que no, necesitan una demostración. Las otras mujeres te ven con mezcla de admiración y confusión.",
+        "daily_life": "Entre batallas, entrenás. Siempre entrenás. No podés permitirte oxidarte. También participás en las tareas del clan - nadie está por encima del trabajo comunal. Pero cuando suena el cuerno de guerra, estás primera en la línea."
+      },
+      "advancement": {
+        "level_2": {"unlock": "Golpe de Escudo - Tu escudo es también un arma", "stat_boost": {"combat": 1, "hp": 3}},
+        "level_3": {"unlock": "Líder de Escudos - Podés coordinar formaciones defensivas", "stat_boost": {"social": 2, "combat": 1}},
+        "level_4": {"unlock": "Furia de Freyja - La diosa te bendice en combate", "stat_boost": {"combat": 2, "hp": 4}},
+        "level_5": {"unlock": "Semivalquiria - Rumores dicen que Freyja te ha elegido", "stat_boost": {"combat": 2, "exploration": 1, "lore": 2}}
+      },
+      "relationships": {
+        "clan": "Te ganaste tu lugar. Los veteranos te respetan. Los jóvenes quieren impresionarte.",
+        "gods": "Freyja es tu patrona - ella también es guerrera. Las Valquirias te observan con interés.",
+        "enemies": "Los que subestiman a una mujer con escudo suelen ser los primeros en caer."
+      },
+      "notable_shieldmaidens": [
+        "Lagertha - Esposa de Ragnar Lodbrok, guerrera legendaria.",
+        "Hervor - Que reclamó la espada maldita Tyrfing de la tumba de su padre.",
+        "Freydís Eiríksdóttir - Hija de Erik el Rojo, que aterrorizó Vinland."
+      ]
+    },
+    {
+      "id": "volva",
+      "name": "Völva (Vidente)",
+      "description": "Practicante de seiðr, la magia de la visión y el destino. Podés ver el futuro, hablar con los muertos, y maldecir a tus enemigos. Tu poder viene con un precio: la magia te cambia, y la sociedad te mira con mezcla de reverencia y miedo.",
+      "simple_description": "Ves el futuro en las runas. Los espíritus te hablan. Tu magia puede bendecir o maldecir.",
+      "starting_stats": {"hp": 14, "maxHp": 14, "combat": 1, "exploration": 3, "social": 4, "lore": 6},
+      "starting_inventory": ["Báculo tallado con runas", "Bolsa de runas divinatorias", "Capa de plumas", "Hierbas rituales", "Cráneo ancestral"],
+      "special_ability": "Visión del Destino: Una vez por sesión, podés ver un fragmento del futuro. El DM te da una pista críptica pero útil",
+      "background": {
+        "origin": "Los dones se manifiestan jóvenes: sueños que se cumplen, voces de los muertos, visiones durante fiebres. Una völva mayor te encontró y te tomó como aprendiz. El entrenamiento duró años, e incluyó rituales que la mayoría no sobreviviría.",
+        "training": "Aprendiste a entrar en trance, a leer las runas, a escuchar a los espíritus. Ayunaste durante semanas. Consumiste hongos que te llevaron al borde de la muerte. Cada visión te cambió un poco. Ya no sos completamente humana.",
+        "social_standing": "Temida y respetada. Nadie ataca a una völva - la maldición de una vidente es peor que la muerte. Los jarls te consultan para decisiones importantes. Pero también te evitan en la vida diaria. Tu presencia incomoda.",
+        "daily_life": "Vivís algo apartada de la comunidad. La gente viene a vos, no al revés. Realizás rituales, interpretás sueños, maldecís enemigos por pago. A veces los dioses te envían visiones no solicitadas. A veces los muertos simplemente quieren hablar."
+      },
+      "advancement": {
+        "level_2": {"unlock": "Hablar con Muertos - Podés contactar espíritus de los fallecidos", "stat_boost": {"lore": 2, "social": 1}},
+        "level_3": {"unlock": "Maldición Menor - Podés infligir mala suerte a un enemigo", "stat_boost": {"lore": 1, "combat": 1}},
+        "level_4": {"unlock": "Viaje Espiritual - Tu espíritu puede viajar mientras tu cuerpo duerme", "stat_boost": {"exploration": 2, "lore": 2}},
+        "level_5": {"unlock": "Pacto Divino - Un dios te ha elegido como instrumento", "stat_boost": {"lore": 3, "social": 2}}
+      },
+      "relationships": {
+        "clan": "Te necesitan pero no te entienden. Tu poder los protege y los aterra.",
+        "gods": "Los dioses te hablan directamente. Es un honor. También es una carga.",
+        "enemies": "No luchas con espadas. Luchas con visiones, maldiciones, y verdades que destruyen."
+      },
+      "notable_volvas": [
+        "La Völva del Völuspá - Que profetizó Ragnarök a Odín mismo.",
+        "Þorbjörg lítilvölva - Vidente de Groenlandia que predijo el fin del invierno.",
+        "Heide - Völva viajera que aparece en múltiples sagas."
+      ]
+    },
+    {
+      "id": "jarl_heir",
+      "name": "Heredero de Jarl",
+      "description": "Hijo o hija de un líder del clan. Naciste con privilegios pero también con expectativas imposibles. Debés demostrar que merecés liderar por tus propios méritos, no solo por tu sangre. El trono te espera... si sobrevivís.",
+      "simple_description": "Sangre noble corre por tus venas. Debés demostrar que merecés liderar. El clan te observa.",
+      "starting_stats": {"hp": 20, "maxHp": 20, "combat": 3, "exploration": 3, "social": 5, "lore": 3},
+      "starting_inventory": ["Espada ancestral de la familia", "Armadura de calidad", "Anillo de sello del clan", "Capa de piel fina", "Mapa de territorios del clan"],
+      "special_ability": "Autoridad de Sangre: Podés invocar el nombre de tu familia para obtener respeto, recursos o paso seguro en territorio amigo",
+      "background": {
+        "origin": "Creciste en el gran salón, rodeado de guerreros, consejeros y espías. Aprendiste política antes de caminar. Viste a tu padre/madre tomar decisiones imposibles. Sabés que el poder tiene precio.",
+        "training": "Los mejores maestros te enseñaron combate, navegación, runas, diplomacia. Pero también aprendiste observando: quién es leal, quién conspirar, cómo leer a las personas. Tu educación fue preparación para gobernar.",
+        "social_standing": "Tu posición es envidiable y peligrosa. Tus hermanos pueden ser competidores. Otros clanes ven valor en casarse contigo... o asesinarte. Siempre tenés aliados y enemigos, y a veces no sabés quién es quién.",
+        "daily_life": "Participás en consejos de guerra, negociaciones, y las cargas administrativas del clan. Pero también debés demostrar que podés luchar, liderar incursiones, y sobrevivir como cualquier guerrero. Un jarl débil es un jarl muerto."
+      },
+      "advancement": {
+        "level_2": {"unlock": "Red de Contactos - Tenés informantes en clanes vecinos", "stat_boost": {"social": 2, "lore": 1}},
+        "level_3": {"unlock": "Líder en Batalla - Tus órdenes dan bonificación a aliados", "stat_boost": {"combat": 2, "social": 1}},
+        "level_4": {"unlock": "Alianzas Matrimoniales - Podés negociar pactos de alto nivel", "stat_boost": {"social": 2, "lore": 2}},
+        "level_5": {"unlock": "Destino de Jarl - Asumís liderazgo del clan (o una parte)", "stat_boost": {"combat": 1, "social": 2, "exploration": 1}}
+      },
+      "relationships": {
+        "clan": "Te ven como el futuro. Algunos te apoyan, otros prefieren a tus rivales.",
+        "gods": "Los dioses favorecen a los fuertes. Debés demostrar que merecés su bendición.",
+        "enemies": "Muchos quieren verte muerto. Algunos son obvios. Otros sonríen mientras afilan el cuchillo."
+      },
+      "notable_heirs": [
+        "Ivar el Deshuesado - Hijo de Ragnar que conquistó reinos.",
+        "Harald Cabello Hermoso - Que unificó Noruega.",
+        "Sigurd Serpiente en el Ojo - Cuyo ojo tenía la marca de Ouroboros."
+      ]
+    },
+    {
+      "id": "thrall_freed",
+      "name": "Esclavo Liberado",
+      "description": "Naciste o fuiste capturado como thrall (esclavo). Contra toda probabilidad, ganaste tu libertad - por valor en batalla, compra, o servicio excepcional. Ahora debés construir una nueva identidad. No tenés linaje, pero tenés determinación.",
+      "simple_description": "Fuiste esclavo. Ahora sos libre. No tenés linaje pero tenés voluntad de hierro.",
+      "starting_stats": {"hp": 18, "maxHp": 18, "combat": 3, "exploration": 4, "social": 2, "lore": 3},
+      "starting_inventory": ["Cuchillo de trabajo (ahora arma)", "Ropas simples de hombre libre", "Documento de liberación", "Herramientas de oficio", "Pequeño ahorro de plata"],
+      "special_ability": "Superviviente: Has sobrevivido lo peor. Tiradas de supervivencia y resistencia +2. Nunca te rendís",
+      "background": {
+        "origin": "Tal vez naciste esclavo de padres thralls. Tal vez fuiste capturado en una incursión cuando eras joven. Los años de servidumbre te endurecieron. Aprendiste a observar, a aguantar, a esperar tu momento.",
+        "training": "No tuviste entrenamiento formal. Aprendiste todo observando, robando momentos de práctica, escuchando conversaciones. Tu conocimiento es fragmentario pero práctico. Sabés hacer de todo un poco.",
+        "social_standing": "Legalmente libre, socialmente sospechoso. Los de sangre libre te ven como inferior. Otros liberados son tus únicos iguales. Debés demostrar tu valor diez veces más que cualquier nacido libre.",
+        "daily_life": "Trabajás en lo que puedas. Buscás oportunidades de demostrar valor. Cada victoria importa el doble porque nadie esperaba nada de vos. Algunos días el pasado te persigue. La mayoría, mirás hacia adelante."
+      },
+      "advancement": {
+        "level_2": {"unlock": "Respetado - Tus acciones empiezan a hablar por vos", "stat_boost": {"social": 2, "combat": 1}},
+        "level_3": {"unlock": "Oficio Maestro - Un skill no combativo que dominas completamente", "stat_boost": {"exploration": 2, "lore": 1}},
+        "level_4": {"unlock": "Guerrero Reconocido - Ya nadie cuestiona tu derecho a pelear", "stat_boost": {"combat": 2, "hp": 4}},
+        "level_5": {"unlock": "Fundador de Linaje - Tus descendientes serán libres para siempre", "stat_boost": {"social": 3, "lore": 2}}
+      },
+      "relationships": {
+        "clan": "Te toleran. Algunos te respetan por tu esfuerzo. Otros nunca te verán como igual.",
+        "gods": "Los dioses no distinguen entre libre y esclavo. Tu fe es tan válida como la de cualquiera.",
+        "enemies": "Tu antiguo amo podría querer venganza. Otros esclavos podrían envidiarte. Muchos quieren que fracases."
+      },
+      "notable_freed_thralls": [
+        "Ketill Flatnose - De esclavo a rey de las Hébridas.",
+        "Varios berserkers - Que ganaron libertad en batalla.",
+        "Artesanos famosos - Que compraron su libertad con sus habilidades."
+      ]
     }
   ],
 
+  "notable_npcs": [
+    {
+      "name": "Jarl Bjorn Lobo-Negro",
+      "role": "Líder del Clan del Lobo",
+      "archetype": "Guerrero/Líder",
+      "description": "Un veterano de cincuenta batallas con más cicatrices que piel lisa. Su brazo izquierdo termina en un muñón que cubre con una funda de plata grabada con lobos. Su barba gris está trenzada con huesos de enemigos. Sus ojos son duros pero justos. Ha liderado el clan por veinte años y planea morir liderando.",
+      "personality": "Duro pero justo. Valora la lealtad sobre todo. No tolera cobardía ni traición. Ríe fácilmente después de una victoria pero nunca olvida un insulto.",
+      "motivation": "Mantener al clan fuerte y unido. Encontrar una muerte digna cuando llegue su momento. Ver a la próxima generación lista para liderar.",
+      "secrets": "Está enfermo - una herida vieja que nunca sanó está envenenando lentamente su sangre. Tiene tal vez dos años de vida. Solo su esposa y el curandero lo saben.",
+      "voice_style": "Grave, pausado, con autoridad natural. Usa pocas palabras pero cada una tiene peso.",
+      "dialogue_examples": [
+        "Un lobo que no caza muere. El clan es igual. Necesitamos sangre y oro, y los sajones tienen ambos.",
+        "Mi padre murió con una espada en la mano. Su padre también. No seré yo quien rompa esa cadena.",
+        "Te observé en la batalla. Vi algo. Todavía no sé qué es, pero lo veré crecer."
+      ]
+    },
+    {
+      "name": "Völva Grimhild la Ciega",
+      "role": "Líder de los Seguidores de Odín",
+      "archetype": "Vidente/Hechicera",
+      "description": "Una anciana de más de cien años, encorvada pero no frágil. Sus cuencas oculares están vacías - se arrancó los ojos para ver mejor lo que importa. Su piel es como pergamino antiguo, cubierta de tatuajes rúnicos que brillan tenuemente en la oscuridad. Cuando habla, parece que los dioses hablan a través de ella.",
+      "personality": "Críptica, a veces cruel, siempre verdadera. No le importa herir sentimientos porque la verdad es más importante. Tiene un humor negro que pocos aprecian.",
+      "motivation": "Preparar al mundo para lo que viene. Ella ha visto Ragnarök en sus visiones y sabe que se acerca.",
+      "secrets": "Hace décadas, los dioses le mostraron un héroe que podría cambiar el destino de Ragnarök. Ha estado buscando a esta persona toda su vida. Podría ser el jugador.",
+      "voice_style": "Rasposa, lenta, con pausas donde parece escuchar algo que otros no pueden oír.",
+      "dialogue_examples": [
+        "¿Querés saber tu futuro? ¿Estás seguro? El conocimiento es una carga que no se puede soltar.",
+        "Los dioses me mostraron tu rostro hace treinta años. Has tardado en llegar. Siéntate. Tenemos mucho que discutir.",
+        "Ragnarök no es el fin. Es una puerta. La pregunta es qué hay del otro lado, y quién estará allí para verlo."
+      ]
+    },
+    {
+      "name": "Ivar el Despiadado",
+      "role": "Jarl del Clan del Oso",
+      "archetype": "Villano/Rival",
+      "description": "Un hombre que parece tallado en piedra y odio. Cicatrices de garras de oso cruzan su rostro. Sus ojos nunca sonríen aunque su boca a veces lo haga. Mató a sus propios hermanos para liderar el clan. Su crueldad es legendaria - se dice que hace trabajar a esclavos hasta morir por diversión.",
+      "personality": "Cruel, calculador, paciente. Nunca ataca sin ventaja. Guarda rencores durante décadas. La única emoción genuina que muestra es odio hacia el Clan del Lobo.",
+      "motivation": "Destruir al Clan del Lobo completamente. No paz, no tregua, extinción. Después, conquistar todo lo que pueda.",
+      "secrets": "Su padre no murió en batalla contra Bjorn Lobo-Negro como él cuenta. Ivar lo asesinó él mismo para culpar a los lobos y tener excusa para la guerra.",
+      "voice_style": "Suave, controlado, amenazante. Nunca levanta la voz - no lo necesita.",
+      "dialogue_examples": [
+        "Los lobos creen que son fuertes en manada. Cuando los cacemos uno por uno, verán cuán solos están.",
+        "¿Piedad? La piedad es para los débiles. Yo no soy débil. Vos tampoco. Demostralo.",
+        "Tu jarl morirá. Tu clan arderá. Vos podrías salvarte si elegís el bando correcto ahora."
+      ]
+    },
+    {
+      "name": "Harald Ojo-de-Plata",
+      "role": "Líder de los Mercaderes Varangios",
+      "archetype": "Comerciante/Aliado potencial",
+      "description": "Un vikingo que perdió un ojo en su juventud y lo reemplazó con una esfera de plata que brilla cuando le da la luz. Viste ropas bizantinas sobre una cota de malla. Habla cinco idiomas. Su sonrisa es tan peligrosa como su espada.",
+      "personality": "Encantador, astuto, pragmático. Ve todo en términos de transacciones. Pero tiene un código: nunca rompe un trato y nunca traiciona a los que le pagan.",
+      "motivation": "Riqueza y experiencia. Ha visto medio mundo y quiere ver el resto. El dinero es solo el medio para la verdadera meta: libertad absoluta.",
+      "secrets": "Fue parte de la Guardia Varangia del emperador bizantino. Tuvo que huir después de un escándalo que involucró a la esposa del emperador. Hay una recompensa por su cabeza en Miklagard.",
+      "voice_style": "Suave, cultivado, con acento mezclado de varios idiomas.",
+      "dialogue_examples": [
+        "Todo tiene un precio. La pregunta es si podés pagarlo y si el vendedor quiere vender.",
+        "He visto Miklagard, las arenas de Arabia, los ríos de Rus. El mundo es más grande de lo que los jarls creen.",
+        "¿Información? Puedo conseguirla. ¿Pasaje seguro? También. Pero nada es gratis, amigo. Nada."
+      ]
+    },
+    {
+      "name": "Astrid la Fría",
+      "role": "Doncella Escudera / Rival o aliada",
+      "archetype": "Guerrera",
+      "description": "Una doncella escudera que ganó su nombre por su calma helada en batalla. Tiene el pelo rubio casi blanco, trenzado con cuentas de hueso. Sus ojos azules no muestran emoción. Se dice que nunca ha gritado en combate - mata en silencio.",
+      "personality": "Estoica, directa, pragmática. No pierde palabras en charla innecesaria. Respeta la competencia y desprecia la debilidad. Pocos la conocen bien porque pocos se molestan en intentarlo.",
+      "motivation": "Probar que es la mejor guerrera del norte. No por fama - por la verdad de saberlo. También busca al hombre que mató a su familia cuando era niña.",
+      "secrets": "Su frialdad es una máscara para un trauma profundo. Vio a su familia masacrada por berserkers cuando tenía ocho años. No muestra emociones porque las enterró para sobrevivir.",
+      "voice_style": "Plana, directa, sin inflexión emocional.",
+      "dialogue_examples": [
+        "Si vas a atacar, atacá. El que habla antes de pelear ya perdió medio combate.",
+        "No me importa tu linaje. Me importa si podés mantener tu posición en el muro de escudos.",
+        "El frío no es ausencia de calor. Es la presencia de algo más. Yo soy ese algo."
+      ]
+    },
+    {
+      "name": "Gunnar el Forjador",
+      "role": "Herrero del clan",
+      "archetype": "Artesano/Mentor",
+      "description": "Un hombre enorme con brazos como troncos, permanentemente marcado por quemaduras de la forja. Su barba roja está chamuscada en las puntas. Es el mejor herrero del norte - sus espadas son buscadas por jarls de todas las tierras. Habla poco pero cuando lo hace, vale la pena escuchar.",
+      "personality": "Callado, observador, sabio a su manera. Juzga a las personas por cómo tratan sus herramientas y cómo mantienen sus armas. Tiene paciencia infinita para quien quiere aprender.",
+      "motivation": "Crear una obra maestra que perdure siglos. Una espada digna de los dioses. También desea transmitir su arte antes de morir.",
+      "secrets": "En su juventud, visitó Svartálfaheim (el reino de los enanos) y aprendió secretos de forja que ningún otro humano conoce. Nunca habla de cómo llegó allí.",
+      "voice_style": "Bajo, parco, con largas pausas entre frases.",
+      "dialogue_examples": [
+        "Una espada es simple. Hierro, fuego, martillo, agua. El secreto está en saber cuándo cada elemento habla.",
+        "Puedo ver el guerrero en el arma. Tu espada tiene hambre pero falta control. Como vos.",
+        "Los enanos... sí, los conocí. No, no te voy a contar cómo. Pero te puedo mostrar lo que me enseñaron."
+      ]
+    }
+  ],
+
+  "creatures": {
+    "trolls": {
+      "description": "Gigantes de roca y hielo que habitan montañas y bosques oscuros. Odian la luz del sol, que los convierte en piedra. Son estúpidos pero terriblemente fuertes.",
+      "varieties": [
+        {"name": "Troll de Bosque", "danger": 3, "description": "Más pequeños, viven bajo raíces de árboles. Cobran tributo para cruzar sus territorios."},
+        {"name": "Troll de Montaña", "danger": 4, "description": "Grandes como casas. Lentos pero inmensamente poderosos. Algunos son tan viejos que parecen montañas."},
+        {"name": "Troll de Hielo", "danger": 5, "description": "De Jötunheim. Su aliento congela. Solo el fuego los daña permanentemente."}
+      ],
+      "tactics": "Emboscada desde la oscuridad, aplastar con fuerza bruta, perseguir hasta que se pone el sol",
+      "weaknesses": "Luz solar (petrificación), engaños (son estúpidos), fuego (para trolls de hielo)"
+    },
+    "draugar": {
+      "description": "Muertos vivientes nórdicos. No todos los muertos descansan tranquilos. Los draugar son cadáveres animados por voluntad propia, usualmente de guerreros que murieron con asuntos pendientes.",
+      "varieties": [
+        {"name": "Draugr Común", "danger": 2, "description": "Guerreros muertos que guardan sus tumbas. Atacan a quien profana su reposo."},
+        {"name": "Draugr Señor", "danger": 4, "description": "Jarls y héroes muertos. Retienen inteligencia y pueden usar magia de tumba."},
+        {"name": "Aptrganga", "danger": 3, "description": "'Los que caminan de nuevo'. Muertos que se niegan a aceptar su muerte."}
+      ],
+      "tactics": "Lucha sin miedo ni dolor, agarre con fuerza sobrehumana, algunos pueden aumentar de tamaño",
+      "weaknesses": "Decapitación, quemar el cuerpo, realizar los ritos funerarios correctos"
+    },
+    "jotnar": {
+      "description": "Los gigantes, enemigos ancestrales de los dioses. No son simplemente humanos grandes - son fuerzas de la naturaleza con forma vagamente humanoide.",
+      "varieties": [
+        {"name": "Gigante de Hielo (Hrímþurs)", "danger": 5, "description": "De Jötunheim. Odian el calor y los dioses. Su aliento es la tormenta de nieve."},
+        {"name": "Gigante de Fuego (Eldþurs)", "danger": 5, "description": "De Muspelheim. Su piel brilla como brasas. Su toque prende fuego."},
+        {"name": "Gigante de Piedra (Bergrísi)", "danger": 4, "description": "Tan antiguos como las montañas. Lentos pero casi indestructibles."}
+      ],
+      "tactics": "Aplastamiento masivo, control de elementos (hielo/fuego), lanzar rocas del tamaño de casas",
+      "weaknesses": "Varían según el tipo. Generalmente, ingenio supera fuerza. Algunos pueden ser engañados."
+    },
+    "sea_monsters": {
+      "description": "Criaturas que habitan los mares del norte. Jörmungandr es el mayor, pero hay muchas bestias en las profundidades.",
+      "varieties": [
+        {"name": "Kraken", "danger": 5, "description": "Pulpo gigante que puede hundir drakkars enteros. Raro pero devastador."},
+        {"name": "Hafgufa", "danger": 4, "description": "Bestia marina que parece una isla hasta que abre su boca."},
+        {"name": "Serpiente Marina", "danger": 3, "description": "Crías de Jörmungandr (según las leyendas). Lo suficientemente grandes para tragarse un barco."}
+      ],
+      "tactics": "Arrastrar barcos bajo el agua, volcado, ataque sorpresa desde las profundidades",
+      "weaknesses": "Arpones de hierro, huir hacia aguas poco profundas, sacrificios para aplacar"
+    },
+    "wolves": {
+      "description": "Los lobos del norte son más que animales. Algunos son descendientes de Fenrir. Otros son guerreros transformados.",
+      "varieties": [
+        {"name": "Lobo del Norte", "danger": 2, "description": "Lobos comunes pero en manadas grandes y desesperados de hambre."},
+        {"name": "Úlfhéðinn Salvaje", "danger": 3, "description": "Berserkers que se perdieron en la transformación y ya no son humanos."},
+        {"name": "Cachorro de Fenrir", "danger": 4, "description": "Descendientes del lobo que matará a Odín. Más grandes que caballos."}
+      ],
+      "tactics": "Caza en manada, rodear a la presa, atacar al más débil primero",
+      "weaknesses": "Fuego, plata (para los sobrenaturales), líder alfa - matar al líder dispersa la manada"
+    },
+    "spirits": {
+      "description": "Espíritus de la naturaleza y ancestros que habitan el mundo invisible que rodea Midgard.",
+      "varieties": [
+        {"name": "Landvættir", "danger": 2, "description": "Espíritus de la tierra. Pueden bendecir o maldecir dependiendo de cómo los trates."},
+        {"name": "Fylgja", "danger": 2, "description": "Espíritu guardián personal en forma de animal. Su muerte presagia la tuya."},
+        {"name": "Haugbúi", "danger": 3, "description": "Espíritu de túmulo que guarda tesoros enterrados con los muertos."},
+        {"name": "Mara", "danger": 2, "description": "Espíritu nocturno que causa pesadillas sentándose sobre el pecho del durmiente."}
+      ],
+      "tactics": "Varían enormemente. Algunos atacan físicamente, otros mediante sueños o maldiciones.",
+      "weaknesses": "Rituales apropiados, ofrendas, runas de protección, hierro frío"
+    }
+  },
+
   "voice_id": "ronco_epico",
-  "npc_voices": {"jarl": "autoritario_grave", "vidente": "místico_anciano", "guerrero": "rudo_directo", "valquiria": "etéreo_poderoso"},
+  "npc_voices": {
+    "jarl": "autoritario_grave",
+    "vidente": "místico_anciano",
+    "guerrero": "rudo_directo",
+    "valquiria": "etéreo_poderoso",
+    "comerciante": "suave_astuto",
+    "thrall": "sumiso_cauteloso",
+    "berserker": "gutural_animal"
+  },
   "music_mood": "combat_epic",
-  "art_style": "norse mythology art, muted earth tones, epic scale, painterly, Vikings TV series aesthetic",
+  "art_style": "norse mythology art, muted earth tones, epic scale, painterly, Vikings TV series aesthetic, dramatic lighting, weather-worn textures",
 
   "roll_tables": {
     "encounters": {
       "formula": "1d20",
       "results": [
-        {"range": [1,4], "result": "Mercader ambulante con noticias de otras tierras"},
-        {"range": [5,8], "result": "Grupo de bandidos exigiendo tributo"},
-        {"range": [9,12], "result": "Jabalí salvaje - carne para el festín si lo cazás"},
-        {"range": [13,15], "result": "Guerreros rivales desafiándote a duelo"},
-        {"range": [16,17], "result": "Troll de piedra bloqueando el camino"},
-        {"range": [18,19], "result": "Valquiria observándote - te está evaluando"},
-        {"range": [20,20], "result": "Odín disfrazado como viajero anciano - prueba divina"}
+        {"range": [1,2], "result": "Mercader ambulante con noticias de otras tierras y mercancías exóticas"},
+        {"range": [3,4], "result": "Grupo de bandidos exigiendo tributo - ¿pagar, pelear, o negociar?"},
+        {"range": [5,6], "result": "Jabalí salvaje - carne para el festín si lo cazás, heridas si fallás"},
+        {"range": [7,8], "result": "Guerreros rivales de otro clan desafiándote a duelo de honor"},
+        {"range": [9,10], "result": "Skald viajero que ofrece canciones a cambio de historias de tus hazañas"},
+        {"range": [11,12], "result": "Refugiados de una aldea destruida - ¿ayudarlos, ignorarlos, esclavizarlos?"},
+        {"range": [13,14], "result": "Völva errante con una profecía para quien quiera escuchar"},
+        {"range": [15,16], "result": "Troll de piedra bloqueando el camino - exige pago o sangre"},
+        {"range": [17,18], "result": "Guerrero moribundo con un mensaje urgente y un último deseo"},
+        {"range": [19,19], "result": "Valquiria observándote desde el cielo - te está evaluando para el Valhalla"},
+        {"range": [20,20], "result": "Odín disfrazado como viajero anciano - prueba divina que puede bendecir o maldecir"}
       ]
     },
     "weather": {
-      "formula": "1d8",
+      "formula": "1d12",
       "results": [
-        {"range": [1,2], "result": "Cielo despejado - Thor está contento"},
-        {"range": [3,4], "result": "Niebla espesa - los espíritus están cerca"},
-        {"range": [5,6], "result": "Nevada intensa - riesgo de congelamiento"},
-        {"range": [7,7], "result": "Tormenta de truenos - Thor caza gigantes"},
-        {"range": [8,8], "result": "Aurora boreal - presagio de gran evento"}
+        {"range": [1,2], "result": "Cielo despejado - día perfecto para viajar, Thor está contento"},
+        {"range": [3,4], "result": "Lluvia constante - los caminos se vuelven barro, moral baja"},
+        {"range": [5,6], "result": "Niebla espesa - los espíritus están cerca, visibilidad mínima"},
+        {"range": [7,8], "result": "Nevada ligera - hermosa pero enfriante, necesidad de calor"},
+        {"range": [9,9], "result": "Tormenta de nieve - peligro de hipotermia, debe buscarse refugio"},
+        {"range": [10,10], "result": "Tormenta de truenos - Thor caza gigantes, señal de batalla cercana"},
+        {"range": [11,11], "result": "Vientos huracanados - peligroso para navegación y estructuras"},
+        {"range": [12,12], "result": "Aurora boreal brillante - presagio de gran evento, contacto con lo divino posible"}
       ]
     },
     "loot": {
+      "formula": "1d20",
+      "results": [
+        {"range": [1,3], "result": "Monedas de plata (2d6) - suficiente para una buena noche en la taberna"},
+        {"range": [4,6], "result": "Arma de hierro de buena calidad - espada, hacha o lanza usable"},
+        {"range": [7,8], "result": "Joyería de bronce o plata - vendible o para regalar a esposa/amante"},
+        {"range": [9,10], "result": "Pieles finas - lobo, oso o zorro, valiosas y prácticas"},
+        {"range": [11,12], "result": "Hidromiel de calidad - varios cuernos, perfecta para celebrar"},
+        {"range": [13,14], "result": "Amuleto rúnico con poder menor - protección, suerte o fuerza"},
+        {"range": [15,16], "result": "Libro o pergamino (probablemente de monasterio) - vale mucho para los videntes"},
+        {"range": [17,18], "result": "Reliquia cristiana de oro - cruz, cáliz o icono, oro puro"},
+        {"range": [19,19], "result": "Armadura de calidad excepcional - cota de malla bien hecha"},
+        {"range": [20,20], "result": "Arma ancestral con nombre propio - historia, posible magia menor"}
+      ]
+    },
+    "omens": {
       "formula": "1d10",
       "results": [
-        {"range": [1,3], "result": "Monedas de plata (2d6)"},
-        {"range": [4,5], "result": "Arma de hierro de buena calidad"},
-        {"range": [6,7], "result": "Joyería fina - vendible o para regalar"},
-        {"range": [8,9], "result": "Amuleto rúnico con poder menor"},
-        {"range": [10,10], "result": "Arma ancestral con nombre propio"}
+        {"range": [1,1], "result": "Cuervo vuela a tu izquierda - Odín te observa, mal presagio"},
+        {"range": [2,2], "result": "Cuervo vuela a tu derecha - Odín te observa, buen presagio"},
+        {"range": [3,3], "result": "Lobo aúlla tres veces - muerte cercana para alguien"},
+        {"range": [4,4], "result": "Eclipse parcial - los dioses están distraídos, momento para acción audaz"},
+        {"range": [5,5], "result": "Tu arma vibra sin razón - batalla inevitable hoy"},
+        {"range": [6,6], "result": "Sueño con serpientes - traición de alguien cercano"},
+        {"range": [7,7], "result": "Runa aparece en tu camino - mensaje de las Nornas"},
+        {"range": [8,8], "result": "Animal actúa extrañamente - espíritu intentando comunicarse"},
+        {"range": [9,9], "result": "Trueno sin nubes - Thor te saluda, favor divino"},
+        {"range": [10,10], "result": "Tu reflejo en agua parece diferente - cambio mayor viene"}
+      ]
+    },
+    "npc_names_male": {
+      "formula": "1d20",
+      "results": [
+        {"range": [1,1], "result": "Ragnar"},
+        {"range": [2,2], "result": "Erik"},
+        {"range": [3,3], "result": "Björn"},
+        {"range": [4,4], "result": "Ivar"},
+        {"range": [5,5], "result": "Harald"},
+        {"range": [6,6], "result": "Sigurd"},
+        {"range": [7,7], "result": "Leif"},
+        {"range": [8,8], "result": "Olaf"},
+        {"range": [9,9], "result": "Gunnar"},
+        {"range": [10,10], "result": "Thorstein"},
+        {"range": [11,11], "result": "Ulf"},
+        {"range": [12,12], "result": "Sven"},
+        {"range": [13,13], "result": "Knut"},
+        {"range": [14,14], "result": "Halfdan"},
+        {"range": [15,15], "result": "Egil"},
+        {"range": [16,16], "result": "Hrolf"},
+        {"range": [17,17], "result": "Orm"},
+        {"range": [18,18], "result": "Ketill"},
+        {"range": [19,19], "result": "Floki"},
+        {"range": [20,20], "result": "Athelstan (cristiano convertido)"}
+      ]
+    },
+    "npc_names_female": {
+      "formula": "1d20",
+      "results": [
+        {"range": [1,1], "result": "Astrid"},
+        {"range": [2,2], "result": "Ingrid"},
+        {"range": [3,3], "result": "Freydis"},
+        {"range": [4,4], "result": "Sigrid"},
+        {"range": [5,5], "result": "Helga"},
+        {"range": [6,6], "result": "Thyra"},
+        {"range": [7,7], "result": "Gudrun"},
+        {"range": [8,8], "result": "Ragnhild"},
+        {"range": [9,9], "result": "Lagertha"},
+        {"range": [10,10], "result": "Yrsa"},
+        {"range": [11,11], "result": "Brynhild"},
+        {"range": [12,12], "result": "Thora"},
+        {"range": [13,13], "result": "Svanhild"},
+        {"range": [14,14], "result": "Alfhild"},
+        {"range": [15,15], "result": "Aslaug"},
+        {"range": [16,16], "result": "Gyda"},
+        {"range": [17,17], "result": "Hild"},
+        {"range": [18,18], "result": "Jorunn"},
+        {"range": [19,19], "result": "Solveig"},
+        {"range": [20,20], "result": "Una (nombre irlandés - capturada o mestiza)"}
+      ]
+    },
+    "epithets": {
+      "formula": "1d20",
+      "results": [
+        {"range": [1,1], "result": "el/la Valiente"},
+        {"range": [2,2], "result": "Sangre de Lobo"},
+        {"range": [3,3], "result": "el/la Despiadado/a"},
+        {"range": [4,4], "result": "Ojo de Cuervo"},
+        {"range": [5,5], "result": "el/la Berserker"},
+        {"range": [6,6], "result": "Cabello de Oro"},
+        {"range": [7,7], "result": "el/la Oscuro/a"},
+        {"range": [8,8], "result": "Brazos de Hierro"},
+        {"range": [9,9], "result": "el/la Silencioso/a"},
+        {"range": [10,10], "result": "Rompe-Huesos"},
+        {"range": [11,11], "result": "el/la Viajero/a"},
+        {"range": [12,12], "result": "Diente de Serpiente"},
+        {"range": [13,13], "result": "el/la Sabio/a"},
+        {"range": [14,14], "result": "Sangre Fría"},
+        {"range": [15,15], "result": "el/la Tempestad"},
+        {"range": [16,16], "result": "Cicatriz"},
+        {"range": [17,17], "result": "el/la Rojo/a"},
+        {"range": [18,18], "result": "Hijo/a del Mar"},
+        {"range": [19,19], "result": "el/la Sin Miedo"},
+        {"range": [20,20], "result": "Favorito/a de Odín"}
+      ]
+    },
+    "events": {
+      "formula": "1d12",
+      "results": [
+        {"range": [1,1], "result": "Llegada de comerciantes con noticias de tierras lejanas"},
+        {"range": [2,2], "result": "Un jarl convoca a Thing para decidir asunto importante"},
+        {"range": [3,3], "result": "Preparativos para incursión inminente"},
+        {"range": [4,4], "result": "Festín en honor de victoria reciente o boda"},
+        {"range": [5,5], "result": "Funeral de guerrero famoso - envío en barco ardiente"},
+        {"range": [6,6], "result": "Llegada de skald famoso con nuevas sagas"},
+        {"range": [7,7], "result": "Señales de que Ragnarök se acerca - pánico entre algunos"},
+        {"range": [8,8], "result": "Disputa de honor entre guerreros que amenaza con sangre"},
+        {"range": [9,9], "result": "Völva llega con profecía urgente para el clan"},
+        {"range": [10,10], "result": "Misioneros cristianos intentan convertir a aldeanos"},
+        {"range": [11,11], "result": "Ataque sorpresa de clan rival o sajones"},
+        {"range": [12,12], "result": "Manifestación divina - un dios aparece brevemente"}
       ]
     }
   },
@@ -97,39 +946,175 @@
   "active_effects_pool": [
     {"id": "bendicion_odin", "name": "Bendición de Odín", "description": "El Padre de Todos te favorece", "type": "buff", "duration": 10, "effects": {"lore": 3, "social": 2}},
     {"id": "furia_thor", "name": "Furia de Thor", "description": "Poder del dios del trueno en tus golpes", "type": "buff", "duration": 3, "effects": {"combat": 4}},
+    {"id": "gracia_freyja", "name": "Gracia de Freyja", "description": "La diosa del amor te bendice", "type": "buff", "duration": 5, "effects": {"social": 4, "hp_regen": 1}},
+    {"id": "fuerza_freyr", "name": "Fuerza de Freyr", "description": "Vigor y prosperidad fluyen en vos", "type": "buff", "duration": 6, "effects": {"hp": 6, "exploration": 2}},
+    {"id": "proteccion_tyr", "name": "Protección de Tyr", "description": "El dios del honor guarda tu espalda", "type": "buff", "duration": 4, "effects": {"combat": 2, "damage_reduction": 2}},
     {"id": "maldicion_loki", "name": "Maldición de Loki", "description": "El engañador te hace tropezar", "type": "debuff", "duration": 5, "effects": {"exploration": -2, "social": -2}},
-    {"id": "hipotermia", "name": "Hipotermia", "description": "El frío nórdico penetra tus huesos", "type": "debuff", "duration": 3, "effects": {"combat": -2, "hp_per_turn": -1}}
+    {"id": "hipotermia", "name": "Hipotermia", "description": "El frío nórdico penetra tus huesos", "type": "debuff", "duration": 3, "effects": {"combat": -2, "hp_per_turn": -1}},
+    {"id": "berserkergang", "name": "Berserkergang", "description": "Trance de furia sagrada", "type": "buff", "duration": "until_combat_ends", "effects": {"combat": 5, "damage_taken_multiplier": 1.5}},
+    {"id": "maldicion_draugr", "name": "Maldición de Draugr", "description": "Tocado por la muerte ambulante", "type": "debuff", "duration": 8, "effects": {"social": -3, "exploration": -1}},
+    {"id": "vision_volva", "name": "Visión de Völva", "description": "Has visto fragmentos del futuro", "type": "buff", "duration": 3, "effects": {"lore": 4, "exploration": 2}},
+    {"id": "favor_valquiria", "name": "Favor de Valquiria", "description": "Una guerrera divina te ha notado", "type": "buff", "duration": 10, "effects": {"combat": 2, "death_save_bonus": true}},
+    {"id": "marca_fenrir", "name": "Marca de Fenrir", "description": "El lobo del apocalipsis te ha marcado", "type": "debuff", "duration": "permanent_until_quest", "effects": {"social": -2, "combat": 2}},
+    {"id": "embriaguez_hidromiel", "name": "Embriaguez de Hidromiel", "description": "Demasiado hidromiel en el festín", "type": "debuff", "duration": 4, "effects": {"combat": -1, "social": 2, "exploration": -2}},
+    {"id": "inspiracion_skald", "name": "Inspiración de Skald", "description": "Las palabras del poeta te elevan", "type": "buff", "duration": 5, "effects": {"combat": 2, "social": 2}},
+    {"id": "miedo_sobrenatural", "name": "Miedo Sobrenatural", "description": "Has visto algo que no debías ver", "type": "debuff", "duration": 3, "effects": {"combat": -2, "lore": -2, "exploration": -1}}
   ],
 
   "narrative_skeleton": {
-    "act_1": {"name": "El Llamado del Mar", "description": "Preparativos para tu primera incursión", "anchors": ["El jarl te elige para la expedición", "Construcción y bendición del drakkar", "Primera navegación hacia tierras extrañas"], "typical_scenes": ["Aldea Nórdica", "Alta Mar"], "mood": "exploration_calm"},
-    "act_2": {"name": "La Primera Incursión", "description": "Saqueo y combate - probando tu valía", "anchors": ["Ataque al monasterio costero", "Primer combate real - derramar sangre", "Regresar con botín y gloria"], "typical_scenes": ["Monasterio Costero", "Alta Mar"], "mood": "combat_epic"},
-    "act_3": {"name": "La Prueba de los Dioses", "description": "Un dios te pone a prueba", "anchors": ["Encuentro con ser divino", "Misión imposible encomendada", "Viaje a reino sobrenatural"], "typical_scenes": ["Bosque de los Espíritus", "Templo de Odín"], "mood": "drama_tense"},
-    "act_4": {"name": "Ragnarök se Acerca", "description": "Señales del fin del mundo", "anchors": ["Gigantes invaden Midgard", "Batalla épica final", "Sacrificio por tu clan"], "typical_scenes": ["Montañas de los Trolls", "Aldea Nórdica"], "mood": "combat_epic"},
-    "act_5": {"name": "Las Puertas del Valhalla", "description": "Gloria eterna o muerte olvidada", "anchors": ["Muerte heroica en batalla", "Valquiria te lleva al Valhalla", "Tu saga es cantada por siglos"], "typical_scenes": ["Campo de batalla", "Valhalla"], "mood": "victory_triumphant"}
+    "act_1": {
+      "name": "El Llamado del Mar",
+      "description": "Preparativos para tu primera incursión - o para un nuevo capítulo de tu saga",
+      "anchors": [
+        "El jarl te elige para la expedición",
+        "Construcción y bendición del drakkar",
+        "Primera navegación hacia tierras extrañas",
+        "Presagio de los dioses sobre tu destino"
+      ],
+      "typical_scenes": ["Ulfsfjord (Aldea Nórdica)", "Alta Mar"],
+      "mood": "exploration_calm",
+      "themes": ["Iniciación", "Esperanza", "Preparación", "Comunidad"]
+    },
+    "act_2": {
+      "name": "La Primera Incursión",
+      "description": "Saqueo y combate - probando tu valía contra enemigos mortales",
+      "anchors": [
+        "Ataque al monasterio o aldea costera",
+        "Primer combate real - derramar sangre enemiga",
+        "Enfrentar una decisión moral (matar inocentes, esclavizar, perdonar)",
+        "Regresar con botín y gloria - o heridas y lecciones"
+      ],
+      "typical_scenes": ["Monasterio de Lindisfarne", "Alta Mar", "El Danelaw"],
+      "mood": "combat_epic",
+      "themes": ["Violencia", "Honor vs Crueldad", "Riqueza", "Consecuencias"]
+    },
+    "act_3": {
+      "name": "La Prueba de los Dioses",
+      "description": "Un dios o poder sobrenatural te pone a prueba",
+      "anchors": [
+        "Encuentro con ser divino o sobrenatural",
+        "Misión imposible encomendada",
+        "Viaje a reino sobrenatural o lugar prohibido",
+        "Sacrificio personal exigido"
+      ],
+      "typical_scenes": ["Bosque de los Espíritus", "Templo de Uppsala", "Niflheim"],
+      "mood": "drama_tense",
+      "themes": ["Fe", "Destino vs Libre Albedrío", "Sacrificio", "Transformación"]
+    },
+    "act_4": {
+      "name": "La Sombra de Ragnarök",
+      "description": "Señales del fin del mundo aparecen - o enemigos que amenazan todo lo que amás",
+      "anchors": [
+        "Gigantes o criaturas antiguas invaden Midgard",
+        "El clan enfrenta amenaza existencial",
+        "Alianzas imposibles deben forjarse",
+        "Batalla épica donde todo está en juego"
+      ],
+      "typical_scenes": ["Montañas de los Trolls", "Ulfsfjord (Aldea Nórdica)", "Campo de batalla épico"],
+      "mood": "combat_epic",
+      "themes": ["Apocalipsis", "Lealtad", "Heroísmo", "Pérdida"]
+    },
+    "act_5": {
+      "name": "Las Puertas del Valhalla",
+      "description": "Tu saga alcanza su clímax - gloria eterna o muerte olvidada",
+      "anchors": [
+        "Confrontación final con el antagonista principal",
+        "Elección definitiva que define tu legado",
+        "Resolución de todos los hilos narrativos",
+        "Muerte heroica o supervivencia transformadora"
+      ],
+      "typical_scenes": ["Lugar de la batalla final", "Valhalla o Helheim (si mueres)", "Ulfsfjord para epílogo"],
+      "mood": "victory_triumphant",
+      "themes": ["Legado", "Inmortalidad (de la fama)", "Cierre", "Nuevo comienzo"]
+    }
   },
 
-  "one_shot_hook": "El jarl te convoca. Un jarl rival secuestró a su hija durante una expedición. Tenés 24 horas para rescatarla antes de que la usen como moneda de cambio. El jarl rival está fortificado en una isla. Tu drakkar está listo. ¿Navegarás hacia gloria o muerte?",
+  "one_shot_hooks": [
+    {
+      "name": "El Rescate de la Hija del Jarl",
+      "hook": "El jarl te convoca. Un jarl rival secuestró a su hija durante una expedición. Tenés 24 horas para rescatarla antes de que la usen como moneda de cambio. El jarl rival está fortificado en una isla. Tu drakkar está listo. ¿Navegarás hacia gloria o muerte?",
+      "themes": ["Rescate", "Honor", "Política entre clanes"],
+      "estimated_duration": "3-4 horas"
+    },
+    {
+      "name": "La Tumba del Rey Olvidado",
+      "hook": "Un skald borracho te cuenta de una tumba que todos olvidaron - la del Rey Haraldr el Primero, enterrado con su tesoro hace 500 años. Te da un mapa. Pero las tumbas vikingas tienen guardianes, y Haraldr era conocido por su crueldad en vida...",
+      "themes": ["Codicia", "Terror", "Draugar"],
+      "estimated_duration": "2-3 horas"
+    },
+    {
+      "name": "El Juicio de los Dioses",
+      "hook": "Durante un festín, un desconocido te acusa de un crimen que no cometiste. Las pruebas son convincentes. El jarl ordena un Holmgang - duelo judicial. Pero tu oponente es un guerrero legendario. Podés luchar, huir, o intentar probar tu inocencia antes del amanecer.",
+      "themes": ["Justicia", "Honor", "Conspiración"],
+      "estimated_duration": "2-3 horas"
+    },
+    {
+      "name": "La Caza del Kraken",
+      "hook": "Un kraken ha estado hundiendo barcos en la ruta comercial. El jarl ofrece su peso en plata a quien mate a la bestia. Varios guerreros famosos ya intentaron. Ninguno volvió. ¿Sos más listo o más loco que ellos?",
+      "themes": ["Monstruo", "Mar", "Gloria"],
+      "estimated_duration": "3-4 horas"
+    },
+    {
+      "name": "Mensajero de los Muertos",
+      "hook": "Una völva te visita en sueños. Tu ancestro, muerto hace décadas, tiene un mensaje urgente. Pero para escucharlo, debés viajar a Helheim. La völva puede mostrarte el camino... por un precio.",
+      "themes": ["Familia", "Muerte", "Viaje a otro mundo"],
+      "estimated_duration": "3-4 horas"
+    },
+    {
+      "name": "El Dragón de la Montaña",
+      "hook": "Pastores reportan un dragón en las montañas. Probablemente exageran - ¿verdad? Pero el jarl quiere estar seguro. Te envía a investigar. Si hay un dragón, matarlo sería la hazaña más grande desde Sigurd. Si no hay dragón... bueno, algo está matando ovejas.",
+      "themes": ["Investigación", "Monstruo", "Leyenda"],
+      "estimated_duration": "2-3 horas"
+    },
+    {
+      "name": "La Espada Maldita",
+      "hook": "Heredaste una espada de tu padre. Es hermosa, perfectamente equilibrada, y susurra cosas en la oscuridad. Un enano te advierte que está maldita y debes destruirla. Pero es la mejor arma que has tenido. Y los susurros... a veces tienen razón.",
+      "themes": ["Maldición", "Tentación", "Familia"],
+      "estimated_duration": "3-4 horas"
+    },
+    {
+      "name": "El Último Berserker",
+      "hook": "El berserker más famoso del norte está muriendo de vejez - algo que ningún berserker debería hacer. Te pide que lo ayudes a encontrar una última batalla digna. Pero sus enemigos o están muertos o son demasiado poderosos. ¿Podés darle la muerte que merece?",
+      "themes": ["Honor", "Muerte", "Legado"],
+      "estimated_duration": "2-3 horas"
+    }
+  ],
 
   "engine_notes": {
-    "story_mode": "Narrativa de saga nórdica. El destino (wyrd) es tema central pero puede desafiarse. Muerte honorable > vida cobarde. Los dioses intervienen activamente.",
-    "pbta": "Movimientos como 'Desafiar el Destino' y 'Invocar a los Dioses'. Fallos parciales = ayuda divina con precio, gloria con herida, victoria con pérdida.",
-    "year_zero": "Recursos: comida, pieles (calor), armas, favor divino. Empujar dados = invocar a un dios (requiere sacrificio después).",
-    "dnd_5e": "Usar sistema de sagas: cada 3 sesiones = 1 saga completa. Multiclass raro. Muerte más común. Revivir requiere intervención divina ganada."
+    "story_mode": "Narrativa de saga nórdica. El destino (wyrd) es tema central pero puede desafiarse. Muerte honorable > vida cobarde. Los dioses intervienen activamente. El DM debe narrar en estilo épico, como un skald contando la saga del jugador. Los fallos nunca son aburridos - siempre llevan a complicaciones interesantes.",
+    "pbta": "Movimientos como 'Desafiar el Destino', 'Invocar a los Dioses', 'Enfrentar el Miedo', 'Imponer tu Voluntad'. Fallos parciales (7-9) = ayuda divina con precio, gloria con herida, victoria con pérdida. El lobo que te ayuda hoy podría comerte mañana.",
+    "year_zero": "Recursos escasos: comida, pieles (calor), armas, favor divino. Empujar dados = invocar a un dios (requiere sacrificio después, que el DM cobrará en el peor momento). El frío es un enemigo constante. La muerte está siempre cerca.",
+    "dnd_5e": "Usar sistema de sagas: cada 3 sesiones = 1 saga completa. Multiclass raro - los vikingos son especialistas. Muerte más común que en D&D normal - resurrección requiere intervención divina ganada a través de acciones heroicas. Los dioses son ACTIVOS, no distantes."
   },
 
-  "tutorial_notes": "Para NOVICE: Explicar cultura vikinga: honor > vida, muerte en batalla = paraíso, cobardía = deshonra eterna. Tutorial en aldea con cacería antes de primera incursión. Jarl actúa como mentor.",
+  "tutorial_notes": "Para NOVICE: Explicar cultura vikinga: honor > vida, muerte en batalla = paraíso (Valhalla), cobardía = deshonra eterna (Helheim). Tutorial en aldea con cacería simple antes de primera incursión. Jarl actúa como mentor dando consejos. Introducir gradualmente los conceptos: primero el clan, luego los dioses, luego la magia. El primer combate debe ser ganable pero mostrar que la violencia tiene peso.",
 
   "glossary": {
-    "Jarl": "Líder de un clan vikingo - noble guerrero",
-    "Skald": "Poeta y cantor de sagas",
-    "Drakkar": "Barco vikingo largo para incursiones",
-    "Valhalla": "Salón de Odín donde van guerreros caídos en batalla",
-    "Valquiria": "Guerreras divinas que eligen quién va al Valhalla",
-    "Berserker": "Guerrero en trance de furia divina",
-    "Thing": "Asamblea donde se toman decisiones del clan",
-    "Wyrd": "Destino - tejido por las Nornas",
-    "Ragnarök": "Fin del mundo profetizado",
-    "Midgard": "El mundo de los humanos"
+    "Jarl": "Líder de un clan vikingo - noble guerrero con poder sobre vida y muerte de su gente",
+    "Skald": "Poeta y cantor de sagas - su palabra puede inmortalizar o destruir",
+    "Drakkar": "Barco vikingo largo para incursiones - 'dragón' por la cabeza tallada en la proa",
+    "Valhalla": "Salón de Odín donde van guerreros caídos en batalla - festín y combate eternos",
+    "Valquiria": "Guerreras divinas que eligen quién va al Valhalla y quién a Helheim",
+    "Berserker": "Guerrero en trance de furia divina - no siente dolor ni miedo",
+    "Thing": "Asamblea donde se toman decisiones del clan - incluso el jarl debe escuchar",
+    "Wyrd": "Destino - tejido por las Nornas, puede desafiarse pero nunca escaparse completamente",
+    "Ragnarök": "Fin del mundo profetizado - batalla final entre dioses y gigantes",
+    "Midgard": "El mundo de los humanos - rodeado por el océano y la serpiente Jörmungandr",
+    "Æsir": "Los dioses principales - Odín, Thor, Tyr, etc.",
+    "Vanir": "Dioses de la fertilidad y el mar - Freyr, Freyja, Njörðr",
+    "Jötnar": "Gigantes - enemigos ancestrales de los dioses",
+    "Draugr": "Muerto viviente nórdico - cadáver animado por voluntad propia",
+    "Völva": "Vidente - practicante de magia seiðr, ve el futuro y habla con muertos",
+    "Seiðr": "Magia nórdica - visiones, maldiciones, transformaciones",
+    "Holmgang": "Duelo judicial - manera legítima de resolver disputas",
+    "Nið": "Poema de vergüenza - insulto tan poderoso que puede destruir el honor",
+    "Thrall": "Esclavo - sin derechos pero puede ganar libertad",
+    "Einherjar": "Los guerreros caídos que viven en el Valhalla, entrenando para Ragnarök",
+    "Fimbulwinter": "El gran invierno - tres años sin verano que preceden a Ragnarök",
+    "Bifröst": "El puente arcoíris que conecta Midgard con Asgard",
+    "Yggdrasil": "El Árbol del Mundo - conecta los nueve reinos",
+    "Ginnungagap": "El vacío primordial - lo que existía antes de la creación",
+    "Kenning": "Metáfora poética - ej: 'camino de las ballenas' = mar",
+    "Skjaldmær": "Doncella escudera - mujer guerrera que pelea junto a los hombres"
   }
 }
