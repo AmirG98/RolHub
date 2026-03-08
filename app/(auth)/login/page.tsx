@@ -8,7 +8,8 @@ export default function LoginPage() {
         <SignIn
           appearance={clerkConfig.appearance}
           signUpUrl={clerkConfig.signUpUrl}
-          afterSignInUrl={clerkConfig.afterSignInUrl}
+          fallbackRedirectUrl={clerkConfig.afterSignInUrl}
+          path="/login"
           routing="path"
         />
       </div>

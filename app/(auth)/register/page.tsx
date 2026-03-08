@@ -8,7 +8,8 @@ export default function RegisterPage() {
         <SignUp
           appearance={clerkConfig.appearance}
           signInUrl={clerkConfig.signInUrl}
-          afterSignUpUrl={clerkConfig.afterSignUpUrl}
+          fallbackRedirectUrl={clerkConfig.afterSignUpUrl}
+          path="/register"
           routing="path"
         />
       </div>
