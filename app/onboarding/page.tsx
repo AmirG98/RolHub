@@ -7,7 +7,27 @@ import { LoreSelector } from '@/components/onboarding/LoreSelector'
 import { ModeSelector } from '@/components/onboarding/ModeSelector'
 import { ArchetypeSelector } from '@/components/onboarding/ArchetypeSelector'
 import { Lore, GameMode, GameEngine, TutorialLevel, Archetype } from '@/lib/types/lore'
+
+// Importar todos los lores
 import lotrData from '@/data/lores/lotr.json'
+import zombiesData from '@/data/lores/zombies.json'
+import isekaiData from '@/data/lores/isekai.json'
+import vikingosData from '@/data/lores/vikingos.json'
+import starwarsData from '@/data/lores/starwars.json'
+import cyberpunkData from '@/data/lores/cyberpunk.json'
+import lovecraftData from '@/data/lores/lovecraft.json'
+
+// Mapeo de lore a datos
+const LORE_DATA: Record<Lore, any> = {
+  LOTR: lotrData,
+  ZOMBIES: zombiesData,
+  ISEKAI: isekaiData,
+  VIKINGOS: vikingosData,
+  STAR_WARS: starwarsData,
+  CYBERPUNK: cyberpunkData,
+  LOVECRAFT_HORROR: lovecraftData,
+  CUSTOM: lotrData, // Fallback
+}
 
 export default function OnboardingPage() {
   const router = useRouter()
@@ -19,12 +39,14 @@ export default function OnboardingPage() {
   const [tutorialLevel, setTutorialLevel] = useState<TutorialLevel | null>(null)
   const [selectedArchetype, setSelectedArchetype] = useState<Archetype | null>(null)
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const handleCreateCharacter = async (archetype: Archetype) => {
     if (!selectedLore || !gameMode || !engine || !tutorialLevel || !user) return
 
     setSelectedArchetype(archetype)
     setLoading(true)
+    setError(null)
 
     try {
       const response = await fetch('/api/character/create', {
@@ -36,28 +58,45 @@ export default function OnboardingPage() {
           engine,
           tutorialLevel,
           archetypeId: archetype.id,
-          characterName: archetype.name, // Por defecto usa el nombre del arquetipo, se puede personalizar después
+          characterName: archetype.name,
         }),
       })
 
       const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.details || data.error || 'Error creando personaje')
+      }
+
       if (data.sessionId) {
         router.push(`/play/${data.sessionId}`)
       } else {
-        throw new Error(data.error || 'Error creando personaje')
+        throw new Error('No se recibio ID de sesion')
       }
-    } catch (error) {
-      console.error('Error creating character:', error)
-      alert('Hubo un error al crear tu personaje. Por favor intenta de nuevo.')
-    } finally {
+    } catch (err) {
+      console.error('Error creating character:', err)
+      setError((err as Error).message)
       setLoading(false)
     }
   }
 
-  // Cargar los arquetipos según el lore seleccionado
+  // Cargar los arquetipos segun el lore seleccionado
   const getArchetypes = (): Archetype[] => {
-    // Por ahora solo tenemos LOTR, en el futuro cargar dinámicamente según selectedLore
-    return lotrData.archetypes as Archetype[]
+    if (!selectedLore) return []
+
+    const loreData = LORE_DATA[selectedLore]
+    if (!loreData?.archetypes) {
+      console.error(`No archetypes found for lore: ${selectedLore}`)
+      return []
+    }
+
+    return loreData.archetypes as Archetype[]
+  }
+
+  // Obtener el nombre del lore para mostrar
+  const getLoreName = (): string => {
+    if (!selectedLore) return ''
+    return LORE_DATA[selectedLore]?.name || selectedLore
   }
 
   if (loading) {
@@ -66,6 +105,7 @@ export default function OnboardingPage() {
         <div className="text-center content-wrapper">
           <div className="candlelight text-gold-bright text-6xl mb-4">⏳</div>
           <p className="font-heading text-gold-bright text-2xl glow-effect">Preparando tu aventura...</p>
+          <p className="font-body text-parchment/60 mt-2">Creando tu personaje en {getLoreName()}</p>
           <div className="mt-8 flex justify-center gap-2">
             <div className="w-2 h-2 bg-gold-bright rounded-full animate-pulse" style={{ animationDelay: '0s' }}></div>
             <div className="w-2 h-2 bg-gold-bright rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
@@ -76,9 +116,30 @@ export default function OnboardingPage() {
     )
   }
 
+  if (error) {
+    return (
+      <div className="min-h-screen particle-bg flex items-center justify-center">
+        <div className="text-center content-wrapper glass-panel-dark p-8 rounded-lg max-w-md">
+          <div className="text-blood text-6xl mb-4">⚠️</div>
+          <h2 className="font-heading text-blood text-2xl mb-4">Error al crear personaje</h2>
+          <p className="font-body text-parchment/80 mb-6">{error}</p>
+          <button
+            onClick={() => {
+              setError(null)
+              setStep(3)
+            }}
+            className="px-6 py-3 bg-gold hover:bg-gold-bright text-shadow font-heading rounded transition-all"
+          >
+            Intentar de nuevo
+          </button>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <>
-      {/* Paso 1: Selección de Lore */}
+      {/* Paso 1: Seleccion de Lore */}
       {step === 1 && <LoreSelector onSelect={(lore) => { setSelectedLore(lore); setStep(2) }} />}
 
       {/* Paso 2: Modo, Engine y Tutorial Level */}
@@ -94,10 +155,11 @@ export default function OnboardingPage() {
         />
       )}
 
-      {/* Paso 3: Selección de Arquetipo */}
-      {step === 3 && (
+      {/* Paso 3: Seleccion de Arquetipo */}
+      {step === 3 && selectedLore && (
         <ArchetypeSelector
           archetypes={getArchetypes()}
+          loreName={getLoreName()}
           onSelect={handleCreateCharacter}
           onBack={() => setStep(2)}
         />
