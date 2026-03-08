@@ -1,29 +1,36 @@
+import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
 
-const publicPaths = [
+const isPublicRoute = createRouteMatcher([
   '/',
-  '/login',
-  '/register',
+  '/login(.*)',
+  '/register(.*)',
   '/api/health',
   '/dados',
   '/hoja-personaje',
   '/design-system',
   '/onboarding',
-]
+])
 
-export default function middleware(request: NextRequest) {
+export default clerkMiddleware(async (auth, request) => {
+  const { userId } = await auth()
   const pathname = request.nextUrl.pathname
 
-  // Por ahora, permitir acceso a todas las rutas públicas sin Clerk
-  // TODO: Integrar Clerk cuando tengamos keys reales
-  if (publicPaths.some(path => pathname.startsWith(path))) {
+  // Si es ruta pública, permitir acceso
+  if (isPublicRoute(request)) {
     return NextResponse.next()
   }
 
-  // Redirigir rutas protegidas a home
-  return NextResponse.redirect(new URL('/', request.url))
-}
+  // Si no está autenticado, redirigir a login
+  if (!userId) {
+    const signInUrl = new URL('/login', request.url)
+    signInUrl.searchParams.set('redirect_url', pathname)
+    return NextResponse.redirect(signInUrl)
+  }
+
+  // Usuario autenticado, permitir acceso
+  return NextResponse.next()
+})
 
 export const config = {
   matcher: [
