@@ -19,14 +19,18 @@ const modes = [
   {
     id: 'ONE_SHOT' as GameMode,
     name: 'Misión Única',
-    description: '45-60 minutos. Una aventura autoconclusiva que termina en una sola sesión',
-    icon: <Clock className="h-12 w-12" />,
+    tagline: 'Aventura de una sola sesión',
+    description: '45-60 minutos de acción concentrada',
+    icon: '⚡',
+    color: '#FFD93D',
   },
   {
     id: 'CAMPAIGN' as GameMode,
     name: 'Campaña',
-    description: 'Múltiples sesiones. Tu personaje evoluciona a través de una historia épica',
-    icon: <Calendar className="h-12 w-12" />,
+    tagline: 'Historia larga y épica',
+    description: 'Múltiples sesiones con evolución del personaje',
+    icon: '📖',
+    color: '#B026FF',
   },
 ]
 
@@ -34,29 +38,37 @@ const engines = [
   {
     id: 'STORY_MODE' as GameEngine,
     name: 'Modo Historia',
-    description: 'Sin dados ni números. Todo se decide narrativamente. Ideal para principiantes.',
-    icon: <Book className="h-12 w-12" />,
+    tagline: 'Sin dados, narrativo puro',
+    description: 'Todo se decide por la historia. Ideal para principiantes.',
+    icon: '📚',
+    color: '#00D9FF',
     recommended: true,
   },
   {
     id: 'PBTA' as GameEngine,
     name: 'Powered by Apocalypse',
-    description: 'Sistema simple con 2d6. Los fallos siempre avanzan la historia.',
-    icon: <Dices className="h-12 w-12" />,
+    tagline: '2d6, fallos interesantes',
+    description: 'Sistema simple. Los fallos avanzan la historia.',
+    icon: '🎲',
+    color: '#FFD93D',
     recommended: false,
   },
   {
     id: 'YEAR_ZERO' as GameEngine,
     name: 'Year Zero Engine',
-    description: 'Recursos escasos y decisiones difíciles. Pool de d6 con mecánica de empujar.',
-    icon: <Sword className="h-12 w-12" />,
+    tagline: 'Pool de d6, supervivencia',
+    description: 'Recursos escasos y decisiones difíciles.',
+    icon: '💀',
+    color: '#FF6B6B',
     recommended: false,
   },
   {
     id: 'DND_5E' as GameEngine,
-    name: 'D&D 5e (SRD)',
-    description: 'Sistema clásico con d20, clases, niveles y spell slots. Para veteranos.',
-    icon: <Users className="h-12 w-12" />,
+    name: 'D&D 5e',
+    tagline: 'd20, reglas clásicas',
+    description: 'Sistema tradicional. Para veteranos de rol.',
+    icon: '🐉',
+    color: '#B026FF',
     recommended: false,
   },
 ]
@@ -66,21 +78,29 @@ const tutorialLevels = [
     id: 'NOVICE' as TutorialLevel,
     name: 'Primera vez',
     description: 'Nunca jugué algo así - quiero un tutorial completo',
+    icon: '🌱',
+    color: '#39FF14',
   },
   {
     id: 'CASUAL' as TutorialLevel,
     name: 'Jugué RPGs',
     description: 'Jugué videojuegos RPG como Skyrim o Baldur\'s Gate',
+    icon: '🎮',
+    color: '#00D9FF',
   },
   {
     id: 'EXPERIENCED' as TutorialLevel,
     name: 'Jugué D&D',
     description: 'Jugué D&D o similar alguna vez',
+    icon: '🎲',
+    color: '#FFD93D',
   },
   {
     id: 'VETERAN' as TutorialLevel,
     name: 'Soy veterano',
     description: 'Juego rol regularmente, sé lo que hago',
+    icon: '⚔️',
+    color: '#B026FF',
   },
 ]
 
@@ -105,19 +125,20 @@ export function ModeSelector({ onSelect, onBack }: ModeSelectorProps) {
 
           <div className="grid md:grid-cols-2 gap-6">
             {modes.map((mode) => (
-              <div
+              <button
                 key={mode.id}
-                className={`glass-panel rounded-lg p-6 cursor-pointer transition-all duration-300 hover:scale-105 ${
+                className={`glass-panel rounded-lg p-6 cursor-pointer transition-all duration-300 hover:scale-105 text-left ${
                   selectedMode === mode.id ? 'glow-effect ring-2 ring-gold-bright' : ''
                 }`}
                 onClick={() => setSelectedMode(mode.id)}
               >
-                <div className="flex flex-col items-center text-center space-y-3">
-                  <div className="text-gold-bright">{mode.icon}</div>
-                  <h3 className="font-heading text-2xl text-gold">{mode.name}</h3>
-                  <p className="font-body text-parchment/80 text-sm">{mode.description}</p>
-                </div>
-              </div>
+                <div className="text-5xl mb-3">{mode.icon}</div>
+                <h3 className="font-heading text-2xl text-parchment mb-2">{mode.name}</h3>
+                <p className="font-ui text-sm mb-2" style={{ color: mode.color }}>
+                  {mode.tagline}
+                </p>
+                <p className="font-body text-xs text-parchment/60">{mode.description}</p>
+              </button>
             ))}
           </div>
         </div>
@@ -133,26 +154,25 @@ export function ModeSelector({ onSelect, onBack }: ModeSelectorProps) {
 
           <div className="grid md:grid-cols-2 gap-4">
             {engines.map((engine) => (
-              <div
+              <button
                 key={engine.id}
-                className={`glass-panel rounded-lg p-4 cursor-pointer transition-all duration-300 hover:scale-105 relative ${
+                className={`glass-panel rounded-lg p-4 cursor-pointer transition-all duration-300 hover:scale-105 text-left relative ${
                   selectedEngine === engine.id ? 'glow-effect ring-2 ring-gold-bright' : ''
                 }`}
                 onClick={() => setSelectedEngine(engine.id)}
               >
-                <div className="flex flex-col items-center text-center space-y-2">
-                  <div className="text-gold-bright">{engine.icon}</div>
-                  <div className="flex items-center gap-2">
-                    <h3 className="font-heading text-xl text-parchment">{engine.name}</h3>
-                    {engine.recommended && (
-                      <span className="bg-emerald text-parchment px-2 py-0.5 rounded-full text-xs font-ui font-semibold">
-                        Recomendado
-                      </span>
-                    )}
+                {engine.recommended && (
+                  <div className="absolute top-2 right-2 bg-emerald text-parchment px-2 py-0.5 rounded-full text-xs font-ui font-semibold">
+                    Recomendado
                   </div>
-                  <p className="font-body text-parchment/70 text-xs">{engine.description}</p>
-                </div>
-              </div>
+                )}
+                <div className="text-4xl mb-2">{engine.icon}</div>
+                <h3 className="font-heading text-lg text-parchment mb-1">{engine.name}</h3>
+                <p className="font-ui text-xs mb-2" style={{ color: engine.color }}>
+                  {engine.tagline}
+                </p>
+                <p className="font-body text-xs text-parchment/60">{engine.description}</p>
+              </button>
             ))}
           </div>
         </div>
@@ -168,18 +188,17 @@ export function ModeSelector({ onSelect, onBack }: ModeSelectorProps) {
 
           <div className="grid md:grid-cols-2 gap-4">
             {tutorialLevels.map((level) => (
-              <div
+              <button
                 key={level.id}
-                className={`glass-panel rounded-lg p-4 cursor-pointer transition-all duration-300 hover:scale-105 ${
+                className={`glass-panel rounded-lg p-4 cursor-pointer transition-all duration-300 hover:scale-105 text-left ${
                   selectedTutorial === level.id ? 'glow-effect ring-2 ring-gold-bright' : ''
                 }`}
                 onClick={() => setSelectedTutorial(level.id)}
               >
-                <div className="text-center space-y-2">
-                  <h3 className="font-heading text-lg text-parchment">{level.name}</h3>
-                  <p className="font-body text-parchment/70 text-xs">{level.description}</p>
-                </div>
-              </div>
+                <div className="text-4xl mb-2">{level.icon}</div>
+                <h3 className="font-heading text-lg text-parchment mb-1">{level.name}</h3>
+                <p className="font-body text-xs text-parchment/60">{level.description}</p>
+              </button>
             ))}
           </div>
         </div>
