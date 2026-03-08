@@ -1,0 +1,356 @@
+{
+  "id": "ZOMBIE_SURVIVAL",
+  "name": "Apocalipsis Zombie",
+  "tagline": "Sobrevivir un día más en un mundo muerto",
+  "tone": ["desesperado", "tenso", "brutal", "realista"],
+  "world_summary": "Hace tres meses, todo colapsó. Una plaga convirtió al 90% de la humanidad en muertos vivientes hambrientos. Las ciudades son tumbas. Los recursos se agotan. Los sobrevivientes son tan peligrosos como los zombies. No hay gobierno, no hay ley, solo la lucha diaria por ver otro amanecer. Cada decisión puede ser la última. Confiar en alguien es un riesgo mortal. El mundo que conocías ya no existe, y lo que queda es una pesadilla sin fin donde la muerte acecha en cada esquina.",
+
+  "factions": [
+    {
+      "name": "Los Refugiados",
+      "description": "Sobrevivientes comunes que buscan seguridad en números",
+      "alignment": "Neutral",
+      "influence": 1
+    },
+    {
+      "name": "Los Saqueadores",
+      "description": "Bandas violentas que toman lo que quieren por la fuerza",
+      "alignment": "Malvado",
+      "influence": 2
+    },
+    {
+      "name": "El Laboratorio",
+      "description": "Científicos que buscan una cura - a cualquier costo",
+      "alignment": "Neutral",
+      "influence": 1
+    },
+    {
+      "name": "Los Militares",
+      "description": "Restos de las fuerzas armadas, desesperados por control",
+      "alignment": "Neutral",
+      "influence": 1
+    }
+  ],
+
+  "locations": [
+    {
+      "name": "Centro Comercial Abandonado",
+      "description": "Lleno de suministros pero infestado de zombies",
+      "type": "comercio",
+      "danger_level": 3
+    },
+    {
+      "name": "Hospital en Ruinas",
+      "description": "Medicinas vitales pero peligro extremo",
+      "type": "hospital",
+      "danger_level": 4
+    },
+    {
+      "name": "Campamento de Refugiados",
+      "description": "Asentamiento precario de sobrevivientes",
+      "type": "asentamiento",
+      "danger_level": 2
+    },
+    {
+      "name": "Base Militar Aband onada",
+      "description": "Armas y municiones, pero¿qué experimentos había aquí?",
+      "type": "militar",
+      "danger_level": 4
+    },
+    {
+      "name": "Autopista Desolada",
+      "description": "Miles de autos abandonados - escondites y peligro",
+      "type": "carretera",
+      "danger_level": 3
+    },
+    {
+      "name": "Granja Aislada",
+      "description": "Posible refugio seguro - o trampa mortal",
+      "type": "rural",
+      "danger_level": 2
+    },
+    {
+      "name": "Túneles del Metro",
+      "description": "Oscuridad total, ecos de gemidos en la distancia",
+      "type": "subterráneo",
+      "danger_level": 5
+    },
+    {
+      "name": "Zona de Cuarentena",
+      "description": "Cercada por el ejército antes del colapso total",
+      "type": "ciudad",
+      "danger_level": 5
+    }
+  ],
+
+  "archetypes": [
+    {
+      "id": "medic",
+      "name": "Paramédico",
+      "description": "Salvaste vidas antes - ahora salvas lo que queda de humanidad",
+      "simple_description": "Sabés primeros auxilios y cómo curar heridas. Tu conocimiento médico mantiene vivo al grupo. Cada vida salvada es una pequeña victoria.",
+      "starting_stats": {
+        "hp": 16,
+        "maxHp": 16,
+        "combat": 2,
+        "exploration": 3,
+        "social": 4,
+        "lore": 3
+      },
+      "starting_inventory": [
+        "Botiquín médico completo",
+        "Bisturí (arma improvisada)",
+        "Antibióticos (3 dosis)",
+        "Vendas",
+        "Linterna de mano"
+      ],
+      "special_ability": "Primeros Auxilios Expertos: Podés estabilizar heridas graves y curar el doble con suministros médicos"
+    },
+    {
+      "id": "soldier",
+      "name": "Ex-Militar",
+      "description": "Fuiste entrenado para la guerra - esto es peor",
+      "simple_description": "Sabés usar armas y tácticas de combate. Tu entrenamiento te mantiene con vida. Protegés a los que no pueden defenderse.",
+      "starting_stats": {
+        "hp": 22,
+        "maxHp": 22,
+        "combat": 5,
+        "exploration": 3,
+        "social": 1,
+        "lore": 1
+      },
+      "starting_inventory": [
+        "Rifle de asalto (30 balas)",
+        "Pistola (15 balas)",
+        "Chaleco antibalas",
+        "Cuchillo de combate",
+        "Brújula y mapa"
+      ],
+      "special_ability": "Tácticas de Combate: Podés planear emboscadas y tu daño es crítico contra grupos de enemigos"
+    },
+    {
+      "id": "scavenger",
+      "name": "Saqueador",
+      "description": "Sobrevivías en las calles antes del apocalipsis - ahora sos experto",
+      "simple_description": "Sabés encontrar cosas donde otros ven nada. Moverte sigilosamente es tu fuerte. Los edificios abandonados son tu territorio.",
+      "starting_stats": {
+        "hp": 18,
+        "maxHp": 18,
+        "combat": 3,
+        "exploration": 5,
+        "social": 2,
+        "lore": 2
+      },
+      "starting_inventory": [
+        "Palanca",
+        "Mochila grande",
+        "Ganzúas",
+        "Cuerda (50ft)",
+        "Lata de comida enlatada (5)"
+      ],
+      "special_ability": "Buscador Nato: Siempre encontrás recursos extra cuando saqueas. Podés abrir cerraduras y detectar trampas"
+    }
+  ],
+
+  "voice_id": "tenso_urgente",
+  "npc_voices": {
+    "sobreviviente": "asustado_desesperado",
+    "militar": "autoritario_cansado",
+    "saqueador": "agresivo_desconfiado",
+    "científico": "frío_analítico",
+    "niño": "vulnerable_perdido"
+  },
+  "music_mood": "horror_ambient",
+  "art_style": "dark photography, desaturated, gritty cinematic realism, post-apocalyptic, The Last of Us style",
+
+  "roll_tables": {
+    "encounters": {
+      "formula": "1d20",
+      "results": [
+        { "range": [1, 4], "result": "Grupo de sobrevivientes amigables - intercambio de suministros" },
+        { "range": [5, 8], "result": "Zombie solitario vagando - fácil de evitar o eliminar" },
+        { "range": [9, 12], "result": "Horda pequeña (5-8 zombies) bloqueando el camino" },
+        { "range": [13, 15], "result": "Saqueadores hostiles exigiendo tus suministros" },
+        { "range": [16, 17], "result": "Zombie rápido (corredor) persiguiéndote" },
+        { "range": [18, 19], "result": "Trampa dejada por otros sobrevivientes" },
+        { "range": [20, 20], "result": "Horda masiva (20+) - huir es la única opción" }
+      ]
+    },
+    "weather": {
+      "formula": "1d8",
+      "results": [
+        { "range": [1, 2], "result": "Día nublado - buena visibilidad" },
+        { "range": [3, 4], "result": "Lluvia ligera - reduce el ruido de tus pasos" },
+        { "range": [5, 6], "result": "Niebla densa - visibilidad muy reducida" },
+        { "range": [7, 7], "result": "Tormenta eléctrica - los zombies están agitados" },
+        { "range": [8, 8], "result": "Nieve - frío extremo, huellas visibles" }
+      ]
+    },
+    "loot": {
+      "formula": "1d10",
+      "results": [
+        { "range": [1, 3], "result": "Comida enlatada (2-3 latas)" },
+        { "range": [4, 5], "result": "Agua embotellada (1 litro)" },
+        { "range": [6, 7], "result": "Munición (1d6 balas del calibre que uses)" },
+        { "range": [8, 8], "result": "Botiquín de primeros auxilios" },
+        { "range": [9, 9], "result": "Arma improvisada de calidad (bate con clavos, machete)" },
+        { "range": [10, 10], "result": "Walkie-talkie funcionando con baterías" }
+      ]
+    },
+    "npc_names": {
+      "formula": "1d20",
+      "results": [
+        { "range": [1, 1], "result": "Marcus" },
+        { "range": [2, 2], "result": "Elena" },
+        { "range": [3, 3], "result": "David" },
+        { "range": [4, 4], "result": "Sarah" },
+        { "range": [5, 5], "result": "Mike" },
+        { "range": [6, 6], "result": "Jessica" },
+        { "range": [7, 7], "result": "Chris" },
+        { "range": [8, 8], "result": "Amanda" },
+        { "range": [9, 9], "result": "Tyler" },
+        { "range": [10, 10], "result": "Rebecca" },
+        { "range": [11, 11], "result": "Jason" },
+        { "range": [12, 12], "result": "Nicole" },
+        { "range": [13, 13], "result": "Brandon" },
+        { "range": [14, 14], "result": "Melissa" },
+        { "range": [15, 15], "result": "Kevin" },
+        { "range": [16, 16], "result": "Rachel" },
+        { "range": [17, 17], "result": "Tommy" },
+        { "range": [18, 18], "result": "Lisa" },
+        { "range": [19, 19], "result": "Jake" },
+        { "range": [20, 20], "result": "Maria" }
+      ]
+    },
+    "events": {
+      "formula": "1d8",
+      "results": [
+        { "range": [1, 1], "result": "Escuchás disparos a lo lejos" },
+        { "range": [2, 2], "result": "Encontrás un mensaje de socorro garabateado en una pared" },
+        { "range": [3, 3], "result": "Un edificio está en llamas - zombies atraídos al ruido" },
+        { "range": [4, 4], "result": "Helicóptero militar sobrevuela la zona" },
+        { "range": [5, 5], "result": "Transmisión de radio débil - alguien pide ayuda" },
+        { "range": [6, 6], "result": "Encontrás un vehículo con las llaves puestas" },
+        { "range": [7, 7], "result": "Señales de un refugio cercano - ¿es seguro?" },
+        { "range": [8, 8], "result": "Tu suministro de agua está contaminado" }
+      ]
+    }
+  },
+
+  "active_effects_pool": [
+    {
+      "id": "infectado",
+      "name": "Infectado",
+      "description": "Te mordieron - tenés pocas horas",
+      "type": "critical",
+      "duration": 5,
+      "effects": { "hp_per_turn": -3, "combat": -2 }
+    },
+    {
+      "id": "exhausto_critico",
+      "name": "Exhausto Crítico",
+      "description": "No dormiste en días - apenas podés mantenerte de pie",
+      "type": "debuff",
+      "duration": 3,
+      "effects": { "combat": -3, "exploration": -2, "social": -1 }
+    },
+    {
+      "id": "adrenalina",
+      "name": "Adrenalina",
+      "description": "El miedo te da fuerza sobrehumana",
+      "type": "buff",
+      "duration": 2,
+      "effects": { "combat": 3, "exploration": 2 }
+    },
+    {
+      "id": "desmoralizado",
+      "name": "Desmoralizado",
+      "description": "Perdiste algo importante - tu voluntad flaquea",
+      "type": "debuff",
+      "duration": 4,
+      "effects": { "social": -2, "combat": -1 }
+    }
+  ],
+
+  "narrative_skeleton": {
+    "act_1": {
+      "name": "Primer Día del Fin del Mundo",
+      "description": "El caos inicial - aprender a sobrevivir",
+      "anchors": [
+        "Despertar en un mundo transformado",
+        "Primera confrontación con zombies",
+        "Encontrar otros sobrevivientes"
+      ],
+      "typical_scenes": ["Campamento de Refugiados", "Autopista Desolada"],
+      "mood": "horror_ambient"
+    },
+    "act_2": {
+      "name": "Sobrevivir el Invierno",
+      "description": "Recursos escasos - decisiones imposibles",
+      "anchors": [
+        "Los suministros se agotan",
+        "Conflicto con otros grupos",
+        "Búsqueda desesperada de refugio seguro"
+      ],
+      "typical_scenes": ["Centro Comercial Abandonado", "Granja Aislada"],
+      "mood": "drama_tense"
+    },
+    "act_3": {
+      "name": "La Traición",
+      "description": "Los humanos son más peligrosos que los zombies",
+      "anchors": [
+        "Alguien del grupo traiciona la confianza",
+        "Pérdida de un refugio seguro",
+        "Descubrimiento de una verdad terrible"
+      ],
+      "typical_scenes": ["Base Militar Abandonada", "Hospital en Ruinas"],
+      "mood": "horror_ambient"
+    },
+    "act_4": {
+      "name": "Una Chispa de Esperanza",
+      "description": "Rumores de un lugar seguro - o una cura",
+      "anchors": [
+        "Información sobre un refugio real",
+        "Viaje peligroso atravesando zona muerta",
+        "Último sacrificio para que otros sobrevivan"
+      ],
+      "typical_scenes": ["Zona de Cuarentena", "Túneles del Metro"],
+      "mood": "combat_epic"
+    },
+    "act_5": {
+      "name": "Un Nuevo Amanecer",
+      "description": "¿Hay futuro para la humanidad?",
+      "anchors": [
+        "Llegada al refugio - o su destrucción",
+        "Decisión sobre reconstruir o solo sobrevivir",
+        "El precio de la supervivencia"
+      ],
+      "typical_scenes": ["Campamento de Refugiados", "Base Militar Abandonada"],
+      "mood": "rest_peaceful"
+    }
+  },
+
+  "one_shot_hook": "Hace dos días que no comen. El grupo se quedó sin suministros y el niño está enfermo. Hay un supermercado a tres kilómetros - pero está en plena zona roja. Tienen hasta el anochecer para ir, saquear y volver. Si no lo logran, el niño morirá. Los gemidos de los muertos ya se escuchan en la distancia.",
+
+  "engine_notes": {
+    "story_mode": "Enfocarse en dilemas morales: ¿salvar a quién? ¿confiar en extraños? Los zombies son amenaza constante pero el verdadero horror son las decisiones imposibles.",
+    "pbta": "Movimientos como 'Actuar Bajo Presión' y 'Leer una Situación Peligrosa'. Los fallos parciales = ruido atrae zombies, recursos gastados, heridas leves.",
+    "year_zero": "PERFECTO para este lore. Recursos: munición, comida, agua, vendas. Empujar dados = hacer ruido, quemar recursos, arriesgar infección.",
+    "dnd_5e": "Adaptar a low-magic survival. Sin clases mágicas. Enfocarse en habilidades de supervivencia, medicina, sigilo. HP reducido universal mente."
+  },
+
+  "tutorial_notes": "Para NOVICE: Comenzar en lugar seguro con tutorial de mecánicas básicas. Primer zombie debe ser solitario y 'tutorial'. Explicar importancia de ruido, recursos, descanso. No matar personajes en primeros 3 turnos - dejar aprender de errores.",
+
+  "glossary": {
+    "Zombie": "Muerto viviente que solo busca carne humana. Lento pero implacable",
+    "Corredor": "Zombie que puede correr - extremadamente peligroso",
+    "Horda": "Grupo grande de zombies - huir es la única opción",
+    "Mordida": "Infección zombie. Sin cura conocida. Transformación en 6-12 horas",
+    "Saqueador": "Sobreviviente que roba a otros por la fuerza",
+    "Refugio": "Lugar fortificado donde estar relativamente seguro",
+    "Zona Roja": "Área con alta concentración de zombies - extremadamente peligroso",
+    "Zona de Cuarentena": "Donde el gobierno intentó contener el brote inicialmente",
+    "MRE": "Ración militar - comida enlatada que dura años",
+    "Walkie": "Radio de corto alcance para comunicación"
+  }
+}

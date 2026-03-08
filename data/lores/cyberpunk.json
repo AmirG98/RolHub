@@ -1,0 +1,125 @@
+{
+  "id": "CYBERPUNK",
+  "name": "Neón y Cromo",
+  "tagline": "Alta tecnología, baja vida en la ciudad del futuro",
+  "tone": ["oscuro", "tech-noir", "rebelde", "distópico"],
+  "world_summary": "2077. Las megacorporaciones controlan todo. La tecnología cibernética permite mejorar tu cuerpo pero te hace perder humanidad. Vivís en los bajos fondos de Night City, una metrópolis vertical donde los ricos están en torres de cristal y vos estás en las calles de neón. Hackers, mercenarios, netrunners y gente desesperada intentan sobrevivir. Las corporaciones tienen ejércitos privados. La ley solo existe para los ricos. Tu cuerpo es tu primera mejora. El dinero lo compra todo, incluso más vida.",
+
+  "factions": [
+    {"name": "Arasaka Corp", "description": "Megacorporación japonesa - poder absoluto", "alignment": "Malvado", "influence": 3},
+    {"name": "Los Fijadores", "description": "Intermediarios entre criminales y clientes", "alignment": "Neutral", "influence": 2},
+    {"name": "Netwatch", "description": "Policía del ciberespacio", "alignment": "Neutral", "influence": 1},
+    {"name": "Nomads", "description": "Familias que viven en vehículos fuera de la ciudad", "alignment": "Bueno", "influence": 1},
+    {"name": "Trauma Team", "description": "Paramédicos armados - solo para clientes premium", "alignment": "Neutral", "influence": 1}
+  ],
+
+  "locations": [
+    {"name": "Downtown Night City", "description": "Centro con rascacielos y neones", "type": "ciudad", "danger_level": 3},
+    {"name": "Los Bajos Fondos", "description": "Barrios pobres donde vivís", "type": "barrio", "danger_level": 4},
+    {"name": "La Red (Cyberspace)", "description": "Internet neural - peligrosa pero lucrativa", "type": "virtual", "danger_level": 5},
+    {"name": "Club Afterlife", "description": "Bar de mercenarios - donde se hacen los tratos", "type": "bar", "danger_level": 2},
+    {"name": "Torre Arasaka", "description": "Edificio corporativo - fortaleza blindada", "type": "edificio", "danger_level": 5},
+    {"name": "Ripperdoc", "description": "Clínica clandestina de implantes cibernéticos", "type": "clínica", "danger_level": 1},
+    {"name": "Badlands", "description": "Desierto fuera de la ciudad - territorio Nomad", "type": "desierto", "danger_level": 3},
+    {"name": "Mercado Negro", "description": "Tech robada y servicios ilegales", "type": "mercado", "danger_level": 3}
+  ],
+
+  "archetypes": [
+    {
+      "id": "solo",
+      "name": "Solo (Mercenario)",
+      "description": "Guerrero cibernético con reflejos mejorados",
+      "simple_description": "Tus implantes te hacen más rápido y mortal. Sos músculo de alquiler. Sobrevivís por tu arma y tus reflejos.",
+      "starting_stats": {"hp": 24, "maxHp": 24, "combat": 5, "exploration": 2, "social": 2, "lore": 1},
+      "starting_inventory": ["Pistola inteligente", "Mantis blades (implante)", "Jacket antibalas", "Estimulantes de combate", "Kontrato actual"],
+      "special_ability": "Reflejos Mejorados: Actúas primero en combate. Tus ataques cuerpo a cuerpo son críticos frecuentemente"
+    },
+    {
+      "id": "netrunner",
+      "name": "Netrunner (Hacker)",
+      "description": "Pirata informático que ataca desde el ciberespacio",
+      "simple_description": "Tu mente se conecta a la Red. Hackeás sistemas, robás data, fríes cerebros. El ciberespacio es tu arma.",
+      "starting_stats": {"hp": 14, "maxHp": 14, "combat": 1, "exploration": 3, "social": 3, "lore": 6},
+      "starting_inventory": ["Cyberdeck militar", "Silla de inmersión", "ICE breakers", "Data robada valiosa", "Firewall personal"],
+      "special_ability": "Hackear: Podés tomar control de sistemas, drones, implantes enemigos. En combate, dañás directamente la mente"
+    },
+    {
+      "id": "fixer",
+      "name": "Fixer (Intermediario)",
+      "description": "Conocés gente, conseguís cosas, hacés que sucedan",
+      "simple_description": "Tu red de contactos es tu poder. Conocés a todos. Podés conseguir cualquier cosa por el precio correcto.",
+      "starting_stats": {"hp": 16, "maxHp": 16, "combat": 2, "exploration": 3, "social": 6, "lore": 3},
+      "starting_inventory": ["Pistola oculta", "Teléfono encriptado", "Contactos en todas las facciones", "Club nocturno propio", "Deudas que cobrar"],
+      "special_ability": "Conexiones: Siempre conocés alguien que puede ayudar. Los NPCs te deben favores. Tenés intel privilegiada"
+    }
+  ],
+
+  "voice_id": "áspero_urbano",
+  "npc_voices": {"corp": "frío_profesional", "criminal": "amenazante_rudo", "ai": "sintético_distante", "netrunner": "tech_rápido"},
+  "music_mood": "drama_tense",
+  "art_style": "cyberpunk 2077 aesthetic, neon noir, blade runner style, high-tech low-life, dark urban future",
+
+  "roll_tables": {
+    "encounters": {
+      "formula": "1d20",
+      "results": [
+        {"range": [1,4], "result": "Fixer ofreciendo trabajo peligroso pero bien pagado"},
+        {"range": [5,8], "result": "Pandilla local exigiendo 'impuesto de protección'"},
+        {"range": [9,12], "result": "Cops corruptos buscando soborno"},
+        {"range": [13,15], "result": "Netrunner rival intentando hackearte"},
+        {"range": [16,17], "result": "Escuadrón corporativo cazándote"},
+        {"range": [18,19], "result": "IA rebelde en la Red pidiendo ayuda"},
+        {"range": [20,20], "result": "Oferta de implante experimental gratis - demasiado bueno para ser verdad"}
+      ]
+    },
+    "loot": {
+      "formula": "1d10",
+      "results": [
+        {"range": [1,3], "result": "Eddies (créditos) - 2d6 x 100"},
+        {"range": [4,5], "result": "Implante cibernético común"},
+        {"range": [6,7], "result": "Data chip con información valiosa"},
+        {"range": [8,9], "result": "Arma de calidad militar"},
+        {"range": [10,10], "result": "Implante legendario - tech experimental"}
+      ]
+    }
+  },
+
+  "active_effects_pool": [
+    {"id": "cyberpsicosis", "name": "Cyberpsicosis", "description": "Demasiados implantes - perdiendo humanidad", "type": "critical", "duration": 5, "effects": {"social": -4, "aggression": 3}},
+    {"id": "overclock", "name": "Overclock", "description": "Implantes al máximo - poder temporal", "type": "buff", "duration": 2, "effects": {"combat": 4, "exploration": 2}},
+    {"id": "flatline", "name": "Flatline", "description": "Tu corazón se detuvo - tienes segundos", "type": "critical", "duration": 1, "effects": {"dying": true}},
+    {"id": "jacked_in", "name": "Conectado a la Red", "description": "Tu mente está en el ciberespacio", "type": "buff", "duration": 999, "effects": {"lore": 3, "body_vulnerable": true}}
+  ],
+
+  "narrative_skeleton": {
+    "act_1": {"name": "El Gran Golpe", "description": "Un trabajo fácil... o eso creías", "anchors": ["Fixer te contrata para robo simple", "Algo sale terriblemente mal", "Ahora tenés a toda la ciudad buscándote"], "typical_scenes": ["Club Afterlife", "Los Bajos Fondos"], "mood": "drama_tense"},
+    "act_2": {"name": "Fugitivo", "description": "Esconderse mientras buscás respuestas", "anchors": ["Corporación poderosa te persigue", "Descubrís conspiración mayor", "Tus implantes tienen algo que ellos quieren"], "typical_scenes": ["Ripperdoc", "La Red"], "mood": "horror_ambient"},
+    "act_3": {"name": "Contraataque", "description": "Es hora de devolver el golpe", "anchors": ["Reunís equipo para infiltración", "Ataque a instalación corporativa", "Robo de información devastadora"], "typical_scenes": ["Torre Arasaka", "Downtown"], "mood": "combat_epic"},
+    "act_4": {"name": "Juego Final", "description": "Exposición masiva o guerra total", "anchors": ["Decisión: exponer a la corp o destruirla", "Batalla final en la Torre", "Sacrificio necesario"], "typical_scenes": ["Torre Arasaka", "La Red"], "mood": "combat_epic"},
+    "act_5": {"name": "Leyenda de Night City", "description": "Tu nombre será recordado... si sobrevivís", "anchors": ["Las consecuencias de tus acciones", "Nueva identidad o fama eterna", "Night City nunca cambia"], "typical_scenes": ["Club Afterlife", "Los Bajos Fondos"], "mood": "rest_peaceful"}
+  },
+
+  "one_shot_hook": "Un Fixer te ofrece 50,000 eddies por un trabajo simple: entrar a un edificio corporativo, robar un chip de data, salir. Dos horas máximo. Pero cuando conectás el chip, descubrís que contiene consciencia humana digitalizada... y esa persona sabe algo que hará que Arasaka te quiera muerto. El reloj corre. ¿Qué hacés?",
+
+  "engine_notes": {
+    "story_mode": "Narrativa noir con tecnología. Cada implante tiene costo emocional. Las corporaciones son invencibles pero podés lastimar las. Tono: desesperanza con chispas de rebeldía.",
+    "pbta": "Movimientos como 'Actuar Bajo Fuego' y 'Hackear el Sistema'. Fallos parciales = complicaciones tech, llamar atención corp, implante falla.",
+    "year_zero": "Recursos: munición, eddies, implantes, humanidad. Empujar dados = dañar implantes, perder humanidad, hacer ruido.",
+    "dnd_5e": "Tech = magia. Netrunners = wizards. Solos = fighters con magic items (implantes). Bajo HP universal. Muerte común."
+  },
+
+  "tutorial_notes": "Para NOVICE: Explicar que implantes = poder pero pérdida de humanidad. Tutorial en Ripperdoc eligiendo primer implante. Fixer actúa como mentor. Primer trabajo es simple entrega.",
+
+  "glossary": {
+    "Eddy": "Crédito - moneda de Night City",
+    "Implante": "Mejora cibernética del cuerpo",
+    "Netrunner": "Hacker que opera en el ciberespacio",
+    "Fixer": "Intermediario que conecta trabajos con mercenarios",
+    "Solo": "Mercenario/soldado de alquiler",
+    "Ripperdoc": "Doctor clandestino que instala implantes",
+    "ICE": "Software de seguridad en la Red",
+    "Flatline": "Morir - tu corazón se detiene",
+    "Cyberpsicosis": "Locura por tener demasiados implantes",
+    "Corp": "Corporación megapoderos a"
+  }
+}

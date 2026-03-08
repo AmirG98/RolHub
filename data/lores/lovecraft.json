@@ -1,0 +1,136 @@
+{
+  "id": "LOVECRAFT_HORROR",
+  "name": "Horrores Cósmicos",
+  "tagline": "Hay cosas que la humanidad no debe saber",
+  "tone": ["terrorífico", "cósmico", "desesperante", "misterioso"],
+  "world_summary": "Años 1920. Bajo la superficie de la realidad cotidiana, horrores ancestrales duermen. Dioses de otros planos esperan su momento. Cultos secretos adoran lo incomprensible. Vos sos un investigador que descubrió demasiado. Cada verdad que encontrás erosiona tu cordura. La humanidad es insignificante. Los Grandes Antiguos existen más allá del tiempo y espacio. El conocimiento prohibido te consume. No podés sin ver lo que viste. La locura es una bendición comparada con conocer la verdad del cosmos.",
+
+  "factions": [
+    {"name": "Miskatonic University", "description": "Academia que guarda libros prohibidos", "alignment": "Neutral Bueno", "influence": 1},
+    {"name": "Culto de Cthulhu", "description": "Adoradores del que duerme en R'lyeh", "alignment": "Malvado", "influence": 2},
+    {"name": "La Orden de la Estrella de Plata", "description": "Cazadores de lo sobrenatural", "alignment": "Bueno", "influence": 1},
+    {"name": "Los Profundos", "description": "Híbridos pez-humano en costas oscuras", "alignment": "Malvado", "influence": 1},
+    {"name": "Agentes Gubernamentales", "description": "Intentan ocultar la verdad al público", "alignment": "Neutral", "influence": 1}
+  ],
+
+  "locations": [
+    {"name": "Arkham", "description": "Ciudad aparentemente normal con secretos oscuros", "type": "ciudad", "danger_level": 3},
+    {"name": "Biblioteca Miskatonic", "description": "Contiene el Necronomicón y otros tomos malditos", "type": "biblioteca", "danger_level": 4},
+    {"name": "Innsmouth", "description": "Pueblo costero donde humanos se vuelven peces", "type": "pueblo", "danger_level": 5},
+    {"name": "Cementerio de Arkham", "description": "Donde muertos no descansan", "type": "cementerio", "danger_level": 4},
+    {"name": "Dimensión de los Sueños", "description": "Plano onírico donde habitan pesadillas", "type": "otro_plano", "danger_level": 5},
+    {"name": "Sanatorio", "description": "Psiquiátrico lleno de quienes vieron demasiado", "type": "hospital", "danger_level": 2},
+    {"name": "Mansión Abandonada", "description": "Hogar de experimentos prohibidos", "type": "mansión", "danger_level": 4},
+    {"name": "R'lyeh", "description": "Ciudad sumergida donde duerme Cthulhu", "type": "ciudad_hundida", "danger_level": 6}
+  ],
+
+  "archetypes": [
+    {
+      "id": "professor",
+      "name": "Profesor",
+      "description": "Académico que busca conocimiento peligroso",
+      "simple_description": "Tu intelecto es tu arma. Traducís lenguas muertas. Cada libro te acerca más a la verdad... y a la locura.",
+      "starting_stats": {"hp": 12, "maxHp": 12, "combat": 1, "exploration": 3, "social": 3, "lore": 7, "sanity": 60, "maxSanity": 100},
+      "starting_inventory": ["Ejemplar del Necronomicón (peligroso)", "Lupa", "Diario de investigación", "Contactos académicos", "Linterna"],
+      "special_ability": "Erudición Oscura: Podés leer textos prohibidos. Cada lectura te da +1 Lore pero -10 Sanity"
+    },
+    {
+      "id": "detective",
+      "name": "Detective Privado",
+      "description": "Investigador que siguió el caso equivocado",
+      "simple_description": "Sabés seguir pistas. Tu instinto te mantiene vivo. Has visto cosas que no deberías.",
+      "starting_stats": {"hp": 16, "maxHp": 16, "combat": 3, "exploration": 5, "social": 4, "lore": 2, "sanity": 70, "maxSanity": 100},
+      "starting_inventory": ["Revólver .38", "Insignia de detective", "Notas del caso", "Contacto en la policía", "Cámara"],
+      "special_ability": "Olfato para el Peligro: Detectás emboscadas y trampas. Primer ataque sorpresa siempre falla contra vos"
+    },
+    {
+      "id": "occultist",
+      "name": "Ocultista",
+      "description": "Practicante de artes místicas - conocés rituales",
+      "simple_description": "Podés realizar rituales antiguos. Entendés símbolos que otros no ven. La magia tiene precio.",
+      "starting_stats": {"hp": 14, "maxHp": 14, "combat": 2, "exploration": 3, "social": 3, "lore": 6, "sanity": 50, "maxSanity": 100},
+      "starting_inventory": ["Grimorio personal", "Velas rituales", "Sangre de cordero", "Amuleto protector", "Tiza para círculos"],
+      "special_ability": "Magia Ritual: Podés lanzar hechizos prohibidos. Cada hechizo cuesta Sanity pero puede salvar vidas"
+    }
+  ],
+
+  "voice_id": "susurrante_inquietante",
+  "npc_voices": {"culto": "fanatico_demente", "criatura": "no_humano_gutural", "victima": "traumatizado_roto", "anciano": "sabio_advertencia"},
+  "music_mood": "horror_ambient",
+  "art_style": "lovecraftian horror art, dark gothic, cosmic horror, tentacles and madness, 1920s noir aesthetic",
+
+  "roll_tables": {
+    "encounters": {
+      "formula": "1d20",
+      "results": [
+        {"range": [1,4], "result": "Ciudadano con comportamiento extraño - está siendo poseído"},
+        {"range": [5,8], "result": "Encuentras símbolo arcano que no reconocés - investigarlo cuesta Sanity"},
+        {"range": [9,12], "result": "Miembro de culto secreto te vigila desde las sombras"},
+        {"range": [13,15], "result": "Criatura no identificada deja rastro de baba"},
+        {"range": [16,17], "result": "Encuentro con Profundo - híbrido pez humanoide"},
+        {"range": [18,19], "result": "Aparición fantasmal te muestra visión del futuro"},
+        {"range": [20,20], "result": "Shoggoth - masa de ojos y tentáculos, casi imparable"}
+      ]
+    },
+    "sanity_loss": {
+      "formula": "1d10",
+      "results": [
+        {"range": [1,2], "result": "Visión perturbadora - pierdes 1d4 Sanity"},
+        {"range": [3,4], "result": "Encuentro con lo sobrenatural - pierdes 1d6 Sanity"},
+        {"range": [5,6], "result": "Testimonio de ritual - pierdes 1d8 Sanity"},
+        {"range": [7,8], "result": "Ver criatura de otro plano - pierdes 1d10 Sanity"},
+        {"range": [9,9], "result": "Leer Necronomicón - pierdes 2d6 Sanity pero +3 Lore"},
+        {"range": [10,10], "result": "Encuentro con Gran Antiguo - pierdes 3d10 Sanity o quedás permanentemente loco"}
+      ]
+    },
+    "loot": {
+      "formula": "1d10",
+      "results": [
+        {"range": [1,3], "result": "Diario de investigador previo - pistas útiles"},
+        {"range": [4,5], "result": "Amuleto protector - +2 vs magia"},
+        {"range": [6,7], "result": "Libro de hechizos menor"},
+        {"range": [8,9], "result": "Artefacto maldito - poder pero corrupción"},
+        {"range": [10,10], "result": "Fragmento del Necronomicón - verdad prohibida"}
+      ]
+    }
+  },
+
+  "active_effects_pool": [
+    {"id": "locura_temporal", "name": "Locura Temporal", "description": "No podés distinguir realidad de alucinación", "type": "debuff", "duration": 3, "effects": {"all_stats": -2, "hallucinating": true}},
+    {"id": "iluminacion", "name": "Iluminación Cósmica", "description": "Ves la verdad del universo - es aterrador", "type": "special", "duration": 2, "effects": {"lore": 5, "sanity_per_turn": -5}},
+    {"id": "posesion", "name": "Posesión Parcial", "description": "Algo de otro mundo habita en vos", "type": "critical", "duration": 5, "effects": {"combat": 3, "losing_control": true, "sanity_per_turn": -3}},
+    {"id": "bendicion_antigua", "name": "Bendición de Elder Sign", "description": "Símbolo protector te defiende", "type": "buff", "duration": 10, "effects": {"defense_vs_supernatural": 5}}
+  ],
+
+  "narrative_skeleton": {
+    "act_1": {"name": "La Investigación Inocente", "description": "Un caso simple se vuelve pesadilla", "anchors": ["Caso aparentemente mundano", "Primer encuentro con lo sobrenatural", "Realización: esto es más grande de lo pensado"], "typical_scenes": ["Arkham", "Biblioteca Miskatonic"], "mood": "exploration_calm"},
+    "act_2": {"name": "Desvelando Secretos", "description": "Cada respuesta genera más preguntas", "anchors": ["Descubrimiento de culto activo", "Traducción de textos prohibidos", "Primer ataque de criaturas"], "typical_scenes": ["Mansión Abandonada", "Cementerio"], "mood": "drama_tense"},
+    "act_3": {"name": "Descenso a la Madness", "description": "La cordura se resquebraja", "anchors": ["Visión del plano real de existencia", "Muerte de aliado cercano", "Decisión: seguir o huir"], "typical_scenes": ["Innsmouth", "Dimensión de los Sueños"], "mood": "horror_ambient"},
+    "act_4": {"name": "El Ritual", "description": "Impedir despertar de lo Ancient", "anchors": ["Infiltración en ceremonia del culto", "Batalla contra lo incomprensible", "Sacrificio necesario"], "typical_scenes": ["R'lyeh", "Cementerio"], "mood": "combat_epic"},
+    "act_5": {"name": "Lo Que Queda", "description": "Victoria pírrica - nada vuelve a ser igual", "anchors": ["Amenaza contenida... por ahora", "Sanity permanentemente dañada", "Conocimiento que no puede desaprender se"], "typical_scenes": ["Sanatorio", "Arkham"], "mood": "rest_peaceful"}
+  },
+
+  "one_shot_hook": "Herencia te un viejo profesor universitario que murió en circunstancias misteriosas. Entre sus posesiones: un diario con anotaciones frenéticas sobre 'Cthulhu fhtagn' y coordenadas de una isla en el Pacífico. Su última entrada: 'Si estás leyendo esto, ya es demasiado tarde. Las estrellas están alineándose. Ellos despiertan.' Esta noche, tuviste pesadillas con una ciudad imposible y cantos en lenguas muertas. Tu investigación comienza ahora.",
+
+  "engine_notes": {
+    "story_mode": "Horror psicológico narrativo. Sanity es recurso crítico. Combate es ÚLTIMO recurso. Huir es victoria. Conocer la verdad = perder. Atmosfera > mecánicas.",
+    "pbta": "Movimientos como 'Mantener la Cordura' y 'Investigar lo Prohibido'. Fallos = pérdida de Sanity, atención no deseada, verdades terribles reveladas.",
+    "year_zero": "Recursos: sanity, munición, aliados vivos, tiempo antes del ritual. Empujar dados = pérdida permanente de Sanity, atraer atención de cultistas.",
+    "dnd_5e": "No magic classes tradicionales. Todo spell casting = Sanity cost. HP bajo. Muerte común. Madness mechanics centrales. Long rests no curan Sanity."
+  },
+
+  "tutorial_notes": "Para NOVICE: Explicar que NO ES juego de combate. Objetivo es sobrevivir con algo de cordura intacta. Primera sesión: investigar desaparición simple. Revelar horror gradualmente. NO mostrar monstruo completo hasta Act 3. Sanity loss explicado desde inicio.",
+
+  "glossary": {
+    "Sanity": "Cordura mental - cuando llega a 0, locura permanente",
+    "Gran Antiguo": "Dioses cósmicos - Cthulhu, Nyarlathotep, etc",
+    "Necronomicón": "Libro más prohibido - contiene verdades que enloquecen",
+    "Culto": "Adoradores humanos de los Grandes Antiguos",
+    "Shoggoth": "Criatura protoplasmática creada por Old Ones",
+    "R'lyeh": "Ciudad sumergida donde duerme Cthulhu",
+    "Elder Sign": "Símbolo protector contra lo sobrenatural",
+    "Profundo": "Híbrido pez-humano que vive en océano",
+    "Ritual": "Ceremonia para invocar o controlar lo supernatural",
+    "Arkham": "Ciudad de Massachusetts - epicentro de actividad"
+  }
+}

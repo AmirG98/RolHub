@@ -1,0 +1,363 @@
+{
+  "id": "ISEKAI",
+  "name": "Mundo Mágico Isekai",
+  "tagline": "Fuiste transportado a un mundo de fantasía - tu aventura comienza ahora",
+  "tone": ["aventurero", "mágico", "esperanzador", "épico"],
+  "world_summary": "Ayer eras una persona normal en la Tierra. Hoy despertaste en un mundo de magia, monstruos y aventura. Este reino fantástico tiene sus propias reglas: la magia es real, los gremios de aventureros existen, y los calabozos están llenos de tesoros y peligros. Como alguien de otro mundo, tenés habilidades únicas que los nativos no poseen. Los dioses son reales y otorgan poderes. Las razas fantásticas conviven en ciudades brillantes. Tu destino es salvar este mundo... o conquistarlo. La elección es tuya.",
+
+  "factions": [
+    {
+      "name": "Gremio de Aventureros",
+      "description": "Organización que registra aventureros y asigna misiones",
+      "alignment": "Neutral Bueno",
+      "influence": 2
+    },
+    {
+      "name": "Reino de Astraea",
+      "description": "Monarquía benevolente protegida por héroes invocados",
+      "alignment": "Bueno",
+      "influence": 2
+    },
+    {
+      "name": "Imperio Oscuro",
+      "description": "Nación expansionista liderada por un Rey Demonio",
+      "alignment": "Malvado",
+      "influence": 2
+    },
+    {
+      "name": "Academia de Magia",
+      "description": "Escuela donde se entrenan los mejores magos del reino",
+      "alignment": "Neutral",
+      "influence": 1
+    },
+    {
+      "name": "Iglesia de la Luz",
+      "description": "Organización religiosa con poder político y militar",
+      "alignment": "Neutral Bueno",
+      "influence": 1
+    }
+  ],
+
+  "locations": [
+    {
+      "name": "Ciudad Capital Luminaria",
+      "description": "Metrópolis brillante con torres de cristal y magia por doquier",
+      "type": "ciudad",
+      "danger_level": 0
+    },
+    {
+      "name": "Bosque de los Espíritus",
+      "description": "Bosque encantado donde viven hadas y criaturas mágicas",
+      "type": "bosque",
+      "danger_level": 2
+    },
+    {
+      "name": "Calabozo de las Profundidades",
+      "description": "Mazmorra con 100 niveles - cada uno más peligroso",
+      "type": "mazmorra",
+      "danger_level": 4
+    },
+    {
+      "name": "Academia Arcana",
+      "description": "Castillo flotante donde estudian los aspirantes a magos",
+      "type": "escuela",
+      "danger_level": 0
+    },
+    {
+      "name": "Aldea Iniciadora",
+      "description": "Pueblo pacífico donde empiezan muchos aventureros",
+      "type": "aldea",
+      "danger_level": 1
+    },
+    {
+      "name": "Montañas del Dragón",
+      "description": "Hogar de dragones ancestrales y tesoros inimaginables",
+      "type": "montaña",
+      "danger_level": 5
+    },
+    {
+      "name": "Castillo Demonio",
+      "description": "Fortaleza del Rey Demonio en tierras desoladas",
+      "type": "castillo",
+      "danger_level": 5
+    },
+    {
+      "name": "Puerto Comercial",
+      "description": "Ciudad costera llena de mercaderes y oportunidades",
+      "type": "ciudad",
+      "danger_level": 1
+    }
+  ],
+
+  "archetypes": [
+    {
+      "id": "summoned_hero",
+      "name": "Héroe Invocado",
+      "description": "Fuiste traído específicamente para salvar este mundo",
+      "simple_description": "Tenés un poder especial: una habilidad única de tu mundo. La gente espera grandes cosas de vos. Tu destino es salvar el reino.",
+      "starting_stats": {
+        "hp": 20,
+        "maxHp": 20,
+        "combat": 4,
+        "exploration": 3,
+        "social": 3,
+        "lore": 2
+      },
+      "starting_inventory": [
+        "Espada Sagrada (crece contigo)",
+        "Armadura Ligera",
+        "Piedra de Traducción (entiendes todos los idiomas)",
+        "Mochila dimensional (espacio infinito)",
+        "Manual del Héroe"
+      ],
+      "special_ability": "Poder del Otro Mundo: Podés ver las 'estadísticas' de personas y monstruos. Crecés más rápido que los nativos"
+    },
+    {
+      "id": "merchant_traveler",
+      "name": "Comerciante Viajero",
+      "description": "Tenés conocimientos de tu mundo que aquí son revolucionarios",
+      "simple_description": "Conocés tecnología y conceptos que aquí parecen mágicos. Podés comerciar y negociar como nadie. Tu ingenio es tu mejor arma.",
+      "starting_stats": {
+        "hp": 16,
+        "maxHp": 16,
+        "combat": 2,
+        "exploration": 3,
+        "social": 5,
+        "lore": 2
+      },
+      "starting_inventory": [
+        "Carrito de Comerciante",
+        "1000 monedas de oro iniciales",
+        "Libreta de Negocios",
+        "Balanza de Precisión",
+        "Muestras de productos únicos"
+      ],
+      "special_ability": "Ingenio Terrenal: Podés crear objetos 'modernos' que aquí no existen. Los NPCs te pagan más por tus servicios"
+    },
+    {
+      "id": "magic_student",
+      "name": "Estudiante de Magia",
+      "description": "Despertas te con un grimorio misterioso y potencial mágico infinito",
+      "simple_description": "Podés aprender cualquier tipo de magia. Tu grimorio registra todos los hechizos que ves. Tu potencial mágico es ilimitado.",
+      "starting_stats": {
+        "hp": 14,
+        "maxHp": 14,
+        "combat": 1,
+        "exploration": 2,
+        "social": 3,
+        "lore": 6
+      },
+      "starting_inventory": [
+        "Grimorio Infinito (aprende hechizos)",
+        "Vara Mágica",
+        "Túnica de Aprendiz",
+        "Pociones de Mana (5)",
+        "Libro de Hechizos Básicos"
+      ],
+      "special_ability": "Aprendizaje Acelerado: Podés copiar cualquier magia que veas. Tu mana se regenera el doble de rápido"
+    }
+  ],
+
+  "voice_id": "energetico",
+  "npc_voices": {
+    "princesa": "dulce_refinada",
+    "caballero": "noble_heroico",
+    "mago": "sabio_misterioso",
+    "bestia": "rugido_profundo",
+    "comerciante": "jovial_persuasivo",
+    "demonio": "oscuro_seductor"
+  },
+  "music_mood": "exploration_calm",
+  "art_style": "anime illustration, vibrant colors, Studio Ghibli inspired, fantasy JRPG aesthetic, colorful magic effects",
+
+  "roll_tables": {
+    "encounters": {
+      "formula": "1d20",
+      "results": [
+        { "range": [1, 4], "result": "Slimes amigables - perfectos para entrenar" },
+        { "range": [5, 8], "result": "Grupo de aventureros novatos pidiendo ayuda" },
+        { "range": [9, 12], "result": "Mercader con objetos raros y misiones secundarias" },
+        { "range": [13, 15], "result": "Gobli ns bandidos bloqueando el camino" },
+        { "range": [16, 17], "result": "Jefa de gremio con misión urgente y recompensa alta" },
+        { "range": [18, 19], "result": "Dragón bebé perdido - su madre está cerca y furiosa" },
+        { "range": [20, 20], "result": "Encuentro con la Princesa del Reino - ella necesita tu ayuda" }
+      ]
+    },
+    "weather": {
+      "formula": "1d8",
+      "results": [
+        { "range": [1, 3], "result": "Día soleado perfecto - bonus a moral" },
+        { "range": [4, 5], "result": "Lluvia mágica - regenera mana lentamente" },
+        { "range": [6, 6], "result": "Tormenta mana - hechizos más poderosos pero inestables" },
+        { "range": [7, 7], "result": "Noche de luna llena - monstruos más fuertes" },
+        { "range": [8, 8], "result": "Eclipse solar - evento especial, jefes raros aparecen" }
+      ]
+    },
+    "loot": {
+      "formula": "1d10",
+      "results": [
+        { "range": [1, 3], "result": "Poción de Curación (restaura 20 HP)" },
+        { "range": [4, 5], "result": "Núcleo de Monstruo (vendible por buen precio)" },
+        { "range": [6, 7], "result": "Pergamino de Hechizo Aleatorio" },
+        { "range": [8, 8], "result": "Equipo Mágico +1 (arma o armadura mejora)" },
+        { "range": [9, 9], "result": "Gema de Invocación (convoca un aliado una vez)" },
+        { "range": [10, 10], "result": "Item Legendario (efecto especial único)" }
+      ]
+    },
+    "npc_names": {
+      "formula": "1d20",
+      "results": [
+        { "range": [1, 1], "result": "Aria" },
+        { "range": [2, 2], "result": "Kai" },
+        { "range": [3, 3], "result": "Luna" },
+        { "range": [4, 4], "result": "Ren" },
+        { "range": [5, 5], "result": "Mira" },
+        { "range": [6, 6], "result": "Zeke" },
+        { "range": [7, 7], "result": "Stella" },
+        { "range": [8, 8], "result": "Ash" },
+        { "range": [9, 9], "result": "Nova" },
+        { "range": [10, 10], "result": "Lyra" },
+        { "range": [11, 11], "result": "Finn" },
+        { "range": [12, 12], "result": "Iris" },
+        { "range": [13, 13], "result": "Rex" },
+        { "range": [14, 14], "result": "Aurora" },
+        { "range": [15, 15], "result": "Dante" },
+        { "range": [16, 16], "result": "Celeste" },
+        { "range": [17, 17], "result": "Atlas" },
+        { "range": [18, 18], "result": "Seraphina" },
+        { "range": [19, 19], "result": "Orion" },
+        { "range": [20, 20], "result": "Nyx" }
+      ]
+    },
+    "events": {
+      "formula": "1d8",
+      "results": [
+        { "range": [1, 1], "result": "Festival del Reino - descuentos en tiendas y misiones especiales" },
+        { "range": [2, 2], "result": "Invasión de Monstruos - el gremio necesita ayuda urgente" },
+        { "range": [3, 3], "result": "Torneo de Aventureros - competí por premios legendarios" },
+        { "range": [4, 4], "result": "Calabozo Aleatorio aparece - desaparece en 24 horas" },
+        { "range": [5, 5], "result": "Noble te ofrece convertirte en su caballero personal" },
+        { "range": [6, 6], "result": "Encuentras un Huevo de Mascota - ¿qué saldrá?" },
+        { "range": [7, 7], "result": "Portal a tu mundo se abre brevemente - ¿volvés o te quedás?" },
+        { "range": [8, 8], "result": "El Rey Demonio envía emisario con propuesta sorprendente" }
+      ]
+    }
+  },
+
+  "active_effects_pool": [
+    {
+      "id": "bendicion_diosa",
+      "name": "Bendición de la Diosa",
+      "description": "Una diosa te ha otorgado su favor",
+      "type": "buff",
+      "duration": 10,
+      "effects": { "all_stats": 2 }
+    },
+    {
+      "id": "maldicion_demonio",
+      "name": "Maldición Demoníaca",
+      "description": "Energía oscura debilita tu cuerpo",
+      "type": "debuff",
+      "duration": 5,
+      "effects": { "hp_max": -10, "combat": -2 }
+    },
+    {
+      "id": "poder_heroe",
+      "name": "Modo Héroe",
+      "description": "Tu poder de otro mundo se activa",
+      "type": "buff",
+      "duration": 3,
+      "effects": { "combat": 4, "exploration": 2 }
+    },
+    {
+      "id": "sobrecarga_mana",
+      "name": "Sobrecarga de Mana",
+      "description": "Usaste demasiada magia de golpe",
+      "type": "debuff",
+      "duration": 2,
+      "effects": { "lore": -3, "cannot_cast": true }
+    }
+  ],
+
+  "narrative_skeleton": {
+    "act_1": {
+      "name": "Llegada al Nuevo Mundo",
+      "description": "Despertar en un mundo fantástico - tutorial y primeras misiones",
+      "anchors": [
+        "Transportado misteriosamente al nuevo mundo",
+        "Registro en el Gremio de Aventureros",
+        "Primeras misiones simples - aprender las reglas"
+      ],
+      "typical_scenes": ["Aldea Iniciadora", "Ciudad Capital Luminaria"],
+      "mood": "exploration_calm"
+    },
+    "act_2": {
+      "name": "Ascenso del Aventurero",
+      "description": "Haciéndote un nombre - poder creciente",
+      "anchors": [
+        "Derrotar jefe de calabozo importante",
+        "Ser reconocido por la realeza",
+        "Formar party con compañeros leales"
+      ],
+      "typical_scenes": ["Calabozo de las Profundidades", "Academia Arcana"],
+      "mood": "victory_triumphant"
+    },
+    "act_3": {
+      "name": "La Amenaza Demoníaca",
+      "description": "El Imperio Oscuro ataca - guerra inminente",
+      "anchors": [
+        "Invasión del ejército del Rey Demonio",
+        "Misión de infiltración en territorio enemigo",
+        "Descubrimiento de plan apocalíptico"
+      ],
+      "typical_scenes": ["Bosque de los Espíritus", "fronteras del reino"],
+      "mood": "drama_tense"
+    },
+    "act_4": {
+      "name": "Asalto al Castillo Demonio",
+      "description": "La batalla final contra el mal supremo",
+      "anchors": [
+        "Reunir ejército de héroes",
+        "Infiltrarse en el Castillo Demonio",
+        "Enfrentar al Rey Demonio"
+      ],
+      "typical_scenes": ["Castillo Demonio", "Montañas del Dragón"],
+      "mood": "combat_epic"
+    },
+    "act_5": {
+      "name": "Héroe del Reino",
+      "description": "La paz restaurada - pero ¿qué sigue?",
+      "anchors": [
+        "Celebración de la victoria",
+        "Decisión: quedarse o buscar forma de volver",
+        "Nuevo misterio o amenaza aparece"
+      ],
+      "typical_scenes": ["Ciudad Capital Luminaria", "Palacio Real"],
+      "mood": "rest_peaceful"
+    }
+  },
+
+  "one_shot_hook": "Despertás en una pradera desconocida. No es tu mundo. Un hada luminosa aparece frente a vos: 'Bienvenido, Héroe Invocado. El Reino de Astraea te necesita. Un dragón ha secuestrado a la Princesa y solo alguien de otro mundo puede derrotarlo.' Te entrega una espada brillante. Tu aventura comienza ahora. ¿Aceptás el desafío?",
+
+  "engine_notes": {
+    "story_mode": "Narrativa de JRPG clásico. Poder de amistad importa. Curva de poder clara: débil al inicio, semi-dios al final. Eventos dramáticos con giros anime.",
+    "pbta": "Movimientos como 'Usar Poder Especial' y 'Hacer Amigos'. Fallos parciales = complicaciones cómicas o dramáticas, nunca muerte permanente.",
+    "year_zero": "Adaptar recursos a mana, ítems mágicos, energía de héroe. Empujar dados = gastar mana extra, arriesgar sobrecarga mágica.",
+    "dnd_5e": "Usar sistema completo pero nivel inicial 3. Todos tienen feat gratuito 'Héroe de Otro Mundo'. XP acelerado x2. Muerte rara, siempre hay revivir."
+  },
+
+  "tutorial_notes": "Para NOVICE: Este es el lore más amigable para principiantes. Explicar todo como RPG de videojuego: niveles, stats, misiones. El Gremio de Aventureros actúa como tutorial. Primera misión: derrotar slimes. Sistema de ranking: F -> E -> D -> C -> B -> A -> S -> SS.",
+
+  "glossary": {
+    "Isekai": "Género donde alguien es transportado a otro mundo",
+    "Gremio": "Organización que da misiones a aventureros",
+    "Ranking": "F (novato) hasta SS (legendario) - mide poder de aventurero",
+    "Party": "Grupo de aventureros que viajan juntos",
+    "Calabozo": "Lugar lleno de monstruos y tesoros",
+    "Rey Demonio": "Gobernante del Imperio Oscuro - enemigo principal",
+    "Mana": "Energía mágica usada para hechizos",
+    "Skill": "Habilidad especial única de cada aventurero",
+    "Drop": "Objeto que dejan los monstruos al morir",
+    "Quest": "Misión del Gremio - recompensa por completarla"
+  }
+}

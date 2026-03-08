@@ -1,0 +1,134 @@
+{
+  "id": "STAR_WARS",
+  "name": "Guerra de las Galaxias",
+  "tagline": "Una galaxia muy, muy lejana llena de aventura",
+  "tone": ["épico", "espacial", "aventurero", "heroico"],
+  "world_summary": "La galaxia está en guerra. El Imperio domina con mano de hierro mientras la Rebelión lucha por la libertad. Sos un aventurero en esta era oscura: tal vez un contrabandista, un cazarrecompensas, o alguien sensible a la Fuerza. Los Jedi casi desaparecieron pero su legado persiste. Mundos alienígenas, naves estelares y el poder místico de la Fuerza definen este universo. Tu destino puede cambiar el curso de la guerra galáctica.",
+
+  "factions": [
+    {"name": "Alianza Rebelde", "description": "Luchadores por la libertad contra el Imperio", "alignment": "Bueno", "influence": 1},
+    {"name": "Imperio Galáctico", "description": "Gobierno totalitario que controla la galaxia", "alignment": "Malvado", "influence": 3},
+    {"name": "Gremio de Cazarrecompensas", "description": "Mercenarios que trabajan por créditos", "alignment": "Neutral", "influence": 1},
+    {"name": "Contrabandistas", "description": "Independientes que evaden la ley imperial", "alignment": "Neutral", "influence": 1},
+    {"name": "Resto Jedi", "description": "Últimos guardianes de la Fuerza en las sombras", "alignment": "Bueno", "influence": 1}
+  ],
+
+  "locations": [
+    {"name": "Tatooine", "description": "Planeta desértico en el Borde Exterior", "type": "desierto", "danger_level": 2},
+    {"name": "Mos Eisley", "description": "Puerto espacial de mala reputación", "type": "ciudad", "danger_level": 3},
+    {"name": "Estrella de la Muerte", "description": "Estación espacial imperial - arma definitiva", "type": "estación", "danger_level": 5},
+    {"name": "Hoth", "description": "Planeta helado - base rebelde secreta", "type": "helado", "danger_level": 4},
+    {"name": "Dagobah", "description": "Pantano donde se oculta un maestro Jedi", "type": "pantano", "danger_level": 3},
+    {"name": "Coruscant", "description": "Capital imperial - ciudad planeta", "type": "ciudad", "danger_level": 2},
+    {"name": "Hiperespacio", "description": "Viaje FTL entre sistemas", "type": "espacio", "danger_level": 1},
+    {"name": "Cantina Espacial", "description": "Bar lleno de alienígenas y oportunidades", "type": "bar", "danger_level": 2}
+  ],
+
+  "archetypes": [
+    {
+      "id": "smuggler",
+      "name": "Contrabandista",
+      "description": "Piloto astuto con nave rápida y problemas con el Imperio",
+      "simple_description": "Piloteás tu propia nave. Conocés rutas secretas. Debés dinero a gente peligrosa pero siempre te las arreglás.",
+      "starting_stats": {"hp": 18, "maxHp": 18, "combat": 3, "exploration": 4, "social": 4, "lore": 1},
+      "starting_inventory": ["Blaster rápido", "Nave carguera", "Dados de Sabacc", "Deuda de 10,000 créditos", "Droide astromecánico"],
+      "special_ability": "Suerte del Contrabandista: Una vez por sesión, convertí un fallo crítico en éxito. Tu nave tiene escondites secretos"
+    },
+    {
+      "id": "force_sensitive",
+      "name": "Sensible a la Fuerza",
+      "description": "Tenés poderes que no comprendés - el legado Jedi vive en vos",
+      "simple_description": "Podés mover objetos con la mente. Sentís peligros antes de que pasen. Un anciano te dejó un sable de luz.",
+      "starting_stats": {"hp": 16, "maxHp": 16, "combat": 3, "exploration": 3, "social": 3, "lore": 5},
+      "starting_inventory": ["Sable de luz heredado", "Holocrón Jedi", "Túnica simple", "Manual Jedi antiguo", "Cristal Kyber"],
+      "special_ability": "La Fuerza: Podés usar telequinesis, sentir presencias y tener visiones. Tu conexión crece con el tiempo"
+    },
+    {
+      "id": "bounty_hunter",
+      "name": "Cazarrecompensas",
+      "description": "Profesional que captura objetivos por dinero - sin preguntas",
+      "simple_description": "Rastreás personas por recompensas. Tu armadura mandaloriana te protege. Sos el mejor en lo que hacés.",
+      "starting_stats": {"hp": 22, "maxHp": 22, "combat": 5, "exploration": 3, "social": 2, "lore": 2},
+      "starting_inventory": ["Rifle blaster", "Armadura mandaloriana", "Gadgets de rastreo", "Nave de combate", "Ataduras de captura"],
+      "special_ability": "Rastreador Experto: Siempre encontrás a tu objetivo. Tenés contactos en el Gremio para info privilegiada"
+    }
+  ],
+
+  "voice_id": "épico_espacial",
+  "npc_voices": {"droide": "sintético_robótico", "alienígena": "gutural_extraño", "imperial": "autoritario_británico", "rebelde": "esperanzador_joven"},
+  "music_mood": "combat_epic",
+  "art_style": "Star Wars concept art, space opera aesthetic, cinematic sci-fi, Ralph McQuarrie style",
+
+  "roll_tables": {
+    "encounters": {
+      "formula": "1d20",
+      "results": [
+        {"range": [1,4], "result": "Patrulla Stormtrooper pidiendo identificación"},
+        {"range": [5,8], "result": "Contrabandista ofreciendo trabajo ilegal lucrativo"},
+        {"range": [9,12], "result": "Cazarrecompensas buscando el mismo objetivo que vos"},
+        {"range": [13,15], "result": "Agente rebelde con misión secreta"},
+        {"range": [16,17], "result": "Inquisidor imperial - sensible a la Fuerza"},
+        {"range": [18,19], "result": "Nave imperial en patrulla - deben huir"},
+        {"range": [20,20], "result": "Maestro Jedi oculto revelándose"}
+      ]
+    },
+    "weather": {
+      "formula": "1d6",
+      "results": [
+        {"range": [1,2], "result": "Condiciones espaciales normales"},
+        {"range": [3,4], "result": "Tormenta de asteroides - navegación peligrosa"},
+        {"range": [5,5], "result": "Anomalía gravitacional - motores inestables"},
+        {"range": [6,6], "result": "Flota imperial en la zona - escóndete"}
+      ]
+    },
+    "loot": {
+      "formula": "1d10",
+      "results": [
+        {"range": [1,3], "result": "Créditos imperiales (2d6 x 100)"},
+        {"range": [4,5], "result": "Blaster de calidad militar"},
+        {"range": [6,7], "result": "Planos imperiales clasificados"},
+        {"range": [8,9], "result": "Cristal Kyber"},
+        {"range": [10,10], "result": "Códigos de acceso de la Estrella de la Muerte"}
+      ]
+    }
+  },
+
+  "active_effects_pool": [
+    {"id": "lado_oscuro", "name": "Tentación del Lado Oscuro", "description": "La ira te da poder pero corrompe", "type": "buff", "duration": 3, "effects": {"combat": 3, "corruption": 1}},
+    {"id": "lado_luminoso", "name": "Serenidad Jedi", "description": "La calma de la Fuerza te guía", "type": "buff", "duration": 5, "effects": {"lore": 2, "social": 2}},
+    {"id": "herido_blaster", "name": "Herida de Blaster", "description": "Disparo láser cauterizó la herida", "type": "debuff", "duration": 3, "effects": {"combat": -2, "hp_per_turn": -1}},
+    {"id": "buscado_imperio", "name": "Buscado por el Imperio", "description": "Tu cara está en todos los puertos", "type": "debuff", "duration": 10, "effects": {"social": -3}}
+  ],
+
+  "narrative_skeleton": {
+    "act_1": {"name": "Encuentro Destinado", "description": "Un mensaje desesperado te involucra en algo mayor", "anchors": ["Encontrás mensaje rebelde o Jedi", "Primera persecución imperial", "Aliados inesperados se unen"], "typical_scenes": ["Tatooine", "Mos Eisley"], "mood": "exploration_calm"},
+    "act_2": {"name": "La Misión", "description": "Infiltración y rescate", "anchors": ["Viajar a territorio imperial", "Misión de rescate atrevida", "Escape por poco"], "typical_scenes": ["Estrella de la Muerte", "Hiperespacio"], "mood": "drama_tense"},
+    "act_3": {"name": "La Persecución", "description": "El Imperio contraataca", "anchors": ["Base rebelde descubierta", "Batalla espacial", "Traición o sacrificio"], "typical_scenes": ["Hoth", "Espacio"], "mood": "combat_epic"},
+    "act_4": {"name": "Confrontación Final", "description": "Ataque a la Estrella de la Muerte", "anchors": ["Toda la flota rebelde ataca", "Duelo con Vader o Inquisidor", "Victoria o derrota decisiva"], "typical_scenes": ["Estrella de la Muerte", "Espacio"], "mood": "combat_epic"},
+    "act_5": {"name": "Nueva Esperanza", "description": "El legado continúa", "anchors": ["Ceremonia de victoria", "El viaje Jedi apenas comienza", "Nueva amenaza en el horizonte"], "typical_scenes": ["Base Rebelde"], "mood": "victory_triumphant"}
+  },
+
+  "one_shot_hook": "Un droide astromecánico llega a tu puerta con un mensaje holográfico urgente de la Princesa Leia: 'Ayúdenme, son mi única esperanza.' El Imperio la capturó. Los planos de la Estrella de la Muerte están en el droide. Tenés una nave y pocas horas antes de que los Stormtroopers lleguen. ¿Qué hacés?",
+
+  "engine_notes": {
+    "story_mode": "Narrativa cinematográfica tipo películas. Cada escena es memorable. Los héroes siempre tienen oportunidad heroica. El destino es fuerte.",
+    "pbta": "Movimientos como 'Pilotar Bajo Presión' y 'Usar la Fuerza'. Fallos = complicaciones emocionantes, nunca boring.",
+    "year_zero": "Recursos: combustible, munición de blaster, créditos, favor de facciones. Empujar dados = daño a tu nave o equipo.",
+    "dnd_5e": "Usar clases como Rogue (contrabandista), Monk (Jedi), Fighter (soldado). Magia = Fuerza. Tech es común."
+  },
+
+  "tutorial_notes": "Para NOVICE: Explicar que es space fantasy, no hard sci-fi. La Fuerza es magia. Naves = caballos voladores. Comenzar en cantina tipo A New Hope. Droide R2 como guía tutorial.",
+
+  "glossary": {
+    "La Fuerza": "Energía mística que conecta toda vida - base de poderes Jedi",
+    "Jedi": "Guardianes de la paz con sables de luz y poderes de la Fuerza",
+    "Sith": "Usuarios del Lado Oscuro - enemigos de los Jedi",
+    "Sable de Luz": "Espada de energía - arma elegante de otra era",
+    "Hiperespacio": "Dimensión alternativa para viajar más rápido que luz",
+    "Imperio": "Gobierno dictatorial que controla la galaxia",
+    "Rebelión": "Resistencia contra el Imperio",
+    "Créditos": "Moneda galáctica estándar",
+    "Droide": "Robot inteligente - astromecánicos, protocolo, etc.",
+    "Stormtrooper": "Soldado imperial con armadura blanca"
+  }
+}
