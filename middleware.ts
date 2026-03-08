@@ -1,5 +1,17 @@
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
+
+const publicPaths = [
+  '/',
+  '/login',
+  '/register',
+  '/api/health',
+  '/dados',
+  '/hoja-personaje',
+  '/design-system',
+  '/onboarding',
+]
 
 const isPublicRoute = createRouteMatcher([
   '/',
@@ -12,22 +24,35 @@ const isPublicRoute = createRouteMatcher([
   '/onboarding(.*)',
 ])
 
-export default clerkMiddleware(async (auth, request) => {
-  // Si no hay configuración de Clerk, permitir acceso a rutas públicas
-  if (!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY ||
-      process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY === 'pk_test_placeholder') {
-    if (isPublicRoute(request)) {
+// Chequear si las keys de Clerk son placeholder o inválidas
+function hasValidClerkKeys() {
+  const publishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
+  return publishableKey &&
+         publishableKey !== 'pk_test_placeholder' &&
+         publishableKey.startsWith('pk_')
+}
+
+export default function middleware(request: NextRequest) {
+  // Si no hay keys válidas de Clerk, manejar rutas manualmente
+  if (!hasValidClerkKeys()) {
+    const pathname = request.nextUrl.pathname
+
+    // Permitir acceso a rutas públicas
+    if (publicPaths.some(path => pathname.startsWith(path))) {
       return NextResponse.next()
     }
-    // Redirigir a home si intentan acceder a rutas protegidas sin Clerk configurado
+
+    // Redirigir rutas protegidas a home
     return NextResponse.redirect(new URL('/', request.url))
   }
 
-  // Comportamiento normal con Clerk configurado
-  if (!isPublicRoute(request)) {
-    await auth.protect()
-  }
-})
+  // Si hay keys válidas, usar Clerk middleware normalmente
+  return clerkMiddleware(async (auth, req) => {
+    if (!isPublicRoute(req)) {
+      await auth.protect()
+    }
+  })(request, {} as any)
+}
 
 export const config = {
   matcher: [
