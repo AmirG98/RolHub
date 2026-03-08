@@ -3,6 +3,12 @@ import { auth } from '@clerk/nextjs/server'
 import { prisma } from '@/lib/db/prisma'
 import { Lore, GameMode, GameEngine, TutorialLevel } from '@prisma/client'
 import lotrData from '@/data/lores/lotr.json'
+import zombiesData from '@/data/lores/zombies.json'
+import isekaiData from '@/data/lores/isekai.json'
+import vikingosData from '@/data/lores/vikingos.json'
+import starwarsData from '@/data/lores/starwars.json'
+import cyberpunkData from '@/data/lores/cyberpunk.json'
+import lovecraftData from '@/data/lores/lovecraft.json'
 
 export async function POST(req: NextRequest) {
   try {
@@ -54,8 +60,22 @@ export async function POST(req: NextRequest) {
       })
     }
 
-    // Cargar datos del lore (por ahora solo LOTR)
-    const loreData = lotrData
+    // Cargar datos del lore según el seleccionado
+    const loreDataMap: Record<Lore, any> = {
+      LOTR: lotrData,
+      ZOMBIES: zombiesData,
+      ISEKAI: isekaiData,
+      VIKINGOS: vikingosData,
+      STAR_WARS: starwarsData,
+      CYBERPUNK: cyberpunkData,
+      LOVECRAFT_HORROR: lovecraftData,
+      CUSTOM: lotrData, // Fallback
+    }
+
+    const loreData = loreDataMap[lore]
+    if (!loreData) {
+      return NextResponse.json({ error: 'Lore no encontrado' }, { status: 404 })
+    }
 
     // Buscar el arquetipo seleccionado
     const archetype = loreData.archetypes.find((a: any) => a.id === archetypeId)
