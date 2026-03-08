@@ -21,16 +21,11 @@ export default function HomePage() {
             tu historia se escribe en tiempo real con un narrador IA que nunca duerme.
           </p>
 
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center mb-6 md:mb-8">
+          {/* CTA Button */}
+          <div className="flex justify-center mb-6 md:mb-8">
             <Link href="/onboarding" className="w-full sm:w-auto">
               <RunicButton variant="primary" className="w-full sm:w-auto text-base md:text-lg px-6 md:px-8 py-3 md:py-4 glow-effect">
                 Comenzar Aventura
-              </RunicButton>
-            </Link>
-            <Link href="/design-system" className="w-full sm:w-auto">
-              <RunicButton variant="secondary" className="w-full sm:w-auto text-base md:text-lg px-6 md:px-8 py-3 md:py-4">
-                Explorar Mundos
               </RunicButton>
             </Link>
           </div>

@@ -5,30 +5,69 @@
   "tone": ["épico", "heroico", "melancólico", "esperanzador"],
   "world_summary": "La Tierra Media es un vasto continente donde humanos, elfos, enanos y hobbits conviven bajo la amenaza constante de fuerzas oscuras. Es una era de magia decadente, donde los grandes poderes del pasado se desvanecen lentamente. Los elfos parten hacia el oeste, los enanos se refugian en sus montañas, y los humanos heredan un mundo que apenas comprenden. Antiguas fortalezas yacen en ruinas, bosques inmortales guardan secretos olvidados, y en las sombras, sirvientes del mal conspiran para sumir al mundo en tinieblas eternas. Es un tiempo donde pequeños actos de valentía pueden cambiar el destino de naciones enteras.",
 
+  "detailed_history": {
+    "ages": [
+      {
+        "name": "Primera Edad",
+        "summary": "La era de los elfos y los Silmarils. Morgoth, el primer Señor Oscuro, fue derrotado tras guerras devastadoras que hundieron Beleriand bajo el mar. Los elfos sufrieron pérdidas irreparables pero su gloria nunca fue mayor."
+      },
+      {
+        "name": "Segunda Edad",
+        "summary": "Sauron forjó el Anillo Único. Númenor, el mayor reino de los hombres, cayó por su arrogancia. La Última Alianza de elfos y hombres derrotó a Sauron, pero Isildur no destruyó el Anillo, asegurando el eventual retorno del mal."
+      },
+      {
+        "name": "Tercera Edad",
+        "summary": "La era actual. Los reinos de los hombres decaen, los elfos parten hacia el oeste, los enanos luchan por recuperar sus hogares perdidos. Sauron reconstruye su poder en secreto mientras el Anillo permanece perdido... hasta ahora."
+      }
+    ],
+    "current_situation": "Han pasado casi tres mil años desde la caída de Sauron. Gondor resiste sin rey, Rohan enfrenta amenazas en sus fronteras, el Bosque Negro se ha corrompido, y rumores de sombras crecientes llegan desde el este. Los magos Istari caminan la tierra, pero sus propósitos son inciertos. Es una época de transición: el final de un era y el comienzo de otra."
+  },
+
   "factions": [
     {
       "name": "Los Pueblos Libres",
       "description": "Alianza de humanos, elfos, enanos y hobbits que defienden la libertad",
       "alignment": "Bueno",
-      "influence": 2
+      "influence": 2,
+      "detailed_description": "Una coalición nacida de la necesidad más que de la amistad. Los elfos de Lothlórien y Rivendel mantienen contacto con los Dúnedain, los últimos herederos de Númenor. Los enanos comercian cuando les conviene pero prefieren su aislamiento. Los hobbits ignoran felizmente los asuntos del mundo exterior. Sin embargo, cuando la sombra crece, estos pueblos recuerdan que juntos derrotaron al enemigo en el pasado.",
+      "key_figures": ["Elrond de Rivendel", "Galadriel de Lothlórien", "Thranduil del Bosque Negro", "Dáin Pie de Hierro"],
+      "goals": ["Preservar la paz y la libertad", "Resistir la corrupción de la sombra", "Proteger los tesoros y conocimientos antiguos"]
     },
     {
       "name": "Las Fuerzas de la Sombra",
       "description": "Orcos, trolls y sirvientes oscuros que buscan dominar la Tierra Media",
       "alignment": "Malvado",
-      "influence": 1
+      "influence": 1,
+      "detailed_description": "Desde las profundidades de Mordor y las montañas nubladas, las criaturas de la oscuridad se multiplican. Los orcos, corrompidos hace eones de elfos capturados, son la infantería del mal. Los trolls, bestias de piedra y odio, sirven como arietes vivientes. Los espectros del anillo, antiguos reyes corrompidos, cabalgan como heraldos del terror. Y detrás de todo, una voluntad oscura orquesta la destrucción de todo lo que es bueno.",
+      "key_figures": ["El Rey Brujo de Angmar", "Los Nueve Nazgûl", "Capitanes orcos de las Montañas Nubladas"],
+      "goals": ["Encontrar el Anillo Único", "Destruir los reinos de los hombres", "Sumir al mundo en oscuridad eterna"]
     },
     {
       "name": "Los Istari",
       "description": "Magos enviados para guiar a los pueblos libres sin dominarlos",
       "alignment": "Neutral Bueno",
-      "influence": 1
+      "influence": 1,
+      "detailed_description": "Cinco magos llegaron del oeste hace casi dos mil años, enviados por los Valar para contrarrestar la creciente amenaza de Sauron. Gandalf el Gris viaja sin descanso, aconsejando y observando. Saruman el Blanco se ha recluido en Isengard, estudiando al enemigo. Radagast el Pardo prefiere la compañía de animales. Los dos magos azules partieron al este y no se ha sabido más de ellos. Sus poderes son grandes pero limitados por su misión: deben guiar, no dominar.",
+      "key_figures": ["Gandalf el Gris", "Saruman el Blanco", "Radagast el Pardo"],
+      "goals": ["Contrarrestar la influencia de Sauron", "Unir a los pueblos libres", "Encontrar y destruir el Anillo"]
     },
     {
       "name": "Los Reinos de los Hombres",
       "description": "Gondor, Rohan y otros reinos humanos en decadencia",
       "alignment": "Bueno",
-      "influence": 1
+      "influence": 1,
+      "detailed_description": "Gondor, el mayor reino de los hombres, no ha tenido rey en casi mil años. Sus senescales gobiernan con mano firme pero sin la autoridad de antaño. Rohan, tierra de los señores de los caballos, enfrenta incursiones constantes de Dunland y orcos. Más al norte, Dale y Erebor prosperan gracias a la alianza entre hombres y enanos. Pero en general, los días de gloria de los hombres parecen haber quedado atrás.",
+      "key_figures": ["Denethor, Senescal de Gondor", "Théoden Rey de Rohan", "Brand, Rey de Dale"],
+      "goals": ["Defender sus fronteras", "Mantener el orden y la paz", "Sobrevivir a los tiempos oscuros que se avecinan"]
+    },
+    {
+      "name": "Los Dúnedain del Norte",
+      "description": "Montaraces, últimos herederos del reino perdido de Arnor",
+      "alignment": "Bueno",
+      "influence": 0,
+      "detailed_description": "Son pocos, menos de mil, pero su linaje se remonta a los reyes de Númenor. Vagan por Eriador como cazadores y guardianes, protegiendo a pueblos que ni siquiera saben de su existencia. Los hobbits de la Comarca viven en paz gracias a su vigilancia silenciosa. Su jefe es descendiente directo de Isildur, y en secreto, porta la espada que fue quebrada. Algún día, un rey volverá a reclamar el trono de sus ancestros.",
+      "key_figures": ["El Capitán de los Montaraces", "Halbarad", "Los hermanos de Rivendel"],
+      "goals": ["Proteger a los inocentes", "Preservar el linaje de Isildur", "Esperar el momento de reclamar el trono"]
     }
   ],
 
@@ -37,49 +76,169 @@
       "name": "La Comarca",
       "description": "Tierra pacífica de colinas verdes donde viven los hobbits",
       "type": "asentamiento",
-      "danger_level": 0
+      "danger_level": 0,
+      "detailed_description": "Cuatro farthings de colinas ondulantes, campos cultivados y agujeros hobbit acogedores. El humo de las pipas se eleva perezosamente sobre Hobbiton. El Puente de Brandy cruza el Brandivino hacia Buckland. La Posada del Dragón Verde sirve la mejor cerveza al este del mar. Los hobbits viven ajenos a los peligros del mundo, preocupados solo por la próxima comida, el jardín y los cotilleos del vecindario. Pero incluso aquí, sombras comienzan a arrastrarse.",
+      "notable_npcs": ["Bilbo Bolsón", "Frodo Bolsón", "Samsagaz Gamyi", "El Tío de los Gamyi"],
+      "available_services": ["Posada del Dragón Verde", "Mercado de Hobbiton", "Taller de Sandyman"],
+      "plot_hooks": [
+        "Extraños en capucha han sido vistos preguntando por 'Bolsón'",
+        "Mercaderes enanos necesitan escolta hacia las Montañas Azules",
+        "Han desaparecido varios ponys - los granjeros sospechan de lobos"
+      ]
     },
     {
       "name": "Rivendel",
       "description": "Refugio élfico oculto en las montañas, hogar de sabiduría antigua",
       "type": "ciudad",
-      "danger_level": 0
+      "danger_level": 0,
+      "detailed_description": "El Último Hogar al Este del Mar. Cascadas cristalinas caen junto a torres de piedra blanca cubiertas de hiedra. Cantos élficos resuenan en el aire perfumado de flores eternas. Elrond Medio-elfo ha regido aquí durante más de seis mil años, aconsejando a reyes y refugiando a los perseguidos. Sus salones albergan la mayor biblioteca de la Tierra Media. Aquí se forjaron las grandes alianzas del pasado, y quizás, las del futuro.",
+      "notable_npcs": ["Elrond Medio-elfo", "Arwen Undómiel", "Glorfindel", "Erestor"],
+      "available_services": ["Sanación élfica", "Biblioteca de conocimiento antiguo", "Consejo de los sabios", "Forja de armas élficas"],
+      "plot_hooks": [
+        "Elrond convoca un consejo secreto - todos los pueblos libres están invitados",
+        "Un pergamino antiguo revela la ubicación de un artefacto perdido",
+        "Los hijos de Elrond han partido a cazar orcos y no han regresado"
+      ]
     },
     {
       "name": "Minas Tirith",
       "description": "Gran ciudad fortaleza de Gondor, construida en siete niveles",
       "type": "ciudad",
-      "danger_level": 1
+      "danger_level": 1,
+      "detailed_description": "La Ciudad Blanca, Torre de la Guardia, orgullo de los hombres del oeste. Siete murallas concéntricas ascienden por la ladera del Monte Mindolluin. En su cima, la Torre de Ecthelion brilla como una aguja de perla y plata. Pero los niveles superiores se vacían mientras la población disminuye. Los jardines de los reyes están abandonados. El Árbol Blanco murió hace generaciones. Solo el senescal Denethor gobierna, sin corona, desde un trono que no le pertenece.",
+      "notable_npcs": ["Denethor II", "Boromir", "Faramir", "Beregond de la Guardia"],
+      "available_services": ["Armería del reino", "Archivos de Minas Tirith", "Casas de curación", "Mercado de los siete niveles"],
+      "plot_hooks": [
+        "Los vigías reportan movimientos en Mordor - se necesitan exploradores",
+        "Denethor busca un artefacto perdido que podría restaurar la esperanza",
+        "Osgiliath ha sido atacada - se necesitan refuerzos urgentes"
+      ]
     },
     {
       "name": "Bosque Negro",
       "description": "Bosque corrupto plagado de arañas gigantes y criaturas oscuras",
       "type": "bosque",
-      "danger_level": 3
+      "danger_level": 3,
+      "detailed_description": "Alguna vez llamado el Gran Bosque Verde, ahora una maraña de sombras y telarañas. Los elfos de Thranduil resisten en el norte, pero el sur ha caído bajo la influencia de Dol Guldur, la fortaleza del Nigromante. Arañas del tamaño de caballos acechan entre los árboles enfermos. El aire es pesado, soporífero, engañoso. Los viajeros que se desvían del camino rara vez regresan. Pero entre las sombras, aún quedan claros de luz donde los elfos mantienen su vigilia eterna.",
+      "notable_npcs": ["Thranduil el Rey Élfico", "Legolas Hojaverde", "El Nigromante de Dol Guldur"],
+      "available_services": ["Comercio con elfos silvanos (si logras llegar)", "Guías que conocen el Camino del Bosque"],
+      "plot_hooks": [
+        "Una compañía de enanos necesita atravesar el bosque hacia Erebor",
+        "Los elfos silvanos buscan guerreros para atacar una madriguera de arañas",
+        "Extrañas luces se ven cerca de Dol Guldur - alguien debe investigar"
+      ]
     },
     {
       "name": "Moria",
       "description": "Antigua ciudad enana bajo la montaña, ahora en ruinas y oscuridad",
       "type": "mazmorra",
-      "danger_level": 4
+      "danger_level": 4,
+      "detailed_description": "Khazad-dûm, la más grande de las mansiones enanas, donde brillaba el mithril y los martillos resonaban día y noche. Ahora solo hay silencio y oscuridad. Hace doscientos años los enanos despertaron algo terrible en las profundidades: un Balrog, demonio de la Primera Edad. Los orcos ocuparon los salones superiores. Los enanos que intentaron reclamar su hogar no regresaron. Solo los más desesperados o valientes se atreven a cruzar por el Camino Oscuro.",
+      "notable_npcs": ["Espíritus de enanos caídos", "El señor de los orcos de Moria", "La criatura en el agua"],
+      "available_services": ["Ninguno - solo muerte espera aquí"],
+      "plot_hooks": [
+        "Se necesita encontrar el Libro de Mazarbul - registro del último intento de colonización",
+        "Un pasadizo secreto a través de Moria es la única ruta disponible",
+        "Rumores de que el mithril aún puede encontrarse para quien se atreva"
+      ]
     },
     {
       "name": "Rohan",
       "description": "Extensas llanuras donde cabalgan los señores de los caballos",
       "type": "región",
-      "danger_level": 2
+      "danger_level": 2,
+      "detailed_description": "El Mar de Hierba, hogar de los Rohirrim, los mejores jinetes del mundo. Desde Edoras, su capital de madera dorada en las colinas, los señores de los caballos vigilan sus tierras. Sus caballos mearan son la envidia de todos los reinos. Pero las fronteras oeste sufren incursiones de Dunland, y los orcos bajan de las montañas con frecuencia creciente. El rey Théoden envejece, y algunos susurran que su consejero Gríma tiene demasiada influencia.",
+      "notable_npcs": ["Théoden Rey", "Éomer Mariscal", "Éowyn Dama Blanca", "Gríma Lengua de Serpiente"],
+      "available_services": ["Compra de caballos", "Hospedaje en Meduseld", "Herreros de Rohan"],
+      "plot_hooks": [
+        "Los Dunlendinos han atacado aldeas en el Folde Oeste",
+        "Extraños jinetes negros han sido vistos cruzando Rohan",
+        "Se necesitan mensajeros para llevar noticias urgentes a Gondor"
+      ]
     },
     {
       "name": "Isengard",
       "description": "Torre fortificada que vigila la entrada a Rohan",
       "type": "fortaleza",
-      "danger_level": 3
+      "danger_level": 3,
+      "detailed_description": "Orthanc, la torre de piedra negra indestructible, se alza en el centro de un círculo de murallas. Antaño puesto de vigilancia de Gondor, ahora hogar de Saruman el Blanco, jefe del Concilio de los Magos. El mago ha cerrado sus puertas al mundo, y quienes se acercan reportan humo negro y ruidos de forja. Los árboles del valle han sido talados. Algunos dicen que Saruman estudia al enemigo demasiado de cerca. Otros temen que ya sea demasiado tarde.",
+      "notable_npcs": ["Saruman el Blanco", "Gríma Lengua de Serpiente", "Los uruk-hai"],
+      "available_services": ["Ninguno - las puertas están cerradas"],
+      "plot_hooks": [
+        "Gandalf ha ido a consultar a Saruman y no ha regresado",
+        "Los Ents del Bosque de Fangorn murmuran sobre la destrucción de sus árboles",
+        "Se han visto orcos diferentes, más grandes, marchando desde Isengard"
+      ]
     },
     {
       "name": "Mordor",
       "description": "Tierra desolada donde la sombra tiene su fortaleza",
       "type": "región",
-      "danger_level": 5
+      "danger_level": 5,
+      "detailed_description": "Detrás de las Montañas de la Sombra y las Montañas de Ceniza yace la tierra sin vida. Barad-dûr, la torre de Sauron, se reconstruye lentamente sobre sus cimientos indestructibles. El Monte del Destino humea, las llanuras de Gorgoroth son ceniza y roca. Ejércitos de orcos llenan las fortalezas. Nadie entra a Mordor sin que el Ojo lo sepa. Y sin embargo, hay un camino secreto, olvidado, que sube por las escaleras de Cirith Ungol...",
+      "notable_npcs": ["Sauron el Señor Oscuro", "La Boca de Sauron", "Ella-Laraña"],
+      "available_services": ["Solo esclavitud y muerte"],
+      "plot_hooks": [
+        "Solo un camino existe para destruir el mal de raíz",
+        "Gollum conoce pasajes secretos que nadie más recuerda",
+        "Frodo y Sam necesitan una distracción en la Puerta Negra"
+      ]
+    },
+    {
+      "name": "Erebor - La Montaña Solitaria",
+      "description": "Reino enano recuperado bajo la montaña, rico en oro y mithril",
+      "type": "ciudad",
+      "danger_level": 1,
+      "detailed_description": "Hace décadas, el dragón Smaug fue derrotado y los enanos recuperaron su hogar ancestral. Bajo el reinado de Dáin Pie de Hierro, Erebor ha vuelto a prosperar. Los martillos resuenan en las forjas, el oro fluye hacia Dale, y los enanos vuelven a cantar en sus salones. Pero la riqueza atrae miradas codiciosas, y los enanos recuerdan demasiado bien cómo perdieron su hogar la primera vez.",
+      "notable_npcs": ["Dáin II Pie de Hierro", "Glóin padre de Gimli", "Maestros forjadores enanos"],
+      "available_services": ["Forja de armas y armaduras superiores", "Comercio de gemas y metales", "Cerveza enana"],
+      "plot_hooks": [
+        "Los enanos han encontrado algo extraño en las profundidades",
+        "Se necesitan guardias para una caravana hacia las Montañas Azules",
+        "Viejos mapas sugieren que hay más mithril en túneles olvidados"
+      ]
+    },
+    {
+      "name": "Lothlórien",
+      "description": "El Bosque Dorado, último gran reino de los elfos Noldor",
+      "type": "bosque",
+      "danger_level": 0,
+      "detailed_description": "Los mellyrn, árboles de plata y oro, crecen solo aquí. Los elfos de Lórien viven en flets, plataformas entre las ramas, y su luz plateada ilumina el bosque por la noche. Galadriel, la más poderosa de los elfos que permanecen en la Tierra Media, protege este lugar con su anillo. El tiempo fluye diferente aquí; los viajeros que salen sienten que han pasado años cuando solo fueron días. Es un lugar de paz absoluta, pero también de poder terrible.",
+      "notable_npcs": ["Galadriel la Dama Blanca", "Celeborn el Sabio", "Haldir de Lórien"],
+      "available_services": ["Descanso y curación", "Consejo de Galadriel", "Regalos élficos para viajeros"],
+      "plot_hooks": [
+        "Galadriel tiene una visión que debe compartir",
+        "Los bordes de Lórien están siendo probados por fuerzas oscuras",
+        "Se necesitan mensajeros que lleven palabras a Rivendel"
+      ]
+    },
+    {
+      "name": "Las Montañas Nubladas",
+      "description": "Cordillera peligrosa infestada de orcos y goblins",
+      "type": "montañas",
+      "danger_level": 3,
+      "detailed_description": "De norte a sur, las Montañas Nubladas dividen las tierras del oeste. Los pasos son traicioneros: tormentas, avalanchas, gigantes de piedra. Pero el mayor peligro son los habitantes: miles de orcos ocupan cuevas y túneles, liderados por el Gran Goblin. Solo tres cruces son relativamente seguros: el Paso Alto, el Paso del Cuerno Rojo, y el camino subterráneo de Moria. Cada uno tiene sus propios peligros.",
+      "notable_npcs": ["El Gran Goblin", "Jefes orcos tribales", "Águilas gigantes en los picos"],
+      "available_services": ["Ninguno seguro"],
+      "plot_hooks": [
+        "Las Águilas han visto movimientos sospechosos de orcos",
+        "Un paso secreto se ha descubierto, pero algo lo vigila",
+        "Los orcos han capturado viajeros - rescate urgente necesario"
+      ]
+    },
+    {
+      "name": "El Bosque de Fangorn",
+      "description": "El bosque más antiguo de la Tierra Media, hogar de los Ents",
+      "type": "bosque",
+      "danger_level": 2,
+      "detailed_description": "Árboles que recuerdan cuando los elfos les enseñaron a hablar. Huorn que caminan cuando nadie mira. En lo profundo del bosque viven los Ents, pastores de árboles, los seres más antiguos que aún caminan bajo el sol. Son lentos para actuar pero terribles en su ira. Últimamente murmuran sobre orcos que talan árboles cerca de Isengard. Si los Ents despiertan de su letargo, el mundo temblará.",
+      "notable_npcs": ["Bárbol (Fangorn)", "Otros Ents antiguos", "Los Huorn"],
+      "available_services": ["Ninguno - los Ents no reciben visitantes"],
+      "plot_hooks": [
+        "Los Ents buscan a las Ent-mujeres perdidas hace tiempo",
+        "Algo está haciendo que los árboles estén más despiertos",
+        "Se necesita convencer a los Ents de actuar contra Saruman"
+      ]
     }
   ],
 
@@ -89,6 +248,7 @@
       "name": "Montaraz",
       "description": "Explorador y guerrero que protege las fronteras salvajes",
       "simple_description": "Conoces los bosques y caminos secretos. Eres hábil con la espada y el arco. Proteges a los inocentes desde las sombras.",
+      "detailed_background": "Los Montaraces son los últimos Dúnedain del Norte, herederos del reino perdido de Arnor. Vagan por las tierras salvajes como cazadores y guardianes, vestidos de gris y verde para fundirse con los bosques. La gente común los ve como vagabundos peligrosos, sin saber que estos guerreros errantes son todo lo que se interpone entre ellos y los horrores de la noche. Cada Montaraz lleva la carga de su linaje: sangre de reyes, pero sin reino que gobernar.",
       "starting_stats": {
         "hp": 20,
         "maxHp": 20,
@@ -98,19 +258,26 @@
         "lore": 2
       },
       "starting_inventory": [
-        "Espada larga",
-        "Arco largo y 20 flechas",
-        "Capa élfica",
-        "Pipa de fumar",
-        "Mapa de las Tierras Salvajes"
+        "Espada larga forjada en el oeste",
+        "Arco largo de tejo y 20 flechas",
+        "Capa élfica que oculta del enemigo",
+        "Pipa de fumar y hierba del sur",
+        "Mapa de las Tierras Salvajes",
+        "Hierbas medicinales (athelas)"
       ],
-      "special_ability": "Rastreador Experto: Siempre sabes qué criaturas han pasado por un lugar y cuándo"
+      "special_ability": "Rastreador Experto: Siempre sabes qué criaturas han pasado por un lugar, cuándo, y hacia dónde fueron",
+      "advancement_paths": [
+        "Capitán de los Dúnedain - lidera a otros montaraces",
+        "Portador de la Espada Quebrada - heredero de Isildur",
+        "Amigo de los Elfos - aprender magia élfica menor"
+      ]
     },
     {
       "id": "scholar",
       "name": "Erudito",
       "description": "Sabio que estudia la historia antigua y las lenguas olvidadas",
       "simple_description": "Has dedicado tu vida al estudio de textos antiguos. Conoces historias y leyendas que otros han olvidado. Tu sabiduría puede revelar secretos cruciales.",
+      "detailed_background": "En Rivendel, Minas Tirith o las bibliotecas de los enanos, siempre hay quienes dedican sus vidas al conocimiento. Has pasado años descifrando pergaminos amarillentos, aprendiendo lenguas muertas y memorizando genealogías de reyes olvidados. Donde otros ven ruinas, tú ves historia. Donde otros ven símbolos, tú lees advertencias. El conocimiento es poder, y en una era donde mucho se ha olvidado, tu memoria puede ser la diferencia entre el triunfo y la catástrofe.",
       "starting_stats": {
         "hp": 14,
         "maxHp": 14,
@@ -120,19 +287,26 @@
         "lore": 5
       },
       "starting_inventory": [
-        "Bastón de madera",
+        "Bastón de madera con inscripciones",
         "Libro de crónicas antiguas",
-        "Kit de escritura",
-        "Lupa",
-        "Pergaminos en élfico"
+        "Kit de escritura con tinta especial",
+        "Lupa de cristal enano",
+        "Pergaminos en quenya y sindarin",
+        "Mapas de ruinas conocidas"
       ],
-      "special_ability": "Conocimiento Antiguo: Puedes leer lenguas antiguas y recordar leyendas sobre lugares y objetos"
+      "special_ability": "Conocimiento Antiguo: Puedes leer cualquier lengua antigua y recordar leyendas relevantes sobre lugares, objetos y criaturas",
+      "advancement_paths": [
+        "Aprendiz de Mago - los Istari te han notado",
+        "Maestro de Lenguas - comunicarte con cualquier pueblo",
+        "Guardián de Secretos - conocimientos prohibidos"
+      ]
     },
     {
       "id": "warrior",
       "name": "Guerrero",
       "description": "Combatiente valiente entrenado en las artes de la guerra",
       "simple_description": "Has sido entrenado en el combate desde joven. Tu valor en batalla es legendario. Defiendes a los débiles con tu acero.",
+      "detailed_background": "Ya sea un soldado de Gondor, un jinete de Rohan o un guardia enano, has dedicado tu vida al arte de la guerra. Has visto batallas y sobrevivido. Conoces el peso de la responsabilidad de proteger a los débiles. Tu espada ha probado sangre de orco, y tu escudo lleva las marcas de cien combates. En tiempos de paz serías un simple guardia o mercenario, pero los tiempos de paz han terminado.",
       "starting_stats": {
         "hp": 25,
         "maxHp": 25,
@@ -142,13 +316,190 @@
         "lore": 1
       },
       "starting_inventory": [
-        "Espada ancha",
-        "Escudo de acero",
-        "Armadura de mallas",
+        "Espada ancha de acero gondoriano",
+        "Escudo con emblema de tu casa",
+        "Armadura de mallas reforzada",
         "Cuerno de guerra",
-        "Estandarte familiar"
+        "Estandarte de tu unidad",
+        "Cota de supervivencia (raciones, cuerda)"
       ],
-      "special_ability": "Protector: Puedes interponerte para recibir daño en lugar de un aliado"
+      "special_ability": "Protector: Puedes interponerte para recibir daño en lugar de un aliado, reduciendo el daño a la mitad",
+      "advancement_paths": [
+        "Capitán de Gondor - liderar tropas en batalla",
+        "Mariscal de la Marca - dominio de la caballería",
+        "Guardia de la Ciudadela - élite de los defensores"
+      ]
+    },
+    {
+      "id": "hobbit",
+      "name": "Hobbit Aventurero",
+      "description": "Pequeño pero valiente, con una resistencia sorprendente al mal",
+      "simple_description": "Eres un hobbit que ha dejado la comodidad de la Comarca. Pequeño y subestimado, pero posees una fuerza interior que los grandes no comprenden.",
+      "detailed_background": "La mayoría de los hobbits nunca pasan del Puente de Brandy. Pero algo te llamó: historias de Bilbo, sueños de tierras lejanas, o simplemente un deseo de ver montañas. Los Grandes te subestiman, y eso es tu ventaja. Donde un guerrero es obvio, tú pasas desapercibido. Donde la sombra corrompe a los poderosos, tu simple corazón hobbit resiste. Algunos destinados para la grandeza no la buscaron.",
+      "starting_stats": {
+        "hp": 12,
+        "maxHp": 12,
+        "combat": 1,
+        "exploration": 3,
+        "social": 3,
+        "lore": 2,
+        "stealth": 4,
+        "corruption_resistance": 5
+      },
+      "starting_inventory": [
+        "Daga corta (espada para un hobbit)",
+        "Capa de viaje de la Comarca",
+        "Pipa y hierba para pipa",
+        "Raciones hobbits (abundantes)",
+        "Cuerda élfica",
+        "Pañuelo bordado (importante)"
+      ],
+      "special_ability": "Corazón Inquebrantable: Tienes resistencia natural a la corrupción y el miedo mágico. Los anillos de poder tienen menos efecto sobre ti",
+      "advancement_paths": [
+        "Portador del Anillo - un destino terrible",
+        "Ladrón Experto - sigilo y astucia",
+        "Héroe Improbable - coraje que inspira a otros"
+      ]
+    },
+    {
+      "id": "elf",
+      "name": "Elfo Errante",
+      "description": "Inmortal que ha elegido caminar entre los mortales antes de partir al oeste",
+      "simple_description": "Has vivido siglos y visto reinos nacer y morir. Pronto partirás al oeste, pero antes, tienes una última tarea en la Tierra Media.",
+      "detailed_background": "Has visto las estrellas cuando eran jóvenes. Recuerdas la luz de los Árboles en el oeste. Has amado y perdido más veces de las que puedes contar. La mayoría de tu pueblo parte hacia Valinor, cansados de un mundo que ya no les pertenece. Pero tú te quedas. Hay algo que debes hacer, alguien a quien proteger, o simplemente no estás listo para abandonar estas tierras que has conocido durante eras.",
+      "starting_stats": {
+        "hp": 16,
+        "maxHp": 16,
+        "combat": 3,
+        "exploration": 4,
+        "social": 3,
+        "lore": 4
+      },
+      "starting_inventory": [
+        "Arco élfico de Lothlórien",
+        "Espada larga forjada en la Primera Edad",
+        "Capa élfica que oculta y protege",
+        "Pan de viaje (lembas)",
+        "Cuerda élfica",
+        "Fial con luz de estrella"
+      ],
+      "special_ability": "Vista de las Estrellas: Ves en la oscuridad como de día, detectas magia y corrupción, y puedes comunicarte con animales del bosque",
+      "advancement_paths": [
+        "Señor Élfico - despertar poderes antiguos",
+        "Guardián del Bosque - protector de la naturaleza",
+        "Embajador de los Pueblos - unir a las razas"
+      ]
+    },
+    {
+      "id": "dwarf",
+      "name": "Enano de las Montañas",
+      "description": "Guerrero y artesano de las profundidades, leal y obstinado",
+      "simple_description": "Vienes de los salones bajo la montaña. Eres terco, leal y formidable en batalla. Tu hacha ha probado sangre de orco.",
+      "detailed_background": "Los enanos fueron creados para resistir. Resistir el tiempo, resistir la oscuridad, resistir el enemigo. Has trabajado en las forjas desde que tus manos pudieron sostener un martillo. Has marchado a la guerra cuando tu rey lo ordenó. Pero el mundo sobre la tierra te llama ahora. Quizás buscas riqueza, o venganza contra los orcos, o simplemente la gloria que cantarán en los salones de tus ancestros.",
+      "starting_stats": {
+        "hp": 22,
+        "maxHp": 22,
+        "combat": 4,
+        "exploration": 2,
+        "social": 1,
+        "lore": 2,
+        "crafting": 4
+      },
+      "starting_inventory": [
+        "Hacha de guerra enana",
+        "Armadura de placas enana",
+        "Casco con runas de protección",
+        "Kit de herramientas de forja",
+        "Cerveza enana (varios barriles pequeños)",
+        "Mapa de túneles conocidos"
+      ],
+      "special_ability": "Hijo de la Piedra: Nunca te pierdes bajo tierra, resistes magia de forma natural, y detectas trampas y pasajes secretos en la roca",
+      "advancement_paths": [
+        "Señor de la Guerra - comandar legiones enanas",
+        "Maestro Forjador - crear artefactos legendarios",
+        "Buscador de Tesoros - encontrar riquezas perdidas"
+      ]
+    }
+  ],
+
+  "notable_npcs": [
+    {
+      "name": "Gandalf el Gris",
+      "role": "Mago errante y consejero de los pueblos libres",
+      "description": "Un anciano de barba gris y sombrero puntiagudo, pero sus ojos brillan con fuego antiguo. Es más de lo que aparenta.",
+      "personality": "Sabio, misterioso, ocasionalmente irritable, pero profundamente compasivo",
+      "motivation": "Unir a los pueblos libres contra la sombra creciente",
+      "secrets": "Es un Maia, espíritu del oeste enviado a combatir a Sauron. Su verdadero poder está limitado por su misión.",
+      "typical_dialogue": [
+        "Un mago nunca llega tarde. Llega exactamente cuando se lo propone.",
+        "Incluso los más sabios no pueden ver todos los fines.",
+        "Hay otras fuerzas en este mundo además del mal."
+      ]
+    },
+    {
+      "name": "Aragorn hijo de Arathorn",
+      "role": "Heredero de Isildur, capitán de los Montaraces",
+      "description": "Alto, de mirada penetrante y porte regio oculto bajo ropas de viajero gastadas. Lleva una espada quebrada.",
+      "personality": "Humilde, valiente, cargado por el peso de su linaje, pero capaz de gran esperanza",
+      "motivation": "Proteger a los inocentes, prepararse para reclamar su herencia cuando llegue el momento",
+      "secrets": "Es el heredero directo al trono de Gondor y Arnor. Porta los fragmentos de Narsil, la espada que cortó el Anillo.",
+      "typical_dialogue": [
+        "No todo lo que brilla es oro, ni todos los errantes están perdidos.",
+        "El camino sigue adelante sin cesar.",
+        "Juro proteger a aquellos que no pueden protegerse."
+      ]
+    },
+    {
+      "name": "Elrond Medio-elfo",
+      "role": "Señor de Rivendel, portador de Vilya",
+      "description": "Ni joven ni viejo, con la sabiduría de eras en sus ojos. Su presencia calma incluso a los espíritus más turbados.",
+      "personality": "Sabio, paciente, melancólico por las eras pasadas, pero determinado a proteger lo que queda",
+      "motivation": "Preservar el conocimiento, proteger a los refugiados, preparar la transición de la Tercera Edad",
+      "secrets": "Porta uno de los Tres Anillos Élficos. Ha visto la derrota de Sauron y teme su regreso.",
+      "typical_dialogue": [
+        "He visto tres eras del mundo, y mucho que era hermoso se ha perdido.",
+        "La esperanza permanece mientras la Compañía sea fiel.",
+        "El consejo que doy es mi propio consejo. Pero la decisión es tuya."
+      ]
+    },
+    {
+      "name": "Galadriel",
+      "role": "Dama de Lothlórien, la más poderosa de los elfos",
+      "description": "De belleza terrible y majestuosa, su presencia es como estar ante una estrella caída a la tierra.",
+      "personality": "Sabia más allá de toda medida, pero también tentada por el poder. Conoce el corazón de todos.",
+      "motivation": "Proteger Lothlórien, resistir la tentación del poder, guiar a los pueblos libres",
+      "secrets": "Porta Nenya, el Anillo del Agua. Podría ser la mayor amenaza para Sauron si tomara el Único.",
+      "typical_dialogue": [
+        "El Espejo muestra muchas cosas: lo que fue, lo que es, y lo que aún puede ser.",
+        "En lugar de un Señor Oscuro tendrías una Reina...",
+        "Pasé la prueba. Disminuiré, y partiré al Oeste."
+      ]
+    },
+    {
+      "name": "Saruman el Blanco",
+      "role": "Jefe del Concilio de los Magos, Señor de Isengard",
+      "description": "De porte noble y voz persuasiva, viste túnicas blancas que brillan con todos los colores.",
+      "personality": "Arrogante, manipulador, convencido de su propia superioridad, pero secretamente temeroso",
+      "motivation": "Obtener el Anillo para sí mismo, o aliarse con Sauron si es necesario",
+      "secrets": "Ha caído bajo la influencia de Sauron a través del Palantír. Está construyendo un ejército de Uruk-hai.",
+      "typical_dialogue": [
+        "Contra el poder de Mordor no puede haber victoria.",
+        "Juntos podríamos dominar el mundo...",
+        "Soy Saruman el Sabio, Saruman el Hacedor de Anillos, Saruman de Muchos Colores."
+      ]
+    },
+    {
+      "name": "Gollum/Sméagol",
+      "role": "Criatura corrompida, antiguo portador del Anillo",
+      "description": "Pequeño, escuálido, de ojos enormes y luminosos. Se arrastra y sisea, pero hay algo trágico en él.",
+      "personality": "Dividido entre Sméagol (piedad) y Gollum (codicia). Completamente obsesionado con el Anillo.",
+      "motivation": "Recuperar su 'Precioso' a cualquier costo",
+      "secrets": "Conoce caminos secretos a Mordor. Su voluntad podría quebrarse en cualquier dirección.",
+      "typical_dialogue": [
+        "Mi preciossso... Lo queremos, sí, lo necesitamos...",
+        "Sméagol es bueno, Sméagol ayuda...",
+        "Gollum, gollum..."
+      ]
     }
   ],
 
@@ -168,71 +519,111 @@
     "encounters": {
       "formula": "1d20",
       "results": [
-        { "range": [1, 4], "result": "Viajeros amistosos ofrecen compartir su fuego" },
-        { "range": [5, 8], "result": "Rastros de orcos - están cerca pero no te han visto" },
-        { "range": [9, 12], "result": "Encuentras ruinas antiguas con inscripciones élficas" },
-        { "range": [13, 15], "result": "Lobos huargos te acechan desde la distancia" },
-        { "range": [16, 17], "result": "Grupo de orcos en patrulla - conflicto inevitable" },
-        { "range": [18, 19], "result": "Encontrás un artefacto mágico menor entre los arbustos" },
-        { "range": [20, 20], "result": "Un elfo solitario aparece con un mensaje urgente" }
+        { "range": [1, 2], "result": "Viajeros amistosos ofrecen compartir su fuego y cuentan noticias del camino" },
+        { "range": [3, 4], "result": "Una familia de hobbits perdida necesita ayuda para encontrar el camino a casa" },
+        { "range": [5, 6], "result": "Rastros de orcos - son recientes pero no te han visto todavía" },
+        { "range": [7, 8], "result": "Encontrás ruinas antiguas con inscripciones élficas que cuentan una leyenda olvidada" },
+        { "range": [9, 10], "result": "Un mercader enano ofrece comerciar - tiene objetos inusuales" },
+        { "range": [11, 12], "result": "Lobos huargos te acechan desde la distancia, esperando que baje tu guardia" },
+        { "range": [13, 14], "result": "Grupo de orcos en patrulla - conflicto inevitable a menos que te escondas" },
+        { "range": [15, 16], "result": "Encontrás un artefacto mágico menor entre los arbustos - pero algo lo custodiaba" },
+        { "range": [17, 18], "result": "Un elfo solitario aparece con un mensaje urgente de su señor" },
+        { "range": [19, 19], "result": "Las Águilas vuelan sobre ti - si las necesitas, vendrán" },
+        { "range": [20, 20], "result": "Un Nazgûl pasa volando - te has escondido a tiempo, pero sabe que estás cerca" }
       ]
     },
     "weather": {
       "formula": "1d12",
       "results": [
-        { "range": [1, 3], "result": "Cielo despejado, luz dorada filtrándose entre los árboles" },
-        { "range": [4, 6], "result": "Niebla densa que reduce la visibilidad" },
-        { "range": [7, 9], "result": "Lluvia persistente que dificulta el viaje" },
-        { "range": [10, 11], "result": "Tormenta con truenos, los caballos están nerviosos" },
-        { "range": [12, 12], "result": "Oscuridad antinatural se extiende desde el este" }
+        { "range": [1, 2], "result": "Cielo despejado, luz dorada filtrándose entre los árboles. Día perfecto para viajar." },
+        { "range": [3, 4], "result": "Nubes ligeras, brisa fresca del oeste. El clima de la Comarca." },
+        { "range": [5, 6], "result": "Niebla densa que reduce la visibilidad. Es fácil perderse." },
+        { "range": [7, 8], "result": "Lluvia persistente que dificulta el viaje y empapa todo." },
+        { "range": [9, 10], "result": "Viento frío que baja de las montañas. Se acerca el invierno." },
+        { "range": [11, 11], "result": "Tormenta con truenos - los caballos están nerviosos, hay que buscar refugio." },
+        { "range": [12, 12], "result": "Oscuridad antinatural se extiende desde el este. Algo maligno está cerca." }
       ]
     },
     "loot": {
-      "formula": "1d10",
+      "formula": "1d20",
       "results": [
-        { "range": [1, 3], "result": "Raciones élficas (lembas) - nutritivas y duraderas" },
-        { "range": [4, 5], "result": "Cuerda élfica - 50 pies, ligera pero resistente" },
-        { "range": [6, 7], "result": "Hierbas medicinales (athelas) - curan heridas" },
-        { "range": [8, 9], "result": "Daga enana finamente forjada" },
-        { "range": [10, 10], "result": "Anillo menor con inscripciones - función desconocida" }
+        { "range": [1, 3], "result": "Raciones élficas (lembas) - un bocado alimenta por un día" },
+        { "range": [4, 5], "result": "Cuerda élfica - 50 pies, ligera como seda pero fuerte como acero" },
+        { "range": [6, 7], "result": "Hierbas medicinales (athelas) - curan heridas y enfermedades" },
+        { "range": [8, 9], "result": "Daga enana finamente forjada con runas de poder" },
+        { "range": [10, 11], "result": "Mapa antiguo que muestra un camino olvidado" },
+        { "range": [12, 13], "result": "Gemas enanas - valiosas para comerciar" },
+        { "range": [14, 15], "result": "Capa élfica - ayuda a ocultarse y protege del frío" },
+        { "range": [16, 17], "result": "Fial de cristal que brilla con luz propia en la oscuridad" },
+        { "range": [18, 19], "result": "Espada con inscripciones élficas - brilla cuando hay orcos cerca" },
+        { "range": [20, 20], "result": "Anillo menor con inscripciones - su función es un misterio" }
       ]
     },
     "npc_names": {
       "formula": "1d20",
       "results": [
-        { "range": [1, 1], "result": "Aldor" },
-        { "range": [2, 2], "result": "Beorn" },
-        { "range": [3, 3], "result": "Celeborn" },
-        { "range": [4, 4], "result": "Denethor" },
-        { "range": [5, 5], "result": "Elrohir" },
-        { "range": [6, 6], "result": "Faramir" },
-        { "range": [7, 7], "result": "Galadhon" },
-        { "range": [8, 8], "result": "Halbarad" },
-        { "range": [9, 9], "result": "Imrahil" },
-        { "range": [10, 10], "result": "Legolas" },
-        { "range": [11, 11], "result": "Meriadoc" },
-        { "range": [12, 12], "result": "Peregrin" },
-        { "range": [13, 13], "result": "Radagast" },
-        { "range": [14, 14], "result": "Saradoc" },
-        { "range": [15, 15], "result": "Théoden" },
-        { "range": [16, 16], "result": "Ulfang" },
-        { "range": [17, 17], "result": "Voronwë" },
-        { "range": [18, 18], "result": "Wulfgar" },
-        { "range": [19, 19], "result": "Yavanna" },
-        { "range": [20, 20], "result": "Zimrahin" }
+        { "range": [1, 1], "result": "Aldor el Viejo" },
+        { "range": [2, 2], "result": "Beorn el Cambiapiel" },
+        { "range": [3, 3], "result": "Celeborn el Sabio" },
+        { "range": [4, 4], "result": "Denethor el Amargo" },
+        { "range": [5, 5], "result": "Elrohir el Vengador" },
+        { "range": [6, 6], "result": "Faramir el Noble" },
+        { "range": [7, 7], "result": "Galadhon el Antiguo" },
+        { "range": [8, 8], "result": "Halbarad el Leal" },
+        { "range": [9, 9], "result": "Imrahil el Príncipe" },
+        { "range": [10, 10], "result": "Legolas Hojaverde" },
+        { "range": [11, 11], "result": "Meriadoc el Valiente" },
+        { "range": [12, 12], "result": "Peregrin el Alocado" },
+        { "range": [13, 13], "result": "Radagast el Pardo" },
+        { "range": [14, 14], "result": "Saradoc el Granjero" },
+        { "range": [15, 15], "result": "Théoden el Rey" },
+        { "range": [16, 16], "result": "Ulfang el Negro" },
+        { "range": [17, 17], "result": "Voronwë el Marinero" },
+        { "range": [18, 18], "result": "Wulfgar el Jinete" },
+        { "range": [19, 19], "result": "Yavanna la Dadora" },
+        { "range": [20, 20], "result": "Zimrahin el Perdido" }
       ]
     },
     "events": {
-      "formula": "1d8",
+      "formula": "1d20",
       "results": [
-        { "range": [1, 1], "result": "Se avistan señales de humo en la distancia" },
+        { "range": [1, 1], "result": "Se avistan señales de humo en la distancia - alguien pide ayuda" },
         { "range": [2, 2], "result": "Escuchás un cuerno de guerra resonando en las colinas" },
-        { "range": [3, 3], "result": "Bandada de cuervos vuela hacia el sur - mal presagio" },
-        { "range": [4, 4], "result": "Encontrás un campamento abandonado apresuradamente" },
-        { "range": [5, 5], "result": "Un mensajero herido colapsa frente a vos" },
-        { "range": [6, 6], "result": "Extrañas luces danzan en el bosque de noche" },
-        { "range": [7, 7], "result": "Se oyen cantos élficos a lo lejos" },
-        { "range": [8, 8], "result": "El camino está bloqueado por un árbol caído - ¿accidente o trampa?" }
+        { "range": [3, 3], "result": "Bandada de cuervos vuela hacia el sur - espías del enemigo" },
+        { "range": [4, 4], "result": "Encontrás un campamento abandonado apresuradamente - señales de lucha" },
+        { "range": [5, 5], "result": "Un mensajero herido colapsa frente a vos con un mensaje urgente" },
+        { "range": [6, 6], "result": "Extrañas luces danzan en el bosque de noche - magia élfica o trampa" },
+        { "range": [7, 7], "result": "Se oyen cantos élficos a lo lejos - hay refugio cerca" },
+        { "range": [8, 8], "result": "El camino está bloqueado por un árbol caído - ¿accidente o emboscada?" },
+        { "range": [9, 9], "result": "Encontrás una tumba antigua con inscripciones de advertencia" },
+        { "range": [10, 10], "result": "Un águila gigante pasa volando muy bajo - parece observarte" },
+        { "range": [11, 11], "result": "El río ha crecido y el vado es imposible de cruzar" },
+        { "range": [12, 12], "result": "Encuentras huellas de trolls - grandes y recientes" },
+        { "range": [13, 13], "result": "Una antigua torre de vigilancia ofrece refugio pero parece habitada" },
+        { "range": [14, 14], "result": "Lobos aúllan más cerca cada noche - algo los dirige" },
+        { "range": [15, 15], "result": "Encontrás los restos de una batalla reciente - no hubo supervivientes" },
+        { "range": [16, 16], "result": "Un viejo ermitaño ofrece refugio a cambio de una historia" },
+        { "range": [17, 17], "result": "La luna se oscurece brevemente - mal augurio" },
+        { "range": [18, 18], "result": "Encuentras un pony perdido con alforjas llenas de provisiones" },
+        { "range": [19, 19], "result": "Un enano herido pide ayuda - fue emboscado por orcos" },
+        { "range": [20, 20], "result": "Gandalf aparece en el camino - 'te esperaba'" }
+      ]
+    },
+    "tavern_rumors": {
+      "formula": "1d12",
+      "results": [
+        { "range": [1, 1], "result": "Dicen que los Montaraces están más activos que nunca - algo se acerca" },
+        { "range": [2, 2], "result": "Un dragón ha sido visto sobrevolando las Montañas Grises" },
+        { "range": [3, 3], "result": "Los elfos están abandonando el Bosque Negro - mal presagio" },
+        { "range": [4, 4], "result": "Hay recompensa por información sobre un pequeño ladrón que robó a Smaug" },
+        { "range": [5, 5], "result": "Los enanos de Erebor buscan mercenarios para una misión secreta" },
+        { "range": [6, 6], "result": "Extraños jinetes negros han sido vistos preguntando por 'Bolsón'" },
+        { "range": [7, 7], "result": "El Senescal de Gondor ha enviado exploradores al norte" },
+        { "range": [8, 8], "result": "Saruman el Blanco no ha sido visto en meses" },
+        { "range": [9, 9], "result": "Los orcos se están organizando - tienen un nuevo líder" },
+        { "range": [10, 10], "result": "Han encontrado mithril en una mina olvidada - pero está maldita" },
+        { "range": [11, 11], "result": "Un hobbit loco recorre los caminos buscando su 'precioso'" },
+        { "range": [12, 12], "result": "Gandalf el Gris fue visto entrando a la Comarca - algo importante pasa" }
       ]
     }
   },
@@ -269,6 +660,54 @@
       "type": "debuff",
       "duration": 1,
       "effects": { "combat": -1, "exploration": -1 }
+    },
+    {
+      "id": "aterrorizado",
+      "name": "Aterrorizado",
+      "description": "El miedo de los Nazgûl te paraliza",
+      "type": "debuff",
+      "duration": 2,
+      "effects": { "combat": -2, "social": -2, "flee_chance": 0.3 }
+    },
+    {
+      "id": "furia_enana",
+      "name": "Furia Enana",
+      "description": "La ira de tus ancestros arde en ti",
+      "type": "buff",
+      "duration": 2,
+      "effects": { "combat": 3, "defense": -1 }
+    },
+    {
+      "id": "ojos_elficos",
+      "name": "Ojos Élficos",
+      "description": "Tu vista se agudiza sobrenaturalmente",
+      "type": "buff",
+      "duration": 4,
+      "effects": { "exploration": 2, "ranged_combat": 2 }
+    },
+    {
+      "id": "herida_morgul",
+      "name": "Herida de Morgul",
+      "description": "Una hoja maldita te ha tocado - necesitas curación élfica urgente",
+      "type": "debuff",
+      "duration": 10,
+      "effects": { "hp_per_turn": -1, "max_hp": -5, "corruption": 1 }
+    },
+    {
+      "id": "luz_earendil",
+      "name": "Luz de Eärendil",
+      "description": "La luz de la estrella más brillante te protege",
+      "type": "buff",
+      "duration": 6,
+      "effects": { "corruption_resistance": 5, "fear_immunity": true }
+    },
+    {
+      "id": "alimentado_lembas",
+      "name": "Alimentado por Lembas",
+      "description": "El pan élfico te da fuerzas para continuar",
+      "type": "buff",
+      "duration": 3,
+      "effects": { "fatigue_immunity": true, "hp_per_turn": 1 }
     }
   ],
 
@@ -282,7 +721,13 @@
         "Debe abandonar su hogar para un viaje peligroso"
       ],
       "typical_scenes": ["La Comarca", "Rivendel"],
-      "mood": "exploration_calm"
+      "mood": "exploration_calm",
+      "sample_events": [
+        "Un mensajero llega con noticias terribles",
+        "Extraños han sido vistos merodeando",
+        "Un viejo amigo necesita ayuda desesperadamente",
+        "Sueños proféticos perturban tu descanso"
+      ]
     },
     "act_2": {
       "name": "El Camino de las Pruebas",
@@ -293,7 +738,13 @@
         "Descubrimiento de la magnitud real de la amenaza"
       ],
       "typical_scenes": ["Bosque Negro", "Moria", "Rohan"],
-      "mood": "drama_tense"
+      "mood": "drama_tense",
+      "sample_events": [
+        "Emboscada en el camino",
+        "Un aliado inesperado aparece",
+        "Descubres un secreto que cambia todo",
+        "Debes elegir entre dos caminos peligrosos"
+      ]
     },
     "act_3": {
       "name": "El Descenso a la Oscuridad",
@@ -304,7 +755,13 @@
         "Decisión crucial que definirá el destino"
       ],
       "typical_scenes": ["Isengard", "Fronteras de Mordor"],
-      "mood": "horror_ambient"
+      "mood": "horror_ambient",
+      "sample_events": [
+        "Un compañero cae o es capturado",
+        "El enemigo parece invencible",
+        "Traición desde dentro del grupo",
+        "El objetivo parece imposible de alcanzar"
+      ]
     },
     "act_4": {
       "name": "La Batalla Final",
@@ -315,7 +772,13 @@
         "Victoria o derrota - el destino se decide"
       ],
       "typical_scenes": ["Minas Tirith", "Mordor"],
-      "mood": "combat_epic"
+      "mood": "combat_epic",
+      "sample_events": [
+        "Batalla a gran escala",
+        "Duelo personal con el villano",
+        "Sacrificio heroico",
+        "Ayuda inesperada en el último momento"
+      ]
     },
     "act_5": {
       "name": "El Regreso Transformado",
@@ -326,31 +789,115 @@
         "Nuevo equilibrio en el mundo - para bien o mal"
       ],
       "typical_scenes": ["La Comarca", "Rivendel", "Minas Tirith"],
-      "mood": "rest_peaceful"
+      "mood": "rest_peaceful",
+      "sample_events": [
+        "Celebración de la victoria",
+        "Despedidas dolorosas",
+        "El hogar ha cambiado en tu ausencia",
+        "Un nuevo comienzo"
+      ]
     }
   },
 
-  "one_shot_hook": "Un mensajero desesperado llega a tu puerta al anochecer. Una aldea cercana ha sido atacada por orcos y necesitan ayuda urgente. El camino es peligroso y la noche oscura, pero no hay tiempo que perder. ¿Responderás al llamado?",
+  "one_shot_hooks": [
+    {
+      "title": "El Mensajero Herido",
+      "hook": "Un mensajero desesperado llega a tu puerta al anochecer. Una aldea cercana ha sido atacada por orcos y necesitan ayuda urgente. El camino es peligroso y la noche oscura, pero no hay tiempo que perder. ¿Responderás al llamado?",
+      "suggested_duration": "2-3 horas",
+      "difficulty": "Fácil"
+    },
+    {
+      "title": "La Reliquia Perdida",
+      "hook": "Un erudito de Rivendel te busca. Ha localizado un artefacto de la Primera Edad en unas ruinas cerca del Bosque Negro. Pero las ruinas están en territorio peligroso, y otros también buscan el artefacto. ¿Puedes recuperarlo antes que caiga en manos equivocadas?",
+      "suggested_duration": "3-4 horas",
+      "difficulty": "Media"
+    },
+    {
+      "title": "La Escolta",
+      "hook": "Los enanos de Erebor necesitan escoltar una caravana de oro hasta las Montañas Azules. El camino cruza las Montañas Nubladas, donde los orcos acechan. Pagan bien, pero el viaje es largo y peligroso. ¿Aceptas el trabajo?",
+      "suggested_duration": "4-5 horas",
+      "difficulty": "Media"
+    },
+    {
+      "title": "El Paso Secreto",
+      "hook": "Gandalf necesita que lleves un mensaje urgente a Lothlórien, pero el camino normal está vigilado. Conoces un paso secreto a través de las montañas - o al menos, conocías. Han pasado años y las cosas cambian. ¿Te atreverás a usarlo?",
+      "suggested_duration": "2-3 horas",
+      "difficulty": "Difícil"
+    },
+    {
+      "title": "La Caza del Wargo",
+      "hook": "Un wargo gigante ha estado atacando aldeas en el Folde Oeste de Rohan. Los jinetes locales han fracasado en cazarlo. El rey Théoden ofrece una recompensa generosa por su cabeza. Pero este wargo es diferente - más inteligente, más grande. Algo lo controla.",
+      "suggested_duration": "3-4 horas",
+      "difficulty": "Media-Difícil"
+    },
+    {
+      "title": "Sombras en la Posada",
+      "hook": "Extraños han llegado a la Posada del Pony Pisador en Bree. Preguntan por un hobbit llamado Bolsón. Nadie sabe quiénes son, pero su presencia llena de miedo a todos. Un amigo hobbit te pide ayuda para escapar de Bree sin ser visto.",
+      "suggested_duration": "2-3 horas",
+      "difficulty": "Media"
+    },
+    {
+      "title": "Las Puertas de Moria",
+      "hook": "Un grupo de enanos intenta recuperar reliquias familiares de Moria. Necesitan ayuda para llegar a las puertas y encontrar la contraseña. Dicen que solo entrarán un poco, solo hasta los primeros salones. Pero Moria nunca deja ir a quienes entran...",
+      "suggested_duration": "4-5 horas",
+      "difficulty": "Difícil"
+    },
+    {
+      "title": "El Árbol Moribundo",
+      "hook": "En un claro olvidado del Bosque de Fangorn, un Ent está muriendo. Bárbol pide ayuda: necesita una planta que solo crece en las laderas del Monte del Destino. Es una misión suicida, pero si el Ent muere, el bosque podría no despertar nunca más.",
+      "suggested_duration": "5-6 horas",
+      "difficulty": "Muy Difícil"
+    }
+  ],
 
   "engine_notes": {
-    "story_mode": "Enfocarse en decisiones morales y consecuencias narrativas. Las batallas son rápidas y cinematográficas. La atmósfera y descripción son prioritarias.",
-    "pbta": "Usar movimientos como 'Desafiar el Peligro' y 'Discernir Realidades'. Los fallos parciales crean complicaciones interesantes, no bloqueos.",
-    "year_zero": "Recursos escasos: raciones, flechas, antorchas. El estrés aumenta en lugares corrompidos. Empujar dados = arriesgar equipo o salud.",
-    "dnd_5e": "Usar clases estándar pero con flavor de Tierra Media. Magos son raros y poderosos. Focos en habilidades de supervivencia y conocimiento."
+    "story_mode": "Enfocarse en decisiones morales y consecuencias narrativas. Las batallas son rápidas y cinematográficas. La atmósfera y descripción son prioritarias. El fallo siempre avanza la historia de forma interesante.",
+    "pbta": "Usar movimientos como 'Desafiar el Peligro' y 'Discernir Realidades'. Los fallos parciales (7-9) crean complicaciones interesantes, no bloqueos. La comunidad y las relaciones son importantes.",
+    "year_zero": "Recursos escasos: raciones, flechas, antorchas. El estrés aumenta en lugares corrompidos como Mordor o Moria. Empujar dados = arriesgar equipo o salud. El viaje es tan importante como el destino.",
+    "dnd_5e": "Usar clases estándar pero con flavor de Tierra Media. Magos son raros y poderosos (solo NPCs como Gandalf tienen magia real). Foco en habilidades de supervivencia y conocimiento. Rangers son Dúnedain."
   },
 
-  "tutorial_notes": "Para jugadores NOVICE: Comenzar en La Comarca con una misión simple de escolta. Introducir mecánicas gradualmente: exploración primero, combate después. Usar NPCs amigables como Gandalf o Aragorn para guiar sutilmente. Evitar términos como 'tirada' o 'check' - usar lenguaje natural.",
+  "tutorial_notes": "Para jugadores NOVICE: Comenzar en La Comarca con una misión simple de escolta a Bree. Introducir mecánicas gradualmente: exploración primero, combate después (y que sea ganable). Usar NPCs amigables como un Montaraz misterioso o un enano simpático para guiar sutilmente. Evitar términos como 'tirada' o 'check' - usar lenguaje natural como 'vamos a ver si lo logras'.",
 
   "glossary": {
-    "Hobbit": "Gente pequeña y pacífica que vive en La Comarca, amantes de la comodidad",
-    "Elfo": "Seres inmortales de gran sabiduría y belleza, maestros de la magia y las artes",
-    "Enano": "Pueblo de las montañas, expertos artesanos y guerreros formidables",
-    "Orco": "Criaturas corrompidas al servicio de la oscuridad, crueles y violentas",
-    "Istari": "Magos enviados para ayudar a los pueblos libres - Gandalf es uno de ellos",
-    "Tierra Media": "El continente donde transcurren las historias, hogar de muchos pueblos",
-    "Mordor": "Tierra oscura donde reside el enemigo más terrible",
-    "La Comarca": "Hogar de los hobbits, tierra de paz y abundancia",
-    "Mithril": "Metal precioso más fuerte que el acero pero ligero como una pluma",
-    "Lembas": "Pan élfico que nutre más que comida normal y dura mucho tiempo"
-  }
+    "Hobbit": "Gente pequeña y pacífica que vive en La Comarca, amantes de la comodidad, la buena comida y la hierba para pipa",
+    "Elfo": "Seres inmortales de gran sabiduría y belleza, maestros de la magia y las artes. Muchos parten hacia el oeste",
+    "Enano": "Pueblo de las montañas, expertos artesanos y guerreros formidables. Aman el oro y las gemas",
+    "Orco": "Criaturas corrompidas al servicio de la oscuridad, crueles y violentas. Temen la luz del sol",
+    "Istari": "Magos enviados para ayudar a los pueblos libres - Gandalf y Saruman son los más conocidos",
+    "Tierra Media": "El continente donde transcurren las historias, hogar de muchos pueblos libres",
+    "Mordor": "Tierra oscura donde reside Sauron, rodeada de montañas infranqueables",
+    "La Comarca": "Hogar de los hobbits, tierra de paz y abundancia en el noroeste",
+    "Mithril": "Metal precioso más fuerte que el acero pero ligero como una pluma, solo encontrado en Moria",
+    "Lembas": "Pan élfico que nutre más que comida normal y dura mucho tiempo sin estropearse",
+    "Athelas": "Hierba curativa también llamada hoja de reyes, efectiva contra heridas y venenos",
+    "Nazgûl": "Los Nueve, antiguos reyes de los hombres corrompidos por anillos de poder. Sirven a Sauron",
+    "Palantír": "Piedras videntes que permiten ver a distancia y comunicarse. Peligrosas de usar",
+    "Dúnedain": "Los hombres del oeste, descendientes de Númenor. Los Montaraces son sus últimos herederos",
+    "Balrog": "Demonio de fuego y sombra de la Primera Edad. Uno habita en las profundidades de Moria",
+    "Ent": "Pastores de árboles, los seres más antiguos de la Tierra Media. Lentos pero terribles en su ira"
+  },
+
+  "legends_and_myths": [
+    {
+      "title": "La Caída de Númenor",
+      "story": "Hubo una vez una isla en el mar del oeste, más grande que cualquier reino de la Tierra Media. Númenor, la llamaban, regalo de los Valar a los hombres que habían luchado contra Morgoth. Sus reyes vivían trescientos años, sus barcos surcaban todos los mares. Pero el orgullo los corrompió. Sauron, capturado y llevado a la isla, envenenó sus corazones. Les hizo desear la inmortalidad de los elfos. Ar-Pharazôn, el último rey, navegó hacia el oeste prohibido para conquistar Valinor. Los Valar hundieron su flota y Númenor desapareció bajo las olas. Solo los Fieles, liderados por Elendil, escaparon hacia la Tierra Media, fundando Gondor y Arnor."
+    },
+    {
+      "title": "Beren y Lúthien",
+      "story": "En la Primera Edad, un hombre mortal llamado Beren vio a Lúthien, hija del rey elfo Thingol, danzar en el bosque. Fue amor a primera vista, pero Thingol lo consideraba indigno. Exigió como precio de la mano de Lúthien un Silmaril de la corona de Morgoth. Beren partió hacia la imposible tarea. Lúthien lo siguió, abandonando la inmortalidad por amor. Juntos, engañaron a Morgoth, robaron el Silmaril, y escaparon. Beren murió, pero Lúthien negoció con Mandos: aceptó la mortalidad para que ambos pudieran regresar y vivir una vida mortal juntos. Es la historia de amor más grande que se ha contado."
+    },
+    {
+      "title": "La Forja de los Anillos",
+      "story": "En la Segunda Edad, Sauron adoptó una forma hermosa y se presentó ante los elfos de Eregion como Annatar, el Dador de Regalos. Les enseñó a forjar anillos de poder. Los elfos crearon los Tres, los más puros. Sauron ayudó a crear los Siete para los enanos y los Nueve para los hombres. Pero en secreto, en los fuegos del Monte del Destino, forjó el Anillo Único para controlarlos a todos. Cuando se lo puso, los elfos sintieron su traición y ocultaron sus Tres. Los enanos resistieron, pero los hombres cayeron y se convirtieron en los Nazgûl."
+    },
+    {
+      "title": "Gil-galad y la Última Alianza",
+      "story": "Cuando Sauron atacó Gondor, el Alto Rey Gil-galad de los Noldor y Elendil de los hombres formaron la Última Alianza. Durante siete años sitiaron Barad-dûr. Finalmente, Sauron salió a combatir. Gil-galad cayó. Elendil cayó, y su espada Narsil se quebró. Pero Isildur tomó el fragmento y cortó el Anillo de la mano de Sauron, derrotándolo. Elrond le suplicó que destruyera el Anillo en el fuego, pero Isildur lo reclamó como botín. Años después, fue emboscado y el Anillo se perdió en el río Anduin, esperando..."
+    },
+    {
+      "title": "Los Dos Árboles de Valinor",
+      "story": "Antes del sol y la luna, dos árboles iluminaban la tierra de los Valar. Telperion, el de plata, y Laurelin, el de oro. Su luz era más bella que cualquier cosa que existe ahora. Morgoth, el primer Señor Oscuro, envidiaba esa luz. Con la araña gigante Ungoliant, atacó los árboles y los destruyó. De su último fruto y flor, los Valar crearon el sol y la luna. Pero la luz de los árboles se preservó en los Silmarils, las joyas que Fëanor creó y que causaron guerras sin fin. Esa luz antigua aún brilla en la estrella de Eärendil, visible al amanecer."
+    }
+  ]
 }
