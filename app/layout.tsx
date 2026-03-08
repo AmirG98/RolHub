@@ -54,9 +54,9 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="es" className={`${cinzelDecorative.variable} ${cinzel.variable} ${ebGaramond.variable} ${crimsonText.variable} ${courierPrime.variable}`}>
-        <body>
+        <body className="min-h-screen bg-shadow">
           <Navbar />
-          <main className="container mx-auto px-4 py-8">
+          <main>
             {children}
           </main>
         </body>

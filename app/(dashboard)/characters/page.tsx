@@ -50,22 +50,22 @@ export default function CharactersPage() {
   }
 
   return (
-    <div className="min-h-screen particle-bg py-8">
-      <div className="max-w-6xl mx-auto content-wrapper px-4">
-        <div className="flex items-center justify-between mb-8">
-          <h1 className="font-title text-4xl text-gold">Mis Personajes</h1>
+    <div className="min-h-screen particle-bg py-4 md:py-8">
+      <div className="max-w-6xl mx-auto content-wrapper px-3 md:px-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 md:mb-8">
+          <h1 className="font-title text-2xl md:text-4xl text-gold">Mis Personajes</h1>
           <Link href="/onboarding">
-            <RunicButton variant="primary">+ Nuevo Personaje</RunicButton>
+            <RunicButton variant="primary" className="w-full sm:w-auto text-sm md:text-base">+ Nuevo Personaje</RunicButton>
           </Link>
         </div>
 
         {characters.length === 0 ? (
-          <div className="glass-panel-dark rounded-lg p-12 text-center">
-            <div className="text-6xl mb-4">🎭</div>
-            <h2 className="font-heading text-2xl text-parchment mb-3">
+          <div className="glass-panel-dark rounded-lg p-8 md:p-12 text-center">
+            <div className="text-5xl md:text-6xl mb-3 md:mb-4">🎭</div>
+            <h2 className="font-heading text-xl md:text-2xl text-parchment mb-2 md:mb-3">
               No tienes personajes todavía
             </h2>
-            <p className="font-body text-parchment/60 mb-6">
+            <p className="font-body text-sm md:text-base text-parchment/60 mb-4 md:mb-6">
               Crea tu primer héroe y comienza tu aventura
             </p>
             <Link href="/onboarding">
@@ -75,42 +75,42 @@ export default function CharactersPage() {
             </Link>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             {characters.map((character) => {
               const loreData = LORES.find(l => l.id === character.lore)
               return (
                 <div
                   key={character.id}
-                  className="glass-panel rounded-lg p-6 hover:scale-105 transition-all hover:glow-effect group"
+                  className="glass-panel rounded-lg p-4 md:p-6 hover:scale-105 transition-all hover:glow-effect group"
                 >
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="text-4xl">{loreData?.icon || '🎭'}</div>
-                    <div className="glass-panel px-3 py-1 rounded-full">
-                      <span className="text-xs font-ui text-gold">Nivel {character.level}</span>
+                  <div className="flex items-start justify-between mb-3 md:mb-4">
+                    <div className="text-3xl md:text-4xl">{loreData?.icon || '🎭'}</div>
+                    <div className="glass-panel px-2 md:px-3 py-0.5 md:py-1 rounded-full">
+                      <span className="text-[10px] md:text-xs font-ui text-gold">Nv.{character.level}</span>
                     </div>
                   </div>
 
-                  <h3 className="font-heading text-2xl text-parchment mb-2 group-hover:text-gold transition">
+                  <h3 className="font-heading text-lg md:text-2xl text-parchment mb-1 md:mb-2 group-hover:text-gold transition line-clamp-1">
                     {character.name}
                   </h3>
 
-                  <p className="font-ui text-sm mb-2" style={{ color: loreData?.color }}>
+                  <p className="font-ui text-xs md:text-sm mb-1 md:mb-2" style={{ color: loreData?.color }}>
                     {character.archetype}
                   </p>
 
                   {character.campaign && (
-                    <p className="font-body text-xs text-parchment/60 mb-4">
+                    <p className="font-body text-[10px] md:text-xs text-parchment/60 mb-3 md:mb-4 line-clamp-1">
                       Campaña: {character.campaign.name}
                     </p>
                   )}
 
                   {character.stats && character.stats.hp !== undefined && (
-                    <div className="mb-4">
-                      <div className="flex justify-between text-xs font-ui text-parchment/60 mb-1">
+                    <div className="mb-3 md:mb-4">
+                      <div className="flex justify-between text-[10px] md:text-xs font-ui text-parchment/60 mb-1">
                         <span>HP</span>
                         <span>{character.stats.hp}/{character.stats.maxHp}</span>
                       </div>
-                      <div className="w-full h-2 bg-shadow rounded-full overflow-hidden">
+                      <div className="w-full h-1.5 md:h-2 bg-shadow rounded-full overflow-hidden">
                         <div
                           className="h-full bg-gradient-to-r from-blood via-red-500 to-blood glow-effect"
                           style={{ width: `${(character.stats.hp / character.stats.maxHp) * 100}%` }}
@@ -119,7 +119,7 @@ export default function CharactersPage() {
                     </div>
                   )}
 
-                  <RunicButton variant="secondary" className="w-full">
+                  <RunicButton variant="secondary" className="w-full text-sm">
                     Ver Ficha
                   </RunicButton>
                 </div>

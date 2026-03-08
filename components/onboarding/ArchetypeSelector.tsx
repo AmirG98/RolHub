@@ -68,108 +68,149 @@ export function ArchetypeSelector({ archetypes, loreName, onSelect, onBack }: Ar
   }
 
   return (
-    <div className="min-h-screen particle-bg flex items-center justify-center p-8">
-      <div className="max-w-6xl w-full content-wrapper">
-        <h1 className="font-title text-4xl md:text-5xl text-gold-bright text-center mb-2 ink-reveal glow-effect-on-hover">
+    <div className="min-h-screen particle-bg flex items-center justify-center p-4 md:p-8">
+      <div className="max-w-6xl w-full content-wrapper pb-24 md:pb-8">
+        <h1 className="font-title text-2xl sm:text-3xl md:text-5xl text-gold-bright text-center mb-1 md:mb-2 ink-reveal glow-effect-on-hover">
           Elegi Quien Sos
         </h1>
         {loreName && (
-          <p className="font-heading text-gold/80 text-center mb-2 text-lg">
+          <p className="font-heading text-gold/80 text-center mb-1 md:mb-2 text-sm md:text-lg">
             en {loreName}
           </p>
         )}
-        <p className="font-ui text-parchment/80 text-center mb-12">
+        <p className="font-ui text-sm md:text-base text-parchment/80 text-center mb-6 md:mb-12">
           Tu arquetipo define tus habilidades y tu rol en la historia
         </p>
 
-        <div className="grid md:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 mb-6 md:mb-8">
           {archetypes.map((archetype) => (
             <div
               key={archetype.id}
-              className={`glass-panel rounded-lg p-6 cursor-pointer transition-all duration-300 hover:scale-105 ${
+              className={`glass-panel rounded-lg p-4 md:p-6 cursor-pointer transition-all duration-300 hover:scale-105 ${
                 selectedArchetype?.id === archetype.id ? 'glow-effect ring-2 ring-gold-bright' : ''
               }`}
               onClick={() => setSelectedArchetype(archetype)}
             >
-              <div className="flex flex-col items-center text-center space-y-4">
+              <div className="flex sm:flex-col items-center sm:items-center text-left sm:text-center gap-4 sm:gap-0 sm:space-y-4">
                 {/* Icono */}
-                <div className="text-gold-bright">
+                <div className="text-gold-bright flex-shrink-0 [&>svg]:h-10 [&>svg]:w-10 md:[&>svg]:h-12 md:[&>svg]:w-12">
                   {getArchetypeIcon(archetype.id)}
                 </div>
 
-                {/* Nombre */}
-                <h3 className="font-heading text-2xl text-gold">{archetype.name}</h3>
+                <div className="flex-1 sm:flex-none sm:w-full">
+                  {/* Nombre */}
+                  <h3 className="font-heading text-lg md:text-2xl text-gold mb-1 sm:mb-0">{archetype.name}</h3>
 
-                {/* Descripcion simple */}
-                <p className="font-body text-parchment/80 text-sm leading-relaxed">
-                  {archetype.simple_description || archetype.description}
-                </p>
+                  {/* Descripcion simple */}
+                  <p className="font-body text-parchment/80 text-xs md:text-sm leading-relaxed line-clamp-3 sm:line-clamp-none sm:mt-2">
+                    {archetype.simple_description || archetype.description}
+                  </p>
 
-                {/* Stats visuales */}
-                {archetype.starting_stats && (
-                  <div className="w-full pt-4 border-t border-gold-dim/30">
-                    <div className="grid grid-cols-2 gap-2 text-xs font-ui">
-                      <div>
-                        <span className="text-gold-dim">Vida:</span>{' '}
-                        <span className="text-parchment font-semibold">{archetype.starting_stats.maxHp}</span>
-                      </div>
-                      <div>
-                        <span className="text-gold-dim">Combate:</span>{' '}
-                        <span className="text-parchment font-semibold">{archetype.starting_stats.combat}</span>
-                      </div>
-                      <div>
-                        <span className="text-gold-dim">Exploracion:</span>{' '}
-                        <span className="text-parchment font-semibold">{archetype.starting_stats.exploration}</span>
-                      </div>
-                      <div>
-                        <span className="text-gold-dim">Social:</span>{' '}
-                        <span className="text-parchment font-semibold">{archetype.starting_stats.social}</span>
+                  {/* Stats visuales - solo desktop */}
+                  {archetype.starting_stats && (
+                    <div className="hidden sm:block w-full pt-4 border-t border-gold-dim/30 mt-4">
+                      <div className="grid grid-cols-2 gap-2 text-xs font-ui">
+                        <div>
+                          <span className="text-gold-dim">Vida:</span>{' '}
+                          <span className="text-parchment font-semibold">{archetype.starting_stats.maxHp}</span>
+                        </div>
+                        <div>
+                          <span className="text-gold-dim">Combate:</span>{' '}
+                          <span className="text-parchment font-semibold">{archetype.starting_stats.combat}</span>
+                        </div>
+                        <div>
+                          <span className="text-gold-dim">Exploración:</span>{' '}
+                          <span className="text-parchment font-semibold">{archetype.starting_stats.exploration}</span>
+                        </div>
+                        <div>
+                          <span className="text-gold-dim">Social:</span>{' '}
+                          <span className="text-parchment font-semibold">{archetype.starting_stats.social}</span>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                )}
+                  )}
 
-                {/* Habilidad especial */}
-                {archetype.special_ability && (
-                  <div className="w-full pt-2">
-                    <p className="text-xs font-ui text-emerald font-semibold">
-                      {archetype.special_ability}
-                    </p>
-                  </div>
-                )}
+                  {/* Habilidad especial - solo desktop */}
+                  {archetype.special_ability && (
+                    <div className="hidden sm:block w-full pt-2">
+                      <p className="text-xs font-ui text-emerald font-semibold line-clamp-2">
+                        {archetype.special_ability}
+                      </p>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           ))}
         </div>
 
-        {/* Panel de detalles cuando hay seleccion */}
-        {selectedArchetype && selectedArchetype.starting_inventory && (
-          <div className="glass-panel-dark rounded-lg p-6 mb-8 ink-reveal">
-            <h3 className="font-heading text-xl text-gold mb-4">Equipamiento Inicial</h3>
-            <div className="grid md:grid-cols-2 gap-2">
-              {selectedArchetype.starting_inventory.map((item, index) => (
-                <div key={index} className="flex items-center space-x-2 font-body text-parchment/80 text-sm">
-                  <span className="text-gold-dim">•</span>
-                  <span>{item}</span>
+        {/* Panel de detalles cuando hay seleccion - Adaptado para mobile */}
+        {selectedArchetype && (
+          <div className="glass-panel-dark rounded-lg p-4 md:p-6 mb-6 md:mb-8 ink-reveal">
+            {/* Stats en mobile */}
+            {selectedArchetype.starting_stats && (
+              <div className="sm:hidden mb-4 pb-4 border-b border-gold-dim/30">
+                <h3 className="font-heading text-base text-gold mb-2">Estadísticas</h3>
+                <div className="grid grid-cols-4 gap-2 text-xs font-ui text-center">
+                  <div>
+                    <div className="text-parchment font-semibold text-lg">{selectedArchetype.starting_stats.maxHp}</div>
+                    <div className="text-gold-dim">HP</div>
+                  </div>
+                  <div>
+                    <div className="text-parchment font-semibold text-lg">{selectedArchetype.starting_stats.combat}</div>
+                    <div className="text-gold-dim">COM</div>
+                  </div>
+                  <div>
+                    <div className="text-parchment font-semibold text-lg">{selectedArchetype.starting_stats.exploration}</div>
+                    <div className="text-gold-dim">EXP</div>
+                  </div>
+                  <div>
+                    <div className="text-parchment font-semibold text-lg">{selectedArchetype.starting_stats.social}</div>
+                    <div className="text-gold-dim">SOC</div>
+                  </div>
                 </div>
-              ))}
-            </div>
+              </div>
+            )}
+
+            {/* Habilidad especial en mobile */}
+            {selectedArchetype.special_ability && (
+              <div className="sm:hidden mb-4 pb-4 border-b border-gold-dim/30">
+                <h3 className="font-heading text-base text-gold mb-2">Habilidad Especial</h3>
+                <p className="text-xs font-ui text-emerald font-semibold">
+                  {selectedArchetype.special_ability}
+                </p>
+              </div>
+            )}
+
+            {selectedArchetype.starting_inventory && (
+              <>
+                <h3 className="font-heading text-base md:text-xl text-gold mb-3 md:mb-4">Equipamiento Inicial</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-1.5 md:gap-2">
+                  {selectedArchetype.starting_inventory.map((item, index) => (
+                    <div key={index} className="flex items-center space-x-2 font-body text-parchment/80 text-xs md:text-sm">
+                      <span className="text-gold-dim">•</span>
+                      <span>{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
           </div>
         )}
 
-        {/* Botones de navegacion */}
-        <div className="flex justify-between items-center">
-          <RunicButton variant="secondary" onClick={onBack}>
-            Volver
+        {/* Botones de navegacion - fixed en mobile */}
+        <div className="fixed bottom-0 left-0 right-0 md:relative bg-shadow/95 md:bg-transparent p-4 md:p-0 border-t border-gold/20 md:border-0 flex justify-between items-center z-40">
+          <RunicButton variant="secondary" onClick={onBack} className="text-sm md:text-base px-4 md:px-6">
+            ← Volver
           </RunicButton>
 
           <RunicButton
             variant="primary"
             disabled={!selectedArchetype}
             onClick={() => selectedArchetype && onSelect(selectedArchetype)}
-            className="px-12"
+            className="text-sm md:text-base px-4 md:px-12"
           >
-            Comenzar Aventura
+            Comenzar Aventura →
           </RunicButton>
         </div>
       </div>
