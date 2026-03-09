@@ -8,7 +8,8 @@ import { DiceRoller } from '@/components/medieval/DiceRoller'
 import { ParticipantList } from '@/components/game/ParticipantList'
 import { useSessionRealtime, broadcastTurn } from '@/hooks/useSessionRealtime'
 import { useParticipantPresence } from '@/hooks/useParticipantPresence'
-import { Sword, Shield, Map, MessageCircle, BookOpen, Heart, Backpack, Scroll, Dices, Users, Wifi } from 'lucide-react'
+import { Sword, Shield, Map, MessageCircle, BookOpen, Heart, Backpack, Scroll, Dices, Users, Wifi, Crown } from 'lucide-react'
+import DMPanel from '@/components/game/DMPanel'
 
 interface Turn {
   id: string
@@ -69,6 +70,8 @@ interface GameSessionProps {
   initialParticipants?: Participant[]
   currentUserId?: string
   inviteCode?: string | null
+  // DM mode props
+  dmMode?: 'AI' | 'HUMAN'
 }
 
 export default function GameSession({
@@ -86,6 +89,8 @@ export default function GameSession({
   initialParticipants = [],
   currentUserId,
   inviteCode,
+  // DM mode props
+  dmMode = 'AI',
 }: GameSessionProps) {
   const [localTurns, setLocalTurns] = useState<Turn[]>(initialTurns)
   const [worldState, setWorldState] = useState(initialWorldState)
@@ -115,6 +120,15 @@ export default function GameSession({
 
   // Presence tracking for multiplayer
   useParticipantPresence(campaignId, { enabled: isMultiplayer })
+
+  // Check if current user is the DM (owner or has DM role)
+  const currentParticipant = participants.find(p => p.user?.id === currentUserId)
+  const isUserDM = isMultiplayer && dmMode === 'HUMAN' && (
+    currentParticipant?.role === 'OWNER' || currentParticipant?.role === 'DM'
+  )
+
+  // State for showing DM panel
+  const [showDMPanel, setShowDMPanel] = useState(false)
 
   // Parse current HP from worldState or character stats
   const getCurrentHP = () => {
@@ -245,11 +259,19 @@ export default function GameSession({
               <div className="flex items-center gap-2">
                 <h1 className="font-heading text-lg md:text-2xl text-gold-bright truncate">{campaignName}</h1>
                 {isMultiplayer && (
-                  <div className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] ${
-                    isConnected ? 'bg-emerald/20 text-emerald' : 'bg-blood/20 text-blood'
-                  }`}>
-                    <Wifi className="w-3 h-3" />
-                    {isConnected ? 'En vivo' : 'Desconectado'}
+                  <div className="flex items-center gap-2">
+                    <div className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] ${
+                      isConnected ? 'bg-emerald/20 text-emerald' : 'bg-blood/20 text-blood'
+                    }`}>
+                      <Wifi className="w-3 h-3" />
+                      {isConnected ? 'En vivo' : 'Desconectado'}
+                    </div>
+                    {isUserDM && (
+                      <div className="flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] bg-gold/20 text-gold">
+                        <Crown className="w-3 h-3" />
+                        DM
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
@@ -481,6 +503,38 @@ export default function GameSession({
                 </div>
               </form>
             </ParchmentPanel>
+
+            {/* DM Panel Toggle Button - Only for Human DMs */}
+            {isUserDM && (
+              <div className="mt-4">
+                <button
+                  onClick={() => setShowDMPanel(!showDMPanel)}
+                  className={`w-full flex items-center justify-center gap-2 py-3 rounded-lg font-heading transition-all ${
+                    showDMPanel
+                      ? 'bg-gold/20 text-gold border-2 border-gold/50'
+                      : 'bg-shadow/50 text-gold-dim border border-gold/30 hover:bg-gold/10 hover:text-gold'
+                  }`}
+                >
+                  <Crown className="w-5 h-5" />
+                  {showDMPanel ? 'Ocultar Panel DM' : 'Abrir Panel DM'}
+                </button>
+              </div>
+            )}
+
+            {/* DM Panel */}
+            {isUserDM && showDMPanel && (
+              <div className="mt-4">
+                <DMPanel
+                  sessionId={sessionId}
+                  campaignId={campaignId}
+                  worldState={worldState}
+                  participants={participants}
+                  onNarrationSent={() => {
+                    // Refresh turns after DM sends narration
+                  }}
+                />
+              </div>
+            )}
           </div>
 
           {/* Panel lateral - Info del personaje - Colapsable en mobile */}

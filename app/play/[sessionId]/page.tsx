@@ -152,6 +152,7 @@ export default async function PlayPage({ params }: PlayPageProps) {
       initialParticipants={serializedParticipants}
       currentUserId={user.id}
       inviteCode={session.campaign.inviteCode}
+      dmMode={(session.campaign as any).dmMode || 'AI'}
     />
   )
 }
