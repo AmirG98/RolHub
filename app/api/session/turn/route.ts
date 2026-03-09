@@ -22,11 +22,12 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json()
-    const { sessionId, campaignId, action, diceRoll } = body as {
+    const { sessionId, campaignId, action, diceRoll, characterId } = body as {
       sessionId: string
       campaignId: string
       action: string
       diceRoll?: DiceRoll
+      characterId?: string  // For multiplayer - which character is acting
     }
 
     if (!sessionId || !action) {
@@ -43,6 +44,14 @@ export async function POST(req: NextRequest) {
         campaign: {
           include: {
             characters: true,
+            participants: {
+              include: {
+                user: {
+                  select: { id: true, username: true },
+                },
+                character: true,
+              },
+            },
           },
         },
         turns: {
@@ -56,28 +65,56 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Sesion no encontrada' }, { status: 404 })
     }
 
-    // Verificar que el usuario es dueno de la sesion
+    // Get the user
     const user = await prisma.user.findUnique({
       where: { clerkId: userId },
     })
 
-    if (!user || session.userId !== user.id) {
+    if (!user) {
+      return NextResponse.json({ error: 'Usuario no encontrado' }, { status: 404 })
+    }
+
+    // Check access: user must be session owner OR a campaign participant
+    const isOwner = session.userId === user.id
+    const participant = session.campaign.participants.find(p => p.userId === user.id)
+
+    if (!isOwner && !participant) {
       return NextResponse.json({ error: 'No autorizado' }, { status: 403 })
     }
 
-    // 1. Guardar el turno del jugador
+    // Determine which character is acting
+    // For multiplayer: use the participant's character or the one specified
+    // For single player: use the first character
+    const isMultiplayer = session.campaign.isMultiplayer
+    let actingCharacter = session.campaign.characters[0]
+    let actingPlayer = user.username
+
+    if (isMultiplayer && participant?.character) {
+      actingCharacter = participant.character
+      actingPlayer = participant.user?.username || user.username
+    } else if (characterId) {
+      const specifiedChar = session.campaign.characters.find(c => c.id === characterId)
+      if (specifiedChar) actingCharacter = specifiedChar
+    }
+
+    // 1. Guardar el turno del jugador con info de multiplayer
     const playerTurn = await prisma.turn.create({
       data: {
         sessionId: session.id,
         role: 'USER',
         content: action,
         diceRolls: diceRoll ? JSON.parse(JSON.stringify(diceRoll)) : undefined,
+        // Multiplayer fields
+        participantId: participant?.id,
+        characterId: actingCharacter?.id,
+        characterName: actingCharacter?.name,
+        playerName: actingPlayer,
       },
     })
 
     // 2. Preparar contexto para Claude
     const worldState = session.campaign.worldState as any
-    const character = session.campaign.characters[0]
+    const character = actingCharacter
 
     // Construir historial de conversacion
     const conversationHistory = session.turns.slice(-6).map((turn) => ({
@@ -103,25 +140,56 @@ export async function POST(req: NextRequest) {
     // Obtener inventario
     const inventory = worldState.party?.[character.name]?.inventory || (character as any).inventory || []
 
+    // Build party info for multiplayer
+    const partyMembers = isMultiplayer
+      ? session.campaign.participants
+          .filter(p => p.character)
+          .map(p => {
+            const charStats = p.character!.stats as any
+            const charHP = worldState.party?.[p.character!.name]?.hp || `${charStats?.hp || 20}/${charStats?.maxHp || 20}`
+            const charInventory = worldState.party?.[p.character!.name]?.inventory || (p.character as any)?.inventory || []
+            return {
+              name: p.character!.name,
+              archetype: p.character!.archetype,
+              player: p.user?.username || 'Jugador',
+              hp: charHP,
+              stats: charStats,
+              inventory: charInventory,
+              isActing: p.character!.id === character.id,
+            }
+          })
+      : []
+
+    const partyInfo = isMultiplayer && partyMembers.length > 1
+      ? `\n\nGRUPO DE AVENTUREROS (${partyMembers.length} jugadores):\n${partyMembers.map(m => {
+          const [hp, maxHp] = m.hp.split('/').map(Number)
+          const status = hp <= maxHp * 0.3 ? 'CRITICO' : hp <= maxHp * 0.6 ? 'herido' : 'saludable'
+          return `- ${m.name} (${m.archetype}, jugado por ${m.player}): HP ${m.hp} [${status}], Inventario: ${m.inventory.length > 0 ? m.inventory.join(', ') : 'vacío'}${m.isActing ? ' ← ACTUANDO AHORA' : ''}`
+        }).join('\n')}`
+      : ''
+
     // 3. Llamar a Claude para obtener la respuesta del DM
-    const systemPrompt = `Sos el Dungeon Master de una partida de rol narrativo. Tu rol es crear una experiencia inmersiva y emocionante.
+    const systemPrompt = `Sos el Dungeon Master de una partida de rol narrativo${isMultiplayer ? ' MULTIJUGADOR' : ''}. Tu rol es crear una experiencia inmersiva y emocionante.
 
 MUNDO Y AMBIENTACION:
 - Lore: ${session.campaign.lore}
 - Motor de reglas: ${session.campaign.engine}
 - Modo: ${session.campaign.mode === 'ONE_SHOT' ? 'One-Shot (aventura corta)' : 'Campaña (historia larga)'}
+${isMultiplayer ? `- Tipo: MULTIJUGADOR (${partyMembers.length} jugadores)` : '- Tipo: UN SOLO JUGADOR'}
 - Acto actual: ${worldState.act}/5
 - Escena actual: ${worldState.current_scene}
 - Tiempo: ${worldState.time_in_world}
 - Clima: ${worldState.weather}
 
-PERSONAJE DEL JUGADOR:
+PERSONAJE QUE ACTÚA AHORA:
 - Nombre: ${character.name}
+- Jugador: ${actingPlayer}
 - Arquetipo: ${character.archetype}
 - Nivel: ${character.level}
 - HP: ${currentHP} (${currentHPNum <= maxHPNum * 0.3 ? 'CRITICO - casi muerto' : currentHPNum <= maxHPNum * 0.6 ? 'herido' : 'saludable'})
 - Stats: Combate ${(character.stats as any)?.combat}/5, Exploración ${(character.stats as any)?.exploration}/5, Social ${(character.stats as any)?.social}/5, Lore ${(character.stats as any)?.lore}/5
 - Inventario: ${inventory.length > 0 ? inventory.join(', ') : 'vacío'}
+${partyInfo}
 
 MISIONES ACTIVAS: ${(worldState.active_quests || []).join(', ') || 'ninguna'}
 ${diceRollInfo}
@@ -130,6 +198,7 @@ INSTRUCCIONES DE RESPUESTA:
 Debes responder SIEMPRE en formato JSON con esta estructura exacta:
 {
   "narration": "Tu narración aquí (2-3 párrafos, español, cinematográfico y emocionante)",
+  "character_name": "${character.name}",
   "hp_change": 0,
   "hp_reason": null,
   "new_item": null,
@@ -137,8 +206,13 @@ Debes responder SIEMPRE en formato JSON con esta estructura exacta:
   "quest_completed": null,
   "new_quest": null,
   "scene_change": null,
-  "suggested_actions": ["acción 1", "acción 2", "acción 3"]
+  "suggested_actions": ["acción 1", "acción 2", "acción 3"]${isMultiplayer ? `,
+  "other_party_effects": []` : ''}
 }
+${isMultiplayer ? `
+Para efectos en OTROS miembros del grupo (no el que actúa), usa other_party_effects:
+[{"character_name": "Nombre", "hp_change": -2, "reason": "razón"}, ...]
+` : ''}
 
 REGLAS DE MECANICAS:
 1. Si hay combate y el jugador falla (tirada baja o mala decisión), usa hp_change negativo (-1 a -5 según gravedad)
@@ -146,6 +220,9 @@ REGLAS DE MECANICAS:
 3. Si el jugador resuelve un objetivo, marca quest_completed
 4. Cuando cambie la ubicación significativamente, usa scene_change
 5. suggested_actions debe tener 3 opciones que tengan sentido con la situación
+${isMultiplayer ? `6. En MULTIJUGADOR: responde a la acción de ${character.name} pero menciona a los otros personajes si es relevante
+7. Los cambios de HP/items del personaje que actúa van en hp_change/new_item
+8. Los cambios de HP de OTROS personajes van en other_party_effects` : ''}
 
 TONO NARRATIVO:
 ${session.campaign.lore === 'LOTR' ? 'Épico y mítico, como Tolkien. Lenguaje elevado y poético.' :
@@ -176,6 +253,7 @@ IMPORTANTE:
     // Parse JSON response from DM
     let dmResponse: {
       narration: string
+      character_name?: string
       hp_change?: number
       hp_reason?: string | null
       new_item?: string | null
@@ -184,6 +262,11 @@ IMPORTANTE:
       new_quest?: string | null
       scene_change?: string | null
       suggested_actions?: string[]
+      other_party_effects?: Array<{
+        character_name: string
+        hp_change: number
+        reason?: string
+      }>
     }
 
     try {
@@ -251,6 +334,23 @@ IMPORTANTE:
     // Update scene
     if (dmResponse.scene_change) {
       worldStateUpdates.current_scene = dmResponse.scene_change
+    }
+
+    // Handle other party effects in multiplayer
+    if (isMultiplayer && dmResponse.other_party_effects && dmResponse.other_party_effects.length > 0) {
+      for (const effect of dmResponse.other_party_effects) {
+        const targetChar = partyMembers.find(m => m.name === effect.character_name)
+        if (targetChar && effect.hp_change) {
+          const [currentHP, maxHP] = targetChar.hp.split('/').map(Number)
+          const newHP = Math.max(0, Math.min(maxHP, currentHP + effect.hp_change))
+
+          if (!worldStateUpdates.party) worldStateUpdates.party = { ...worldState.party }
+          if (!worldStateUpdates.party[effect.character_name]) {
+            worldStateUpdates.party[effect.character_name] = { ...worldState.party?.[effect.character_name] }
+          }
+          worldStateUpdates.party[effect.character_name].hp = `${newHP}/${maxHP}`
+        }
+      }
     }
 
     // Update campaign world state if there are updates
