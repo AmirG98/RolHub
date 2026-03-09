@@ -9,8 +9,10 @@ import { ParticipantList } from '@/components/game/ParticipantList'
 import { useSessionRealtime, broadcastTurn } from '@/hooks/useSessionRealtime'
 import { useParticipantPresence } from '@/hooks/useParticipantPresence'
 import { useLanguage, useTranslations } from '@/lib/i18n'
-import { Sword, Shield, Map, MessageCircle, BookOpen, Heart, Backpack, Scroll, Dices, Users, Wifi, Crown } from 'lucide-react'
+import { Sword, Shield, Map, MessageCircle, BookOpen, Heart, Backpack, Scroll, Dices, Users, Wifi, Crown, Cog } from 'lucide-react'
 import DMPanel from '@/components/game/DMPanel'
+import { EnginePanel } from '@/components/engines/EnginePanel'
+import { GameEngine, DiceRoll as EngineDiceRoll, Locale } from '@/lib/engines/types'
 
 interface Turn {
   id: string
@@ -100,7 +102,7 @@ export default function GameSession({
   const [error, setError] = useState<string | null>(null)
   const [showDiceRoller, setShowDiceRoller] = useState(false)
   const [lastDiceRoll, setLastDiceRoll] = useState<{ formula: string; result: number; rolls: number[] } | null>(null)
-  const [activeTab, setActiveTab] = useState<'stats' | 'inventory' | 'quests' | 'party'>('stats')
+  const [activeTab, setActiveTab] = useState<'engine' | 'stats' | 'inventory' | 'quests' | 'party'>('engine')
 
   // i18n
   const { locale } = useLanguage()
@@ -164,6 +166,15 @@ export default function GameSession({
   const handleDiceRoll = (result: { total: number; rolls: number[]; formula: string }) => {
     setLastDiceRoll({ formula: result.formula, result: result.total, rolls: result.rolls })
     setShowDiceRoller(false)
+  }
+
+  // Handler for EnginePanel dice rolls
+  const handleEngineDiceRoll = (roll: EngineDiceRoll) => {
+    setLastDiceRoll({
+      formula: roll.formula,
+      result: roll.total + (roll.modifier || 0),
+      rolls: roll.results
+    })
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -579,6 +590,15 @@ export default function GameSession({
               {/* Tab navigation */}
               <div className="flex gap-1 p-1 bg-shadow/50 rounded-lg">
                 <button
+                  onClick={() => setActiveTab('engine')}
+                  className={`flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg font-ui text-sm transition-all ${
+                    activeTab === 'engine' ? 'bg-gold/20 text-gold' : 'text-parchment/60 hover:text-parchment'
+                  }`}
+                >
+                  <Cog className="w-4 h-4" />
+                  {locale === 'en' ? 'Engine' : 'Motor'}
+                </button>
+                <button
                   onClick={() => setActiveTab('stats')}
                   className={`flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg font-ui text-sm transition-all ${
                     activeTab === 'stats' ? 'bg-gold/20 text-gold' : 'text-parchment/60 hover:text-parchment'
@@ -619,6 +639,35 @@ export default function GameSession({
               </div>
 
               {/* Tab content */}
+              {activeTab === 'engine' && character && (
+                <OrnateFrame variant="shadow">
+                  <div className="glass-panel-dark rounded-lg p-4 max-h-[calc(100vh-350px)] overflow-y-auto custom-scrollbar">
+                    <EnginePanel
+                      engine={engine as GameEngine}
+                      character={{
+                        name: character.name,
+                        archetype: character.archetype,
+                        level: character.level,
+                        stats: character.stats as Record<string, number>,
+                        inventory: worldState.party?.[character.name]?.inventory || character.inventory || [],
+                        conditions: worldState.party?.[character.name]?.conditions || [],
+                        hp: hp.current,
+                        maxHp: hp.max
+                      }}
+                      worldState={{
+                        currentScene: worldState.current_scene,
+                        activeQuests: worldState.active_quests,
+                        weather: worldState.weather,
+                        timeOfDay: worldState.time_in_world
+                      }}
+                      locale={locale as Locale}
+                      onDiceRoll={handleEngineDiceRoll}
+                      disabled={isSubmitting}
+                    />
+                  </div>
+                </OrnateFrame>
+              )}
+
               {activeTab === 'stats' && character && (
                 <OrnateFrame variant="shadow">
                   <ParchmentPanel>

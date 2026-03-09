@@ -2,6 +2,13 @@ import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@clerk/nextjs/server'
 import { prisma } from '@/lib/db/prisma'
 import Anthropic from '@anthropic-ai/sdk'
+import {
+  getEngineConfig,
+  GameEngine,
+  Locale,
+  EngineContext,
+  DiceRoll as EngineDiceRoll
+} from '@/lib/engines'
 
 // Inicializar Claude
 const anthropic = new Anthropic({
@@ -320,11 +327,67 @@ export async function POST(req: NextRequest) {
       'Atmosférico y envolvente'
     )
 
+    // Get engine configuration and build engine-specific prompt
+    const engineConfig = getEngineConfig(session.campaign.engine as GameEngine)
+
+    // Build engine context for specialized prompt generation
+    const engineContext: EngineContext = {
+      character: {
+        name: character.name,
+        archetype: character.archetype,
+        level: character.level,
+        stats: character.stats as Record<string, number>,
+        inventory: inventory,
+        conditions: worldState.party?.[character.name]?.conditions || [],
+        hp: currentHPNum,
+        maxHp: maxHPNum
+      },
+      worldState: {
+        currentScene: worldState.current_scene,
+        activeQuests: worldState.active_quests,
+        weather: worldState.weather,
+        timeOfDay: worldState.time_in_world
+      },
+      locale: locale as Locale,
+      lore: session.campaign.lore as any,
+      loreName: session.campaign.lore,
+      loreDescription: narrativeTone
+    }
+
+    // Generate engine-specific prompt section
+    const enginePromptSection = engineConfig.buildPrompt(engineContext)
+
+    // Interpret dice roll if present
+    let diceInterpretation = ''
+    if (diceRoll) {
+      const engineDiceRoll: EngineDiceRoll = {
+        formula: diceRoll.formula,
+        results: diceRoll.rolls,
+        total: diceRoll.result
+      }
+      const interpretation = engineConfig.interpretDice(engineDiceRoll, locale as Locale)
+      diceInterpretation = `
+${isEnglish ? 'DICE INTERPRETATION' : 'INTERPRETACIÓN DE DADOS'} (${engineConfig.name[locale as Locale]}):
+- ${isEnglish ? 'Result' : 'Resultado'}: ${interpretation.description}
+- ${isEnglish ? 'Narrative guidance' : 'Guía narrativa'}: ${interpretation.narrativeHint}
+`
+    }
+
+    // Build the system prompt with engine-specific rules
+    const engineRulesSection = `
+=== ${isEnglish ? 'GAME ENGINE RULES' : 'REGLAS DEL MOTOR DE JUEGO'}: ${engineConfig.name[locale as Locale]} ===
+${enginePromptSection}
+${diceInterpretation}
+=== ${isEnglish ? 'END ENGINE RULES' : 'FIN REGLAS DEL MOTOR'} ===
+`
+
     const systemPrompt = `${labels.dmRole}${isMultiplayer ? ` ${labels.multiplayer}` : ''}. ${isEnglish ? 'Your role is to create an immersive and exciting experience.' : 'Tu rol es crear una experiencia inmersiva y emocionante.'}
+
+${engineRulesSection}
 
 ${labels.worldAndSetting}:
 - ${labels.lore}: ${session.campaign.lore}
-- ${labels.rulesEngine}: ${session.campaign.engine}
+- ${labels.rulesEngine}: ${engineConfig.name[locale as Locale]}
 - ${labels.mode}: ${session.campaign.mode === 'ONE_SHOT' ? labels.oneShot : labels.campaign}
 ${isMultiplayer ? `- ${labels.type}: ${labels.multiplayer} (${partyMembers.length} ${labels.players})` : `- ${labels.type}: ${labels.singlePlayer}`}
 - ${labels.currentAct}: ${worldState.act}/5
