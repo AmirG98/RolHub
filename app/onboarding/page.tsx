@@ -42,7 +42,19 @@ export default function OnboardingPage() {
   const [error, setError] = useState<string | null>(null)
 
   const handleCreateCharacter = async (archetype: Archetype) => {
-    if (!selectedLore || !gameMode || !engine || !tutorialLevel || !user) return
+    console.log('handleCreateCharacter called', { selectedLore, gameMode, engine, tutorialLevel, user: !!user, archetype })
+
+    if (!selectedLore || !gameMode || !engine || !tutorialLevel) {
+      console.error('Missing required fields', { selectedLore, gameMode, engine, tutorialLevel })
+      setError('Faltan datos requeridos. Por favor vuelve a empezar.')
+      return
+    }
+
+    if (!user) {
+      console.error('User not authenticated')
+      setError('Debes iniciar sesión para comenzar una aventura.')
+      return
+    }
 
     setSelectedArchetype(archetype)
     setLoading(true)
