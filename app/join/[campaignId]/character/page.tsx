@@ -33,6 +33,38 @@ interface CampaignInfo {
   engine: string
 }
 
+function getDefaultArchetypes(): Archetype[] {
+  return [
+    {
+      id: 'warrior',
+      name: 'Guerrero',
+      description: 'Experto en combate cuerpo a cuerpo',
+      simple_description: 'Fuerte y resistente, dominas las armas y la armadura.',
+      starting_stats: { hp: 25, maxHp: 25, combat: 4, exploration: 2, social: 1, lore: 1 },
+      starting_inventory: ['Espada', 'Escudo', 'Armadura de cuero'],
+      special_ability: 'Golpe Poderoso: +2 al daño en el primer ataque',
+    },
+    {
+      id: 'scout',
+      name: 'Explorador',
+      description: 'Ágil y perceptivo, conoce los caminos secretos',
+      simple_description: 'Rápido y sigiloso, encuentras caminos donde otros no ven nada.',
+      starting_stats: { hp: 18, maxHp: 18, combat: 2, exploration: 4, social: 2, lore: 2 },
+      starting_inventory: ['Arco', 'Daga', 'Capa de viaje'],
+      special_ability: 'Sigilo: Puedes moverte sin ser detectado',
+    },
+    {
+      id: 'sage',
+      name: 'Sabio',
+      description: 'Conocedor de secretos antiguos y magia',
+      simple_description: 'Tu conocimiento es tu mayor arma, descifras misterios.',
+      starting_stats: { hp: 15, maxHp: 15, combat: 1, exploration: 2, social: 3, lore: 4 },
+      starting_inventory: ['Bastón', 'Libro de conocimientos', 'Hierbas medicinales'],
+      special_ability: 'Sabiduría Antigua: Ventaja en tiradas de conocimiento',
+    },
+  ]
+}
+
 export default function JoinCharacterPage() {
   const params = useParams()
   const router = useRouter()
@@ -67,56 +99,20 @@ export default function JoinCharacterPage() {
       const campaignData = await campaignRes.json()
       setCampaignInfo(campaignData.campaign)
 
-      // Fetch archetypes for this lore
+      // Fetch archetypes for this lore using the API
       const loreId = campaignData.campaign.lore.toLowerCase()
-      const loreMap: Record<string, string> = {
-        lotr: 'lotr',
-        zombies: 'zombies',
-        isekai: 'isekai',
-        vikingos: 'vikingos',
-        star_wars: 'starwars',
-        cyberpunk: 'cyberpunk',
-        lovecraft_horror: 'lovecraft',
-      }
-      const loreFile = loreMap[loreId] || loreId
-
       try {
-        const loreRes = await fetch(`/data/lores/${loreFile}.json`)
-        if (loreRes.ok) {
-          const loreData = await loreRes.json()
-          setArchetypes(loreData.archetypes || [])
+        const archetypesRes = await fetch(`/api/lores/${loreId}/archetypes`)
+        if (archetypesRes.ok) {
+          const archetypesData = await archetypesRes.json()
+          setArchetypes(archetypesData.archetypes || [])
+        } else {
+          // Use default archetypes if API fails
+          setArchetypes(getDefaultArchetypes())
         }
       } catch {
-        // Use default archetypes if lore file not found
-        setArchetypes([
-          {
-            id: 'warrior',
-            name: 'Guerrero',
-            description: 'Experto en combate cuerpo a cuerpo',
-            simple_description: 'Fuerte y resistente, dominas las armas y la armadura.',
-            starting_stats: { hp: 25, maxHp: 25, combat: 4, exploration: 2, social: 1, lore: 1 },
-            starting_inventory: ['Espada', 'Escudo', 'Armadura de cuero'],
-            special_ability: 'Golpe Poderoso: +2 al daño en el primer ataque',
-          },
-          {
-            id: 'scout',
-            name: 'Explorador',
-            description: 'Ágil y perceptivo, conoce los caminos secretos',
-            simple_description: 'Rápido y sigiloso, encuentras caminos donde otros no ven nada.',
-            starting_stats: { hp: 18, maxHp: 18, combat: 2, exploration: 4, social: 2, lore: 2 },
-            starting_inventory: ['Arco', 'Daga', 'Capa de viaje'],
-            special_ability: 'Sigilo: Puedes moverte sin ser detectado',
-          },
-          {
-            id: 'sage',
-            name: 'Sabio',
-            description: 'Conocedor de secretos antiguos y magia',
-            simple_description: 'Tu conocimiento es tu mayor arma, descifras misterios.',
-            starting_stats: { hp: 15, maxHp: 15, combat: 1, exploration: 2, social: 3, lore: 4 },
-            starting_inventory: ['Bastón', 'Libro de conocimientos', 'Hierbas medicinales'],
-            special_ability: 'Sabiduría Antigua: Ventaja en tiradas de conocimiento',
-          },
-        ])
+        // Use default archetypes if fetch fails
+        setArchetypes(getDefaultArchetypes())
       }
     } catch (err) {
       setError('Error al cargar la información')
