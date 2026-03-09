@@ -108,6 +108,9 @@ export default function GameSession({
   const { locale } = useLanguage()
   const t = useTranslations()
 
+  // Character name with fallback
+  const characterName = character?.name || (locale === 'en' ? 'Traveler' : 'Viajero')
+
   const [suggestedActions, setSuggestedActions] = useState<string[]>([
     locale === 'en' ? 'I examine the area for dangers' : 'Examino el área en busca de peligros',
     locale === 'en' ? 'I try to talk to someone nearby' : 'Intento hablar con alguien cercano',
@@ -302,7 +305,7 @@ export default function GameSession({
             {character && (
               <div className="flex items-center justify-between md:justify-end gap-3 md:gap-4">
                 <div className="md:text-right">
-                  <p className="font-heading text-sm md:text-lg text-parchment truncate max-w-[120px] md:max-w-none">{character.name}</p>
+                  <p className="font-heading text-sm md:text-lg text-parchment truncate max-w-[120px] md:max-w-none">{characterName}</p>
                   <p className="font-ui text-xs md:text-sm text-gold-dim">
                     {character.archetype} • Nv.{character.level}
                   </p>
@@ -563,7 +566,7 @@ export default function GameSession({
                 <div className="glass-panel-dark rounded-lg p-3">
                   <div className="flex items-center justify-between gap-2">
                     <div className="flex items-center gap-2">
-                      <span className="font-heading text-sm text-gold">{character.name}</span>
+                      <span className="font-heading text-sm text-gold">{characterName}</span>
                       <span className="font-ui text-xs text-gold-dim">Nv.{character.level}</span>
                     </div>
                     <div className="flex gap-3 text-xs font-ui">
@@ -645,7 +648,7 @@ export default function GameSession({
                     <EnginePanel
                       engine={engine as GameEngine}
                       character={{
-                        name: character.name,
+                        name: characterName,
                         archetype: character.archetype,
                         level: character.level,
                         stats: character.stats as Record<string, number>,
@@ -671,7 +674,7 @@ export default function GameSession({
               {activeTab === 'stats' && character && (
                 <OrnateFrame variant="shadow">
                   <ParchmentPanel>
-                    <h3 className="font-heading text-xl text-ink mb-4">{character.name}</h3>
+                    <h3 className="font-heading text-xl text-ink mb-4">{characterName}</h3>
 
                     {/* HP Bar in stats */}
                     <div className="mb-4 p-3 bg-ink/10 rounded-lg">
