@@ -5,6 +5,7 @@ import { useUser } from '@clerk/nextjs'
 import { RunicButton } from '@/components/medieval/RunicButton'
 import Link from 'next/link'
 import { LORES } from '@/lib/constants/lores'
+import { Heart, Scroll, MapPin, Calendar, User } from 'lucide-react'
 
 interface Campaign {
   id: string
@@ -14,7 +15,16 @@ interface Campaign {
   mode: string
   status: string
   createdAt: string
-  sessions: { id: string }[]
+  updatedAt: string
+  sessions: { id: string; startedAt: string }[]
+  lastPlayedAt: string
+  currentScene: string
+  currentAct: number
+  characterName: string
+  characterLevel: number
+  hp: string
+  activeQuests: number
+  completedQuests: number
 }
 
 export default function CampaignsPage() {
@@ -79,39 +89,87 @@ export default function CampaignsPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             {campaigns.map((campaign) => {
               const loreData = LORES.find(l => l.id === campaign.lore)
+              const [currentHP, maxHP] = campaign.hp.split('/').map(Number)
+              const hpPercentage = (currentHP / maxHP) * 100
+              const hpColor = hpPercentage > 60 ? 'bg-emerald' : hpPercentage > 30 ? 'bg-gold' : 'bg-blood'
+
+              // Format last played date
+              const lastPlayed = new Date(campaign.lastPlayedAt)
+              const now = new Date()
+              const diffDays = Math.floor((now.getTime() - lastPlayed.getTime()) / (1000 * 60 * 60 * 24))
+              const lastPlayedText = diffDays === 0 ? 'Hoy' : diffDays === 1 ? 'Ayer' : `Hace ${diffDays} días`
+
               return (
                 <div
                   key={campaign.id}
-                  className="glass-panel rounded-lg p-4 md:p-6 hover:scale-105 transition-all hover:glow-effect group"
+                  className="glass-panel rounded-lg p-4 md:p-6 hover:scale-[1.02] transition-all hover:glow-effect group"
                 >
-                  <div className="flex items-start justify-between mb-3 md:mb-4">
+                  {/* Header */}
+                  <div className="flex items-start justify-between mb-3">
                     <div className="text-3xl md:text-4xl">{loreData?.icon || '🎮'}</div>
                     <span className={`px-2 md:px-3 py-0.5 md:py-1 rounded-full text-[10px] md:text-xs font-ui ${
                       campaign.status === 'ACTIVE'
-                        ? 'bg-neon-green/20 text-neon-green'
+                        ? 'bg-emerald/20 text-emerald'
                         : 'bg-parchment/20 text-parchment/60'
                     }`}>
-                      {campaign.status}
+                      {campaign.status === 'ACTIVE' ? 'Activa' : campaign.status}
                     </span>
                   </div>
 
-                  <h3 className="font-heading text-base md:text-xl text-parchment mb-1 md:mb-2 group-hover:text-gold transition line-clamp-1">
+                  {/* Title */}
+                  <h3 className="font-heading text-base md:text-xl text-parchment mb-1 group-hover:text-gold transition line-clamp-1">
                     {campaign.name}
                   </h3>
 
-                  <p className="font-ui text-xs md:text-sm mb-3 md:mb-4" style={{ color: loreData?.color }}>
-                    {loreData?.name || campaign.lore}
+                  <p className="font-ui text-xs md:text-sm mb-3" style={{ color: loreData?.color }}>
+                    {loreData?.name || campaign.lore} • Acto {campaign.currentAct}/5
                   </p>
 
-                  <div className="flex items-center justify-between text-[10px] md:text-xs font-ui text-parchment/60 mb-3 md:mb-4">
-                    <span>{campaign.mode === 'CAMPAIGN' ? '📖 Campaña' : '⚡ One-Shot'}</span>
-                    <span>{campaign.sessions.length} sesiones</span>
+                  {/* Character info */}
+                  <div className="glass-panel-dark rounded-lg p-3 mb-3 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <User className="w-4 h-4 text-gold" />
+                        <span className="font-heading text-sm text-parchment">{campaign.characterName}</span>
+                      </div>
+                      <span className="font-ui text-xs text-gold-dim">Nv.{campaign.characterLevel}</span>
+                    </div>
+
+                    {/* HP Bar */}
+                    <div className="flex items-center gap-2">
+                      <Heart className="w-4 h-4 text-blood" />
+                      <div className="flex-1 h-2 bg-shadow rounded-full overflow-hidden">
+                        <div className={`h-full ${hpColor} transition-all`} style={{ width: `${hpPercentage}%` }} />
+                      </div>
+                      <span className="font-mono text-xs text-parchment/80">{campaign.hp}</span>
+                    </div>
+                  </div>
+
+                  {/* Scene and quests */}
+                  <div className="space-y-1 mb-3 text-xs font-ui">
+                    <div className="flex items-center gap-2 text-parchment/70">
+                      <MapPin className="w-3 h-3" />
+                      <span className="truncate">{campaign.currentScene}</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-parchment/70">
+                      <Scroll className="w-3 h-3" />
+                      <span>{campaign.activeQuests} misiones activas • {campaign.completedQuests} completadas</span>
+                    </div>
+                  </div>
+
+                  {/* Footer */}
+                  <div className="flex items-center justify-between text-[10px] md:text-xs font-ui text-parchment/50 mb-3">
+                    <div className="flex items-center gap-1">
+                      <Calendar className="w-3 h-3" />
+                      <span>{lastPlayedText}</span>
+                    </div>
+                    <span>{campaign.sessions.length} {campaign.sessions.length === 1 ? 'sesión' : 'sesiones'}</span>
                   </div>
 
                   {campaign.sessions.length > 0 ? (
-                    <Link href={`/play/${campaign.sessions[campaign.sessions.length - 1].id}`}>
-                      <RunicButton variant="secondary" className="w-full text-sm">
-                        Continuar →
+                    <Link href={`/play/${campaign.sessions[0].id}`}>
+                      <RunicButton variant="primary" className="w-full text-sm glow-effect">
+                        Continuar Aventura →
                       </RunicButton>
                     </Link>
                   ) : (
