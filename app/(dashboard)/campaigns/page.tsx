@@ -146,14 +146,14 @@ export default function CampaignsPage() {
                   </div>
 
                   {/* Scene and quests */}
-                  <div className="space-y-1 mb-3 text-xs font-ui">
-                    <div className="flex items-center gap-2 text-parchment/70">
-                      <MapPin className="w-3 h-3" />
-                      <span className="truncate">{campaign.currentScene}</span>
+                  <div className="space-y-1.5 mb-3 text-xs font-ui">
+                    <div className="flex items-center gap-2 text-parchment">
+                      <MapPin className="w-3 h-3 text-gold" />
+                      <span className="truncate font-medium">{campaign.currentScene}</span>
                     </div>
-                    <div className="flex items-center gap-2 text-parchment/70">
-                      <Scroll className="w-3 h-3" />
-                      <span>{campaign.activeQuests} misiones activas • {campaign.completedQuests} completadas</span>
+                    <div className="flex items-center gap-2 text-parchment">
+                      <Scroll className="w-3 h-3 text-gold" />
+                      <span><span className="text-gold font-semibold">{campaign.activeQuests}</span> activas • <span className="text-emerald font-semibold">{campaign.completedQuests}</span> completadas</span>
                     </div>
                   </div>
 

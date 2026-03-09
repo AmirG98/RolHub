@@ -594,11 +594,11 @@ export default function GameSession({
                       {/* Active quests */}
                       {(worldState.active_quests || []).length > 0 && (
                         <div>
-                          <p className="font-ui text-xs text-gold-dim uppercase mb-2">Activas</p>
+                          <p className="font-ui text-xs text-gold uppercase mb-2 font-semibold">Activas</p>
                           {worldState.active_quests.map((quest: string, i: number) => (
-                            <div key={i} className="flex items-start gap-2 p-2 bg-gold/10 rounded-lg mb-1">
-                              <div className="w-2 h-2 bg-gold rounded-full mt-1.5" />
-                              <span className="font-body text-stone text-sm">{quest}</span>
+                            <div key={i} className="flex items-start gap-2 p-3 bg-gold/20 rounded-lg mb-2 border border-gold/30">
+                              <div className="w-2 h-2 bg-gold rounded-full mt-1.5 flex-shrink-0" />
+                              <span className="font-body text-ink text-sm font-medium">{quest}</span>
                             </div>
                           ))}
                         </div>
@@ -606,17 +606,17 @@ export default function GameSession({
                       {/* Completed quests */}
                       {(worldState.completed_quests || []).length > 0 && (
                         <div>
-                          <p className="font-ui text-xs text-emerald uppercase mb-2">Completadas</p>
+                          <p className="font-ui text-xs text-emerald uppercase mb-2 font-semibold">Completadas</p>
                           {worldState.completed_quests.map((quest: string, i: number) => (
-                            <div key={i} className="flex items-start gap-2 p-2 bg-emerald/10 rounded-lg mb-1 opacity-70">
-                              <div className="w-2 h-2 bg-emerald rounded-full mt-1.5" />
-                              <span className="font-body text-stone text-sm line-through">{quest}</span>
+                            <div key={i} className="flex items-start gap-2 p-3 bg-emerald/20 rounded-lg mb-2 border border-emerald/30">
+                              <div className="w-2 h-2 bg-emerald rounded-full mt-1.5 flex-shrink-0" />
+                              <span className="font-body text-ink/70 text-sm line-through">{quest}</span>
                             </div>
                           ))}
                         </div>
                       )}
                       {(worldState.active_quests || []).length === 0 && (worldState.completed_quests || []).length === 0 && (
-                        <p className="text-stone/60 italic text-center py-4">Sin misiones activas</p>
+                        <p className="text-ink/50 italic text-center py-4">Sin misiones activas</p>
                       )}
                     </div>
                   </ParchmentPanel>
