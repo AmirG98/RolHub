@@ -12,7 +12,9 @@ import { useLanguage, useTranslations } from '@/lib/i18n'
 import { Sword, Shield, Map, MessageCircle, BookOpen, Heart, Backpack, Scroll, Dices, Users, Wifi, Crown, Cog } from 'lucide-react'
 import DMPanel from '@/components/game/DMPanel'
 import { EnginePanel } from '@/components/engines/EnginePanel'
+import { VoicePlayerCompact } from '@/components/game/VoicePlayer'
 import { GameEngine, DiceRoll as EngineDiceRoll, Locale } from '@/lib/engines/types'
+import { Lore } from '@prisma/client'
 
 interface Turn {
   id: string
@@ -107,6 +109,9 @@ export default function GameSession({
   // i18n
   const { locale } = useLanguage()
   const t = useTranslations()
+
+  // Voice feature flag
+  const isVoiceEnabled = process.env.NEXT_PUBLIC_ENABLE_VOICE === 'true'
 
   // Character name with fallback
   const characterName = character?.name || (locale === 'en' ? 'Traveler' : 'Viajero')
@@ -360,7 +365,7 @@ export default function GameSession({
                             : 'border-l-4 border-gold-dim'
                         }`}
                       >
-                        <div className="flex items-start gap-2 md:gap-3 mb-1.5 md:mb-2">
+                        <div className="flex items-center justify-between gap-2 md:gap-3 mb-1.5 md:mb-2">
                           <div className="font-heading text-[10px] md:text-xs text-gold-dim uppercase tracking-wide">
                             {turn.role === 'DM' ? (
                               '📖 Narrador'
@@ -381,6 +386,14 @@ export default function GameSession({
                               '⚙️ Sistema'
                             )}
                           </div>
+                          {/* Voice player for DM narrations */}
+                          {turn.role === 'DM' && isVoiceEnabled && (
+                            <VoicePlayerCompact
+                              text={turn.content}
+                              lore={lore as Lore}
+                              locale={locale as 'es' | 'en'}
+                            />
+                          )}
                         </div>
                         <p className="font-body text-sm md:text-base text-parchment leading-relaxed whitespace-pre-wrap">
                           {turn.content}
