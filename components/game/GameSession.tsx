@@ -8,6 +8,7 @@ import { DiceRoller } from '@/components/medieval/DiceRoller'
 import { ParticipantList } from '@/components/game/ParticipantList'
 import { useSessionRealtime, broadcastTurn } from '@/hooks/useSessionRealtime'
 import { useParticipantPresence } from '@/hooks/useParticipantPresence'
+import { useLanguage, useTranslations } from '@/lib/i18n'
 import { Sword, Shield, Map, MessageCircle, BookOpen, Heart, Backpack, Scroll, Dices, Users, Wifi, Crown } from 'lucide-react'
 import DMPanel from '@/components/game/DMPanel'
 
@@ -100,10 +101,15 @@ export default function GameSession({
   const [showDiceRoller, setShowDiceRoller] = useState(false)
   const [lastDiceRoll, setLastDiceRoll] = useState<{ formula: string; result: number; rolls: number[] } | null>(null)
   const [activeTab, setActiveTab] = useState<'stats' | 'inventory' | 'quests' | 'party'>('stats')
+
+  // i18n
+  const { locale } = useLanguage()
+  const t = useTranslations()
+
   const [suggestedActions, setSuggestedActions] = useState<string[]>([
-    'Examino el área en busca de peligros',
-    'Intento hablar con alguien cercano',
-    'Me muevo con cautela hacia adelante',
+    locale === 'en' ? 'I examine the area for dangers' : 'Examino el área en busca de peligros',
+    locale === 'en' ? 'I try to talk to someone nearby' : 'Intento hablar con alguien cercano',
+    locale === 'en' ? 'I move cautiously forward' : 'Me muevo con cautela hacia adelante',
   ])
   const scrollRef = useRef<HTMLDivElement>(null)
 
@@ -198,6 +204,7 @@ export default function GameSession({
           campaignId,
           action: submittedAction,
           diceRoll: submittedDiceRoll,
+          locale, // Pass language preference for DM narration
         }),
       })
 
