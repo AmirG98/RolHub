@@ -4,6 +4,7 @@ import { ClerkProvider } from '@clerk/nextjs'
 import { Navbar } from '@/components/medieval/Navbar'
 import { MusicProvider } from '@/components/audio/MusicProvider'
 import { VideoBackground } from '@/components/ui/VideoBackground'
+import { LanguageProvider } from '@/lib/i18n'
 import "./globals.css";
 
 const cinzelDecorative = Cinzel_Decorative({
@@ -57,12 +58,14 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="es" className={`${cinzelDecorative.variable} ${cinzel.variable} ${ebGaramond.variable} ${crimsonText.variable} ${courierPrime.variable}`}>
         <body className="min-h-screen bg-shadow">
-          <VideoBackground />
-          <Navbar />
-          <main>
-            {children}
-          </main>
-          <MusicProvider />
+          <LanguageProvider>
+            <VideoBackground />
+            <Navbar />
+            <main>
+              {children}
+            </main>
+            <MusicProvider />
+          </LanguageProvider>
         </body>
       </html>
     </ClerkProvider>

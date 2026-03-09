@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { GameMode, GameEngine, TutorialLevel } from '@/lib/types/lore'
 import { ParchmentPanel } from '@/components/medieval/ParchmentPanel'
 import { RunicButton } from '@/components/medieval/RunicButton'
+import { useTranslations } from '@/lib/i18n'
 import { Clock, Calendar, Book, Dices, Sword, Users } from 'lucide-react'
 
 interface ModeSelectorProps {
@@ -16,96 +17,9 @@ interface ModeSelectorProps {
   onBack: () => void
 }
 
-const modes = [
-  {
-    id: 'ONE_SHOT' as GameMode,
-    name: 'Misión Única',
-    tagline: 'Aventura de una sola sesión',
-    description: '45-60 minutos de acción concentrada',
-    icon: '⚡',
-    color: '#FFD93D',
-  },
-  {
-    id: 'CAMPAIGN' as GameMode,
-    name: 'Campaña',
-    tagline: 'Historia larga y épica',
-    description: 'Múltiples sesiones con evolución del personaje',
-    icon: '📖',
-    color: '#B026FF',
-  },
-]
-
-const engines = [
-  {
-    id: 'STORY_MODE' as GameEngine,
-    name: 'Modo Historia',
-    tagline: 'Sin dados, narrativo puro',
-    description: 'Todo se decide por la historia. Ideal para principiantes.',
-    icon: '📚',
-    color: '#00D9FF',
-    recommended: true,
-  },
-  {
-    id: 'PBTA' as GameEngine,
-    name: 'Powered by Apocalypse',
-    tagline: '2d6, fallos interesantes',
-    description: 'Sistema simple. Los fallos avanzan la historia.',
-    icon: '🎲',
-    color: '#FFD93D',
-    recommended: false,
-  },
-  {
-    id: 'YEAR_ZERO' as GameEngine,
-    name: 'Year Zero Engine',
-    tagline: 'Pool de d6, supervivencia',
-    description: 'Recursos escasos y decisiones difíciles.',
-    icon: '💀',
-    color: '#FF6B6B',
-    recommended: false,
-  },
-  {
-    id: 'DND_5E' as GameEngine,
-    name: 'D&D 5e',
-    tagline: 'd20, reglas clásicas',
-    description: 'Sistema tradicional. Para veteranos de rol.',
-    icon: '🐉',
-    color: '#B026FF',
-    recommended: false,
-  },
-]
-
-const tutorialLevels = [
-  {
-    id: 'NOVICE' as TutorialLevel,
-    name: 'Primera vez',
-    description: 'Nunca jugué algo así - quiero un tutorial completo',
-    icon: '🌱',
-    color: '#39FF14',
-  },
-  {
-    id: 'CASUAL' as TutorialLevel,
-    name: 'Jugué RPGs',
-    description: 'Jugué videojuegos RPG como Skyrim o Baldur\'s Gate',
-    icon: '🎮',
-    color: '#00D9FF',
-  },
-  {
-    id: 'EXPERIENCED' as TutorialLevel,
-    name: 'Jugué D&D',
-    description: 'Jugué D&D o similar alguna vez',
-    icon: '🎲',
-    color: '#FFD93D',
-  },
-  {
-    id: 'VETERAN' as TutorialLevel,
-    name: 'Soy veterano',
-    description: 'Juego rol regularmente, sé lo que hago',
-    icon: '⚔️',
-    color: '#B026FF',
-  },
-]
 
 export function ModeSelector({ onSelect, onBack }: ModeSelectorProps) {
+  const t = useTranslations()
   const [selectedMode, setSelectedMode] = useState<GameMode | null>(null)
   const [selectedEngine, setSelectedEngine] = useState<GameEngine | null>(null)
   const [selectedTutorial, setSelectedTutorial] = useState<TutorialLevel | null>(null)
@@ -113,16 +27,106 @@ export function ModeSelector({ onSelect, onBack }: ModeSelectorProps) {
 
   const canContinue = selectedMode && selectedEngine && selectedTutorial && isMultiplayer !== null
 
+  // Dynamic content based on translations
+  const modes = [
+    {
+      id: 'ONE_SHOT' as GameMode,
+      name: t.onboarding.duration.oneShot,
+      tagline: t.onboarding.duration.oneShotDesc,
+      description: t.onboarding.duration.oneShotDetail,
+      icon: '⚡',
+      color: '#FFD93D',
+    },
+    {
+      id: 'CAMPAIGN' as GameMode,
+      name: t.onboarding.duration.campaign,
+      tagline: t.onboarding.duration.campaignDesc,
+      description: t.onboarding.duration.campaignDetail,
+      icon: '📖',
+      color: '#B026FF',
+    },
+  ]
+
+  const engines = [
+    {
+      id: 'STORY_MODE' as GameEngine,
+      name: t.onboarding.engine.storyMode,
+      tagline: t.onboarding.engine.storyModeDesc,
+      description: t.onboarding.engine.storyModeDetail,
+      icon: '📚',
+      color: '#00D9FF',
+      recommended: true,
+    },
+    {
+      id: 'PBTA' as GameEngine,
+      name: t.onboarding.engine.pbta,
+      tagline: t.onboarding.engine.pbtaDesc,
+      description: t.onboarding.engine.pbtaDetail,
+      icon: '🎲',
+      color: '#FFD93D',
+      recommended: false,
+    },
+    {
+      id: 'YEAR_ZERO' as GameEngine,
+      name: t.onboarding.engine.yearZero,
+      tagline: t.onboarding.engine.yearZeroDesc,
+      description: t.onboarding.engine.yearZeroDetail,
+      icon: '💀',
+      color: '#FF6B6B',
+      recommended: false,
+    },
+    {
+      id: 'DND_5E' as GameEngine,
+      name: t.onboarding.engine.dnd,
+      tagline: t.onboarding.engine.dndDesc,
+      description: t.onboarding.engine.dndDetail,
+      icon: '🐉',
+      color: '#B026FF',
+      recommended: false,
+    },
+  ]
+
+  const tutorialLevels = [
+    {
+      id: 'NOVICE' as TutorialLevel,
+      name: t.onboarding.experience.novice,
+      description: t.onboarding.experience.noviceDesc,
+      icon: '🌱',
+      color: '#39FF14',
+    },
+    {
+      id: 'CASUAL' as TutorialLevel,
+      name: t.onboarding.experience.casual,
+      description: t.onboarding.experience.casualDesc,
+      icon: '🎮',
+      color: '#00D9FF',
+    },
+    {
+      id: 'EXPERIENCED' as TutorialLevel,
+      name: t.onboarding.experience.experienced,
+      description: t.onboarding.experience.experiencedDesc,
+      icon: '🎲',
+      color: '#FFD93D',
+    },
+    {
+      id: 'VETERAN' as TutorialLevel,
+      name: t.onboarding.experience.veteran,
+      description: t.onboarding.experience.veteranDesc,
+      icon: '⚔️',
+      color: '#B026FF',
+    },
+  ]
+
   return (
     <div className="min-h-screen particle-bg flex items-center justify-center p-4 md:p-8">
       <div className="max-w-6xl w-full space-y-8 md:space-y-12 content-wrapper pb-24 md:pb-8">
         {/* Paso 0: Solo o con amigos */}
         <div>
           <h2 className="font-title text-2xl md:text-4xl text-gold-bright text-center mb-2 md:mb-4 ink-reveal">
-            ¿Cómo Querés Jugar?
+            {t.onboarding.chooseMode.title}
           </h2>
           <p className="font-ui text-sm md:text-base text-parchment text-center mb-4 md:mb-8">
-            Elegí si querés jugar solo o invitar amigos
+            {t.onboarding.chooseMode.subtitle}
           </p>
 
           <div className="grid grid-cols-2 gap-3 md:gap-6 max-w-2xl mx-auto">
@@ -133,12 +137,12 @@ export function ModeSelector({ onSelect, onBack }: ModeSelectorProps) {
               onClick={() => setIsMultiplayer(false)}
             >
               <div className="text-4xl md:text-6xl mb-2 md:mb-3">🧙</div>
-              <h3 className="font-heading text-lg md:text-2xl text-parchment mb-1 md:mb-2">Solo</h3>
+              <h3 className="font-heading text-lg md:text-2xl text-parchment mb-1 md:mb-2">{t.onboarding.chooseMode.solo}</h3>
               <p className="font-ui text-xs md:text-sm text-gold-dim mb-1">
-                Aventura en solitario
+                {t.onboarding.chooseMode.soloDesc}
               </p>
               <p className="font-body text-xs text-parchment/60 hidden md:block">
-                Tú y el DM virtual. Perfecto para aprender.
+                {t.onboarding.chooseMode.soloDetail}
               </p>
             </button>
 
@@ -149,12 +153,12 @@ export function ModeSelector({ onSelect, onBack }: ModeSelectorProps) {
               onClick={() => setIsMultiplayer(true)}
             >
               <div className="text-4xl md:text-6xl mb-2 md:mb-3">👥</div>
-              <h3 className="font-heading text-lg md:text-2xl text-parchment mb-1 md:mb-2">Con Amigos</h3>
+              <h3 className="font-heading text-lg md:text-2xl text-parchment mb-1 md:mb-2">{t.onboarding.chooseMode.withFriends}</h3>
               <p className="font-ui text-xs md:text-sm text-emerald mb-1">
-                Hasta 8 jugadores
+                {t.onboarding.chooseMode.withFriendsDesc}
               </p>
               <p className="font-body text-xs text-parchment/60 hidden md:block">
-                Invita a tus amigos con un código o link.
+                {t.onboarding.chooseMode.withFriendsDetail}
               </p>
             </button>
           </div>
@@ -163,10 +167,10 @@ export function ModeSelector({ onSelect, onBack }: ModeSelectorProps) {
         {/* Paso 1: Modo de juego */}
         <div>
           <h2 className="font-title text-2xl md:text-4xl text-gold-bright text-center mb-2 md:mb-4">
-            Duración de la Aventura
+            {t.onboarding.duration.title}
           </h2>
           <p className="font-ui text-sm md:text-base text-parchment text-center mb-4 md:mb-8">
-            Elegí el tipo de experiencia que buscás
+            {t.onboarding.duration.subtitle}
           </p>
 
           <div className="grid grid-cols-2 gap-3 md:gap-6">
@@ -192,10 +196,10 @@ export function ModeSelector({ onSelect, onBack }: ModeSelectorProps) {
         {/* Paso 2: Motor de reglas */}
         <div>
           <h2 className="font-title text-2xl md:text-4xl text-gold-bright text-center mb-2 md:mb-4">
-            Motor de Reglas
+            {t.onboarding.engine.title}
           </h2>
           <p className="font-ui text-sm md:text-base text-parchment text-center mb-4 md:mb-8">
-            Define cómo se resuelven las acciones
+            {t.onboarding.engine.subtitle}
           </p>
 
           <div className="grid grid-cols-2 gap-3 md:gap-4">
@@ -209,7 +213,7 @@ export function ModeSelector({ onSelect, onBack }: ModeSelectorProps) {
               >
                 {engine.recommended && (
                   <div className="absolute top-1 right-1 md:top-2 md:right-2 bg-emerald text-parchment px-1.5 md:px-2 py-0.5 rounded-full text-[10px] md:text-xs font-ui font-semibold">
-                    ★
+                    ★ {t.onboarding.engine.recommended}
                   </div>
                 )}
                 <div className="text-2xl md:text-4xl mb-1 md:mb-2">{engine.icon}</div>
@@ -226,10 +230,10 @@ export function ModeSelector({ onSelect, onBack }: ModeSelectorProps) {
         {/* Paso 3: Nivel de experiencia */}
         <div>
           <h2 className="font-title text-2xl md:text-4xl text-gold-bright text-center mb-2 md:mb-4">
-            Tu Experiencia
+            {t.onboarding.experience.title}
           </h2>
           <p className="font-ui text-sm md:text-base text-parchment text-center mb-4 md:mb-8">
-            Ajustamos tutoriales según tu nivel
+            {t.onboarding.experience.subtitle}
           </p>
 
           <div className="grid grid-cols-2 gap-3 md:gap-4">
@@ -252,7 +256,7 @@ export function ModeSelector({ onSelect, onBack }: ModeSelectorProps) {
         {/* Botones de navegación - fixed en mobile */}
         <div className="fixed bottom-0 left-0 right-0 md:relative bg-shadow/95 md:bg-transparent p-4 md:p-0 border-t border-gold/20 md:border-0 flex justify-between items-center md:pt-6 z-40">
           <RunicButton variant="secondary" onClick={onBack} className="text-sm md:text-base px-4 md:px-6">
-            ← Volver
+            {t.onboarding.buttons.back}
           </RunicButton>
 
           <RunicButton
@@ -269,7 +273,7 @@ export function ModeSelector({ onSelect, onBack }: ModeSelectorProps) {
             }
             className="text-sm md:text-base px-6 md:px-12"
           >
-            Continuar →
+            {t.onboarding.buttons.continue}
           </RunicButton>
         </div>
       </div>

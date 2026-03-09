@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Archetype } from '@/lib/types/lore'
 import { RunicButton } from '@/components/medieval/RunicButton'
 import { Sword, BookOpen, Shield, Zap, Heart, Eye, Target, Sparkles, Skull, Star } from 'lucide-react'
+import { useTranslations } from '@/lib/i18n'
 
 interface ArchetypeSelectorProps {
   archetypes: Archetype[]
@@ -48,6 +49,7 @@ const getArchetypeIcon = (id: string): React.ReactNode => {
 }
 
 export function ArchetypeSelector({ archetypes, loreName, onSelect, onBack }: ArchetypeSelectorProps) {
+  const t = useTranslations()
   const [selectedArchetype, setSelectedArchetype] = useState<Archetype | null>(null)
 
   if (archetypes.length === 0) {
@@ -55,12 +57,12 @@ export function ArchetypeSelector({ archetypes, loreName, onSelect, onBack }: Ar
       <div className="min-h-screen particle-bg flex items-center justify-center p-8">
         <div className="text-center content-wrapper glass-panel-dark p-8 rounded-lg">
           <div className="text-6xl mb-4">⚠️</div>
-          <h2 className="font-heading text-blood text-2xl mb-4">No hay arquetipos disponibles</h2>
+          <h2 className="font-heading text-blood text-2xl mb-4">{t.archetypeSelector.noArchetypes}</h2>
           <p className="font-body text-parchment/80 mb-6">
-            Este mundo no tiene personajes configurados todavia.
+            {t.archetypeSelector.noArchetypesDesc}
           </p>
           <RunicButton variant="secondary" onClick={onBack}>
-            Volver
+            {t.common.back}
           </RunicButton>
         </div>
       </div>
@@ -71,15 +73,15 @@ export function ArchetypeSelector({ archetypes, loreName, onSelect, onBack }: Ar
     <div className="min-h-screen particle-bg flex items-center justify-center p-4 md:p-8">
       <div className="max-w-6xl w-full content-wrapper pb-24 md:pb-8">
         <h1 className="font-title text-2xl sm:text-3xl md:text-5xl text-gold-bright text-center mb-1 md:mb-2 ink-reveal glow-effect-on-hover">
-          Elegi Quien Sos
+          {t.archetypeSelector.chooseWhoYouAre}
         </h1>
         {loreName && (
           <p className="font-heading text-gold/80 text-center mb-1 md:mb-2 text-sm md:text-lg">
-            en {loreName}
+            {t.archetypeSelector.inWorld} {loreName}
           </p>
         )}
         <p className="font-ui text-sm md:text-base text-parchment/80 text-center mb-6 md:mb-12">
-          Tu arquetipo define tus habilidades y tu rol en la historia
+          {t.archetypeSelector.archetypeDefines}
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 mb-6 md:mb-8">
@@ -111,19 +113,19 @@ export function ArchetypeSelector({ archetypes, loreName, onSelect, onBack }: Ar
                     <div className="hidden sm:block w-full pt-4 border-t border-gold-dim/30 mt-4">
                       <div className="grid grid-cols-2 gap-2 text-xs font-ui">
                         <div>
-                          <span className="text-gold-dim">Vida:</span>{' '}
+                          <span className="text-gold-dim">{t.archetypeSelector.hp}:</span>{' '}
                           <span className="text-parchment font-semibold">{archetype.starting_stats.maxHp}</span>
                         </div>
                         <div>
-                          <span className="text-gold-dim">Combate:</span>{' '}
+                          <span className="text-gold-dim">{t.archetypeSelector.combat}:</span>{' '}
                           <span className="text-parchment font-semibold">{archetype.starting_stats.combat}</span>
                         </div>
                         <div>
-                          <span className="text-gold-dim">Exploración:</span>{' '}
+                          <span className="text-gold-dim">{t.archetypeSelector.exploration}:</span>{' '}
                           <span className="text-parchment font-semibold">{archetype.starting_stats.exploration}</span>
                         </div>
                         <div>
-                          <span className="text-gold-dim">Social:</span>{' '}
+                          <span className="text-gold-dim">{t.archetypeSelector.social}:</span>{' '}
                           <span className="text-parchment font-semibold">{archetype.starting_stats.social}</span>
                         </div>
                       </div>
@@ -150,23 +152,23 @@ export function ArchetypeSelector({ archetypes, loreName, onSelect, onBack }: Ar
             {/* Stats en mobile */}
             {selectedArchetype.starting_stats && (
               <div className="sm:hidden mb-4 pb-4 border-b border-gold-dim/30">
-                <h3 className="font-heading text-base text-gold mb-2">Estadísticas</h3>
+                <h3 className="font-heading text-base text-gold mb-2">{t.archetypeSelector.stats}</h3>
                 <div className="grid grid-cols-4 gap-2 text-xs font-ui text-center">
                   <div>
                     <div className="text-parchment font-semibold text-lg">{selectedArchetype.starting_stats.maxHp}</div>
-                    <div className="text-gold-dim">HP</div>
+                    <div className="text-gold-dim">{t.archetypeSelector.hp}</div>
                   </div>
                   <div>
                     <div className="text-parchment font-semibold text-lg">{selectedArchetype.starting_stats.combat}</div>
-                    <div className="text-gold-dim">COM</div>
+                    <div className="text-gold-dim">{t.archetypeSelector.combat}</div>
                   </div>
                   <div>
                     <div className="text-parchment font-semibold text-lg">{selectedArchetype.starting_stats.exploration}</div>
-                    <div className="text-gold-dim">EXP</div>
+                    <div className="text-gold-dim">{t.archetypeSelector.exploration}</div>
                   </div>
                   <div>
                     <div className="text-parchment font-semibold text-lg">{selectedArchetype.starting_stats.social}</div>
-                    <div className="text-gold-dim">SOC</div>
+                    <div className="text-gold-dim">{t.archetypeSelector.social}</div>
                   </div>
                 </div>
               </div>
@@ -175,7 +177,7 @@ export function ArchetypeSelector({ archetypes, loreName, onSelect, onBack }: Ar
             {/* Habilidad especial en mobile */}
             {selectedArchetype.special_ability && (
               <div className="sm:hidden mb-4 pb-4 border-b border-gold-dim/30">
-                <h3 className="font-heading text-base text-gold mb-2">Habilidad Especial</h3>
+                <h3 className="font-heading text-base text-gold mb-2">{t.archetypeSelector.specialAbility}</h3>
                 <p className="text-xs font-ui text-emerald font-semibold">
                   {selectedArchetype.special_ability}
                 </p>
@@ -184,7 +186,7 @@ export function ArchetypeSelector({ archetypes, loreName, onSelect, onBack }: Ar
 
             {selectedArchetype.starting_inventory && (
               <>
-                <h3 className="font-heading text-base md:text-xl text-gold mb-3 md:mb-4">Equipamiento Inicial</h3>
+                <h3 className="font-heading text-base md:text-xl text-gold mb-3 md:mb-4">{t.archetypeSelector.startingEquipment}</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-1.5 md:gap-2">
                   {selectedArchetype.starting_inventory.map((item, index) => (
                     <div key={index} className="flex items-center space-x-2 font-body text-parchment/80 text-xs md:text-sm">
@@ -201,7 +203,7 @@ export function ArchetypeSelector({ archetypes, loreName, onSelect, onBack }: Ar
         {/* Botones de navegacion - fixed en mobile */}
         <div className="fixed bottom-0 left-0 right-0 md:relative bg-shadow/95 md:bg-transparent p-4 md:p-0 border-t border-gold/20 md:border-0 flex justify-between items-center z-40">
           <RunicButton variant="secondary" onClick={onBack} className="text-sm md:text-base px-4 md:px-6">
-            ← Volver
+            {t.archetypeSelector.back}
           </RunicButton>
 
           <RunicButton
@@ -210,7 +212,7 @@ export function ArchetypeSelector({ archetypes, loreName, onSelect, onBack }: Ar
             onClick={() => selectedArchetype && onSelect(selectedArchetype)}
             className="text-sm md:text-base px-4 md:px-12"
           >
-            Comenzar Aventura →
+            {t.archetypeSelector.startAdventure}
           </RunicButton>
         </div>
       </div>

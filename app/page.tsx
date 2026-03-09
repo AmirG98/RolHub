@@ -1,7 +1,12 @@
+'use client'
+
 import { RunicButton } from '@/components/medieval/RunicButton'
 import Link from 'next/link'
+import { useTranslations } from '@/lib/i18n'
 
 export default function HomePage() {
+  const t = useTranslations()
+
   return (
     <div className="min-h-[85vh] flex items-center justify-center particle-bg px-4 py-8">
       <div className="max-w-4xl mx-auto text-center content-wrapper">
@@ -11,21 +16,20 @@ export default function HomePage() {
             RPG HUB
           </h1>
           <p className="font-heading text-lg md:text-2xl text-gold mb-2 md:mb-4">
-            Narrador / Game Master Autónomo
+            {t.homeExtras.narrator}
           </p>
           <p className="font-body text-sm md:text-lg text-parchment/80 mb-1 md:mb-2 max-w-2xl mx-auto">
-            Sistema completo de juego de rol para cualquier nivel
+            {t.homeExtras.systemComplete}
           </p>
           <p className="font-body text-xs md:text-base text-parchment/60 mb-6 md:mb-8 max-w-2xl mx-auto">
-            Embárcate en aventuras épicas en mundos infinitos. Desde la Tierra Media hasta galaxias lejanas,
-            tu historia se escribe en tiempo real con un narrador IA que nunca duerme.
+            {t.homeExtras.epicAdventures}
           </p>
 
           {/* CTA Button */}
           <div className="flex justify-center mb-6 md:mb-8">
             <Link href="/onboarding" className="w-full sm:w-auto">
               <RunicButton variant="primary" className="w-full sm:w-auto text-base md:text-lg px-6 md:px-8 py-3 md:py-4 glow-effect">
-                Comenzar Aventura
+                {t.home.startAdventure}
               </RunicButton>
             </Link>
           </div>
@@ -39,7 +43,7 @@ export default function HomePage() {
               🚀 Sci-Fi
             </span>
             <span className="px-3 md:px-4 py-1.5 md:py-2 rounded-full glass-panel text-xs md:text-sm font-ui text-neon-purple border border-neon-purple/30">
-              🧙 Magia
+              🧙 {t.lores.ISEKAI.name}
             </span>
             <span className="px-3 md:px-4 py-1.5 md:py-2 rounded-full glass-panel text-xs md:text-sm font-ui text-blood border border-blood/30">
               🧟 Zombies
@@ -54,15 +58,15 @@ export default function HomePage() {
         <div className="grid grid-cols-3 gap-2 md:gap-4 mt-6 md:mt-8">
           <div className="glass-panel rounded-lg p-3 md:p-4">
             <div className="font-title text-xl md:text-3xl text-gold-bright">∞</div>
-            <div className="font-ui text-[10px] md:text-sm text-parchment/60">Mundos</div>
+            <div className="font-ui text-[10px] md:text-sm text-parchment/60">{t.homeExtras.worlds}</div>
           </div>
           <div className="glass-panel rounded-lg p-3 md:p-4">
             <div className="font-title text-xl md:text-3xl text-neon-blue">24/7</div>
-            <div className="font-ui text-[10px] md:text-sm text-parchment/60">Disponible</div>
+            <div className="font-ui text-[10px] md:text-sm text-parchment/60">{t.homeExtras.available}</div>
           </div>
           <div className="glass-panel rounded-lg p-3 md:p-4">
             <div className="font-title text-xl md:text-3xl text-neon-purple">AI</div>
-            <div className="font-ui text-[10px] md:text-sm text-parchment/60">Powered</div>
+            <div className="font-ui text-[10px] md:text-sm text-parchment/60">{t.homeExtras.powered}</div>
           </div>
         </div>
       </div>

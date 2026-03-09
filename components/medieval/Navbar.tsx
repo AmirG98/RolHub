@@ -4,11 +4,14 @@ import { useState } from 'react'
 import { UserButton, useUser } from '@clerk/nextjs'
 import Link from 'next/link'
 import { RunicButton } from './RunicButton'
+import { LanguageToggle } from '@/components/ui/LanguageToggle'
+import { useTranslations } from '@/lib/i18n'
 import { Menu, X } from 'lucide-react'
 
 export function Navbar() {
   const { isSignedIn } = useUser()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const t = useTranslations()
 
   return (
     <nav className="glass-panel-dark border-b border-gold/20 sticky top-0 z-50">
@@ -21,12 +24,15 @@ export function Navbar() {
           </Link>
 
           {/* Mobile menu button */}
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden p-2 text-parchment hover:text-gold transition"
-          >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          <div className="md:hidden flex items-center gap-3">
+            <LanguageToggle />
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="p-2 text-parchment hover:text-gold transition"
+            >
+              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
 
           {/* Desktop navigation */}
           <div className="hidden md:flex items-center gap-4 lg:gap-6">
@@ -42,26 +48,28 @@ export function Navbar() {
             {isSignedIn ? (
               <>
                 <Link href="/campaigns" className="font-heading text-sm lg:text-base text-parchment hover:text-gold transition relative group">
-                  Campañas
+                  {t.nav.campaigns}
                   <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gold group-hover:w-full transition-all"></span>
                 </Link>
                 <Link href="/characters" className="font-heading text-sm lg:text-base text-parchment hover:text-neon-blue transition relative group">
-                  Personajes
+                  {t.nav.characters}
                   <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-neon-blue group-hover:w-full transition-all"></span>
                 </Link>
                 <Link href="/compendium" className="font-heading text-sm lg:text-base text-parchment hover:text-neon-purple transition relative group">
-                  Compendio
+                  {t.nav.compendium}
                   <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-neon-purple group-hover:w-full transition-all"></span>
                 </Link>
+                <LanguageToggle />
                 <UserButton />
               </>
             ) : (
-              <div className="flex gap-2 lg:gap-4">
+              <div className="flex items-center gap-2 lg:gap-4">
+                <LanguageToggle />
                 <Link href="/login">
-                  <RunicButton variant="secondary" className="text-sm px-3 py-1.5 lg:px-4 lg:py-2">Iniciar Sesión</RunicButton>
+                  <RunicButton variant="secondary" className="text-sm px-3 py-1.5 lg:px-4 lg:py-2">{t.nav.login}</RunicButton>
                 </Link>
                 <Link href="/register">
-                  <RunicButton variant="primary" className="text-sm px-3 py-1.5 lg:px-4 lg:py-2">Registrarse</RunicButton>
+                  <RunicButton variant="primary" className="text-sm px-3 py-1.5 lg:px-4 lg:py-2">{t.nav.register}</RunicButton>
                 </Link>
               </div>
             )}
@@ -94,21 +102,21 @@ export function Navbar() {
                     onClick={() => setIsMenuOpen(false)}
                     className="font-heading text-parchment hover:text-gold transition py-2"
                   >
-                    📚 Campañas
+                    📚 {t.nav.campaigns}
                   </Link>
                   <Link
                     href="/characters"
                     onClick={() => setIsMenuOpen(false)}
                     className="font-heading text-parchment hover:text-neon-blue transition py-2"
                   >
-                    ⚔️ Personajes
+                    ⚔️ {t.nav.characters}
                   </Link>
                   <Link
                     href="/compendium"
                     onClick={() => setIsMenuOpen(false)}
                     className="font-heading text-parchment hover:text-neon-purple transition py-2"
                   >
-                    📖 Compendio
+                    📖 {t.nav.compendium}
                   </Link>
                   <div className="pt-2 border-t border-gold/20">
                     <UserButton />
@@ -117,10 +125,10 @@ export function Navbar() {
               ) : (
                 <div className="flex flex-col gap-3 pt-2 border-t border-gold/20">
                   <Link href="/login" onClick={() => setIsMenuOpen(false)}>
-                    <RunicButton variant="secondary" className="w-full">Iniciar Sesión</RunicButton>
+                    <RunicButton variant="secondary" className="w-full">{t.nav.login}</RunicButton>
                   </Link>
                   <Link href="/register" onClick={() => setIsMenuOpen(false)}>
-                    <RunicButton variant="primary" className="w-full">Registrarse</RunicButton>
+                    <RunicButton variant="primary" className="w-full">{t.nav.register}</RunicButton>
                   </Link>
                 </div>
               )}
