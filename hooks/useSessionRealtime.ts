@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState, useCallback } from 'react'
-import { supabase } from '@/lib/supabase/client'
+import { supabase, isSupabaseConfigured } from '@/lib/supabase/client'
 import { RealtimeChannel } from '@supabase/supabase-js'
 
 interface Turn {
@@ -95,6 +95,12 @@ export function useSessionRealtime(
     refreshTurns()
     refreshParticipants()
 
+    // Only subscribe to realtime if Supabase is configured
+    if (!isSupabaseConfigured() || !supabase) {
+      console.warn('Supabase not configured, realtime features disabled')
+      return
+    }
+
     // Subscribe to realtime updates for this session
     const sessionChannel = supabase.channel(`session:${sessionId}`, {
       config: {
@@ -159,6 +165,9 @@ export function useSessionRealtime(
 
 // Helper function to broadcast a new turn
 export async function broadcastTurn(sessionId: string, turn: Turn) {
+  if (!isSupabaseConfigured() || !supabase) {
+    return // Silently skip if Supabase not configured
+  }
   const channel = supabase.channel(`session:${sessionId}`)
   await channel.send({
     type: 'broadcast',
@@ -172,6 +181,9 @@ export async function broadcastParticipantUpdate(
   sessionId: string,
   participant: Partial<Participant>
 ) {
+  if (!isSupabaseConfigured() || !supabase) {
+    return // Silently skip if Supabase not configured
+  }
   const channel = supabase.channel(`session:${sessionId}`)
   await channel.send({
     type: 'broadcast',
@@ -182,6 +194,9 @@ export async function broadcastParticipantUpdate(
 
 // Helper function to broadcast world state update
 export async function broadcastWorldStateUpdate(sessionId: string) {
+  if (!isSupabaseConfigured() || !supabase) {
+    return // Silently skip if Supabase not configured
+  }
   const channel = supabase.channel(`session:${sessionId}`)
   await channel.send({
     type: 'broadcast',
