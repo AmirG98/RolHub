@@ -618,15 +618,15 @@ export default function GameSession({
                     <h3 className="font-heading text-xl text-ink mb-4">{character.name}</h3>
 
                     {/* HP Bar in stats */}
-                    <div className="mb-4 p-3 bg-shadow/30 rounded-lg">
+                    <div className="mb-4 p-3 bg-ink/10 rounded-lg">
                       <div className="flex items-center justify-between mb-2">
                         <div className="flex items-center gap-2">
                           <Heart className="w-5 h-5 text-blood" />
-                          <span className="font-ui text-gold-dim">Puntos de Vida</span>
+                          <span className="font-ui text-ink/70">Puntos de Vida</span>
                         </div>
                         <span className="font-heading text-lg text-blood">{hp.current}/{hp.max}</span>
                       </div>
-                      <div className="h-3 bg-shadow rounded-full overflow-hidden border border-gold-dim/30">
+                      <div className="h-3 bg-ink/20 rounded-full overflow-hidden border border-ink/10">
                         <div
                           className={`h-full ${hpColor} transition-all duration-500`}
                           style={{ width: `${hpPercentage}%` }}
@@ -636,26 +636,26 @@ export default function GameSession({
 
                     <div className="space-y-3">
                       <div className="flex justify-between items-center">
-                        <span className="font-ui text-gold-dim">Arquetipo</span>
-                        <span className="font-body text-stone">{character.archetype}</span>
+                        <span className="font-ui text-ink/60">Arquetipo</span>
+                        <span className="font-body text-ink">{character.archetype}</span>
                       </div>
                       <div className="flex justify-between items-center">
-                        <span className="font-ui text-gold-dim">Nivel</span>
-                        <span className="font-body text-stone">{character.level}</span>
+                        <span className="font-ui text-ink/60">Nivel</span>
+                        <span className="font-body text-ink">{character.level}</span>
                       </div>
                       {character.stats && (
-                        <div className="border-t border-gold-dim/20 pt-3 mt-3">
-                          <p className="font-ui text-xs text-gold-dim uppercase mb-3">Estadísticas</p>
+                        <div className="border-t border-ink/10 pt-3 mt-3">
+                          <p className="font-ui text-xs text-ink/60 uppercase mb-3">Estadísticas</p>
                           <div className="space-y-2">
                             <div className="flex items-center gap-2">
                               <Sword className="w-4 h-4 text-blood" />
-                              <span className="text-stone/80 flex-1">Combate</span>
+                              <span className="text-ink/80 flex-1">Combate</span>
                               <div className="flex gap-1">
                                 {Array.from({ length: 5 }).map((_, i) => (
                                   <div
                                     key={i}
                                     className={`w-3 h-3 rounded-full ${
-                                      i < character.stats.combat ? 'bg-blood' : 'bg-stone/20'
+                                      i < character.stats.combat ? 'bg-blood' : 'bg-ink/20'
                                     }`}
                                   />
                                 ))}
@@ -663,41 +663,41 @@ export default function GameSession({
                             </div>
                             <div className="flex items-center gap-2">
                               <Map className="w-4 h-4 text-emerald" />
-                              <span className="text-stone/80 flex-1">Exploración</span>
+                              <span className="text-ink/80 flex-1">Exploración</span>
                               <div className="flex gap-1">
                                 {Array.from({ length: 5 }).map((_, i) => (
                                   <div
                                     key={i}
                                     className={`w-3 h-3 rounded-full ${
-                                      i < character.stats.exploration ? 'bg-emerald' : 'bg-stone/20'
+                                      i < character.stats.exploration ? 'bg-emerald' : 'bg-ink/20'
                                     }`}
                                   />
                                 ))}
                               </div>
                             </div>
                             <div className="flex items-center gap-2">
-                              <MessageCircle className="w-4 h-4 text-gold" />
-                              <span className="text-stone/80 flex-1">Social</span>
+                              <MessageCircle className="w-4 h-4 text-gold-dim" />
+                              <span className="text-ink/80 flex-1">Social</span>
                               <div className="flex gap-1">
                                 {Array.from({ length: 5 }).map((_, i) => (
                                   <div
                                     key={i}
                                     className={`w-3 h-3 rounded-full ${
-                                      i < character.stats.social ? 'bg-gold' : 'bg-stone/20'
+                                      i < character.stats.social ? 'bg-gold-dim' : 'bg-ink/20'
                                     }`}
                                   />
                                 ))}
                               </div>
                             </div>
                             <div className="flex items-center gap-2">
-                              <BookOpen className="w-4 h-4 text-parchment" />
-                              <span className="text-stone/80 flex-1">Lore</span>
+                              <BookOpen className="w-4 h-4 text-stone" />
+                              <span className="text-ink/80 flex-1">Lore</span>
                               <div className="flex gap-1">
                                 {Array.from({ length: 5 }).map((_, i) => (
                                   <div
                                     key={i}
                                     className={`w-3 h-3 rounded-full ${
-                                      i < character.stats.lore ? 'bg-parchment' : 'bg-stone/20'
+                                      i < character.stats.lore ? 'bg-stone' : 'bg-ink/20'
                                     }`}
                                   />
                                 ))}
@@ -721,15 +721,15 @@ export default function GameSession({
                     <div className="space-y-2">
                       {(worldState.party?.[character?.name || '']?.inventory || character?.inventory || []).length > 0 ? (
                         (worldState.party?.[character?.name || '']?.inventory || character?.inventory || []).map((item: string, i: number) => (
-                          <div key={i} className="flex items-center gap-2 p-2 bg-shadow/20 rounded-lg">
-                            <div className="w-8 h-8 bg-gold/10 rounded flex items-center justify-center text-gold">
+                          <div key={i} className="flex items-center gap-2 p-2 bg-ink/10 rounded-lg">
+                            <div className="w-8 h-8 bg-gold/20 rounded flex items-center justify-center text-gold-dim">
                               📦
                             </div>
-                            <span className="font-body text-stone text-sm">{item}</span>
+                            <span className="font-body text-ink text-sm">{item}</span>
                           </div>
                         ))
                       ) : (
-                        <p className="text-stone/60 italic text-center py-4">Tu bolsa está vacía</p>
+                        <p className="text-ink/50 italic text-center py-4">Tu bolsa está vacía</p>
                       )}
                     </div>
                   </ParchmentPanel>
@@ -791,20 +791,20 @@ export default function GameSession({
                   <h3 className="font-heading text-xl text-ink mb-4">Tu Aventura</h3>
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
-                      <span className="font-ui text-gold-dim">Mundo</span>
-                      <span className="font-body text-stone">{lore}</span>
+                      <span className="font-ui text-ink/60">Mundo</span>
+                      <span className="font-body text-ink">{lore}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="font-ui text-gold-dim">Modo</span>
-                      <span className="font-body text-stone">{mode === 'CAMPAIGN' ? 'Campaña' : 'One-Shot'}</span>
+                      <span className="font-ui text-ink/60">Modo</span>
+                      <span className="font-body text-ink">{mode === 'CAMPAIGN' ? 'Campaña' : 'One-Shot'}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="font-ui text-gold-dim">Sistema</span>
-                      <span className="font-body text-stone">{engine.replace('_', ' ')}</span>
+                      <span className="font-ui text-ink/60">Sistema</span>
+                      <span className="font-body text-ink">{engine.replace('_', ' ')}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="font-ui text-gold-dim">Acto</span>
-                      <span className="font-body text-stone">{worldState.act || 1} / 5</span>
+                      <span className="font-ui text-ink/60">Acto</span>
+                      <span className="font-body text-ink">{worldState.act || 1} / 5</span>
                     </div>
                   </div>
                 </ParchmentPanel>
