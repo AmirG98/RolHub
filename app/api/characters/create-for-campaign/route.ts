@@ -61,10 +61,13 @@ export async function POST(req: NextRequest) {
     }
 
     if (participant.characterId) {
-      return NextResponse.json(
-        { error: 'Ya tienes un personaje en esta campaña' },
-        { status: 400 }
-      )
+      // User already has a character, redirect them to the session
+      return NextResponse.json({
+        success: true,
+        alreadyHasCharacter: true,
+        characterId: participant.characterId,
+        sessionId: campaign.sessions[0]?.id,
+      })
     }
 
     // Create character

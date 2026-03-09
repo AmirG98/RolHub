@@ -58,6 +58,22 @@ export async function GET(req: NextRequest, { params }: RouteParams) {
       return NextResponse.json({ error: 'Campaña no encontrada' }, { status: 404 })
     }
 
+    // Get current user to check if they have a character
+    const currentUser = await prisma.user.findUnique({
+      where: { clerkId: userId },
+    })
+
+    // Find current user's character in this campaign
+    let currentUserCharacter = null
+    if (currentUser) {
+      const currentParticipant = campaign.participants.find(
+        p => p.userId === currentUser.id
+      )
+      if (currentParticipant?.character) {
+        currentUserCharacter = currentParticipant.character
+      }
+    }
+
     return NextResponse.json({
       campaign: {
         id: campaign.id,
@@ -75,6 +91,7 @@ export async function GET(req: NextRequest, { params }: RouteParams) {
         participants: campaign.participants,
         latestSession: campaign.sessions[0] || null,
       },
+      currentUserCharacter,
     })
   } catch (error) {
     console.error('Error fetching campaign:', error)

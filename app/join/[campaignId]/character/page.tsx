@@ -99,6 +99,18 @@ export default function JoinCharacterPage() {
       const campaignData = await campaignRes.json()
       setCampaignInfo(campaignData.campaign)
 
+      // Check if user already has a character in this campaign
+      if (campaignData.currentUserCharacter) {
+        // User already has a character, redirect to lobby or play
+        const sessionId = campaignData.campaign.sessions?.[0]?.id
+        if (sessionId) {
+          router.push(`/play/${sessionId}`)
+        } else {
+          router.push(`/lobby/${campaignId}`)
+        }
+        return
+      }
+
       // Fetch archetypes for this lore using the API
       const loreId = campaignData.campaign.lore.toLowerCase()
       try {
