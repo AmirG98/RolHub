@@ -37,17 +37,29 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    // Buscar o crear el usuario en la base de datos usando upsert
-    const user = await prisma.user.upsert({
+    // Buscar el usuario por clerkId
+    let user = await prisma.user.findUnique({
       where: { clerkId: userId },
-      update: { tutorialLevel },
-      create: {
-        clerkId: userId,
-        username: `Usuario_${userId.slice(-6)}`,
-        email: `${userId}@placeholder.local`,
-        tutorialLevel,
-      },
     })
+
+    if (!user) {
+      // Generar email único usando timestamp para evitar conflictos
+      const uniqueEmail = `user_${userId}_${Date.now()}@placeholder.local`
+
+      user = await prisma.user.create({
+        data: {
+          clerkId: userId,
+          username: `Usuario_${userId.slice(-6)}`,
+          email: uniqueEmail,
+          tutorialLevel,
+        },
+      })
+    } else if (user.tutorialLevel !== tutorialLevel) {
+      user = await prisma.user.update({
+        where: { id: user.id },
+        data: { tutorialLevel },
+      })
+    }
 
     // Cargar datos del lore según el seleccionado
     const loreDataMap: Record<Lore, any> = {
