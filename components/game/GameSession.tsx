@@ -4,12 +4,15 @@ import { useState, useRef, useEffect } from 'react'
 import { ParchmentPanel } from '@/components/medieval/ParchmentPanel'
 import { OrnateFrame } from '@/components/medieval/OrnateFrame'
 import { RunicButton } from '@/components/medieval/RunicButton'
+import { DiceRoller } from '@/components/medieval/DiceRoller'
+import { Sword, Shield, Map, MessageCircle, BookOpen, Heart, Backpack, Scroll, Dices } from 'lucide-react'
 
 interface Turn {
   id: string
   role: 'USER' | 'DM' | 'SYSTEM'
   content: string
   imageUrl?: string | null
+  diceRoll?: { formula: string; result: number; rolls: number[] } | null
   createdAt: Date | string
 }
 
@@ -19,6 +22,7 @@ interface Character {
   archetype: string
   level: number
   stats: any
+  inventory?: string[]
 }
 
 interface GameSessionProps {
@@ -49,7 +53,33 @@ export default function GameSession({
   const [action, setAction] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [showDiceRoller, setShowDiceRoller] = useState(false)
+  const [lastDiceRoll, setLastDiceRoll] = useState<{ formula: string; result: number; rolls: number[] } | null>(null)
+  const [activeTab, setActiveTab] = useState<'stats' | 'inventory' | 'quests'>('stats')
+  const [suggestedActions, setSuggestedActions] = useState<string[]>([
+    'Examino el área en busca de peligros',
+    'Intento hablar con alguien cercano',
+    'Me muevo con cautela hacia adelante',
+  ])
   const scrollRef = useRef<HTMLDivElement>(null)
+
+  // Parse current HP from worldState or character stats
+  const getCurrentHP = () => {
+    if (!character) return { current: 0, max: 0 }
+    const partyHP = worldState.party?.[character.name]?.hp
+    if (partyHP) {
+      const [current, max] = partyHP.split('/').map(Number)
+      return { current, max }
+    }
+    return {
+      current: character.stats?.hp || 20,
+      max: character.stats?.maxHp || 20
+    }
+  }
+
+  const hp = getCurrentHP()
+  const hpPercentage = (hp.current / hp.max) * 100
+  const hpColor = hpPercentage > 60 ? 'bg-emerald' : hpPercentage > 30 ? 'bg-gold' : 'bg-blood'
 
   // Auto-scroll cuando hay nuevos turnos
   useEffect(() => {
@@ -57,6 +87,11 @@ export default function GameSession({
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight
     }
   }, [turns])
+
+  const handleDiceRoll = (result: { total: number; rolls: number[]; formula: string }) => {
+    setLastDiceRoll({ formula: result.formula, result: result.total, rolls: result.rolls })
+    setShowDiceRoller(false)
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -74,10 +109,14 @@ export default function GameSession({
       id: `temp-${Date.now()}`,
       role: 'USER',
       content: action.trim(),
+      diceRoll: lastDiceRoll,
       createdAt: new Date().toISOString(),
     }
     setTurns(prev => [...prev, playerTurn])
+    const submittedAction = action.trim()
     setAction('')
+    const submittedDiceRoll = lastDiceRoll
+    setLastDiceRoll(null)
 
     try {
       const response = await fetch('/api/session/turn', {
@@ -86,7 +125,8 @@ export default function GameSession({
         body: JSON.stringify({
           sessionId,
           campaignId,
-          action: action.trim(),
+          action: submittedAction,
+          diceRoll: submittedDiceRoll,
         }),
       })
 
@@ -107,7 +147,19 @@ export default function GameSession({
 
       // Actualizar world state si viene en la respuesta
       if (data.worldStateUpdates) {
-        setWorldState((prev: any) => ({ ...prev, ...data.worldStateUpdates }))
+        setWorldState((prev: any) => ({
+          ...prev,
+          ...data.worldStateUpdates,
+          party: {
+            ...prev.party,
+            ...data.worldStateUpdates.party,
+          },
+        }))
+      }
+
+      // Actualizar acciones sugeridas si vienen
+      if (data.suggestedActions && data.suggestedActions.length > 0) {
+        setSuggestedActions(data.suggestedActions)
       }
     } catch (err) {
       setError((err as Error).message)
@@ -117,12 +169,6 @@ export default function GameSession({
       setIsSubmitting(false)
     }
   }
-
-  const suggestedActions = [
-    'Examino el área en busca de peligros',
-    'Intento hablar con alguien cercano',
-    'Me muevo con cautela hacia adelante',
-  ]
 
   return (
     <div className="min-h-screen particle-bg pb-4">
@@ -146,15 +192,21 @@ export default function GameSession({
                     {character.archetype} • Nv.{character.level}
                   </p>
                 </div>
-                <ParchmentPanel className="px-3 py-1.5 md:px-4 md:py-2 flex-shrink-0">
-                  <div className="flex items-center gap-1.5 md:gap-2">
-                    <span className="font-ui text-[10px] md:text-xs text-gold-dim">HP</span>
+                {/* HP Bar */}
+                <div className="flex-shrink-0 min-w-[120px] md:min-w-[150px]">
+                  <div className="flex items-center gap-2 mb-1">
+                    <Heart className="w-4 h-4 text-blood" />
                     <span className="font-heading text-blood text-sm md:text-lg">
-                      {worldState.party?.[character.name]?.hp ||
-                        `${character.stats?.hp || 20}/${character.stats?.maxHp || 20}`}
+                      {hp.current}/{hp.max}
                     </span>
                   </div>
-                </ParchmentPanel>
+                  <div className="h-2 bg-shadow rounded-full overflow-hidden border border-gold-dim/30">
+                    <div
+                      className={`h-full ${hpColor} transition-all duration-500`}
+                      style={{ width: `${hpPercentage}%` }}
+                    />
+                  </div>
+                </div>
               </div>
             )}
           </div>
@@ -202,6 +254,15 @@ export default function GameSession({
                         <p className="font-body text-sm md:text-base text-parchment leading-relaxed whitespace-pre-wrap">
                           {turn.content}
                         </p>
+                        {/* Show dice roll if present */}
+                        {turn.diceRoll && (
+                          <div className="mt-2 flex items-center gap-2 p-2 bg-gold/10 rounded-lg border border-gold/30">
+                            <Dices className="w-4 h-4 text-gold" />
+                            <span className="font-mono text-xs text-gold-dim">{turn.diceRoll.formula}</span>
+                            <span className="font-heading text-gold-bright">→ {turn.diceRoll.result}</span>
+                            <span className="text-xs text-parchment/60">({turn.diceRoll.rolls.join(', ')})</span>
+                          </div>
+                        )}
                         {turn.imageUrl && (
                           <img
                             src={turn.imageUrl}
@@ -238,6 +299,21 @@ export default function GameSession({
               </ParchmentPanel>
             </OrnateFrame>
 
+            {/* Dice Roller Modal */}
+            {showDiceRoller && (
+              <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4">
+                <div className="relative max-w-md w-full">
+                  <button
+                    onClick={() => setShowDiceRoller(false)}
+                    className="absolute -top-2 -right-2 z-10 w-8 h-8 bg-blood rounded-full flex items-center justify-center text-parchment hover:bg-blood/80"
+                  >
+                    ✕
+                  </button>
+                  <DiceRoller onRoll={handleDiceRoll} />
+                </div>
+              </div>
+            )}
+
             {/* Action Input */}
             <ParchmentPanel variant="ornate">
               <form onSubmit={handleSubmit} className="space-y-3 md:space-y-4">
@@ -259,8 +335,37 @@ export default function GameSession({
                   />
                 </div>
 
-                {/* Acciones sugeridas */}
-                <div className="flex flex-wrap gap-1.5 md:gap-2">
+                {/* Show current dice roll if any */}
+                {lastDiceRoll && (
+                  <div className="flex items-center gap-2 p-2 bg-gold/10 rounded-lg border border-gold/30">
+                    <Dices className="w-4 h-4 text-gold" />
+                    <span className="font-mono text-sm text-gold-dim">{lastDiceRoll.formula}</span>
+                    <span className="font-heading text-lg text-gold-bright">→ {lastDiceRoll.result}</span>
+                    <button
+                      type="button"
+                      onClick={() => setLastDiceRoll(null)}
+                      className="ml-auto text-xs text-blood hover:text-blood/80"
+                    >
+                      Descartar
+                    </button>
+                  </div>
+                )}
+
+                {/* Actions bar */}
+                <div className="flex flex-wrap items-center gap-2">
+                  {/* Dice roller button */}
+                  <button
+                    type="button"
+                    onClick={() => setShowDiceRoller(true)}
+                    disabled={isSubmitting}
+                    className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-ui text-gold border border-gold/50 rounded-lg
+                             hover:bg-gold/10 hover:border-gold transition-all disabled:opacity-50"
+                  >
+                    <Dices className="w-4 h-4" />
+                    Tirar Dados
+                  </button>
+
+                  {/* Suggested actions */}
                   {suggestedActions.map((suggestion, i) => (
                     <button
                       key={i}
@@ -321,12 +426,61 @@ export default function GameSession({
             </div>
 
             {/* Desktop: Panel completo */}
-            <div className="hidden lg:block">
-              {/* Character Stats */}
-              {character && (
+            <div className="hidden lg:block space-y-4">
+              {/* Tab navigation */}
+              <div className="flex gap-1 p-1 bg-shadow/50 rounded-lg">
+                <button
+                  onClick={() => setActiveTab('stats')}
+                  className={`flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg font-ui text-sm transition-all ${
+                    activeTab === 'stats' ? 'bg-gold/20 text-gold' : 'text-parchment/60 hover:text-parchment'
+                  }`}
+                >
+                  <Shield className="w-4 h-4" />
+                  Stats
+                </button>
+                <button
+                  onClick={() => setActiveTab('inventory')}
+                  className={`flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg font-ui text-sm transition-all ${
+                    activeTab === 'inventory' ? 'bg-gold/20 text-gold' : 'text-parchment/60 hover:text-parchment'
+                  }`}
+                >
+                  <Backpack className="w-4 h-4" />
+                  Inventario
+                </button>
+                <button
+                  onClick={() => setActiveTab('quests')}
+                  className={`flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg font-ui text-sm transition-all ${
+                    activeTab === 'quests' ? 'bg-gold/20 text-gold' : 'text-parchment/60 hover:text-parchment'
+                  }`}
+                >
+                  <Scroll className="w-4 h-4" />
+                  Misiones
+                </button>
+              </div>
+
+              {/* Tab content */}
+              {activeTab === 'stats' && character && (
                 <OrnateFrame variant="shadow">
                   <ParchmentPanel>
                     <h3 className="font-heading text-xl text-ink mb-4">{character.name}</h3>
+
+                    {/* HP Bar in stats */}
+                    <div className="mb-4 p-3 bg-shadow/30 rounded-lg">
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center gap-2">
+                          <Heart className="w-5 h-5 text-blood" />
+                          <span className="font-ui text-gold-dim">Puntos de Vida</span>
+                        </div>
+                        <span className="font-heading text-lg text-blood">{hp.current}/{hp.max}</span>
+                      </div>
+                      <div className="h-3 bg-shadow rounded-full overflow-hidden border border-gold-dim/30">
+                        <div
+                          className={`h-full ${hpColor} transition-all duration-500`}
+                          style={{ width: `${hpPercentage}%` }}
+                        />
+                      </div>
+                    </div>
+
                     <div className="space-y-3">
                       <div className="flex justify-between items-center">
                         <span className="font-ui text-gold-dim">Arquetipo</span>
@@ -337,29 +491,132 @@ export default function GameSession({
                         <span className="font-body text-stone">{character.level}</span>
                       </div>
                       {character.stats && (
-                        <>
-                          <div className="border-t border-gold-dim/20 pt-3 mt-3">
-                            <p className="font-ui text-xs text-gold-dim uppercase mb-2">Estadísticas</p>
-                            <div className="grid grid-cols-2 gap-2 text-sm">
-                              <div className="flex justify-between">
-                                <span className="text-stone/60">Combate</span>
-                                <span className="text-stone font-heading">{character.stats.combat}</span>
+                        <div className="border-t border-gold-dim/20 pt-3 mt-3">
+                          <p className="font-ui text-xs text-gold-dim uppercase mb-3">Estadísticas</p>
+                          <div className="space-y-2">
+                            <div className="flex items-center gap-2">
+                              <Sword className="w-4 h-4 text-blood" />
+                              <span className="text-stone/80 flex-1">Combate</span>
+                              <div className="flex gap-1">
+                                {Array.from({ length: 5 }).map((_, i) => (
+                                  <div
+                                    key={i}
+                                    className={`w-3 h-3 rounded-full ${
+                                      i < character.stats.combat ? 'bg-blood' : 'bg-stone/20'
+                                    }`}
+                                  />
+                                ))}
                               </div>
-                              <div className="flex justify-between">
-                                <span className="text-stone/60">Exploración</span>
-                                <span className="text-stone font-heading">{character.stats.exploration}</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <Map className="w-4 h-4 text-emerald" />
+                              <span className="text-stone/80 flex-1">Exploración</span>
+                              <div className="flex gap-1">
+                                {Array.from({ length: 5 }).map((_, i) => (
+                                  <div
+                                    key={i}
+                                    className={`w-3 h-3 rounded-full ${
+                                      i < character.stats.exploration ? 'bg-emerald' : 'bg-stone/20'
+                                    }`}
+                                  />
+                                ))}
                               </div>
-                              <div className="flex justify-between">
-                                <span className="text-stone/60">Social</span>
-                                <span className="text-stone font-heading">{character.stats.social}</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <MessageCircle className="w-4 h-4 text-gold" />
+                              <span className="text-stone/80 flex-1">Social</span>
+                              <div className="flex gap-1">
+                                {Array.from({ length: 5 }).map((_, i) => (
+                                  <div
+                                    key={i}
+                                    className={`w-3 h-3 rounded-full ${
+                                      i < character.stats.social ? 'bg-gold' : 'bg-stone/20'
+                                    }`}
+                                  />
+                                ))}
                               </div>
-                              <div className="flex justify-between">
-                                <span className="text-stone/60">Lore</span>
-                                <span className="text-stone font-heading">{character.stats.lore}</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <BookOpen className="w-4 h-4 text-parchment" />
+                              <span className="text-stone/80 flex-1">Lore</span>
+                              <div className="flex gap-1">
+                                {Array.from({ length: 5 }).map((_, i) => (
+                                  <div
+                                    key={i}
+                                    className={`w-3 h-3 rounded-full ${
+                                      i < character.stats.lore ? 'bg-parchment' : 'bg-stone/20'
+                                    }`}
+                                  />
+                                ))}
                               </div>
                             </div>
                           </div>
-                        </>
+                        </div>
+                      )}
+                    </div>
+                  </ParchmentPanel>
+                </OrnateFrame>
+              )}
+
+              {activeTab === 'inventory' && (
+                <OrnateFrame variant="shadow">
+                  <ParchmentPanel>
+                    <h3 className="font-heading text-xl text-ink mb-4">
+                      <Backpack className="w-5 h-5 inline-block mr-2" />
+                      Inventario
+                    </h3>
+                    <div className="space-y-2">
+                      {(worldState.party?.[character?.name || '']?.inventory || character?.inventory || []).length > 0 ? (
+                        (worldState.party?.[character?.name || '']?.inventory || character?.inventory || []).map((item: string, i: number) => (
+                          <div key={i} className="flex items-center gap-2 p-2 bg-shadow/20 rounded-lg">
+                            <div className="w-8 h-8 bg-gold/10 rounded flex items-center justify-center text-gold">
+                              📦
+                            </div>
+                            <span className="font-body text-stone text-sm">{item}</span>
+                          </div>
+                        ))
+                      ) : (
+                        <p className="text-stone/60 italic text-center py-4">Tu bolsa está vacía</p>
+                      )}
+                    </div>
+                  </ParchmentPanel>
+                </OrnateFrame>
+              )}
+
+              {activeTab === 'quests' && (
+                <OrnateFrame variant="shadow">
+                  <ParchmentPanel>
+                    <h3 className="font-heading text-xl text-ink mb-4">
+                      <Scroll className="w-5 h-5 inline-block mr-2" />
+                      Misiones
+                    </h3>
+                    <div className="space-y-3">
+                      {/* Active quests */}
+                      {(worldState.active_quests || []).length > 0 && (
+                        <div>
+                          <p className="font-ui text-xs text-gold-dim uppercase mb-2">Activas</p>
+                          {worldState.active_quests.map((quest: string, i: number) => (
+                            <div key={i} className="flex items-start gap-2 p-2 bg-gold/10 rounded-lg mb-1">
+                              <div className="w-2 h-2 bg-gold rounded-full mt-1.5" />
+                              <span className="font-body text-stone text-sm">{quest}</span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                      {/* Completed quests */}
+                      {(worldState.completed_quests || []).length > 0 && (
+                        <div>
+                          <p className="font-ui text-xs text-emerald uppercase mb-2">Completadas</p>
+                          {worldState.completed_quests.map((quest: string, i: number) => (
+                            <div key={i} className="flex items-start gap-2 p-2 bg-emerald/10 rounded-lg mb-1 opacity-70">
+                              <div className="w-2 h-2 bg-emerald rounded-full mt-1.5" />
+                              <span className="font-body text-stone text-sm line-through">{quest}</span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                      {(worldState.active_quests || []).length === 0 && (worldState.completed_quests || []).length === 0 && (
+                        <p className="text-stone/60 italic text-center py-4">Sin misiones activas</p>
                       )}
                     </div>
                   </ParchmentPanel>

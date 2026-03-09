@@ -80,6 +80,7 @@ export default async function PlayPage({ params }: PlayPageProps) {
         archetype: character.archetype,
         level: character.level,
         stats: character.stats as any,
+        inventory: character.inventory as string[] || [],
       }
     : null
 

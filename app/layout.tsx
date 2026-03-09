@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Cinzel_Decorative, Cinzel, EB_Garamond, Crimson_Text, Courier_Prime } from 'next/font/google'
 import { ClerkProvider } from '@clerk/nextjs'
 import { Navbar } from '@/components/medieval/Navbar'
+import { MusicProvider } from '@/components/audio/MusicProvider'
 import "./globals.css";
 
 const cinzelDecorative = Cinzel_Decorative({
@@ -59,6 +60,7 @@ export default function RootLayout({
           <main>
             {children}
           </main>
+          <MusicProvider />
         </body>
       </html>
     </ClerkProvider>
