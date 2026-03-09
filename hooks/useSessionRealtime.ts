@@ -50,10 +50,16 @@ interface UseSessionRealtimeReturn {
   refreshParticipants: () => Promise<void>
 }
 
+interface UseSessionRealtimeOptions {
+  enabled?: boolean
+}
+
 export function useSessionRealtime(
   sessionId: string,
-  campaignId: string
+  campaignId: string,
+  options: UseSessionRealtimeOptions = {}
 ): UseSessionRealtimeReturn {
+  const { enabled = true } = options
   const [turns, setTurns] = useState<Turn[]>([])
   const [participants, setParticipants] = useState<Participant[]>([])
   const [isConnected, setIsConnected] = useState(false)
@@ -61,6 +67,7 @@ export function useSessionRealtime(
 
   // Fetch initial turns
   const refreshTurns = useCallback(async () => {
+    if (!enabled) return
     try {
       const response = await fetch(`/api/session/${sessionId}/turns`)
       if (response.ok) {
@@ -70,10 +77,11 @@ export function useSessionRealtime(
     } catch (error) {
       console.error('Error fetching turns:', error)
     }
-  }, [sessionId])
+  }, [sessionId, enabled])
 
   // Fetch initial participants
   const refreshParticipants = useCallback(async () => {
+    if (!enabled) return
     try {
       const response = await fetch(`/api/campaigns/${campaignId}/participants`)
       if (response.ok) {
@@ -83,7 +91,7 @@ export function useSessionRealtime(
     } catch (error) {
       console.error('Error fetching participants:', error)
     }
-  }, [campaignId])
+  }, [campaignId, enabled])
 
   // Add a turn locally (optimistic update)
   const addTurn = useCallback((turn: Turn) => {
@@ -91,6 +99,9 @@ export function useSessionRealtime(
   }, [])
 
   useEffect(() => {
+    // Skip everything if not enabled
+    if (!enabled) return
+
     // Load initial data
     refreshTurns()
     refreshParticipants()

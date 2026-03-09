@@ -112,7 +112,7 @@ export default function GameSession({
     turns: realtimeTurns,
     participants: realtimeParticipants,
     isConnected,
-  } = useSessionRealtime(sessionId, campaignId)
+  } = useSessionRealtime(sessionId, campaignId, { enabled: isMultiplayer })
 
   // Use realtime data when available in multiplayer, otherwise use local state
   const turns = isMultiplayer && realtimeTurns.length > 0 ? realtimeTurns : localTurns
