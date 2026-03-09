@@ -2,6 +2,16 @@ import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@clerk/nextjs/server'
 import { prisma } from '@/lib/db/prisma'
 import { Lore, GameMode, GameEngine, TutorialLevel } from '@prisma/client'
+
+// Generar código de invitación único de 6 caracteres
+function generateInviteCode(): string {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789' // Sin caracteres confusos (0,O,1,I)
+  let code = ''
+  for (let i = 0; i < 6; i++) {
+    code += chars.charAt(Math.floor(Math.random() * chars.length))
+  }
+  return code
+}
 import lotrData from '@/data/lores/lotr.json'
 import zombiesData from '@/data/lores/zombies.json'
 import isekaiData from '@/data/lores/isekai.json'
@@ -20,13 +30,14 @@ export async function POST(req: NextRequest) {
 
     // Parsear request body
     const body = await req.json()
-    const { lore, mode, engine, tutorialLevel, archetypeId, characterName } = body as {
+    const { lore, mode, engine, tutorialLevel, archetypeId, characterName, isMultiplayer } = body as {
       lore: Lore
       mode: GameMode
       engine: GameEngine
       tutorialLevel: TutorialLevel
       archetypeId: string
       characterName?: string
+      isMultiplayer?: boolean
     }
 
     // Validar campos requeridos
@@ -115,6 +126,20 @@ export async function POST(req: NextRequest) {
       weather: 'Cielo despejado',
     }
 
+    // Generar código de invitación si es multiplayer
+    let inviteCode: string | null = null
+    if (isMultiplayer) {
+      // Generar código único (reintentar si ya existe)
+      let codeIsUnique = false
+      while (!codeIsUnique) {
+        inviteCode = generateInviteCode()
+        const existing = await prisma.campaign.findUnique({
+          where: { inviteCode },
+        })
+        if (!existing) codeIsUnique = true
+      }
+    }
+
     // Crear Campaign, Character y Session en una transacción
     const result = await prisma.$transaction(async (tx) => {
       // 1. Crear la campaña
@@ -128,6 +153,8 @@ export async function POST(req: NextRequest) {
           engine,
           mode,
           worldState: initialWorldState,
+          isMultiplayer: isMultiplayer || false,
+          inviteCode: inviteCode,
         },
       })
 
@@ -159,6 +186,19 @@ export async function POST(req: NextRequest) {
           backstory: archetypeData.description,
         },
       })
+
+      // 2.5. Si es multiplayer, crear CampaignParticipant para el owner
+      if (isMultiplayer) {
+        await tx.campaignParticipant.create({
+          data: {
+            campaignId: campaign.id,
+            userId: user.id,
+            characterId: character.id,
+            role: 'OWNER',
+            isOnline: true,
+          },
+        })
+      }
 
       // 3. Crear la primera sesión
       const session = await tx.session.create({
@@ -193,6 +233,8 @@ export async function POST(req: NextRequest) {
       sessionId: result.session.id,
       campaignId: result.campaign.id,
       characterId: result.character.id,
+      inviteCode: inviteCode,
+      isMultiplayer: isMultiplayer || false,
     })
   } catch (error) {
     console.error('Error creating character:', error)

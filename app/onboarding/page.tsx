@@ -37,6 +37,7 @@ export default function OnboardingPage() {
   const [gameMode, setGameMode] = useState<GameMode | null>(null)
   const [engine, setEngine] = useState<GameEngine | null>(null)
   const [tutorialLevel, setTutorialLevel] = useState<TutorialLevel | null>(null)
+  const [isMultiplayer, setIsMultiplayer] = useState<boolean>(false)
   const [selectedArchetype, setSelectedArchetype] = useState<Archetype | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -71,6 +72,7 @@ export default function OnboardingPage() {
           tutorialLevel,
           archetypeId: archetype.id,
           characterName: archetype.name,
+          isMultiplayer,
         }),
       })
 
@@ -81,7 +83,12 @@ export default function OnboardingPage() {
       }
 
       if (data.sessionId) {
-        router.push(`/play/${data.sessionId}`)
+        // Si es multijugador, ir al lobby para esperar jugadores
+        if (isMultiplayer && data.campaignId) {
+          router.push(`/lobby/${data.campaignId}`)
+        } else {
+          router.push(`/play/${data.sessionId}`)
+        }
       } else {
         throw new Error('No se recibio ID de sesion')
       }
@@ -161,6 +168,7 @@ export default function OnboardingPage() {
             setGameMode(data.mode)
             setEngine(data.engine)
             setTutorialLevel(data.tutorialLevel)
+            setIsMultiplayer(data.isMultiplayer)
             setStep(3)
           }}
           onBack={() => setStep(1)}
