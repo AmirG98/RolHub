@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@clerk/nextjs/server'
 import { prisma } from '@/lib/db/prisma'
+import { generateInviteCode, getInviteUrl } from '@/lib/utils/invite-code'
 
 export async function POST(request: NextRequest) {
   try {
@@ -11,7 +12,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json()
-    const { lore, mode, engine, characterName } = body
+    const { lore, mode, engine, characterName, isMultiplayer = false, maxPlayers = 8 } = body
 
     //  Crear o buscar usuario en DB
     let user = await prisma.user.findUnique({
@@ -29,6 +30,20 @@ export async function POST(request: NextRequest) {
       })
     }
 
+    // Generate invite code for multiplayer campaigns
+    let inviteCode: string | null = null
+    if (isMultiplayer) {
+      // Ensure unique invite code
+      let isUnique = false
+      while (!isUnique) {
+        inviteCode = generateInviteCode()
+        const existing = await prisma.campaign.findUnique({
+          where: { inviteCode },
+        })
+        if (!existing) isUnique = true
+      }
+    }
+
     // Crear campaña
     const campaign = await prisma.campaign.create({
       data: {
@@ -37,6 +52,9 @@ export async function POST(request: NextRequest) {
         engine,
         mode,
         userId: user.id,
+        isMultiplayer,
+        maxPlayers: isMultiplayer ? maxPlayers : 1,
+        inviteCode,
         worldState: {
           campaign_id: '',
           lore,
@@ -105,10 +123,23 @@ export async function POST(request: NextRequest) {
       }
     })
 
+    // Create campaign participant for owner
+    await prisma.campaignParticipant.create({
+      data: {
+        campaignId: campaign.id,
+        userId: user.id,
+        characterId: character.id,
+        role: 'OWNER',
+        isOnline: true,
+      },
+    })
+
     return NextResponse.json({
       campaignId: campaign.id,
       sessionId: session.id,
-      characterId: character.id
+      characterId: character.id,
+      inviteCode: campaign.inviteCode,
+      inviteUrl: campaign.inviteCode ? getInviteUrl(campaign.inviteCode) : null,
     })
 
   } catch (error) {

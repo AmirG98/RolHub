@@ -5,15 +5,28 @@ import { ParchmentPanel } from '@/components/medieval/ParchmentPanel'
 import { OrnateFrame } from '@/components/medieval/OrnateFrame'
 import { RunicButton } from '@/components/medieval/RunicButton'
 import { DiceRoller } from '@/components/medieval/DiceRoller'
-import { Sword, Shield, Map, MessageCircle, BookOpen, Heart, Backpack, Scroll, Dices } from 'lucide-react'
+import { ParticipantList } from '@/components/game/ParticipantList'
+import { useSessionRealtime, broadcastTurn } from '@/hooks/useSessionRealtime'
+import { useParticipantPresence } from '@/hooks/useParticipantPresence'
+import { Sword, Shield, Map, MessageCircle, BookOpen, Heart, Backpack, Scroll, Dices, Users, Wifi } from 'lucide-react'
 
 interface Turn {
   id: string
+  sessionId: string
   role: 'USER' | 'DM' | 'SYSTEM'
   content: string
-  imageUrl?: string | null
-  diceRoll?: { formula: string; result: number; rolls: number[] } | null
-  createdAt: Date | string
+  imageUrl?: string
+  audioUrl?: string
+  diceRoll?: { formula: string; result: number; rolls: number[] }
+  diceRolls?: any
+  activeEffects?: any
+  worldStatePatch?: any
+  createdAt: string
+  // Multiplayer fields
+  characterName?: string
+  playerName?: string
+  participantId?: string
+  characterId?: string
 }
 
 interface Character {
@@ -23,6 +36,22 @@ interface Character {
   level: number
   stats: any
   inventory?: string[]
+}
+
+interface Participant {
+  id: string
+  role: 'OWNER' | 'DM' | 'PLAYER' | 'SPECTATOR'
+  isOnline: boolean
+  user?: {
+    id: string
+    username: string
+  }
+  character?: {
+    id: string
+    name: string
+    archetype: string
+    hp?: string
+  } | null
 }
 
 interface GameSessionProps {
@@ -35,6 +64,11 @@ interface GameSessionProps {
   initialTurns: Turn[]
   character: Character | null
   worldState: any
+  // Multiplayer props
+  isMultiplayer?: boolean
+  initialParticipants?: Participant[]
+  currentUserId?: string
+  inviteCode?: string | null
 }
 
 export default function GameSession({
@@ -47,21 +81,40 @@ export default function GameSession({
   initialTurns,
   character,
   worldState: initialWorldState,
+  // Multiplayer props
+  isMultiplayer = false,
+  initialParticipants = [],
+  currentUserId,
+  inviteCode,
 }: GameSessionProps) {
-  const [turns, setTurns] = useState<Turn[]>(initialTurns)
+  const [localTurns, setLocalTurns] = useState<Turn[]>(initialTurns)
   const [worldState, setWorldState] = useState(initialWorldState)
   const [action, setAction] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [showDiceRoller, setShowDiceRoller] = useState(false)
   const [lastDiceRoll, setLastDiceRoll] = useState<{ formula: string; result: number; rolls: number[] } | null>(null)
-  const [activeTab, setActiveTab] = useState<'stats' | 'inventory' | 'quests'>('stats')
+  const [activeTab, setActiveTab] = useState<'stats' | 'inventory' | 'quests' | 'party'>('stats')
   const [suggestedActions, setSuggestedActions] = useState<string[]>([
     'Examino el área en busca de peligros',
     'Intento hablar con alguien cercano',
     'Me muevo con cautela hacia adelante',
   ])
   const scrollRef = useRef<HTMLDivElement>(null)
+
+  // Multiplayer hooks - only active when isMultiplayer is true
+  const {
+    turns: realtimeTurns,
+    participants: realtimeParticipants,
+    isConnected,
+  } = useSessionRealtime(sessionId, campaignId)
+
+  // Use realtime data when available in multiplayer, otherwise use local state
+  const turns = isMultiplayer && realtimeTurns.length > 0 ? realtimeTurns : localTurns
+  const participants = isMultiplayer && realtimeParticipants.length > 0 ? realtimeParticipants : initialParticipants
+
+  // Presence tracking for multiplayer
+  useParticipantPresence(campaignId, { enabled: isMultiplayer })
 
   // Parse current HP from worldState or character stats
   const getCurrentHP = () => {
@@ -107,12 +160,16 @@ export default function GameSession({
     // Agregar turno del jugador inmediatamente (optimistic update)
     const playerTurn: Turn = {
       id: `temp-${Date.now()}`,
+      sessionId,
       role: 'USER',
       content: action.trim(),
-      diceRoll: lastDiceRoll,
+      diceRoll: lastDiceRoll || undefined,
       createdAt: new Date().toISOString(),
+      // Add multiplayer info
+      characterName: character?.name,
+      playerName: participants.find(p => p.user?.id === currentUserId)?.user?.username,
     }
-    setTurns(prev => [...prev, playerTurn])
+    setLocalTurns(prev => [...prev, playerTurn])
     const submittedAction = action.trim()
     setAction('')
     const submittedDiceRoll = lastDiceRoll
@@ -139,11 +196,18 @@ export default function GameSession({
       // Agregar respuesta del DM
       const dmTurn: Turn = {
         id: `dm-${Date.now()}`,
+        sessionId,
         role: 'DM',
         content: data.narration,
         createdAt: new Date().toISOString(),
       }
-      setTurns(prev => [...prev, dmTurn])
+      setLocalTurns(prev => [...prev, dmTurn])
+
+      // Broadcast turns to other players in multiplayer
+      if (isMultiplayer) {
+        broadcastTurn(sessionId, playerTurn)
+        broadcastTurn(sessionId, dmTurn)
+      }
 
       // Actualizar world state si viene en la respuesta
       if (data.worldStateUpdates) {
@@ -164,7 +228,7 @@ export default function GameSession({
     } catch (err) {
       setError((err as Error).message)
       // Remover el turno optimista si falla
-      setTurns(prev => prev.filter(t => t.id !== playerTurn.id))
+      setLocalTurns(prev => prev.filter(t => t.id !== playerTurn.id))
     } finally {
       setIsSubmitting(false)
     }
@@ -178,9 +242,20 @@ export default function GameSession({
           {/* Mobile: Stack vertical */}
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 md:gap-4">
             <div className="flex-1 min-w-0">
-              <h1 className="font-heading text-lg md:text-2xl text-gold-bright truncate">{campaignName}</h1>
+              <div className="flex items-center gap-2">
+                <h1 className="font-heading text-lg md:text-2xl text-gold-bright truncate">{campaignName}</h1>
+                {isMultiplayer && (
+                  <div className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] ${
+                    isConnected ? 'bg-emerald/20 text-emerald' : 'bg-blood/20 text-blood'
+                  }`}>
+                    <Wifi className="w-3 h-3" />
+                    {isConnected ? 'En vivo' : 'Desconectado'}
+                  </div>
+                )}
+              </div>
               <p className="font-ui text-parchment text-xs md:text-sm truncate">
                 {worldState.current_scene} • {worldState.time_in_world}
+                {isMultiplayer && ` • ${participants.filter(p => p.isOnline).length} jugadores`}
               </p>
             </div>
 
@@ -244,11 +319,24 @@ export default function GameSession({
                       >
                         <div className="flex items-start gap-2 md:gap-3 mb-1.5 md:mb-2">
                           <div className="font-heading text-[10px] md:text-xs text-gold-dim uppercase tracking-wide">
-                            {turn.role === 'DM'
-                              ? '📖 Narrador'
-                              : turn.role === 'USER'
-                              ? '⚔️ Tú'
-                              : '⚙️ Sistema'}
+                            {turn.role === 'DM' ? (
+                              '📖 Narrador'
+                            ) : turn.role === 'USER' ? (
+                              isMultiplayer && turn.characterName ? (
+                                <span>
+                                  ⚔️ <span className="text-emerald">{turn.characterName}</span>
+                                  {turn.playerName && (
+                                    <span className="text-parchment/50 font-ui normal-case ml-1">
+                                      ({turn.playerName})
+                                    </span>
+                                  )}
+                                </span>
+                              ) : (
+                                '⚔️ Tú'
+                              )
+                            ) : (
+                              '⚙️ Sistema'
+                            )}
                           </div>
                         </div>
                         <p className="font-body text-sm md:text-base text-parchment leading-relaxed whitespace-pre-wrap">
@@ -445,7 +533,7 @@ export default function GameSession({
                   }`}
                 >
                   <Backpack className="w-4 h-4" />
-                  Inventario
+                  Inv
                 </button>
                 <button
                   onClick={() => setActiveTab('quests')}
@@ -454,8 +542,19 @@ export default function GameSession({
                   }`}
                 >
                   <Scroll className="w-4 h-4" />
-                  Misiones
+                  Quests
                 </button>
+                {isMultiplayer && (
+                  <button
+                    onClick={() => setActiveTab('party')}
+                    className={`flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg font-ui text-sm transition-all ${
+                      activeTab === 'party' ? 'bg-gold/20 text-gold' : 'text-parchment/60 hover:text-parchment'
+                    }`}
+                  >
+                    <Users className="w-4 h-4" />
+                    Grupo
+                  </button>
+                )}
               </div>
 
               {/* Tab content */}
@@ -621,6 +720,15 @@ export default function GameSession({
                     </div>
                   </ParchmentPanel>
                 </OrnateFrame>
+              )}
+
+              {/* Party tab for multiplayer */}
+              {activeTab === 'party' && isMultiplayer && (
+                <ParticipantList
+                  participants={participants}
+                  currentUserId={currentUserId}
+                  isMultiplayer={isMultiplayer}
+                />
               )}
 
               {/* Info de la campaña */}

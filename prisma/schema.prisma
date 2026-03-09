@@ -11,29 +11,30 @@ datasource db {
 }
 
 model User {
-  id               String         @id @default(cuid())
-  clerkId          String         @unique
-  username         String
-  email            String         @unique
-  plan             Plan           @default(FREE)
-  tutorialLevel    TutorialLevel  @default(NOVICE)
-  tutorialProgress Json           @default("{}")
-  campaigns        Campaign[]
-  sessions         Session[]
-  characters       Character[]
-  journals         Journal[]
-  macros           Macro[]
-  createdAt        DateTime       @default(now())
+  id                    String                 @id @default(cuid())
+  clerkId               String                 @unique
+  username              String
+  email                 String                 @unique
+  plan                  Plan                   @default(FREE)
+  tutorialLevel         TutorialLevel          @default(NOVICE)
+  tutorialProgress      Json                   @default("{}")
+  campaigns             Campaign[]
+  sessions              Session[]
+  characters            Character[]
+  journals              Journal[]
+  macros                Macro[]
+  campaignParticipants  CampaignParticipant[]
+  createdAt             DateTime               @default(now())
 }
 
 model Campaign {
-  id               String         @id @default(cuid())
+  id               String                @id @default(cuid())
   userId           String
-  user             User           @relation(fields: [userId], references: [id])
+  user             User                  @relation(fields: [userId], references: [id])
   name             String
   lore             Lore
   engine           GameEngine
-  mode             GameMode       @default(CAMPAIGN)
+  mode             GameMode              @default(CAMPAIGN)
   worldState       Json
   worldMap         Json?
   scenes           Scene[]
@@ -44,9 +45,15 @@ model Campaign {
   playlists        Playlist[]
   rollTables       RollTable[]
   compendiumItems  CompendiumItem[]
-  status           CampaignStatus @default(ACTIVE)
-  createdAt        DateTime       @default(now())
-  updatedAt        DateTime       @updatedAt
+  participants     CampaignParticipant[]
+  // Multiplayer fields
+  inviteCode       String?               @unique
+  isMultiplayer    Boolean               @default(false)
+  maxPlayers       Int                   @default(8)
+  dmMode           DmMode                @default(AI)
+  status           CampaignStatus        @default(ACTIVE)
+  createdAt        DateTime              @default(now())
+  updatedAt        DateTime              @updatedAt
 }
 
 model Session {
@@ -75,30 +82,37 @@ model Turn {
   activeEffects    Json?
   worldStatePatch  Json?
   dmNotes          String?
+  // Multiplayer fields
+  participantId    String?    // Who made this action (CampaignParticipant id)
+  characterId      String?    // Which character acted
+  characterName    String?    // Character name for display
+  playerName       String?    // Player username for display
+  turnOrder        Int?       // Order in combat
   createdAt        DateTime   @default(now())
 }
 
 model Character {
-  id               String     @id @default(cuid())
-  userId           String
-  user             User       @relation(fields: [userId], references: [id])
-  campaignId       String?
-  campaign         Campaign?  @relation(fields: [campaignId], references: [id])
-  name             String
-  lore             Lore
-  archetype        String
-  level            Int        @default(1)
-  experience       Int        @default(0)
-  stats            Json
-  inventory        Json
-  conditions       String[]
-  activeEffects    Json       @default("[]")
-  backstory        String?
-  avatarUrl        String?
-  tokenUrl         String?
-  relationships    Json       @default("{}")
-  createdAt        DateTime   @default(now())
-  updatedAt        DateTime   @updatedAt
+  id                    String                @id @default(cuid())
+  userId                String
+  user                  User                  @relation(fields: [userId], references: [id])
+  campaignId            String?
+  campaign              Campaign?             @relation(fields: [campaignId], references: [id])
+  name                  String
+  lore                  Lore
+  archetype             String
+  level                 Int                   @default(1)
+  experience            Int                   @default(0)
+  stats                 Json
+  inventory             Json
+  conditions            String[]
+  activeEffects         Json                  @default("[]")
+  backstory             String?
+  avatarUrl             String?
+  tokenUrl              String?
+  relationships         Json                  @default("{}")
+  campaignParticipants  CampaignParticipant[]
+  createdAt             DateTime              @default(now())
+  updatedAt             DateTime              @updatedAt
 }
 
 model NPC {
@@ -174,10 +188,28 @@ model CombatEncounter {
   sessionId        String
   session          Session       @relation(fields: [sessionId], references: [id])
   round            Int           @default(1)
-  initiatives      Json
+  currentTurnIdx   Int           @default(0)
+  initiativeOrder  Json          // Array of {characterId, name, initiative, isNPC, isPlayer}
   log              Json          @default("[]")
   status           CombatStatus  @default(ACTIVE)
   createdAt        DateTime      @default(now())
+}
+
+/// Multiplayer: Track participants in a campaign
+model CampaignParticipant {
+  id           String          @id @default(cuid())
+  campaignId   String
+  campaign     Campaign        @relation(fields: [campaignId], references: [id])
+  userId       String
+  user         User            @relation(fields: [userId], references: [id])
+  characterId  String?
+  character    Character?      @relation(fields: [characterId], references: [id])
+  role         ParticipantRole @default(PLAYER)
+  joinedAt     DateTime        @default(now())
+  lastSeenAt   DateTime        @updatedAt
+  isOnline     Boolean         @default(false)
+
+  @@unique([campaignId, userId])
 }
 
 model CompendiumItem {
@@ -280,4 +312,16 @@ enum TutorialLevel {
   CASUAL
   EXPERIENCED
   VETERAN
+}
+
+enum ParticipantRole {
+  OWNER      // Creator of the campaign
+  DM         // Human Dungeon Master
+  PLAYER     // Regular player
+  SPECTATOR  // Observer only
+}
+
+enum DmMode {
+  AI      // Claude is the DM
+  HUMAN   // A player is the DM
 }
