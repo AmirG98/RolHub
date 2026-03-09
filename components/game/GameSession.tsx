@@ -13,6 +13,7 @@ import { Sword, Shield, Map, MessageCircle, BookOpen, Heart, Backpack, Scroll, D
 import DMPanel from '@/components/game/DMPanel'
 import { EnginePanel } from '@/components/engines/EnginePanel'
 import { VoicePlayerCompact } from '@/components/game/VoicePlayer'
+import { DynamicMusicPlayer, useDynamicMusic } from '@/components/audio/DynamicMusicPlayer'
 import { GameEngine, DiceRoll as EngineDiceRoll, Locale } from '@/lib/engines/types'
 import { Lore } from '@prisma/client'
 
@@ -146,6 +147,9 @@ export default function GameSession({
   // State for showing DM panel
   const [showDMPanel, setShowDMPanel] = useState(false)
 
+  // Dynamic music - responds to narration mood
+  const { onNarration } = useDynamicMusic()
+
   // Parse current HP from worldState or character stats
   const getCurrentHP = () => {
     if (!character) return { current: 0, max: 0 }
@@ -242,6 +246,9 @@ export default function GameSession({
         createdAt: new Date().toISOString(),
       }
       setLocalTurns(prev => [...prev, dmTurn])
+
+      // Analizar narración para cambiar mood de la música
+      onNarration(data.narration)
 
       // Broadcast turns to other players in multiplayer
       if (isMultiplayer) {
@@ -885,6 +892,13 @@ export default function GameSession({
           </div>
         </div>
       </div>
+
+      {/* Dynamic Music Player */}
+      <DynamicMusicPlayer
+        initialMood="exploration"
+        showMoodIndicator={true}
+        position="bottom-right"
+      />
     </div>
   )
 }

@@ -10,6 +10,10 @@ const isPublicRoute = createRouteMatcher([
   '/hoja-personaje',
   '/design-system',
   '/onboarding',
+  // Guest routes - permiten jugar sin cuenta
+  '/guest(.*)',
+  '/play-guest(.*)',
+  '/api/session/guest(.*)',
 ])
 
 export default clerkMiddleware(async (auth, request) => {

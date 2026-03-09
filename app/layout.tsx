@@ -5,6 +5,7 @@ import { Navbar } from '@/components/medieval/Navbar'
 import { MusicProvider } from '@/components/audio/MusicProvider'
 import { VideoBackground } from '@/components/ui/VideoBackground'
 import { LanguageProvider } from '@/lib/i18n'
+import { GuestProvider } from '@/lib/guest'
 import "./globals.css";
 
 const cinzelDecorative = Cinzel_Decorative({
@@ -59,12 +60,14 @@ export default function RootLayout({
       <html lang="es" className={`${cinzelDecorative.variable} ${cinzel.variable} ${ebGaramond.variable} ${crimsonText.variable} ${courierPrime.variable}`}>
         <body className="min-h-screen bg-shadow">
           <LanguageProvider>
-            <VideoBackground />
-            <Navbar />
-            <main>
-              {children}
-            </main>
-            <MusicProvider />
+            <GuestProvider>
+              <VideoBackground />
+              <Navbar />
+              <main>
+                {children}
+              </main>
+              <MusicProvider />
+            </GuestProvider>
           </LanguageProvider>
         </body>
       </html>
