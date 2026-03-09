@@ -7,7 +7,7 @@ import { RunicButton } from '@/components/medieval/RunicButton'
 import { OrnateFrame } from '@/components/medieval/OrnateFrame'
 import { ParchmentPanel } from '@/components/medieval/ParchmentPanel'
 import { LORES } from '@/lib/constants/lores'
-import { Loader2, Sword, Shield, Scroll } from 'lucide-react'
+import { Loader2, Sword, Shield, Scroll, Plus, User, RefreshCw } from 'lucide-react'
 
 interface Archetype {
   id: string
@@ -26,11 +26,28 @@ interface Archetype {
   special_ability: string
 }
 
+interface ExistingCharacter {
+  id: string
+  name: string
+  archetype: string
+  level: number
+  lore: string
+  stats: {
+    hp: number
+    maxHp: number
+    combat: number
+    exploration: number
+    social: number
+    lore: number
+  }
+}
+
 interface CampaignInfo {
   id: string
   name: string
   lore: string
   engine: string
+  latestSession?: { id: string }
 }
 
 function getDefaultArchetypes(): Archetype[] {
@@ -65,6 +82,8 @@ function getDefaultArchetypes(): Archetype[] {
   ]
 }
 
+type ViewMode = 'select' | 'create'
+
 export default function JoinCharacterPage() {
   const params = useParams()
   const router = useRouter()
@@ -73,8 +92,12 @@ export default function JoinCharacterPage() {
 
   const [campaignInfo, setCampaignInfo] = useState<CampaignInfo | null>(null)
   const [archetypes, setArchetypes] = useState<Archetype[]>([])
+  const [existingCharacters, setExistingCharacters] = useState<ExistingCharacter[]>([])
+  const [currentCharacter, setCurrentCharacter] = useState<ExistingCharacter | null>(null)
   const [selectedArchetype, setSelectedArchetype] = useState<string | null>(null)
+  const [selectedExistingChar, setSelectedExistingChar] = useState<string | null>(null)
   const [characterName, setCharacterName] = useState('')
+  const [viewMode, setViewMode] = useState<ViewMode>('select')
   const [loading, setLoading] = useState(true)
   const [creating, setCreating] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -84,10 +107,10 @@ export default function JoinCharacterPage() {
       router.push('/login')
       return
     }
-    fetchCampaignAndArchetypes()
+    fetchData()
   }, [campaignId, isLoaded, user])
 
-  const fetchCampaignAndArchetypes = async () => {
+  const fetchData = async () => {
     try {
       // Fetch campaign info
       const campaignRes = await fetch(`/api/campaigns/${campaignId}`)
@@ -101,17 +124,17 @@ export default function JoinCharacterPage() {
 
       // Check if user already has a character in this campaign
       if (campaignData.currentUserCharacter) {
-        // User already has a character, redirect to lobby or play
-        const sessionId = campaignData.campaign.sessions?.[0]?.id
-        if (sessionId) {
-          router.push(`/play/${sessionId}`)
-        } else {
-          router.push(`/lobby/${campaignId}`)
-        }
-        return
+        setCurrentCharacter(campaignData.currentUserCharacter)
       }
 
-      // Fetch archetypes for this lore using the API
+      // Fetch user's existing characters (from all campaigns with same lore)
+      const charsRes = await fetch(`/api/characters?lore=${campaignData.campaign.lore}`)
+      if (charsRes.ok) {
+        const charsData = await charsRes.json()
+        setExistingCharacters(charsData.characters || [])
+      }
+
+      // Fetch archetypes for this lore
       const loreId = campaignData.campaign.lore.toLowerCase()
       try {
         const archetypesRes = await fetch(`/api/lores/${loreId}/archetypes`)
@@ -119,11 +142,9 @@ export default function JoinCharacterPage() {
           const archetypesData = await archetypesRes.json()
           setArchetypes(archetypesData.archetypes || [])
         } else {
-          // Use default archetypes if API fails
           setArchetypes(getDefaultArchetypes())
         }
       } catch {
-        // Use default archetypes if fetch fails
         setArchetypes(getDefaultArchetypes())
       }
     } catch (err) {
@@ -173,6 +194,49 @@ export default function JoinCharacterPage() {
     }
   }
 
+  const handleSelectExistingCharacter = async () => {
+    if (!selectedExistingChar) return
+
+    setCreating(true)
+    setError(null)
+
+    try {
+      const response = await fetch('/api/characters/use-for-campaign', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          campaignId,
+          characterId: selectedExistingChar,
+        }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Error al asignar personaje')
+      }
+
+      // Redirect to the game session or lobby
+      if (data.sessionId) {
+        router.push(`/play/${data.sessionId}`)
+      } else {
+        router.push(`/lobby/${campaignId}`)
+      }
+    } catch (err) {
+      setError((err as Error).message)
+      setCreating(false)
+    }
+  }
+
+  const handleContinueWithCurrent = () => {
+    const sessionId = campaignInfo?.latestSession?.id
+    if (sessionId) {
+      router.push(`/play/${sessionId}`)
+    } else {
+      router.push(`/lobby/${campaignId}`)
+    }
+  }
+
   const loreData = campaignInfo ? LORES.find(l => l.id === campaignInfo.lore) : null
 
   if (loading) {
@@ -213,113 +277,284 @@ export default function JoinCharacterPage() {
           </p>
         </div>
 
-        {/* Character Name Input */}
-        <div className="mb-8">
-          <ParchmentPanel variant="ornate" className="p-6">
-            <label className="block font-heading text-lg text-ink mb-3">
-              Nombre de tu personaje
-            </label>
-            <input
-              type="text"
-              value={characterName}
-              onChange={e => setCharacterName(e.target.value)}
-              placeholder="Ingresa el nombre de tu héroe..."
-              className="w-full px-4 py-3 bg-shadow/20 border border-gold-dim rounded-lg
-                         font-body text-lg text-ink placeholder-stone
-                         focus:border-gold focus:outline-none focus:ring-1 focus:ring-gold"
-            />
-          </ParchmentPanel>
-        </div>
-
-        {/* Archetype Selection */}
-        <h2 className="font-heading text-xl text-gold mb-4 text-center">
-          Elige tu Arquetipo
-        </h2>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          {archetypes.map(archetype => (
-            <OrnateFrame
-              key={archetype.id}
-              variant={selectedArchetype === archetype.id ? 'gold' : 'shadow'}
-            >
-              <button
-                onClick={() => setSelectedArchetype(archetype.id)}
-                className={`w-full text-left p-4 transition-all ${
-                  selectedArchetype === archetype.id
-                    ? 'bg-gold/10'
-                    : 'hover:bg-parchment/5'
-                }`}
-              >
-                <div className="flex items-center gap-3 mb-3">
-                  {archetype.id.includes('warrior') || archetype.id.includes('ranger') ? (
-                    <Sword className="w-6 h-6 text-gold" />
-                  ) : archetype.id.includes('scout') || archetype.id.includes('explorer') ? (
-                    <Shield className="w-6 h-6 text-gold" />
-                  ) : (
-                    <Scroll className="w-6 h-6 text-gold" />
-                  )}
-                  <h3 className="font-heading text-lg text-gold">{archetype.name}</h3>
-                </div>
-
-                <p className="font-body text-parchment/80 text-sm mb-4">
-                  {archetype.simple_description}
-                </p>
-
-                {/* Stats Preview */}
-                <div className="grid grid-cols-2 gap-2 text-xs font-ui">
-                  <div className="flex justify-between text-parchment/60">
-                    <span>HP:</span>
-                    <span className="text-blood">{archetype.starting_stats.hp}</span>
+        {/* Current Character Banner (if exists) */}
+        {currentCharacter && (
+          <div className="mb-8">
+            <ParchmentPanel variant="ornate" className="p-6">
+              <div className="flex items-center justify-between flex-wrap gap-4">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-full bg-gold/20 flex items-center justify-center">
+                    <User className="w-6 h-6 text-gold" />
                   </div>
-                  <div className="flex justify-between text-parchment/60">
-                    <span>Combate:</span>
-                    <span className="text-gold">{archetype.starting_stats.combat}</span>
-                  </div>
-                  <div className="flex justify-between text-parchment/60">
-                    <span>Exploración:</span>
-                    <span className="text-gold">{archetype.starting_stats.exploration}</span>
-                  </div>
-                  <div className="flex justify-between text-parchment/60">
-                    <span>Social:</span>
-                    <span className="text-gold">{archetype.starting_stats.social}</span>
+                  <div>
+                    <p className="font-ui text-sm text-ink/60">Tu personaje actual</p>
+                    <h3 className="font-heading text-xl text-ink">{currentCharacter.name}</h3>
+                    <p className="font-ui text-sm text-ink/80">
+                      {currentCharacter.archetype} • Nivel {currentCharacter.level}
+                    </p>
                   </div>
                 </div>
-
-                {/* Special Ability */}
-                <div className="mt-3 pt-3 border-t border-gold-dim/30">
-                  <p className="font-ui text-xs text-gold-dim">
-                    <span className="text-gold">Habilidad:</span> {archetype.special_ability}
-                  </p>
+                <div className="flex gap-3">
+                  <RunicButton onClick={handleContinueWithCurrent} variant="primary">
+                    Continuar con este
+                  </RunicButton>
+                  <RunicButton
+                    onClick={() => setCurrentCharacter(null)}
+                    variant="secondary"
+                    className="flex items-center gap-2"
+                  >
+                    <RefreshCw className="w-4 h-4" />
+                    Cambiar
+                  </RunicButton>
                 </div>
-              </button>
-            </OrnateFrame>
-          ))}
-        </div>
-
-        {error && (
-          <div className="bg-blood/10 border border-blood/30 rounded-lg p-4 mb-6 text-center">
-            <p className="font-ui text-blood">{error}</p>
+              </div>
+            </ParchmentPanel>
           </div>
         )}
 
-        {/* Create Button */}
-        <div className="flex justify-center">
-          <RunicButton
-            onClick={handleCreateCharacter}
-            variant="primary"
-            className="px-12 py-4 text-lg glow-effect"
-            disabled={!selectedArchetype || !characterName.trim() || creating}
-          >
-            {creating ? (
+        {/* Character Selection (only show if no current character or user wants to change) */}
+        {!currentCharacter && (
+          <>
+            {/* View Mode Tabs */}
+            <div className="flex justify-center gap-4 mb-8">
+              <button
+                onClick={() => setViewMode('select')}
+                className={`px-6 py-3 rounded-lg font-heading transition-all ${
+                  viewMode === 'select'
+                    ? 'bg-gold text-shadow'
+                    : 'glass-panel text-gold hover:bg-gold/10'
+                }`}
+              >
+                <User className="w-5 h-5 inline mr-2" />
+                Usar Personaje Existente
+              </button>
+              <button
+                onClick={() => setViewMode('create')}
+                className={`px-6 py-3 rounded-lg font-heading transition-all ${
+                  viewMode === 'create'
+                    ? 'bg-gold text-shadow'
+                    : 'glass-panel text-gold hover:bg-gold/10'
+                }`}
+              >
+                <Plus className="w-5 h-5 inline mr-2" />
+                Crear Nuevo
+              </button>
+            </div>
+
+            {/* Existing Characters Selection */}
+            {viewMode === 'select' && (
               <>
-                <Loader2 className="w-5 h-5 animate-spin mr-2" />
-                Creando personaje...
+                {existingCharacters.length > 0 ? (
+                  <>
+                    <h2 className="font-heading text-xl text-gold mb-4 text-center">
+                      Tus Personajes de {loreData?.name}
+                    </h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                      {existingCharacters.map(char => (
+                        <OrnateFrame
+                          key={char.id}
+                          variant={selectedExistingChar === char.id ? 'gold' : 'shadow'}
+                        >
+                          <button
+                            onClick={() => setSelectedExistingChar(char.id)}
+                            className={`w-full text-left p-4 transition-all ${
+                              selectedExistingChar === char.id
+                                ? 'bg-gold/10'
+                                : 'hover:bg-parchment/5'
+                            }`}
+                          >
+                            <div className="flex items-center gap-3 mb-3">
+                              <div className="w-10 h-10 rounded-full bg-gold/20 flex items-center justify-center">
+                                <User className="w-5 h-5 text-gold" />
+                              </div>
+                              <div>
+                                <h3 className="font-heading text-lg text-gold">{char.name}</h3>
+                                <p className="font-ui text-xs text-parchment/60">
+                                  {char.archetype} • Nivel {char.level}
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* Stats Preview */}
+                            <div className="grid grid-cols-2 gap-2 text-xs font-ui">
+                              <div className="flex justify-between text-parchment/60">
+                                <span>HP:</span>
+                                <span className="text-blood">{char.stats?.hp || 20}/{char.stats?.maxHp || 20}</span>
+                              </div>
+                              <div className="flex justify-between text-parchment/60">
+                                <span>Combate:</span>
+                                <span className="text-gold">{char.stats?.combat || 2}</span>
+                              </div>
+                              <div className="flex justify-between text-parchment/60">
+                                <span>Exploración:</span>
+                                <span className="text-gold">{char.stats?.exploration || 2}</span>
+                              </div>
+                              <div className="flex justify-between text-parchment/60">
+                                <span>Social:</span>
+                                <span className="text-gold">{char.stats?.social || 2}</span>
+                              </div>
+                            </div>
+                          </button>
+                        </OrnateFrame>
+                      ))}
+                    </div>
+
+                    {error && (
+                      <div className="bg-blood/10 border border-blood/30 rounded-lg p-4 mb-6 text-center">
+                        <p className="font-ui text-blood">{error}</p>
+                      </div>
+                    )}
+
+                    <div className="flex justify-center">
+                      <RunicButton
+                        onClick={handleSelectExistingCharacter}
+                        variant="primary"
+                        className="px-12 py-4 text-lg glow-effect"
+                        disabled={!selectedExistingChar || creating}
+                      >
+                        {creating ? (
+                          <>
+                            <Loader2 className="w-5 h-5 animate-spin mr-2" />
+                            Asignando personaje...
+                          </>
+                        ) : (
+                          'Usar Este Personaje'
+                        )}
+                      </RunicButton>
+                    </div>
+                  </>
+                ) : (
+                  <div className="text-center py-12">
+                    <div className="text-5xl mb-4">🧙</div>
+                    <h3 className="font-heading text-xl text-gold mb-2">
+                      No tienes personajes de {loreData?.name}
+                    </h3>
+                    <p className="font-body text-parchment/60 mb-6">
+                      Crea tu primer personaje para esta ambientación
+                    </p>
+                    <RunicButton onClick={() => setViewMode('create')} variant="primary">
+                      <Plus className="w-5 h-5 inline mr-2" />
+                      Crear Personaje
+                    </RunicButton>
+                  </div>
+                )}
               </>
-            ) : (
-              'Comenzar Aventura'
             )}
-          </RunicButton>
-        </div>
+
+            {/* Create New Character */}
+            {viewMode === 'create' && (
+              <>
+                {/* Character Name Input */}
+                <div className="mb-8">
+                  <ParchmentPanel variant="ornate" className="p-6">
+                    <label className="block font-heading text-lg text-ink mb-3">
+                      Nombre de tu personaje
+                    </label>
+                    <input
+                      type="text"
+                      value={characterName}
+                      onChange={e => setCharacterName(e.target.value)}
+                      placeholder="Ingresa el nombre de tu héroe..."
+                      className="w-full px-4 py-3 bg-shadow/20 border border-gold-dim rounded-lg
+                                 font-body text-lg text-ink placeholder-stone
+                                 focus:border-gold focus:outline-none focus:ring-1 focus:ring-gold"
+                    />
+                  </ParchmentPanel>
+                </div>
+
+                {/* Archetype Selection */}
+                <h2 className="font-heading text-xl text-gold mb-4 text-center">
+                  Elige tu Arquetipo
+                </h2>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                  {archetypes.map(archetype => (
+                    <OrnateFrame
+                      key={archetype.id}
+                      variant={selectedArchetype === archetype.id ? 'gold' : 'shadow'}
+                    >
+                      <button
+                        onClick={() => setSelectedArchetype(archetype.id)}
+                        className={`w-full text-left p-4 transition-all ${
+                          selectedArchetype === archetype.id
+                            ? 'bg-gold/10'
+                            : 'hover:bg-parchment/5'
+                        }`}
+                      >
+                        <div className="flex items-center gap-3 mb-3">
+                          {archetype.id.includes('warrior') || archetype.id.includes('ranger') ? (
+                            <Sword className="w-6 h-6 text-gold" />
+                          ) : archetype.id.includes('scout') || archetype.id.includes('explorer') ? (
+                            <Shield className="w-6 h-6 text-gold" />
+                          ) : (
+                            <Scroll className="w-6 h-6 text-gold" />
+                          )}
+                          <h3 className="font-heading text-lg text-gold">{archetype.name}</h3>
+                        </div>
+
+                        <p className="font-body text-parchment/80 text-sm mb-4">
+                          {archetype.simple_description}
+                        </p>
+
+                        {/* Stats Preview */}
+                        <div className="grid grid-cols-2 gap-2 text-xs font-ui">
+                          <div className="flex justify-between text-parchment/60">
+                            <span>HP:</span>
+                            <span className="text-blood">{archetype.starting_stats.hp}</span>
+                          </div>
+                          <div className="flex justify-between text-parchment/60">
+                            <span>Combate:</span>
+                            <span className="text-gold">{archetype.starting_stats.combat}</span>
+                          </div>
+                          <div className="flex justify-between text-parchment/60">
+                            <span>Exploración:</span>
+                            <span className="text-gold">{archetype.starting_stats.exploration}</span>
+                          </div>
+                          <div className="flex justify-between text-parchment/60">
+                            <span>Social:</span>
+                            <span className="text-gold">{archetype.starting_stats.social}</span>
+                          </div>
+                        </div>
+
+                        {/* Special Ability */}
+                        <div className="mt-3 pt-3 border-t border-gold-dim/30">
+                          <p className="font-ui text-xs text-gold-dim">
+                            <span className="text-gold">Habilidad:</span> {archetype.special_ability}
+                          </p>
+                        </div>
+                      </button>
+                    </OrnateFrame>
+                  ))}
+                </div>
+
+                {error && (
+                  <div className="bg-blood/10 border border-blood/30 rounded-lg p-4 mb-6 text-center">
+                    <p className="font-ui text-blood">{error}</p>
+                  </div>
+                )}
+
+                {/* Create Button */}
+                <div className="flex justify-center">
+                  <RunicButton
+                    onClick={handleCreateCharacter}
+                    variant="primary"
+                    className="px-12 py-4 text-lg glow-effect"
+                    disabled={!selectedArchetype || !characterName.trim() || creating}
+                  >
+                    {creating ? (
+                      <>
+                        <Loader2 className="w-5 h-5 animate-spin mr-2" />
+                        Creando personaje...
+                      </>
+                    ) : (
+                      'Crear y Comenzar'
+                    )}
+                  </RunicButton>
+                </div>
+              </>
+            )}
+          </>
+        )}
       </div>
     </div>
   )

@@ -10,9 +10,9 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json()
-    const { campaignId, name, archetype, stats, inventory } = body
+    const { campaignId, characterId } = body
 
-    if (!campaignId || !name || !archetype) {
+    if (!campaignId || !characterId) {
       return NextResponse.json(
         { error: 'Faltan campos requeridos' },
         { status: 400 }
@@ -43,6 +43,30 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Campaña no encontrada' }, { status: 404 })
     }
 
+    // Get character and verify ownership
+    const character = await prisma.character.findUnique({
+      where: { id: characterId },
+    })
+
+    if (!character) {
+      return NextResponse.json({ error: 'Personaje no encontrado' }, { status: 404 })
+    }
+
+    if (character.userId !== user.id) {
+      return NextResponse.json(
+        { error: 'No tienes permiso para usar este personaje' },
+        { status: 403 }
+      )
+    }
+
+    // Verify lore matches
+    if (character.lore !== campaign.lore) {
+      return NextResponse.json(
+        { error: 'Este personaje no es compatible con esta campaña' },
+        { status: 400 }
+      )
+    }
+
     // Check if user is a participant
     const participant = await prisma.campaignParticipant.findUnique({
       where: {
@@ -60,47 +84,7 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    // If participant already has a character, remove it from party (we're replacing it)
-    if (participant.characterId) {
-      const oldCharacter = await prisma.character.findUnique({
-        where: { id: participant.characterId },
-      })
-      if (oldCharacter) {
-        // Remove old character from world state party
-        const currentWorldState = campaign.worldState as any
-        if (currentWorldState.party && currentWorldState.party[oldCharacter.name]) {
-          delete currentWorldState.party[oldCharacter.name]
-          await prisma.campaign.update({
-            where: { id: campaignId },
-            data: { worldState: currentWorldState },
-          })
-        }
-      }
-    }
-
-    // Create character
-    const character = await prisma.character.create({
-      data: {
-        name,
-        lore: campaign.lore,
-        archetype,
-        userId: user.id,
-        campaignId,
-        stats: stats || {
-          hp: 20,
-          maxHp: 20,
-          level: 1,
-          experience: 0,
-          combat: 2,
-          exploration: 2,
-          social: 2,
-          lore: 2,
-        },
-        inventory: inventory || [],
-      },
-    })
-
-    // Update participant with character
+    // Update participant with character (this replaces any existing character assignment)
     await prisma.campaignParticipant.update({
       where: { id: participant.id },
       data: {
@@ -108,18 +92,29 @@ export async function POST(req: NextRequest) {
       },
     })
 
-    // Update world state to add this character to party
+    // Update character to link to this campaign
+    await prisma.character.update({
+      where: { id: characterId },
+      data: {
+        campaignId: campaignId,
+      },
+    })
+
+    // Update world state to add/update this character in party
     const worldState = campaign.worldState as any
+    const stats = character.stats as any
+    const inventory = character.inventory as string[]
+
     const updatedWorldState = {
       ...worldState,
       party: {
         ...worldState.party,
-        [name]: {
+        [character.name]: {
           hp: `${stats?.hp || 20}/${stats?.maxHp || 20}`,
-          level: 1,
-          experience: 0,
-          conditions: [],
-          active_effects: [],
+          level: character.level,
+          experience: character.experience,
+          conditions: character.conditions || [],
+          active_effects: character.activeEffects || [],
           inventory: inventory || [],
           relationships: {},
         },
@@ -137,9 +132,9 @@ export async function POST(req: NextRequest) {
       sessionId: campaign.sessions[0]?.id,
     })
   } catch (error) {
-    console.error('Error creating character for campaign:', error)
+    console.error('Error using character for campaign:', error)
     return NextResponse.json(
-      { error: 'Error al crear personaje' },
+      { error: 'Error al asignar personaje' },
       { status: 500 }
     )
   }

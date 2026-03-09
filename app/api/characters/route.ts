@@ -1,8 +1,9 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@clerk/nextjs/server'
 import { prisma } from '@/lib/db/prisma'
+import { Lore } from '@prisma/client'
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
     const { userId } = await auth()
 
@@ -18,8 +19,17 @@ export async function GET() {
       return NextResponse.json({ characters: [] })
     }
 
+    // Get optional lore filter from query params
+    const { searchParams } = new URL(req.url)
+    const loreFilter = searchParams.get('lore') as Lore | null
+
+    const whereClause: any = { userId: user.id }
+    if (loreFilter) {
+      whereClause.lore = loreFilter
+    }
+
     const characters = await prisma.character.findMany({
-      where: { userId: user.id },
+      where: whereClause,
       include: {
         campaign: {
           select: { name: true, lore: true, status: true }
