@@ -12,7 +12,7 @@ import { useLanguage, useTranslations } from '@/lib/i18n'
 import { Sword, Shield, Map, MessageCircle, BookOpen, Heart, Backpack, Scroll, Dices, Users, Wifi, Crown, Cog } from 'lucide-react'
 import DMPanel from '@/components/game/DMPanel'
 import { EnginePanel } from '@/components/engines/EnginePanel'
-import { VoicePlayerCompact } from '@/components/game/VoicePlayer'
+import { VoicePlayerCompact, VoicePlayerAuto } from '@/components/game/VoicePlayer'
 // import { DynamicMusicPlayer, useDynamicMusic } from '@/components/audio/DynamicMusicPlayer' // DISABLED
 import { GameEngine, DiceRoll as EngineDiceRoll, Locale } from '@/lib/engines/types'
 import { Lore } from '@prisma/client'
@@ -122,6 +122,9 @@ export default function GameSession({
     locale === 'en' ? 'I try to talk to someone nearby' : 'Intento hablar con alguien cercano',
     locale === 'en' ? 'I move cautiously forward' : 'Me muevo con cautela hacia adelante',
   ])
+
+  // Track the latest DM turn ID for auto-playing voice
+  const [latestDMTurnId, setLatestDMTurnId] = useState<string | null>(null)
   const scrollRef = useRef<HTMLDivElement>(null)
 
   // Multiplayer hooks - only active when isMultiplayer is true
@@ -239,14 +242,17 @@ export default function GameSession({
       }
 
       // Agregar respuesta del DM
+      const dmTurnId = `dm-${Date.now()}`
       const dmTurn: Turn = {
-        id: `dm-${Date.now()}`,
+        id: dmTurnId,
         sessionId,
         role: 'DM',
         content: data.narration,
         createdAt: new Date().toISOString(),
       }
       setLocalTurns(prev => [...prev, dmTurn])
+      // Mark this as the latest DM turn for auto-play
+      setLatestDMTurnId(dmTurnId)
 
       // Analizar narración para cambiar mood de la música
       onNarration(data.narration)
@@ -396,11 +402,22 @@ export default function GameSession({
                           </div>
                           {/* Voice player for DM narrations */}
                           {turn.role === 'DM' && isVoiceEnabled && (
-                            <VoicePlayerCompact
-                              text={turn.content}
-                              lore={lore as Lore}
-                              locale={locale as 'es' | 'en'}
-                            />
+                            turn.id === latestDMTurnId ? (
+                              // Auto-play voice for the latest DM turn
+                              <VoicePlayerAuto
+                                key={`voice-auto-${turn.id}`}
+                                text={turn.content}
+                                lore={lore as Lore}
+                                locale={locale as 'es' | 'en'}
+                              />
+                            ) : (
+                              // Manual play for older turns
+                              <VoicePlayerCompact
+                                text={turn.content}
+                                lore={lore as Lore}
+                                locale={locale as 'es' | 'en'}
+                              />
+                            )
                           )}
                         </div>
                         <p className="font-body text-sm md:text-base text-parchment leading-relaxed whitespace-pre-wrap">

@@ -304,3 +304,134 @@ export function VoicePlayerCompact({
     </button>
   )
 }
+
+/**
+ * Versión con auto-play - se reproduce automáticamente cuando se monta
+ * Incluye botón para pausar/reanudar y indicador visual
+ */
+export function VoicePlayerAuto({
+  text,
+  lore,
+  locale,
+  onPlayStateChange,
+  className = ''
+}: Omit<VoicePlayerProps, 'autoPlay' | 'useStreaming'> & {
+  onPlayStateChange?: (isPlaying: boolean) => void
+}) {
+  const [audioUrl, setAudioUrl] = useState<string | null>(null)
+  const [isPlaying, setIsPlaying] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [hasPlayed, setHasPlayed] = useState(false)
+  const audioRef = useRef<HTMLAudioElement | null>(null)
+  const mountedRef = useRef(true)
+
+  // Generar y reproducir audio automáticamente
+  const generateAndPlay = async () => {
+    if (isLoading || hasPlayed) return
+
+    setIsLoading(true)
+    setHasPlayed(true)
+
+    try {
+      const response = await fetch('/api/voice/stream', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text, lore, locale })
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to generate voice')
+      }
+
+      if (!mountedRef.current) return
+
+      const audioBlob = await response.blob()
+      const url = URL.createObjectURL(audioBlob)
+      setAudioUrl(url)
+
+      if (audioRef.current && mountedRef.current) {
+        audioRef.current.src = url
+        try {
+          await audioRef.current.play()
+          setIsPlaying(true)
+          onPlayStateChange?.(true)
+        } catch (playError) {
+          // El navegador puede bloquear autoplay sin interacción del usuario
+          console.warn('[VoicePlayerAuto] Autoplay blocked:', playError)
+        }
+      }
+    } catch (err) {
+      console.error('[VoicePlayerAuto] Error:', err)
+    } finally {
+      if (mountedRef.current) {
+        setIsLoading(false)
+      }
+    }
+  }
+
+  // Auto-play al montar
+  useEffect(() => {
+    mountedRef.current = true
+    generateAndPlay()
+
+    return () => {
+      mountedRef.current = false
+      // Limpiar audio al desmontar
+      if (audioRef.current) {
+        audioRef.current.pause()
+        audioRef.current.src = ''
+      }
+    }
+  }, []) // Solo al montar
+
+  // Toggle play/pause
+  const togglePlay = async () => {
+    if (!audioRef.current || !audioUrl) return
+
+    if (isPlaying) {
+      audioRef.current.pause()
+      setIsPlaying(false)
+      onPlayStateChange?.(false)
+    } else {
+      try {
+        await audioRef.current.play()
+        setIsPlaying(true)
+        onPlayStateChange?.(true)
+      } catch (err) {
+        console.error('[VoicePlayerAuto] Play error:', err)
+      }
+    }
+  }
+
+  // Eventos del audio
+  useEffect(() => {
+    const audio = audioRef.current
+    if (!audio) return
+
+    const handleEnded = () => {
+      setIsPlaying(false)
+      onPlayStateChange?.(false)
+    }
+
+    audio.addEventListener('ended', handleEnded)
+    return () => audio.removeEventListener('ended', handleEnded)
+  }, [onPlayStateChange])
+
+  return (
+    <button
+      onClick={togglePlay}
+      disabled={isLoading && !audioUrl}
+      className={`p-1.5 rounded-lg glass-panel transition-all hover:bg-gold/10 disabled:opacity-50 ${className}`}
+      title={isPlaying ? (locale === 'en' ? 'Pause' : 'Pausar') : (locale === 'en' ? 'Play' : 'Reproducir')}
+    >
+      <audio ref={audioRef} preload="none" />
+      {isLoading ? (
+        <Loader2 className="h-4 w-4 text-gold animate-spin" />
+      ) : isPlaying ? (
+        <Pause className="h-4 w-4 text-gold" />
+      ) : (
+        <Volume2 className="h-4 w-4 text-gold/70 hover:text-gold" />
+      )}
+    </button>
+  )
+}
