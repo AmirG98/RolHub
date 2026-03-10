@@ -23,27 +23,27 @@ export { FishAudioProvider } from './providers/fishaudio'
 /**
  * Factory que retorna el provider TTS apropiado según la configuración
  * Orden de prioridad:
- * 1. Fish Audio (si FISH_AUDIO_API_KEY está configurado) - voces ultra naturales, 70% más barato
- * 2. Deepgram (si DEEPGRAM_API_KEY está configurado) - 90ms latencia, $200 gratis
+ * 1. Deepgram (si DEEPGRAM_API_KEY está configurado) - 90ms latencia, más rápido
+ * 2. Fish Audio (si FISH_AUDIO_API_KEY está configurado) - voces naturales, fallback
  * 3. Replicate (si REPLICATE_API_TOKEN está configurado) - más lento
  * 4. Mock (fallback para desarrollo)
  */
 export function getTTSProvider(): TTSProvider {
-  // Prioridad 1: Fish Audio (voces más naturales)
-  if (process.env.FISH_AUDIO_API_KEY) {
-    const fishAudioProvider = new FishAudioProvider()
-    if (fishAudioProvider.isAvailable()) {
-      console.log('[TTS] Using Fish Audio provider (ultra-natural voices)')
-      return fishAudioProvider
-    }
-  }
-
-  // Prioridad 2: Deepgram (más rápido y económico)
+  // Prioridad 1: Deepgram (más rápido, 90ms latencia)
   if (process.env.DEEPGRAM_API_KEY) {
     const deepgramProvider = new DeepgramProvider()
     if (deepgramProvider.isAvailable()) {
-      console.log('[TTS] Using Deepgram provider')
+      console.log('[TTS] Using Deepgram provider (90ms latency)')
       return deepgramProvider
+    }
+  }
+
+  // Prioridad 2: Fish Audio (voces naturales, fallback)
+  if (process.env.FISH_AUDIO_API_KEY) {
+    const fishAudioProvider = new FishAudioProvider()
+    if (fishAudioProvider.isAvailable()) {
+      console.log('[TTS] Using Fish Audio provider')
+      return fishAudioProvider
     }
   }
 

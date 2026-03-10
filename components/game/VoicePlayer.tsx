@@ -307,8 +307,9 @@ export function VoicePlayerCompact({
 
 /**
  * Versión con auto-play ULTRA RÁPIDO
- * Estrategia: Divide en oraciones cortas y reproduce la primera apenas esté lista
- * Mientras reproduce, genera las siguientes en paralelo
+ * - Divide en segmentos (narración vs diálogos con voces diferentes)
+ * - Genera primera oración con prioridad para mínima latencia
+ * - Genera el resto en paralelo mientras reproduce
  */
 export function VoicePlayerAuto({
   text,
@@ -323,36 +324,33 @@ export function VoicePlayerAuto({
   const [isLoading, setIsLoading] = useState(false)
   const [isPaused, setIsPaused] = useState(false)
   const [hasStarted, setHasStarted] = useState(false)
-  const [currentSentence, setCurrentSentence] = useState(0)
-  const [totalSentences, setTotalSentences] = useState(0)
+  const [currentSegment, setCurrentSegment] = useState(0)
+  const [totalSegments, setTotalSegments] = useState(0)
+  const [currentSpeaker, setCurrentSpeaker] = useState<string | null>(null)
 
   const audioRef = useRef<HTMLAudioElement | null>(null)
-  const audioQueueRef = useRef<(string | null)[]>([])
-  const sentencesRef = useRef<string[]>([])
+  const audioQueueRef = useRef<({ url: string; speaker?: string } | null)[]>([])
+  const segmentsRef = useRef<VoiceSegment[]>([])
   const mountedRef = useRef(true)
   const currentIndexRef = useRef(0)
   const hasStartedPlayingRef = useRef(false)
   const generationCompleteRef = useRef(false)
 
-  // Generar audio para una oración específica
-  const generateSentenceAudio = async (sentence: string, index: number): Promise<void> => {
+  // Generar audio para un segmento con su voz específica
+  const generateSegmentAudio = async (segment: VoiceSegment, index: number): Promise<void> => {
     try {
-      console.log(`[VoicePlayerAuto] Generating sentence ${index}: "${sentence.substring(0, 30)}..."`)
-
       const response = await fetch('/api/voice/stream', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          text: sentence,
+          text: segment.text,
           lore,
-          locale
+          locale,
+          voice: segment.voice  // Voz específica para NPCs vs narrador
         })
       })
 
-      if (!response.ok || !mountedRef.current) {
-        console.warn(`[VoicePlayerAuto] Failed to generate sentence ${index}`)
-        return
-      }
+      if (!response.ok || !mountedRef.current) return
 
       const audioBlob = await response.blob()
       const url = URL.createObjectURL(audioBlob)
@@ -362,35 +360,35 @@ export function VoicePlayerAuto({
         return
       }
 
-      // Guardar en la posición correcta
-      audioQueueRef.current[index] = url
-      console.log(`[VoicePlayerAuto] Sentence ${index} ready`)
+      // Guardar en la posición correcta con info del speaker
+      audioQueueRef.current[index] = { url, speaker: segment.speaker }
 
-      // Si es la primera y no hemos empezado a reproducir, empezar inmediatamente
+      // Si es el primero y no hemos empezado a reproducir, empezar inmediatamente
       if (index === 0 && !hasStartedPlayingRef.current) {
         hasStartedPlayingRef.current = true
         setIsLoading(false)
-        playSentence(0)
+        playSegment(0)
       }
     } catch (err) {
-      console.error(`[VoicePlayerAuto] Error generating sentence ${index}:`, err)
+      console.error(`[VoicePlayerAuto] Error generating segment ${index}:`, err)
     }
   }
 
-  // Reproducir una oración específica
-  const playSentence = async (index: number) => {
+  // Reproducir un segmento específico
+  const playSegment = async (index: number) => {
     if (!mountedRef.current || isPaused) return
 
     const audio = audioRef.current
     if (!audio) return
 
-    const url = audioQueueRef.current[index]
+    const segment = audioQueueRef.current[index]
 
-    if (url) {
+    if (segment) {
       currentIndexRef.current = index
-      setCurrentSentence(index + 1)
+      setCurrentSegment(index + 1)
+      setCurrentSpeaker(segment.speaker || null)
 
-      audio.src = url
+      audio.src = segment.url
       try {
         await audio.play()
         setIsPlaying(true)
@@ -401,28 +399,28 @@ export function VoicePlayerAuto({
       }
     } else if (!generationCompleteRef.current) {
       // Audio aún no está listo, esperar y reintentar
-      console.log(`[VoicePlayerAuto] Waiting for sentence ${index}...`)
       setTimeout(() => {
         if (mountedRef.current && !isPaused) {
-          playSentence(index)
+          playSegment(index)
         }
-      }, 50) // Polling rápido de 50ms
+      }, 50)
     } else {
       // Generación completa, no hay más audios
       setIsPlaying(false)
       setIsLoading(false)
+      setCurrentSpeaker(null)
       onPlayStateChange?.(false)
     }
   }
 
   // Intentar reproducir el siguiente
   const tryPlayNext = (nextIndex: number) => {
-    if (nextIndex < sentencesRef.current.length) {
-      playSentence(nextIndex)
+    if (nextIndex < segmentsRef.current.length) {
+      playSegment(nextIndex)
     } else {
-      // Terminamos
       setIsPlaying(false)
       setIsLoading(false)
+      setCurrentSpeaker(null)
       onPlayStateChange?.(false)
     }
   }
@@ -433,35 +431,36 @@ export function VoicePlayerAuto({
     setHasStarted(true)
     setIsLoading(true)
 
-    // Dividir texto en oraciones cortas para tiempo de primera respuesta rápido
-    const sentences = splitIntoSentences(text)
-    sentencesRef.current = sentences
-    setTotalSentences(sentences.length)
+    // Obtener voz del narrador para este lore
+    const narratorConfig = getVoiceConfig(lore, locale)
+    const narratorVoice = narratorConfig.voice
 
-    console.log(`[VoicePlayerAuto] Split into ${sentences.length} sentences`)
+    // Parsear texto en segmentos (narración vs diálogos con voces diferentes)
+    const segments = parseTextForVoices(text, narratorVoice, locale)
+    segmentsRef.current = segments
+    setTotalSegments(segments.length)
 
     // Inicializar array de audios
-    audioQueueRef.current = new Array(sentences.length).fill(null)
+    audioQueueRef.current = new Array(segments.length).fill(null)
     currentIndexRef.current = 0
     hasStartedPlayingRef.current = false
     generationCompleteRef.current = false
 
-    // ESTRATEGIA: Generar primera oración con prioridad, luego el resto en paralelo
-    // La primera es la más importante para reducir latencia percibida
-    generateSentenceAudio(sentences[0], 0)
+    // Generar primera oración con prioridad máxima
+    generateSegmentAudio(segments[0], 0)
 
     // Generar el resto en paralelo después de un pequeño delay
-    if (sentences.length > 1) {
+    if (segments.length > 1) {
       setTimeout(() => {
-        sentences.slice(1).forEach((sentence, i) => {
-          generateSentenceAudio(sentence, i + 1)
+        segments.slice(1).forEach((segment, i) => {
+          generateSegmentAudio(segment, i + 1)
         })
-      }, 100)
+      }, 50)
     }
 
     // Marcar cuando todas terminen
     Promise.all(
-      sentences.map((sentence, index) =>
+      segments.map((_, index) =>
         new Promise<void>((resolve) => {
           const checkReady = () => {
             if (audioQueueRef.current[index] !== null || !mountedRef.current) {
@@ -475,7 +474,6 @@ export function VoicePlayerAuto({
       )
     ).then(() => {
       generationCompleteRef.current = true
-      console.log('[VoicePlayerAuto] All sentences generated')
     })
   }
 
@@ -490,9 +488,8 @@ export function VoicePlayerAuto({
         audioRef.current.pause()
         audioRef.current.src = ''
       }
-      // Limpiar URLs
-      audioQueueRef.current.forEach(url => {
-        if (url) URL.revokeObjectURL(url)
+      audioQueueRef.current.forEach(item => {
+        if (item) URL.revokeObjectURL(item.url)
       })
     }
   }, [])
@@ -527,7 +524,7 @@ export function VoicePlayerAuto({
       setIsPaused(false)
       onPlayStateChange?.(true)
     } else if (audioQueueRef.current[currentIndexRef.current]) {
-      playSentence(currentIndexRef.current)
+      playSegment(currentIndexRef.current)
     }
   }
 
@@ -548,10 +545,16 @@ export function VoicePlayerAuto({
           <Volume2 className="h-4 w-4 text-gold/70 hover:text-gold" />
         )}
       </button>
+      {/* Speaker indicator when NPC is talking */}
+      {currentSpeaker && isPlaying && (
+        <span className="text-[10px] text-gold/70 font-ui italic animate-pulse">
+          {currentSpeaker}
+        </span>
+      )}
       {/* Progress indicator */}
-      {totalSentences > 1 && hasStarted && (
+      {totalSegments > 1 && hasStarted && !currentSpeaker && (
         <span className="text-[10px] text-gold/50 font-mono">
-          {currentSentence}/{totalSentences}
+          {currentSegment}/{totalSegments}
         </span>
       )}
     </div>

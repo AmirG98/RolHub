@@ -1,10 +1,10 @@
 /**
  * API Route: /api/voice/stream
- * Streaming TTS unificado - usa Fish Audio o Deepgram según configuración
+ * Streaming TTS con Deepgram Aura-2 - 90ms latencia, voces en español
  *
  * Prioridad:
- * 1. Fish Audio (FISH_AUDIO_API_KEY) - voces ultra naturales, $15/M bytes
- * 2. Deepgram (DEEPGRAM_API_KEY) - 90ms latencia, $200 crédito gratis
+ * 1. Deepgram (DEEPGRAM_API_KEY) - 90ms latencia, $200 crédito gratis, muy rápido
+ * 2. Fish Audio (FISH_AUDIO_API_KEY) - fallback si Deepgram no está disponible
  *
  * El audio empieza a reproducirse mientras se genera (streaming)
  */
@@ -228,24 +228,31 @@ export async function POST(request: NextRequest) {
     let ttsResponse: Response
     let provider: string
 
-    // Prioridad 1: Fish Audio (voces ultra naturales)
-    if (fishAudioKey) {
-      console.log('[Voice Stream] Using Fish Audio, voice:', voiceKey)
-      provider = 'fish-audio'
-      ttsResponse = await generateWithFishAudio(text, voiceKey, locale, speed)
-
-      // Si Fish Audio falla y tenemos Deepgram como fallback
-      if (!ttsResponse.ok && deepgramKey) {
-        console.warn('[Voice Stream] Fish Audio failed, falling back to Deepgram')
-        provider = 'deepgram'
-        ttsResponse = await generateWithDeepgram(text, voiceKey, locale)
-      }
-    }
-    // Fallback: Deepgram
-    else {
+    // Prioridad 1: Deepgram (más rápido, 90ms latencia)
+    if (deepgramKey) {
       console.log('[Voice Stream] Using Deepgram, voice:', voiceKey)
       provider = 'deepgram'
       ttsResponse = await generateWithDeepgram(text, voiceKey, locale)
+
+      // Si Deepgram falla y tenemos Fish Audio como fallback
+      if (!ttsResponse.ok && fishAudioKey) {
+        console.warn('[Voice Stream] Deepgram failed, falling back to Fish Audio')
+        provider = 'fish-audio'
+        ttsResponse = await generateWithFishAudio(text, voiceKey, locale, speed)
+      }
+    }
+    // Fallback: Fish Audio
+    else if (fishAudioKey) {
+      console.log('[Voice Stream] Using Fish Audio, voice:', voiceKey)
+      provider = 'fish-audio'
+      ttsResponse = await generateWithFishAudio(text, voiceKey, locale, speed)
+    }
+    // No hay provider configurado
+    else {
+      return new Response(JSON.stringify({ error: 'No TTS provider configured' }), {
+        status: 503,
+        headers: { 'Content-Type': 'application/json' }
+      })
     }
 
     if (!ttsResponse.ok) {
