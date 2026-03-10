@@ -228,6 +228,47 @@ export interface VoiceSegment {
 }
 
 /**
+ * Divide texto en oraciones para streaming más rápido
+ * La primera oración se genera primero para reducir tiempo de espera
+ */
+export function splitIntoSentences(text: string): string[] {
+  // Dividir por puntos, signos de exclamación, interrogación
+  // Mantener el signo de puntuación con la oración
+  const sentences = text.match(/[^.!?]+[.!?]+/g) || [text]
+
+  // Filtrar oraciones muy cortas y combinarlas con la siguiente
+  const result: string[] = []
+  let buffer = ''
+
+  for (const sentence of sentences) {
+    const trimmed = sentence.trim()
+    if (buffer) {
+      buffer += ' ' + trimmed
+      if (buffer.length >= 50) { // Mínimo 50 caracteres por chunk
+        result.push(buffer)
+        buffer = ''
+      }
+    } else if (trimmed.length < 30) {
+      // Oración muy corta, acumular
+      buffer = trimmed
+    } else {
+      result.push(trimmed)
+    }
+  }
+
+  if (buffer) {
+    if (result.length > 0) {
+      // Agregar al último
+      result[result.length - 1] += ' ' + buffer
+    } else {
+      result.push(buffer)
+    }
+  }
+
+  return result.filter(s => s.trim().length > 0)
+}
+
+/**
  * Parsea texto y separa narración de diálogos
  * Detecta patrones como:
  * - "Texto entre comillas" → diálogo
