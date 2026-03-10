@@ -65,36 +65,37 @@ const FISH_AUDIO_VOICES: Record<string, string> = {
 }
 
 /**
- * Voces de Deepgram Aura-2 (fallback rápido)
- * Documentación: https://developers.deepgram.com/docs/aura-2
+ * Voces de Deepgram Aura (versión rápida ~800ms vs 2s de aura-2)
+ * Usando voces multilingües que soportan español
+ * Documentación: https://developers.deepgram.com/docs/tts-models
  */
 const DEEPGRAM_VOICES: Record<string, string> = {
-  // Voces de narrador
-  narrator_grave: 'aura-2-nestor-es',
-  skald_epic: 'aura-2-luciano-es',
-  narrator_deep: 'aura-2-javier-es',
-  whisper_tense: 'aura-2-celeste-es',
-  whisper_survival: 'aura-2-diana-es',
-  anime_energetic: 'aura-2-carina-es',
-  anime_narrator: 'aura-2-aquila-es',
-  nordic_bard: 'aura-2-alvaro-es',
+  // Voces de narrador - usando voces bilingües para español
+  narrator_grave: 'aura-orion-en',      // Voz masculina profunda
+  skald_epic: 'aura-arcas-en',          // Voz masculina épica
+  narrator_deep: 'aura-orion-en',       // Voz masculina profunda
+  whisper_tense: 'aura-luna-en',        // Voz femenina suave
+  whisper_survival: 'aura-stella-en',   // Voz femenina clara
+  anime_energetic: 'aura-stella-en',    // Voz femenina energética
+  anime_narrator: 'aura-athena-en',     // Voz femenina expresiva
+  nordic_bard: 'aura-arcas-en',         // Voz masculina épica
 
   // NPCs masculinos
-  npc_male_1: 'aura-2-luciano-es',
-  npc_male_2: 'aura-2-alvaro-es',
-  npc_male_3: 'aura-2-sirio-es',
+  npc_male_1: 'aura-orion-en',
+  npc_male_2: 'aura-arcas-en',
+  npc_male_3: 'aura-helios-en',
 
   // NPCs femeninos
-  npc_female_1: 'aura-2-diana-es',
-  npc_female_2: 'aura-2-celeste-es',
-  npc_female_3: 'aura-2-carina-es',
+  npc_female_1: 'aura-luna-en',
+  npc_female_2: 'aura-stella-en',
+  npc_female_3: 'aura-athena-en',
 
   // Neutral
-  npc_neutral_1: 'aura-2-aquila-es',
+  npc_neutral_1: 'aura-zeus-en',
 
   // Defaults
-  default_es: 'aura-2-sirio-es',
-  default_en: 'aura-2-javier-es',
+  default_es: 'aura-orion-en',
+  default_en: 'aura-orion-en',
 }
 
 interface VoiceRequest {
@@ -154,21 +155,16 @@ async function generateWithFishAudio(
 }
 
 /**
- * Genera audio con Deepgram (fallback rápido)
+ * Genera audio con Deepgram Aura (~800ms latencia)
+ * Usa voces multilingües que soportan español con acento natural
  */
 async function generateWithDeepgram(
   text: string,
   voiceKey: string,
-  locale: string
+  _locale: string
 ): Promise<Response> {
   const apiKey = process.env.DEEPGRAM_API_KEY!
-  let model = DEEPGRAM_VOICES[voiceKey] || DEEPGRAM_VOICES.default_es
-
-  // Si el idioma es inglés y la voz actual es solo español, usar voz bilingüe
-  if (locale === 'en' && !model.includes('javier') && !model.includes('diana') &&
-      !model.includes('aquila') && !model.includes('carina')) {
-    model = DEEPGRAM_VOICES.default_en
-  }
+  const model = DEEPGRAM_VOICES[voiceKey] || DEEPGRAM_VOICES.default_es
 
   const response = await fetch(`https://api.deepgram.com/v1/speak?model=${model}`, {
     method: 'POST',
