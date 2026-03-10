@@ -306,10 +306,10 @@ export function VoicePlayerCompact({
 }
 
 /**
- * Versión con auto-play y voces múltiples
- * - Narrador: voz del lore configurado
- * - NPCs: voces diferentes basadas en el nombre del personaje
- * Reproduce segmentos en secuencia con sus respectivas voces
+ * Versión con auto-play ULTRA RÁPIDO
+ * - Generación 100% paralela de todos los segmentos
+ * - Empieza a reproducir tan pronto como el primer segmento está listo
+ * - Los demás se generan en background mientras reproduce
  */
 export function VoicePlayerAuto({
   text,
@@ -329,14 +329,16 @@ export function VoicePlayerAuto({
   const [currentSpeaker, setCurrentSpeaker] = useState<string | null>(null)
 
   const audioRef = useRef<HTMLAudioElement | null>(null)
-  const audioQueueRef = useRef<{ url: string; speaker?: string }[]>([])
+  // Array ordenado de audios (index = segment index)
+  const audioArrayRef = useRef<({ url: string; speaker?: string } | null)[]>([])
   const segmentsRef = useRef<VoiceSegment[]>([])
   const mountedRef = useRef(true)
-  const isGeneratingRef = useRef(false)
   const currentIndexRef = useRef(0)
+  const hasStartedPlayingRef = useRef(false)
+  const generationCompleteRef = useRef(false)
 
   // Generar audio para un segmento con su voz específica
-  const generateSegmentAudio = async (segment: VoiceSegment): Promise<string | null> => {
+  const generateSegmentAudio = async (segment: VoiceSegment, index: number): Promise<void> => {
     try {
       const response = await fetch('/api/voice/stream', {
         method: 'POST',
@@ -345,45 +347,67 @@ export function VoicePlayerAuto({
           text: segment.text,
           lore,
           locale,
-          voice: segment.voice  // Voz específica para este segmento
+          voice: segment.voice
         })
       })
 
-      if (!response.ok) return null
+      if (!response.ok || !mountedRef.current) return
 
       const audioBlob = await response.blob()
-      return URL.createObjectURL(audioBlob)
-    } catch {
-      return null
+      const url = URL.createObjectURL(audioBlob)
+
+      if (!mountedRef.current) {
+        URL.revokeObjectURL(url)
+        return
+      }
+
+      // Guardar en la posición correcta
+      audioArrayRef.current[index] = { url, speaker: segment.speaker }
+
+      // Si es el primero y no hemos empezado a reproducir, empezar
+      if (index === 0 && !hasStartedPlayingRef.current) {
+        hasStartedPlayingRef.current = true
+        setIsLoading(false)
+        playSegment(0)
+      }
+    } catch (err) {
+      console.error(`[VoicePlayerAuto] Error generating segment ${index}:`, err)
     }
   }
 
-  // Reproducir siguiente audio de la cola
-  const playNextFromQueue = async () => {
+  // Reproducir un segmento específico
+  const playSegment = async (index: number) => {
     if (!mountedRef.current || isPaused) return
 
     const audio = audioRef.current
     if (!audio) return
 
-    // Si hay audio en la cola, reproducirlo
-    if (audioQueueRef.current.length > 0) {
-      const next = audioQueueRef.current.shift()!
-      currentIndexRef.current++
-      setCurrentSegment(currentIndexRef.current)
-      setCurrentSpeaker(next.speaker || null)
+    const segment = audioArrayRef.current[index]
 
-      audio.src = next.url
+    if (segment) {
+      currentIndexRef.current = index
+      setCurrentSegment(index + 1)
+      setCurrentSpeaker(segment.speaker || null)
+
+      audio.src = segment.url
       try {
         await audio.play()
         setIsPlaying(true)
         onPlayStateChange?.(true)
       } catch (err) {
         console.warn('[VoicePlayerAuto] Play error:', err)
-        // Si falla, intentar con el siguiente
-        playNextFromQueue()
+        // Intentar siguiente
+        tryPlayNext(index + 1)
       }
-    } else if (currentIndexRef.current >= segmentsRef.current.length) {
-      // Ya terminamos todos los segmentos
+    } else if (!generationCompleteRef.current) {
+      // Audio aún no está listo, esperar un poco y reintentar
+      setTimeout(() => {
+        if (mountedRef.current) {
+          playSegment(index)
+        }
+      }, 100)
+    } else {
+      // Generación completa pero no hay más audios
       setIsPlaying(false)
       setIsLoading(false)
       setCurrentSpeaker(null)
@@ -391,33 +415,20 @@ export function VoicePlayerAuto({
     }
   }
 
-  // Generar audios en paralelo con la reproducción
-  const generateAllAudios = async () => {
-    const segments = segmentsRef.current
-
-    for (let i = 0; i < segments.length; i++) {
-      if (!mountedRef.current) break
-
-      const segment = segments[i]
-      const url = await generateSegmentAudio(segment)
-
-      if (url && mountedRef.current) {
-        audioQueueRef.current.push({
-          url,
-          speaker: segment.speaker
-        })
-
-        // Si es el primer audio y no estamos reproduciendo, empezar
-        if (i === 0 && !isGeneratingRef.current) {
-          isGeneratingRef.current = true
-          setIsLoading(false)
-          playNextFromQueue()
-        }
-      }
+  // Intentar reproducir el siguiente
+  const tryPlayNext = (nextIndex: number) => {
+    if (nextIndex < segmentsRef.current.length) {
+      playSegment(nextIndex)
+    } else {
+      // Terminamos
+      setIsPlaying(false)
+      setIsLoading(false)
+      setCurrentSpeaker(null)
+      onPlayStateChange?.(false)
     }
   }
 
-  // Iniciar generación y reproducción
+  // Iniciar generación PARALELA y reproducción
   const startPlayback = async () => {
     if (hasStarted) return
     setHasStarted(true)
@@ -427,15 +438,26 @@ export function VoicePlayerAuto({
     const narratorConfig = getVoiceConfig(lore, locale)
     const narratorVoice = narratorConfig.voice
 
-    // Parsear texto en segmentos (narración vs diálogos)
+    // Parsear texto en segmentos
     const segments = parseTextForVoices(text, narratorVoice, locale)
     segmentsRef.current = segments
     setTotalSegments(segments.length)
-    audioQueueRef.current = []
-    currentIndexRef.current = 0
 
-    // Empezar a generar (la reproducción comienza cuando el primer audio está listo)
-    generateAllAudios()
+    // Inicializar array de audios
+    audioArrayRef.current = new Array(segments.length).fill(null)
+    currentIndexRef.current = 0
+    hasStartedPlayingRef.current = false
+    generationCompleteRef.current = false
+
+    // GENERAR TODOS EN PARALELO
+    const promises = segments.map((segment, index) =>
+      generateSegmentAudio(segment, index)
+    )
+
+    // Esperar a que todas terminen (para saber cuándo está completa la generación)
+    Promise.all(promises).then(() => {
+      generationCompleteRef.current = true
+    })
   }
 
   // Auto-start al montar
@@ -450,7 +472,9 @@ export function VoicePlayerAuto({
         audioRef.current.src = ''
       }
       // Limpiar URLs
-      audioQueueRef.current.forEach(item => URL.revokeObjectURL(item.url))
+      audioArrayRef.current.forEach(item => {
+        if (item) URL.revokeObjectURL(item.url)
+      })
     }
   }, [])
 
@@ -461,8 +485,8 @@ export function VoicePlayerAuto({
 
     const handleEnded = () => {
       setIsPlaying(false)
-      // Reproducir siguiente de la cola
-      playNextFromQueue()
+      // Reproducir siguiente
+      tryPlayNext(currentIndexRef.current + 1)
     }
 
     audio.addEventListener('ended', handleEnded)
@@ -484,9 +508,9 @@ export function VoicePlayerAuto({
       setIsPlaying(true)
       setIsPaused(false)
       onPlayStateChange?.(true)
-    } else if (audioQueueRef.current.length > 0) {
-      // Si hay audio en cola pero no reproduciendo, empezar
-      playNextFromQueue()
+    } else if (audioArrayRef.current[currentIndexRef.current]) {
+      // Reiniciar desde el segmento actual
+      playSegment(currentIndexRef.current)
     }
   }
 
@@ -495,11 +519,11 @@ export function VoicePlayerAuto({
       <audio ref={audioRef} preload="none" />
       <button
         onClick={togglePlay}
-        disabled={isLoading && audioQueueRef.current.length === 0}
+        disabled={isLoading && !hasStartedPlayingRef.current}
         className="p-1.5 rounded-lg glass-panel transition-all hover:bg-gold/10 disabled:opacity-50"
         title={isPlaying ? (locale === 'en' ? 'Pause' : 'Pausar') : (locale === 'en' ? 'Play' : 'Reproducir')}
       >
-        {isLoading && audioQueueRef.current.length === 0 ? (
+        {isLoading && !hasStartedPlayingRef.current ? (
           <Loader2 className="h-4 w-4 text-gold animate-spin" />
         ) : isPlaying ? (
           <Pause className="h-4 w-4 text-gold" />
