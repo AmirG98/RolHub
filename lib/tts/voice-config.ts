@@ -150,3 +150,161 @@ export function getRandomLoadingMessage(locale: 'es' | 'en'): string {
   const messages = VOICE_LOADING_MESSAGES[locale]
   return messages[Math.floor(Math.random() * messages.length)]
 }
+
+/**
+ * Voces para NPCs - variedad para distintos personajes
+ * Se asignan basándose en un hash del nombre del NPC
+ */
+export const NPC_VOICES = {
+  es: {
+    male: [
+      'npc_male_1',    // Voz masculina grave
+      'npc_male_2',    // Voz masculina media
+      'npc_male_3',    // Voz masculina joven
+    ],
+    female: [
+      'npc_female_1',  // Voz femenina grave
+      'npc_female_2',  // Voz femenina media
+      'npc_female_3',  // Voz femenina joven
+    ],
+    neutral: [
+      'npc_neutral_1', // Voz neutral/criatura
+    ]
+  },
+  en: {
+    male: [
+      'npc_male_1',
+      'npc_male_2',
+      'npc_male_3',
+    ],
+    female: [
+      'npc_female_1',
+      'npc_female_2',
+      'npc_female_3',
+    ],
+    neutral: [
+      'npc_neutral_1',
+    ]
+  }
+}
+
+/**
+ * Obtiene una voz de NPC consistente basada en el nombre
+ * El mismo nombre siempre retorna la misma voz
+ */
+export function getNPCVoice(npcName: string, locale: 'es' | 'en'): string {
+  // Hash simple del nombre para consistencia
+  let hash = 0
+  for (let i = 0; i < npcName.length; i++) {
+    hash = ((hash << 5) - hash) + npcName.charCodeAt(i)
+    hash = hash & hash
+  }
+  hash = Math.abs(hash)
+
+  // Determinar género por nombre (heurística simple)
+  const femaleIndicators = ['a', 'ella', 'ina', 'ara', 'isa', 'ia']
+  const lastName = npcName.toLowerCase().split(' ').pop() || ''
+  const isFemale = femaleIndicators.some(ind => lastName.endsWith(ind))
+
+  const voices = isFemale ? NPC_VOICES[locale].female : NPC_VOICES[locale].male
+  const index = hash % voices.length
+
+  return voices[index]
+}
+
+/**
+ * Tipo de segmento de voz
+ */
+export type VoiceSegmentType = 'narration' | 'dialogue'
+
+/**
+ * Segmento de texto con información de voz
+ */
+export interface VoiceSegment {
+  type: VoiceSegmentType
+  text: string
+  voice: string        // ID de voz a usar
+  speaker?: string     // Nombre del hablante (para diálogos)
+}
+
+/**
+ * Parsea texto y separa narración de diálogos
+ * Detecta patrones como:
+ * - "Texto entre comillas" → diálogo
+ * - «Texto entre comillas francesas» → diálogo
+ * - — Texto con guión largo → diálogo
+ * - NombreNPC: "diálogo" → diálogo con nombre
+ */
+export function parseTextForVoices(
+  text: string,
+  narratorVoice: string,
+  locale: 'es' | 'en'
+): VoiceSegment[] {
+  const segments: VoiceSegment[] = []
+
+  // Regex para detectar diferentes tipos de diálogo
+  // Patrón 1: "texto" o «texto»
+  // Patrón 2: — texto (hasta el siguiente punto o fin)
+  // Patrón 3: Nombre: "texto"
+
+  const dialoguePattern = /(?:([A-ZÁÉÍÓÚ][a-záéíóúñ]+(?:\s[A-ZÁÉÍÓÚ][a-záéíóúñ]+)?)\s*:\s*)?["«]([^"»]+)["»]|(?:—\s*)([^.!?]+[.!?]?)/g
+
+  let lastIndex = 0
+  let match
+
+  while ((match = dialoguePattern.exec(text)) !== null) {
+    // Agregar narración antes del diálogo
+    if (match.index > lastIndex) {
+      const narrationText = text.slice(lastIndex, match.index).trim()
+      if (narrationText) {
+        segments.push({
+          type: 'narration',
+          text: narrationText,
+          voice: narratorVoice
+        })
+      }
+    }
+
+    // Determinar el contenido del diálogo y el hablante
+    const speaker = match[1] || undefined // Nombre del NPC si está presente
+    const dialogueText = match[2] || match[3] // Texto del diálogo
+
+    if (dialogueText && dialogueText.trim()) {
+      const npcVoice = speaker
+        ? getNPCVoice(speaker, locale)
+        : getNPCVoice('default_npc', locale)
+
+      segments.push({
+        type: 'dialogue',
+        text: dialogueText.trim(),
+        voice: npcVoice,
+        speaker
+      })
+    }
+
+    lastIndex = match.index + match[0].length
+  }
+
+  // Agregar cualquier narración restante
+  if (lastIndex < text.length) {
+    const remainingText = text.slice(lastIndex).trim()
+    if (remainingText) {
+      segments.push({
+        type: 'narration',
+        text: remainingText,
+        voice: narratorVoice
+      })
+    }
+  }
+
+  // Si no se encontraron diálogos, retornar todo como narración
+  if (segments.length === 0) {
+    segments.push({
+      type: 'narration',
+      text: text,
+      voice: narratorVoice
+    })
+  }
+
+  return segments
+}

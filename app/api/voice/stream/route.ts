@@ -10,15 +10,32 @@ import { Lore } from '@prisma/client'
 import { getVoiceConfig } from '@/lib/tts'
 
 // Voces de Deepgram Aura-2
+// Documentación: https://developers.deepgram.com/docs/aura-2
 const DEEPGRAM_VOICES: Record<string, string> = {
-  narrator_grave: 'aura-2-nestor-es',
-  skald_epic: 'aura-2-luciano-es',
-  narrator_deep: 'aura-2-javier-es',
-  whisper_tense: 'aura-2-celeste-es',
-  whisper_survival: 'aura-2-diana-es',
-  anime_energetic: 'aura-2-carina-es',
-  anime_narrator: 'aura-2-aquila-es',
-  nordic_bard: 'aura-2-alvaro-es',
+  // Voces de narrador
+  narrator_grave: 'aura-2-nestor-es',      // Masculina grave, sabio
+  skald_epic: 'aura-2-luciano-es',         // Masculina épica
+  narrator_deep: 'aura-2-javier-es',       // Masculina profunda
+  whisper_tense: 'aura-2-celeste-es',      // Femenina tensa
+  whisper_survival: 'aura-2-diana-es',     // Femenina superviviente
+  anime_energetic: 'aura-2-carina-es',     // Femenina energética
+  anime_narrator: 'aura-2-aquila-es',      // Neutral anime
+  nordic_bard: 'aura-2-alvaro-es',         // Masculina nórdica
+
+  // Voces para NPCs masculinos
+  npc_male_1: 'aura-2-luciano-es',         // Grave, autoritario
+  npc_male_2: 'aura-2-alvaro-es',          // Media, amigable
+  npc_male_3: 'aura-2-sirio-es',           // Joven, enérgico
+
+  // Voces para NPCs femeninos
+  npc_female_1: 'aura-2-diana-es',         // Grave, sabia
+  npc_female_2: 'aura-2-celeste-es',       // Media, neutral
+  npc_female_3: 'aura-2-carina-es',        // Joven, expresiva
+
+  // Voz neutral (criaturas, etc)
+  npc_neutral_1: 'aura-2-aquila-es',
+
+  // Defaults
   default_es: 'aura-2-sirio-es',
   default_en: 'aura-2-javier-es',
 }
@@ -27,6 +44,7 @@ interface VoiceRequest {
   text: string
   lore: Lore
   locale: 'es' | 'en'
+  voice?: string  // Voz específica (para NPCs)
 }
 
 export async function POST(request: NextRequest) {
@@ -50,7 +68,7 @@ export async function POST(request: NextRequest) {
 
     // Parsear body
     const body = await request.json() as VoiceRequest
-    const { text, lore, locale } = body
+    const { text, lore, locale, voice } = body
 
     // Validaciones
     if (!text || typeof text !== 'string' || text.length > 2000) {
@@ -60,9 +78,17 @@ export async function POST(request: NextRequest) {
       })
     }
 
-    // Obtener configuración de voz
-    const voiceConfig = getVoiceConfig(lore, locale)
-    let model = DEEPGRAM_VOICES[voiceConfig.voice] || DEEPGRAM_VOICES.default_es
+    // Determinar voz a usar
+    let model: string
+
+    if (voice && DEEPGRAM_VOICES[voice]) {
+      // Usar voz específica (para NPCs)
+      model = DEEPGRAM_VOICES[voice]
+    } else {
+      // Usar voz del narrador según lore
+      const voiceConfig = getVoiceConfig(lore, locale)
+      model = DEEPGRAM_VOICES[voiceConfig.voice] || DEEPGRAM_VOICES.default_es
+    }
 
     // Si el idioma es inglés y la voz actual es solo español, usar voz bilingüe
     if (locale === 'en' && !model.includes('javier') && !model.includes('diana') &&

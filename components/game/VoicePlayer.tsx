@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react'
 import { Volume2, VolumeX, Pause, Loader2 } from 'lucide-react'
 import { RunicButton } from '@/components/medieval/RunicButton'
 import { Lore } from '@prisma/client'
-import { getRandomLoadingMessage } from '@/lib/tts/voice-config'
+import { getRandomLoadingMessage, parseTextForVoices, getVoiceConfig, VoiceSegment } from '@/lib/tts/voice-config'
 
 interface VoicePlayerProps {
   text: string
@@ -306,18 +306,10 @@ export function VoicePlayerCompact({
 }
 
 /**
- * Divide texto en oraciones para procesamiento por chunks
- */
-function splitIntoSentences(text: string): string[] {
-  // Dividir por puntos, signos de exclamación e interrogación
-  // Mantener el delimitador con la oración
-  const sentences = text.match(/[^.!?]+[.!?]+/g) || [text]
-  return sentences.map(s => s.trim()).filter(s => s.length > 0)
-}
-
-/**
- * Versión con auto-play y streaming por oraciones
- * Reproduce la primera oración mientras genera las siguientes
+ * Versión con auto-play y voces múltiples
+ * - Narrador: voz del lore configurado
+ * - NPCs: voces diferentes basadas en el nombre del personaje
+ * Reproduce segmentos en secuencia con sus respectivas voces
  */
 export function VoicePlayerAuto({
   text,
@@ -332,23 +324,29 @@ export function VoicePlayerAuto({
   const [isLoading, setIsLoading] = useState(false)
   const [isPaused, setIsPaused] = useState(false)
   const [hasStarted, setHasStarted] = useState(false)
-  const [currentSentence, setCurrentSentence] = useState(0)
-  const [totalSentences, setTotalSentences] = useState(0)
+  const [currentSegment, setCurrentSegment] = useState(0)
+  const [totalSegments, setTotalSegments] = useState(0)
+  const [currentSpeaker, setCurrentSpeaker] = useState<string | null>(null)
 
   const audioRef = useRef<HTMLAudioElement | null>(null)
-  const audioQueueRef = useRef<string[]>([])
-  const sentencesRef = useRef<string[]>([])
+  const audioQueueRef = useRef<{ url: string; speaker?: string }[]>([])
+  const segmentsRef = useRef<VoiceSegment[]>([])
   const mountedRef = useRef(true)
   const isGeneratingRef = useRef(false)
   const currentIndexRef = useRef(0)
 
-  // Generar audio para una oración
-  const generateSentenceAudio = async (sentence: string): Promise<string | null> => {
+  // Generar audio para un segmento con su voz específica
+  const generateSegmentAudio = async (segment: VoiceSegment): Promise<string | null> => {
     try {
       const response = await fetch('/api/voice/stream', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: sentence, lore, locale })
+        body: JSON.stringify({
+          text: segment.text,
+          lore,
+          locale,
+          voice: segment.voice  // Voz específica para este segmento
+        })
       })
 
       if (!response.ok) return null
@@ -369,11 +367,12 @@ export function VoicePlayerAuto({
 
     // Si hay audio en la cola, reproducirlo
     if (audioQueueRef.current.length > 0) {
-      const nextUrl = audioQueueRef.current.shift()!
+      const next = audioQueueRef.current.shift()!
       currentIndexRef.current++
-      setCurrentSentence(currentIndexRef.current)
+      setCurrentSegment(currentIndexRef.current)
+      setCurrentSpeaker(next.speaker || null)
 
-      audio.src = nextUrl
+      audio.src = next.url
       try {
         await audio.play()
         setIsPlaying(true)
@@ -383,25 +382,30 @@ export function VoicePlayerAuto({
         // Si falla, intentar con el siguiente
         playNextFromQueue()
       }
-    } else if (currentIndexRef.current >= sentencesRef.current.length) {
-      // Ya terminamos todas las oraciones
+    } else if (currentIndexRef.current >= segmentsRef.current.length) {
+      // Ya terminamos todos los segmentos
       setIsPlaying(false)
       setIsLoading(false)
+      setCurrentSpeaker(null)
       onPlayStateChange?.(false)
     }
-    // Si la cola está vacía pero aún hay oraciones por generar, esperar
   }
 
   // Generar audios en paralelo con la reproducción
   const generateAllAudios = async () => {
-    const sentences = sentencesRef.current
+    const segments = segmentsRef.current
 
-    for (let i = 0; i < sentences.length; i++) {
+    for (let i = 0; i < segments.length; i++) {
       if (!mountedRef.current) break
 
-      const url = await generateSentenceAudio(sentences[i])
+      const segment = segments[i]
+      const url = await generateSegmentAudio(segment)
+
       if (url && mountedRef.current) {
-        audioQueueRef.current.push(url)
+        audioQueueRef.current.push({
+          url,
+          speaker: segment.speaker
+        })
 
         // Si es el primer audio y no estamos reproduciendo, empezar
         if (i === 0 && !isGeneratingRef.current) {
@@ -419,10 +423,14 @@ export function VoicePlayerAuto({
     setHasStarted(true)
     setIsLoading(true)
 
-    // Dividir texto en oraciones
-    const sentences = splitIntoSentences(text)
-    sentencesRef.current = sentences
-    setTotalSentences(sentences.length)
+    // Obtener voz del narrador para este lore
+    const narratorConfig = getVoiceConfig(lore, locale)
+    const narratorVoice = narratorConfig.voice
+
+    // Parsear texto en segmentos (narración vs diálogos)
+    const segments = parseTextForVoices(text, narratorVoice, locale)
+    segmentsRef.current = segments
+    setTotalSegments(segments.length)
     audioQueueRef.current = []
     currentIndexRef.current = 0
 
@@ -442,7 +450,7 @@ export function VoicePlayerAuto({
         audioRef.current.src = ''
       }
       // Limpiar URLs
-      audioQueueRef.current.forEach(url => URL.revokeObjectURL(url))
+      audioQueueRef.current.forEach(item => URL.revokeObjectURL(item.url))
     }
   }, [])
 
@@ -499,10 +507,16 @@ export function VoicePlayerAuto({
           <Volume2 className="h-4 w-4 text-gold/70 hover:text-gold" />
         )}
       </button>
+      {/* Speaker indicator when NPC is talking */}
+      {currentSpeaker && isPlaying && (
+        <span className="text-[10px] text-gold/70 font-ui italic animate-pulse">
+          {currentSpeaker}
+        </span>
+      )}
       {/* Progress indicator */}
-      {totalSentences > 1 && (hasStarted && !isLoading) && (
+      {totalSegments > 1 && hasStarted && !currentSpeaker && (
         <span className="text-[10px] text-gold/50 font-mono">
-          {currentSentence}/{totalSentences}
+          {currentSegment}/{totalSegments}
         </span>
       )}
     </div>
