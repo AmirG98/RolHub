@@ -26,13 +26,9 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Verificar si la feature está habilitada
-    if (!isVoiceEnabled()) {
-      return NextResponse.json(
-        { error: 'Voice feature is disabled' },
-        { status: 503 }
-      )
-    }
+// Feature flag check removido - siempre habilitado si hay REPLICATE_API_TOKEN
+    console.log('[Voice API] Request received, userId:', userId)
+    console.log('[Voice API] REPLICATE_API_TOKEN exists:', !!process.env.REPLICATE_API_TOKEN)
 
     // Parsear body
     const body = await request.json() as VoiceRequest
@@ -73,13 +69,20 @@ export async function POST(request: NextRequest) {
     const provider = getTTSProvider()
     const voiceConfig = getVoiceConfig(lore, locale)
 
+    console.log('[Voice API] Provider:', provider.name, 'Available:', provider.isAvailable())
+    console.log('[Voice API] Voice config:', voiceConfig)
+    console.log('[Voice API] Text length:', text.length)
+
     // Generar audio
+    console.log('[Voice API] Generating speech...')
     const result = await provider.generateSpeech(text, {
       voice: voiceConfig.voice,
       language: locale,
       speed: voiceConfig.speed,
       emotion: voiceConfig.emotion
     })
+
+    console.log('[Voice API] Speech generated successfully:', result.audioUrl?.substring(0, 100))
 
     return NextResponse.json({
       success: true,

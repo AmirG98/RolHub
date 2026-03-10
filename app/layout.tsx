@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Cinzel_Decorative, Cinzel, EB_Garamond, Crimson_Text, Courier_Prime } from 'next/font/google'
 import { ClerkProvider } from '@clerk/nextjs'
 import { Navbar } from '@/components/medieval/Navbar'
-import { MusicProvider } from '@/components/audio/MusicProvider'
+// import { MusicProvider } from '@/components/audio/MusicProvider' // Deshabilitado temporalmente
 import { VideoBackground } from '@/components/ui/VideoBackground'
 import { LanguageProvider } from '@/lib/i18n'
 import { GuestProvider } from '@/lib/guest'
@@ -66,7 +66,7 @@ export default function RootLayout({
               <main>
                 {children}
               </main>
-              <MusicProvider />
+              {/* <MusicProvider /> Deshabilitado temporalmente */}
             </GuestProvider>
           </LanguageProvider>
         </body>

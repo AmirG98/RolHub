@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
-import { Volume2, VolumeX, Pause, Play, Loader2 } from 'lucide-react'
+import { Volume2, VolumeX, Pause, Loader2 } from 'lucide-react'
 import { RunicButton } from '@/components/medieval/RunicButton'
 import { Lore } from '@prisma/client'
 import { getRandomLoadingMessage } from '@/lib/tts/voice-config'
@@ -16,7 +16,7 @@ interface VoicePlayerProps {
 
 /**
  * Componente reproductor de voz para las narraciones del DM
- * Genera audio TTS on-demand y lo reproduce
+ * Usa Deepgram Aura-2 TTS - alta calidad, 90ms latencia
  */
 export function VoicePlayer({
   text,
@@ -44,10 +44,9 @@ export function VoicePlayer({
     error: 'Voz no disponible'
   }
 
-  // Generar audio si se solicita
+  // Generar audio
   const generateAudio = async () => {
     if (audioUrl) {
-      // Ya tenemos audio, solo reproducir
       togglePlay()
       return
     }
@@ -59,9 +58,7 @@ export function VoicePlayer({
     try {
       const response = await fetch('/api/voice', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text, lore, locale })
       })
 
@@ -73,7 +70,6 @@ export function VoicePlayer({
       const data = await response.json()
       setAudioUrl(data.audioUrl)
 
-      // Auto-play después de generar
       if (audioRef.current) {
         audioRef.current.src = data.audioUrl
         await audioRef.current.play()
@@ -104,7 +100,7 @@ export function VoicePlayer({
     }
   }
 
-  // Manejar eventos del audio
+  // Eventos del audio
   useEffect(() => {
     const audio = audioRef.current
     if (!audio) return
@@ -124,14 +120,13 @@ export function VoicePlayer({
     }
   }, [labels.error])
 
-  // Auto-play si está habilitado
+  // Auto-play
   useEffect(() => {
     if (autoPlay && !audioUrl && !isLoading) {
       generateAudio()
     }
   }, [autoPlay])
 
-  // Si hay error, mostrar estado de error
   if (error) {
     return (
       <div className={`flex items-center gap-2 text-blood/70 ${className}`}>
@@ -143,10 +138,8 @@ export function VoicePlayer({
 
   return (
     <div className={`flex items-center gap-2 ${className}`}>
-      {/* Audio element oculto */}
       <audio ref={audioRef} preload="none" />
 
-      {/* Botón principal */}
       <RunicButton
         variant="secondary"
         onClick={generateAudio}
@@ -171,7 +164,6 @@ export function VoicePlayer({
         )}
       </RunicButton>
 
-      {/* Mensaje de carga */}
       {isLoading && loadingMessage && (
         <span className="font-ui text-xs text-gold/60 italic animate-pulse">
           {loadingMessage}
@@ -182,7 +174,7 @@ export function VoicePlayer({
 }
 
 /**
- * Versión compacta solo con icono
+ * Versión compacta solo con icono - usa Deepgram Aura-2 TTS
  */
 export function VoicePlayerCompact({
   text,
@@ -217,7 +209,9 @@ export function VoicePlayerCompact({
         body: JSON.stringify({ text, lore, locale })
       })
 
-      if (!response.ok) throw new Error('Failed')
+      if (!response.ok) {
+        throw new Error('Failed')
+      }
 
       const data = await response.json()
       setAudioUrl(data.audioUrl)
@@ -227,8 +221,8 @@ export function VoicePlayerCompact({
         await audioRef.current.play()
         setIsPlaying(true)
       }
-    } catch {
-      // Silenciar errores en versión compacta
+    } catch (err) {
+      console.error('[VoicePlayerCompact] Error:', err)
     } finally {
       setIsLoading(false)
     }

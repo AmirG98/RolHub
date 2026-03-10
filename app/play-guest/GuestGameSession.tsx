@@ -9,7 +9,7 @@ import { DiceRoller } from '@/components/medieval/DiceRoller'
 import { GuestWarningBanner } from '@/components/guest/GuestWarningBanner'
 import { useGuest } from '@/lib/guest'
 import { useLanguage } from '@/lib/i18n'
-import { DynamicMusicPlayer, useDynamicMusic } from '@/components/audio/DynamicMusicPlayer'
+// import { DynamicMusicPlayer, useDynamicMusic } from '@/components/audio/DynamicMusicPlayer' // DISABLED
 import {
   Sword, Shield, Map, MessageCircle, BookOpen, Heart,
   Backpack, Scroll, Dices, LogOut, UserPlus, Play
@@ -28,7 +28,8 @@ export default function GuestGameSession() {
   const router = useRouter()
   const { locale } = useLanguage()
   const { session, addGuestTurn, updateWorldState, endGuestSession } = useGuest()
-  const { onNarration } = useDynamicMusic()
+  // const { onNarration } = useDynamicMusic() // DISABLED
+  const onNarration = (_text: string) => {} // No-op
   const isEnglish = locale === 'en'
 
   const [action, setAction] = useState('')
@@ -653,12 +654,13 @@ export default function GuestGameSession() {
         </div>
       )}
 
-      {/* Dynamic Music Player */}
+{/* Dynamic Music Player - Deshabilitado para no interferir con TTS
       <DynamicMusicPlayer
         initialMood="exploration"
         showMoodIndicator={true}
         position="bottom-right"
       />
+      */}
     </div>
   )
 }

@@ -1,15 +1,25 @@
 /**
- * Replicate TTS Provider usando Qwen3-TTS
- * Costo: ~$0.0023/segundo de audio
- * Soporta: 10 idiomas, voice cloning, ES/EN nativo
+ * Replicate TTS Provider usando Suno Bark
+ * Modelo: suno-ai/bark - Multilingüe, incluye español (es_speaker_0-9)
+ * Tiempo: ~1-3 minutos por generación, costo ~$0.036/run
  */
 
 import { TTSProvider, TTSOptions, TTSResult, Voice, TTSError, estimateDuration } from '../types'
 
-// Tipo para la respuesta de Replicate
-interface ReplicateOutput {
-  audio?: string
-  output?: string
+// Mapeo de voces por lore a speakers de Bark
+const BARK_VOICES = {
+  // Español
+  narrator_grave: 'es_speaker_3',    // Voz masculina profunda
+  whisper_tense: 'es_speaker_1',     // Voz femenina tensa
+  anime_energetic: 'es_speaker_5',   // Voz enérgica
+  skald_epic: 'es_speaker_7',        // Voz épica
+  // Inglés
+  narrator_deep: 'en_speaker_3',
+  whisper_survival: 'en_speaker_1',
+  anime_narrator: 'en_speaker_5',
+  nordic_bard: 'en_speaker_7',
+  // Default
+  default: 'es_speaker_0'
 }
 
 export class ReplicateProvider implements TTSProvider {
@@ -38,25 +48,48 @@ export class ReplicateProvider implements TTSProvider {
       const Replicate = (await import('replicate')).default
       const replicate = new Replicate({ auth: this.apiToken })
 
-      // Usar el modelo Qwen3-TTS
-      // Modelo: zsxkib/qwen2-audio-tts o similar
+      // Seleccionar voz según idioma y tipo
+      const isSpanish = options.language === 'es'
+      let historyPrompt = BARK_VOICES[options.voice as keyof typeof BARK_VOICES]
+
+      // Si la voz configurada es para inglés pero el idioma es español, usar versión española
+      if (isSpanish && historyPrompt?.startsWith('en_')) {
+        historyPrompt = historyPrompt.replace('en_', 'es_')
+      } else if (!isSpanish && historyPrompt?.startsWith('es_')) {
+        historyPrompt = historyPrompt.replace('es_', 'en_')
+      }
+
+      historyPrompt = historyPrompt || (isSpanish ? 'es_speaker_0' : 'en_speaker_0')
+
+      console.log('[ReplicateProvider] Generating speech with suno-ai/bark')
+      console.log('[ReplicateProvider] Text length:', text.length)
+      console.log('[ReplicateProvider] Language:', options.language)
+      console.log('[ReplicateProvider] Voice/Speaker:', historyPrompt)
+
+      // Usar Bark con version hash específico
       const output = await replicate.run(
-        "zsxkib/qwen2-audio-tts:latest",
+        "suno-ai/bark:b76242b40d67c76ab6742e987628a2a9ac019e11d56ab96c4e91ce03b79b2787",
         {
           input: {
-            text: text,
-            language: options.language === 'es' ? 'Spanish' : 'English',
-            speed: options.speed || 1.0,
-            // Si hay audio de referencia para voice cloning
-            ...(options.referenceAudio && { reference_audio: options.referenceAudio })
+            prompt: text,
+            history_prompt: historyPrompt,
+            text_temp: 0.7,
+            waveform_temp: 0.7
           }
         }
-      ) as ReplicateOutput | string
+      )
 
-      // El output puede ser una URL directa o un objeto
-      const audioUrl = typeof output === 'string'
-        ? output
-        : (output?.audio || output?.output || '')
+      console.log('[ReplicateProvider] Raw output type:', typeof output)
+      console.log('[ReplicateProvider] Raw output:', JSON.stringify(output)?.substring(0, 500))
+
+      // Bark devuelve { audio_out: "url" }
+      let audioUrl = ''
+      if (typeof output === 'string') {
+        audioUrl = output
+      } else if (output && typeof output === 'object') {
+        const obj = output as Record<string, unknown>
+        audioUrl = (obj.audio_out as string) || (obj.output as string) || (obj.audio as string) || ''
+      }
 
       if (!audioUrl) {
         throw new TTSError(
@@ -65,6 +98,8 @@ export class ReplicateProvider implements TTSProvider {
           'GENERATION_FAILED'
         )
       }
+
+      console.log('[ReplicateProvider] Audio URL:', audioUrl.substring(0, 100))
 
       return {
         audioUrl,
@@ -76,6 +111,7 @@ export class ReplicateProvider implements TTSProvider {
       if (error instanceof TTSError) throw error
 
       const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+      console.error('[ReplicateProvider] Error:', errorMessage)
 
       // Detectar rate limiting
       if (errorMessage.includes('rate') || errorMessage.includes('limit')) {

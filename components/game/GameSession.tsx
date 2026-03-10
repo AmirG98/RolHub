@@ -13,7 +13,7 @@ import { Sword, Shield, Map, MessageCircle, BookOpen, Heart, Backpack, Scroll, D
 import DMPanel from '@/components/game/DMPanel'
 import { EnginePanel } from '@/components/engines/EnginePanel'
 import { VoicePlayerCompact } from '@/components/game/VoicePlayer'
-import { DynamicMusicPlayer, useDynamicMusic } from '@/components/audio/DynamicMusicPlayer'
+// import { DynamicMusicPlayer, useDynamicMusic } from '@/components/audio/DynamicMusicPlayer' // DISABLED
 import { GameEngine, DiceRoll as EngineDiceRoll, Locale } from '@/lib/engines/types'
 import { Lore } from '@prisma/client'
 
@@ -111,8 +111,8 @@ export default function GameSession({
   const { locale } = useLanguage()
   const t = useTranslations()
 
-  // Voice feature flag
-  const isVoiceEnabled = process.env.NEXT_PUBLIC_ENABLE_VOICE === 'true'
+  // Voice feature flag - forzado a true para testing
+  const isVoiceEnabled = true // process.env.NEXT_PUBLIC_ENABLE_VOICE === 'true'
 
   // Character name with fallback
   const characterName = character?.name || (locale === 'en' ? 'Traveler' : 'Viajero')
@@ -147,8 +147,9 @@ export default function GameSession({
   // State for showing DM panel
   const [showDMPanel, setShowDMPanel] = useState(false)
 
-  // Dynamic music - responds to narration mood
-  const { onNarration } = useDynamicMusic()
+  // Dynamic music - DISABLED
+  // const { onNarration } = useDynamicMusic()
+  const onNarration = (_text: string) => {} // No-op
 
   // Parse current HP from worldState or character stats
   const getCurrentHP = () => {
@@ -893,12 +894,13 @@ export default function GameSession({
         </div>
       </div>
 
-      {/* Dynamic Music Player */}
+{/* Dynamic Music Player - Deshabilitado por ahora para no interferir con TTS
       <DynamicMusicPlayer
         initialMood="exploration"
         showMoodIndicator={true}
         position="bottom-right"
       />
+      */}
     </div>
   )
 }
