@@ -13,193 +13,187 @@ export interface DiceRollResult {
   isFumble?: boolean
 }
 
-interface DiceRoller3DProps {
-  onRollComplete?: (result: DiceRollResult) => void
-  theme?: 'default' | 'gold' | 'blood' | 'shadow'
-}
-
 // Colores por tema medieval
 const THEME_COLORS: Record<string, { primary: string; secondary: string }> = {
-  default: { primary: '#C9A84C', secondary: '#1C1208' },  // gold/ink
-  gold: { primary: '#F5C842', secondary: '#8B6914' },     // gold-bright/gold-dim
-  blood: { primary: '#8B1A1A', secondary: '#2C0808' },    // blood/dark blood
-  shadow: { primary: '#2C2416', secondary: '#0D0A05' },   // stone/shadow
-}
-
-/**
- * Componente que maneja la carga e inicialización de dice-box
- * Solo se carga en cliente (dynamic import)
- */
-export function DiceRoller3D({ onRollComplete, theme = 'gold' }: DiceRoller3DProps) {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const diceBoxRef = useRef<any>(null)
-  const [isReady, setIsReady] = useState(false)
-  const [isRolling, setIsRolling] = useState(false)
-  const [lastResult, setLastResult] = useState<DiceRollResult | null>(null)
-
-  // Inicializar dice-box
-  useEffect(() => {
-    let mounted = true
-
-    const initDiceBox = async () => {
-      if (typeof window === 'undefined') return
-
-      try {
-        // Dynamic import para evitar SSR issues
-        const DiceBox = (await import('@3d-dice/dice-box')).default
-
-        if (!mounted || !containerRef.current) return
-
-        const colors = THEME_COLORS[theme]
-
-        diceBoxRef.current = new DiceBox('#dice-canvas', {
-          assetPath: '/assets/',
-          theme: 'default',
-          themeColor: colors.primary,
-          scale: 6,
-          gravity: 2,
-          mass: 1,
-          friction: 0.8,
-          restitution: 0.5,
-          linearDamping: 0.5,
-          angularDamping: 0.4,
-          spinForce: 6,
-          throwForce: 5,
-          startingHeight: 10,
-          settleTimeout: 5000,
-          offscreen: true,
-          delay: 10,
-        })
-
-        await diceBoxRef.current.init()
-
-        if (mounted) {
-          setIsReady(true)
-          console.log('[DiceRoller3D] Initialized successfully')
-        }
-      } catch (error) {
-        console.error('[DiceRoller3D] Failed to initialize:', error)
-      }
-    }
-
-    initDiceBox()
-
-    return () => {
-      mounted = false
-      if (diceBoxRef.current?.clear) {
-        diceBoxRef.current.clear()
-      }
-    }
-  }, [theme])
-
-  // Función para tirar dados
-  const roll = useCallback(async (notation: string) => {
-    if (!diceBoxRef.current || !isReady || isRolling) return
-
-    setIsRolling(true)
-    setLastResult(null)
-
-    try {
-      const results = await diceBoxRef.current.roll(notation)
-
-      // Procesar resultados
-      const rolls: { value: number; sides: number }[] = []
-      let total = 0
-
-      results.forEach((die: any) => {
-        rolls.push({ value: die.value, sides: die.sides })
-        total += die.value
-      })
-
-      // Parsear modificador de la notación
-      const modMatch = notation.match(/([+-]\d+)$/)
-      const modifier = modMatch ? parseInt(modMatch[1]) : 0
-      total += modifier
-
-      // Detectar críticos (natural 20 en d20) y pifia (natural 1)
-      const d20Roll = rolls.find(r => r.sides === 20)
-      const isCritical = d20Roll?.value === 20
-      const isFumble = d20Roll?.value === 1
-
-      const result: DiceRollResult = {
-        total,
-        rolls,
-        formula: notation,
-        modifier,
-        isCritical,
-        isFumble,
-      }
-
-      setLastResult(result)
-      onRollComplete?.(result)
-
-      // Limpiar dados después de mostrar resultado
-      setTimeout(() => {
-        diceBoxRef.current?.clear()
-      }, 3000)
-
-    } catch (error) {
-      console.error('[DiceRoller3D] Roll failed:', error)
-    } finally {
-      setIsRolling(false)
-    }
-  }, [isReady, isRolling, onRollComplete])
-
-  // Limpiar dados manualmente
-  const clear = useCallback(() => {
-    diceBoxRef.current?.clear()
-    setLastResult(null)
-  }, [])
-
-  return {
-    roll,
-    clear,
-    isReady,
-    isRolling,
-    lastResult,
-    containerRef,
-  }
+  default: { primary: '#C9A84C', secondary: '#1C1208' },
+  gold: { primary: '#F5C842', secondary: '#8B6914' },
+  blood: { primary: '#8B1A1A', secondary: '#2C0808' },
+  shadow: { primary: '#2C2416', secondary: '#0D0A05' },
 }
 
 /**
  * Overlay que muestra los dados 3D sobre toda la pantalla
- * Se activa cuando hay una tirada pendiente
  */
 interface DiceOverlayProps {
   isVisible: boolean
   onClose: () => void
   result: DiceRollResult | null
   isRolling: boolean
+  theme?: string
+  notation: string | null
+  onRollComplete: (result: DiceRollResult) => void
 }
 
-export function DiceOverlay({ isVisible, onClose, result, isRolling }: DiceOverlayProps) {
+export function DiceOverlay({
+  isVisible,
+  onClose,
+  result,
+  isRolling,
+  theme = 'gold',
+  notation,
+  onRollComplete
+}: DiceOverlayProps) {
   const [mounted, setMounted] = useState(false)
+  const canvasRef = useRef<HTMLDivElement>(null)
+  const diceBoxRef = useRef<any>(null)
+  const [diceReady, setDiceReady] = useState(false)
+  const [rolling, setRolling] = useState(false)
+  const initializingRef = useRef(false)
 
   useEffect(() => {
     setMounted(true)
   }, [])
+
+  // Inicializar dice-box cuando el overlay es visible
+  useEffect(() => {
+    if (!isVisible || !mounted || diceReady || initializingRef.current) return
+
+    initializingRef.current = true
+
+    const initDiceBox = async () => {
+      if (typeof window === 'undefined') return
+
+      // Esperar a que el DOM esté listo
+      await new Promise(resolve => setTimeout(resolve, 200))
+
+      const canvasElement = document.getElementById('dice-box-canvas')
+      if (!canvasElement) {
+        console.error('[DiceOverlay] Canvas element not found')
+        initializingRef.current = false
+        return
+      }
+
+      try {
+        const DiceBox = (await import('@3d-dice/dice-box')).default
+        const colors = THEME_COLORS[theme]
+
+        console.log('[DiceOverlay] Initializing DiceBox...')
+
+        diceBoxRef.current = new DiceBox('#dice-box-canvas', {
+          assetPath: '/assets/',
+          theme: 'default',
+          themeColor: colors.primary,
+          scale: 5,
+          gravity: 1,
+          mass: 1,
+          friction: 0.8,
+          restitution: 0.5,
+          linearDamping: 0.5,
+          angularDamping: 0.4,
+          spinForce: 4,
+          throwForce: 5,
+          startingHeight: 8,
+          settleTimeout: 5000,
+          offscreen: false, // Usar canvas normal, no offscreen
+          delay: 10,
+        })
+
+        await diceBoxRef.current.init()
+        setDiceReady(true)
+        console.log('[DiceOverlay] DiceBox initialized successfully')
+
+      } catch (error) {
+        console.error('[DiceOverlay] Failed to initialize DiceBox:', error)
+        initializingRef.current = false
+      }
+    }
+
+    initDiceBox()
+  }, [isVisible, mounted, diceReady, theme])
+
+  // Ejecutar tirada cuando dice-box está listo y hay notación
+  useEffect(() => {
+    if (!diceReady || !notation || rolling || !diceBoxRef.current) return
+
+    const executeRoll = async () => {
+      setRolling(true)
+      console.log('[DiceOverlay] Rolling:', notation)
+
+      try {
+        const results = await diceBoxRef.current.roll(notation)
+        console.log('[DiceOverlay] Roll results:', results)
+
+        const rolls: { value: number; sides: number }[] = []
+        let total = 0
+
+        results.forEach((die: any) => {
+          rolls.push({ value: die.value, sides: die.sides })
+          total += die.value
+        })
+
+        const modMatch = notation.match(/([+-]\d+)$/)
+        const modifier = modMatch ? parseInt(modMatch[1]) : 0
+        total += modifier
+
+        const d20Roll = rolls.find(r => r.sides === 20)
+        const isCritical = d20Roll?.value === 20
+        const isFumble = d20Roll?.value === 1
+
+        onRollComplete({
+          total,
+          rolls,
+          formula: notation,
+          modifier,
+          isCritical,
+          isFumble,
+        })
+
+      } catch (error) {
+        console.error('[DiceOverlay] Roll failed:', error)
+      } finally {
+        setRolling(false)
+      }
+    }
+
+    executeRoll()
+  }, [diceReady, notation, rolling, onRollComplete])
+
+  // Cleanup cuando se cierra
+  useEffect(() => {
+    if (!isVisible && diceBoxRef.current) {
+      diceBoxRef.current.clear()
+      diceBoxRef.current = null
+      setDiceReady(false)
+      initializingRef.current = false
+    }
+  }, [isVisible])
 
   if (!mounted || !isVisible) return null
 
   return createPortal(
     <div
       className="fixed inset-0 z-50 flex items-center justify-center"
-      onClick={!isRolling ? onClose : undefined}
+      onClick={!isRolling && !rolling && result ? onClose : undefined}
     >
       {/* Backdrop semi-transparente */}
-      <div className="absolute inset-0 bg-shadow/80 backdrop-blur-sm" />
+      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
 
-      {/* Canvas de dados 3D */}
+      {/* Canvas de dados 3D - posición fija con dimensiones explícitas */}
       <div
-        id="dice-canvas"
-        className="absolute inset-0 pointer-events-auto"
-        style={{ zIndex: 51 }}
+        id="dice-box-canvas"
+        ref={canvasRef}
+        className="absolute inset-0"
+        style={{
+          zIndex: 51,
+          width: '100%',
+          height: '100%',
+        }}
       />
 
       {/* Resultado */}
-      {result && !isRolling && (
-        <div className="relative z-[52] text-center animate-in fade-in zoom-in duration-300">
-          <div className="glass-panel-dark rounded-xl p-8 border-2 border-gold/50">
+      {result && !isRolling && !rolling && (
+        <div className="relative z-[52] text-center animate-in fade-in zoom-in duration-300 pointer-events-none">
+          <div className="glass-panel-dark rounded-xl p-8 border-2 border-gold/50 pointer-events-auto">
             {/* Fórmula */}
             <div className="font-ui text-sm text-parchment/60 mb-2">
               {result.formula}
@@ -259,10 +253,12 @@ export function DiceOverlay({ isVisible, onClose, result, isRolling }: DiceOverl
       )}
 
       {/* Indicador de tirada en progreso */}
-      {isRolling && (
-        <div className="relative z-[52] text-center">
-          <div className="font-heading text-2xl text-gold animate-pulse">
-            Tirando dados...
+      {(isRolling || rolling) && !result && (
+        <div className="relative z-[52] text-center pointer-events-none">
+          <div className="glass-panel-dark rounded-lg px-6 py-3">
+            <div className="font-heading text-xl text-gold animate-pulse">
+              Tirando dados...
+            </div>
           </div>
         </div>
       )}
@@ -276,135 +272,28 @@ export function DiceOverlay({ isVisible, onClose, result, isRolling }: DiceOverl
  */
 export function useDiceRoller(options?: { theme?: string; onResult?: (result: DiceRollResult) => void }) {
   const [showOverlay, setShowOverlay] = useState(false)
-  const [pendingRoll, setPendingRoll] = useState<string | null>(null)
-  const containerRef = useRef<HTMLDivElement>(null)
-  const diceBoxRef = useRef<any>(null)
-  const [isReady, setIsReady] = useState(false)
+  const [notation, setNotation] = useState<string | null>(null)
   const [isRolling, setIsRolling] = useState(false)
   const [result, setResult] = useState<DiceRollResult | null>(null)
 
-  // Inicializar dice-box cuando se muestra el overlay
-  useEffect(() => {
-    if (!showOverlay || isReady) return
+  const handleRollComplete = useCallback((rollResult: DiceRollResult) => {
+    setResult(rollResult)
+    setIsRolling(false)
+    options?.onResult?.(rollResult)
+  }, [options])
 
-    let mounted = true
-
-    const initDiceBox = async () => {
-      if (typeof window === 'undefined') return
-
-      // Esperar a que el DOM tenga el canvas
-      await new Promise(resolve => setTimeout(resolve, 100))
-
-      try {
-        const DiceBox = (await import('@3d-dice/dice-box')).default
-
-        if (!mounted) return
-
-        const colors = THEME_COLORS[options?.theme || 'gold']
-
-        diceBoxRef.current = new DiceBox('#dice-canvas', {
-          assetPath: '/assets/',
-          theme: 'default',
-          themeColor: colors.primary,
-          scale: 6,
-          gravity: 2,
-          mass: 1,
-          friction: 0.8,
-          restitution: 0.5,
-          linearDamping: 0.5,
-          angularDamping: 0.4,
-          spinForce: 6,
-          throwForce: 5,
-          startingHeight: 10,
-          settleTimeout: 5000,
-          offscreen: true,
-          delay: 10,
-        })
-
-        await diceBoxRef.current.init()
-
-        if (mounted) {
-          setIsReady(true)
-
-          // Si hay un roll pendiente, ejecutarlo
-          if (pendingRoll) {
-            executeRoll(pendingRoll)
-            setPendingRoll(null)
-          }
-        }
-      } catch (error) {
-        console.error('[useDiceRoller] Failed to initialize:', error)
-      }
-    }
-
-    initDiceBox()
-
-    return () => {
-      mounted = false
-    }
-  }, [showOverlay])
-
-  const executeRoll = async (notation: string) => {
-    if (!diceBoxRef.current) return
-
-    setIsRolling(true)
-    setResult(null)
-
-    try {
-      const results = await diceBoxRef.current.roll(notation)
-
-      const rolls: { value: number; sides: number }[] = []
-      let total = 0
-
-      results.forEach((die: any) => {
-        rolls.push({ value: die.value, sides: die.sides })
-        total += die.value
-      })
-
-      const modMatch = notation.match(/([+-]\d+)$/)
-      const modifier = modMatch ? parseInt(modMatch[1]) : 0
-      total += modifier
-
-      const d20Roll = rolls.find(r => r.sides === 20)
-      const isCritical = d20Roll?.value === 20
-      const isFumble = d20Roll?.value === 1
-
-      const rollResult: DiceRollResult = {
-        total,
-        rolls,
-        formula: notation,
-        modifier,
-        isCritical,
-        isFumble,
-      }
-
-      setResult(rollResult)
-      options?.onResult?.(rollResult)
-
-    } catch (error) {
-      console.error('[useDiceRoller] Roll failed:', error)
-    } finally {
-      setIsRolling(false)
-    }
-  }
-
-  const roll = useCallback((notation: string) => {
+  const roll = useCallback((diceNotation: string) => {
     setShowOverlay(true)
+    setNotation(diceNotation)
     setResult(null)
-
-    if (isReady && diceBoxRef.current) {
-      executeRoll(notation)
-    } else {
-      setPendingRoll(notation)
-    }
-  }, [isReady])
+    setIsRolling(true)
+  }, [])
 
   const close = useCallback(() => {
-    diceBoxRef.current?.clear()
     setShowOverlay(false)
+    setNotation(null)
     setResult(null)
-    setIsReady(false)
-    diceBoxRef.current = null
+    setIsRolling(false)
   }, [])
 
   return {
@@ -419,6 +308,9 @@ export function useDiceRoller(options?: { theme?: string; onResult?: (result: Di
         onClose={close}
         result={result}
         isRolling={isRolling}
+        theme={options?.theme}
+        notation={notation}
+        onRollComplete={handleRollComplete}
       />
     ),
   }
