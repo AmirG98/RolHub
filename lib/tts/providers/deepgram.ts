@@ -4,6 +4,7 @@
  * - $200 crédito gratis para empezar
  * - 17 voces en español de alta calidad
  * - Algunas voces soportan español e inglés
+ * - Soporta HTTP streaming para menor TTFB
  */
 
 import { TTSProvider, TTSOptions, TTSResult, Voice, TTSError, estimateDuration } from '../types'
@@ -31,6 +32,9 @@ const DEEPGRAM_VOICES = {
   default_es: 'aura-2-sirio-es',
   default_en: 'aura-2-javier-es',          // Bilingüe
 }
+
+// Modelo del voice - para seleccionar el mejor según caso de uso
+export const DEEPGRAM_VOICE_MODELS = DEEPGRAM_VOICES
 
 export class DeepgramProvider implements TTSProvider {
   name = 'deepgram'

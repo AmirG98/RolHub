@@ -12,18 +12,21 @@ interface VoicePlayerProps {
   locale: 'es' | 'en'
   autoPlay?: boolean
   className?: string
+  useStreaming?: boolean // Usar streaming para menor latencia
 }
 
 /**
  * Componente reproductor de voz para las narraciones del DM
  * Usa Deepgram Aura-2 TTS - alta calidad, 90ms latencia
+ * Con streaming: el audio empieza a reproducirse mientras se genera
  */
 export function VoicePlayer({
   text,
   lore,
   locale,
   autoPlay = false,
-  className = ''
+  className = '',
+  useStreaming = true // Streaming por defecto para menor latencia
 }: VoicePlayerProps) {
   const [audioUrl, setAudioUrl] = useState<string | null>(null)
   const [isPlaying, setIsPlaying] = useState(false)
@@ -44,8 +47,8 @@ export function VoicePlayer({
     error: 'Voz no disponible'
   }
 
-  // Generar audio
-  const generateAudio = async () => {
+  // Generar audio con streaming (más rápido)
+  const generateAudioStreaming = async () => {
     if (audioUrl) {
       togglePlay()
       return
@@ -55,6 +58,38 @@ export function VoicePlayer({
     setError(null)
     setLoadingMessage(getRandomLoadingMessage(locale))
 
+    try {
+      const response = await fetch('/api/voice/stream', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text, lore, locale })
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to generate voice')
+      }
+
+      // Crear blob URL del stream de audio
+      const audioBlob = await response.blob()
+      const url = URL.createObjectURL(audioBlob)
+      setAudioUrl(url)
+
+      if (audioRef.current) {
+        audioRef.current.src = url
+        await audioRef.current.play()
+        setIsPlaying(true)
+      }
+    } catch (err) {
+      console.error('[VoicePlayer] Streaming error:', err)
+      // Fallback a método no-streaming
+      await generateAudioFallback()
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  // Fallback: generar audio sin streaming
+  const generateAudioFallback = async () => {
     try {
       const response = await fetch('/api/voice', {
         method: 'POST',
@@ -76,9 +111,20 @@ export function VoicePlayer({
         setIsPlaying(true)
       }
     } catch (err) {
-      console.error('[VoicePlayer] Error:', err)
+      console.error('[VoicePlayer] Fallback error:', err)
       setError(err instanceof Error ? err.message : 'Unknown error')
-    } finally {
+    }
+  }
+
+  // Generar audio (usa streaming o fallback según config)
+  const generateAudio = async () => {
+    if (useStreaming) {
+      await generateAudioStreaming()
+    } else {
+      setIsLoading(true)
+      setError(null)
+      setLoadingMessage(getRandomLoadingMessage(locale))
+      await generateAudioFallback()
       setIsLoading(false)
     }
   }
@@ -174,14 +220,14 @@ export function VoicePlayer({
 }
 
 /**
- * Versión compacta solo con icono - usa Deepgram Aura-2 TTS
+ * Versión compacta solo con icono - usa Deepgram Aura-2 TTS con streaming
  */
 export function VoicePlayerCompact({
   text,
   lore,
   locale,
   className = ''
-}: Omit<VoicePlayerProps, 'autoPlay'>) {
+}: Omit<VoicePlayerProps, 'autoPlay' | 'useStreaming'>) {
   const [audioUrl, setAudioUrl] = useState<string | null>(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -203,7 +249,8 @@ export function VoicePlayerCompact({
 
     setIsLoading(true)
     try {
-      const response = await fetch('/api/voice', {
+      // Usar streaming endpoint para menor latencia
+      const response = await fetch('/api/voice/stream', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text, lore, locale })
@@ -213,11 +260,13 @@ export function VoicePlayerCompact({
         throw new Error('Failed')
       }
 
-      const data = await response.json()
-      setAudioUrl(data.audioUrl)
+      // Crear blob URL del stream
+      const audioBlob = await response.blob()
+      const url = URL.createObjectURL(audioBlob)
+      setAudioUrl(url)
 
       if (audioRef.current) {
-        audioRef.current.src = data.audioUrl
+        audioRef.current.src = url
         await audioRef.current.play()
         setIsPlaying(true)
       }
