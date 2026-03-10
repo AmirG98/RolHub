@@ -306,8 +306,18 @@ export function VoicePlayerCompact({
 }
 
 /**
- * Versión con auto-play - se reproduce automáticamente cuando se monta
- * Incluye botón para pausar/reanudar y indicador visual
+ * Divide texto en oraciones para procesamiento por chunks
+ */
+function splitIntoSentences(text: string): string[] {
+  // Dividir por puntos, signos de exclamación e interrogación
+  // Mantener el delimitador con la oración
+  const sentences = text.match(/[^.!?]+[.!?]+/g) || [text]
+  return sentences.map(s => s.trim()).filter(s => s.length > 0)
+}
+
+/**
+ * Versión con auto-play y streaming por oraciones
+ * Reproduce la primera oración mientras genera las siguientes
  */
 export function VoicePlayerAuto({
   text,
@@ -318,120 +328,183 @@ export function VoicePlayerAuto({
 }: Omit<VoicePlayerProps, 'autoPlay' | 'useStreaming'> & {
   onPlayStateChange?: (isPlaying: boolean) => void
 }) {
-  const [audioUrl, setAudioUrl] = useState<string | null>(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-  const [hasPlayed, setHasPlayed] = useState(false)
+  const [isPaused, setIsPaused] = useState(false)
+  const [hasStarted, setHasStarted] = useState(false)
+  const [currentSentence, setCurrentSentence] = useState(0)
+  const [totalSentences, setTotalSentences] = useState(0)
+
   const audioRef = useRef<HTMLAudioElement | null>(null)
+  const audioQueueRef = useRef<string[]>([])
+  const sentencesRef = useRef<string[]>([])
   const mountedRef = useRef(true)
+  const isGeneratingRef = useRef(false)
+  const currentIndexRef = useRef(0)
 
-  // Generar y reproducir audio automáticamente
-  const generateAndPlay = async () => {
-    if (isLoading || hasPlayed) return
-
-    setIsLoading(true)
-    setHasPlayed(true)
-
+  // Generar audio para una oración
+  const generateSentenceAudio = async (sentence: string): Promise<string | null> => {
     try {
       const response = await fetch('/api/voice/stream', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text, lore, locale })
+        body: JSON.stringify({ text: sentence, lore, locale })
       })
 
-      if (!response.ok) {
-        throw new Error('Failed to generate voice')
-      }
-
-      if (!mountedRef.current) return
+      if (!response.ok) return null
 
       const audioBlob = await response.blob()
-      const url = URL.createObjectURL(audioBlob)
-      setAudioUrl(url)
+      return URL.createObjectURL(audioBlob)
+    } catch {
+      return null
+    }
+  }
 
-      if (audioRef.current && mountedRef.current) {
-        audioRef.current.src = url
-        try {
-          await audioRef.current.play()
-          setIsPlaying(true)
-          onPlayStateChange?.(true)
-        } catch (playError) {
-          // El navegador puede bloquear autoplay sin interacción del usuario
-          console.warn('[VoicePlayerAuto] Autoplay blocked:', playError)
-        }
+  // Reproducir siguiente audio de la cola
+  const playNextFromQueue = async () => {
+    if (!mountedRef.current || isPaused) return
+
+    const audio = audioRef.current
+    if (!audio) return
+
+    // Si hay audio en la cola, reproducirlo
+    if (audioQueueRef.current.length > 0) {
+      const nextUrl = audioQueueRef.current.shift()!
+      currentIndexRef.current++
+      setCurrentSentence(currentIndexRef.current)
+
+      audio.src = nextUrl
+      try {
+        await audio.play()
+        setIsPlaying(true)
+        onPlayStateChange?.(true)
+      } catch (err) {
+        console.warn('[VoicePlayerAuto] Play error:', err)
+        // Si falla, intentar con el siguiente
+        playNextFromQueue()
       }
-    } catch (err) {
-      console.error('[VoicePlayerAuto] Error:', err)
-    } finally {
-      if (mountedRef.current) {
-        setIsLoading(false)
+    } else if (currentIndexRef.current >= sentencesRef.current.length) {
+      // Ya terminamos todas las oraciones
+      setIsPlaying(false)
+      setIsLoading(false)
+      onPlayStateChange?.(false)
+    }
+    // Si la cola está vacía pero aún hay oraciones por generar, esperar
+  }
+
+  // Generar audios en paralelo con la reproducción
+  const generateAllAudios = async () => {
+    const sentences = sentencesRef.current
+
+    for (let i = 0; i < sentences.length; i++) {
+      if (!mountedRef.current) break
+
+      const url = await generateSentenceAudio(sentences[i])
+      if (url && mountedRef.current) {
+        audioQueueRef.current.push(url)
+
+        // Si es el primer audio y no estamos reproduciendo, empezar
+        if (i === 0 && !isGeneratingRef.current) {
+          isGeneratingRef.current = true
+          setIsLoading(false)
+          playNextFromQueue()
+        }
       }
     }
   }
 
-  // Auto-play al montar
+  // Iniciar generación y reproducción
+  const startPlayback = async () => {
+    if (hasStarted) return
+    setHasStarted(true)
+    setIsLoading(true)
+
+    // Dividir texto en oraciones
+    const sentences = splitIntoSentences(text)
+    sentencesRef.current = sentences
+    setTotalSentences(sentences.length)
+    audioQueueRef.current = []
+    currentIndexRef.current = 0
+
+    // Empezar a generar (la reproducción comienza cuando el primer audio está listo)
+    generateAllAudios()
+  }
+
+  // Auto-start al montar
   useEffect(() => {
     mountedRef.current = true
-    generateAndPlay()
+    startPlayback()
 
     return () => {
       mountedRef.current = false
-      // Limpiar audio al desmontar
       if (audioRef.current) {
         audioRef.current.pause()
         audioRef.current.src = ''
       }
+      // Limpiar URLs
+      audioQueueRef.current.forEach(url => URL.revokeObjectURL(url))
     }
-  }, []) // Solo al montar
+  }, [])
 
-  // Toggle play/pause
-  const togglePlay = async () => {
-    if (!audioRef.current || !audioUrl) return
-
-    if (isPlaying) {
-      audioRef.current.pause()
-      setIsPlaying(false)
-      onPlayStateChange?.(false)
-    } else {
-      try {
-        await audioRef.current.play()
-        setIsPlaying(true)
-        onPlayStateChange?.(true)
-      } catch (err) {
-        console.error('[VoicePlayerAuto] Play error:', err)
-      }
-    }
-  }
-
-  // Eventos del audio
+  // Manejar fin de audio actual
   useEffect(() => {
     const audio = audioRef.current
     if (!audio) return
 
     const handleEnded = () => {
       setIsPlaying(false)
-      onPlayStateChange?.(false)
+      // Reproducir siguiente de la cola
+      playNextFromQueue()
     }
 
     audio.addEventListener('ended', handleEnded)
     return () => audio.removeEventListener('ended', handleEnded)
-  }, [onPlayStateChange])
+  }, [isPaused])
+
+  // Toggle pause/resume
+  const togglePlay = () => {
+    const audio = audioRef.current
+    if (!audio) return
+
+    if (isPlaying) {
+      audio.pause()
+      setIsPlaying(false)
+      setIsPaused(true)
+      onPlayStateChange?.(false)
+    } else if (isPaused) {
+      audio.play()
+      setIsPlaying(true)
+      setIsPaused(false)
+      onPlayStateChange?.(true)
+    } else if (audioQueueRef.current.length > 0) {
+      // Si hay audio en cola pero no reproduciendo, empezar
+      playNextFromQueue()
+    }
+  }
 
   return (
-    <button
-      onClick={togglePlay}
-      disabled={isLoading && !audioUrl}
-      className={`p-1.5 rounded-lg glass-panel transition-all hover:bg-gold/10 disabled:opacity-50 ${className}`}
-      title={isPlaying ? (locale === 'en' ? 'Pause' : 'Pausar') : (locale === 'en' ? 'Play' : 'Reproducir')}
-    >
+    <div className={`flex items-center gap-1 ${className}`}>
       <audio ref={audioRef} preload="none" />
-      {isLoading ? (
-        <Loader2 className="h-4 w-4 text-gold animate-spin" />
-      ) : isPlaying ? (
-        <Pause className="h-4 w-4 text-gold" />
-      ) : (
-        <Volume2 className="h-4 w-4 text-gold/70 hover:text-gold" />
+      <button
+        onClick={togglePlay}
+        disabled={isLoading && audioQueueRef.current.length === 0}
+        className="p-1.5 rounded-lg glass-panel transition-all hover:bg-gold/10 disabled:opacity-50"
+        title={isPlaying ? (locale === 'en' ? 'Pause' : 'Pausar') : (locale === 'en' ? 'Play' : 'Reproducir')}
+      >
+        {isLoading && audioQueueRef.current.length === 0 ? (
+          <Loader2 className="h-4 w-4 text-gold animate-spin" />
+        ) : isPlaying ? (
+          <Pause className="h-4 w-4 text-gold" />
+        ) : (
+          <Volume2 className="h-4 w-4 text-gold/70 hover:text-gold" />
+        )}
+      </button>
+      {/* Progress indicator */}
+      {totalSentences > 1 && (hasStarted && !isLoading) && (
+        <span className="text-[10px] text-gold/50 font-mono">
+          {currentSentence}/{totalSentences}
+        </span>
       )}
-    </button>
+    </div>
   )
 }
