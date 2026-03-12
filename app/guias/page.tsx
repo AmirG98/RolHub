@@ -1,14 +1,35 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
-import { BookOpen, Users, Sparkles, Sword, Map, Dice6 } from 'lucide-react'
+import { BookOpen, Users, Sparkles, Sword, Map, Dice6, Home } from 'lucide-react'
 import { ParchmentPanel } from '@/components/medieval/ParchmentPanel'
 
 export const metadata: Metadata = {
-  title: 'Guias de Rol para Principiantes | RolHub',
-  description: 'Aprende a jugar juegos de rol desde cero. Tutoriales paso a paso, consejos para crear personajes, y guias para elegir tu primer mundo de fantasia.',
-  keywords: ['guia rol principiantes', 'como jugar rol', 'tutorial RPG', 'crear personaje rol', 'juegos de mesa rol'],
+  title: 'Guias de Rol para Principiantes: Aprende a Jugar RPG Gratis | RolHub',
+  description: 'Tutoriales completos para aprender juegos de rol desde cero. Que es un RPG, como crear personajes, mejores mundos de fantasia. Empieza a jugar hoy gratis.',
+  keywords: [
+    'guia juegos de rol',
+    'tutorial RPG principiantes',
+    'como jugar rol',
+    'aprender a jugar D&D',
+    'crear personaje rol',
+    'juegos de mesa narrativos',
+    'rol online gratis',
+    'dungeons and dragons tutorial',
+    'guia rol en español'
+  ],
   alternates: {
     canonical: 'https://rolhub.com/guias',
+  },
+  openGraph: {
+    title: 'Guias de Rol para Principiantes | RolHub',
+    description: 'Aprende a jugar juegos de rol desde cero con nuestros tutoriales gratuitos.',
+    type: 'website',
+    url: 'https://rolhub.com/guias',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Guias de Rol para Principiantes',
+    description: 'Tutoriales gratuitos para aprender a jugar RPG desde cero.',
   },
 }
 
@@ -69,12 +90,62 @@ const advancedGuides = [
 ]
 
 export default function GuiasPage() {
+  // Schema for collection page
+  const collectionSchema = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Guias de Rol para Principiantes",
+    "description": "Tutoriales completos para aprender juegos de rol desde cero.",
+    "url": "https://rolhub.com/guias",
+    "mainEntity": {
+      "@type": "ItemList",
+      "itemListElement": guides.map((guide, index) => ({
+        "@type": "ListItem",
+        "position": index + 1,
+        "item": {
+          "@type": "Article",
+          "name": guide.title,
+          "description": guide.description,
+          "url": `https://rolhub.com/guias/${guide.slug}`
+        }
+      }))
+    }
+  }
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Inicio",
+        "item": "https://rolhub.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Guias de Rol",
+        "item": "https://rolhub.com/guias"
+      }
+    ]
+  }
+
   return (
     <div className="container mx-auto px-4 py-12 max-w-6xl">
+      {/* Breadcrumb */}
+      <nav className="mb-8" aria-label="Breadcrumb">
+        <ol className="flex items-center gap-2 text-sm font-ui text-parchment/60">
+          <li><Link href="/" className="hover:text-gold flex items-center gap-1"><Home className="h-3 w-3" /> Inicio</Link></li>
+          <li>/</li>
+          <li className="text-gold">Guias de Rol</li>
+        </ol>
+      </nav>
+
       {/* Hero Section */}
       <header className="text-center mb-16">
         <h1 className="font-title text-4xl md:text-5xl text-gold mb-4">
-          Guias de Rol
+          Guias de Rol para Principiantes
         </h1>
         <p className="font-body text-xl text-parchment/80 max-w-2xl mx-auto">
           Aprende a jugar juegos de rol desde cero. Tutoriales claros y simples
@@ -183,28 +254,11 @@ export default function GuiasPage() {
       {/* Schema.org for SEO */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "CollectionPage",
-            "name": "Guias de Rol para Principiantes",
-            "description": "Aprende a jugar juegos de rol desde cero con tutoriales paso a paso.",
-            "url": "https://rolhub.com/guias",
-            "mainEntity": {
-              "@type": "ItemList",
-              "itemListElement": guides.map((guide, index) => ({
-                "@type": "ListItem",
-                "position": index + 1,
-                "item": {
-                  "@type": "Article",
-                  "name": guide.title,
-                  "description": guide.description,
-                  "url": `https://rolhub.com/guias/${guide.slug}`
-                }
-              }))
-            }
-          })
-        }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
     </div>
   )
