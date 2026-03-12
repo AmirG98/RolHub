@@ -18,13 +18,13 @@ export const metadata: Metadata = {
     'guia rol en español'
   ],
   alternates: {
-    canonical: 'https://rolhub.com/guias',
+    canonical: 'https://rol-hub.com/guias',
   },
   openGraph: {
     title: 'Guias de Rol para Principiantes | RolHub',
     description: 'Aprende a jugar juegos de rol desde cero con nuestros tutoriales gratuitos.',
     type: 'website',
-    url: 'https://rolhub.com/guias',
+    url: 'https://rol-hub.com/guias',
   },
   twitter: {
     card: 'summary_large_image',
@@ -96,7 +96,7 @@ export default function GuiasPage() {
     "@type": "CollectionPage",
     "name": "Guias de Rol para Principiantes",
     "description": "Tutoriales completos para aprender juegos de rol desde cero.",
-    "url": "https://rolhub.com/guias",
+    "url": "https://rol-hub.com/guias",
     "mainEntity": {
       "@type": "ItemList",
       "itemListElement": guides.map((guide, index) => ({
@@ -106,7 +106,7 @@ export default function GuiasPage() {
           "@type": "Article",
           "name": guide.title,
           "description": guide.description,
-          "url": `https://rolhub.com/guias/${guide.slug}`
+          "url": `https://rol-hub.com/guias/${guide.slug}`
         }
       }))
     }
@@ -120,13 +120,13 @@ export default function GuiasPage() {
         "@type": "ListItem",
         "position": 1,
         "name": "Inicio",
-        "item": "https://rolhub.com"
+        "item": "https://rol-hub.com"
       },
       {
         "@type": "ListItem",
         "position": 2,
         "name": "Guias de Rol",
-        "item": "https://rolhub.com/guias"
+        "item": "https://rol-hub.com/guias"
       }
     ]
   }

@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://rolhub.com'
+  const baseUrl = 'https://rol-hub.com'
 
   // Static pages
   const staticPages = [

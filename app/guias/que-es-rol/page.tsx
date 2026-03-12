@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     'aprender a jugar rol'
   ],
   alternates: {
-    canonical: 'https://rolhub.com/guias/que-es-rol',
+    canonical: 'https://rol-hub.com/guias/que-es-rol',
   },
   openGraph: {
     title: 'Que es un Juego de Rol: La Guia Definitiva para Principiantes',
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     authors: ['RolHub'],
     section: 'Guias',
     tags: ['juego de rol', 'RPG', 'principiantes', 'tutorial'],
-    url: 'https://rolhub.com/guias/que-es-rol',
+    url: 'https://rol-hub.com/guias/que-es-rol',
   },
   twitter: {
     card: 'summary_large_image',
@@ -106,19 +106,19 @@ export default function QueEsRolPage() {
         "@type": "ListItem",
         "position": 1,
         "name": "Inicio",
-        "item": "https://rolhub.com"
+        "item": "https://rol-hub.com"
       },
       {
         "@type": "ListItem",
         "position": 2,
         "name": "Guias de Rol",
-        "item": "https://rolhub.com/guias"
+        "item": "https://rol-hub.com/guias"
       },
       {
         "@type": "ListItem",
         "position": 3,
         "name": "Que es un Juego de Rol",
-        "item": "https://rolhub.com/guias/que-es-rol"
+        "item": "https://rol-hub.com/guias/que-es-rol"
       }
     ]
   }
@@ -129,26 +129,26 @@ export default function QueEsRolPage() {
     "@type": "Article",
     "headline": "Que es un Juego de Rol: La Guia Definitiva para Principiantes",
     "description": "Aprende que es un juego de rol, como se juega, y por que millones lo disfrutan. Guia completa para principiantes.",
-    "image": "https://rolhub.com/og-que-es-rol.png",
+    "image": "https://rol-hub.com/og-que-es-rol.png",
     "author": {
       "@type": "Organization",
       "name": "RolHub",
-      "url": "https://rolhub.com"
+      "url": "https://rol-hub.com"
     },
     "publisher": {
       "@type": "Organization",
       "name": "RolHub",
-      "url": "https://rolhub.com",
+      "url": "https://rol-hub.com",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://rolhub.com/logo.png"
+        "url": "https://rol-hub.com/logo.png"
       }
     },
     "datePublished": "2024-01-15",
     "dateModified": new Date().toISOString().split('T')[0],
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": "https://rolhub.com/guias/que-es-rol"
+      "@id": "https://rol-hub.com/guias/que-es-rol"
     },
     "articleSection": "Guias",
     "keywords": "juego de rol, RPG, que es rol, como jugar rol, principiantes, dungeons and dragons",

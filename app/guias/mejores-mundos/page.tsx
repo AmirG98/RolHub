@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description: 'Comparativa de los mejores mundos para tu primera partida de rol. Desde fantasia epica hasta apocalipsis zombie. Encuentra el escenario ideal segun tu estilo.',
   keywords: ['mundos de rol', 'escenarios RPG', 'ambientaciones juego de rol', 'fantasia medieval', 'apocalipsis zombie rol', 'isekai'],
   alternates: {
-    canonical: 'https://rolhub.com/guias/mejores-mundos',
+    canonical: 'https://rol-hub.com/guias/mejores-mundos',
   },
   openGraph: {
     title: 'Los Mejores Mundos de Fantasia para Jugar Rol',
@@ -336,13 +336,13 @@ export default function MejoresMundosPage() {
             "publisher": {
               "@type": "Organization",
               "name": "RolHub",
-              "url": "https://rolhub.com"
+              "url": "https://rol-hub.com"
             },
             "datePublished": "2024-01-15",
             "dateModified": "2024-01-15",
             "mainEntityOfPage": {
               "@type": "WebPage",
-              "@id": "https://rolhub.com/guias/mejores-mundos"
+              "@id": "https://rol-hub.com/guias/mejores-mundos"
             },
             "about": worlds.map(w => ({
               "@type": "Thing",

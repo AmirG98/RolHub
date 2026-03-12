@@ -39,19 +39,19 @@ export function generateArticleSchema(props: ArticleSchemaProps) {
     "@type": "Article",
     "headline": props.headline,
     "description": props.description,
-    "image": props.image || "https://rolhub.com/og-default.png",
+    "image": props.image || "https://rol-hub.com/og-default.png",
     "author": {
       "@type": "Organization",
       "name": "RolHub",
-      "url": "https://rolhub.com"
+      "url": "https://rol-hub.com"
     },
     "publisher": {
       "@type": "Organization",
       "name": "RolHub",
-      "url": "https://rolhub.com",
+      "url": "https://rol-hub.com",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://rolhub.com/logo.png"
+        "url": "https://rol-hub.com/logo.png"
       }
     },
     "datePublished": props.datePublished,
@@ -127,14 +127,14 @@ export function generateWebsiteSchema() {
     "@type": "WebSite",
     "name": "RolHub",
     "alternateName": "RPG Hub",
-    "url": "https://rolhub.com",
+    "url": "https://rol-hub.com",
     "description": "Plataforma de juegos de rol narrativo con Director de Juego IA",
     "inLanguage": "es",
     "potentialAction": {
       "@type": "SearchAction",
       "target": {
         "@type": "EntryPoint",
-        "urlTemplate": "https://rolhub.com/guias?q={search_term_string}"
+        "urlTemplate": "https://rol-hub.com/guias?q={search_term_string}"
       },
       "query-input": "required name=search_term_string"
     }
@@ -146,8 +146,8 @@ export function generateOrganizationSchema() {
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "RolHub",
-    "url": "https://rolhub.com",
-    "logo": "https://rolhub.com/logo.png",
+    "url": "https://rol-hub.com",
+    "logo": "https://rol-hub.com/logo.png",
     "description": "Plataforma de juegos de rol narrativo con Director de Juego basado en inteligencia artificial",
     "sameAs": [
       // Add social media URLs when available
@@ -155,7 +155,7 @@ export function generateOrganizationSchema() {
     "contactPoint": {
       "@type": "ContactPoint",
       "contactType": "customer service",
-      "url": "https://rolhub.com/contacto"
+      "url": "https://rol-hub.com/contacto"
     }
   }
 }

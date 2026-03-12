@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description: 'Guia paso a paso para crear un personaje memorable en juegos de rol. Elige raza, clase, trasfondo y dale vida a tu alter ego. Consejos para principiantes.',
   keywords: ['crear personaje rol', 'como hacer personaje D&D', 'personaje RPG', 'ficha de personaje', 'clase y raza rol'],
   alternates: {
-    canonical: 'https://rolhub.com/guias/crear-personaje',
+    canonical: 'https://rol-hub.com/guias/crear-personaje',
   },
   openGraph: {
     title: 'Como Crear tu Personaje de Rol | RolHub',
@@ -418,13 +418,13 @@ export default function CrearPersonajePage() {
             "publisher": {
               "@type": "Organization",
               "name": "RolHub",
-              "url": "https://rolhub.com"
+              "url": "https://rol-hub.com"
             },
             "datePublished": "2024-01-15",
             "dateModified": "2024-01-15",
             "mainEntityOfPage": {
               "@type": "WebPage",
-              "@id": "https://rolhub.com/guias/crear-personaje"
+              "@id": "https://rol-hub.com/guias/crear-personaje"
             }
           })
         }}

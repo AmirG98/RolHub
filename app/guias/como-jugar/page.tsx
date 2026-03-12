@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description: 'Aprende a jugar tu primera partida de rol en RolHub. Tutorial completo desde crear tu cuenta hasta completar tu primera mision con el DM de inteligencia artificial.',
   keywords: ['como jugar rolhub', 'tutorial rpg online', 'juego de rol con IA', 'DM inteligencia artificial', 'primera partida rol'],
   alternates: {
-    canonical: 'https://rolhub.com/guias/como-jugar',
+    canonical: 'https://rol-hub.com/guias/como-jugar',
   },
   openGraph: {
     title: 'Como Jugar en RolHub | Tutorial Paso a Paso',
@@ -27,7 +27,7 @@ const steps = [
     time: '30 segundos',
     description: 'Registrate gratis con tu email o cuenta de Google.',
     details: [
-      'Ve a rolhub.com y haz clic en "Empezar a Jugar"',
+      'Ve a rol-hub.com y haz clic en "Empezar a Jugar"',
       'Ingresa tu email y crea una contrasena',
       'Confirma tu cuenta desde el email que recibiras',
       'Listo! Ya puedes empezar tu aventura',

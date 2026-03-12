@@ -46,7 +46,7 @@ const courierPrime = Courier_Prime({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://rolhub.com'),
+  metadataBase: new URL('https://rol-hub.com'),
   title: {
     default: "RolHub - Juegos de Rol con DM de Inteligencia Artificial",
     template: "%s | RolHub",
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'es_ES',
-    url: 'https://rolhub.com',
+    url: 'https://rol-hub.com',
     siteName: 'RolHub',
     title: 'RolHub - Juegos de Rol con DM de Inteligencia Artificial',
     description: 'Juega partidas de rol narrativo con un Director de Juego con IA. Sin experiencia previa necesaria.',

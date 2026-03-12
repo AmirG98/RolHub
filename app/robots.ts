@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/api/', '/play/', '/lobby/'],
     },
-    sitemap: 'https://rolhub.com/sitemap.xml',
+    sitemap: 'https://rol-hub.com/sitemap.xml',
   }
 }
