@@ -46,8 +46,52 @@ const courierPrime = Courier_Prime({
 })
 
 export const metadata: Metadata = {
-  title: "RPG Hub - Digital Dungeon Master",
-  description: "Hub de rol narrativo con DM autónomo powered by Claude API",
+  metadataBase: new URL('https://rolhub.com'),
+  title: {
+    default: "RolHub - Juegos de Rol con DM de Inteligencia Artificial",
+    template: "%s | RolHub",
+  },
+  description: "Juega partidas de rol narrativo con un Director de Juego con IA. Crea tu personaje, elige tu mundo y vive aventuras unicas. Sin experiencia previa necesaria.",
+  keywords: ['juego de rol', 'RPG online', 'DM inteligencia artificial', 'rol narrativo', 'D&D online', 'jugar rol gratis', 'dungeon master IA'],
+  authors: [{ name: 'RolHub' }],
+  creator: 'RolHub',
+  openGraph: {
+    type: 'website',
+    locale: 'es_ES',
+    url: 'https://rolhub.com',
+    siteName: 'RolHub',
+    title: 'RolHub - Juegos de Rol con DM de Inteligencia Artificial',
+    description: 'Juega partidas de rol narrativo con un Director de Juego con IA. Sin experiencia previa necesaria.',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'RolHub - Juegos de Rol con IA',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'RolHub - Juegos de Rol con DM de Inteligencia Artificial',
+    description: 'Juega partidas de rol narrativo con un Director de Juego con IA.',
+    images: ['/og-image.png'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  verification: {
+    // Se agregara despues de verificar en Google Search Console
+    // google: 'verification-code',
+  },
 };
 
 export default function RootLayout({
