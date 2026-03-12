@@ -117,7 +117,7 @@ export default function MejoresMundosPage() {
       <nav className="mb-8">
         <Link
           href="/guias"
-          className="inline-flex items-center gap-2 text-gold hover:text-gold-bright transition-colors font-ui"
+          className="inline-flex items-center gap-2 text-gold-bright hover:text-gold transition-colors font-ui font-semibold"
         >
           <ArrowLeft className="h-4 w-4" />
           Volver a Guias
@@ -127,38 +127,38 @@ export default function MejoresMundosPage() {
       {/* Hero */}
       <header className="mb-12">
         <div className="flex items-center gap-2 mb-4">
-          <span className="text-xs font-ui text-emerald bg-emerald/20 px-2 py-0.5 rounded">
+          <span className="text-xs font-ui font-bold text-white bg-emerald px-2 py-1 rounded">
             Principiante
           </span>
-          <span className="text-xs font-ui text-parchment/50">
+          <span className="text-xs font-ui font-semibold text-parchment">
             7 min lectura
           </span>
         </div>
-        <h1 className="font-title text-3xl md:text-4xl text-gold mb-4">
+        <h1 className="font-title text-3xl md:text-4xl text-gold-bright mb-4">
           Los Mejores Mundos para Empezar
         </h1>
-        <p className="font-body text-xl text-parchment/80 leading-relaxed">
+        <p className="font-body text-xl text-parchment leading-relaxed">
           En RolHub ofrecemos cuatro mundos distintos. Cada uno tiene su propia atmosfera,
           reglas y tipo de historias. Aqui te ayudamos a elegir el ideal para ti.
         </p>
       </header>
 
       {/* Quick Comparison */}
-      <ParchmentPanel className="p-6 mb-12 overflow-x-auto">
-        <h2 className="font-heading text-lg text-gold-dim mb-4">Comparacion Rapida</h2>
+      <ParchmentPanel className="p-6 mb-12 overflow-x-auto border border-gold-dim">
+        <h2 className="font-heading text-lg text-ink mb-4">Comparacion Rapida</h2>
         <table className="w-full min-w-[600px]">
           <thead>
-            <tr className="border-b border-gold-dim/30">
-              <th className="text-left py-2 font-heading text-ink">Mundo</th>
-              <th className="text-left py-2 font-heading text-ink">Tono</th>
-              <th className="text-left py-2 font-heading text-ink">Dificultad</th>
-              <th className="text-left py-2 font-heading text-ink">Sesion</th>
+            <tr className="border-b-2 border-gold-dim">
+              <th className="text-left py-2 font-heading text-ink font-bold">Mundo</th>
+              <th className="text-left py-2 font-heading text-ink font-bold">Tono</th>
+              <th className="text-left py-2 font-heading text-ink font-bold">Dificultad</th>
+              <th className="text-left py-2 font-heading text-ink font-bold">Sesion</th>
             </tr>
           </thead>
-          <tbody className="font-body text-ink/80">
+          <tbody className="font-body text-stone">
             {worlds.map((world) => (
-              <tr key={world.id} className="border-b border-gold-dim/20">
-                <td className="py-3 flex items-center gap-2">
+              <tr key={world.id} className="border-b border-gold-dim/40">
+                <td className="py-3 flex items-center gap-2 font-semibold text-ink">
                   <world.icon className="h-4 w-4 text-gold-dim" />
                   {world.name}
                 </td>
@@ -176,54 +176,54 @@ export default function MejoresMundosPage() {
         {worlds.map((world, index) => (
           <section key={world.id} id={world.id}>
             <div className="flex items-center gap-4 mb-6">
-              <div className="p-4 rounded-lg bg-gold/10">
-                <world.icon className="h-8 w-8 text-gold" />
+              <div className="p-4 rounded-lg bg-gold">
+                <world.icon className="h-8 w-8 text-shadow" />
               </div>
               <div>
-                <h2 className="font-heading text-2xl text-gold">{world.name}</h2>
-                <p className="font-ui text-parchment/60">{world.subtitle}</p>
+                <h2 className="font-heading text-2xl text-gold-bright">{world.name}</h2>
+                <p className="font-ui text-parchment">{world.subtitle}</p>
               </div>
             </div>
 
-            <div className="font-body text-parchment/90 space-y-4 text-lg leading-relaxed">
+            <div className="font-body text-parchment space-y-4 text-lg leading-relaxed">
               <p>{world.description}</p>
 
               <div className="flex flex-wrap gap-4 my-6">
                 <div className="flex items-center gap-2 text-sm">
-                  <Sparkles className="h-4 w-4 text-gold" />
-                  <span className="font-ui text-parchment/70">Tono: {world.tone}</span>
+                  <Sparkles className="h-4 w-4 text-gold-bright" />
+                  <span className="font-ui text-parchment font-semibold">Tono: {world.tone}</span>
                 </div>
                 <div className="flex items-center gap-2 text-sm">
-                  <Clock className="h-4 w-4 text-gold" />
-                  <span className="font-ui text-parchment/70">Sesion: {world.sessionLength}</span>
+                  <Clock className="h-4 w-4 text-gold-bright" />
+                  <span className="font-ui text-parchment font-semibold">Sesion: {world.sessionLength}</span>
                 </div>
                 <div className="flex items-center gap-2 text-sm">
-                  <Users className="h-4 w-4 text-gold" />
-                  <span className="font-ui text-parchment/70">{world.difficulty}</span>
+                  <Users className="h-4 w-4 text-gold-bright" />
+                  <span className="font-ui text-parchment font-semibold">{world.difficulty}</span>
                 </div>
               </div>
 
               <div className="grid md:grid-cols-2 gap-4">
-                <ParchmentPanel className="p-4">
-                  <h4 className="font-heading text-emerald mb-3 flex items-center gap-2">
+                <ParchmentPanel className="p-4 border border-emerald">
+                  <h4 className="font-heading text-emerald mb-3 flex items-center gap-2 font-bold">
                     <Star className="h-4 w-4" /> Puntos Fuertes
                   </h4>
                   <ul className="space-y-2">
                     {world.pros.map((pro, i) => (
-                      <li key={i} className="flex items-start gap-2 text-sm text-ink/80">
-                        <span className="text-emerald mt-1">+</span>
+                      <li key={i} className="flex items-start gap-2 text-sm text-stone">
+                        <span className="text-emerald mt-1 font-bold">+</span>
                         <span>{pro}</span>
                       </li>
                     ))}
                   </ul>
                 </ParchmentPanel>
 
-                <ParchmentPanel className="p-4">
-                  <h4 className="font-heading text-blood mb-3">Consideraciones</h4>
+                <ParchmentPanel className="p-4 border border-blood">
+                  <h4 className="font-heading text-blood mb-3 font-bold">Consideraciones</h4>
                   <ul className="space-y-2">
                     {world.cons.map((con, i) => (
-                      <li key={i} className="flex items-start gap-2 text-sm text-ink/80">
-                        <span className="text-blood mt-1">-</span>
+                      <li key={i} className="flex items-start gap-2 text-sm text-stone">
+                        <span className="text-blood mt-1 font-bold">-</span>
                         <span>{con}</span>
                       </li>
                     ))}
@@ -231,15 +231,15 @@ export default function MejoresMundosPage() {
                 </ParchmentPanel>
               </div>
 
-              <ParchmentPanel variant="ornate" className="p-5 mt-6">
-                <p className="font-body text-ink/90">
-                  <strong className="text-gold-dim">Ideal para:</strong> {world.idealFor}
+              <ParchmentPanel variant="ornate" className="p-5 mt-6 border-2 border-gold">
+                <p className="font-body text-stone">
+                  <strong className="text-ink">Ideal para:</strong> {world.idealFor}
                 </p>
               </ParchmentPanel>
             </div>
 
             {index < worlds.length - 1 && (
-              <hr className="border-gold/10 mt-12" />
+              <hr className="border-gold/30 mt-12" />
             )}
           </section>
         ))}
@@ -247,14 +247,14 @@ export default function MejoresMundosPage() {
 
       {/* Recommendation */}
       <section className="mt-16">
-        <h2 className="font-heading text-2xl text-gold mb-6">
+        <h2 className="font-heading text-2xl text-gold-bright mb-6">
           Nuestra Recomendacion para Principiantes
         </h2>
 
-        <div className="font-body text-parchment/90 space-y-4 text-lg leading-relaxed">
+        <div className="font-body text-parchment space-y-4 text-lg leading-relaxed">
           <p>
             Si nunca jugaste rol antes, te recomendamos empezar con
-            <strong className="text-gold"> Fantasia Epica</strong>.
+            <strong className="text-gold-bright"> Fantasia Epica</strong>.
           </p>
 
           <p>
@@ -269,11 +269,11 @@ export default function MejoresMundosPage() {
             podrias descubrir que te gusta mas de lo esperado.
           </p>
 
-          <ParchmentPanel className="p-6 my-8">
-            <h3 className="font-heading text-lg text-gold-dim mb-3">
+          <ParchmentPanel className="p-6 my-8 border border-gold-dim">
+            <h3 className="font-heading text-lg text-ink mb-3">
               El Secreto para Disfrutar Cualquier Mundo
             </h3>
-            <p className="font-body text-ink/80">
+            <p className="font-body text-stone">
               No importa cual elijas: comprometete con la fantasia. Mete tu personaje
               en problemas, toma decisiones arriesgadas, y deja que la historia
               te sorprenda. El mundo que elijas sera increible si le das la oportunidad.
@@ -284,17 +284,17 @@ export default function MejoresMundosPage() {
 
       {/* CTA */}
       <section className="mt-16">
-        <ParchmentPanel variant="ornate" className="p-8 text-center">
-          <h2 className="font-heading text-2xl text-gold-dim mb-4">
+        <ParchmentPanel variant="ornate" className="p-8 text-center border-2 border-gold">
+          <h2 className="font-heading text-2xl text-ink mb-4">
             Elige tu Mundo
           </h2>
-          <p className="font-body text-ink/80 mb-6 max-w-xl mx-auto">
+          <p className="font-body text-stone mb-6 max-w-xl mx-auto text-lg">
             Ya conoces las opciones. Ahora es momento de elegir donde comenzara
             tu leyenda. Cual sera tu primer mundo?
           </p>
           <Link
             href="/onboarding"
-            className="inline-block font-heading text-lg bg-gold text-shadow px-8 py-3 rounded-lg hover:bg-gold-bright transition-colors"
+            className="inline-block font-heading text-lg bg-gold text-shadow px-8 py-3 rounded-lg hover:bg-gold-bright transition-colors font-bold"
           >
             Empezar mi Aventura
           </Link>
@@ -302,18 +302,18 @@ export default function MejoresMundosPage() {
       </section>
 
       {/* Navigation */}
-      <nav className="border-t border-gold/20 pt-8 mt-12">
+      <nav className="border-t border-gold/30 pt-8 mt-12">
         <div className="flex justify-between items-center">
           <Link
             href="/guias/crear-personaje"
-            className="flex items-center gap-2 text-parchment/60 hover:text-gold transition-colors font-ui"
+            className="flex items-center gap-2 text-parchment hover:text-gold-bright transition-colors font-ui"
           >
             <ArrowLeft className="h-4 w-4" />
             Anterior: Como Crear tu Personaje
           </Link>
           <Link
             href="/guias"
-            className="flex items-center gap-2 text-gold hover:text-gold-bright transition-colors font-ui"
+            className="flex items-center gap-2 text-gold-bright hover:text-gold transition-colors font-ui font-semibold"
           >
             Ver Todas las Guias
           </Link>

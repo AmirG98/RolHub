@@ -81,7 +81,7 @@ export default function ComoJugarPage() {
       <nav className="mb-8">
         <Link
           href="/guias"
-          className="inline-flex items-center gap-2 text-gold hover:text-gold-bright transition-colors font-ui"
+          className="inline-flex items-center gap-2 text-gold-bright hover:text-gold transition-colors font-ui font-semibold"
         >
           <ArrowLeft className="h-4 w-4" />
           Volver a Guias
@@ -91,33 +91,33 @@ export default function ComoJugarPage() {
       {/* Hero */}
       <header className="mb-12">
         <div className="flex items-center gap-2 mb-4">
-          <span className="text-xs font-ui text-emerald bg-emerald/20 px-2 py-0.5 rounded">
+          <span className="text-xs font-ui font-bold text-white bg-emerald px-2 py-1 rounded">
             Principiante
           </span>
-          <span className="text-xs font-ui text-parchment/50">
+          <span className="text-xs font-ui font-semibold text-parchment">
             5 min lectura
           </span>
         </div>
-        <h1 className="font-title text-3xl md:text-4xl text-gold mb-4">
+        <h1 className="font-title text-3xl md:text-4xl text-gold-bright mb-4">
           Como Jugar en RolHub
         </h1>
-        <p className="font-body text-xl text-parchment/80 leading-relaxed">
+        <p className="font-body text-xl text-parchment leading-relaxed">
           En menos de 5 minutos estaras viviendo tu primera aventura.
           Este tutorial te guia paso a paso desde cero.
         </p>
       </header>
 
       {/* Quick Summary */}
-      <ParchmentPanel className="p-6 mb-12">
-        <h2 className="font-heading text-lg text-gold-dim mb-4">Resumen Rapido</h2>
+      <ParchmentPanel className="p-6 mb-12 border border-gold-dim">
+        <h2 className="font-heading text-lg text-ink mb-4">Resumen Rapido</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {steps.map((step) => (
             <div key={step.number} className="text-center">
-              <div className="w-10 h-10 rounded-full bg-gold-dim/20 flex items-center justify-center mx-auto mb-2">
-                <span className="font-heading text-gold-dim">{step.number}</span>
+              <div className="w-10 h-10 rounded-full bg-gold-dim flex items-center justify-center mx-auto mb-2">
+                <span className="font-heading text-white font-bold">{step.number}</span>
               </div>
-              <p className="font-ui text-sm text-ink/80">{step.title}</p>
-              <p className="font-ui text-xs text-ink/50">{step.time}</p>
+              <p className="font-ui text-sm text-ink font-semibold">{step.title}</p>
+              <p className="font-ui text-xs text-stone">{step.time}</p>
             </div>
           ))}
         </div>
@@ -131,38 +131,38 @@ export default function ComoJugarPage() {
           <section key={step.number} className="relative">
             {/* Connection line */}
             {index < steps.length - 1 && (
-              <div className="absolute left-6 top-16 bottom-0 w-px bg-gold/20 hidden md:block" />
+              <div className="absolute left-6 top-16 bottom-0 w-px bg-gold/40 hidden md:block" />
             )}
 
             <div className="flex gap-6">
               {/* Step number */}
               <div className="flex-shrink-0">
-                <div className="w-12 h-12 rounded-full bg-gold/20 border border-gold/40 flex items-center justify-center">
-                  <step.icon className="h-5 w-5 text-gold" />
+                <div className="w-12 h-12 rounded-full bg-gold border-2 border-gold-bright flex items-center justify-center">
+                  <step.icon className="h-5 w-5 text-shadow" />
                 </div>
               </div>
 
               {/* Content */}
               <div className="flex-1">
                 <div className="flex items-center gap-3 mb-3">
-                  <h2 className="font-heading text-xl text-gold">
+                  <h2 className="font-heading text-xl text-gold-bright">
                     Paso {step.number}: {step.title}
                   </h2>
-                  <span className="text-xs font-ui text-parchment/50 bg-shadow-mid px-2 py-1 rounded">
+                  <span className="text-xs font-ui font-semibold text-parchment bg-shadow px-2 py-1 rounded">
                     {step.time}
                   </span>
                 </div>
 
-                <p className="font-body text-lg text-parchment/90 mb-4">
+                <p className="font-body text-lg text-parchment mb-4">
                   {step.description}
                 </p>
 
-                <ParchmentPanel className="p-4">
+                <ParchmentPanel className="p-4 border border-gold-dim/50">
                   <ul className="space-y-2">
                     {step.details.map((detail, i) => (
                       <li key={i} className="flex items-start gap-3">
-                        <span className="text-gold-dim mt-1">•</span>
-                        <span className="font-body text-ink/80">{detail}</span>
+                        <span className="text-gold-dim mt-1 font-bold">•</span>
+                        <span className="font-body text-stone">{detail}</span>
                       </li>
                     ))}
                   </ul>
@@ -174,44 +174,44 @@ export default function ComoJugarPage() {
 
         {/* During the Game */}
         <section className="mt-16">
-          <h2 className="font-heading text-2xl text-gold mb-6 flex items-center gap-3">
+          <h2 className="font-heading text-2xl text-gold-bright mb-6 flex items-center gap-3">
             <MessageSquare className="h-6 w-6" />
             Durante la Partida
           </h2>
 
-          <div className="font-body text-parchment/90 space-y-6 text-lg leading-relaxed">
+          <div className="font-body text-parchment space-y-6 text-lg leading-relaxed">
             <p>
               Una vez que empieces, la pantalla de juego tiene todo lo que necesitas:
             </p>
 
             <div className="grid md:grid-cols-2 gap-6">
-              <ParchmentPanel className="p-5">
-                <h3 className="font-heading text-lg text-gold-dim mb-3">Panel de Narracion</h3>
-                <p className="font-body text-ink/80 text-base">
+              <ParchmentPanel className="p-5 border border-gold-dim">
+                <h3 className="font-heading text-lg text-ink mb-3">Panel de Narracion</h3>
+                <p className="font-body text-stone text-base">
                   Aqui aparece todo lo que el DM te cuenta. Las descripciones de escenas,
                   dialogos de personajes, y consecuencias de tus acciones.
                 </p>
               </ParchmentPanel>
 
-              <ParchmentPanel className="p-5">
-                <h3 className="font-heading text-lg text-gold-dim mb-3">Botones de Accion</h3>
-                <p className="font-body text-ink/80 text-base">
+              <ParchmentPanel className="p-5 border border-gold-dim">
+                <h3 className="font-heading text-lg text-ink mb-3">Botones de Accion</h3>
+                <p className="font-body text-stone text-base">
                   Opciones sugeridas para continuar la historia.
                   Pero tambien puedes escribir cualquier accion que imagines.
                 </p>
               </ParchmentPanel>
 
-              <ParchmentPanel className="p-5">
-                <h3 className="font-heading text-lg text-gold-dim mb-3">Tu Personaje</h3>
-                <p className="font-body text-ink/80 text-base">
+              <ParchmentPanel className="p-5 border border-gold-dim">
+                <h3 className="font-heading text-lg text-ink mb-3">Tu Personaje</h3>
+                <p className="font-body text-stone text-base">
                   Panel lateral con tu vida, inventario y estado actual.
                   Se actualiza automaticamente segun la historia.
                 </p>
               </ParchmentPanel>
 
-              <ParchmentPanel className="p-5">
-                <h3 className="font-heading text-lg text-gold-dim mb-3">Imagen de Escena</h3>
-                <p className="font-body text-ink/80 text-base">
+              <ParchmentPanel className="p-5 border border-gold-dim">
+                <h3 className="font-heading text-lg text-ink mb-3">Imagen de Escena</h3>
+                <p className="font-body text-stone text-base">
                   Ilustraciones generadas por IA que muestran los momentos clave
                   de tu aventura. Inmersion visual completa.
                 </p>
@@ -222,25 +222,25 @@ export default function ComoJugarPage() {
 
         {/* Voice Feature */}
         <section className="mt-12">
-          <h2 className="font-heading text-2xl text-gold mb-6 flex items-center gap-3">
+          <h2 className="font-heading text-2xl text-gold-bright mb-6 flex items-center gap-3">
             <Volume2 className="h-6 w-6" />
             Voz del Narrador
           </h2>
 
-          <div className="font-body text-parchment/90 space-y-4 text-lg leading-relaxed">
+          <div className="font-body text-parchment space-y-4 text-lg leading-relaxed">
             <p>
               Cada mundo tiene una voz unica para el DM. Puedes activar el audio
               para escuchar la narracion mientras juegas, como un audiolibro interactivo.
             </p>
 
-            <ParchmentPanel className="p-5">
+            <ParchmentPanel className="p-5 border border-gold-dim">
               <div className="flex items-center gap-4">
-                <div className="p-3 rounded-full bg-gold-dim/20">
-                  <Volume2 className="h-6 w-6 text-gold-dim" />
+                <div className="p-3 rounded-full bg-gold-dim">
+                  <Volume2 className="h-6 w-6 text-white" />
                 </div>
                 <div>
-                  <p className="font-heading text-ink mb-1">Tip</p>
-                  <p className="font-body text-ink/70 text-base">
+                  <p className="font-heading text-ink mb-1 font-bold">Tip</p>
+                  <p className="font-body text-stone text-base">
                     Usa audifonos para la mejor experiencia. El narrador tiene
                     diferentes tonos segun el mundo: epico en fantasia, tenso en zombies,
                     energetico en isekai.
@@ -253,7 +253,7 @@ export default function ComoJugarPage() {
 
         {/* Tips */}
         <section className="mt-12">
-          <h2 className="font-heading text-2xl text-gold mb-6">
+          <h2 className="font-heading text-2xl text-gold-bright mb-6">
             Consejos para tu Primera Partida
           </h2>
 
@@ -280,9 +280,9 @@ export default function ComoJugarPage() {
                 desc: 'Prueba diferentes mundos y personajes. Cada combinacion ofrece una experiencia distinta.',
               },
             ].map((tip) => (
-              <ParchmentPanel key={tip.title} className="p-4">
-                <h4 className="font-heading text-gold-dim mb-1">{tip.title}</h4>
-                <p className="font-body text-ink/70 text-base">{tip.desc}</p>
+              <ParchmentPanel key={tip.title} className="p-4 border border-gold-dim/50">
+                <h4 className="font-heading text-ink mb-1">{tip.title}</h4>
+                <p className="font-body text-stone text-base">{tip.desc}</p>
               </ParchmentPanel>
             ))}
           </div>
@@ -290,17 +290,17 @@ export default function ComoJugarPage() {
 
         {/* CTA */}
         <section className="mt-16">
-          <ParchmentPanel variant="ornate" className="p-8 text-center">
-            <h2 className="font-heading text-2xl text-gold-dim mb-4">
+          <ParchmentPanel variant="ornate" className="p-8 text-center border-2 border-gold">
+            <h2 className="font-heading text-2xl text-ink mb-4">
               Listo para Empezar?
             </h2>
-            <p className="font-body text-ink/80 mb-6 max-w-xl mx-auto">
+            <p className="font-body text-stone mb-6 max-w-xl mx-auto text-lg">
               Ya sabes todo lo necesario. El resto lo aprenderas jugando.
               Tu primera aventura te espera.
             </p>
             <Link
               href="/onboarding"
-              className="inline-block font-heading text-lg bg-gold text-shadow px-8 py-3 rounded-lg hover:bg-gold-bright transition-colors"
+              className="inline-block font-heading text-lg bg-gold text-shadow px-8 py-3 rounded-lg hover:bg-gold-bright transition-colors font-bold"
             >
               Crear mi Personaje
             </Link>
@@ -310,18 +310,18 @@ export default function ComoJugarPage() {
       </div>
 
       {/* Navigation */}
-      <nav className="border-t border-gold/20 pt-8 mt-12">
+      <nav className="border-t border-gold/30 pt-8 mt-12">
         <div className="flex justify-between items-center">
           <Link
             href="/guias/que-es-rol"
-            className="flex items-center gap-2 text-parchment/60 hover:text-gold transition-colors font-ui"
+            className="flex items-center gap-2 text-parchment hover:text-gold-bright transition-colors font-ui"
           >
             <ArrowLeft className="h-4 w-4" />
             Anterior: Que es el Juego de Rol
           </Link>
           <Link
             href="/guias/crear-personaje"
-            className="flex items-center gap-2 text-gold hover:text-gold-bright transition-colors font-ui"
+            className="flex items-center gap-2 text-gold-bright hover:text-gold transition-colors font-ui font-semibold"
           >
             Siguiente: Como Crear tu Personaje
             <ArrowRight className="h-4 w-4" />
