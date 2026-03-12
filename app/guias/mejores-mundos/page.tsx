@@ -145,21 +145,21 @@ export default function MejoresMundosPage() {
 
       {/* Quick Comparison */}
       <ParchmentPanel className="p-6 mb-12 overflow-x-auto">
-        <h2 className="font-heading text-lg text-gold mb-4">Comparacion Rapida</h2>
+        <h2 className="font-heading text-lg text-gold-dim mb-4">Comparacion Rapida</h2>
         <table className="w-full min-w-[600px]">
           <thead>
-            <tr className="border-b border-gold/20">
-              <th className="text-left py-2 font-heading text-parchment">Mundo</th>
-              <th className="text-left py-2 font-heading text-parchment">Tono</th>
-              <th className="text-left py-2 font-heading text-parchment">Dificultad</th>
-              <th className="text-left py-2 font-heading text-parchment">Sesion</th>
+            <tr className="border-b border-gold-dim/30">
+              <th className="text-left py-2 font-heading text-ink">Mundo</th>
+              <th className="text-left py-2 font-heading text-ink">Tono</th>
+              <th className="text-left py-2 font-heading text-ink">Dificultad</th>
+              <th className="text-left py-2 font-heading text-ink">Sesion</th>
             </tr>
           </thead>
-          <tbody className="font-body text-parchment/80">
+          <tbody className="font-body text-ink/80">
             {worlds.map((world) => (
-              <tr key={world.id} className="border-b border-gold/10">
+              <tr key={world.id} className="border-b border-gold-dim/20">
                 <td className="py-3 flex items-center gap-2">
-                  <world.icon className="h-4 w-4 text-gold" />
+                  <world.icon className="h-4 w-4 text-gold-dim" />
                   {world.name}
                 </td>
                 <td className="py-3">{world.tone.split(',')[0]}</td>
@@ -210,7 +210,7 @@ export default function MejoresMundosPage() {
                   </h4>
                   <ul className="space-y-2">
                     {world.pros.map((pro, i) => (
-                      <li key={i} className="flex items-start gap-2 text-sm text-parchment/80">
+                      <li key={i} className="flex items-start gap-2 text-sm text-ink/80">
                         <span className="text-emerald mt-1">+</span>
                         <span>{pro}</span>
                       </li>
@@ -222,7 +222,7 @@ export default function MejoresMundosPage() {
                   <h4 className="font-heading text-blood mb-3">Consideraciones</h4>
                   <ul className="space-y-2">
                     {world.cons.map((con, i) => (
-                      <li key={i} className="flex items-start gap-2 text-sm text-parchment/80">
+                      <li key={i} className="flex items-start gap-2 text-sm text-ink/80">
                         <span className="text-blood mt-1">-</span>
                         <span>{con}</span>
                       </li>
@@ -232,8 +232,8 @@ export default function MejoresMundosPage() {
               </div>
 
               <ParchmentPanel variant="ornate" className="p-5 mt-6">
-                <p className="font-body text-parchment/90">
-                  <strong className="text-gold">Ideal para:</strong> {world.idealFor}
+                <p className="font-body text-ink/90">
+                  <strong className="text-gold-dim">Ideal para:</strong> {world.idealFor}
                 </p>
               </ParchmentPanel>
             </div>
@@ -270,10 +270,10 @@ export default function MejoresMundosPage() {
           </p>
 
           <ParchmentPanel className="p-6 my-8">
-            <h3 className="font-heading text-lg text-gold mb-3">
+            <h3 className="font-heading text-lg text-gold-dim mb-3">
               El Secreto para Disfrutar Cualquier Mundo
             </h3>
-            <p className="font-body text-parchment/80">
+            <p className="font-body text-ink/80">
               No importa cual elijas: comprometete con la fantasia. Mete tu personaje
               en problemas, toma decisiones arriesgadas, y deja que la historia
               te sorprenda. El mundo que elijas sera increible si le das la oportunidad.
@@ -285,10 +285,10 @@ export default function MejoresMundosPage() {
       {/* CTA */}
       <section className="mt-16">
         <ParchmentPanel variant="ornate" className="p-8 text-center">
-          <h2 className="font-heading text-2xl text-gold mb-4">
+          <h2 className="font-heading text-2xl text-gold-dim mb-4">
             Elige tu Mundo
           </h2>
-          <p className="font-body text-parchment/80 mb-6 max-w-xl mx-auto">
+          <p className="font-body text-ink/80 mb-6 max-w-xl mx-auto">
             Ya conoces las opciones. Ahora es momento de elegir donde comenzara
             tu leyenda. Cual sera tu primer mundo?
           </p>

@@ -5,7 +5,8 @@ import { GameMode, GameEngine, TutorialLevel } from '@/lib/types/lore'
 import { ParchmentPanel } from '@/components/medieval/ParchmentPanel'
 import { RunicButton } from '@/components/medieval/RunicButton'
 import { useTranslations } from '@/lib/i18n'
-import { Clock, Calendar, Book, Dices, Sword, Users } from 'lucide-react'
+import { Clock, Calendar, Book, Dices, Sword, Users, HelpCircle } from 'lucide-react'
+import Link from 'next/link'
 
 interface ModeSelectorProps {
   onSelect: (data: {
@@ -232,9 +233,15 @@ export function ModeSelector({ onSelect, onBack }: ModeSelectorProps) {
           <h2 className="font-title text-2xl md:text-4xl text-gold-bright text-center mb-2 md:mb-4">
             {t.onboarding.experience.title}
           </h2>
-          <p className="font-ui text-sm md:text-base text-parchment text-center mb-4 md:mb-8">
+          <p className="font-ui text-sm md:text-base text-parchment text-center mb-4 md:mb-6">
             {t.onboarding.experience.subtitle}
           </p>
+          <div className="text-center mb-4 md:mb-6">
+            <Link href="/guias/como-jugar" className="inline-flex items-center gap-2 font-ui text-xs md:text-sm text-emerald hover:text-emerald/80 transition">
+              <HelpCircle size={14} />
+              Primera vez jugando rol? Te explicamos paso a paso
+            </Link>
+          </div>
 
           <div className="grid grid-cols-2 gap-3 md:gap-4">
             {tutorialLevels.map((level) => (

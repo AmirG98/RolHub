@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { RunicButton } from './RunicButton'
 import { LanguageToggle } from '@/components/ui/LanguageToggle'
 import { useTranslations } from '@/lib/i18n'
-import { Menu, X } from 'lucide-react'
+import { Menu, X, HelpCircle } from 'lucide-react'
 
 export function Navbar() {
   const { isSignedIn } = useUser()
@@ -36,6 +36,11 @@ export function Navbar() {
 
           {/* Desktop navigation */}
           <div className="hidden md:flex items-center gap-4 lg:gap-6">
+            <Link href="/guias" className="font-heading text-sm lg:text-base text-parchment hover:text-emerald transition relative group flex items-center gap-1">
+              <HelpCircle size={16} />
+              Guias
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-emerald group-hover:w-full transition-all"></span>
+            </Link>
             <Link href="/dados" className="font-heading text-sm lg:text-base text-parchment hover:text-gold transition relative group">
               🎲 Dados
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gold group-hover:w-full transition-all"></span>
@@ -80,6 +85,13 @@ export function Navbar() {
         {isMenuOpen && (
           <div className="md:hidden mt-4 pb-4 border-t border-gold/20 pt-4 space-y-4">
             <div className="flex flex-col gap-3">
+              <Link
+                href="/guias"
+                onClick={() => setIsMenuOpen(false)}
+                className="font-heading text-parchment hover:text-emerald transition py-2 flex items-center gap-2"
+              >
+                <HelpCircle size={18} /> Guias para Jugar
+              </Link>
               <Link
                 href="/dados"
                 onClick={() => setIsMenuOpen(false)}

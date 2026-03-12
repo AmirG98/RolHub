@@ -3,8 +3,9 @@
 import { useState } from 'react'
 import { Archetype } from '@/lib/types/lore'
 import { RunicButton } from '@/components/medieval/RunicButton'
-import { Sword, BookOpen, Shield, Zap, Heart, Eye, Target, Sparkles, Skull, Star } from 'lucide-react'
+import { Sword, BookOpen, Shield, Zap, Heart, Eye, Target, Sparkles, Skull, Star, HelpCircle } from 'lucide-react'
 import { useTranslations } from '@/lib/i18n'
+import Link from 'next/link'
 
 interface ArchetypeSelectorProps {
   archetypes: Archetype[]
@@ -80,9 +81,15 @@ export function ArchetypeSelector({ archetypes, loreName, onSelect, onBack }: Ar
             {t.archetypeSelector.inWorld} {loreName}
           </p>
         )}
-        <p className="font-ui text-sm md:text-base text-parchment/80 text-center mb-6 md:mb-12">
+        <p className="font-ui text-sm md:text-base text-parchment/80 text-center mb-4 md:mb-8">
           {t.archetypeSelector.archetypeDefines}
         </p>
+        <div className="text-center mb-4 md:mb-8">
+          <Link href="/guias/crear-personaje" className="inline-flex items-center gap-2 font-ui text-xs md:text-sm text-emerald hover:text-emerald/80 transition">
+            <HelpCircle size={14} />
+            Necesitas ayuda para elegir? Lee nuestra guia
+          </Link>
+        </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 mb-6 md:mb-8">
           {archetypes.map((archetype) => (

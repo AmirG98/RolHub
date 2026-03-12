@@ -208,16 +208,16 @@ export default function QueEsRolPage() {
 
       {/* Table of Contents */}
       <ParchmentPanel className="p-6 mb-12">
-        <h2 className="font-heading text-lg text-gold mb-4">Contenido de esta guia</h2>
+        <h2 className="font-heading text-lg text-gold-dim mb-4">Contenido de esta guia</h2>
         <nav aria-label="Tabla de contenidos">
           <ul className="grid md:grid-cols-2 gap-2">
             {sections.map((section) => (
               <li key={section.id}>
                 <a
                   href={`#${section.id}`}
-                  className="flex items-center gap-2 text-parchment/80 hover:text-gold transition-colors font-ui text-sm"
+                  className="flex items-center gap-2 text-ink/80 hover:text-gold-dim transition-colors font-ui text-sm"
                 >
-                  <section.icon className="h-4 w-4 text-gold/60" />
+                  <section.icon className="h-4 w-4 text-gold-dim/80" />
                   {section.title}
                 </a>
               </li>
@@ -225,9 +225,9 @@ export default function QueEsRolPage() {
             <li>
               <a
                 href="#faq"
-                className="flex items-center gap-2 text-parchment/80 hover:text-gold transition-colors font-ui text-sm"
+                className="flex items-center gap-2 text-ink/80 hover:text-gold-dim transition-colors font-ui text-sm"
               >
-                <MessageCircle className="h-4 w-4 text-gold/60" />
+                <MessageCircle className="h-4 w-4 text-gold-dim/80" />
                 Preguntas Frecuentes
               </a>
             </li>
@@ -289,16 +289,16 @@ export default function QueEsRolPage() {
 
             <div className="grid md:grid-cols-2 gap-6 my-8">
               <ParchmentPanel className="p-6">
-                <h3 className="font-heading text-lg text-gold mb-3">El Director de Juego (DM)</h3>
-                <p className="font-body text-parchment/80 text-base">
+                <h3 className="font-heading text-lg text-gold-dim mb-3">El Director de Juego (DM)</h3>
+                <p className="font-body text-ink/80 text-base">
                   Narra la historia, controla a los personajes no jugadores (NPCs),
-                  describe el mundo y arbitra las reglas. En <Link href="/onboarding" className="text-gold hover:text-gold-bright">RolHub</Link>, este rol lo cumple nuestra IA.
+                  describe el mundo y arbitra las reglas. En <Link href="/onboarding" className="text-gold-dim hover:text-shadow underline">RolHub</Link>, este rol lo cumple nuestra IA.
                 </p>
               </ParchmentPanel>
 
               <ParchmentPanel className="p-6">
-                <h3 className="font-heading text-lg text-gold mb-3">Los Jugadores</h3>
-                <p className="font-body text-parchment/80 text-base">
+                <h3 className="font-heading text-lg text-gold-dim mb-3">Los Jugadores</h3>
+                <p className="font-body text-ink/80 text-base">
                   Cada jugador controla un personaje protagonista.
                   Toman decisiones, interactuan con el mundo y determinan el rumbo de la aventura.
                 </p>
@@ -435,8 +435,8 @@ export default function QueEsRolPage() {
                 },
               ].map((item) => (
                 <ParchmentPanel key={item.title} className="p-4">
-                  <h4 className="font-heading text-gold mb-1">{item.title}</h4>
-                  <p className="font-body text-parchment/70 text-base">{item.desc}</p>
+                  <h4 className="font-heading text-gold-dim mb-1">{item.title}</h4>
+                  <p className="font-body text-ink/70 text-base">{item.desc}</p>
                 </ParchmentPanel>
               ))}
             </div>
@@ -552,8 +552,8 @@ export default function QueEsRolPage() {
           <div className="space-y-4">
             {faqs.map((faq, index) => (
               <ParchmentPanel key={index} className="p-5">
-                <h3 className="font-heading text-lg text-gold mb-2">{faq.question}</h3>
-                <p className="font-body text-parchment/80">{faq.answer}</p>
+                <h3 className="font-heading text-lg text-gold-dim mb-2">{faq.question}</h3>
+                <p className="font-body text-ink/80">{faq.answer}</p>
               </ParchmentPanel>
             ))}
           </div>
@@ -567,20 +567,20 @@ export default function QueEsRolPage() {
         <div className="grid md:grid-cols-3 gap-4">
           <Link href="/guias/como-jugar">
             <ParchmentPanel className="p-4 hover:border-gold/50 transition-all h-full">
-              <h3 className="font-heading text-parchment mb-2">Como Jugar en RolHub</h3>
-              <p className="font-body text-parchment/60 text-sm">Tutorial paso a paso para tu primera partida</p>
+              <h3 className="font-heading text-ink mb-2">Como Jugar en RolHub</h3>
+              <p className="font-body text-ink/60 text-sm">Tutorial paso a paso para tu primera partida</p>
             </ParchmentPanel>
           </Link>
           <Link href="/guias/crear-personaje">
             <ParchmentPanel className="p-4 hover:border-gold/50 transition-all h-full">
-              <h3 className="font-heading text-parchment mb-2">Crear tu Personaje</h3>
-              <p className="font-body text-parchment/60 text-sm">Guia completa de creacion de personajes</p>
+              <h3 className="font-heading text-ink mb-2">Crear tu Personaje</h3>
+              <p className="font-body text-ink/60 text-sm">Guia completa de creacion de personajes</p>
             </ParchmentPanel>
           </Link>
           <Link href="/guias/mejores-mundos">
             <ParchmentPanel className="p-4 hover:border-gold/50 transition-all h-full">
-              <h3 className="font-heading text-parchment mb-2">Mejores Mundos</h3>
-              <p className="font-body text-parchment/60 text-sm">Encuentra la ambientacion perfecta para ti</p>
+              <h3 className="font-heading text-ink mb-2">Mejores Mundos</h3>
+              <p className="font-body text-ink/60 text-sm">Encuentra la ambientacion perfecta para ti</p>
             </ParchmentPanel>
           </Link>
         </div>

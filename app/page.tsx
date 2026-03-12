@@ -52,6 +52,14 @@ export default function HomePage() {
               🌆 Cyberpunk
             </span>
           </div>
+
+          {/* Help link */}
+          <div className="mt-6">
+            <Link href="/guias" className="inline-flex items-center gap-2 font-ui text-sm text-emerald hover:text-emerald/80 transition">
+              <span className="text-lg">❓</span>
+              Primera vez? Aprende a jugar aqui
+            </Link>
+          </div>
         </div>
 
         {/* Stats Bar */}

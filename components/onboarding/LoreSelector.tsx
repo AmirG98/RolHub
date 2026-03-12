@@ -4,6 +4,8 @@ import { useState } from 'react'
 import { Lore } from '@/lib/types/lore'
 import { RunicButton } from '@/components/medieval/RunicButton'
 import { useTranslations } from '@/lib/i18n'
+import Link from 'next/link'
+import { HelpCircle } from 'lucide-react'
 
 interface LoreSelectorProps {
   onSelect: (lore: Lore) => void
@@ -72,7 +74,7 @@ export function LoreSelector({ onSelect }: LoreSelectorProps) {
         </div>
 
         {/* Botón de continuar - fixed en mobile */}
-        <div className="text-center sticky bottom-4 md:relative md:bottom-auto">
+        <div className="text-center sticky bottom-4 md:relative md:bottom-auto space-y-3">
           <RunicButton
             variant="primary"
             disabled={!selectedLore}
@@ -81,6 +83,12 @@ export function LoreSelector({ onSelect }: LoreSelectorProps) {
           >
             {t.onboarding.buttons.continue}
           </RunicButton>
+          <div>
+            <Link href="/guias/mejores-mundos" className="inline-flex items-center gap-2 font-ui text-xs md:text-sm text-emerald hover:text-emerald/80 transition">
+              <HelpCircle size={14} />
+              No sabes cual elegir? Te ayudamos
+            </Link>
+          </div>
         </div>
       </div>
     </div>

@@ -109,15 +109,15 @@ export default function ComoJugarPage() {
 
       {/* Quick Summary */}
       <ParchmentPanel className="p-6 mb-12">
-        <h2 className="font-heading text-lg text-gold mb-4">Resumen Rapido</h2>
+        <h2 className="font-heading text-lg text-gold-dim mb-4">Resumen Rapido</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {steps.map((step) => (
             <div key={step.number} className="text-center">
-              <div className="w-10 h-10 rounded-full bg-gold/20 flex items-center justify-center mx-auto mb-2">
-                <span className="font-heading text-gold">{step.number}</span>
+              <div className="w-10 h-10 rounded-full bg-gold-dim/20 flex items-center justify-center mx-auto mb-2">
+                <span className="font-heading text-gold-dim">{step.number}</span>
               </div>
-              <p className="font-ui text-sm text-parchment/80">{step.title}</p>
-              <p className="font-ui text-xs text-parchment/50">{step.time}</p>
+              <p className="font-ui text-sm text-ink/80">{step.title}</p>
+              <p className="font-ui text-xs text-ink/50">{step.time}</p>
             </div>
           ))}
         </div>
@@ -161,8 +161,8 @@ export default function ComoJugarPage() {
                   <ul className="space-y-2">
                     {step.details.map((detail, i) => (
                       <li key={i} className="flex items-start gap-3">
-                        <span className="text-gold mt-1">•</span>
-                        <span className="font-body text-parchment/80">{detail}</span>
+                        <span className="text-gold-dim mt-1">•</span>
+                        <span className="font-body text-ink/80">{detail}</span>
                       </li>
                     ))}
                   </ul>
@@ -186,32 +186,32 @@ export default function ComoJugarPage() {
 
             <div className="grid md:grid-cols-2 gap-6">
               <ParchmentPanel className="p-5">
-                <h3 className="font-heading text-lg text-gold mb-3">Panel de Narracion</h3>
-                <p className="font-body text-parchment/80 text-base">
+                <h3 className="font-heading text-lg text-gold-dim mb-3">Panel de Narracion</h3>
+                <p className="font-body text-ink/80 text-base">
                   Aqui aparece todo lo que el DM te cuenta. Las descripciones de escenas,
                   dialogos de personajes, y consecuencias de tus acciones.
                 </p>
               </ParchmentPanel>
 
               <ParchmentPanel className="p-5">
-                <h3 className="font-heading text-lg text-gold mb-3">Botones de Accion</h3>
-                <p className="font-body text-parchment/80 text-base">
+                <h3 className="font-heading text-lg text-gold-dim mb-3">Botones de Accion</h3>
+                <p className="font-body text-ink/80 text-base">
                   Opciones sugeridas para continuar la historia.
                   Pero tambien puedes escribir cualquier accion que imagines.
                 </p>
               </ParchmentPanel>
 
               <ParchmentPanel className="p-5">
-                <h3 className="font-heading text-lg text-gold mb-3">Tu Personaje</h3>
-                <p className="font-body text-parchment/80 text-base">
+                <h3 className="font-heading text-lg text-gold-dim mb-3">Tu Personaje</h3>
+                <p className="font-body text-ink/80 text-base">
                   Panel lateral con tu vida, inventario y estado actual.
                   Se actualiza automaticamente segun la historia.
                 </p>
               </ParchmentPanel>
 
               <ParchmentPanel className="p-5">
-                <h3 className="font-heading text-lg text-gold mb-3">Imagen de Escena</h3>
-                <p className="font-body text-parchment/80 text-base">
+                <h3 className="font-heading text-lg text-gold-dim mb-3">Imagen de Escena</h3>
+                <p className="font-body text-ink/80 text-base">
                   Ilustraciones generadas por IA que muestran los momentos clave
                   de tu aventura. Inmersion visual completa.
                 </p>
@@ -235,12 +235,12 @@ export default function ComoJugarPage() {
 
             <ParchmentPanel className="p-5">
               <div className="flex items-center gap-4">
-                <div className="p-3 rounded-full bg-gold/20">
-                  <Volume2 className="h-6 w-6 text-gold" />
+                <div className="p-3 rounded-full bg-gold-dim/20">
+                  <Volume2 className="h-6 w-6 text-gold-dim" />
                 </div>
                 <div>
-                  <p className="font-heading text-parchment mb-1">Tip</p>
-                  <p className="font-body text-parchment/70 text-base">
+                  <p className="font-heading text-ink mb-1">Tip</p>
+                  <p className="font-body text-ink/70 text-base">
                     Usa audifonos para la mejor experiencia. El narrador tiene
                     diferentes tonos segun el mundo: epico en fantasia, tenso en zombies,
                     energetico en isekai.
@@ -281,8 +281,8 @@ export default function ComoJugarPage() {
               },
             ].map((tip) => (
               <ParchmentPanel key={tip.title} className="p-4">
-                <h4 className="font-heading text-gold mb-1">{tip.title}</h4>
-                <p className="font-body text-parchment/70 text-base">{tip.desc}</p>
+                <h4 className="font-heading text-gold-dim mb-1">{tip.title}</h4>
+                <p className="font-body text-ink/70 text-base">{tip.desc}</p>
               </ParchmentPanel>
             ))}
           </div>
@@ -291,10 +291,10 @@ export default function ComoJugarPage() {
         {/* CTA */}
         <section className="mt-16">
           <ParchmentPanel variant="ornate" className="p-8 text-center">
-            <h2 className="font-heading text-2xl text-gold mb-4">
+            <h2 className="font-heading text-2xl text-gold-dim mb-4">
               Listo para Empezar?
             </h2>
-            <p className="font-body text-parchment/80 mb-6 max-w-xl mx-auto">
+            <p className="font-body text-ink/80 mb-6 max-w-xl mx-auto">
               Ya sabes todo lo necesario. El resto lo aprenderas jugando.
               Tu primera aventura te espera.
             </p>
