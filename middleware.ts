@@ -10,6 +10,10 @@ const isPublicRoute = createRouteMatcher([
   '/hoja-personaje',
   '/design-system',
   '/onboarding',
+  // SEO routes - deben ser públicas para Google
+  '/guias(.*)',
+  '/sitemap.xml',
+  '/robots.txt',
   // Guest routes - permiten jugar sin cuenta
   '/guest(.*)',
   '/play-guest(.*)',
