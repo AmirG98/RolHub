@@ -155,7 +155,7 @@ export default function MejoresMundosPage() {
               <th className="text-left py-2 font-heading text-ink font-bold">Sesion</th>
             </tr>
           </thead>
-          <tbody className="font-body text-stone">
+          <tbody className="font-body text-ink">
             {worlds.map((world) => (
               <tr key={world.id} className="border-b border-gold-dim/40">
                 <td className="py-3 flex items-center gap-2 font-semibold text-ink">
@@ -210,7 +210,7 @@ export default function MejoresMundosPage() {
                   </h4>
                   <ul className="space-y-2">
                     {world.pros.map((pro, i) => (
-                      <li key={i} className="flex items-start gap-2 text-sm text-stone">
+                      <li key={i} className="flex items-start gap-2 text-sm text-ink">
                         <span className="text-emerald mt-1 font-bold">+</span>
                         <span>{pro}</span>
                       </li>
@@ -222,7 +222,7 @@ export default function MejoresMundosPage() {
                   <h4 className="font-heading text-blood mb-3 font-bold">Consideraciones</h4>
                   <ul className="space-y-2">
                     {world.cons.map((con, i) => (
-                      <li key={i} className="flex items-start gap-2 text-sm text-stone">
+                      <li key={i} className="flex items-start gap-2 text-sm text-ink">
                         <span className="text-blood mt-1 font-bold">-</span>
                         <span>{con}</span>
                       </li>
@@ -232,7 +232,7 @@ export default function MejoresMundosPage() {
               </div>
 
               <ParchmentPanel variant="ornate" className="p-5 mt-6 border-2 border-gold">
-                <p className="font-body text-stone">
+                <p className="font-body text-ink">
                   <strong className="text-ink">Ideal para:</strong> {world.idealFor}
                 </p>
               </ParchmentPanel>
@@ -273,7 +273,7 @@ export default function MejoresMundosPage() {
             <h3 className="font-heading text-lg text-ink mb-3">
               El Secreto para Disfrutar Cualquier Mundo
             </h3>
-            <p className="font-body text-stone">
+            <p className="font-body text-ink">
               No importa cual elijas: comprometete con la fantasia. Mete tu personaje
               en problemas, toma decisiones arriesgadas, y deja que la historia
               te sorprenda. El mundo que elijas sera increible si le das la oportunidad.
@@ -288,7 +288,7 @@ export default function MejoresMundosPage() {
           <h2 className="font-heading text-2xl text-ink mb-4">
             Elige tu Mundo
           </h2>
-          <p className="font-body text-stone mb-6 max-w-xl mx-auto text-lg">
+          <p className="font-body text-ink mb-6 max-w-xl mx-auto text-lg">
             Ya conoces las opciones. Ahora es momento de elegir donde comenzara
             tu leyenda. Cual sera tu primer mundo?
           </p>

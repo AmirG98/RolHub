@@ -117,7 +117,7 @@ export default function ComoJugarPage() {
                 <span className="font-heading text-white font-bold">{step.number}</span>
               </div>
               <p className="font-ui text-sm text-ink font-semibold">{step.title}</p>
-              <p className="font-ui text-xs text-stone">{step.time}</p>
+              <p className="font-ui text-xs text-ink">{step.time}</p>
             </div>
           ))}
         </div>
@@ -161,8 +161,8 @@ export default function ComoJugarPage() {
                   <ul className="space-y-2">
                     {step.details.map((detail, i) => (
                       <li key={i} className="flex items-start gap-3">
-                        <span className="text-gold-dim mt-1 font-bold">•</span>
-                        <span className="font-body text-stone">{detail}</span>
+                        <span className="text-ink mt-1 font-bold">•</span>
+                        <span className="font-body text-ink">{detail}</span>
                       </li>
                     ))}
                   </ul>
@@ -187,7 +187,7 @@ export default function ComoJugarPage() {
             <div className="grid md:grid-cols-2 gap-6">
               <ParchmentPanel className="p-5 border border-gold-dim">
                 <h3 className="font-heading text-lg text-ink mb-3">Panel de Narracion</h3>
-                <p className="font-body text-stone text-base">
+                <p className="font-body text-ink text-base">
                   Aqui aparece todo lo que el DM te cuenta. Las descripciones de escenas,
                   dialogos de personajes, y consecuencias de tus acciones.
                 </p>
@@ -195,7 +195,7 @@ export default function ComoJugarPage() {
 
               <ParchmentPanel className="p-5 border border-gold-dim">
                 <h3 className="font-heading text-lg text-ink mb-3">Botones de Accion</h3>
-                <p className="font-body text-stone text-base">
+                <p className="font-body text-ink text-base">
                   Opciones sugeridas para continuar la historia.
                   Pero tambien puedes escribir cualquier accion que imagines.
                 </p>
@@ -203,7 +203,7 @@ export default function ComoJugarPage() {
 
               <ParchmentPanel className="p-5 border border-gold-dim">
                 <h3 className="font-heading text-lg text-ink mb-3">Tu Personaje</h3>
-                <p className="font-body text-stone text-base">
+                <p className="font-body text-ink text-base">
                   Panel lateral con tu vida, inventario y estado actual.
                   Se actualiza automaticamente segun la historia.
                 </p>
@@ -211,7 +211,7 @@ export default function ComoJugarPage() {
 
               <ParchmentPanel className="p-5 border border-gold-dim">
                 <h3 className="font-heading text-lg text-ink mb-3">Imagen de Escena</h3>
-                <p className="font-body text-stone text-base">
+                <p className="font-body text-ink text-base">
                   Ilustraciones generadas por IA que muestran los momentos clave
                   de tu aventura. Inmersion visual completa.
                 </p>
@@ -240,7 +240,7 @@ export default function ComoJugarPage() {
                 </div>
                 <div>
                   <p className="font-heading text-ink mb-1 font-bold">Tip</p>
-                  <p className="font-body text-stone text-base">
+                  <p className="font-body text-ink text-base">
                     Usa audifonos para la mejor experiencia. El narrador tiene
                     diferentes tonos segun el mundo: epico en fantasia, tenso en zombies,
                     energetico en isekai.
@@ -282,7 +282,7 @@ export default function ComoJugarPage() {
             ].map((tip) => (
               <ParchmentPanel key={tip.title} className="p-4 border border-gold-dim/50">
                 <h4 className="font-heading text-ink mb-1">{tip.title}</h4>
-                <p className="font-body text-stone text-base">{tip.desc}</p>
+                <p className="font-body text-ink text-base">{tip.desc}</p>
               </ParchmentPanel>
             ))}
           </div>
@@ -294,7 +294,7 @@ export default function ComoJugarPage() {
             <h2 className="font-heading text-2xl text-ink mb-4">
               Listo para Empezar?
             </h2>
-            <p className="font-body text-stone mb-6 max-w-xl mx-auto text-lg">
+            <p className="font-body text-ink mb-6 max-w-xl mx-auto text-lg">
               Ya sabes todo lo necesario. El resto lo aprenderas jugando.
               Tu primera aventura te espera.
             </p>

@@ -201,22 +201,22 @@ export default function GuiasPage() {
             <div key={guide.slug} className="relative">
               <ParchmentPanel className="p-6 h-full opacity-50 border border-gold-dim/20">
                 <div className="flex items-start gap-4">
-                  <div className="p-3 rounded-lg bg-stone/50 text-stone">
+                  <div className="p-3 rounded-lg bg-stone/50 text-ink">
                     <guide.icon className="h-6 w-6" />
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-2">
-                      <span className="text-xs font-ui font-bold text-stone bg-stone/20 px-2 py-1 rounded">
+                      <span className="text-xs font-ui font-bold text-ink bg-stone/20 px-2 py-1 rounded">
                         {guide.level}
                       </span>
-                      <span className="text-xs font-ui text-stone/70">
+                      <span className="text-xs font-ui text-ink/70">
                         {guide.readTime} lectura
                       </span>
                     </div>
                     <h3 className="font-heading text-xl text-ink/60 mb-2">
                       {guide.title}
                     </h3>
-                    <p className="font-body text-stone/80 text-sm">
+                    <p className="font-body text-ink/80 text-sm">
                       {guide.description}
                     </p>
                   </div>
@@ -238,7 +238,7 @@ export default function GuiasPage() {
           <h2 className="font-heading text-2xl text-ink mb-4">
             Listo para tu Primera Aventura?
           </h2>
-          <p className="font-body text-stone mb-6 text-lg">
+          <p className="font-body text-ink mb-6 text-lg">
             No necesitas experiencia previa. Nuestro DM con inteligencia artificial
             te guiara paso a paso en tu primera aventura de rol.
           </p>

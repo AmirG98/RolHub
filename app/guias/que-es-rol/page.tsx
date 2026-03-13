@@ -215,7 +215,7 @@ export default function QueEsRolPage() {
               <li key={section.id}>
                 <a
                   href={`#${section.id}`}
-                  className="flex items-center gap-2 text-stone hover:text-gold-dim transition-colors font-ui text-sm font-semibold"
+                  className="flex items-center gap-2 text-ink hover:text-gold-dim transition-colors font-ui text-sm font-semibold"
                 >
                   <section.icon className="h-4 w-4 text-gold-dim" />
                   {section.title}
@@ -225,7 +225,7 @@ export default function QueEsRolPage() {
             <li>
               <a
                 href="#faq"
-                className="flex items-center gap-2 text-stone hover:text-gold-dim transition-colors font-ui text-sm font-semibold"
+                className="flex items-center gap-2 text-ink hover:text-gold-dim transition-colors font-ui text-sm font-semibold"
               >
                 <MessageCircle className="h-4 w-4 text-gold-dim" />
                 Preguntas Frecuentes
@@ -259,7 +259,7 @@ export default function QueEsRolPage() {
             </p>
 
             <ParchmentPanel variant="ornate" className="p-6 my-8 border-2 border-gold">
-              <p className="font-body text-stone italic text-center text-lg">
+              <p className="font-body text-ink italic text-center text-lg">
                 &ldquo;En el rol, tu imaginacion es el unico limite.
                 Puedes ser un guerrero que salva reinos, un detective que resuelve misterios,
                 o un superviviente en un apocalipsis zombie.&rdquo;
@@ -290,7 +290,7 @@ export default function QueEsRolPage() {
             <div className="grid md:grid-cols-2 gap-6 my-8">
               <ParchmentPanel className="p-6 border border-gold-dim">
                 <h3 className="font-heading text-lg text-ink mb-3">El Director de Juego (DM)</h3>
-                <p className="font-body text-stone text-base">
+                <p className="font-body text-ink text-base">
                   Narra la historia, controla a los personajes no jugadores (NPCs),
                   describe el mundo y arbitra las reglas. En <Link href="/onboarding" className="text-gold-dim hover:text-ink underline font-semibold">RolHub</Link>, este rol lo cumple nuestra IA.
                 </p>
@@ -298,7 +298,7 @@ export default function QueEsRolPage() {
 
               <ParchmentPanel className="p-6 border border-gold-dim">
                 <h3 className="font-heading text-lg text-ink mb-3">Los Jugadores</h3>
-                <p className="font-body text-stone text-base">
+                <p className="font-body text-ink text-base">
                   Cada jugador controla un personaje protagonista.
                   Toman decisiones, interactuan con el mundo y determinan el rumbo de la aventura.
                 </p>
@@ -436,7 +436,7 @@ export default function QueEsRolPage() {
               ].map((item) => (
                 <ParchmentPanel key={item.title} className="p-4 border border-gold-dim/50">
                   <h4 className="font-heading text-ink mb-1">{item.title}</h4>
-                  <p className="font-body text-stone text-base">{item.desc}</p>
+                  <p className="font-body text-ink text-base">{item.desc}</p>
                 </ParchmentPanel>
               ))}
             </div>
@@ -530,7 +530,7 @@ export default function QueEsRolPage() {
               <h3 className="font-heading text-xl text-ink mb-4">
                 Listo para tu primera aventura de rol?
               </h3>
-              <p className="font-body text-stone mb-6 text-lg">
+              <p className="font-body text-ink mb-6 text-lg">
                 No necesitas experiencia previa. En 3 clics estaras viviendo tu propia historia.
               </p>
               <Link
@@ -553,7 +553,7 @@ export default function QueEsRolPage() {
             {faqs.map((faq, index) => (
               <ParchmentPanel key={index} className="p-5 border border-gold-dim/50">
                 <h3 className="font-heading text-lg text-ink mb-2">{faq.question}</h3>
-                <p className="font-body text-stone">{faq.answer}</p>
+                <p className="font-body text-ink">{faq.answer}</p>
               </ParchmentPanel>
             ))}
           </div>
@@ -568,19 +568,19 @@ export default function QueEsRolPage() {
           <Link href="/guias/como-jugar">
             <ParchmentPanel className="p-4 hover:border-gold transition-all h-full border border-gold-dim/30">
               <h3 className="font-heading text-ink mb-2">Como Jugar en RolHub</h3>
-              <p className="font-body text-stone text-sm">Tutorial paso a paso para tu primera partida</p>
+              <p className="font-body text-ink text-sm">Tutorial paso a paso para tu primera partida</p>
             </ParchmentPanel>
           </Link>
           <Link href="/guias/crear-personaje">
             <ParchmentPanel className="p-4 hover:border-gold transition-all h-full border border-gold-dim/30">
               <h3 className="font-heading text-ink mb-2">Crear tu Personaje</h3>
-              <p className="font-body text-stone text-sm">Guia completa de creacion de personajes</p>
+              <p className="font-body text-ink text-sm">Guia completa de creacion de personajes</p>
             </ParchmentPanel>
           </Link>
           <Link href="/guias/mejores-mundos">
             <ParchmentPanel className="p-4 hover:border-gold transition-all h-full border border-gold-dim/30">
               <h3 className="font-heading text-ink mb-2">Mejores Mundos</h3>
-              <p className="font-body text-stone text-sm">Encuentra la ambientacion perfecta para ti</p>
+              <p className="font-body text-ink text-sm">Encuentra la ambientacion perfecta para ti</p>
             </ParchmentPanel>
           </Link>
         </div>

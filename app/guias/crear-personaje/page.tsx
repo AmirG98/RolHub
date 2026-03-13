@@ -94,7 +94,7 @@ export default function CrearPersonajePage() {
             <div className="grid gap-4 my-8">
               <ParchmentPanel className="p-5 border border-gold-dim">
                 <h3 className="font-heading text-lg text-ink mb-2">Que tipo de heroe quieres ser?</h3>
-                <p className="font-body text-stone text-base">
+                <p className="font-body text-ink text-base">
                   Un guerrero honorable? Un picaro encantador? Un mago misterioso?
                   Piensa en personajes de peliculas o libros que te gusten.
                 </p>
@@ -102,7 +102,7 @@ export default function CrearPersonajePage() {
 
               <ParchmentPanel className="p-5 border border-gold-dim">
                 <h3 className="font-heading text-lg text-ink mb-2">Cual es su motivacion?</h3>
-                <p className="font-body text-stone text-base">
+                <p className="font-body text-ink text-base">
                   Por que se aventura? Busca venganza? Quiere proteger a alguien?
                   Necesita dinero? Simplemente busca emociones?
                 </p>
@@ -110,7 +110,7 @@ export default function CrearPersonajePage() {
 
               <ParchmentPanel className="p-5 border border-gold-dim">
                 <h3 className="font-heading text-lg text-ink mb-2">Cual es su debilidad?</h3>
-                <p className="font-body text-stone text-base">
+                <p className="font-body text-ink text-base">
                   Los personajes perfectos son aburridos. Es impulsivo? Demasiado confiado?
                   Tiene un secreto vergonzoso? Las debilidades crean drama.
                 </p>
@@ -118,7 +118,7 @@ export default function CrearPersonajePage() {
             </div>
 
             <ParchmentPanel variant="ornate" className="p-6 my-8 border-2 border-gold">
-              <p className="font-body text-stone italic text-center text-lg">
+              <p className="font-body text-ink italic text-center text-lg">
                 &ldquo;No necesitas una historia elaborada de 10 paginas.
                 Tres frases son suficientes para empezar. El personaje
                 se desarrollara naturalmente mientras juegas.&rdquo;
@@ -149,8 +149,8 @@ export default function CrearPersonajePage() {
                     </div>
                     <div className="flex-1">
                       <h3 className="font-heading text-xl text-ink mb-2">{arch.name}</h3>
-                      <p className="font-body text-stone mb-3">{arch.description}</p>
-                      <p className="font-body text-stone text-sm mb-2">
+                      <p className="font-body text-ink mb-3">{arch.description}</p>
+                      <p className="font-body text-ink text-sm mb-2">
                         <strong className="text-ink">Ejemplos:</strong> {arch.examples}
                       </p>
                       <p className="font-body text-emerald text-sm font-semibold">
@@ -184,7 +184,7 @@ export default function CrearPersonajePage() {
             <div className="grid md:grid-cols-2 gap-4 my-6">
               <ParchmentPanel className="p-4 border border-emerald">
                 <h4 className="font-heading text-emerald mb-2 font-bold">Si</h4>
-                <ul className="font-body text-stone text-base space-y-1">
+                <ul className="font-body text-ink text-base space-y-1">
                   <li>• Facil de pronunciar y recordar</li>
                   <li>• Acorde al mundo (Thorin en fantasia, no en zombies)</li>
                   <li>• Puede tener un apodo</li>
@@ -192,7 +192,7 @@ export default function CrearPersonajePage() {
               </ParchmentPanel>
               <ParchmentPanel className="p-4 border border-blood">
                 <h4 className="font-heading text-blood mb-2 font-bold">Evita</h4>
-                <ul className="font-body text-stone text-base space-y-1">
+                <ul className="font-body text-ink text-base space-y-1">
                   <li>• Nombres de personajes famosos exactos</li>
                   <li>• Nombres ridiculos (a menos que sea intencional)</li>
                   <li>• Nombres imposibles de decir en voz alta</li>
@@ -252,12 +252,12 @@ export default function CrearPersonajePage() {
 
             <ParchmentPanel className="p-5 my-8 border border-gold-dim">
               <h4 className="font-heading text-ink mb-3">Ejemplo Rapido</h4>
-              <p className="font-body text-stone italic">
+              <p className="font-body text-ink italic">
                 &ldquo;Aldric era herrero en un pueblo fronterizo. Cuando orcos atacaron
                 y mataron a su familia, juro venganza. Ahora viaja buscando al lider
                 de la horda responsable.&rdquo;
               </p>
-              <p className="font-body text-stone text-sm mt-3">
+              <p className="font-body text-ink text-sm mt-3">
                 Solo 3 frases, pero ya tenemos motivacion, conflicto y direccion.
               </p>
             </ParchmentPanel>
@@ -352,7 +352,7 @@ export default function CrearPersonajePage() {
             </ol>
 
             <ParchmentPanel variant="ornate" className="p-6 my-8 border-2 border-gold">
-              <p className="font-body text-stone text-center text-lg">
+              <p className="font-body text-ink text-center text-lg">
                 Tip: Tu personaje evolucionara mientras juegas. No te preocupes
                 si al principio no tienes todo claro. Las mejores historias
                 se descubren en el camino.
@@ -367,7 +367,7 @@ export default function CrearPersonajePage() {
             <h2 className="font-heading text-2xl text-ink mb-4">
               Crea tu Primer Personaje
             </h2>
-            <p className="font-body text-stone mb-6 max-w-xl mx-auto text-lg">
+            <p className="font-body text-ink mb-6 max-w-xl mx-auto text-lg">
               Elige un mundo, selecciona tu arquetipo, y empieza tu aventura.
               En 2 minutos estaras jugando.
             </p>
