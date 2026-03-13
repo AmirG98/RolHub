@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
-import { BookOpen, Users, Sparkles, Sword, Map, Dice6, Home } from 'lucide-react'
+import { BookOpen, Users, Sparkles, Sword, Map, Dice6, Home, Pencil, Theater, Flame, Zap, MessageSquare, Brain, AlertTriangle, Skull, Star, Anchor } from 'lucide-react'
 import { ParchmentPanel } from '@/components/medieval/ParchmentPanel'
 
 export const metadata: Metadata = {
@@ -33,11 +33,11 @@ export const metadata: Metadata = {
   },
 }
 
-const guides = [
+const beginnerGuides = [
   {
     slug: 'que-es-rol',
     title: 'Que es el Juego de Rol',
-    description: 'Descubre que son los juegos de rol, como funcionan y por que millones de personas los disfrutan. La guia definitiva para principiantes.',
+    description: 'Descubre que son los juegos de rol, como funcionan y por que millones de personas los disfrutan.',
     icon: BookOpen,
     readTime: '8 min',
     level: 'Principiante',
@@ -45,7 +45,7 @@ const guides = [
   {
     slug: 'como-jugar',
     title: 'Como Jugar en RolHub',
-    description: 'Tutorial paso a paso para empezar tu primera aventura. Desde crear una cuenta hasta completar tu primera mision.',
+    description: 'Tutorial paso a paso para empezar tu primera aventura en la plataforma.',
     icon: Sparkles,
     readTime: '5 min',
     level: 'Principiante',
@@ -53,7 +53,7 @@ const guides = [
   {
     slug: 'crear-personaje',
     title: 'Como Crear tu Personaje',
-    description: 'Guia completa para crear un personaje memorable. Elige raza, clase, trasfondo y dale vida a tu alter ego.',
+    description: 'Guia completa para crear un personaje memorable con trasfondo y personalidad.',
     icon: Users,
     readTime: '10 min',
     level: 'Principiante',
@@ -61,39 +61,93 @@ const guides = [
   {
     slug: 'mejores-mundos',
     title: 'Los Mejores Mundos para Empezar',
-    description: 'Comparativa de mundos de fantasia disponibles. Desde la Tierra Media hasta apocalipsis zombie, encuentra tu aventura ideal.',
+    description: 'Comparativa de mundos disponibles. Encuentra tu aventura ideal.',
     icon: Map,
     readTime: '7 min',
     level: 'Principiante',
   },
+  {
+    slug: 'oneshot-vs-campana',
+    title: 'One-shot vs Campana',
+    description: 'Diferencias entre aventuras cortas y largas. Cual elegir segun tu tiempo.',
+    icon: Zap,
+    readTime: '5 min',
+    level: 'Principiante',
+  },
+  {
+    slug: 'dm-ia',
+    title: 'Como Funciona el DM con IA',
+    description: 'Entiende como el DM de inteligencia artificial narra y responde a tus acciones.',
+    icon: Brain,
+    readTime: '6 min',
+    level: 'Principiante',
+  },
+  {
+    slug: 'vocabulario',
+    title: 'Vocabulario de Rol',
+    description: 'Glosario completo con todos los terminos que necesitas conocer.',
+    icon: MessageSquare,
+    readTime: '10 min',
+    level: 'Principiante',
+  },
+  {
+    slug: 'errores-comunes',
+    title: 'Errores Comunes de Principiantes',
+    description: 'Los 10 errores mas frecuentes y como evitarlos desde el inicio.',
+    icon: AlertTriangle,
+    readTime: '8 min',
+    level: 'Principiante',
+  },
 ]
 
-const advancedGuides = [
+const skillGuides = [
   {
-    slug: 'sistemas-reglas',
-    title: 'Sistemas de Reglas Explicados',
-    description: 'Entiende las diferencias entre Story Mode, PbtA, Year Zero y D&D 5e. Cual elegir segun tu estilo de juego.',
-    icon: Dice6,
+    slug: 'escribir-acciones',
+    title: 'Como Escribir Buenas Acciones',
+    description: 'Mejora tus descripciones para obtener mejores narraciones del DM.',
+    icon: Pencil,
+    readTime: '10 min',
+    level: 'Intermedio',
+  },
+  {
+    slug: 'roleplay-101',
+    title: 'Roleplay 101',
+    description: 'Aprende a meterte en el personaje y actuar como el lo haria.',
+    icon: Theater,
     readTime: '12 min',
     level: 'Intermedio',
-    comingSoon: false,
+  },
+  {
+    slug: 'tension-dramatica',
+    title: 'Como Crear Tension Dramatica',
+    description: 'Tecnicas para crear momentos memorables y dramaticos en tus partidas.',
+    icon: Flame,
+    readTime: '10 min',
+    level: 'Avanzado',
   },
   {
     slug: 'ser-buen-jugador',
     title: 'Como Ser un Buen Jugador',
-    description: 'Consejos para mejorar tu roleplay, trabajar en equipo y hacer que la experiencia sea memorable para todos.',
+    description: 'Consejos para mejorar tu roleplay y hacer la experiencia memorable.',
     icon: Sword,
     readTime: '8 min',
     level: 'Intermedio',
-    comingSoon: true,
   },
 ]
 
 const systemGuides = [
   {
+    slug: 'sistemas-reglas',
+    title: 'Sistemas de Reglas Explicados',
+    description: 'Vision general de todos los motores de juego disponibles.',
+    icon: Dice6,
+    readTime: '12 min',
+    level: 'Intermedio',
+  },
+  {
     slug: 'story-mode',
     title: 'Story Mode',
-    description: 'Narrativa pura sin dados. El sistema perfecto para principiantes absolutos.',
+    description: 'Narrativa pura sin dados. El sistema perfecto para principiantes.',
     icon: BookOpen,
     readTime: '8 min',
     level: 'Principiante',
@@ -117,15 +171,53 @@ const systemGuides = [
   {
     slug: 'dnd-5e',
     title: 'D&D 5e Simplificado',
-    description: 'El clasico d20 + modificador. El sistema de rol mas popular del mundo.',
+    description: 'El clasico d20 + modificador. El sistema de rol mas popular.',
     icon: Sword,
     readTime: '15 min',
     level: 'Moderado',
   },
 ]
 
+const worldGuides = [
+  {
+    slug: 'mundo-tierra-media',
+    title: 'Tierra Media',
+    description: 'Fantasia epica estilo Tolkien. Elfos, enanos, hobbits y la lucha contra el mal.',
+    icon: Sword,
+    readTime: '10 min',
+    level: 'Mundo',
+    color: 'emerald',
+  },
+  {
+    slug: 'mundo-zombies',
+    title: 'Apocalipsis Zombie',
+    description: 'Supervivencia post-apocaliptica. Recursos escasos y decisiones imposibles.',
+    icon: Skull,
+    readTime: '12 min',
+    level: 'Mundo',
+    color: 'blood',
+  },
+  {
+    slug: 'mundo-isekai',
+    title: 'Mundo Isekai',
+    description: 'Fantasia anime con gremio de aventureros, niveles y dungeons.',
+    icon: Star,
+    readTime: '10 min',
+    level: 'Mundo',
+    color: 'gold',
+  },
+  {
+    slug: 'mundo-vikingos',
+    title: 'Saga Vikinga',
+    description: 'Mitologia nordica y era vikinga. Dioses, honor y gloria en batalla.',
+    icon: Anchor,
+    readTime: '12 min',
+    level: 'Mundo',
+    color: 'stone',
+  },
+]
+
 export default function GuiasPage() {
-  // Schema for collection page
   const collectionSchema = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
@@ -134,7 +226,7 @@ export default function GuiasPage() {
     "url": "https://rol-hub.com/guias",
     "mainEntity": {
       "@type": "ItemList",
-      "itemListElement": guides.map((guide, index) => ({
+      "itemListElement": beginnerGuides.map((guide, index) => ({
         "@type": "ListItem",
         "position": index + 1,
         "item": {
@@ -195,7 +287,7 @@ export default function GuiasPage() {
           Para Principiantes
         </h2>
         <div className="grid md:grid-cols-2 gap-6">
-          {guides.map((guide) => (
+          {beginnerGuides.map((guide) => (
             <Link key={guide.slug} href={`/guias/${guide.slug}`}>
               <ParchmentPanel className="p-6 h-full hover:border-gold transition-all cursor-pointer group border border-gold-dim/30">
                 <div className="flex items-start gap-4">
@@ -205,6 +297,98 @@ export default function GuiasPage() {
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-2">
                       <span className="text-xs font-ui font-bold text-white bg-emerald px-2 py-1 rounded">
+                        {guide.level}
+                      </span>
+                      <span className="text-xs font-ui font-semibold text-ink/70">
+                        {guide.readTime} lectura
+                      </span>
+                    </div>
+                    <h3 className="font-heading text-xl text-ink group-hover:text-gold-dim transition-colors mb-2">
+                      {guide.title}
+                    </h3>
+                    <p className="font-body text-ink/80 text-sm leading-relaxed">
+                      {guide.description}
+                    </p>
+                  </div>
+                </div>
+              </ParchmentPanel>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* Guias de Mundos */}
+      <section className="mb-16">
+        <h2 className="font-heading text-2xl text-gold-bright mb-6 flex items-center gap-2">
+          <Map className="h-6 w-6" />
+          Guias de Mundos
+        </h2>
+        <p className="font-body text-parchment mb-6">
+          Todo lo que necesitas saber para sumergirte en cada universo de juego.
+        </p>
+        <div className="grid md:grid-cols-2 gap-6">
+          {worldGuides.map((guide) => (
+            <Link key={guide.slug} href={`/guias/${guide.slug}`}>
+              <ParchmentPanel className="p-6 h-full hover:border-gold transition-all cursor-pointer group border border-gold-dim/30">
+                <div className="flex items-start gap-4">
+                  <div className={`p-3 rounded-lg text-white group-hover:opacity-80 transition-colors ${
+                    guide.color === 'blood' ? 'bg-blood' :
+                    guide.color === 'gold' ? 'bg-gold text-shadow' :
+                    guide.color === 'stone' ? 'bg-stone' :
+                    'bg-emerald'
+                  }`}>
+                    <guide.icon className="h-6 w-6" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className={`text-xs font-ui font-bold text-white px-2 py-1 rounded ${
+                        guide.color === 'blood' ? 'bg-blood' :
+                        guide.color === 'gold' ? 'bg-gold-dim' :
+                        guide.color === 'stone' ? 'bg-stone' :
+                        'bg-emerald'
+                      }`}>
+                        {guide.level}
+                      </span>
+                      <span className="text-xs font-ui font-semibold text-ink/70">
+                        {guide.readTime} lectura
+                      </span>
+                    </div>
+                    <h3 className="font-heading text-xl text-ink group-hover:text-gold-dim transition-colors mb-2">
+                      {guide.title}
+                    </h3>
+                    <p className="font-body text-ink/80 text-sm leading-relaxed">
+                      {guide.description}
+                    </p>
+                  </div>
+                </div>
+              </ParchmentPanel>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* Guias de Habilidades */}
+      <section className="mb-16">
+        <h2 className="font-heading text-2xl text-gold-bright mb-6 flex items-center gap-2">
+          <Theater className="h-6 w-6" />
+          Mejora tu Juego
+        </h2>
+        <p className="font-body text-parchment mb-6">
+          Tecnicas y consejos para llevar tu roleplay al siguiente nivel.
+        </p>
+        <div className="grid md:grid-cols-2 gap-6">
+          {skillGuides.map((guide) => (
+            <Link key={guide.slug} href={`/guias/${guide.slug}`}>
+              <ParchmentPanel className="p-6 h-full hover:border-gold transition-all cursor-pointer group border border-gold-dim/30">
+                <div className="flex items-start gap-4">
+                  <div className="p-3 rounded-lg bg-stone text-gold-bright group-hover:bg-ink transition-colors">
+                    <guide.icon className="h-6 w-6" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className={`text-xs font-ui font-bold text-white px-2 py-1 rounded ${
+                        guide.level === 'Avanzado' ? 'bg-blood' : 'bg-gold-dim'
+                      }`}>
                         {guide.level}
                       </span>
                       <span className="text-xs font-ui font-semibold text-ink/70">
@@ -247,90 +431,20 @@ export default function GuiasPage() {
                       <span className="text-xs font-ui font-bold text-white bg-gold-dim px-2 py-1 rounded">
                         {guide.level}
                       </span>
-                      <span className="text-xs font-ui font-semibold text-ink">
+                      <span className="text-xs font-ui font-semibold text-ink/70">
                         {guide.readTime} lectura
                       </span>
                     </div>
                     <h3 className="font-heading text-xl text-ink group-hover:text-gold-dim transition-colors mb-2">
                       {guide.title}
                     </h3>
-                    <p className="font-body text-ink text-sm leading-relaxed">
+                    <p className="font-body text-ink/80 text-sm leading-relaxed">
                       {guide.description}
                     </p>
                   </div>
                 </div>
               </ParchmentPanel>
             </Link>
-          ))}
-        </div>
-      </section>
-
-      {/* Guias Avanzadas */}
-      <section className="mb-16">
-        <h2 className="font-heading text-2xl text-gold-bright mb-6 flex items-center gap-2">
-          <Sword className="h-6 w-6" />
-          Guias Avanzadas
-        </h2>
-        <div className="grid md:grid-cols-2 gap-6">
-          {advancedGuides.map((guide) => (
-            guide.comingSoon ? (
-              <div key={guide.slug} className="relative">
-                <ParchmentPanel className="p-6 h-full opacity-50 border border-gold-dim/20">
-                  <div className="flex items-start gap-4">
-                    <div className="p-3 rounded-lg bg-stone/50 text-ink">
-                      <guide.icon className="h-6 w-6" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className="text-xs font-ui font-bold text-ink bg-stone/20 px-2 py-1 rounded">
-                          {guide.level}
-                        </span>
-                        <span className="text-xs font-ui text-ink">
-                          {guide.readTime} lectura
-                        </span>
-                      </div>
-                      <h3 className="font-heading text-xl text-ink mb-2">
-                        {guide.title}
-                      </h3>
-                      <p className="font-body text-ink text-sm">
-                        {guide.description}
-                      </p>
-                    </div>
-                  </div>
-                </ParchmentPanel>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="font-heading text-gold-bright bg-shadow px-4 py-2 rounded-lg border-2 border-gold shadow-lg">
-                    Proximamente
-                  </span>
-                </div>
-              </div>
-            ) : (
-              <Link key={guide.slug} href={`/guias/${guide.slug}`}>
-                <ParchmentPanel className="p-6 h-full hover:border-gold transition-all cursor-pointer group border border-gold-dim/30">
-                  <div className="flex items-start gap-4">
-                    <div className="p-3 rounded-lg bg-stone text-gold-bright group-hover:bg-ink transition-colors">
-                      <guide.icon className="h-6 w-6" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className="text-xs font-ui font-bold text-white bg-gold-dim px-2 py-1 rounded">
-                          {guide.level}
-                        </span>
-                        <span className="text-xs font-ui font-semibold text-ink">
-                          {guide.readTime} lectura
-                        </span>
-                      </div>
-                      <h3 className="font-heading text-xl text-ink group-hover:text-gold-dim transition-colors mb-2">
-                        {guide.title}
-                      </h3>
-                      <p className="font-body text-ink text-sm leading-relaxed">
-                        {guide.description}
-                      </p>
-                    </div>
-                  </div>
-                </ParchmentPanel>
-              </Link>
-            )
           ))}
         </div>
       </section>
