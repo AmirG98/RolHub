@@ -172,14 +172,14 @@ export default function GuiasPage() {
                       <span className="text-xs font-ui font-bold text-white bg-emerald px-2 py-1 rounded">
                         {guide.level}
                       </span>
-                      <span className="text-xs font-ui font-semibold text-stone">
+                      <span className="text-xs font-ui font-semibold text-ink/70">
                         {guide.readTime} lectura
                       </span>
                     </div>
                     <h3 className="font-heading text-xl text-ink group-hover:text-gold-dim transition-colors mb-2">
                       {guide.title}
                     </h3>
-                    <p className="font-body text-stone text-sm leading-relaxed">
+                    <p className="font-body text-ink/80 text-sm leading-relaxed">
                       {guide.description}
                     </p>
                   </div>
