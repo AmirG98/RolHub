@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/db/prisma'
 
 // Tu email de admin - cambiar si es diferente
-const ADMIN_EMAILS = ['amir@example.com', 'amirgomez@gmail.com', 'amir.gomez@icloud.com']
+const ADMIN_EMAILS = ['amir.gomez.14@gmail.com']
 
 export async function GET() {
   try {
