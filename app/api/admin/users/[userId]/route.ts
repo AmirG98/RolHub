@@ -27,7 +27,7 @@ export async function GET(
     }
 
     // Obtener usuario con todos sus datos
-    const user = await prisma.user.findUnique({
+    const dbUser = await prisma.user.findUnique({
       where: { id: userId },
       include: {
         campaigns: {
@@ -56,8 +56,31 @@ export async function GET(
       }
     })
 
-    if (!user) {
+    if (!dbUser) {
       return NextResponse.json({ error: 'Usuario no encontrado' }, { status: 404 })
+    }
+
+    // Obtener datos de Clerk
+    let user: any = dbUser
+    try {
+      const clerkUser = await client.users.getUser(dbUser.clerkId)
+      user = {
+        ...dbUser,
+        clerkEmail: clerkUser.emailAddresses[0]?.emailAddress || null,
+        firstName: clerkUser.firstName,
+        lastName: clerkUser.lastName,
+        imageUrl: clerkUser.imageUrl,
+        lastSignInAt: clerkUser.lastSignInAt,
+      }
+    } catch {
+      user = {
+        ...dbUser,
+        clerkEmail: null,
+        firstName: null,
+        lastName: null,
+        imageUrl: null,
+        lastSignInAt: null,
+      }
     }
 
     // Calcular estadísticas del usuario

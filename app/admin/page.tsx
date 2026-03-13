@@ -55,6 +55,11 @@ interface User {
   id: string
   username: string
   email: string
+  clerkEmail: string | null
+  firstName: string | null
+  lastName: string | null
+  imageUrl: string | null
+  lastSignInAt: number | null
   plan: string
   tutorialLevel: string
   createdAt: string
@@ -344,11 +349,21 @@ export default function AdminPage() {
         </section>
       )}
 
+      {/* Guest Note */}
+      <section className="mb-6">
+        <div className="p-3 rounded bg-stone/50 border border-gold-dim/30">
+          <p className="font-ui text-sm text-parchment/80">
+            <span className="text-gold">Nota:</span> Los usuarios <strong>guest</strong> no se guardan en la base de datos.
+            Solo se muestran usuarios registrados con Clerk.
+          </p>
+        </div>
+      </section>
+
       {/* Users List */}
       <section className="mb-8">
         <div className="flex items-center justify-between mb-4">
           <h2 className="font-heading text-xl text-gold-bright flex items-center gap-2">
-            <Users className="h-5 w-5" /> Usuarios
+            <Users className="h-5 w-5" /> Usuarios Registrados
           </h2>
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-parchment/50" />
@@ -374,7 +389,7 @@ export default function AdminPage() {
                       <th className="font-heading text-ink text-center p-3">Plan</th>
                       <th className="font-heading text-ink text-center p-3">Campanas</th>
                       <th className="font-heading text-ink text-center p-3">Sesiones</th>
-                      <th className="font-heading text-ink text-center p-3">Registro</th>
+                      <th className="font-heading text-ink text-center p-3">Ultimo Login</th>
                       <th className="font-heading text-ink text-center p-3"></th>
                     </tr>
                   </thead>
@@ -386,8 +401,19 @@ export default function AdminPage() {
                         onClick={() => setSelectedUser(user.id)}
                       >
                         <td className="p-3">
-                          <p className="font-heading text-ink">{user.username}</p>
-                          <p className="font-ui text-xs text-ink/60">{user.email}</p>
+                          <div className="flex items-center gap-2">
+                            {user.imageUrl && (
+                              <img src={user.imageUrl} alt="" className="w-8 h-8 rounded-full" />
+                            )}
+                            <div>
+                              <p className="font-heading text-ink">
+                                {user.firstName && user.lastName
+                                  ? `${user.firstName} ${user.lastName}`
+                                  : user.username}
+                              </p>
+                              <p className="font-ui text-xs text-ink/60">{user.clerkEmail || user.email}</p>
+                            </div>
+                          </div>
                         </td>
                         <td className="p-3 text-center">
                           <span className={`font-ui text-xs px-2 py-1 rounded ${
@@ -401,7 +427,9 @@ export default function AdminPage() {
                         <td className="p-3 text-center font-body text-ink">{user._count.campaigns}</td>
                         <td className="p-3 text-center font-body text-ink">{user._count.sessions}</td>
                         <td className="p-3 text-center font-ui text-xs text-ink/70">
-                          {new Date(user.createdAt).toLocaleDateString('es-AR')}
+                          {user.lastSignInAt
+                            ? new Date(user.lastSignInAt).toLocaleDateString('es-AR')
+                            : '-'}
                         </td>
                         <td className="p-3 text-center">
                           <button className="text-gold-dim hover:text-gold">
@@ -448,15 +476,24 @@ export default function AdminPage() {
           <div>
             {userDetail ? (
               <ParchmentPanel className="p-4 border border-gold-dim sticky top-4">
-                <h3 className="font-heading text-lg text-ink mb-4 flex items-center gap-2">
-                  <Users className="h-5 w-5" />
-                  {userDetail.user.username}
-                </h3>
+                <div className="flex items-center gap-3 mb-4">
+                  {userDetail.user.imageUrl && (
+                    <img src={userDetail.user.imageUrl} alt="" className="w-12 h-12 rounded-full" />
+                  )}
+                  <div>
+                    <h3 className="font-heading text-lg text-ink flex items-center gap-2">
+                      {userDetail.user.firstName && userDetail.user.lastName
+                        ? `${userDetail.user.firstName} ${userDetail.user.lastName}`
+                        : userDetail.user.username}
+                    </h3>
+                    <p className="font-ui text-xs text-ink/50">@{userDetail.user.username}</p>
+                  </div>
+                </div>
 
                 <div className="space-y-3 mb-4">
                   <div>
                     <span className="font-ui text-xs text-ink/50">Email</span>
-                    <p className="font-body text-ink text-sm">{userDetail.user.email}</p>
+                    <p className="font-body text-ink text-sm">{userDetail.user.clerkEmail || userDetail.user.email}</p>
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div>

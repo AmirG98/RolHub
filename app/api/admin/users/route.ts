@@ -40,8 +40,8 @@ export async function GET(request: NextRequest) {
       ]
     } : {}
 
-    // Obtener usuarios
-    const [users, total] = await Promise.all([
+    // Obtener usuarios de la DB
+    const [dbUsers, total] = await Promise.all([
       prisma.user.findMany({
         where,
         skip,
@@ -88,6 +88,34 @@ export async function GET(request: NextRequest) {
       prisma.user.count({ where })
     ])
 
+    // Obtener emails reales de Clerk para cada usuario
+    const users = await Promise.all(
+      dbUsers.map(async (user) => {
+        try {
+          const clerkUser = await client.users.getUser(user.clerkId)
+          return {
+            ...user,
+            email: clerkUser.emailAddresses[0]?.emailAddress || user.email,
+            clerkEmail: clerkUser.emailAddresses[0]?.emailAddress || null,
+            firstName: clerkUser.firstName,
+            lastName: clerkUser.lastName,
+            imageUrl: clerkUser.imageUrl,
+            lastSignInAt: clerkUser.lastSignInAt,
+          }
+        } catch {
+          // Si falla Clerk, usar datos de la DB
+          return {
+            ...user,
+            clerkEmail: null,
+            firstName: null,
+            lastName: null,
+            imageUrl: null,
+            lastSignInAt: null,
+          }
+        }
+      })
+    )
+
     return NextResponse.json({
       users,
       pagination: {
@@ -95,7 +123,8 @@ export async function GET(request: NextRequest) {
         limit,
         total,
         totalPages: Math.ceil(total / limit),
-      }
+      },
+      note: 'Los usuarios guest no se guardan en la base de datos'
     })
   } catch (error) {
     console.error('Admin users error:', error)
