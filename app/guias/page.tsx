@@ -76,7 +76,7 @@ const advancedGuides = [
     icon: Dice6,
     readTime: '12 min',
     level: 'Intermedio',
-    comingSoon: true,
+    comingSoon: false,
   },
   {
     slug: 'ser-buen-jugador',
@@ -86,6 +86,41 @@ const advancedGuides = [
     readTime: '8 min',
     level: 'Intermedio',
     comingSoon: true,
+  },
+]
+
+const systemGuides = [
+  {
+    slug: 'story-mode',
+    title: 'Story Mode',
+    description: 'Narrativa pura sin dados. El sistema perfecto para principiantes absolutos.',
+    icon: BookOpen,
+    readTime: '8 min',
+    level: 'Principiante',
+  },
+  {
+    slug: 'pbta',
+    title: 'Powered by the Apocalypse',
+    description: 'Sistema de 2d6 con exitos, exitos parciales y fallos dramaticos.',
+    icon: Dice6,
+    readTime: '10 min',
+    level: 'Facil',
+  },
+  {
+    slug: 'year-zero',
+    title: 'Year Zero Engine',
+    description: 'Pool de dados con sistema de empujar tiradas. Supervivencia brutal.',
+    icon: Sword,
+    readTime: '12 min',
+    level: 'Moderado',
+  },
+  {
+    slug: 'dnd-5e',
+    title: 'D&D 5e Simplificado',
+    description: 'El clasico d20 + modificador. El sistema de rol mas popular del mundo.',
+    icon: Sword,
+    readTime: '15 min',
+    level: 'Moderado',
   },
 ]
 
@@ -190,6 +225,46 @@ export default function GuiasPage() {
         </div>
       </section>
 
+      {/* Guias de Sistemas */}
+      <section className="mb-16">
+        <h2 className="font-heading text-2xl text-gold-bright mb-6 flex items-center gap-2">
+          <Dice6 className="h-6 w-6" />
+          Sistemas de Reglas
+        </h2>
+        <p className="font-body text-parchment mb-6">
+          Guias detalladas de cada motor de juego disponible en RolHub.
+        </p>
+        <div className="grid md:grid-cols-2 gap-6">
+          {systemGuides.map((guide) => (
+            <Link key={guide.slug} href={`/guias/${guide.slug}`}>
+              <ParchmentPanel className="p-6 h-full hover:border-gold transition-all cursor-pointer group border border-gold-dim/30">
+                <div className="flex items-start gap-4">
+                  <div className="p-3 rounded-lg bg-stone text-gold-bright group-hover:bg-ink transition-colors">
+                    <guide.icon className="h-6 w-6" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="text-xs font-ui font-bold text-white bg-gold-dim px-2 py-1 rounded">
+                        {guide.level}
+                      </span>
+                      <span className="text-xs font-ui font-semibold text-ink">
+                        {guide.readTime} lectura
+                      </span>
+                    </div>
+                    <h3 className="font-heading text-xl text-ink group-hover:text-gold-dim transition-colors mb-2">
+                      {guide.title}
+                    </h3>
+                    <p className="font-body text-ink text-sm leading-relaxed">
+                      {guide.description}
+                    </p>
+                  </div>
+                </div>
+              </ParchmentPanel>
+            </Link>
+          ))}
+        </div>
+      </section>
+
       {/* Guias Avanzadas */}
       <section className="mb-16">
         <h2 className="font-heading text-2xl text-gold-bright mb-6 flex items-center gap-2">
@@ -198,36 +273,64 @@ export default function GuiasPage() {
         </h2>
         <div className="grid md:grid-cols-2 gap-6">
           {advancedGuides.map((guide) => (
-            <div key={guide.slug} className="relative">
-              <ParchmentPanel className="p-6 h-full opacity-50 border border-gold-dim/20">
-                <div className="flex items-start gap-4">
-                  <div className="p-3 rounded-lg bg-stone/50 text-ink">
-                    <guide.icon className="h-6 w-6" />
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="text-xs font-ui font-bold text-ink bg-stone/20 px-2 py-1 rounded">
-                        {guide.level}
-                      </span>
-                      <span className="text-xs font-ui text-ink/70">
-                        {guide.readTime} lectura
-                      </span>
+            guide.comingSoon ? (
+              <div key={guide.slug} className="relative">
+                <ParchmentPanel className="p-6 h-full opacity-50 border border-gold-dim/20">
+                  <div className="flex items-start gap-4">
+                    <div className="p-3 rounded-lg bg-stone/50 text-ink">
+                      <guide.icon className="h-6 w-6" />
                     </div>
-                    <h3 className="font-heading text-xl text-ink/60 mb-2">
-                      {guide.title}
-                    </h3>
-                    <p className="font-body text-ink/80 text-sm">
-                      {guide.description}
-                    </p>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="text-xs font-ui font-bold text-ink bg-stone/20 px-2 py-1 rounded">
+                          {guide.level}
+                        </span>
+                        <span className="text-xs font-ui text-ink">
+                          {guide.readTime} lectura
+                        </span>
+                      </div>
+                      <h3 className="font-heading text-xl text-ink mb-2">
+                        {guide.title}
+                      </h3>
+                      <p className="font-body text-ink text-sm">
+                        {guide.description}
+                      </p>
+                    </div>
                   </div>
+                </ParchmentPanel>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="font-heading text-gold-bright bg-shadow px-4 py-2 rounded-lg border-2 border-gold shadow-lg">
+                    Proximamente
+                  </span>
                 </div>
-              </ParchmentPanel>
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="font-heading text-gold-bright bg-shadow px-4 py-2 rounded-lg border-2 border-gold shadow-lg">
-                  Proximamente
-                </span>
               </div>
-            </div>
+            ) : (
+              <Link key={guide.slug} href={`/guias/${guide.slug}`}>
+                <ParchmentPanel className="p-6 h-full hover:border-gold transition-all cursor-pointer group border border-gold-dim/30">
+                  <div className="flex items-start gap-4">
+                    <div className="p-3 rounded-lg bg-stone text-gold-bright group-hover:bg-ink transition-colors">
+                      <guide.icon className="h-6 w-6" />
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="text-xs font-ui font-bold text-white bg-gold-dim px-2 py-1 rounded">
+                          {guide.level}
+                        </span>
+                        <span className="text-xs font-ui font-semibold text-ink">
+                          {guide.readTime} lectura
+                        </span>
+                      </div>
+                      <h3 className="font-heading text-xl text-ink group-hover:text-gold-dim transition-colors mb-2">
+                        {guide.title}
+                      </h3>
+                      <p className="font-body text-ink text-sm leading-relaxed">
+                        {guide.description}
+                      </p>
+                    </div>
+                  </div>
+                </ParchmentPanel>
+              </Link>
+            )
           ))}
         </div>
       </section>
