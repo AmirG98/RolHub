@@ -1,8 +1,8 @@
-import { auth } from '@clerk/nextjs/server'
+import { auth, clerkClient } from '@clerk/nextjs/server'
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/db/prisma'
 
-// Tu email de admin - cambiar si es diferente
+// Tu email de admin
 const ADMIN_EMAILS = ['amir.gomez.14@gmail.com']
 
 export async function GET() {
@@ -13,12 +13,12 @@ export async function GET() {
       return NextResponse.json({ error: 'No autorizado' }, { status: 401 })
     }
 
-    // Verificar si es admin
-    const user = await prisma.user.findFirst({
-      where: { clerkId: userId }
-    })
+    // Obtener email real de Clerk
+    const client = await clerkClient()
+    const clerkUser = await client.users.getUser(userId)
+    const userEmail = clerkUser.emailAddresses[0]?.emailAddress?.toLowerCase() || ''
 
-    if (!user || !ADMIN_EMAILS.includes(user.email.toLowerCase())) {
+    if (!ADMIN_EMAILS.includes(userEmail)) {
       return NextResponse.json({ error: 'No tienes permisos de admin' }, { status: 403 })
     }
 
