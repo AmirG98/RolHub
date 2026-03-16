@@ -10,6 +10,7 @@ const isPublicRoute = createRouteMatcher([
   '/hoja-personaje',
   '/design-system',
   '/onboarding',
+  '/maps',
   // SEO routes - deben ser públicas para Google
   '/guias(.*)',
   '/sitemap.xml',
