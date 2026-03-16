@@ -116,8 +116,8 @@ interface BSPNode {
   room?: { x: number; y: number; width: number; height: number }
 }
 
-// Generador de números aleatorios con seed
-class SeededRandom {
+// Generador de números aleatorios con seed - EXPORTADO para reutilización
+export class SeededRandom {
   private seed: number
 
   constructor(seed: number) {
@@ -144,6 +144,11 @@ class SeededRandom {
       ;[result[i], result[j]] = [result[j], result[i]]
     }
     return result
+  }
+
+  // Método para obtener un booleano con probabilidad
+  chance(probability: number): boolean {
+    return this.next() < probability
   }
 }
 
@@ -651,4 +656,97 @@ export function generateDungeon(
 
   const generator = new DungeonGenerator(config)
   return generator.generate()
+}
+
+// Importar tipos de submap para la conversión
+import {
+  type Submap,
+  type SubmapNode,
+  type SubmapConnection,
+  type SubmapNodeType,
+  SUBMAP_THEMES,
+} from './submap-types'
+
+// Mapeo de RoomType a SubmapNodeType
+const ROOM_TO_NODE_TYPE: Record<RoomType, SubmapNodeType> = {
+  entrance: 'room',
+  corridor: 'corridor',
+  treasure: 'treasure_room',
+  monster: 'room',
+  trap: 'trap_room',
+  puzzle: 'room',
+  boss: 'boss_room',
+  safe: 'safe_room',
+  shop: 'room',
+  shrine: 'room',
+  empty: 'room',
+}
+
+// Convertir un DungeonMap a formato Submap para visualización unificada
+export function dungeonToSubmap(dungeon: DungeonMap, locationId: string, locationName: string): Submap {
+  const theme = SUBMAP_THEMES[dungeon.lore]
+
+  // Convertir habitaciones a nodos
+  const nodes: SubmapNode[] = dungeon.rooms.map(room => ({
+    id: room.id,
+    name: theme.nodeNames.room
+      ? theme.nodeNames.room[Math.floor(Math.random() * theme.nodeNames.room.length)]
+      : room.content.description.slice(0, 30),
+    x: room.x,
+    y: room.y,
+    width: room.width,
+    height: room.height,
+    type: ROOM_TO_NODE_TYPE[room.type],
+    description: room.content.description,
+    connections: room.connections,
+    isEntrance: room.id === dungeon.entrance,
+    isObjective: room.id === dungeon.boss,
+    discovered: room.discovered,
+    visited: room.visited,
+    content: {
+      enemies: room.content.enemies?.map(e => e.name),
+      items: room.content.treasure?.map(t => t.name),
+    },
+  }))
+
+  // Convertir corredores a conexiones
+  const connections: SubmapConnection[] = dungeon.corridors.map(corridor => ({
+    id: corridor.id,
+    fromId: corridor.id.split('-')[0] + '-' + corridor.id.split('-')[1], // Extraer room id
+    toId: corridor.id,
+    points: [
+      { x: corridor.startX, y: corridor.startY },
+      { x: corridor.endX, y: corridor.endY },
+    ],
+    style: 'corridor' as const,
+    discovered: true,
+  }))
+
+  return {
+    id: `submap-${locationId}`,
+    locationId,
+    locationName,
+    lore: dungeon.lore,
+    type: 'dungeon',
+    seed: dungeon.seed,
+    width: dungeon.width,
+    height: dungeon.height,
+    nodes,
+    connections,
+    entrance: dungeon.entrance,
+    objectives: [dungeon.boss],
+    playerNodeId: dungeon.entrance,
+  }
+}
+
+// Generar un submapa tipo dungeon directamente
+export function generateDungeonSubmap(
+  locationId: string,
+  locationName: string,
+  lore: Lore,
+  dangerLevel: number = 1,
+  seed?: number
+): Submap {
+  const dungeon = generateDungeon(lore, dangerLevel, seed)
+  return dungeonToSubmap(dungeon, locationId, locationName)
 }

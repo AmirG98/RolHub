@@ -164,9 +164,18 @@ export default function MapsPage() {
             </li>
             <li className="flex items-center gap-2">
               <span>👆</span>
-              <span><strong className="text-gold">Click:</strong> Seleccionar locación</span>
+              <span><strong className="text-gold">Click en ubicación:</strong> Abre el submapa detallado</span>
             </li>
           </ul>
+          <div className="mt-4 pt-3 border-t border-gold/30">
+            <h4 className="font-heading text-gold text-sm mb-2">Sistema de Submapas</h4>
+            <p className="text-parchment/80 text-xs">
+              Cada ubicación genera un submapa único según su tipo: ciudades con calles y plazas,
+              dungeons con habitaciones conectadas, áreas salvajes con puntos de interés,
+              y fortalezas con murallas y torres. Los submapas son consistentes -
+              la misma ubicación siempre genera el mismo mapa.
+            </p>
+          </div>
         </div>
       </div>
     </div>

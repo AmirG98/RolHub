@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import dynamic from 'next/dynamic'
 import { type Lore, type MapLocation, getMapConfig } from '@/lib/maps/map-config'
 
@@ -8,6 +8,12 @@ import { type Lore, type MapLocation, getMapConfig } from '@/lib/maps/map-config
 const MapContainer = dynamic(
   () => import('./MapContainer').then(mod => mod.MapContainer),
   { ssr: false, loading: () => <MapLoading /> }
+)
+
+// Importar SubmapRouter dinámicamente
+const DynamicSubmapRouter = dynamic(
+  () => import('./submap/SubmapRouter').then(mod => ({ default: mod.SubmapRouter })),
+  { ssr: false, loading: () => <SubmapLoading /> }
 )
 
 interface MapPanelProps {
@@ -30,8 +36,28 @@ export function MapPanel({
   const [isCollapsed, setIsCollapsed] = useState(defaultCollapsed)
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [showFog, setShowFog] = useState(true)
+  const [submapLocation, setSubmapLocation] = useState<MapLocation | null>(null)
 
   const config = getMapConfig(lore)
+
+  // Handler para click en ubicación - abre el submapa
+  const handleLocationClick = useCallback((location: MapLocation) => {
+    // Primero llamar al callback original si existe
+    onLocationClick?.(location)
+    // Luego abrir el submapa
+    setSubmapLocation(location)
+  }, [onLocationClick])
+
+  // Handler para cerrar submapa
+  const handleCloseSubmap = useCallback(() => {
+    setSubmapLocation(null)
+  }, [])
+
+  // Handler para movimiento del jugador en submapa
+  const handlePlayerMove = useCallback((nodeId: string) => {
+    console.log('Player moved to node:', nodeId)
+    // Aquí se podría actualizar el estado del juego
+  }, [])
 
   const panelStyle: React.CSSProperties = {
     backgroundColor: config.backgroundColor,
@@ -119,7 +145,7 @@ export function MapPanel({
           lore={lore}
           locations={locations}
           currentLocationId={currentLocationId}
-          onLocationClick={onLocationClick}
+          onLocationClick={handleLocationClick}
           showFog={showFog}
           className="w-full h-full"
         />
@@ -143,17 +169,41 @@ export function MapPanel({
           <span>{config.icons.safe}</span> Seguro
         </span>
       </div>
+
+      {/* Submapa modal */}
+      {submapLocation && (
+        <DynamicSubmapRouter
+          location={submapLocation}
+          lore={lore}
+          isOpen={true}
+          onClose={handleCloseSubmap}
+          onPlayerMove={handlePlayerMove}
+        />
+      )}
     </div>
   )
 }
 
-// Loading skeleton
+// Loading skeleton para mapa
 function MapLoading() {
   return (
     <div className="w-full h-full flex items-center justify-center bg-shadow">
       <div className="text-center text-gold animate-pulse">
         <div className="text-4xl mb-2">🗺️</div>
         <p className="text-sm">Cargando mapa...</p>
+      </div>
+    </div>
+  )
+}
+
+// Loading skeleton para submapa
+function SubmapLoading() {
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80">
+      <div className="text-center text-gold animate-pulse">
+        <div className="text-5xl mb-3">🏰</div>
+        <p className="text-lg font-heading">Explorando ubicación...</p>
+        <p className="text-sm text-parchment/70 mt-1">Generando submapa</p>
       </div>
     </div>
   )
