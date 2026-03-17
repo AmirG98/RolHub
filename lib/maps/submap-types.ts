@@ -279,7 +279,7 @@ export const SUBMAP_THEMES: Record<Lore, SubmapTheme> = {
       objective: '#ff0040',
     },
   },
-  LOVECRAFT: {
+  LOVECRAFT_HORROR: {
     nodeNames: {
       street: ['Calle de los Susurros', 'Callejón sin Nombre', 'Sendero Imposible'],
       plaza: ['Plaza de la Iglesia', 'Centro del Pueblo', 'Lugar del Ritual'],
@@ -302,6 +302,31 @@ export const SUBMAP_THEMES: Record<Lore, SubmapTheme> = {
       connection: '#4a3a2a',
       entrance: '#3d5c3d',
       objective: '#4a0080',
+    },
+  },
+  CUSTOM: {
+    nodeNames: {
+      street: ['Calle Principal', 'Callejón', 'Sendero'],
+      plaza: ['Plaza Central', 'Mercado', 'Foro'],
+      tavern: ['Taberna', 'Posada', 'Hostal'],
+      temple: ['Templo', 'Santuario', 'Capilla'],
+      market: ['Tienda', 'Mercado', 'Bazar'],
+      room: ['Habitación', 'Sala', 'Cámara', 'Estancia'],
+      clearing: ['Claro', 'Pradera', 'Bosque'],
+      tower: ['Torre', 'Atalaya', 'Castillo'],
+    },
+    descriptions: {
+      street: ['Un camino transitado', 'Pisadas resuenan en el adoquinado'],
+      plaza: ['Gente va y viene', 'El centro de la actividad'],
+      room: ['Una estancia con secretos', 'Algo espera ser descubierto'],
+    },
+    colors: {
+      node: '#8B6914',
+      nodeHover: '#C9A84C',
+      nodeCurrent: '#F5C842',
+      connection: '#8B6914',
+      entrance: '#1A3A2A',
+      objective: '#8B1A1A',
     },
   },
 }

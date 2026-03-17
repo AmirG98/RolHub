@@ -1,7 +1,7 @@
 // Tipos de motores de juego
 export type GameEngine = 'STORY_MODE' | 'PBTA' | 'YEAR_ZERO' | 'DND_5E'
 export type Locale = 'es' | 'en'
-export type Lore = 'LOTR' | 'ZOMBIES' | 'ISEKAI' | 'VIKINGOS' | 'STARWARS' | 'CYBERPUNK' | 'LOVECRAFT' | 'CUSTOM'
+export type Lore = 'LOTR' | 'ZOMBIES' | 'ISEKAI' | 'VIKINGOS' | 'STAR_WARS' | 'CYBERPUNK' | 'LOVECRAFT_HORROR' | 'CUSTOM'
 
 // Contexto que recibe cada motor para generar prompts
 export interface EngineContext {

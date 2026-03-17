@@ -9,6 +9,9 @@ import {
   EngineContext,
   DiceRoll as EngineDiceRoll
 } from '@/lib/engines'
+import { getExampleMapData } from '@/lib/maps/lore-map-data'
+import { type Lore as LoreType } from '@/lib/maps/map-config'
+import { type NavigationLockReason } from '@/lib/types/map-state'
 
 // Inicializar Claude
 const anthropic = new Anthropic({
@@ -381,9 +384,60 @@ ${diceInterpretation}
 === ${isEnglish ? 'END ENGINE RULES' : 'FIN REGLAS DEL MOTOR'} ===
 `
 
+    // Build location context for map integration
+    const mapState = worldState.map_state
+    const currentLocationId = mapState?.currentLocationId || null
+    const mapLocations = getExampleMapData(session.campaign.lore as LoreType)
+    const currentMapLocation = currentLocationId
+      ? mapLocations.find(l => l.id === currentLocationId)
+      : null
+    const discoveredLocations = mapState?.discoveredLocationIds || []
+    const navigationLocked = mapState?.navigationLocked || false
+
+    const locationContextSection = isEnglish ? `
+=== LOCATION SYSTEM ===
+Current Location ID: ${currentLocationId || 'unknown'}
+Current Location: ${currentMapLocation?.name || worldState.current_scene}
+Navigation Status: ${navigationLocked ? 'LOCKED' : 'FREE'}
+${mapState?.lockReason ? `Lock Reason: ${mapState.lockReason}` : ''}
+
+Available Locations (discovered by player):
+${mapLocations.filter(l => discoveredLocations.includes(l.id)).map(l =>
+  `- ${l.id}: ${l.name} (${l.type}, danger: ${l.dangerLevel})`
+).join('\n') || '- None discovered yet'}
+
+LOCATION RULES:
+1. When the player arrives at a NEW location, include "location_id" with the location ID
+2. Use "navigation_locked": true during combat, important dialogue, or crucial decisions
+3. Use "lock_reason" to explain why: "combat", "dialogue", "cutscene", "important_choice"
+4. After arriving at a new location, suggest "Explore the area" as an action
+5. Only use location IDs from the discovered locations list above
+=== END LOCATION SYSTEM ===
+` : `
+=== SISTEMA DE UBICACIÓN ===
+ID de Ubicación Actual: ${currentLocationId || 'desconocido'}
+Ubicación Actual: ${currentMapLocation?.name || worldState.current_scene}
+Estado de Navegación: ${navigationLocked ? 'BLOQUEADA' : 'LIBRE'}
+${mapState?.lockReason ? `Razón del Bloqueo: ${mapState.lockReason}` : ''}
+
+Ubicaciones Disponibles (descubiertas por el jugador):
+${mapLocations.filter(l => discoveredLocations.includes(l.id)).map(l =>
+  `- ${l.id}: ${l.name} (${l.type}, peligro: ${l.dangerLevel})`
+).join('\n') || '- Ninguna descubierta aún'}
+
+REGLAS DE UBICACIÓN:
+1. Cuando el jugador llegue a una NUEVA ubicación, incluir "location_id" con el ID
+2. Usar "navigation_locked": true durante combate, diálogo importante o decisiones cruciales
+3. Usar "lock_reason" para explicar: "combat", "dialogue", "cutscene", "important_choice"
+4. Después de llegar a nueva ubicación, sugerir "Explorar el área" como acción
+5. Solo usar IDs de ubicación de la lista de ubicaciones descubiertas arriba
+=== FIN SISTEMA DE UBICACIÓN ===
+`
+
     const systemPrompt = `${labels.dmRole}${isMultiplayer ? ` ${labels.multiplayer}` : ''}. ${isEnglish ? 'Your role is to create an immersive and exciting experience.' : 'Tu rol es crear una experiencia inmersiva y emocionante.'}
 
 ${engineRulesSection}
+${locationContextSection}
 
 ${labels.worldAndSetting}:
 - ${labels.lore}: ${session.campaign.lore}
@@ -420,6 +474,9 @@ ${isEnglish ? 'You must ALWAYS respond in JSON format with this exact structure'
   "quest_completed": null,
   "new_quest": null,
   "scene_change": null,
+  "location_id": null,
+  "navigation_locked": null,
+  "lock_reason": null,
   "suggested_actions": ["${isEnglish ? 'action 1' : 'acción 1'}", "${isEnglish ? 'action 2' : 'acción 2'}", "${isEnglish ? 'action 3' : 'acción 3'}"]${isMultiplayer ? `,
   "other_party_effects": []` : ''}
 }
@@ -468,6 +525,10 @@ ${labels.important}:
       quest_completed?: string | null
       new_quest?: string | null
       scene_change?: string | null
+      // Map integration fields
+      location_id?: string | null
+      navigation_locked?: boolean | null
+      lock_reason?: NavigationLockReason | null
       suggested_actions?: string[]
       other_party_effects?: Array<{
         character_name: string
@@ -543,6 +604,60 @@ ${labels.important}:
       worldStateUpdates.current_scene = dmResponse.scene_change
     }
 
+    // Update map location
+    if (dmResponse.location_id && dmResponse.location_id !== currentLocationId) {
+      // Validate the location exists
+      const newLocation = mapLocations.find(l => l.id === dmResponse.location_id)
+      if (newLocation) {
+        // Initialize map_state if it doesn't exist
+        const currentMapState = worldState.map_state || {
+          currentLocationId: null,
+          previousLocationId: null,
+          discoveredLocationIds: discoveredLocations,
+          visitedLocationIds: [],
+          navigationLocked: false,
+          lockReason: undefined,
+          activeSubmap: null,
+        }
+
+        // Update map state with new location
+        const newVisited = [...(currentMapState.visitedLocationIds || [])]
+        if (!newVisited.includes(dmResponse.location_id)) {
+          newVisited.push(dmResponse.location_id)
+        }
+
+        // Discover connected locations
+        const newDiscovered = [...(currentMapState.discoveredLocationIds || [])]
+        for (const connectedId of newLocation.connections) {
+          if (!newDiscovered.includes(connectedId)) {
+            newDiscovered.push(connectedId)
+          }
+        }
+
+        worldStateUpdates.map_state = {
+          ...currentMapState,
+          previousLocationId: currentLocationId,
+          currentLocationId: dmResponse.location_id,
+          visitedLocationIds: newVisited,
+          discoveredLocationIds: newDiscovered,
+        }
+
+        // Also update current_scene if not already set
+        if (!dmResponse.scene_change) {
+          worldStateUpdates.current_scene = newLocation.name
+        }
+      }
+    }
+
+    // Update navigation lock status
+    if (dmResponse.navigation_locked !== undefined && dmResponse.navigation_locked !== null) {
+      if (!worldStateUpdates.map_state) {
+        worldStateUpdates.map_state = { ...(worldState.map_state || {}) }
+      }
+      worldStateUpdates.map_state.navigationLocked = dmResponse.navigation_locked
+      worldStateUpdates.map_state.lockReason = dmResponse.lock_reason || 'none'
+    }
+
     // Handle other party effects in multiplayer
     if (isMultiplayer && dmResponse.other_party_effects && dmResponse.other_party_effects.length > 0) {
       for (const effect of dmResponse.other_party_effects) {
@@ -569,6 +684,12 @@ ${labels.important}:
           ...worldState.party,
           ...worldStateUpdates.party,
         },
+        map_state: worldStateUpdates.map_state
+          ? {
+              ...(worldState.map_state || {}),
+              ...worldStateUpdates.map_state,
+            }
+          : worldState.map_state,
       }
 
       await prisma.campaign.update({

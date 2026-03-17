@@ -21,7 +21,8 @@ const PLAYER_COLORS: Record<Lore, { primary: string; secondary: string; glow: st
   VIKINGOS: { primary: '#F39C12', secondary: '#E67E22', glow: '#F1C40F' },
   STAR_WARS: { primary: '#4FC3F7', secondary: '#03A9F4', glow: '#81D4FA' },
   CYBERPUNK: { primary: '#00FFFF', secondary: '#FF00FF', glow: '#00FFFF' },
-  LOVECRAFT: { primary: '#6B4C8C', secondary: '#4A0080', glow: '#9B59B6' },
+  LOVECRAFT_HORROR: { primary: '#6B4C8C', secondary: '#4A0080', glow: '#9B59B6' },
+  CUSTOM: { primary: '#FFD700', secondary: '#8B6914', glow: '#F5C842' },
 }
 
 export function PlayerToken({ x, y, lore, size = 24 }: PlayerTokenProps) {

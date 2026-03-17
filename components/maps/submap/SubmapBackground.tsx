@@ -21,7 +21,8 @@ const BACKGROUND_COLORS: Record<SubmapType, Record<Lore, { bg: string; pattern: 
     VIKINGOS: { bg: '#2c3e50', pattern: '#34495e' },
     STAR_WARS: { bg: '#0a0a1a', pattern: '#12122a' },
     CYBERPUNK: { bg: '#0d0d0d', pattern: '#1a1a2e' },
-    LOVECRAFT: { bg: '#1a1510', pattern: '#2d2520' },
+    LOVECRAFT_HORROR: { bg: '#1a1510', pattern: '#2d2520' },
+    CUSTOM: { bg: '#2C2416', pattern: '#3D3220' },
   },
   dungeon: {
     LOTR: { bg: '#1C1208', pattern: '#2A1C0F' },
@@ -30,7 +31,8 @@ const BACKGROUND_COLORS: Record<SubmapType, Record<Lore, { bg: string; pattern: 
     VIKINGOS: { bg: '#1a252f', pattern: '#243440' },
     STAR_WARS: { bg: '#05050f', pattern: '#0a0a1a' },
     CYBERPUNK: { bg: '#0a0a0a', pattern: '#151520' },
-    LOVECRAFT: { bg: '#0a0805', pattern: '#15120d' },
+    LOVECRAFT_HORROR: { bg: '#0a0805', pattern: '#15120d' },
+    CUSTOM: { bg: '#1C1208', pattern: '#2A1C0F' },
   },
   wilderness: {
     LOTR: { bg: '#1A3A2A', pattern: '#2A4A3A' },
@@ -39,7 +41,8 @@ const BACKGROUND_COLORS: Record<SubmapType, Record<Lore, { bg: string; pattern: 
     VIKINGOS: { bg: '#1e3a3a', pattern: '#284848' },
     STAR_WARS: { bg: '#2a1a0a', pattern: '#3a2a1a' },
     CYBERPUNK: { bg: '#0a1a0a', pattern: '#152515' },
-    LOVECRAFT: { bg: '#1a2020', pattern: '#252a2a' },
+    LOVECRAFT_HORROR: { bg: '#1a2020', pattern: '#252a2a' },
+    CUSTOM: { bg: '#1A3A2A', pattern: '#2A4A3A' },
   },
   stronghold: {
     LOTR: { bg: '#2C2416', pattern: '#3D3220' },
@@ -48,7 +51,8 @@ const BACKGROUND_COLORS: Record<SubmapType, Record<Lore, { bg: string; pattern: 
     VIKINGOS: { bg: '#2c3e50', pattern: '#34495e' },
     STAR_WARS: { bg: '#101020', pattern: '#1a1a30' },
     CYBERPUNK: { bg: '#15151f', pattern: '#1f1f2a' },
-    LOVECRAFT: { bg: '#201a15', pattern: '#2a2520' },
+    LOVECRAFT_HORROR: { bg: '#201a15', pattern: '#2a2520' },
+    CUSTOM: { bg: '#2C2416', pattern: '#3D3220' },
   },
   nautical: {
     LOTR: { bg: '#1a3050', pattern: '#254060' },
@@ -57,7 +61,8 @@ const BACKGROUND_COLORS: Record<SubmapType, Record<Lore, { bg: string; pattern: 
     VIKINGOS: { bg: '#1a3a4a', pattern: '#254a5a' },
     STAR_WARS: { bg: '#050515', pattern: '#0a0a25' },
     CYBERPUNK: { bg: '#0a1525', pattern: '#152035' },
-    LOVECRAFT: { bg: '#101a25', pattern: '#1a2530' },
+    LOVECRAFT_HORROR: { bg: '#101a25', pattern: '#1a2530' },
+    CUSTOM: { bg: '#1a3050', pattern: '#254060' },
   },
 }
 
@@ -117,7 +122,7 @@ export function SubmapBackground({ width, height, lore, type }: SubmapBackground
 // Patrón de ciudad (grid de calles)
 function CityPattern({ width, height, color }: { width: number; height: number; color: string }) {
   const gridSize = 80
-  const lines: JSX.Element[] = []
+  const lines: React.ReactElement[] = []
 
   // Líneas verticales
   for (let x = gridSize; x < width; x += gridSize) {
@@ -150,7 +155,7 @@ function CityPattern({ width, height, color }: { width: number; height: number; 
 
 // Patrón de dungeon (piedras)
 function DungeonPattern({ width, height, color }: { width: number; height: number; color: string }) {
-  const stones: JSX.Element[] = []
+  const stones: React.ReactElement[] = []
   const stoneSize = 40
 
   for (let y = 0; y < height; y += stoneSize) {
@@ -177,7 +182,7 @@ function DungeonPattern({ width, height, color }: { width: number; height: numbe
 
 // Patrón de wilderness (árboles/vegetación)
 function WildernessPattern({ width, height, color, lore }: { width: number; height: number; color: string; lore: Lore }) {
-  const elements: JSX.Element[] = []
+  const elements: React.ReactElement[] = []
   const spacing = 60
 
   // Diferentes símbolos según lore
@@ -243,7 +248,7 @@ function WildernessPattern({ width, height, color, lore }: { width: number; heig
             opacity={0.2}
           />
         ) : null
-      case 'LOVECRAFT':
+      case 'LOVECRAFT_HORROR':
         // Tentáculos/símbolos
         return hash < 2 ? (
           <Line
@@ -307,7 +312,7 @@ function StrongholdPattern({ width, height, color }: { width: number; height: nu
 
 // Patrón náutico (olas)
 function NauticalPattern({ width, height, color }: { width: number; height: number; color: string }) {
-  const waves: JSX.Element[] = []
+  const waves: React.ReactElement[] = []
   const waveHeight = 30
 
   for (let y = waveHeight; y < height; y += waveHeight * 2) {

@@ -34,7 +34,7 @@ const LORES: { id: Lore; name: string; emoji: string }[] = [
   { id: 'VIKINGOS', name: 'Saga Vikinga', emoji: '🪓' },
   { id: 'STAR_WARS', name: 'Star Wars', emoji: '🚀' },
   { id: 'CYBERPUNK', name: 'Cyberpunk', emoji: '🤖' },
-  { id: 'LOVECRAFT', name: 'Horror Cósmico', emoji: '👁️' },
+  { id: 'LOVECRAFT_HORROR', name: 'Horror Cósmico', emoji: '👁️' },
 ]
 
 export default function MapsPage() {

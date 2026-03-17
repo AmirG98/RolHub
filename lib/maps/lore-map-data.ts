@@ -96,8 +96,8 @@ const CYBERPUNK_COORDINATES: Record<string, { x: number; y: number; connections:
   'Club Afterlife': { x: 300, y: 250, connections: ['Downtown'] },
 }
 
-// Coordenadas para LOVECRAFT (mapa de investigación)
-const LOVECRAFT_COORDINATES: Record<string, { x: number; y: number; connections: string[] }> = {
+// Coordenadas para LOVECRAFT_HORROR (mapa de investigación)
+const LOVECRAFT_HORROR_COORDINATES: Record<string, { x: number; y: number; connections: string[] }> = {
   'Arkham': { x: 400, y: 300, connections: ['Universidad Miskatonic', 'Barrio Mercante', 'Cementerio'] },
   'Universidad Miskatonic': { x: 450, y: 200, connections: ['Arkham', 'Biblioteca Orne'] },
   'Biblioteca Orne': { x: 550, y: 150, connections: ['Universidad Miskatonic'] },
@@ -110,6 +110,16 @@ const LOVECRAFT_COORDINATES: Record<string, { x: number; y: number; connections:
   'Manicomio': { x: 350, y: 450, connections: ['Arkham'] },
 }
 
+// Coordenadas para CUSTOM (genérico)
+const CUSTOM_COORDINATES: Record<string, { x: number; y: number; connections: string[] }> = {
+  'Ciudad Principal': { x: 400, y: 300, connections: ['Bosque', 'Montaña', 'Puerto'] },
+  'Bosque': { x: 250, y: 200, connections: ['Ciudad Principal', 'Ruinas'] },
+  'Montaña': { x: 550, y: 150, connections: ['Ciudad Principal', 'Cueva'] },
+  'Puerto': { x: 300, y: 450, connections: ['Ciudad Principal'] },
+  'Ruinas': { x: 150, y: 100, connections: ['Bosque'] },
+  'Cueva': { x: 650, y: 250, connections: ['Montaña'] },
+}
+
 // Mapa de coordenadas por lore
 const LORE_COORDINATES: Record<Lore, Record<string, { x: number; y: number; connections: string[] }>> = {
   LOTR: LOTR_COORDINATES,
@@ -118,7 +128,8 @@ const LORE_COORDINATES: Record<Lore, Record<string, { x: number; y: number; conn
   VIKINGOS: VIKINGOS_COORDINATES,
   STAR_WARS: STAR_WARS_COORDINATES,
   CYBERPUNK: CYBERPUNK_COORDINATES,
-  LOVECRAFT: LOVECRAFT_COORDINATES,
+  LOVECRAFT_HORROR: LOVECRAFT_HORROR_COORDINATES,
+  CUSTOM: CUSTOM_COORDINATES,
 }
 
 // Mapear tipo de locación a tipo de MapLocation
@@ -272,7 +283,7 @@ export function getExampleMapData(lore: Lore): MapLocation[] {
       { id: 'vertedero', name: 'El Vertedero', description: 'Chatarra tech y secretos enterrados', type: 'mystery', dangerLevel: 3, coordinates: { x: 700, y: 450 }, connections: ['zona-industrial'], icon: '', discovered: false, visited: false },
       { id: 'zona-industrial', name: 'Zona Industrial', description: 'Fábricas abandonadas y pandillas', type: 'wilderness', dangerLevel: 3, coordinates: { x: 650, y: 350 }, connections: ['downtown', 'vertedero'], icon: '', discovered: false, visited: false },
     ],
-    LOVECRAFT: [
+    LOVECRAFT_HORROR: [
       { id: 'tu-oficina', name: 'Tu Oficina', description: 'Investigador privado en tiempos oscuros', type: 'safe', dangerLevel: 1, coordinates: { x: 350, y: 350 }, connections: ['arkham', 'biblioteca'], icon: '', discovered: true, visited: true },
       { id: 'arkham', name: 'Arkham', description: 'Una ciudad con demasiados secretos', type: 'city', dangerLevel: 2, coordinates: { x: 400, y: 300 }, connections: ['tu-oficina', 'universidad', 'cementerio'], icon: '', discovered: true, visited: true },
       { id: 'universidad', name: 'Universidad Miskatonic', description: 'Conocimiento que mejor no saber', type: 'landmark', dangerLevel: 2, coordinates: { x: 450, y: 200 }, connections: ['arkham', 'biblioteca'], icon: '', discovered: true, visited: false },
@@ -283,6 +294,14 @@ export function getExampleMapData(lore: Lore): MapLocation[] {
       { id: 'innsmouth', name: 'Innsmouth', description: 'La gente aquí... no parece normal', type: 'danger', dangerLevel: 4, coordinates: { x: 100, y: 400 }, connections: ['puerto'], icon: '', discovered: false, visited: false },
       { id: 'manicomio', name: 'Manicomio de Arkham', description: '¿Están locos... o han visto demasiado?', type: 'mystery', dangerLevel: 3, coordinates: { x: 350, y: 450 }, connections: ['arkham'], icon: '', discovered: true, visited: false },
       { id: 'templo', name: 'Templo Sumergido', description: 'Ph\'nglui mglw\'nafh...', type: 'danger', dangerLevel: 5, coordinates: { x: 700, y: 350 }, connections: ['cripta'], icon: '', discovered: false, visited: false },
+    ],
+    CUSTOM: [
+      { id: 'ciudad-principal', name: 'Ciudad Principal', description: 'El centro de la civilización', type: 'city', dangerLevel: 1, coordinates: { x: 400, y: 300 }, connections: ['bosque', 'montana'], icon: '', discovered: true, visited: true },
+      { id: 'bosque', name: 'Bosque Oscuro', description: 'Un lugar de misterios', type: 'wilderness', dangerLevel: 2, coordinates: { x: 250, y: 200 }, connections: ['ciudad-principal', 'ruinas'], icon: '', discovered: true, visited: false },
+      { id: 'montana', name: 'Montaña Sagrada', description: 'Picos que tocan el cielo', type: 'landmark', dangerLevel: 2, coordinates: { x: 550, y: 150 }, connections: ['ciudad-principal', 'cueva'], icon: '', discovered: true, visited: false },
+      { id: 'ruinas', name: 'Ruinas Antiguas', description: 'Restos de una era olvidada', type: 'dungeon', dangerLevel: 3, coordinates: { x: 150, y: 100 }, connections: ['bosque'], icon: '', discovered: false, visited: false },
+      { id: 'cueva', name: 'Cueva del Dragón', description: 'Un lugar de peligro y tesoros', type: 'danger', dangerLevel: 4, coordinates: { x: 650, y: 250 }, connections: ['montana'], icon: '', discovered: false, visited: false },
+      { id: 'puerto', name: 'Puerto Comercial', description: 'Mercancías de tierras lejanas', type: 'safe', dangerLevel: 1, coordinates: { x: 300, y: 450 }, connections: ['ciudad-principal'], icon: '', discovered: true, visited: false },
     ],
   }
 

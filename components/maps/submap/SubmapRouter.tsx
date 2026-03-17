@@ -29,7 +29,7 @@ export function SubmapRouter({
   // Generar el submapa (memorizado para consistencia)
   const submap = useMemo<Submap>(() => {
     const seed = stringToSeed(`${location.id}-${lore}`)
-    const generated = generateSubmap(location, { lore, seed })
+    const generated = generateSubmap(location, { lore, seed, dangerLevel: location.dangerLevel })
 
     // Establecer posición inicial del jugador si no está definida
     if (!playerNodeId) {
@@ -149,7 +149,7 @@ export function SubmapInline({
   // Generar el submapa
   const submap = useMemo<Submap>(() => {
     const seed = stringToSeed(`${location.id}-${lore}`)
-    const generated = generateSubmap(location, { lore, seed })
+    const generated = generateSubmap(location, { lore, seed, dangerLevel: location.dangerLevel })
 
     return {
       ...generated,

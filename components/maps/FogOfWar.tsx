@@ -40,7 +40,7 @@ export function FogOfWar({ locations, lore, width, height }: FogOfWarProps) {
   // Renderizar estilo de niebla según lore
   const renderFogStyle = () => {
     switch (lore) {
-      case 'LOVECRAFT':
+      case 'LOVECRAFT_HORROR':
         return <LovecraftFog width={width} height={height} config={config} discoveredLocations={discoveredLocations} />
       case 'STAR_WARS':
         return <SpaceFog width={width} height={height} config={config} discoveredLocations={discoveredLocations} />

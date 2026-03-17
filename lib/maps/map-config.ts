@@ -1,7 +1,9 @@
 // Configuración de mapas por lore
 // Cada lore tiene su estética única para crear inmersión visual
 
-export type Lore = 'LOTR' | 'ZOMBIES' | 'ISEKAI' | 'VIKINGOS' | 'STAR_WARS' | 'CYBERPUNK' | 'LOVECRAFT'
+// Re-exportar Lore desde el tipo canónico
+export type { Lore } from '@/lib/types/lore'
+import { type Lore } from '@/lib/types/lore'
 
 export interface MapLocation {
   id: string
@@ -276,7 +278,7 @@ export const LORE_MAP_CONFIGS: Record<Lore, LoreMapConfig> = {
     markerSize: 32,
   },
 
-  LOVECRAFT: {
+  LOVECRAFT_HORROR: {
     backgroundColor: '#1a1510',
     primaryColor: '#8b7355',
     secondaryColor: '#2d2520',
@@ -284,20 +286,16 @@ export const LORE_MAP_CONFIGS: Record<Lore, LoreMapConfig> = {
     dangerColor: '#4a0080',
     safeColor: '#3d5c3d',
     textColor: '#c4b998',
-
     fogColor: '#0a0a0a',
     fogOpacity: 0.85,
     glowColor: '#6b4c8c',
     pathColor: '#8b7355',
     pathStyle: 'dotted',
-
     fontFamily: 'EB Garamond, serif',
     titleFontFamily: 'Cinzel, serif',
-
     backgroundPattern: 'sepia',
     hasAmbientAnimation: true,
     ambientAnimationType: 'fog',
-
     icons: {
       city: '🏛️',
       dungeon: '📚',
@@ -307,15 +305,46 @@ export const LORE_MAP_CONFIGS: Record<Lore, LoreMapConfig> = {
       safe: '🏠',
       mystery: '❓',
     },
-
     markerStyle: 'gothic',
     markerSize: 28,
+  },
+
+  // Config genérico para CUSTOM
+  CUSTOM: {
+    backgroundColor: '#F4E8C1',
+    primaryColor: '#8B6914',
+    secondaryColor: '#2C2416',
+    accentColor: '#C9A84C',
+    dangerColor: '#8B1A1A',
+    safeColor: '#1A3A2A',
+    textColor: '#1C1208',
+    fogColor: '#D4B896',
+    fogOpacity: 0.7,
+    glowColor: '#F5C842',
+    pathColor: '#8B6914',
+    pathStyle: 'solid',
+    fontFamily: 'EB Garamond, serif',
+    titleFontFamily: 'Cinzel Decorative, serif',
+    backgroundPattern: 'parchment',
+    hasAmbientAnimation: true,
+    ambientAnimationType: 'flicker',
+    icons: {
+      city: '🏰',
+      dungeon: '⚔️',
+      wilderness: '🌲',
+      landmark: '⛰️',
+      danger: '💀',
+      safe: '🏠',
+      mystery: '❓',
+    },
+    markerStyle: 'medieval',
+    markerSize: 32,
   },
 }
 
 // Función helper para obtener config
 export function getMapConfig(lore: Lore): LoreMapConfig {
-  return LORE_MAP_CONFIGS[lore]
+  return LORE_MAP_CONFIGS[lore] || LORE_MAP_CONFIGS.CUSTOM
 }
 
 // Colores de dificultad para rangos de dungeon (estilo JRPG)

@@ -74,5 +74,5 @@ export function generateSubmapFromParams(
     visited: false,
   }
 
-  return generateSubmap(mockLocation, { lore, seed })
+  return generateSubmap(mockLocation, { lore, seed, dangerLevel })
 }

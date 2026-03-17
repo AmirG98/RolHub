@@ -274,7 +274,7 @@ const LORE_CONTENT: Record<Lore, {
       empty: ['Oficina corpo abandonada', 'Apartamento saqueado'],
     },
   },
-  LOVECRAFT: {
+  LOVECRAFT_HORROR: {
     enemies: ['Cultista', 'Ghoul', 'Profundo', 'Horror Innombrable', 'Shoggoth menor', 'Mi-Go'],
     treasures: ['Tomo prohibido', 'Artefacto alienígena', 'Reliquia antigua', 'Diario de investigador', 'Símbolo Elder'],
     traps: ['Sello mágico', 'Visión de locura', 'Puerta dimensional', 'Círculo de invocación'],
@@ -291,6 +291,25 @@ const LORE_CONTENT: Record<Lore, {
       shop: ['Un cultista desertor ofrece información', 'Comercio de secretos prohibidos'],
       shrine: ['Altar a los Grandes Antiguos', 'La piedra negra emite susurros'],
       empty: ['Celdas de prisión abandonadas', 'Marcas de garras en todas las superficies'],
+    },
+  },
+  CUSTOM: {
+    enemies: ['Guardia', 'Bestia', 'Espíritu', 'Campeón oscuro', 'Hechicero'],
+    treasures: ['Cofre de oro', 'Artefacto mágico', 'Arma legendaria', 'Reliquia sagrada'],
+    traps: ['Foso', 'Dardos envenenados', 'Gas venenoso', 'Trampa de fuego'],
+    puzzles: ['Mecanismo de engranajes', 'Acertijo antiguo', 'Secuencia de símbolos'],
+    descriptions: {
+      entrance: ['La entrada a la mazmorra', 'Unas escaleras descienden a la oscuridad'],
+      corridor: ['Un largo corredor de piedra', 'Pasadizo húmedo y oscuro'],
+      treasure: ['Una cámara con riquezas', 'Tesoros brillan en la oscuridad'],
+      monster: ['Algo acecha en las sombras', 'Un gruñido resuena'],
+      trap: ['El suelo parece inestable', 'Algo no está bien aquí'],
+      puzzle: ['Inscripciones antiguas cubren las paredes', 'Un mecanismo espera ser activado'],
+      boss: ['El guardián final aguarda', 'Una presencia poderosa llena la sala'],
+      safe: ['Una sala segura para descansar', 'Aquí puedes recuperarte'],
+      shop: ['Un comerciante errante', 'Mercancías extrañas a la venta'],
+      shrine: ['Un altar antiguo', 'Energía mística emana del lugar'],
+      empty: ['Una sala vacía y polvorienta', 'Nada de interés aquí'],
     },
   },
 }

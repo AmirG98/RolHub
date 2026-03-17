@@ -143,7 +143,7 @@ export function MapPaths({ locations, lore }: MapPathsProps) {
           </Group>
         )
 
-      case 'LOVECRAFT':
+      case 'LOVECRAFT_HORROR':
         return (
           <Group key={index}>
             {/* Línea misteriosa y fragmentada */}

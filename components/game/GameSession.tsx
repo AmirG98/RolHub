@@ -12,6 +12,8 @@ import { useLanguage, useTranslations } from '@/lib/i18n'
 import { Sword, Shield, Map, MessageCircle, BookOpen, Heart, Backpack, Scroll, Dices, Users, Wifi, Crown, Cog } from 'lucide-react'
 import DMPanel from '@/components/game/DMPanel'
 import { EnginePanel } from '@/components/engines/EnginePanel'
+import { GameMapPanel } from '@/components/game/GameMapPanel'
+import { type Lore as LoreType } from '@/lib/maps/map-config'
 import { VoicePlayerCompact, VoicePlayerAuto } from '@/components/game/VoicePlayer'
 // import { DynamicMusicPlayer, useDynamicMusic } from '@/components/audio/DynamicMusicPlayer' // DISABLED
 import { GameEngine, DiceRoll as EngineDiceRoll, Locale } from '@/lib/engines/types'
@@ -351,10 +353,10 @@ export default function GameSession({
       </div>
 
       {/* Contenedor principal */}
-      <div className="max-w-7xl mx-auto p-3 md:p-4 lg:p-8 content-wrapper">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
-          {/* Panel principal - Narración */}
-          <div className="lg:col-span-2 space-y-3 md:space-y-4">
+      <div className="max-w-[1800px] mx-auto p-3 md:p-4 lg:p-6 content-wrapper">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-5">
+          {/* Panel principal - Narración (6/12 = 50%) */}
+          <div className="lg:col-span-6 space-y-3 md:space-y-4">
             {/* NarratorPanel inline */}
             <OrnateFrame variant="gold">
               <ParchmentPanel variant="ornate" className="min-h-[300px] md:min-h-[400px] max-h-[50vh] md:max-h-[60vh]">
@@ -596,8 +598,28 @@ export default function GameSession({
             )}
           </div>
 
-          {/* Panel lateral - Info del personaje - Colapsable en mobile */}
-          <div className="space-y-3 md:space-y-4">
+          {/* Panel del Mapa (4/12 = 33%) */}
+          <div className="lg:col-span-4 space-y-3 md:space-y-4 order-3 lg:order-2">
+            <GameMapPanel
+              lore={lore as LoreType}
+              worldState={worldState}
+              onTravelRequest={(actionText, toLocationId) => {
+                // Establecer la acción de viaje como la acción actual
+                setAction(actionText)
+                // Opcionalmente enviar automáticamente
+                // handleSubmit(new Event('submit') as any)
+              }}
+              onError={(message) => {
+                setError(message)
+                // Limpiar error después de 3 segundos
+                setTimeout(() => setError(null), 3000)
+              }}
+              locale={locale as 'es' | 'en'}
+            />
+          </div>
+
+          {/* Panel lateral compacto - Info del personaje (2/12 = 17%) */}
+          <div className="lg:col-span-2 space-y-3 md:space-y-4 order-2 lg:order-3">
             {/* Mobile: Stats compactos en una fila */}
             <div className="lg:hidden">
               {character && character.stats && (
