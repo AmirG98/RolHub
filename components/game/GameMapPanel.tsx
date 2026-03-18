@@ -1,12 +1,15 @@
 'use client'
 
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useMemo } from 'react'
 import dynamic from 'next/dynamic'
-import { Lock, Unlock, MapIcon, Compass, Eye, EyeOff, Maximize2, Minimize2, ChevronRight } from 'lucide-react'
+import { Lock, Unlock, MapIcon, Compass, Eye, EyeOff, Maximize2, Minimize2, ChevronRight, Scroll } from 'lucide-react'
 import { type Lore, getMapConfig } from '@/lib/maps/map-config'
 import { type MapLocationWithStatus, type NavigationLockReason } from '@/lib/types/map-state'
+import { type Quest, type QuestMarker as QuestMarkerType } from '@/lib/types/quest'
+import { getQuestMarkers, getActiveQuests, getMainQuest } from '@/lib/quests/quest-manager'
 import { useMapSync } from '@/hooks/useMapSync'
 import { cn } from '@/lib/utils'
+import { QuestPanelCompact, CurrentQuestWidget } from './QuestPanel'
 
 // Importar MapContainer dinámicamente para evitar SSR issues con Konva
 const MapContainer = dynamic(
@@ -39,6 +42,10 @@ interface GameMapPanelProps {
   locale?: 'es' | 'en'
   className?: string
   compact?: boolean
+  // Sistema de quests
+  quests?: Quest[]
+  onQuestClick?: (quest: Quest) => void
+  onViewQuestOnMap?: (locationId: string) => void
 }
 
 export function GameMapPanel({
@@ -49,13 +56,26 @@ export function GameMapPanel({
   locale = 'es',
   className = '',
   compact = false,
+  quests = [],
+  onQuestClick,
+  onViewQuestOnMap,
 }: GameMapPanelProps) {
   const [showFog, setShowFog] = useState(true)
   const [isExpanded, setIsExpanded] = useState(false)
   const [submapLocation, setSubmapLocation] = useState<MapLocationWithStatus | null>(null)
-  const [showTooltip, setShowTooltip] = useState(false)
+  const [showQuests, setShowQuests] = useState(false)
 
   const config = getMapConfig(lore)
+
+  // Computar quest markers para el mapa
+  const questState = useMemo(() => ({
+    quests,
+    locationKnowledge: worldState.map_state?.locationKnowledge || {},
+    revealedSecrets: worldState.map_state?.revealedSecrets || {},
+  }), [quests, worldState.map_state])
+
+  const activeQuests = useMemo(() => getActiveQuests(questState), [questState])
+  const mainQuest = useMemo(() => getMainQuest(questState), [questState])
 
   // Usar hook de sincronización de mapa
   const {
@@ -142,6 +162,27 @@ export function GameMapPanel({
             </div>
           )}
 
+          {/* Toggle Quests (solo si hay quests) */}
+          {activeQuests.length > 0 && (
+            <button
+              onClick={() => setShowQuests(!showQuests)}
+              className={cn(
+                'p-1.5 rounded transition-colors',
+                showQuests
+                  ? 'bg-gold/20 text-gold'
+                  : 'hover:bg-shadow-mid text-parchment/70 hover:text-parchment'
+              )}
+              title={showQuests ? 'Ocultar misiones' : 'Mostrar misiones'}
+            >
+              <Scroll className="w-4 h-4" />
+              {activeQuests.length > 0 && (
+                <span className="absolute -top-1 -right-1 w-4 h-4 flex items-center justify-center text-[10px] bg-gold text-shadow rounded-full">
+                  {activeQuests.length}
+                </span>
+              )}
+            </button>
+          )}
+
           {/* Toggle Fog */}
           <button
             onClick={() => setShowFog(!showFog)}
@@ -163,7 +204,7 @@ export function GameMapPanel({
       </div>
 
       {/* Mapa */}
-      <div className={cn(containerHeight, 'transition-all duration-300')}>
+      <div className={cn(containerHeight, 'transition-all duration-300 relative')}>
         <MapContainer
           lore={lore}
           locations={locations}
@@ -177,7 +218,29 @@ export function GameMapPanel({
           }}
           showFog={showFog}
           className="w-full h-full"
+          questMarkers={getQuestMarkers(questState, locations, currentLocation?.id)}
         />
+
+        {/* Panel de quests overlay (expandido) */}
+        {showQuests && isExpanded && (
+          <div className="absolute top-2 right-2 w-64 z-10">
+            <QuestPanelCompact
+              quests={quests}
+              onQuestClick={onQuestClick}
+              className="bg-shadow/95 border border-gold/30 rounded-lg p-2"
+            />
+          </div>
+        )}
+
+        {/* Widget de quest actual (no expandido, si hay main quest) */}
+        {!isExpanded && mainQuest && (
+          <div className="absolute bottom-2 left-2 right-2 z-10">
+            <CurrentQuestWidget
+              quest={mainQuest}
+              onViewOnMap={onViewQuestOnMap}
+            />
+          </div>
+        )}
       </div>
 
       {/* Footer con stats y botón de explorar */}

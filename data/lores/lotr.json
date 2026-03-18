@@ -84,6 +84,36 @@
         "Extraños en capucha han sido vistos preguntando por 'Bolsón'",
         "Mercaderes enanos necesitan escolta hacia las Montañas Azules",
         "Han desaparecido varios ponys - los granjeros sospechan de lobos"
+      ],
+      "secrets": [
+        {
+          "id": "comarca-secret-1",
+          "content": "Bilbo Bolsón guarda un anillo mágico que encontró en las profundidades de las montañas. A veces desaparece misteriosamente de las fiestas.",
+          "reveal_condition": "npc_talk"
+        },
+        {
+          "id": "comarca-secret-2",
+          "content": "Los Montaraces del Norte protegen la Comarca en secreto. A veces se les puede ver en los límites del Bosque Viejo.",
+          "reveal_condition": "investigate"
+        }
+      ],
+      "dynamic_events": [
+        {
+          "id": "comarca-event-1",
+          "trigger": "first_visit",
+          "description": "Llegas a la Comarca en un día de mercado. Hobbits de todas las familias compran y venden entre risas y cotilleos."
+        },
+        {
+          "id": "comarca-event-2",
+          "trigger": "random",
+          "probability": 0.3,
+          "description": "Un hobbit mayor te invita a tomar el té. 'No vemos muchos Gente Grande por aquí,' dice con curiosidad."
+        }
+      ],
+      "rumors": [
+        "Dicen que Bilbo Bolsón tiene tesoros de su aventura con los enanos",
+        "El Bosque Viejo se ha vuelto más peligroso últimamente",
+        "Se han visto figuras encapuchadas preguntando por cierto hobbit"
       ]
     },
     {
@@ -98,6 +128,40 @@
         "Elrond convoca un consejo secreto - todos los pueblos libres están invitados",
         "Un pergamino antiguo revela la ubicación de un artefacto perdido",
         "Los hijos de Elrond han partido a cazar orcos y no han regresado"
+      ],
+      "secrets": [
+        {
+          "id": "rivendel-secret-1",
+          "content": "En los archivos más profundos se guardan mapas de un camino secreto a través de las Montañas Nubladas, conocido solo por los elfos más antiguos.",
+          "reveal_condition": "quest_complete"
+        },
+        {
+          "id": "rivendel-secret-2",
+          "content": "Elrond posee uno de los tres anillos élficos: Vilya, el anillo del aire. Es la fuente de la protección de Rivendel.",
+          "reveal_condition": "npc_talk"
+        },
+        {
+          "id": "rivendel-secret-3",
+          "content": "La espada que fue quebrada, Narsil, reposa aquí esperando ser reforjada cuando llegue el momento.",
+          "reveal_condition": "investigate"
+        }
+      ],
+      "dynamic_events": [
+        {
+          "id": "rivendel-event-1",
+          "trigger": "first_visit",
+          "description": "Al cruzar el vado del Bruinen, sientes una paz que no habías experimentado antes. Los elfos te dan la bienvenida con cantos en lengua antigua."
+        },
+        {
+          "id": "rivendel-event-2",
+          "trigger": "quest_active",
+          "description": "Elrond te convoca a una audiencia privada. Parece que ha previsto tu llegada en alguno de sus sueños proféticos."
+        }
+      ],
+      "rumors": [
+        "Elrond puede ver fragmentos del futuro en sueños",
+        "Un hobbit llegó hace años con una historia increíble sobre un dragón",
+        "Los hijos de Elrond cazan orcos sin descanso, buscando venganza por su madre"
       ]
     },
     {
@@ -140,6 +204,46 @@
         "Se necesita encontrar el Libro de Mazarbul - registro del último intento de colonización",
         "Un pasadizo secreto a través de Moria es la única ruta disponible",
         "Rumores de que el mithril aún puede encontrarse para quien se atreva"
+      ],
+      "secrets": [
+        {
+          "id": "moria-secret-1",
+          "content": "En las profundidades más oscuras duerme un Balrog, un demonio de fuego y sombra de la Primera Edad. Los enanos lo despertaron al excavar demasiado profundo.",
+          "reveal_condition": "investigate"
+        },
+        {
+          "id": "moria-secret-2",
+          "content": "Existe un camino secreto que evita los salones principales, conocido solo por los enanos más antiguos. Se accede desde la Cámara de Mazarbul.",
+          "reveal_condition": "quest_complete"
+        },
+        {
+          "id": "moria-secret-3",
+          "content": "Las vetas de mithril más ricas aún existen en los niveles inferiores, pero nadie ha regresado de intentar alcanzarlas.",
+          "reveal_condition": "npc_talk"
+        }
+      ],
+      "dynamic_events": [
+        {
+          "id": "moria-event-1",
+          "trigger": "first_visit",
+          "description": "La oscuridad es absoluta. Tus antorchas apenas iluminan unos metros. El silencio es opresivo, roto solo por el eco de tus pasos... y algo más."
+        },
+        {
+          "id": "moria-event-2",
+          "trigger": "random",
+          "probability": 0.4,
+          "description": "Un tambor resuena en las profundidades. Luego otro. Y otro. Los orcos saben que estás aquí."
+        },
+        {
+          "id": "moria-event-3",
+          "trigger": "revisit",
+          "description": "Los orcos han reforzado sus defensas desde tu última visita. Patrullas más frecuentes recorren los pasillos."
+        }
+      ],
+      "rumors": [
+        "Balin intentó reclamar Moria hace años. Nadie ha vuelto a saber de su expedición",
+        "Los orcos de Moria responden a una criatura antigua y terrible",
+        "El mithril de Moria no tiene igual en toda la Tierra Media"
       ]
     },
     {

@@ -2,6 +2,16 @@
 // Controla la sincronización entre narrativa y navegación del mapa
 
 import { Lore, GameEngine } from './lore'
+import type {
+  LocationKnowledgeLevel,
+  Quest,
+  QuestUpdate as QuestUpdateFull,
+  KnowledgeUpdate,
+  SecretReveal,
+} from './quest'
+
+// Re-export para uso externo
+export type { LocationKnowledgeLevel }
 
 // Razones por las que la navegación puede estar bloqueada
 export type NavigationLockReason =
@@ -27,9 +37,16 @@ export interface MapState {
   currentLocationId: string | null
   previousLocationId: string | null
 
-  // Progreso de exploración
+  // Progreso de exploración (legacy - mantener para compatibilidad)
   discoveredLocationIds: string[]
   visitedLocationIds: string[]
+
+  // NUEVO: Sistema de conocimiento progresivo por locación
+  // Reemplaza el binario discovered/visited con niveles graduales
+  locationKnowledge: Record<string, LocationKnowledgeLevel>
+
+  // NUEVO: Secretos revelados por locación
+  revealedSecrets: Record<string, string[]>  // locationId -> secretIds[]
 
   // Control de navegación (DM decide cuándo bloquear)
   navigationLocked: boolean
@@ -54,7 +71,7 @@ export interface PartyMember {
   relationships: Record<string, string>   // NPC name -> relationship
 }
 
-// WorldState extendido con sistema de mapas
+// WorldState extendido con sistema de mapas y quests
 export interface ExtendedWorldState {
   // Campos existentes del CLAUDE.md
   campaign_id: string
@@ -67,9 +84,9 @@ export interface ExtendedWorldState {
   party: Record<string, PartyMember>
 
   world_flags: Record<string, boolean>
-  active_quests: string[]
-  completed_quests: string[]
-  failed_quests: string[]
+  active_quests: string[]                  // Legacy: IDs como strings
+  completed_quests: string[]               // Legacy: IDs como strings
+  failed_quests: string[]                  // Legacy: IDs como strings
   npc_states: Record<string, string>
   faction_relations: Record<string, number> // -2 a +2
   current_scene: string
@@ -78,6 +95,9 @@ export interface ExtendedWorldState {
 
   // NUEVO: Sistema de mapas
   map_state: MapState
+
+  // NUEVO: Sistema de quests completo (reemplaza los arrays legacy)
+  quests?: Quest[]
 }
 
 // Campos de ubicación en la respuesta del DM
@@ -127,7 +147,12 @@ export interface ExtendedDMResponse extends DMLocationResponse {
   character_name?: string
   hp_change?: number
   inventory_change?: string[]
-  quest_update?: QuestUpdate
+
+  // Sistema de quests y conocimiento (nuevo)
+  quest_update?: QuestUpdate          // Legacy simple format
+  quest_updates?: QuestUpdateFull[]   // Nuevo: múltiples actualizaciones
+  knowledge_updates?: KnowledgeUpdate[] // Actualizar nivel de conocimiento de locaciones
+  secret_reveals?: SecretReveal[]     // Revelar secretos de locaciones
 }
 
 // Tipos auxiliares
@@ -179,6 +204,10 @@ export interface MapLocationWithStatus {
   discovered: boolean
   visited: boolean
   isCurrent: boolean
+
+  // NUEVO: Sistema de conocimiento progresivo
+  knowledgeLevel: LocationKnowledgeLevel
+  revealedSecretIds?: string[]
 }
 
 // Resultado de validación de viaje
@@ -193,11 +222,25 @@ export function createInitialMapState(
   startingLocationId: string,
   initialDiscoveredIds: string[]
 ): MapState {
+  // Crear locationKnowledge inicial
+  const locationKnowledge: Record<string, LocationKnowledgeLevel> = {
+    [startingLocationId]: 'visited',
+  }
+
+  // Locaciones conectadas empiezan como 'discovered'
+  for (const id of initialDiscoveredIds) {
+    if (id !== startingLocationId) {
+      locationKnowledge[id] = 'discovered'
+    }
+  }
+
   return {
     currentLocationId: startingLocationId,
     previousLocationId: null,
     discoveredLocationIds: initialDiscoveredIds,
     visitedLocationIds: [startingLocationId],
+    locationKnowledge,
+    revealedSecrets: {},
     navigationLocked: false,
     lockReason: undefined,
     activeSubmap: null,

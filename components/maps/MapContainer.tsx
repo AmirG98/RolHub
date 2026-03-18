@@ -1,9 +1,11 @@
 'use client'
 
-import React, { useRef, useState, useEffect, useCallback } from 'react'
+import React, { useRef, useState, useEffect, useCallback, useMemo } from 'react'
 import { Stage, Layer } from 'react-konva'
 import Konva from 'konva'
 import { type Lore, getMapConfig, type MapLocation } from '@/lib/maps/map-config'
+import { type QuestMarker as QuestMarkerType } from '@/lib/types/quest'
+import { type MapLocationWithStatus } from '@/lib/types/map-state'
 import { MapControls } from './MapControls'
 import { MapBackground } from './MapBackground'
 import { MapMarker } from './MapMarker'
@@ -12,7 +14,7 @@ import { FogOfWar } from './FogOfWar'
 
 interface MapContainerProps {
   lore: Lore
-  locations: MapLocation[]
+  locations: (MapLocation | MapLocationWithStatus)[]
   currentLocationId?: string
   onLocationClick?: (location: MapLocation) => void
   onLocationHover?: (location: MapLocation | null) => void
@@ -20,6 +22,8 @@ interface MapContainerProps {
   height?: number
   showFog?: boolean
   className?: string
+  // Sistema de quests
+  questMarkers?: QuestMarkerType[]
 }
 
 const MIN_SCALE = 0.5
@@ -36,6 +40,7 @@ export function MapContainer({
   height = 600,
   showFog = true,
   className = '',
+  questMarkers = [],
 }: MapContainerProps) {
   const stageRef = useRef<Konva.Stage>(null)
   const [scale, setScale] = useState(1)
@@ -45,6 +50,15 @@ export function MapContainer({
   const [dimensions, setDimensions] = useState({ width, height })
 
   const config = getMapConfig(lore)
+
+  // Crear mapa de quest markers por locationId para acceso rápido
+  const questMarkersMap = useMemo(() => {
+    const map: Record<string, QuestMarkerType> = {}
+    for (const marker of questMarkers) {
+      map[marker.locationId] = marker
+    }
+    return map
+  }, [questMarkers])
 
   // Responsive dimensions
   useEffect(() => {
@@ -202,19 +216,28 @@ export function MapContainer({
 
         {/* Capa de marcadores */}
         <Layer>
-          {locations.map((location) => (
-            <MapMarker
-              key={location.id}
-              location={location}
-              lore={lore}
-              isCurrentLocation={location.id === currentLocationId}
-              isHovered={hoveredLocation?.id === location.id}
-              onClick={() => handleLocationClick(location)}
-              onMouseEnter={() => handleLocationHover(location)}
-              onMouseLeave={() => handleLocationHover(null)}
-              showFog={showFog}
-            />
-          ))}
+          {locations.map((location) => {
+            // Obtener knowledgeLevel si la location lo tiene
+            const knowledgeLevel = 'knowledgeLevel' in location
+              ? (location as MapLocationWithStatus).knowledgeLevel
+              : undefined
+
+            return (
+              <MapMarker
+                key={location.id}
+                location={location}
+                lore={lore}
+                isCurrentLocation={location.id === currentLocationId}
+                isHovered={hoveredLocation?.id === location.id}
+                onClick={() => handleLocationClick(location)}
+                onMouseEnter={() => handleLocationHover(location)}
+                onMouseLeave={() => handleLocationHover(null)}
+                showFog={showFog}
+                questMarker={questMarkersMap[location.id]}
+                knowledgeLevel={knowledgeLevel}
+              />
+            )
+          })}
         </Layer>
       </Stage>
 

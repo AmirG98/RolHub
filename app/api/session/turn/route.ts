@@ -11,7 +11,9 @@ import {
 } from '@/lib/engines'
 import { getExampleMapData } from '@/lib/maps/lore-map-data'
 import { type Lore as LoreType } from '@/lib/maps/map-config'
-import { type NavigationLockReason } from '@/lib/types/map-state'
+import { type NavigationLockReason, type LocationKnowledgeLevel } from '@/lib/types/map-state'
+import { type Quest, type QuestUpdate } from '@/lib/types/quest'
+import { upgradeKnowledge, onLocationArrival } from '@/lib/maps/location-knowledge'
 
 // Inicializar Claude
 const anthropic = new Anthropic({
@@ -434,10 +436,70 @@ REGLAS DE UBICACIÓN:
 === FIN SISTEMA DE UBICACIÓN ===
 `
 
+    // Build quest context section
+    const quests: Quest[] = worldState.quests || []
+    const activeQuestsData = quests.filter(q => q.status === 'active')
+    const locationKnowledge = worldState.map_state?.locationKnowledge || {}
+
+    const questContextSection = isEnglish ? `
+=== QUEST AND DISCOVERY SYSTEM ===
+Active Quests: ${activeQuestsData.length}
+${activeQuestsData.map(q => `- "${q.title}" (${q.priority}): ${q.description.slice(0, 80)}...
+  ${q.objectives.filter(o => !o.completed).map(o => `  → Pending: ${o.description}`).join('\n')}`).join('\n') || '- No active quests'}
+
+Plot Hooks Available (at current location):
+${(currentMapLocation as any)?.plot_hooks?.slice(0, 3).map((h: string) => `- ${h}`).join('\n') || '- None available'}
+
+QUEST RULES:
+1. You can CREATE new quests when the player discovers something important or talks to an NPC
+2. You can COMPLETE objectives when the player accomplishes them
+3. You can REVEAL location secrets when appropriate
+4. You can UPGRADE knowledge level when player learns about new places:
+   - "rumored": player hears about a place
+   - "discovered": player knows basic info
+   - "visited": player has been there
+   - "explored": player has investigated thoroughly
+   - "mastered": player knows all secrets
+
+Include in your response when relevant:
+- "quest_create": { title, description, priority: "main"|"side", targetLocationId?, objectives: [{description, locationId?}] }
+- "quest_complete_objective": { questId, objectiveId }
+- "secret_reveal": { locationId, secretId, content }
+- "knowledge_upgrade": { locationId, newLevel }
+=== END QUEST SYSTEM ===
+` : `
+=== SISTEMA DE QUESTS Y DESCUBRIMIENTO ===
+Quests Activas: ${activeQuestsData.length}
+${activeQuestsData.map(q => `- "${q.title}" (${q.priority}): ${q.description.slice(0, 80)}...
+  ${q.objectives.filter(o => !o.completed).map(o => `  → Pendiente: ${o.description}`).join('\n')}`).join('\n') || '- Sin quests activas'}
+
+Plot Hooks Disponibles (en ubicación actual):
+${(currentMapLocation as any)?.plot_hooks?.slice(0, 3).map((h: string) => `- ${h}`).join('\n') || '- Ninguno disponible'}
+
+REGLAS DE QUESTS:
+1. Puedes CREAR nuevas quests cuando el jugador descubre algo importante o habla con un NPC
+2. Puedes COMPLETAR objetivos cuando el jugador los logra
+3. Puedes REVELAR secretos de locaciones cuando sea apropiado
+4. Puedes MEJORAR nivel de conocimiento cuando el jugador aprende de nuevos lugares:
+   - "rumored": jugador escuchó hablar del lugar
+   - "discovered": jugador conoce info básica
+   - "visited": jugador ha estado ahí
+   - "explored": jugador ha investigado a fondo
+   - "mastered": jugador conoce todos los secretos
+
+Incluir en tu respuesta cuando sea relevante:
+- "quest_create": { title, description, priority: "main"|"side", targetLocationId?, objectives: [{description, locationId?}] }
+- "quest_complete_objective": { questId, objectiveId }
+- "secret_reveal": { locationId, secretId, content }
+- "knowledge_upgrade": { locationId, newLevel }
+=== FIN SISTEMA DE QUESTS ===
+`
+
     const systemPrompt = `${labels.dmRole}${isMultiplayer ? ` ${labels.multiplayer}` : ''}. ${isEnglish ? 'Your role is to create an immersive and exciting experience.' : 'Tu rol es crear una experiencia inmersiva y emocionante.'}
 
 ${engineRulesSection}
 ${locationContextSection}
+${questContextSection}
 
 ${labels.worldAndSetting}:
 - ${labels.lore}: ${session.campaign.lore}
@@ -535,6 +597,27 @@ ${labels.important}:
         hp_change: number
         reason?: string
       }>
+      // Quest system fields
+      quest_create?: {
+        title: string
+        description: string
+        priority: 'main' | 'side'
+        targetLocationId?: string
+        objectives: Array<{ description: string; locationId?: string }>
+      }
+      quest_complete_objective?: {
+        questId: string
+        objectiveId: string
+      }
+      secret_reveal?: {
+        locationId: string
+        secretId: string
+        content: string
+      }
+      knowledge_upgrade?: {
+        locationId: string
+        newLevel: LocationKnowledgeLevel
+      }
     }
 
     try {
@@ -656,6 +739,91 @@ ${labels.important}:
       }
       worldStateUpdates.map_state.navigationLocked = dmResponse.navigation_locked
       worldStateUpdates.map_state.lockReason = dmResponse.lock_reason || 'none'
+    }
+
+    // Handle quest creation
+    if (dmResponse.quest_create) {
+      const newQuest: Quest = {
+        id: `quest_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
+        title: dmResponse.quest_create.title,
+        description: dmResponse.quest_create.description,
+        status: 'active',
+        priority: dmResponse.quest_create.priority,
+        targetLocationId: dmResponse.quest_create.targetLocationId,
+        relatedLocationIds: dmResponse.quest_create.targetLocationId
+          ? [currentLocationId || '', dmResponse.quest_create.targetLocationId].filter(Boolean)
+          : [currentLocationId || ''].filter(Boolean),
+        objectives: dmResponse.quest_create.objectives.map((obj, idx) => ({
+          id: `obj_${Date.now()}_${idx}`,
+          description: obj.description,
+          completed: false,
+          locationId: obj.locationId,
+        })),
+        sourceType: 'narrative',
+        sourceLocationId: currentLocationId || undefined,
+        lore: session.campaign.lore as any,
+        createdAt: Date.now(),
+      }
+
+      const existingQuests: Quest[] = worldState.quests || []
+      worldStateUpdates.quests = [...existingQuests, newQuest]
+
+      // Also update legacy active_quests array
+      worldStateUpdates.active_quests = [
+        ...(worldState.active_quests || []),
+        newQuest.title
+      ]
+    }
+
+    // Handle quest objective completion
+    if (dmResponse.quest_complete_objective) {
+      const { questId, objectiveId } = dmResponse.quest_complete_objective
+      const existingQuests: Quest[] = worldState.quests || worldStateUpdates.quests || []
+
+      worldStateUpdates.quests = existingQuests.map(quest => {
+        if (quest.id !== questId) return quest
+
+        const updatedObjectives = quest.objectives.map(obj =>
+          obj.id === objectiveId ? { ...obj, completed: true } : obj
+        )
+
+        const allCompleted = updatedObjectives.every(obj => obj.completed)
+
+        return {
+          ...quest,
+          objectives: updatedObjectives,
+          status: allCompleted ? 'completed' as const : quest.status,
+        }
+      })
+    }
+
+    // Handle secret reveal
+    if (dmResponse.secret_reveal) {
+      const { locationId, secretId } = dmResponse.secret_reveal
+      if (!worldStateUpdates.map_state) {
+        worldStateUpdates.map_state = { ...(worldState.map_state || {}) }
+      }
+      const currentSecrets = worldStateUpdates.map_state.revealedSecrets || worldState.map_state?.revealedSecrets || {}
+      const locationSecrets = currentSecrets[locationId] || []
+      if (!locationSecrets.includes(secretId)) {
+        worldStateUpdates.map_state.revealedSecrets = {
+          ...currentSecrets,
+          [locationId]: [...locationSecrets, secretId]
+        }
+      }
+    }
+
+    // Handle knowledge upgrade
+    if (dmResponse.knowledge_upgrade) {
+      const { locationId, newLevel } = dmResponse.knowledge_upgrade
+      if (!worldStateUpdates.map_state) {
+        worldStateUpdates.map_state = { ...(worldState.map_state || {}) }
+      }
+      const currentKnowledge = worldStateUpdates.map_state.locationKnowledge || worldState.map_state?.locationKnowledge || {}
+      worldStateUpdates.map_state.locationKnowledge = {
+        ...currentKnowledge,
+        [locationId]: newLevel
+      }
     }
 
     // Handle other party effects in multiplayer

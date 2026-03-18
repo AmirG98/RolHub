@@ -9,8 +9,10 @@ import {
   type MapLocationWithStatus,
   type TravelValidation,
   type NavigationLockReason,
+  type LocationKnowledgeLevel,
 } from '@/lib/types/map-state'
 import { type Lore } from '@/lib/types/lore'
+import { getKnowledgeLevel } from './location-knowledge'
 
 // Mensajes de bloqueo de navegación por idioma
 const LOCK_MESSAGES: Record<NavigationLockReason, { es: string; en: string }> = {
@@ -95,10 +97,12 @@ export function deriveMapState(
     }))
   }
 
-  // Convertir a MapLocationWithStatus
+  // Convertir a MapLocationWithStatus con knowledge level
   const locationsWithStatus: MapLocationWithStatus[] = locations.map((loc) => ({
     ...loc,
     isCurrent: loc.id === state.currentLocationId,
+    knowledgeLevel: getKnowledgeLevel(state, loc.id),
+    revealedSecretIds: state.revealedSecrets?.[loc.id] || [],
   }))
 
   // Encontrar ubicación actual
@@ -119,11 +123,25 @@ export function deriveMapState(
 export function createDefaultMapState(lore: Lore): MapState {
   const startingIds = getStartingLocationIds(lore)
 
+  // Crear locationKnowledge inicial
+  const locationKnowledge: Record<string, LocationKnowledgeLevel> = {
+    [startingIds.starting]: 'visited',
+  }
+
+  // Locaciones descubiertas empiezan como 'discovered'
+  for (const id of startingIds.discovered) {
+    if (id !== startingIds.starting) {
+      locationKnowledge[id] = 'discovered'
+    }
+  }
+
   return {
     currentLocationId: startingIds.starting,
     previousLocationId: null,
     discoveredLocationIds: startingIds.discovered,
     visitedLocationIds: [startingIds.starting],
+    locationKnowledge,
+    revealedSecrets: {},
     navigationLocked: false,
     lockReason: undefined,
     activeSubmap: null,

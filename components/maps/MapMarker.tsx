@@ -4,6 +4,9 @@ import React, { useRef, useEffect } from 'react'
 import { Group, Circle, Text, Rect, Star, RegularPolygon } from 'react-konva'
 import Konva from 'konva'
 import { type Lore, type MapLocation, getMapConfig, DIFFICULTY_COLORS, dangerToRank } from '@/lib/maps/map-config'
+import { type QuestMarker as QuestMarkerType, getQuestMarkerIcon, getQuestMarkerColor } from '@/lib/types/quest'
+import { type LocationKnowledgeLevel } from '@/lib/types/map-state'
+import { getKnowledgeLevelStyle } from '@/lib/maps/location-knowledge'
 
 interface MapMarkerProps {
   location: MapLocation
@@ -14,6 +17,9 @@ interface MapMarkerProps {
   onMouseEnter: () => void
   onMouseLeave: () => void
   showFog: boolean
+  // Nuevos props para sistema de quests y knowledge
+  questMarker?: QuestMarkerType
+  knowledgeLevel?: LocationKnowledgeLevel
 }
 
 export function MapMarker({
@@ -25,15 +31,23 @@ export function MapMarker({
   onMouseEnter,
   onMouseLeave,
   showFog,
+  questMarker,
+  knowledgeLevel = 'discovered',
 }: MapMarkerProps) {
   const groupRef = useRef<Konva.Group>(null)
   const config = getMapConfig(lore)
   const { x, y } = location.coordinates
 
-  // Si está en niebla y no descubierto, no mostrar
-  if (showFog && !location.discovered) {
+  // Obtener estilo según nivel de conocimiento
+  const knowledgeStyle = getKnowledgeLevelStyle(knowledgeLevel)
+
+  // Si está en niebla y no descubierto, o unknown, no mostrar
+  if ((showFog && !location.discovered) || knowledgeLevel === 'unknown') {
     return null
   }
+
+  // Calcular opacidad basada en knowledge level
+  const markerOpacity = knowledgeStyle.opacity
 
   // Animación de hover y locación actual
   useEffect(() => {
@@ -77,6 +91,9 @@ export function MapMarker({
     }
   }
 
+  // Determinar texto a mostrar según knowledge level
+  const displayName = knowledgeStyle.showQuestionMark ? `${location.name}?` : location.name
+
   return (
     <Group
       ref={groupRef}
@@ -87,12 +104,49 @@ export function MapMarker({
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       style={{ cursor: 'pointer' }}
+      opacity={markerOpacity}
     >
       {renderMarker()}
 
+      {/* Quest Marker Overlay */}
+      {questMarker && (
+        <QuestMarkerOverlay
+          marker={questMarker}
+          markerSize={config.markerSize}
+        />
+      )}
+
+      {/* Indicador de rumor (?) */}
+      {knowledgeStyle.showQuestionMark && (
+        <Text
+          text="?"
+          x={config.markerSize / 2 - 5}
+          y={-config.markerSize / 2 - 5}
+          fontSize={14}
+          fontStyle="bold"
+          fill={config.accentColor}
+          shadowColor={config.accentColor}
+          shadowBlur={5}
+        />
+      )}
+
+      {/* Glow dorado para locaciones "mastered" */}
+      {knowledgeLevel === 'mastered' && (
+        <Circle
+          radius={config.markerSize / 2 + 8}
+          fill="transparent"
+          stroke="#FFD700"
+          strokeWidth={2}
+          opacity={0.6}
+          shadowColor="#FFD700"
+          shadowBlur={15}
+          shadowOpacity={0.5}
+        />
+      )}
+
       {/* Nombre de la locación */}
       <Text
-        text={location.name}
+        text={knowledgeStyle.showName ? displayName : '???'}
         x={-50}
         y={config.markerSize / 2 + 5}
         width={100}
@@ -101,6 +155,45 @@ export function MapMarker({
         fontFamily={config.fontFamily}
         fill={config.textColor}
         opacity={location.visited ? 1 : 0.7}
+      />
+    </Group>
+  )
+}
+
+// Componente para overlay de quest marker en Konva
+interface QuestMarkerOverlayProps {
+  marker: QuestMarkerType
+  markerSize: number
+}
+
+function QuestMarkerOverlay({ marker, markerSize }: QuestMarkerOverlayProps) {
+  const icon = getQuestMarkerIcon(marker.type)
+  const color = getQuestMarkerColor(marker.type)
+  const textColor = marker.type === 'main' || marker.type === 'completable' ? '#1C1208' : '#FFFFFF'
+
+  const size = 16
+  const offsetX = markerSize / 2 - 2
+  const offsetY = -markerSize / 2 - 2
+
+  return (
+    <Group x={offsetX} y={offsetY}>
+      {/* Círculo de fondo */}
+      <Circle
+        radius={size / 2}
+        fill={color}
+        shadowColor={color}
+        shadowBlur={marker.pulse ? 10 : 5}
+        shadowOpacity={0.8}
+      />
+      {/* Icono */}
+      <Text
+        text={icon}
+        x={-size / 4}
+        y={-size / 4}
+        fontSize={size * 0.7}
+        fontStyle="bold"
+        fill={textColor}
+        align="center"
       />
     </Group>
   )
