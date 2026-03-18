@@ -19,11 +19,10 @@ import { VoicePlayerCompact, VoicePlayerAuto } from '@/components/game/VoicePlay
 import { GameEngine, DiceRoll as EngineDiceRoll, Locale } from '@/lib/engines/types'
 import { Lore } from '@prisma/client'
 // Immersion system
-import { TypewriterText, useTextVariant } from '@/components/ui/TypewriterText'
+import { TypewriterText } from '@/components/ui/TypewriterText'
 import { SceneTransition, useSceneTransition } from '@/components/ui/SceneTransition'
 import { SceneImage } from '@/components/game/SceneImage'
-import { type UIMood, getUIMood, getMoodConfig, MOOD_AMBIENT_SOUNDS } from '@/lib/game/ui-mood'
-import { generateSceneImageSafe, type SceneImageResult } from '@/lib/fal/scene-image-gen'
+import { type UIMood, getUIMood, getMoodConfig } from '@/lib/game/ui-mood'
 
 interface Turn {
   id: string
@@ -317,21 +316,27 @@ export default function GameSession({
         })
       }
 
-      // Generate scene image if requested
+      // Generate scene image if requested (via API)
       if (data.generateImage && data.imagePrompt && isImagesEnabled) {
         setIsImageLoading(true)
         setImageError(null)
 
         try {
-          const result = await generateSceneImageSafe({
-            prompt: data.imagePrompt,
-            lore: lore as any,
-            mood: data.moodHint || uiMood,
-            locationName: data.worldStateUpdates?.current_scene || worldState.current_scene,
+          const imgResponse = await fetch('/api/session/image', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              prompt: data.imagePrompt,
+              lore: lore,
+              mood: data.moodHint || uiMood,
+              locationName: data.worldStateUpdates?.current_scene || worldState.current_scene,
+            }),
           })
 
-          if (result.isGenerated && result.url) {
-            setSceneImageUrl(result.url)
+          const imgData = await imgResponse.json()
+
+          if (imgData.success && imgData.url) {
+            setSceneImageUrl(imgData.url)
           }
         } catch (imgError) {
           console.error('Failed to generate scene image:', imgError)
