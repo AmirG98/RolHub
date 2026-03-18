@@ -143,4 +143,279 @@
       transform: translateY(0);
     }
   }
+
+  /* ===========================================
+     SISTEMA DE INMERSION - TIPOGRAFIA
+     =========================================== */
+
+  /* Texto de narración del DM */
+  .narration-text {
+    @apply font-body text-lg italic text-parchment leading-relaxed;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Diálogo de NPCs */
+  .dialogue-text {
+    @apply font-ui text-base text-gold-bright;
+  }
+
+  .dialogue-text::before {
+    content: '"';
+    @apply text-parchment/60;
+  }
+
+  .dialogue-text::after {
+    content: '"';
+    @apply text-parchment/60;
+  }
+
+  /* Mensajes del sistema */
+  .system-text {
+    @apply font-mono text-sm text-parchment/60;
+  }
+
+  /* Nombre de NPC */
+  .npc-name {
+    @apply font-heading text-sm text-gold uppercase tracking-wider;
+  }
+
+  /* Texto dramático */
+  .dramatic-text {
+    @apply font-heading text-xl text-gold tracking-wide;
+    text-shadow: 0 0 10px rgba(201, 168, 76, 0.5);
+  }
+
+  /* ===========================================
+     SISTEMA DE INMERSION - ANIMACIONES
+     =========================================== */
+
+  /* Cursor parpadeante del typewriter */
+  @keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+
+  .animate-blink {
+    animation: blink 1s step-end infinite;
+  }
+
+  /* Transición de escena - fade */
+  @keyframes sceneFade {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+
+  .scene-fade-in {
+    animation: sceneFade 0.8s ease-out forwards;
+  }
+
+  /* Transición de escena - ink spill */
+  @keyframes inkSpillIn {
+    0% {
+      clip-path: circle(0% at 50% 50%);
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      clip-path: circle(150% at 50% 50%);
+      opacity: 1;
+    }
+  }
+
+  @keyframes inkSpillOut {
+    0% {
+      clip-path: circle(150% at 50% 50%);
+      opacity: 1;
+    }
+    100% {
+      clip-path: circle(0% at 50% 50%);
+      opacity: 0;
+    }
+  }
+
+  .ink-spill-in {
+    animation: inkSpillIn 1.2s ease-out forwards;
+  }
+
+  .ink-spill-out {
+    animation: inkSpillOut 0.8s ease-in forwards;
+  }
+
+  /* ===========================================
+     SISTEMA DE INMERSION - UI MOODS
+     =========================================== */
+
+  /* Modo exploración - default, calmado */
+  .ui-mood-exploration {
+    --mood-border: var(--color-gold-dim);
+    --mood-glow: rgba(201, 168, 76, 0.2);
+    --mood-bg: rgba(13, 10, 5, 0.95);
+  }
+
+  /* Modo combate - tenso, peligroso */
+  .ui-mood-combat {
+    --mood-border: var(--color-blood);
+    --mood-glow: rgba(139, 26, 26, 0.4);
+    --mood-bg: rgba(30, 10, 10, 0.95);
+    animation: combatPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes combatPulse {
+    0%, 100% {
+      box-shadow: 0 0 20px rgba(139, 26, 26, 0.3);
+    }
+    50% {
+      box-shadow: 0 0 40px rgba(139, 26, 26, 0.6), 0 0 60px rgba(139, 26, 26, 0.3);
+    }
+  }
+
+  /* Modo diálogo - suave, íntimo */
+  .ui-mood-dialogue {
+    --mood-border: var(--color-gold);
+    --mood-glow: rgba(201, 168, 76, 0.3);
+    --mood-bg: rgba(20, 15, 10, 0.95);
+  }
+
+  /* Modo dramático - épico, intenso */
+  .ui-mood-dramatic {
+    --mood-border: var(--color-gold-bright);
+    --mood-glow: rgba(245, 200, 66, 0.5);
+    --mood-bg: rgba(10, 8, 5, 0.98);
+    animation: dramaticGlow 3s ease-in-out infinite;
+  }
+
+  @keyframes dramaticGlow {
+    0%, 100% {
+      box-shadow: 0 0 30px rgba(245, 200, 66, 0.3);
+    }
+    50% {
+      box-shadow: 0 0 60px rgba(245, 200, 66, 0.6), 0 0 80px rgba(201, 168, 76, 0.3);
+    }
+  }
+
+  /* Panel con mood aplicado */
+  .mood-panel {
+    border-color: var(--mood-border);
+    box-shadow: 0 0 20px var(--mood-glow);
+    background-color: var(--mood-bg);
+    transition: all 0.5s ease;
+  }
+
+  /* ===========================================
+     SISTEMA DE INMERSION - EFECTOS DE ESCENA
+     =========================================== */
+
+  /* Efecto de viñeta para escenas oscuras */
+  .scene-vignette {
+    position: relative;
+  }
+
+  .scene-vignette::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(
+      ellipse at center,
+      transparent 40%,
+      rgba(0, 0, 0, 0.4) 100%
+    );
+  }
+
+  /* Efecto de niebla/misterio */
+  .scene-fog {
+    position: relative;
+  }
+
+  .scene-fog::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgba(200, 200, 200, 0.05) 50%,
+      transparent 100%
+    );
+    animation: fogDrift 8s ease-in-out infinite alternate;
+  }
+
+  @keyframes fogDrift {
+    0% { transform: translateX(-5%) translateY(0); }
+    100% { transform: translateX(5%) translateY(-5%); }
+  }
+
+  /* Efecto de sangre/peligro para combate */
+  .scene-danger {
+    position: relative;
+  }
+
+  .scene-danger::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border: 3px solid transparent;
+    border-image: linear-gradient(
+      to bottom,
+      rgba(139, 26, 26, 0.6) 0%,
+      transparent 30%,
+      transparent 70%,
+      rgba(139, 26, 26, 0.6) 100%
+    ) 1;
+    animation: dangerFlash 1.5s ease-in-out infinite;
+  }
+
+  @keyframes dangerFlash {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+  }
+
+  /* ===========================================
+     SISTEMA DE INMERSION - LOADING STATES
+     =========================================== */
+
+  /* Skeleton loader medieval */
+  .skeleton-medieval {
+    background: linear-gradient(
+      90deg,
+      rgba(201, 168, 76, 0.1) 0%,
+      rgba(201, 168, 76, 0.2) 50%,
+      rgba(201, 168, 76, 0.1) 100%
+    );
+    background-size: 200% 100%;
+    animation: skeletonShimmer 1.5s ease-in-out infinite;
+  }
+
+  @keyframes skeletonShimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  /* Loader de imagen con runas */
+  .image-loader-runes {
+    position: relative;
+    background: var(--bg-panel);
+    overflow: hidden;
+  }
+
+  .image-loader-runes::after {
+    content: '⚔ ⚔ ⚔';
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: var(--color-gold-dim);
+    animation: runesPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes runesPulse {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(1.1); }
+  }
 }

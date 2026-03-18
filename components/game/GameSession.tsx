@@ -18,6 +18,12 @@ import { VoicePlayerCompact, VoicePlayerAuto } from '@/components/game/VoicePlay
 // import { DynamicMusicPlayer, useDynamicMusic } from '@/components/audio/DynamicMusicPlayer' // DISABLED
 import { GameEngine, DiceRoll as EngineDiceRoll, Locale } from '@/lib/engines/types'
 import { Lore } from '@prisma/client'
+// Immersion system
+import { TypewriterText, useTextVariant } from '@/components/ui/TypewriterText'
+import { SceneTransition, useSceneTransition } from '@/components/ui/SceneTransition'
+import { SceneImage } from '@/components/game/SceneImage'
+import { type UIMood, getUIMood, getMoodConfig, MOOD_AMBIENT_SOUNDS } from '@/lib/game/ui-mood'
+import { generateSceneImageSafe, type SceneImageResult } from '@/lib/fal/scene-image-gen'
 
 interface Turn {
   id: string
@@ -128,6 +134,15 @@ export default function GameSession({
   // Track the latest DM turn ID for auto-playing voice
   const [latestDMTurnId, setLatestDMTurnId] = useState<string | null>(null)
   const scrollRef = useRef<HTMLDivElement>(null)
+
+  // Immersion system state
+  const [uiMood, setUiMood] = useState<UIMood>('exploration')
+  const [sceneImageUrl, setSceneImageUrl] = useState<string | null>(null)
+  const [isImageLoading, setIsImageLoading] = useState(false)
+  const [imageError, setImageError] = useState<string | null>(null)
+  const [typewriterTurnId, setTypewriterTurnId] = useState<string | null>(null) // Track which turn is animating
+  const { isTransitioning, triggerTransition, transitionProps } = useSceneTransition({ type: 'fade', duration: 600 })
+  const isImagesEnabled = process.env.NEXT_PUBLIC_ENABLE_IMAGES === 'true'
 
   // Multiplayer hooks - only active when isMultiplayer is true
   const {
@@ -281,6 +296,51 @@ export default function GameSession({
       if (data.suggestedActions && data.suggestedActions.length > 0) {
         setSuggestedActions(data.suggestedActions)
       }
+
+      // === IMMERSION SYSTEM ===
+      // Set typewriter animation for this turn
+      setTypewriterTurnId(dmTurnId)
+
+      // Update UI mood
+      if (data.moodHint) {
+        setUiMood(data.moodHint as UIMood)
+      } else {
+        // Derive mood from world state lock reason
+        const lockReason = data.worldStateUpdates?.map_state?.lockReason || worldState.map_state?.lockReason
+        setUiMood(getUIMood(lockReason, data.narration))
+      }
+
+      // Trigger scene transition if scene changed
+      if (data.sceneChange) {
+        triggerTransition(() => {
+          // This runs at the midpoint of the transition
+        })
+      }
+
+      // Generate scene image if requested
+      if (data.generateImage && data.imagePrompt && isImagesEnabled) {
+        setIsImageLoading(true)
+        setImageError(null)
+
+        try {
+          const result = await generateSceneImageSafe({
+            prompt: data.imagePrompt,
+            lore: lore as any,
+            mood: data.moodHint || uiMood,
+            locationName: data.worldStateUpdates?.current_scene || worldState.current_scene,
+          })
+
+          if (result.isGenerated && result.url) {
+            setSceneImageUrl(result.url)
+          }
+        } catch (imgError) {
+          console.error('Failed to generate scene image:', imgError)
+          setImageError('La visión se desvanece...')
+        } finally {
+          setIsImageLoading(false)
+        }
+      }
+      // === END IMMERSION SYSTEM ===
     } catch (err) {
       setError((err as Error).message)
       // Remover el turno optimista si falla
@@ -290,8 +350,14 @@ export default function GameSession({
     }
   }
 
+  // Get mood config for styling
+  const moodConfig = getMoodConfig(uiMood)
+
   return (
-    <div className="min-h-screen particle-bg pb-4">
+    <div className={`min-h-screen particle-bg pb-4 ${moodConfig.cssClass}`}>
+      {/* Scene Transition Overlay */}
+      <SceneTransition {...transitionProps} />
+
       {/* Header con información del personaje */}
       <div className="border-b border-gold-dim/30 glass-panel-dark p-3 md:p-4">
         <div className="max-w-7xl mx-auto">
@@ -357,6 +423,24 @@ export default function GameSession({
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-5">
           {/* Panel principal - Narración (6/12 = 50%) */}
           <div className="lg:col-span-6 space-y-3 md:space-y-4">
+            {/* Scene Image - shows when available */}
+            {(sceneImageUrl || isImageLoading) && (
+              <div className={`rounded-lg overflow-hidden border ${moodConfig.borderClass} transition-all duration-500`}>
+                <SceneImage
+                  imageUrl={sceneImageUrl}
+                  isLoading={isImageLoading}
+                  lore={lore as LoreType}
+                  error={imageError}
+                  onRetry={async () => {
+                    // Could implement retry logic here
+                    setImageError(null)
+                  }}
+                  aspectRatio="16:9"
+                  showFullscreenButton={true}
+                />
+              </div>
+            )}
+
             {/* NarratorPanel inline */}
             <OrnateFrame variant="gold">
               <ParchmentPanel variant="ornate" className="min-h-[300px] md:min-h-[400px] max-h-[50vh] md:max-h-[60vh]">
@@ -373,9 +457,9 @@ export default function GameSession({
                     turns.map((turn) => (
                       <div
                         key={turn.id}
-                        className={`p-3 md:p-4 rounded-lg glass-panel ${
+                        className={`p-3 md:p-4 rounded-lg glass-panel transition-all duration-300 ${
                           turn.role === 'DM'
-                            ? 'border-l-4 border-gold bg-gold/5'
+                            ? `border-l-4 ${turn.id === typewriterTurnId ? moodConfig.borderClass : 'border-gold'} bg-gold/5 ${turn.id === typewriterTurnId ? moodConfig.glowClass : ''}`
                             : turn.role === 'USER'
                             ? 'border-l-4 border-emerald bg-emerald/5'
                             : 'border-l-4 border-gold-dim'
@@ -422,9 +506,21 @@ export default function GameSession({
                             )
                           )}
                         </div>
-                        <p className="font-body text-sm md:text-base text-parchment leading-relaxed whitespace-pre-wrap">
-                          {turn.content}
-                        </p>
+                        {/* DM narrations use typewriter for latest turn */}
+                        {turn.role === 'DM' && turn.id === typewriterTurnId ? (
+                          <TypewriterText
+                            text={turn.content}
+                            variant="narration"
+                            speed={25}
+                            onComplete={() => setTypewriterTurnId(null)}
+                            skipOnClick={true}
+                            className="text-sm md:text-base"
+                          />
+                        ) : (
+                          <p className="font-body text-sm md:text-base text-parchment leading-relaxed whitespace-pre-wrap">
+                            {turn.content}
+                          </p>
+                        )}
                         {/* Show dice roll if present */}
                         {turn.diceRoll && (
                           <div className="mt-2 flex items-center gap-2 p-2 bg-gold/10 rounded-lg border border-gold/30">

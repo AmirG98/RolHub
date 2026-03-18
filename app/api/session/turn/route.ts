@@ -467,6 +467,32 @@ Include in your response when relevant:
 - "secret_reveal": { locationId, secretId, content }
 - "knowledge_upgrade": { locationId, newLevel }
 === END QUEST SYSTEM ===
+
+=== IMAGE GENERATION SYSTEM ===
+You can request scene images to be generated when the visual scene changes significantly.
+
+WHEN to generate images:
+- Player arrives at a NEW location
+- A dramatic moment occurs (combat start, revelation, major event)
+- Scene changes significantly (entering a building, going underground, etc.)
+
+WHEN NOT to generate images:
+- Regular dialogue or actions
+- Small movements within the same location
+- Every single turn (too expensive)
+
+Include in your response when appropriate:
+- "generate_image": true (only when an image should be generated)
+- "image_prompt": "Brief visual description of the scene in 1-2 sentences. Focus on atmosphere, lighting, key elements."
+
+Also include mood hints for UI styling:
+- "mood_hint": "exploration" (calm, exploring) | "combat" (tense, dangerous) | "dialogue" (intimate, conversation) | "dramatic" (epic, revelatory)
+
+Example image prompts by lore:
+- LOTR: "A hobbit hole door surrounded by autumn leaves, warm golden light spilling from within"
+- ZOMBIES: "An abandoned hospital corridor, flickering lights, blood trails on the floor"
+- ISEKAI: "A floating island city with crystal spires, sunset colors, flying ships"
+=== END IMAGE SYSTEM ===
 ` : `
 === SISTEMA DE QUESTS Y DESCUBRIMIENTO ===
 Quests Activas: ${activeQuestsData.length}
@@ -493,6 +519,32 @@ Incluir en tu respuesta cuando sea relevante:
 - "secret_reveal": { locationId, secretId, content }
 - "knowledge_upgrade": { locationId, newLevel }
 === FIN SISTEMA DE QUESTS ===
+
+=== SISTEMA DE IMÁGENES ===
+Puedes solicitar que se generen imágenes de escena cuando el ambiente visual cambie significativamente.
+
+CUÁNDO generar imágenes:
+- El jugador llega a una NUEVA ubicación
+- Ocurre un momento dramático (inicio de combate, revelación, evento mayor)
+- La escena cambia significativamente (entrar a un edificio, ir bajo tierra, etc.)
+
+CUÁNDO NO generar imágenes:
+- Diálogo regular o acciones menores
+- Pequeños movimientos dentro de la misma ubicación
+- Cada turno (muy costoso)
+
+Incluir en tu respuesta cuando sea apropiado:
+- "generate_image": true (solo cuando deba generarse una imagen)
+- "image_prompt": "Breve descripción visual de la escena en 1-2 oraciones. Enfócate en atmósfera, iluminación, elementos clave."
+
+También incluye hints de mood para estilización de UI:
+- "mood_hint": "exploration" (calmo) | "combat" (tenso) | "dialogue" (íntimo) | "dramatic" (épico)
+
+Ejemplos de prompts por lore:
+- LOTR: "La puerta de un agujero hobbit rodeada de hojas otoñales, luz dorada cálida saliendo del interior"
+- ZOMBIES: "Un pasillo de hospital abandonado, luces parpadeantes, rastros de sangre en el suelo"
+- ISEKAI: "Una ciudad flotante con agujas de cristal, colores de atardecer, naves voladoras"
+=== FIN SISTEMA DE IMÁGENES ===
 `
 
     const systemPrompt = `${labels.dmRole}${isMultiplayer ? ` ${labels.multiplayer}` : ''}. ${isEnglish ? 'Your role is to create an immersive and exciting experience.' : 'Tu rol es crear una experiencia inmersiva y emocionante.'}
@@ -539,7 +591,10 @@ ${isEnglish ? 'You must ALWAYS respond in JSON format with this exact structure'
   "location_id": null,
   "navigation_locked": null,
   "lock_reason": null,
-  "suggested_actions": ["${isEnglish ? 'action 1' : 'acción 1'}", "${isEnglish ? 'action 2' : 'acción 2'}", "${isEnglish ? 'action 3' : 'acción 3'}"]${isMultiplayer ? `,
+  "suggested_actions": ["${isEnglish ? 'action 1' : 'acción 1'}", "${isEnglish ? 'action 2' : 'acción 2'}", "${isEnglish ? 'action 3' : 'acción 3'}"],
+  "generate_image": false,
+  "image_prompt": null,
+  "mood_hint": null${isMultiplayer ? `,
   "other_party_effects": []` : ''}
 }
 ${isMultiplayer ? `
@@ -618,6 +673,11 @@ ${labels.important}:
         locationId: string
         newLevel: LocationKnowledgeLevel
       }
+      // Image generation fields
+      generate_image?: boolean
+      image_prompt?: string
+      // UI mood hint
+      mood_hint?: 'exploration' | 'combat' | 'dialogue' | 'dramatic'
     }
 
     try {
@@ -892,6 +952,13 @@ ${labels.important}:
       narration: fullNarration,
       worldStateUpdates: Object.keys(worldStateUpdates).length > 0 ? worldStateUpdates : undefined,
       suggestedActions: dmResponse.suggested_actions,
+      // Image generation
+      generateImage: dmResponse.generate_image || false,
+      imagePrompt: dmResponse.image_prompt || null,
+      // UI mood
+      moodHint: dmResponse.mood_hint || null,
+      // Scene change info for transitions
+      sceneChange: dmResponse.scene_change || dmResponse.location_id || null,
     })
   } catch (error) {
     console.error('Error processing turn:', error)
