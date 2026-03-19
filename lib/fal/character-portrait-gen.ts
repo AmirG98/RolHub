@@ -175,15 +175,14 @@ export async function generateCharacterPortrait(
         'Authorization': `Key ${FAL_KEY}`,
         'Content-Type': 'application/json',
       },
+      // FLUX Schnell: solo acepta prompt, image_size, num_inference_steps
       body: JSON.stringify({
         prompt: fullPrompt,
-        negative_prompt: NEGATIVE_PROMPT,
         image_size: {
           width: 512,
           height: 768, // Formato retrato vertical
         },
-        num_inference_steps: config.steps,
-        guidance_scale: config.guidance,
+        num_inference_steps: 4, // Schnell usa 1-4 steps
         enable_safety_checker: true,
       }),
     })

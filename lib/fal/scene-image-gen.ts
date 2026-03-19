@@ -139,15 +139,14 @@ export async function generateSceneImage(
         'Authorization': `Key ${FAL_KEY}`,
         'Content-Type': 'application/json',
       },
+      // FLUX Schnell: solo acepta prompt, image_size, num_inference_steps
       body: JSON.stringify({
         prompt: fullPrompt,
-        negative_prompt: NEGATIVE_PROMPT,
         image_size: {
           width: options.width || 1024,
           height: options.height || 576, // 16:9 para escenas
         },
-        num_inference_steps: config.steps,
-        guidance_scale: config.guidance,
+        num_inference_steps: 4, // Schnell usa 1-4 steps
         enable_safety_checker: true,
       }),
     })
