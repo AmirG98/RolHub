@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@clerk/nextjs/server'
 import { prisma } from '@/lib/db/prisma'
-import { Lore, GameMode, GameEngine, TutorialLevel } from '@prisma/client'
+import { Lore, GameMode, GameEngine, TutorialLevel, Prisma } from '@prisma/client'
+import { createCampaignMapState } from '@/lib/maps/map-init'
+import { getExampleMapData } from '@/lib/maps/lore-map-data'
 
 // Generar código de invitación único de 6 caracteres
 function generateInviteCode(): string {
@@ -96,6 +98,14 @@ export async function POST(req: NextRequest) {
     }
     const archetypeData = archetype as any
 
+    // Generar el map_state inicial
+    const mapState = createCampaignMapState(lore)
+
+    // Obtener nombre de la locación inicial
+    const mapLocations = getExampleMapData(lore)
+    const startingLocation = mapLocations.find(l => l.id === mapState.currentLocationId)
+    const startingSceneName = startingLocation?.name || loreData.locations[0]?.name || 'Inicio'
+
     // Generar el world state inicial
     const initialWorldState = {
       campaign_id: '', // Se llenará después de crear la campaña
@@ -103,27 +113,39 @@ export async function POST(req: NextRequest) {
       engine,
       session_count: 0,
       act: 1,
-      narrative_anchors_hit: [],
+      narrative_anchors_hit: [] as string[],
       party: {
         [characterName || archetypeData.name]: {
           hp: `${archetypeData.starting_stats.hp}/${archetypeData.starting_stats.maxHp}`,
           level: 1,
           experience: 0,
-          conditions: [],
-          active_effects: [],
-          inventory: archetypeData.starting_inventory,
-          relationships: {},
+          conditions: [] as string[],
+          active_effects: [] as string[],
+          inventory: archetypeData.starting_inventory as string[],
+          relationships: {} as Record<string, string>,
         },
       },
-      world_flags: {},
-      active_quests: mode === 'ONE_SHOT' ? ['Misión Inicial'] : [],
-      completed_quests: [],
-      failed_quests: [],
-      npc_states: {},
-      faction_relations: {},
-      current_scene: loreData.locations[0].name, // Primera locación del lore
+      world_flags: {} as Record<string, boolean>,
+      active_quests: mode === 'ONE_SHOT' ? ['Misión Inicial'] : ([] as string[]),
+      completed_quests: [] as string[],
+      failed_quests: [] as string[],
+      npc_states: {} as Record<string, string>,
+      faction_relations: {} as Record<string, number>,
+      current_scene: startingSceneName,
       time_in_world: 'Día 1, mañana',
       weather: 'Cielo despejado',
+      map_state: {
+        currentLocationId: mapState.currentLocationId,
+        previousLocationId: mapState.previousLocationId,
+        discoveredLocationIds: mapState.discoveredLocationIds,
+        visitedLocationIds: mapState.visitedLocationIds,
+        navigationLocked: mapState.navigationLocked,
+        lockReason: mapState.lockReason,
+        activeSubmap: mapState.activeSubmap,
+        locationKnowledge: mapState.locationKnowledge || {},
+        revealedSecrets: mapState.revealedSecrets || {},
+      },
+      quests: [] as unknown[],
     }
 
     // Generar código de invitación si es multiplayer
@@ -152,7 +174,7 @@ export async function POST(req: NextRequest) {
           lore,
           engine,
           mode,
-          worldState: initialWorldState,
+          worldState: initialWorldState as Prisma.InputJsonValue,
           isMultiplayer: isMultiplayer || false,
           inviteCode: inviteCode,
         },
@@ -166,7 +188,7 @@ export async function POST(req: NextRequest) {
 
       await tx.campaign.update({
         where: { id: campaign.id },
-        data: { worldState: updatedWorldState },
+        data: { worldState: updatedWorldState as Prisma.InputJsonValue },
       })
 
       // 2. Crear el personaje
@@ -187,18 +209,16 @@ export async function POST(req: NextRequest) {
         },
       })
 
-      // 2.5. Si es multiplayer, crear CampaignParticipant para el owner
-      if (isMultiplayer) {
-        await tx.campaignParticipant.create({
-          data: {
-            campaignId: campaign.id,
-            userId: user.id,
-            characterId: character.id,
-            role: 'OWNER',
-            isOnline: true,
-          },
-        })
-      }
+      // 2.5. Crear CampaignParticipant para el owner (siempre, no solo multiplayer)
+      await tx.campaignParticipant.create({
+        data: {
+          campaignId: campaign.id,
+          userId: user.id,
+          characterId: character.id,
+          role: 'OWNER',
+          isOnline: true,
+        },
+      })
 
       // 3. Crear la primera sesión
       const session = await tx.session.create({

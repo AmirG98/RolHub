@@ -1217,9 +1217,9 @@ REGLA: Una feature no está terminada hasta que tiene:
 
 ## 20. ESTADO ACTUAL DEL PROYECTO
 
-Ultima actualizacion: 2026-03-08
+Ultima actualizacion: 2026-03-19
 Fase actual:         2 — Onboarding + DM Basico (MVP COMPLETO)
-Ultima sesion:       Mejoras en GameSession y deploy a produccion
+Ultima sesion:       Fix de inicio de partida - map_state y CampaignParticipant
 
 URL DE PRODUCCION: https://rol-hub.vercel.app (verificar en Vercel Dashboard)
 
@@ -1265,6 +1265,11 @@ PROXIMOS PASOS (Post-Launch):
   4. Sistema de voz con ElevenLabs (opcional)
   5. Mejoras basadas en feedback
 
+PROBLEMAS CORREGIDOS (2026-03-19):
+  ✅ map_state ahora se inicializa correctamente al crear campaña
+  ✅ CampaignParticipant se crea para TODAS las campañas (no solo multiplayer)
+  ✅ Fallbacks robustos en page.tsx para worldState incompleto
+
 PROBLEMAS CONOCIDOS:
   - Prisma 7.x tiene cambios breaking → usando Prisma 5.22.0
   - Warning de middleware deprecado en Next.js 16 (no afecta funcionalidad)
@@ -1274,6 +1279,7 @@ NOTAS TECNICAS:
   - Turnos se guardan en DB inmediatamente
   - Claude API llamada directamente desde API route (sin streaming por ahora)
   - Encoding UTF-8 corregido en route.ts
+  - map_state inicializado con createCampaignMapState() desde lib/maps/map-init.ts
 
 CONTEXTO PARA LA PROXIMA SESION:
   MVP 100% completo y desplegado. El proyecto esta listo para:

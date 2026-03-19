@@ -2,6 +2,8 @@ import { redirect } from 'next/navigation'
 import { auth } from '@clerk/nextjs/server'
 import { prisma } from '@/lib/db/prisma'
 import GameSession from '@/components/game/GameSession'
+import { createCampaignMapState } from '@/lib/maps/map-init'
+import { type Lore } from '@/lib/types/lore'
 
 interface PlayPageProps {
   params: Promise<{
@@ -85,11 +87,32 @@ export default async function PlayPage({ params }: PlayPageProps) {
   const currentParticipant = session.campaign.participants.find(p => p.userId === user.id)
   const character = currentParticipant?.character || session.campaign.characters[0] || null
 
-  const worldState = (session.campaign.worldState as any) || {
-    act: 1,
-    current_scene: 'Inicio de la aventura',
-    time_in_world: 'Amanecer',
-    party: {},
+  // Obtener worldState con fallbacks robustos
+  const rawWorldState = (session.campaign.worldState as any) || {}
+
+  // Crear map_state si no existe (para campañas antiguas)
+  const campaignLore = session.campaign.lore as Lore
+  const defaultMapState = createCampaignMapState(campaignLore)
+
+  const worldState = {
+    act: rawWorldState.act || 1,
+    current_scene: rawWorldState.current_scene || 'Inicio de la aventura',
+    time_in_world: rawWorldState.time_in_world || 'Amanecer',
+    weather: rawWorldState.weather || 'Despejado',
+    party: rawWorldState.party || {},
+    active_quests: rawWorldState.active_quests || [],
+    completed_quests: rawWorldState.completed_quests || [],
+    failed_quests: rawWorldState.failed_quests || [],
+    quests: rawWorldState.quests || [],
+    map_state: rawWorldState.map_state || defaultMapState,
+    world_flags: rawWorldState.world_flags || {},
+    npc_states: rawWorldState.npc_states || {},
+    faction_relations: rawWorldState.faction_relations || {},
+    narrative_anchors_hit: rawWorldState.narrative_anchors_hit || [],
+    lore: rawWorldState.lore || session.campaign.lore,
+    engine: rawWorldState.engine || session.campaign.engine,
+    session_count: rawWorldState.session_count || 0,
+    campaign_id: rawWorldState.campaign_id || session.campaign.id,
   }
 
   // Serializar los turnos para el cliente con multiplayer fields
