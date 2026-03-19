@@ -2,10 +2,7 @@
  * API Route: /api/voice/stream
  * Streaming TTS con Deepgram Aura-2 - 90ms latencia, voces en español
  *
- * Prioridad:
- * 1. Deepgram (DEEPGRAM_API_KEY) - 90ms latencia, $200 crédito gratis, muy rápido
- * 2. Fish Audio (FISH_AUDIO_API_KEY) - fallback si Deepgram no está disponible
- *
+ * Usa DEEPGRAM_API_KEY - voces Aura-2 en español nativo
  * El audio empieza a reproducirse mientras se genera (streaming)
  */
 
@@ -215,12 +212,11 @@ export async function POST(request: NextRequest) {
       })
     }
 
-    // Verificar que al menos un provider está configurado
-    const fishAudioKey = process.env.FISH_AUDIO_API_KEY
+    // Verificar que Deepgram está configurado
     const deepgramKey = process.env.DEEPGRAM_API_KEY
 
-    if (!fishAudioKey && !deepgramKey) {
-      return new Response(JSON.stringify({ error: 'No TTS provider configured' }), {
+    if (!deepgramKey) {
+      return new Response(JSON.stringify({ error: 'DEEPGRAM_API_KEY not configured' }), {
         status: 503,
         headers: { 'Content-Type': 'application/json' }
       })
@@ -250,30 +246,18 @@ export async function POST(request: NextRequest) {
     let ttsResponse: Response
     let provider: string
 
-    // Prioridad 1: Fish Audio (tiene créditos gratis)
-    if (fishAudioKey) {
-      console.log(`[Voice] Using Fish Audio, text length: ${text.length} chars, voice: ${voiceKey}`)
-      const ttsStart = Date.now()
-      provider = 'fish-audio'
-      ttsResponse = await generateWithFishAudio(text, voiceKey, locale, speed)
-      console.log(`[Voice] Fish Audio API took: ${Date.now() - ttsStart}ms`)
-
-      // Si Fish Audio falla y tenemos Deepgram como fallback
-      if (!ttsResponse.ok && deepgramKey) {
-        console.warn('[Voice Stream] Fish Audio failed, falling back to Deepgram')
-        provider = 'deepgram'
-        ttsResponse = await generateWithDeepgram(text, voiceKey, locale)
-      }
-    }
-    // Fallback: Deepgram
-    else if (deepgramKey) {
+    // Usar Deepgram directamente (Fish Audio no tiene créditos)
+    if (deepgramKey) {
       console.log(`[Voice] Using Deepgram, text length: ${text.length} chars, voice: ${voiceKey}`)
+      const ttsStart = Date.now()
       provider = 'deepgram'
       ttsResponse = await generateWithDeepgram(text, voiceKey, locale)
+      console.log(`[Voice] Deepgram API took: ${Date.now() - ttsStart}ms`)
     }
-    // No hay provider configurado
+    // No hay Deepgram configurado
     else {
-      return new Response(JSON.stringify({ error: 'No TTS provider configured' }), {
+      console.error('[Voice] DEEPGRAM_API_KEY not configured')
+      return new Response(JSON.stringify({ error: 'DEEPGRAM_API_KEY not configured' }), {
         status: 503,
         headers: { 'Content-Type': 'application/json' }
       })
