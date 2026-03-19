@@ -200,9 +200,14 @@ async function generateWithDeepgram(
 }
 
 export async function POST(request: NextRequest) {
+  const startTime = Date.now()
+
   try {
     // Verificar autenticación
+    const authStart = Date.now()
     const { userId } = await auth()
+    console.log(`[Voice] Auth took: ${Date.now() - authStart}ms`)
+
     if (!userId) {
       return new Response(JSON.stringify({ error: 'Unauthorized' }), {
         status: 401,
@@ -247,9 +252,11 @@ export async function POST(request: NextRequest) {
 
     // Prioridad 1: Deepgram (más rápido, 90ms latencia)
     if (deepgramKey) {
-      console.log('[Voice Stream] Using Deepgram, voice:', voiceKey)
+      console.log(`[Voice] Text length: ${text.length} chars, voice: ${voiceKey}`)
+      const ttsStart = Date.now()
       provider = 'deepgram'
       ttsResponse = await generateWithDeepgram(text, voiceKey, locale)
+      console.log(`[Voice] Deepgram API took: ${Date.now() - ttsStart}ms`)
 
       // Si Deepgram falla y tenemos Fish Audio como fallback
       if (!ttsResponse.ok && fishAudioKey) {
@@ -280,6 +287,8 @@ export async function POST(request: NextRequest) {
         headers: { 'Content-Type': 'application/json' }
       })
     }
+
+    console.log(`[Voice] Total time: ${Date.now() - startTime}ms`)
 
     // Stream la respuesta directamente al cliente
     return new Response(ttsResponse.body, {
