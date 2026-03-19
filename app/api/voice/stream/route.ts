@@ -163,8 +163,13 @@ async function generateWithFishAudio(
 }
 
 /**
- * Genera audio con Deepgram Aura (~800ms latencia)
- * Usa voces multilingües que soportan español con acento natural
+ * Genera audio con Deepgram Aura (~90ms latencia)
+ * Usa voces en español nativo optimizadas para baja latencia
+ *
+ * Parámetros de optimización:
+ * - encoding=mp3: Formato comprimido para streaming rápido
+ * - sample_rate=24000: Sample rate óptimo para voz (menor = más rápido)
+ * - bit_rate=48000: Bitrate bajo para velocidad (suficiente para voz clara)
  */
 async function generateWithDeepgram(
   text: string,
@@ -174,7 +179,15 @@ async function generateWithDeepgram(
   const apiKey = process.env.DEEPGRAM_API_KEY!
   const model = DEEPGRAM_VOICES[voiceKey] || DEEPGRAM_VOICES.default_es
 
-  const response = await fetch(`https://api.deepgram.com/v1/speak?model=${model}`, {
+  // Parámetros optimizados para mínima latencia
+  const params = new URLSearchParams({
+    model,
+    encoding: 'mp3',
+    sample_rate: '24000',
+    bit_rate: '48000',
+  })
+
+  const response = await fetch(`https://api.deepgram.com/v1/speak?${params}`, {
     method: 'POST',
     headers: {
       'Authorization': `Token ${apiKey}`,
