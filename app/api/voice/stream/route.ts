@@ -250,26 +250,26 @@ export async function POST(request: NextRequest) {
     let ttsResponse: Response
     let provider: string
 
-    // Prioridad 1: Deepgram (más rápido, 90ms latencia)
-    if (deepgramKey) {
-      console.log(`[Voice] Text length: ${text.length} chars, voice: ${voiceKey}`)
+    // Prioridad 1: Fish Audio (tiene créditos gratis)
+    if (fishAudioKey) {
+      console.log(`[Voice] Using Fish Audio, text length: ${text.length} chars, voice: ${voiceKey}`)
       const ttsStart = Date.now()
-      provider = 'deepgram'
-      ttsResponse = await generateWithDeepgram(text, voiceKey, locale)
-      console.log(`[Voice] Deepgram API took: ${Date.now() - ttsStart}ms`)
-
-      // Si Deepgram falla y tenemos Fish Audio como fallback
-      if (!ttsResponse.ok && fishAudioKey) {
-        console.warn('[Voice Stream] Deepgram failed, falling back to Fish Audio')
-        provider = 'fish-audio'
-        ttsResponse = await generateWithFishAudio(text, voiceKey, locale, speed)
-      }
-    }
-    // Fallback: Fish Audio
-    else if (fishAudioKey) {
-      console.log('[Voice Stream] Using Fish Audio, voice:', voiceKey)
       provider = 'fish-audio'
       ttsResponse = await generateWithFishAudio(text, voiceKey, locale, speed)
+      console.log(`[Voice] Fish Audio API took: ${Date.now() - ttsStart}ms`)
+
+      // Si Fish Audio falla y tenemos Deepgram como fallback
+      if (!ttsResponse.ok && deepgramKey) {
+        console.warn('[Voice Stream] Fish Audio failed, falling back to Deepgram')
+        provider = 'deepgram'
+        ttsResponse = await generateWithDeepgram(text, voiceKey, locale)
+      }
+    }
+    // Fallback: Deepgram
+    else if (deepgramKey) {
+      console.log(`[Voice] Using Deepgram, text length: ${text.length} chars, voice: ${voiceKey}`)
+      provider = 'deepgram'
+      ttsResponse = await generateWithDeepgram(text, voiceKey, locale)
     }
     // No hay provider configurado
     else {
