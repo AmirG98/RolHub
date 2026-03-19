@@ -435,10 +435,12 @@ export function VoicePlayerAuto({
     const narratorConfig = getVoiceConfig(lore, locale)
     const narratorVoice = narratorConfig.voice
 
-    // Parsear texto en segmentos (narración vs diálogos con voces diferentes)
+    // Parsear texto en segmentos (ahora divididos en chunks más pequeños)
     const segments = parseTextForVoices(text, narratorVoice, locale)
     segmentsRef.current = segments
     setTotalSegments(segments.length)
+
+    console.log(`[VoicePlayerAuto] ${segments.length} segments to generate`)
 
     // Inicializar array de audios
     audioQueueRef.current = new Array(segments.length).fill(null)
@@ -446,33 +448,14 @@ export function VoicePlayerAuto({
     hasStartedPlayingRef.current = false
     generationCompleteRef.current = false
 
-    // Generar primera oración con prioridad máxima
-    generateSegmentAudio(segments[0], 0)
-
-    // Generar el resto en paralelo después de un pequeño delay
-    if (segments.length > 1) {
-      setTimeout(() => {
-        segments.slice(1).forEach((segment, i) => {
-          generateSegmentAudio(segment, i + 1)
-        })
-      }, 50)
-    }
+    // OPTIMIZACIÓN: Generar TODOS los chunks en paralelo inmediatamente
+    // El primero que termine (el más corto) comenzará a reproducirse
+    const generationPromises = segments.map((segment, i) =>
+      generateSegmentAudio(segment, i)
+    )
 
     // Marcar cuando todas terminen
-    Promise.all(
-      segments.map((_, index) =>
-        new Promise<void>((resolve) => {
-          const checkReady = () => {
-            if (audioQueueRef.current[index] !== null || !mountedRef.current) {
-              resolve()
-            } else {
-              setTimeout(checkReady, 100)
-            }
-          }
-          checkReady()
-        })
-      )
-    ).then(() => {
+    Promise.all(generationPromises).then(() => {
       generationCompleteRef.current = true
     })
   }

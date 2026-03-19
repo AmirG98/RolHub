@@ -229,27 +229,42 @@ export interface VoiceSegment {
 
 /**
  * Divide texto en oraciones para streaming más rápido
+ * OPTIMIZADO: Chunks más pequeños (max 120 chars) para latencia mínima
  * La primera oración se genera primero para reducir tiempo de espera
  */
-export function splitIntoSentences(text: string): string[] {
-  // Dividir por puntos, signos de exclamación, interrogación
-  // Mantener el signo de puntuación con la oración
+export function splitIntoSentences(text: string, maxChunkSize: number = 120): string[] {
+  // Dividir por puntos, signos de exclamación, interrogación, comas largas
   const sentences = text.match(/[^.!?]+[.!?]+/g) || [text]
 
-  // Filtrar oraciones muy cortas y combinarlas con la siguiente
   const result: string[] = []
   let buffer = ''
 
   for (const sentence of sentences) {
     const trimmed = sentence.trim()
-    if (buffer) {
+
+    // Si la oración es muy larga, dividirla por comas
+    if (trimmed.length > maxChunkSize) {
+      const parts = trimmed.split(/,\s*/)
+      for (const part of parts) {
+        if (buffer) {
+          buffer += ', ' + part
+          if (buffer.length >= maxChunkSize * 0.6) {
+            result.push(buffer)
+            buffer = ''
+          }
+        } else if (part.length < 40) {
+          buffer = part
+        } else {
+          result.push(part)
+        }
+      }
+    } else if (buffer) {
       buffer += ' ' + trimmed
-      if (buffer.length >= 50) { // Mínimo 50 caracteres por chunk
+      if (buffer.length >= maxChunkSize * 0.6) {
         result.push(buffer)
         buffer = ''
       }
     } else if (trimmed.length < 30) {
-      // Oración muy corta, acumular
       buffer = trimmed
     } else {
       result.push(trimmed)
@@ -258,7 +273,6 @@ export function splitIntoSentences(text: string): string[] {
 
   if (buffer) {
     if (result.length > 0) {
-      // Agregar al último
       result[result.length - 1] += ' ' + buffer
     } else {
       result.push(buffer)
@@ -270,6 +284,7 @@ export function splitIntoSentences(text: string): string[] {
 
 /**
  * Parsea texto y separa narración de diálogos
+ * OPTIMIZADO: Divide segmentos largos en chunks más pequeños
  * Detecta patrones como:
  * - "Texto entre comillas" → diálogo
  * - «Texto entre comillas francesas» → diálogo
@@ -282,45 +297,56 @@ export function parseTextForVoices(
   locale: 'es' | 'en'
 ): VoiceSegment[] {
   const segments: VoiceSegment[] = []
+  const MAX_CHUNK = 120 // Máximo 120 caracteres por chunk para baja latencia
 
   // Regex para detectar diferentes tipos de diálogo
-  // Patrón 1: "texto" o «texto»
-  // Patrón 2: — texto (hasta el siguiente punto o fin)
-  // Patrón 3: Nombre: "texto"
-
   const dialoguePattern = /(?:([A-ZÁÉÍÓÚ][a-záéíóúñ]+(?:\s[A-ZÁÉÍÓÚ][a-záéíóúñ]+)?)\s*:\s*)?["«]([^"»]+)["»]|(?:—\s*)([^.!?]+[.!?]?)/g
 
   let lastIndex = 0
   let match
+
+  // Helper para dividir texto largo en chunks
+  const splitLongText = (txt: string): string[] => {
+    if (txt.length <= MAX_CHUNK) return [txt]
+    return splitIntoSentences(txt, MAX_CHUNK)
+  }
 
   while ((match = dialoguePattern.exec(text)) !== null) {
     // Agregar narración antes del diálogo
     if (match.index > lastIndex) {
       const narrationText = text.slice(lastIndex, match.index).trim()
       if (narrationText) {
-        segments.push({
-          type: 'narration',
-          text: narrationText,
-          voice: narratorVoice
-        })
+        // Dividir narración larga en chunks
+        const chunks = splitLongText(narrationText)
+        for (const chunk of chunks) {
+          segments.push({
+            type: 'narration',
+            text: chunk,
+            voice: narratorVoice
+          })
+        }
       }
     }
 
     // Determinar el contenido del diálogo y el hablante
-    const speaker = match[1] || undefined // Nombre del NPC si está presente
-    const dialogueText = match[2] || match[3] // Texto del diálogo
+    const speaker = match[1] || undefined
+    const dialogueText = match[2] || match[3]
 
     if (dialogueText && dialogueText.trim()) {
       const npcVoice = speaker
         ? getNPCVoice(speaker, locale)
         : getNPCVoice('default_npc', locale)
 
-      segments.push({
-        type: 'dialogue',
-        text: dialogueText.trim(),
-        voice: npcVoice,
-        speaker
-      })
+      // Dividir diálogo largo en chunks
+      const chunks = splitLongText(dialogueText.trim())
+      for (const chunk of chunks) {
+        segments.push({
+          type: 'dialogue',
+          text: chunk,
+          voice: npcVoice,
+          speaker
+        })
+      }
     }
 
     lastIndex = match.index + match[0].length
@@ -330,21 +356,27 @@ export function parseTextForVoices(
   if (lastIndex < text.length) {
     const remainingText = text.slice(lastIndex).trim()
     if (remainingText) {
-      segments.push({
-        type: 'narration',
-        text: remainingText,
-        voice: narratorVoice
-      })
+      const chunks = splitLongText(remainingText)
+      for (const chunk of chunks) {
+        segments.push({
+          type: 'narration',
+          text: chunk,
+          voice: narratorVoice
+        })
+      }
     }
   }
 
-  // Si no se encontraron diálogos, retornar todo como narración
+  // Si no se encontraron diálogos, dividir todo como narración
   if (segments.length === 0) {
-    segments.push({
-      type: 'narration',
-      text: text,
-      voice: narratorVoice
-    })
+    const chunks = splitLongText(text)
+    for (const chunk of chunks) {
+      segments.push({
+        type: 'narration',
+        text: chunk,
+        voice: narratorVoice
+      })
+    }
   }
 
   return segments
