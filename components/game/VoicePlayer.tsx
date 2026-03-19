@@ -338,7 +338,9 @@ export function VoicePlayerAuto({
 
   // Generar audio para un segmento con su voz específica
   const generateSegmentAudio = async (segment: VoiceSegment, index: number): Promise<void> => {
+    console.log(`[VoicePlayerAuto] Generating segment ${index}: "${segment.text.substring(0, 50)}..."`)
     try {
+      const startTime = Date.now()
       const response = await fetch('/api/voice/stream', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -349,6 +351,7 @@ export function VoicePlayerAuto({
           voice: segment.voice  // Voz específica para NPCs vs narrador
         })
       })
+      console.log(`[VoicePlayerAuto] Segment ${index} response: ${response.status} in ${Date.now() - startTime}ms`)
 
       if (!response.ok || !mountedRef.current) return
 
@@ -462,6 +465,7 @@ export function VoicePlayerAuto({
 
   // Auto-start al montar
   useEffect(() => {
+    console.log('[VoicePlayerAuto] Component mounted, text length:', text.length)
     mountedRef.current = true
     startPlayback()
 
