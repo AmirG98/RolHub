@@ -1,0 +1,524 @@
+{
+  "races": [
+    {
+      "id": "human",
+      "name": "Humano",
+      "nameEn": "Human",
+      "description": "Los humanos son los más adaptables y ambiciosos de todas las razas. Su diversidad es su mayor fortaleza.",
+      "abilityScoreIncrease": {
+        "all": 1
+      },
+      "age": {
+        "adulthood": 18,
+        "lifespan": 100
+      },
+      "size": "Medium",
+      "speed": 30,
+      "languages": ["Common", "choice"],
+      "traits": [],
+      "subraces": []
+    },
+    {
+      "id": "elf",
+      "name": "Elfo",
+      "nameEn": "Elf",
+      "description": "Los elfos son seres gráciles y longevos con una conexión profunda con la naturaleza y la magia.",
+      "abilityScoreIncrease": {
+        "DEX": 2
+      },
+      "age": {
+        "adulthood": 100,
+        "lifespan": 750
+      },
+      "size": "Medium",
+      "speed": 30,
+      "languages": ["Common", "Elvish"],
+      "traits": [
+        {
+          "name": "Visión en la Oscuridad",
+          "nameEn": "Darkvision",
+          "description": "Puedes ver en la oscuridad a 60 pies como si fuera luz tenue."
+        },
+        {
+          "name": "Sentidos Agudos",
+          "nameEn": "Keen Senses",
+          "description": "Tienes competencia en la habilidad Percepción."
+        },
+        {
+          "name": "Ascendencia Feérica",
+          "nameEn": "Fey Ancestry",
+          "description": "Tienes ventaja en tiradas de salvación contra ser encantado, y la magia no puede dormirte."
+        },
+        {
+          "name": "Trance",
+          "nameEn": "Trance",
+          "description": "Los elfos no duermen. En su lugar, meditan profundamente durante 4 horas al día."
+        }
+      ],
+      "subraces": [
+        {
+          "id": "high_elf",
+          "name": "Alto Elfo",
+          "nameEn": "High Elf",
+          "description": "Los altos elfos tienen una afinidad natural por la magia y el conocimiento arcano.",
+          "abilityScoreIncrease": {
+            "INT": 1
+          },
+          "traits": [
+            {
+              "name": "Entrenamiento con Armas Élficas",
+              "nameEn": "Elf Weapon Training",
+              "description": "Tienes competencia con espada larga, espada corta, arco largo y arco corto."
+            },
+            {
+              "name": "Truco",
+              "nameEn": "Cantrip",
+              "description": "Conoces un truco de tu elección de la lista de conjuros de mago."
+            },
+            {
+              "name": "Idioma Extra",
+              "nameEn": "Extra Language",
+              "description": "Puedes hablar, leer y escribir un idioma adicional de tu elección."
+            }
+          ]
+        },
+        {
+          "id": "wood_elf",
+          "name": "Elfo del Bosque",
+          "nameEn": "Wood Elf",
+          "description": "Los elfos del bosque son rápidos y sigilosos, expertos en ocultarse en la naturaleza.",
+          "abilityScoreIncrease": {
+            "WIS": 1
+          },
+          "speedBonus": 5,
+          "traits": [
+            {
+              "name": "Entrenamiento con Armas Élficas",
+              "nameEn": "Elf Weapon Training",
+              "description": "Tienes competencia con espada larga, espada corta, arco largo y arco corto."
+            },
+            {
+              "name": "Pies Ligeros",
+              "nameEn": "Fleet of Foot",
+              "description": "Tu velocidad base aumenta a 35 pies."
+            },
+            {
+              "name": "Máscara de lo Salvaje",
+              "nameEn": "Mask of the Wild",
+              "description": "Puedes intentar esconderte incluso cuando estás ligeramente oscurecido por follaje, lluvia, nieve u otros fenómenos naturales."
+            }
+          ]
+        },
+        {
+          "id": "dark_elf",
+          "name": "Drow",
+          "nameEn": "Dark Elf (Drow)",
+          "description": "Los drow habitan en las profundidades subterráneas y tienen una afinidad por la magia oscura.",
+          "abilityScoreIncrease": {
+            "CHA": 1
+          },
+          "traits": [
+            {
+              "name": "Visión en la Oscuridad Superior",
+              "nameEn": "Superior Darkvision",
+              "description": "Tu visión en la oscuridad tiene un alcance de 120 pies."
+            },
+            {
+              "name": "Sensibilidad a la Luz Solar",
+              "nameEn": "Sunlight Sensitivity",
+              "description": "Tienes desventaja en tiradas de ataque y Percepción basadas en vista cuando tú o tu objetivo están bajo luz solar directa."
+            },
+            {
+              "name": "Magia Drow",
+              "nameEn": "Drow Magic",
+              "description": "Conoces el truco Luces Danzantes. A nivel 3, puedes lanzar Fuego Feérico una vez al día. A nivel 5, puedes lanzar Oscuridad una vez al día."
+            },
+            {
+              "name": "Entrenamiento con Armas Drow",
+              "nameEn": "Drow Weapon Training",
+              "description": "Tienes competencia con estoque, espada corta y ballesta de mano."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dwarf",
+      "name": "Enano",
+      "nameEn": "Dwarf",
+      "description": "Los enanos son un pueblo robusto y resistente, famosos por su habilidad en la minería y la forja.",
+      "abilityScoreIncrease": {
+        "CON": 2
+      },
+      "age": {
+        "adulthood": 50,
+        "lifespan": 350
+      },
+      "size": "Medium",
+      "speed": 25,
+      "speedNote": "Tu velocidad no se reduce por llevar armadura pesada.",
+      "languages": ["Common", "Dwarvish"],
+      "traits": [
+        {
+          "name": "Visión en la Oscuridad",
+          "nameEn": "Darkvision",
+          "description": "Puedes ver en la oscuridad a 60 pies como si fuera luz tenue."
+        },
+        {
+          "name": "Resistencia Enana",
+          "nameEn": "Dwarven Resilience",
+          "description": "Tienes ventaja en tiradas de salvación contra veneno, y resistencia al daño de veneno."
+        },
+        {
+          "name": "Entrenamiento de Combate Enano",
+          "nameEn": "Dwarven Combat Training",
+          "description": "Tienes competencia con hacha de guerra, hacha de mano, martillo ligero y martillo de guerra."
+        },
+        {
+          "name": "Competencia con Herramientas",
+          "nameEn": "Tool Proficiency",
+          "description": "Tienes competencia con herramientas de artesano de tu elección: herrero, cervecero o albañil."
+        },
+        {
+          "name": "Conocimiento de la Piedra",
+          "nameEn": "Stonecunning",
+          "description": "Cuando hagas una prueba de Historia relacionada con el origen de la cantería, se considera que tienes competencia y añades el doble de tu bonificador."
+        }
+      ],
+      "subraces": [
+        {
+          "id": "hill_dwarf",
+          "name": "Enano de las Colinas",
+          "nameEn": "Hill Dwarf",
+          "description": "Los enanos de las colinas tienen sentidos agudos e intuición notable.",
+          "abilityScoreIncrease": {
+            "WIS": 1
+          },
+          "traits": [
+            {
+              "name": "Tenacidad Enana",
+              "nameEn": "Dwarven Toughness",
+              "description": "Tu máximo de puntos de golpe aumenta en 1, y aumenta en 1 cada vez que subes de nivel."
+            }
+          ]
+        },
+        {
+          "id": "mountain_dwarf",
+          "name": "Enano de las Montañas",
+          "nameEn": "Mountain Dwarf",
+          "description": "Los enanos de las montañas son fuertes y resistentes, acostumbrados a la vida en terrenos difíciles.",
+          "abilityScoreIncrease": {
+            "STR": 2
+          },
+          "traits": [
+            {
+              "name": "Entrenamiento con Armadura Enana",
+              "nameEn": "Dwarven Armor Training",
+              "description": "Tienes competencia con armadura ligera y media."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "halfling",
+      "name": "Mediano",
+      "nameEn": "Halfling",
+      "description": "Los medianos son un pueblo pequeño y afable, conocidos por su suerte y su amor por la comodidad del hogar.",
+      "abilityScoreIncrease": {
+        "DEX": 2
+      },
+      "age": {
+        "adulthood": 20,
+        "lifespan": 150
+      },
+      "size": "Small",
+      "speed": 25,
+      "languages": ["Common", "Halfling"],
+      "traits": [
+        {
+          "name": "Afortunado",
+          "nameEn": "Lucky",
+          "description": "Cuando sacas un 1 en una tirada de ataque, prueba de característica o tirada de salvación, puedes repetir la tirada y debes usar el nuevo resultado."
+        },
+        {
+          "name": "Valiente",
+          "nameEn": "Brave",
+          "description": "Tienes ventaja en tiradas de salvación contra ser asustado."
+        },
+        {
+          "name": "Agilidad de Mediano",
+          "nameEn": "Halfling Nimbleness",
+          "description": "Puedes moverte a través del espacio de cualquier criatura de tamaño mayor que el tuyo."
+        }
+      ],
+      "subraces": [
+        {
+          "id": "lightfoot",
+          "name": "Mediano Piesligeros",
+          "nameEn": "Lightfoot Halfling",
+          "description": "Los medianos piesligeros son expertos en esconderse y pasar desapercibidos.",
+          "abilityScoreIncrease": {
+            "CHA": 1
+          },
+          "traits": [
+            {
+              "name": "Sigiloso por Naturaleza",
+              "nameEn": "Naturally Stealthy",
+              "description": "Puedes intentar esconderte incluso cuando solo estás oscurecido por una criatura de tamaño al menos Mediano."
+            }
+          ]
+        },
+        {
+          "id": "stout",
+          "name": "Mediano Robusto",
+          "nameEn": "Stout Halfling",
+          "description": "Los medianos robustos son más resistentes y tienen algo de sangre enana.",
+          "abilityScoreIncrease": {
+            "CON": 1
+          },
+          "traits": [
+            {
+              "name": "Resistencia de Robusto",
+              "nameEn": "Stout Resilience",
+              "description": "Tienes ventaja en tiradas de salvación contra veneno, y resistencia al daño de veneno."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragonborn",
+      "name": "Dracónido",
+      "nameEn": "Dragonborn",
+      "description": "Los dracónidos son humanoides orgullosos con rasgos dracónicos, descendientes de dragones.",
+      "abilityScoreIncrease": {
+        "STR": 2,
+        "CHA": 1
+      },
+      "age": {
+        "adulthood": 15,
+        "lifespan": 80
+      },
+      "size": "Medium",
+      "speed": 30,
+      "languages": ["Common", "Draconic"],
+      "traits": [
+        {
+          "name": "Linaje Dracónico",
+          "nameEn": "Draconic Ancestry",
+          "description": "Tienes ascendencia dracónica. Elige un tipo de dragón. Tu arma de aliento y resistencia al daño están determinadas por este tipo."
+        },
+        {
+          "name": "Arma de Aliento",
+          "nameEn": "Breath Weapon",
+          "description": "Puedes usar tu acción para exhalar energía destructiva. El daño y área dependen de tu linaje dracónico."
+        },
+        {
+          "name": "Resistencia al Daño",
+          "nameEn": "Damage Resistance",
+          "description": "Tienes resistencia al tipo de daño asociado con tu linaje dracónico."
+        }
+      ],
+      "draconicAncestries": [
+        { "dragon": "Black", "damageType": "Acid", "breathWeapon": "5 by 30 ft. line (Dex. save)" },
+        { "dragon": "Blue", "damageType": "Lightning", "breathWeapon": "5 by 30 ft. line (Dex. save)" },
+        { "dragon": "Brass", "damageType": "Fire", "breathWeapon": "5 by 30 ft. line (Dex. save)" },
+        { "dragon": "Bronze", "damageType": "Lightning", "breathWeapon": "5 by 30 ft. line (Dex. save)" },
+        { "dragon": "Copper", "damageType": "Acid", "breathWeapon": "5 by 30 ft. line (Dex. save)" },
+        { "dragon": "Gold", "damageType": "Fire", "breathWeapon": "15 ft. cone (Dex. save)" },
+        { "dragon": "Green", "damageType": "Poison", "breathWeapon": "15 ft. cone (Con. save)" },
+        { "dragon": "Red", "damageType": "Fire", "breathWeapon": "15 ft. cone (Dex. save)" },
+        { "dragon": "Silver", "damageType": "Cold", "breathWeapon": "15 ft. cone (Con. save)" },
+        { "dragon": "White", "damageType": "Cold", "breathWeapon": "15 ft. cone (Con. save)" }
+      ],
+      "subraces": []
+    },
+    {
+      "id": "gnome",
+      "name": "Gnomo",
+      "nameEn": "Gnome",
+      "description": "Los gnomos son seres pequeños y curiosos, conocidos por su ingenio y amor por la invención.",
+      "abilityScoreIncrease": {
+        "INT": 2
+      },
+      "age": {
+        "adulthood": 40,
+        "lifespan": 500
+      },
+      "size": "Small",
+      "speed": 25,
+      "languages": ["Common", "Gnomish"],
+      "traits": [
+        {
+          "name": "Visión en la Oscuridad",
+          "nameEn": "Darkvision",
+          "description": "Puedes ver en la oscuridad a 60 pies como si fuera luz tenue."
+        },
+        {
+          "name": "Astucia Gnoma",
+          "nameEn": "Gnome Cunning",
+          "description": "Tienes ventaja en todas las tiradas de salvación de Inteligencia, Sabiduría y Carisma contra magia."
+        }
+      ],
+      "subraces": [
+        {
+          "id": "forest_gnome",
+          "name": "Gnomo del Bosque",
+          "nameEn": "Forest Gnome",
+          "description": "Los gnomos del bosque tienen un don natural para la ilusión y se comunican con pequeños animales.",
+          "abilityScoreIncrease": {
+            "DEX": 1
+          },
+          "traits": [
+            {
+              "name": "Ilusionista Natural",
+              "nameEn": "Natural Illusionist",
+              "description": "Conoces el truco Ilusión Menor. Inteligencia es tu característica para lanzar conjuros."
+            },
+            {
+              "name": "Hablar con Bestias Pequeñas",
+              "nameEn": "Speak with Small Beasts",
+              "description": "Puedes comunicar ideas simples a bestias pequeñas o menores."
+            }
+          ]
+        },
+        {
+          "id": "rock_gnome",
+          "name": "Gnomo de las Rocas",
+          "nameEn": "Rock Gnome",
+          "description": "Los gnomos de las rocas son inventores naturales con habilidad para los mecanismos.",
+          "abilityScoreIncrease": {
+            "CON": 1
+          },
+          "traits": [
+            {
+              "name": "Conocimiento de Artificiero",
+              "nameEn": "Artificer's Lore",
+              "description": "Cuando hagas una prueba de Historia relacionada con objetos mágicos, alquímicos o tecnológicos, añades el doble de tu bonificador de competencia."
+            },
+            {
+              "name": "Manitas",
+              "nameEn": "Tinker",
+              "description": "Usando herramientas de manitas, puedes construir pequeños artilugios mecánicos."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "half_elf",
+      "name": "Semielfo",
+      "nameEn": "Half-Elf",
+      "description": "Los semielfos combinan lo mejor de elfos y humanos, siendo carismáticos y versátiles.",
+      "abilityScoreIncrease": {
+        "CHA": 2,
+        "choice": {
+          "count": 2,
+          "options": ["STR", "DEX", "CON", "INT", "WIS"],
+          "amount": 1
+        }
+      },
+      "age": {
+        "adulthood": 20,
+        "lifespan": 180
+      },
+      "size": "Medium",
+      "speed": 30,
+      "languages": ["Common", "Elvish", "choice"],
+      "traits": [
+        {
+          "name": "Visión en la Oscuridad",
+          "nameEn": "Darkvision",
+          "description": "Puedes ver en la oscuridad a 60 pies como si fuera luz tenue."
+        },
+        {
+          "name": "Ascendencia Feérica",
+          "nameEn": "Fey Ancestry",
+          "description": "Tienes ventaja en tiradas de salvación contra ser encantado, y la magia no puede dormirte."
+        },
+        {
+          "name": "Versatilidad de Habilidades",
+          "nameEn": "Skill Versatility",
+          "description": "Ganas competencia en dos habilidades de tu elección."
+        }
+      ],
+      "subraces": []
+    },
+    {
+      "id": "half_orc",
+      "name": "Semiorco",
+      "nameEn": "Half-Orc",
+      "description": "Los semiorcos heredan la fuerza física de sus ancestros orcos junto con la determinación humana.",
+      "abilityScoreIncrease": {
+        "STR": 2,
+        "CON": 1
+      },
+      "age": {
+        "adulthood": 14,
+        "lifespan": 75
+      },
+      "size": "Medium",
+      "speed": 30,
+      "languages": ["Common", "Orc"],
+      "traits": [
+        {
+          "name": "Visión en la Oscuridad",
+          "nameEn": "Darkvision",
+          "description": "Puedes ver en la oscuridad a 60 pies como si fuera luz tenue."
+        },
+        {
+          "name": "Amenazante",
+          "nameEn": "Menacing",
+          "description": "Tienes competencia en la habilidad Intimidación."
+        },
+        {
+          "name": "Resistencia Implacable",
+          "nameEn": "Relentless Endurance",
+          "description": "Cuando caes a 0 puntos de golpe pero no mueres, puedes caer a 1 punto de golpe en su lugar. Una vez usada, debes terminar un descanso largo para volver a usarla."
+        },
+        {
+          "name": "Ataques Salvajes",
+          "nameEn": "Savage Attacks",
+          "description": "Cuando haces un crítico con un ataque cuerpo a cuerpo, puedes tirar uno de los dados de daño del arma una vez más y añadirlo al daño extra."
+        }
+      ],
+      "subraces": []
+    },
+    {
+      "id": "tiefling",
+      "name": "Tiefling",
+      "nameEn": "Tiefling",
+      "description": "Los tieflings llevan la marca de su ascendencia infernal, con cuernos, colas y poderes oscuros.",
+      "abilityScoreIncrease": {
+        "INT": 1,
+        "CHA": 2
+      },
+      "age": {
+        "adulthood": 18,
+        "lifespan": 100
+      },
+      "size": "Medium",
+      "speed": 30,
+      "languages": ["Common", "Infernal"],
+      "traits": [
+        {
+          "name": "Visión en la Oscuridad",
+          "nameEn": "Darkvision",
+          "description": "Puedes ver en la oscuridad a 60 pies como si fuera luz tenue."
+        },
+        {
+          "name": "Resistencia Infernal",
+          "nameEn": "Hellish Resistance",
+          "description": "Tienes resistencia al daño de fuego."
+        },
+        {
+          "name": "Legado Infernal",
+          "nameEn": "Infernal Legacy",
+          "description": "Conoces el truco Taumaturgia. A nivel 3, puedes lanzar Reprensión Infernal como conjuro de nivel 2 una vez al día. A nivel 5, puedes lanzar Oscuridad una vez al día. Carisma es tu característica para lanzar conjuros."
+        }
+      ],
+      "subraces": []
+    }
+  ]
+}

@@ -1,0 +1,204 @@
+{
+  "startingPackages": {
+    "level1": {
+      "gold": { "min": 10, "max": 40 },
+      "description": "Aventurero novato",
+      "magicItems": 0,
+      "itemTier": "common"
+    },
+    "level3": {
+      "gold": { "min": 100, "max": 200 },
+      "description": "Aventurero experimentado",
+      "magicItems": 0,
+      "itemTier": "common",
+      "bonusGold": 100
+    },
+    "level5": {
+      "gold": { "fixed": 500 },
+      "description": "Héroe establecido",
+      "magicItems": 1,
+      "itemTier": "uncommon",
+      "bonusGold": 200
+    },
+    "level10": {
+      "gold": { "fixed": 5000 },
+      "description": "Héroe legendario",
+      "magicItems": 3,
+      "itemTier": "rare",
+      "bonusGold": 1000
+    }
+  },
+
+  "weapons": {
+    "simple_melee": [
+      { "id": "club", "name": "Garrote", "damage": "1d4", "damageType": "bludgeoning", "weight": 2, "cost": "1 sp", "properties": ["light"] },
+      { "id": "dagger", "name": "Daga", "damage": "1d4", "damageType": "piercing", "weight": 1, "cost": "2 gp", "properties": ["finesse", "light", "thrown (20/60)"] },
+      { "id": "greatclub", "name": "Gran Garrote", "damage": "1d8", "damageType": "bludgeoning", "weight": 10, "cost": "2 sp", "properties": ["two-handed"] },
+      { "id": "handaxe", "name": "Hacha de Mano", "damage": "1d6", "damageType": "slashing", "weight": 2, "cost": "5 gp", "properties": ["light", "thrown (20/60)"] },
+      { "id": "javelin", "name": "Jabalina", "damage": "1d6", "damageType": "piercing", "weight": 2, "cost": "5 sp", "properties": ["thrown (30/120)"] },
+      { "id": "light_hammer", "name": "Martillo Ligero", "damage": "1d4", "damageType": "bludgeoning", "weight": 2, "cost": "2 gp", "properties": ["light", "thrown (20/60)"] },
+      { "id": "mace", "name": "Maza", "damage": "1d6", "damageType": "bludgeoning", "weight": 4, "cost": "5 gp", "properties": [] },
+      { "id": "quarterstaff", "name": "Bastón", "damage": "1d6", "damageType": "bludgeoning", "weight": 4, "cost": "2 sp", "properties": ["versatile (1d8)"] },
+      { "id": "sickle", "name": "Hoz", "damage": "1d4", "damageType": "slashing", "weight": 2, "cost": "1 gp", "properties": ["light"] },
+      { "id": "spear", "name": "Lanza", "damage": "1d6", "damageType": "piercing", "weight": 3, "cost": "1 gp", "properties": ["thrown (20/60)", "versatile (1d8)"] }
+    ],
+    "simple_ranged": [
+      { "id": "light_crossbow", "name": "Ballesta Ligera", "damage": "1d8", "damageType": "piercing", "weight": 5, "cost": "25 gp", "properties": ["ammunition (80/320)", "loading", "two-handed"] },
+      { "id": "dart", "name": "Dardo", "damage": "1d4", "damageType": "piercing", "weight": 0.25, "cost": "5 cp", "properties": ["finesse", "thrown (20/60)"] },
+      { "id": "shortbow", "name": "Arco Corto", "damage": "1d6", "damageType": "piercing", "weight": 2, "cost": "25 gp", "properties": ["ammunition (80/320)", "two-handed"] },
+      { "id": "sling", "name": "Honda", "damage": "1d4", "damageType": "bludgeoning", "weight": 0, "cost": "1 sp", "properties": ["ammunition (30/120)"] }
+    ],
+    "martial_melee": [
+      { "id": "battleaxe", "name": "Hacha de Batalla", "damage": "1d8", "damageType": "slashing", "weight": 4, "cost": "10 gp", "properties": ["versatile (1d10)"] },
+      { "id": "flail", "name": "Mangual", "damage": "1d8", "damageType": "bludgeoning", "weight": 2, "cost": "10 gp", "properties": [] },
+      { "id": "glaive", "name": "Guja", "damage": "1d10", "damageType": "slashing", "weight": 6, "cost": "20 gp", "properties": ["heavy", "reach", "two-handed"] },
+      { "id": "greataxe", "name": "Gran Hacha", "damage": "1d12", "damageType": "slashing", "weight": 7, "cost": "30 gp", "properties": ["heavy", "two-handed"] },
+      { "id": "greatsword", "name": "Espadón", "damage": "2d6", "damageType": "slashing", "weight": 6, "cost": "50 gp", "properties": ["heavy", "two-handed"] },
+      { "id": "halberd", "name": "Alabarda", "damage": "1d10", "damageType": "slashing", "weight": 6, "cost": "20 gp", "properties": ["heavy", "reach", "two-handed"] },
+      { "id": "lance", "name": "Lanza de Caballería", "damage": "1d12", "damageType": "piercing", "weight": 6, "cost": "10 gp", "properties": ["reach", "special"] },
+      { "id": "longsword", "name": "Espada Larga", "damage": "1d8", "damageType": "slashing", "weight": 3, "cost": "15 gp", "properties": ["versatile (1d10)"] },
+      { "id": "maul", "name": "Mazo", "damage": "2d6", "damageType": "bludgeoning", "weight": 10, "cost": "10 gp", "properties": ["heavy", "two-handed"] },
+      { "id": "morningstar", "name": "Lucero del Alba", "damage": "1d8", "damageType": "piercing", "weight": 4, "cost": "15 gp", "properties": [] },
+      { "id": "pike", "name": "Pica", "damage": "1d10", "damageType": "piercing", "weight": 18, "cost": "5 gp", "properties": ["heavy", "reach", "two-handed"] },
+      { "id": "rapier", "name": "Estoque", "damage": "1d8", "damageType": "piercing", "weight": 2, "cost": "25 gp", "properties": ["finesse"] },
+      { "id": "scimitar", "name": "Cimitarra", "damage": "1d6", "damageType": "slashing", "weight": 3, "cost": "25 gp", "properties": ["finesse", "light"] },
+      { "id": "shortsword", "name": "Espada Corta", "damage": "1d6", "damageType": "piercing", "weight": 2, "cost": "10 gp", "properties": ["finesse", "light"] },
+      { "id": "trident", "name": "Tridente", "damage": "1d6", "damageType": "piercing", "weight": 4, "cost": "5 gp", "properties": ["thrown (20/60)", "versatile (1d8)"] },
+      { "id": "war_pick", "name": "Pico de Guerra", "damage": "1d8", "damageType": "piercing", "weight": 2, "cost": "5 gp", "properties": [] },
+      { "id": "warhammer", "name": "Martillo de Guerra", "damage": "1d8", "damageType": "bludgeoning", "weight": 2, "cost": "15 gp", "properties": ["versatile (1d10)"] },
+      { "id": "whip", "name": "Látigo", "damage": "1d4", "damageType": "slashing", "weight": 3, "cost": "2 gp", "properties": ["finesse", "reach"] }
+    ],
+    "martial_ranged": [
+      { "id": "blowgun", "name": "Cerbatana", "damage": "1", "damageType": "piercing", "weight": 1, "cost": "10 gp", "properties": ["ammunition (25/100)", "loading"] },
+      { "id": "hand_crossbow", "name": "Ballesta de Mano", "damage": "1d6", "damageType": "piercing", "weight": 3, "cost": "75 gp", "properties": ["ammunition (30/120)", "light", "loading"] },
+      { "id": "heavy_crossbow", "name": "Ballesta Pesada", "damage": "1d10", "damageType": "piercing", "weight": 18, "cost": "50 gp", "properties": ["ammunition (100/400)", "heavy", "loading", "two-handed"] },
+      { "id": "longbow", "name": "Arco Largo", "damage": "1d8", "damageType": "piercing", "weight": 2, "cost": "50 gp", "properties": ["ammunition (150/600)", "heavy", "two-handed"] },
+      { "id": "net", "name": "Red", "damage": "0", "damageType": "none", "weight": 3, "cost": "1 gp", "properties": ["special", "thrown (5/15)"] }
+    ]
+  },
+
+  "armor": {
+    "light": [
+      { "id": "padded", "name": "Acolchada", "ac": 11, "acBonus": "DEX", "weight": 8, "cost": "5 gp", "stealthDisadvantage": true },
+      { "id": "leather", "name": "Cuero", "ac": 11, "acBonus": "DEX", "weight": 10, "cost": "10 gp", "stealthDisadvantage": false },
+      { "id": "studded_leather", "name": "Cuero Tachonado", "ac": 12, "acBonus": "DEX", "weight": 13, "cost": "45 gp", "stealthDisadvantage": false }
+    ],
+    "medium": [
+      { "id": "hide", "name": "Pieles", "ac": 12, "acBonus": "DEX (max 2)", "weight": 12, "cost": "10 gp", "stealthDisadvantage": false },
+      { "id": "chain_shirt", "name": "Camisote de Malla", "ac": 13, "acBonus": "DEX (max 2)", "weight": 20, "cost": "50 gp", "stealthDisadvantage": false },
+      { "id": "scale_mail", "name": "Cota de Escamas", "ac": 14, "acBonus": "DEX (max 2)", "weight": 45, "cost": "50 gp", "stealthDisadvantage": true },
+      { "id": "breastplate", "name": "Coraza", "ac": 14, "acBonus": "DEX (max 2)", "weight": 20, "cost": "400 gp", "stealthDisadvantage": false },
+      { "id": "half_plate", "name": "Media Armadura", "ac": 15, "acBonus": "DEX (max 2)", "weight": 40, "cost": "750 gp", "stealthDisadvantage": true }
+    ],
+    "heavy": [
+      { "id": "ring_mail", "name": "Cota de Anillas", "ac": 14, "acBonus": "none", "weight": 40, "cost": "30 gp", "stealthDisadvantage": true, "strengthReq": 0 },
+      { "id": "chain_mail", "name": "Cota de Malla", "ac": 16, "acBonus": "none", "weight": 55, "cost": "75 gp", "stealthDisadvantage": true, "strengthReq": 13 },
+      { "id": "splint", "name": "Armadura de Bandas", "ac": 17, "acBonus": "none", "weight": 60, "cost": "200 gp", "stealthDisadvantage": true, "strengthReq": 15 },
+      { "id": "plate", "name": "Armadura de Placas", "ac": 18, "acBonus": "none", "weight": 65, "cost": "1500 gp", "stealthDisadvantage": true, "strengthReq": 15 }
+    ],
+    "shields": [
+      { "id": "shield", "name": "Escudo", "ac": 2, "weight": 6, "cost": "10 gp" }
+    ]
+  },
+
+  "packs": {
+    "burglars_pack": {
+      "name": "Equipo de Ladrón",
+      "cost": "16 gp",
+      "contents": ["backpack", "ball_bearings_1000", "string_10ft", "bell", "candles_5", "crowbar", "hammer", "pitons_10", "hooded_lantern", "oil_flask_2", "rations_5", "tinderbox", "waterskin", "hempen_rope_50ft"]
+    },
+    "dungeoneers_pack": {
+      "name": "Equipo de Explorador de Mazmorras",
+      "cost": "12 gp",
+      "contents": ["backpack", "crowbar", "hammer", "pitons_10", "torches_10", "tinderbox", "rations_10", "waterskin", "hempen_rope_50ft"]
+    },
+    "entertainers_pack": {
+      "name": "Equipo de Artista",
+      "cost": "40 gp",
+      "contents": ["backpack", "bedroll", "costumes_2", "candles_5", "rations_5", "waterskin", "disguise_kit"]
+    },
+    "explorers_pack": {
+      "name": "Equipo de Explorador",
+      "cost": "10 gp",
+      "contents": ["backpack", "bedroll", "mess_kit", "tinderbox", "torches_10", "rations_10", "waterskin", "hempen_rope_50ft"]
+    },
+    "priests_pack": {
+      "name": "Equipo de Sacerdote",
+      "cost": "19 gp",
+      "contents": ["backpack", "blanket", "candles_10", "tinderbox", "alms_box", "incense_2", "censer", "vestments", "rations_2", "waterskin"]
+    },
+    "scholars_pack": {
+      "name": "Equipo de Erudito",
+      "cost": "40 gp",
+      "contents": ["backpack", "book_of_lore", "ink", "ink_pen", "parchment_10", "little_bag_of_sand", "small_knife"]
+    },
+    "diplomats_pack": {
+      "name": "Equipo de Diplomático",
+      "cost": "39 gp",
+      "contents": ["chest", "scroll_cases_2", "fine_clothes", "ink", "ink_pen", "lamp", "oil_flask_2", "paper_5", "perfume_vial", "sealing_wax", "soap"]
+    }
+  },
+
+  "magicItems": {
+    "common": [
+      { "id": "potion_healing", "name": "Poción de Curación", "type": "potion", "description": "Recuperas 2d4+2 puntos de golpe.", "charges": 1 },
+      { "id": "driftglobe", "name": "Globo Flotante", "type": "wondrous", "description": "Produce luz como el conjuro Luz o Luz del Día.", "attunement": false },
+      { "id": "bag_of_holding", "name": "Bolsa de Contención", "type": "wondrous", "description": "El interior es un espacio extradimensional que puede contener hasta 500 libras.", "attunement": false }
+    ],
+    "uncommon": [
+      { "id": "weapon_plus_1", "name": "Arma +1", "type": "weapon", "description": "+1 a tiradas de ataque y daño.", "attunement": false },
+      { "id": "armor_plus_1", "name": "Armadura +1", "type": "armor", "description": "+1 a la CA.", "attunement": false },
+      { "id": "cloak_of_protection", "name": "Capa de Protección", "type": "wondrous", "description": "+1 a CA y tiradas de salvación.", "attunement": true },
+      { "id": "boots_of_elvenkind", "name": "Botas Élficas", "type": "wondrous", "description": "Tus pasos no hacen ruido. Ventaja en Sigilo.", "attunement": false },
+      { "id": "gauntlets_of_ogre_power", "name": "Guanteletes de Poder de Ogro", "type": "wondrous", "description": "Tu Fuerza se convierte en 19.", "attunement": true },
+      { "id": "ring_of_protection", "name": "Anillo de Protección", "type": "ring", "description": "+1 a CA y tiradas de salvación.", "attunement": true },
+      { "id": "potion_greater_healing", "name": "Poción de Curación Mayor", "type": "potion", "description": "Recuperas 4d4+4 puntos de golpe.", "charges": 1 },
+      { "id": "wand_of_magic_missiles", "name": "Varita de Proyectiles Mágicos", "type": "wand", "description": "7 cargas. Gasta cargas para lanzar Proyectil Mágico.", "attunement": false, "charges": 7 }
+    ],
+    "rare": [
+      { "id": "weapon_plus_2", "name": "Arma +2", "type": "weapon", "description": "+2 a tiradas de ataque y daño.", "attunement": false },
+      { "id": "armor_plus_2", "name": "Armadura +2", "type": "armor", "description": "+2 a la CA.", "attunement": false },
+      { "id": "flame_tongue", "name": "Lengua de Fuego", "type": "weapon", "description": "Puedes encender la hoja con llamas. +2d6 daño de fuego.", "attunement": true },
+      { "id": "ring_of_spell_storing", "name": "Anillo de Almacenamiento de Conjuros", "type": "ring", "description": "Almacena hasta 5 niveles de conjuros.", "attunement": true },
+      { "id": "cloak_of_displacement", "name": "Capa de Desplazamiento", "type": "wondrous", "description": "Los ataques contra ti tienen desventaja.", "attunement": true },
+      { "id": "belt_of_giant_strength_hill", "name": "Cinturón de Fuerza de Gigante de las Colinas", "type": "wondrous", "description": "Tu Fuerza se convierte en 21.", "attunement": true },
+      { "id": "potion_superior_healing", "name": "Poción de Curación Superior", "type": "potion", "description": "Recuperas 8d4+8 puntos de golpe.", "charges": 1 },
+      { "id": "wand_of_fireballs", "name": "Varita de Bolas de Fuego", "type": "wand", "description": "7 cargas. Gasta cargas para lanzar Bola de Fuego.", "attunement": true, "charges": 7 }
+    ]
+  },
+
+  "adventuringGear": [
+    { "id": "backpack", "name": "Mochila", "cost": "2 gp", "weight": 5 },
+    { "id": "bedroll", "name": "Saco de Dormir", "cost": "1 gp", "weight": 7 },
+    { "id": "torch", "name": "Antorcha", "cost": "1 cp", "weight": 1 },
+    { "id": "rations", "name": "Raciones (1 día)", "cost": "5 sp", "weight": 2 },
+    { "id": "waterskin", "name": "Odre", "cost": "2 sp", "weight": 5 },
+    { "id": "rope_hemp_50ft", "name": "Cuerda de Cáñamo (50 pies)", "cost": "1 gp", "weight": 10 },
+    { "id": "rope_silk_50ft", "name": "Cuerda de Seda (50 pies)", "cost": "10 gp", "weight": 5 },
+    { "id": "grappling_hook", "name": "Gancho de Escalada", "cost": "2 gp", "weight": 4 },
+    { "id": "tinderbox", "name": "Pedernal", "cost": "5 sp", "weight": 1 },
+    { "id": "lantern_hooded", "name": "Linterna con Capucha", "cost": "5 gp", "weight": 2 },
+    { "id": "oil_flask", "name": "Aceite (frasco)", "cost": "1 sp", "weight": 1 },
+    { "id": "healing_potion", "name": "Poción de Curación", "cost": "50 gp", "weight": 0.5 },
+    { "id": "antitoxin", "name": "Antitoxina", "cost": "50 gp", "weight": 0 },
+    { "id": "holy_symbol", "name": "Símbolo Sagrado", "cost": "5 gp", "weight": 1 },
+    { "id": "component_pouch", "name": "Bolsa de Componentes", "cost": "25 gp", "weight": 2 },
+    { "id": "arcane_focus", "name": "Foco Arcano", "cost": "10 gp", "weight": 1 },
+    { "id": "spellbook", "name": "Libro de Conjuros", "cost": "50 gp", "weight": 3 },
+    { "id": "thieves_tools", "name": "Herramientas de Ladrón", "cost": "25 gp", "weight": 1 },
+    { "id": "crowbar", "name": "Palanca", "cost": "2 gp", "weight": 5 },
+    { "id": "hammer", "name": "Martillo", "cost": "1 gp", "weight": 3 },
+    { "id": "piton", "name": "Piton", "cost": "5 cp", "weight": 0.25 },
+    { "id": "caltrops", "name": "Abrojos (bolsa de 20)", "cost": "1 gp", "weight": 2 },
+    { "id": "ball_bearings", "name": "Bolitas de Metal (bolsa de 1000)", "cost": "1 gp", "weight": 2 },
+    { "id": "mirror_steel", "name": "Espejo de Acero", "cost": "5 gp", "weight": 0.5 },
+    { "id": "manacles", "name": "Grilletes", "cost": "2 gp", "weight": 6 }
+  ],
+
+  "ammunition": [
+    { "id": "arrows_20", "name": "Flechas (20)", "cost": "1 gp", "weight": 1 },
+    { "id": "bolts_20", "name": "Virotes (20)", "cost": "1 gp", "weight": 1.5 },
+    { "id": "bullets_20", "name": "Balas de Honda (20)", "cost": "4 cp", "weight": 1.5 },
+    { "id": "blowgun_needles_50", "name": "Agujas de Cerbatana (50)", "cost": "1 gp", "weight": 1 }
+  ]
+}

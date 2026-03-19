@@ -1,0 +1,1001 @@
+{
+  "classes": [
+    {
+      "id": "barbarian",
+      "name": "Bárbaro",
+      "nameEn": "Barbarian",
+      "description": "Un guerrero feroz que canaliza su ira primitiva para lograr hazañas devastadoras en combate.",
+      "hitDie": "d12",
+      "primaryAbility": ["STR"],
+      "savingThrows": ["STR", "CON"],
+      "armorProficiencies": ["light", "medium", "shields"],
+      "weaponProficiencies": ["simple", "martial"],
+      "skillChoices": {
+        "count": 2,
+        "options": ["Animal Handling", "Athletics", "Intimidation", "Nature", "Perception", "Survival"]
+      },
+      "startingEquipment": {
+        "choices": [
+          {
+            "options": [
+              { "items": ["greataxe"] },
+              { "items": ["martial_melee_weapon"] }
+            ]
+          },
+          {
+            "options": [
+              { "items": ["handaxe", "handaxe"] },
+              { "items": ["simple_weapon"] }
+            ]
+          }
+        ],
+        "fixed": ["explorers_pack", "javelin", "javelin", "javelin", "javelin"]
+      },
+      "features": {
+        "1": [
+          {
+            "name": "Furia",
+            "nameEn": "Rage",
+            "description": "En combate, luchas con ferocidad primitiva. En tu turno, puedes entrar en furia como acción bonus."
+          },
+          {
+            "name": "Defensa sin Armadura",
+            "nameEn": "Unarmored Defense",
+            "description": "Mientras no llevas armadura, tu CA es 10 + modificador de Destreza + modificador de Constitución."
+          }
+        ],
+        "2": [
+          {
+            "name": "Ataque Temerario",
+            "nameEn": "Reckless Attack",
+            "description": "Puedes tirar tus ataques con ventaja, pero los ataques contra ti también tienen ventaja."
+          },
+          {
+            "name": "Sentido del Peligro",
+            "nameEn": "Danger Sense",
+            "description": "Tienes ventaja en tiradas de salvación de Destreza contra efectos que puedes ver."
+          }
+        ],
+        "3": [
+          {
+            "name": "Camino Primigenio",
+            "nameEn": "Primal Path",
+            "description": "Eliges un camino que da forma a tu furia: Berserker o Guerrero Totémico."
+          }
+        ],
+        "5": [
+          {
+            "name": "Ataque Extra",
+            "nameEn": "Extra Attack",
+            "description": "Puedes atacar dos veces en lugar de una cuando usas la acción de Atacar."
+          },
+          {
+            "name": "Movimiento Rápido",
+            "nameEn": "Fast Movement",
+            "description": "Tu velocidad aumenta en 10 pies mientras no llevas armadura pesada."
+          }
+        ]
+      },
+      "rageCount": { "1": 2, "3": 3, "6": 4, "12": 5, "17": 6, "20": "unlimited" },
+      "rageDamage": { "1": 2, "9": 3, "16": 4 }
+    },
+    {
+      "id": "bard",
+      "name": "Bardo",
+      "nameEn": "Bard",
+      "description": "Un artista mágico cuya música y palabras inspiran a los aliados y debilitan a los enemigos.",
+      "hitDie": "d8",
+      "primaryAbility": ["CHA"],
+      "savingThrows": ["DEX", "CHA"],
+      "armorProficiencies": ["light"],
+      "weaponProficiencies": ["simple", "hand_crossbow", "longsword", "rapier", "shortsword"],
+      "toolProficiencies": ["three_musical_instruments"],
+      "skillChoices": {
+        "count": 3,
+        "options": "any"
+      },
+      "spellcasting": {
+        "ability": "CHA",
+        "type": "known",
+        "cantripsKnown": { "1": 2, "4": 3, "10": 4 },
+        "spellsKnown": { "1": 4, "2": 5, "3": 6, "4": 7, "5": 8, "6": 9, "7": 10, "8": 11, "9": 12, "10": 14, "11": 15, "13": 16, "14": 18, "15": 19, "17": 20, "18": 22 }
+      },
+      "startingEquipment": {
+        "choices": [
+          {
+            "options": [
+              { "items": ["rapier"] },
+              { "items": ["longsword"] },
+              { "items": ["simple_weapon"] }
+            ]
+          },
+          {
+            "options": [
+              { "items": ["diplomats_pack"] },
+              { "items": ["entertainers_pack"] }
+            ]
+          },
+          {
+            "options": [
+              { "items": ["lute"] },
+              { "items": ["musical_instrument"] }
+            ]
+          }
+        ],
+        "fixed": ["leather_armor", "dagger"]
+      },
+      "features": {
+        "1": [
+          {
+            "name": "Lanzamiento de Conjuros",
+            "nameEn": "Spellcasting",
+            "description": "Has aprendido a tejer la magia con tus palabras y música."
+          },
+          {
+            "name": "Inspiración Bárdica",
+            "nameEn": "Bardic Inspiration",
+            "description": "Puedes inspirar a otros con tus palabras. Usa un dado de Inspiración Bárdica (d6) que aumenta con el nivel."
+          }
+        ],
+        "2": [
+          {
+            "name": "Canción de Descanso",
+            "nameEn": "Song of Rest",
+            "description": "Usas música para ayudar a revitalizar aliados heridos durante un descanso corto."
+          },
+          {
+            "name": "Aprendiz de Todo",
+            "nameEn": "Jack of All Trades",
+            "description": "Puedes añadir la mitad de tu bonificación por competencia a cualquier prueba de característica que no uses."
+          }
+        ],
+        "3": [
+          {
+            "name": "Colegio Bárdico",
+            "nameEn": "Bard College",
+            "description": "Eliges un colegio: Colegio de la Sabiduría o Colegio del Valor."
+          },
+          {
+            "name": "Pericia",
+            "nameEn": "Expertise",
+            "description": "Elige dos competencias de habilidad. Tu bonificación se duplica para esas habilidades."
+          }
+        ],
+        "5": [
+          {
+            "name": "Fuente de Inspiración",
+            "nameEn": "Font of Inspiration",
+            "description": "Recuperas todos los usos de Inspiración Bárdica cuando terminas un descanso corto o largo."
+          }
+        ]
+      },
+      "inspirationDie": { "1": "d6", "5": "d8", "10": "d10", "15": "d12" }
+    },
+    {
+      "id": "cleric",
+      "name": "Clérigo",
+      "nameEn": "Cleric",
+      "description": "Un campeón de la fe que canaliza el poder divino para curar aliados y castigar enemigos.",
+      "hitDie": "d8",
+      "primaryAbility": ["WIS"],
+      "savingThrows": ["WIS", "CHA"],
+      "armorProficiencies": ["light", "medium", "shields"],
+      "weaponProficiencies": ["simple"],
+      "skillChoices": {
+        "count": 2,
+        "options": ["History", "Insight", "Medicine", "Persuasion", "Religion"]
+      },
+      "spellcasting": {
+        "ability": "WIS",
+        "type": "prepared",
+        "cantripsKnown": { "1": 3, "4": 4, "10": 5 }
+      },
+      "startingEquipment": {
+        "choices": [
+          {
+            "options": [
+              { "items": ["mace"] },
+              { "items": ["warhammer"], "requirement": "proficiency" }
+            ]
+          },
+          {
+            "options": [
+              { "items": ["scale_mail"] },
+              { "items": ["leather_armor"] },
+              { "items": ["chain_mail"], "requirement": "proficiency" }
+            ]
+          },
+          {
+            "options": [
+              { "items": ["light_crossbow", "bolts_20"] },
+              { "items": ["simple_weapon"] }
+            ]
+          },
+          {
+            "options": [
+              { "items": ["priests_pack"] },
+              { "items": ["explorers_pack"] }
+            ]
+          }
+        ],
+        "fixed": ["shield", "holy_symbol"]
+      },
+      "features": {
+        "1": [
+          {
+            "name": "Lanzamiento de Conjuros",
+            "nameEn": "Spellcasting",
+            "description": "Como conducto del poder divino, puedes lanzar conjuros de clérigo."
+          },
+          {
+            "name": "Dominio Divino",
+            "nameEn": "Divine Domain",
+            "description": "Elige un dominio relacionado con tu deidad: Vida, Luz, Guerra, etc."
+          }
+        ],
+        "2": [
+          {
+            "name": "Canalizar Divinidad",
+            "nameEn": "Channel Divinity",
+            "description": "Ganas la capacidad de canalizar energía divina directamente de tu deidad."
+          },
+          {
+            "name": "Expulsar Muertos Vivientes",
+            "nameEn": "Turn Undead",
+            "description": "Presentando tu símbolo sagrado, puedes hacer que los muertos vivientes huyan."
+          }
+        ],
+        "5": [
+          {
+            "name": "Destruir Muertos Vivientes",
+            "nameEn": "Destroy Undead",
+            "description": "Los muertos vivientes de CR 1/2 o menos son destruidos instantáneamente."
+          }
+        ]
+      }
+    },
+    {
+      "id": "druid",
+      "name": "Druida",
+      "nameEn": "Druid",
+      "description": "Un sacerdote de la naturaleza que puede transformarse en bestias y controlar los elementos.",
+      "hitDie": "d8",
+      "primaryAbility": ["WIS"],
+      "savingThrows": ["INT", "WIS"],
+      "armorProficiencies": ["light", "medium", "shields"],
+      "armorRestriction": "No usarás armadura ni escudos de metal",
+      "weaponProficiencies": ["club", "dagger", "dart", "javelin", "mace", "quarterstaff", "scimitar", "sickle", "sling", "spear"],
+      "toolProficiencies": ["herbalism_kit"],
+      "skillChoices": {
+        "count": 2,
+        "options": ["Arcana", "Animal Handling", "Insight", "Medicine", "Nature", "Perception", "Religion", "Survival"]
+      },
+      "spellcasting": {
+        "ability": "WIS",
+        "type": "prepared",
+        "cantripsKnown": { "1": 2, "4": 3, "10": 4 }
+      },
+      "startingEquipment": {
+        "choices": [
+          {
+            "options": [
+              { "items": ["wooden_shield"] },
+              { "items": ["simple_weapon"] }
+            ]
+          },
+          {
+            "options": [
+              { "items": ["scimitar"] },
+              { "items": ["simple_melee_weapon"] }
+            ]
+          }
+        ],
+        "fixed": ["leather_armor", "explorers_pack", "druidic_focus"]
+      },
+      "features": {
+        "1": [
+          {
+            "name": "Druídico",
+            "nameEn": "Druidic",
+            "description": "Conoces el druídico, el lenguaje secreto de los druidas."
+          },
+          {
+            "name": "Lanzamiento de Conjuros",
+            "nameEn": "Spellcasting",
+            "description": "Aprovechando la esencia divina de la naturaleza, puedes lanzar conjuros."
+          }
+        ],
+        "2": [
+          {
+            "name": "Forma Salvaje",
+            "nameEn": "Wild Shape",
+            "description": "Puedes usar tu acción para transformarte mágicamente en una bestia que hayas visto."
+          },
+          {
+            "name": "Círculo Druídico",
+            "nameEn": "Druid Circle",
+            "description": "Eliges un círculo druídico: Círculo de la Tierra o Círculo de la Luna."
+          }
+        ]
+      },
+      "wildShapeCR": { "2": "1/4", "4": "1/2", "8": "1" }
+    },
+    {
+      "id": "fighter",
+      "name": "Guerrero",
+      "nameEn": "Fighter",
+      "description": "Un maestro del combate entrenado en todas las armas y tácticas de batalla.",
+      "hitDie": "d10",
+      "primaryAbility": ["STR", "DEX"],
+      "savingThrows": ["STR", "CON"],
+      "armorProficiencies": ["light", "medium", "heavy", "shields"],
+      "weaponProficiencies": ["simple", "martial"],
+      "skillChoices": {
+        "count": 2,
+        "options": ["Acrobatics", "Animal Handling", "Athletics", "History", "Insight", "Intimidation", "Perception", "Survival"]
+      },
+      "startingEquipment": {
+        "choices": [
+          {
+            "options": [
+              { "items": ["chain_mail"] },
+              { "items": ["leather_armor", "longbow", "arrows_20"] }
+            ]
+          },
+          {
+            "options": [
+              { "items": ["martial_weapon", "shield"] },
+              { "items": ["martial_weapon", "martial_weapon"] }
+            ]
+          },
+          {
+            "options": [
+              { "items": ["light_crossbow", "bolts_20"] },
+              { "items": ["handaxe", "handaxe"] }
+            ]
+          },
+          {
+            "options": [
+              { "items": ["dungeoneers_pack"] },
+              { "items": ["explorers_pack"] }
+            ]
+          }
+        ],
+        "fixed": []
+      },
+      "features": {
+        "1": [
+          {
+            "name": "Estilo de Combate",
+            "nameEn": "Fighting Style",
+            "description": "Adoptas un estilo particular de combate como especialidad."
+          },
+          {
+            "name": "Segundo Aliento",
+            "nameEn": "Second Wind",
+            "description": "Puedes usar una acción bonus para recuperar puntos de golpe igual a 1d10 + nivel de guerrero."
+          }
+        ],
+        "2": [
+          {
+            "name": "Oleada de Acción",
+            "nameEn": "Action Surge",
+            "description": "Puedes realizar una acción adicional en tu turno."
+          }
+        ],
+        "3": [
+          {
+            "name": "Arquetipo Marcial",
+            "nameEn": "Martial Archetype",
+            "description": "Eliges un arquetipo: Campeón, Maestro de Batalla o Caballero Arcano."
+          }
+        ],
+        "5": [
+          {
+            "name": "Ataque Extra",
+            "nameEn": "Extra Attack",
+            "description": "Puedes atacar dos veces en lugar de una cuando usas la acción de Atacar."
+          }
+        ],
+        "9": [
+          {
+            "name": "Indomable",
+            "nameEn": "Indomitable",
+            "description": "Puedes repetir una tirada de salvación fallida."
+          }
+        ],
+        "11": [
+          {
+            "name": "Ataque Extra (2)",
+            "nameEn": "Extra Attack (2)",
+            "description": "Puedes atacar tres veces cuando usas la acción de Atacar."
+          }
+        ]
+      }
+    },
+    {
+      "id": "monk",
+      "name": "Monje",
+      "nameEn": "Monk",
+      "description": "Un artista marcial que domina el ki para realizar hazañas físicas sobrehumanas.",
+      "hitDie": "d8",
+      "primaryAbility": ["DEX", "WIS"],
+      "savingThrows": ["STR", "DEX"],
+      "armorProficiencies": [],
+      "weaponProficiencies": ["simple", "shortsword"],
+      "toolProficiencies": ["artisans_tools_or_musical_instrument"],
+      "skillChoices": {
+        "count": 2,
+        "options": ["Acrobatics", "Athletics", "History", "Insight", "Religion", "Stealth"]
+      },
+      "startingEquipment": {
+        "choices": [
+          {
+            "options": [
+              { "items": ["shortsword"] },
+              { "items": ["simple_weapon"] }
+            ]
+          },
+          {
+            "options": [
+              { "items": ["dungeoneers_pack"] },
+              { "items": ["explorers_pack"] }
+            ]
+          }
+        ],
+        "fixed": ["dart", "dart", "dart", "dart", "dart", "dart", "dart", "dart", "dart", "dart"]
+      },
+      "features": {
+        "1": [
+          {
+            "name": "Defensa sin Armadura",
+            "nameEn": "Unarmored Defense",
+            "description": "Tu CA es 10 + modificador de Destreza + modificador de Sabiduría."
+          },
+          {
+            "name": "Artes Marciales",
+            "nameEn": "Martial Arts",
+            "description": "Ganas beneficios especiales con armas de monje y ataques desarmados."
+          }
+        ],
+        "2": [
+          {
+            "name": "Ki",
+            "nameEn": "Ki",
+            "description": "Tu entrenamiento te permite aprovechar la energía mística conocida como ki."
+          },
+          {
+            "name": "Movimiento sin Armadura",
+            "nameEn": "Unarmored Movement",
+            "description": "Tu velocidad aumenta en 10 pies mientras no llevas armadura ni escudo."
+          }
+        ],
+        "3": [
+          {
+            "name": "Tradición Monástica",
+            "nameEn": "Monastic Tradition",
+            "description": "Eliges una tradición: Camino de la Mano Abierta, Camino de la Sombra, o Camino de los Cuatro Elementos."
+          },
+          {
+            "name": "Desviar Proyectiles",
+            "nameEn": "Deflect Missiles",
+            "description": "Puedes usar tu reacción para desviar proyectiles cuando te impactan."
+          }
+        ],
+        "4": [
+          {
+            "name": "Caída Lenta",
+            "nameEn": "Slow Fall",
+            "description": "Puedes usar tu reacción para reducir el daño por caída."
+          }
+        ],
+        "5": [
+          {
+            "name": "Ataque Extra",
+            "nameEn": "Extra Attack",
+            "description": "Puedes atacar dos veces cuando usas la acción de Atacar."
+          },
+          {
+            "name": "Golpe Aturdidor",
+            "nameEn": "Stunning Strike",
+            "description": "Puedes intentar aturdir a una criatura que golpeas con un ataque cuerpo a cuerpo."
+          }
+        ]
+      },
+      "martialArtsDie": { "1": "d4", "5": "d6", "11": "d8", "17": "d10" },
+      "kiPoints": "level",
+      "unarmoredMovement": { "2": 10, "6": 15, "10": 20, "14": 25, "18": 30 }
+    },
+    {
+      "id": "paladin",
+      "name": "Paladín",
+      "nameEn": "Paladin",
+      "description": "Un guerrero sagrado unido a un juramento divino, capaz de curar y castigar.",
+      "hitDie": "d10",
+      "primaryAbility": ["STR", "CHA"],
+      "savingThrows": ["WIS", "CHA"],
+      "armorProficiencies": ["light", "medium", "heavy", "shields"],
+      "weaponProficiencies": ["simple", "martial"],
+      "skillChoices": {
+        "count": 2,
+        "options": ["Athletics", "Insight", "Intimidation", "Medicine", "Persuasion", "Religion"]
+      },
+      "spellcasting": {
+        "ability": "CHA",
+        "type": "prepared",
+        "startLevel": 2
+      },
+      "startingEquipment": {
+        "choices": [
+          {
+            "options": [
+              { "items": ["martial_weapon", "shield"] },
+              { "items": ["martial_weapon", "martial_weapon"] }
+            ]
+          },
+          {
+            "options": [
+              { "items": ["javelin", "javelin", "javelin", "javelin", "javelin"] },
+              { "items": ["simple_melee_weapon"] }
+            ]
+          },
+          {
+            "options": [
+              { "items": ["priests_pack"] },
+              { "items": ["explorers_pack"] }
+            ]
+          }
+        ],
+        "fixed": ["chain_mail", "holy_symbol"]
+      },
+      "features": {
+        "1": [
+          {
+            "name": "Sentido Divino",
+            "nameEn": "Divine Sense",
+            "description": "Puedes detectar la presencia de celestiales, demonios y muertos vivientes."
+          },
+          {
+            "name": "Imposición de Manos",
+            "nameEn": "Lay on Hands",
+            "description": "Puedes curar heridas con tu toque. Tienes una reserva de puntos de curación."
+          }
+        ],
+        "2": [
+          {
+            "name": "Estilo de Combate",
+            "nameEn": "Fighting Style",
+            "description": "Adoptas un estilo particular de combate como especialidad."
+          },
+          {
+            "name": "Lanzamiento de Conjuros",
+            "nameEn": "Spellcasting",
+            "description": "Has aprendido a canalizar magia divina a través de meditación y oración."
+          },
+          {
+            "name": "Castigo Divino",
+            "nameEn": "Divine Smite",
+            "description": "Cuando impactas con un ataque cuerpo a cuerpo, puedes gastar un espacio de conjuro para infligir daño radiante adicional."
+          }
+        ],
+        "3": [
+          {
+            "name": "Salud Divina",
+            "nameEn": "Divine Health",
+            "description": "La magia divina que fluye por ti te hace inmune a las enfermedades."
+          },
+          {
+            "name": "Juramento Sagrado",
+            "nameEn": "Sacred Oath",
+            "description": "Eliges un juramento: Juramento de Devoción, Juramento de los Antiguos, o Juramento de Venganza."
+          }
+        ],
+        "5": [
+          {
+            "name": "Ataque Extra",
+            "nameEn": "Extra Attack",
+            "description": "Puedes atacar dos veces cuando usas la acción de Atacar."
+          }
+        ],
+        "6": [
+          {
+            "name": "Aura de Protección",
+            "nameEn": "Aura of Protection",
+            "description": "Tú y aliados a 10 pies ganan un bonificador a tiradas de salvación igual a tu modificador de Carisma."
+          }
+        ]
+      },
+      "layOnHandsPool": "level * 5"
+    },
+    {
+      "id": "ranger",
+      "name": "Explorador",
+      "nameEn": "Ranger",
+      "description": "Un cazador experto que usa magia natural para rastrear y abatir amenazas.",
+      "hitDie": "d10",
+      "primaryAbility": ["DEX", "WIS"],
+      "savingThrows": ["STR", "DEX"],
+      "armorProficiencies": ["light", "medium", "shields"],
+      "weaponProficiencies": ["simple", "martial"],
+      "skillChoices": {
+        "count": 3,
+        "options": ["Animal Handling", "Athletics", "Insight", "Investigation", "Nature", "Perception", "Stealth", "Survival"]
+      },
+      "spellcasting": {
+        "ability": "WIS",
+        "type": "known",
+        "startLevel": 2,
+        "spellsKnown": { "2": 2, "3": 3, "5": 4, "7": 5, "9": 6, "11": 7, "13": 8, "15": 9, "17": 10, "19": 11 }
+      },
+      "startingEquipment": {
+        "choices": [
+          {
+            "options": [
+              { "items": ["scale_mail"] },
+              { "items": ["leather_armor"] }
+            ]
+          },
+          {
+            "options": [
+              { "items": ["shortsword", "shortsword"] },
+              { "items": ["simple_melee_weapon", "simple_melee_weapon"] }
+            ]
+          },
+          {
+            "options": [
+              { "items": ["dungeoneers_pack"] },
+              { "items": ["explorers_pack"] }
+            ]
+          }
+        ],
+        "fixed": ["longbow", "arrows_20"]
+      },
+      "features": {
+        "1": [
+          {
+            "name": "Enemigo Favorito",
+            "nameEn": "Favored Enemy",
+            "description": "Tienes experiencia significativa estudiando, rastreando y cazando cierto tipo de enemigo."
+          },
+          {
+            "name": "Explorador Natural",
+            "nameEn": "Natural Explorer",
+            "description": "Eres un maestro navegando el mundo natural."
+          }
+        ],
+        "2": [
+          {
+            "name": "Estilo de Combate",
+            "nameEn": "Fighting Style",
+            "description": "Adoptas un estilo particular de combate como especialidad."
+          },
+          {
+            "name": "Lanzamiento de Conjuros",
+            "nameEn": "Spellcasting",
+            "description": "Has aprendido a usar la esencia mágica de la naturaleza."
+          }
+        ],
+        "3": [
+          {
+            "name": "Arquetipo de Explorador",
+            "nameEn": "Ranger Archetype",
+            "description": "Eliges un arquetipo: Cazador o Señor de las Bestias."
+          },
+          {
+            "name": "Percepción Primigenia",
+            "nameEn": "Primeval Awareness",
+            "description": "Puedes usar tu acción para detectar ciertos tipos de criaturas a 1 milla."
+          }
+        ],
+        "5": [
+          {
+            "name": "Ataque Extra",
+            "nameEn": "Extra Attack",
+            "description": "Puedes atacar dos veces cuando usas la acción de Atacar."
+          }
+        ]
+      }
+    },
+    {
+      "id": "rogue",
+      "name": "Pícaro",
+      "nameEn": "Rogue",
+      "description": "Un experto en sigilo y engaño que golpea con precisión mortal.",
+      "hitDie": "d8",
+      "primaryAbility": ["DEX"],
+      "savingThrows": ["DEX", "INT"],
+      "armorProficiencies": ["light"],
+      "weaponProficiencies": ["simple", "hand_crossbow", "longsword", "rapier", "shortsword"],
+      "toolProficiencies": ["thieves_tools"],
+      "skillChoices": {
+        "count": 4,
+        "options": ["Acrobatics", "Athletics", "Deception", "Insight", "Intimidation", "Investigation", "Perception", "Performance", "Persuasion", "Sleight of Hand", "Stealth"]
+      },
+      "startingEquipment": {
+        "choices": [
+          {
+            "options": [
+              { "items": ["rapier"] },
+              { "items": ["shortsword"] }
+            ]
+          },
+          {
+            "options": [
+              { "items": ["shortbow", "arrows_20"] },
+              { "items": ["shortsword"] }
+            ]
+          },
+          {
+            "options": [
+              { "items": ["burglars_pack"] },
+              { "items": ["dungeoneers_pack"] },
+              { "items": ["explorers_pack"] }
+            ]
+          }
+        ],
+        "fixed": ["leather_armor", "dagger", "dagger", "thieves_tools"]
+      },
+      "features": {
+        "1": [
+          {
+            "name": "Pericia",
+            "nameEn": "Expertise",
+            "description": "Elige dos competencias de habilidad. Tu bonificación se duplica para esas habilidades."
+          },
+          {
+            "name": "Ataque Furtivo",
+            "nameEn": "Sneak Attack",
+            "description": "Sabes cómo golpear con sutileza y explotar la distracción del enemigo."
+          },
+          {
+            "name": "Jerga de Ladrones",
+            "nameEn": "Thieves' Cant",
+            "description": "Conoces la jerga de ladrones, un lenguaje secreto de señales y símbolos."
+          }
+        ],
+        "2": [
+          {
+            "name": "Acción Astuta",
+            "nameEn": "Cunning Action",
+            "description": "Puedes usar una acción bonus para Dash, Disengage, o Hide."
+          }
+        ],
+        "3": [
+          {
+            "name": "Arquetipo Rufián",
+            "nameEn": "Roguish Archetype",
+            "description": "Eliges un arquetipo: Ladrón, Asesino, o Embaucador Arcano."
+          }
+        ],
+        "5": [
+          {
+            "name": "Esquiva Increíble",
+            "nameEn": "Uncanny Dodge",
+            "description": "Cuando un atacante que puedes ver te impacta, puedes usar tu reacción para reducir el daño a la mitad."
+          }
+        ],
+        "7": [
+          {
+            "name": "Evasión",
+            "nameEn": "Evasion",
+            "description": "Puedes esquivar ágilmente ciertos efectos de área. Recibes la mitad de daño en salvación fallida, ninguno en éxito."
+          }
+        ]
+      },
+      "sneakAttackDice": { "1": 1, "3": 2, "5": 3, "7": 4, "9": 5, "11": 6, "13": 7, "15": 8, "17": 9, "19": 10 }
+    },
+    {
+      "id": "sorcerer",
+      "name": "Hechicero",
+      "nameEn": "Sorcerer",
+      "description": "Un lanzador de conjuros con magia innata que fluye de un linaje extraordinario.",
+      "hitDie": "d6",
+      "primaryAbility": ["CHA"],
+      "savingThrows": ["CON", "CHA"],
+      "armorProficiencies": [],
+      "weaponProficiencies": ["dagger", "dart", "sling", "quarterstaff", "light_crossbow"],
+      "skillChoices": {
+        "count": 2,
+        "options": ["Arcana", "Deception", "Insight", "Intimidation", "Persuasion", "Religion"]
+      },
+      "spellcasting": {
+        "ability": "CHA",
+        "type": "known",
+        "cantripsKnown": { "1": 4, "4": 5, "10": 6 },
+        "spellsKnown": { "1": 2, "2": 3, "3": 4, "4": 5, "5": 6, "6": 7, "7": 8, "8": 9, "9": 10, "10": 11, "11": 12, "13": 13, "15": 14, "17": 15 }
+      },
+      "startingEquipment": {
+        "choices": [
+          {
+            "options": [
+              { "items": ["light_crossbow", "bolts_20"] },
+              { "items": ["simple_weapon"] }
+            ]
+          },
+          {
+            "options": [
+              { "items": ["component_pouch"] },
+              { "items": ["arcane_focus"] }
+            ]
+          },
+          {
+            "options": [
+              { "items": ["dungeoneers_pack"] },
+              { "items": ["explorers_pack"] }
+            ]
+          }
+        ],
+        "fixed": ["dagger", "dagger"]
+      },
+      "features": {
+        "1": [
+          {
+            "name": "Lanzamiento de Conjuros",
+            "nameEn": "Spellcasting",
+            "description": "Un evento en tu pasado o en el de un ancestro te dejó marcado con magia arcana."
+          },
+          {
+            "name": "Origen de Hechicería",
+            "nameEn": "Sorcerous Origin",
+            "description": "Eliges un origen: Linaje Dracónico o Magia Salvaje."
+          }
+        ],
+        "2": [
+          {
+            "name": "Fuente de Magia",
+            "nameEn": "Font of Magic",
+            "description": "Aprovechas una fuente profunda de magia dentro de ti. Ganas puntos de hechicería."
+          }
+        ],
+        "3": [
+          {
+            "name": "Metamagia",
+            "nameEn": "Metamagic",
+            "description": "Ganas la capacidad de retorcer tus conjuros para adaptarlos a tus necesidades."
+          }
+        ]
+      },
+      "sorceryPoints": "level"
+    },
+    {
+      "id": "warlock",
+      "name": "Brujo",
+      "nameEn": "Warlock",
+      "description": "Un lanzador de conjuros que obtiene su poder de un pacto con una entidad extraplanar.",
+      "hitDie": "d8",
+      "primaryAbility": ["CHA"],
+      "savingThrows": ["WIS", "CHA"],
+      "armorProficiencies": ["light"],
+      "weaponProficiencies": ["simple"],
+      "skillChoices": {
+        "count": 2,
+        "options": ["Arcana", "Deception", "History", "Intimidation", "Investigation", "Nature", "Religion"]
+      },
+      "spellcasting": {
+        "ability": "CHA",
+        "type": "pact_magic",
+        "cantripsKnown": { "1": 2, "4": 3, "10": 4 },
+        "spellsKnown": { "1": 2, "2": 3, "3": 4, "4": 5, "5": 6, "6": 7, "7": 8, "8": 9, "9": 10, "11": 11, "13": 12, "15": 13, "17": 14, "19": 15 },
+        "pactSlots": { "1": 1, "2": 2, "11": 3, "17": 4 },
+        "pactSlotLevel": { "1": 1, "3": 2, "5": 3, "7": 4, "9": 5 }
+      },
+      "startingEquipment": {
+        "choices": [
+          {
+            "options": [
+              { "items": ["light_crossbow", "bolts_20"] },
+              { "items": ["simple_weapon"] }
+            ]
+          },
+          {
+            "options": [
+              { "items": ["component_pouch"] },
+              { "items": ["arcane_focus"] }
+            ]
+          },
+          {
+            "options": [
+              { "items": ["scholars_pack"] },
+              { "items": ["dungeoneers_pack"] }
+            ]
+          }
+        ],
+        "fixed": ["leather_armor", "simple_weapon", "dagger", "dagger"]
+      },
+      "features": {
+        "1": [
+          {
+            "name": "Patrón de Otro Mundo",
+            "nameEn": "Otherworldly Patron",
+            "description": "Has hecho un pacto con un ser de otro mundo: El Archihada, El Infernal, o El Gran Antiguo."
+          },
+          {
+            "name": "Magia de Pacto",
+            "nameEn": "Pact Magic",
+            "description": "Tu investigación arcana y la magia que te otorga tu patrón te dan facilidad con conjuros."
+          }
+        ],
+        "2": [
+          {
+            "name": "Invocaciones Sobrenaturales",
+            "nameEn": "Eldritch Invocations",
+            "description": "En tu estudio de conocimientos ocultos, has desenterrado invocaciones sobrenaturales."
+          }
+        ],
+        "3": [
+          {
+            "name": "Favor de Pacto",
+            "nameEn": "Pact Boon",
+            "description": "Tu patrón te otorga un regalo: Pacto de la Cadena, Pacto de la Hoja, o Pacto del Tomo."
+          }
+        ]
+      },
+      "invocationsKnown": { "2": 2, "5": 3, "7": 4, "9": 5, "12": 6, "15": 7, "18": 8 }
+    },
+    {
+      "id": "wizard",
+      "name": "Mago",
+      "nameEn": "Wizard",
+      "description": "Un estudioso de la magia arcana que domina conjuros a través del conocimiento y la práctica.",
+      "hitDie": "d6",
+      "primaryAbility": ["INT"],
+      "savingThrows": ["INT", "WIS"],
+      "armorProficiencies": [],
+      "weaponProficiencies": ["dagger", "dart", "sling", "quarterstaff", "light_crossbow"],
+      "skillChoices": {
+        "count": 2,
+        "options": ["Arcana", "History", "Insight", "Investigation", "Medicine", "Religion"]
+      },
+      "spellcasting": {
+        "ability": "INT",
+        "type": "spellbook",
+        "cantripsKnown": { "1": 3, "4": 4, "10": 5 },
+        "spellbookSpells": "6 + 2 per level"
+      },
+      "startingEquipment": {
+        "choices": [
+          {
+            "options": [
+              { "items": ["quarterstaff"] },
+              { "items": ["dagger"] }
+            ]
+          },
+          {
+            "options": [
+              { "items": ["component_pouch"] },
+              { "items": ["arcane_focus"] }
+            ]
+          },
+          {
+            "options": [
+              { "items": ["scholars_pack"] },
+              { "items": ["explorers_pack"] }
+            ]
+          }
+        ],
+        "fixed": ["spellbook"]
+      },
+      "features": {
+        "1": [
+          {
+            "name": "Lanzamiento de Conjuros",
+            "nameEn": "Spellcasting",
+            "description": "Como estudiante de magia arcana, tienes un libro de conjuros con los conjuros que has aprendido."
+          },
+          {
+            "name": "Recuperación Arcana",
+            "nameEn": "Arcane Recovery",
+            "description": "Has aprendido a recuperar algo de tu energía mágica estudiando tu libro de conjuros."
+          }
+        ],
+        "2": [
+          {
+            "name": "Tradición Arcana",
+            "nameEn": "Arcane Tradition",
+            "description": "Eliges una tradición arcana: Escuela de Abjuración, Conjuración, Adivinación, Encantamiento, Evocación, Ilusión, Nigromancia, o Transmutación."
+          }
+        ]
+      }
+    }
+  ]
+}

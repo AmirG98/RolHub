@@ -53,6 +53,8 @@ const config: Config = {
       animation: {
         'flicker': 'flicker 3s ease-in-out infinite',
         'ink-reveal': 'inkReveal 0.5s ease forwards',
+        'bounce-subtle': 'bounceSubtle 0.3s ease-in-out infinite',
+        'glow-pulse': 'glowPulse 2s ease-in-out infinite',
       },
       keyframes: {
         flicker: {
@@ -62,6 +64,14 @@ const config: Config = {
         inkReveal: {
           'from': { opacity: '0', filter: 'blur(2px)', transform: 'translateY(4px)' },
           'to': { opacity: '1', filter: 'blur(0)', transform: 'translateY(0)' },
+        },
+        bounceSubtle: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-2px)' },
+        },
+        glowPulse: {
+          '0%, 100%': { boxShadow: '0 0 10px rgba(201,168,76,0.3)' },
+          '50%': { boxShadow: '0 0 20px rgba(201,168,76,0.6)' },
         },
       },
     },

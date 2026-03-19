@@ -32,7 +32,10 @@ export async function POST(req: NextRequest) {
 
     // Parsear request body
     const body = await req.json()
-    const { lore, mode, engine, tutorialLevel, archetypeId, characterName, isMultiplayer } = body as {
+    const {
+      lore, mode, engine, tutorialLevel, archetypeId, characterName, isMultiplayer,
+      isDnD5eCharacter, dnd5eStats, dnd5eInventory, dnd5eLevel
+    } = body as {
       lore: Lore
       mode: GameMode
       engine: GameEngine
@@ -40,6 +43,11 @@ export async function POST(req: NextRequest) {
       archetypeId: string
       characterName?: string
       isMultiplayer?: boolean
+      // D&D 5e specific fields
+      isDnD5eCharacter?: boolean
+      dnd5eStats?: Record<string, number | string>
+      dnd5eInventory?: string[]
+      dnd5eLevel?: number
     }
 
     // Validar campos requeridos
@@ -91,12 +99,47 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Lore no encontrado' }, { status: 404 })
     }
 
-    // Buscar el arquetipo seleccionado
-    const archetype = loreData.archetypes.find((a: any) => a.id === archetypeId)
-    if (!archetype) {
-      return NextResponse.json({ error: 'Arquetipo no encontrado' }, { status: 404 })
+    // Datos del personaje - difieren entre D&D 5e y arquetipos narrativos
+    let charName: string
+    let charArchetype: string
+    let charStats: any
+    let charInventory: string[]
+    let charLevel: number
+
+    if (isDnD5eCharacter && dnd5eStats) {
+      // Personaje D&D 5e creado con el creador completo
+      charName = characterName || 'Aventurero'
+      charArchetype = archetypeId // e.g., "dnd5e_fighter_human"
+      charStats = {
+        hp: dnd5eStats.hp || 10,
+        maxHp: dnd5eStats.maxHp || 10,
+        ac: dnd5eStats.ac || 10,
+        STR: dnd5eStats.STR || 10,
+        DEX: dnd5eStats.DEX || 10,
+        CON: dnd5eStats.CON || 10,
+        INT: dnd5eStats.INT || 10,
+        WIS: dnd5eStats.WIS || 10,
+        CHA: dnd5eStats.CHA || 10,
+        proficiencyBonus: dnd5eStats.proficiencyBonus || 2,
+        className: dnd5eStats.className || '',
+        raceName: dnd5eStats.raceName || '',
+      }
+      charInventory = dnd5eInventory || []
+      charLevel = dnd5eLevel || 1
+    } else {
+      // Personaje de arquetipo narrativo tradicional
+      const archetype = loreData.archetypes.find((a: any) => a.id === archetypeId)
+      if (!archetype) {
+        return NextResponse.json({ error: 'Arquetipo no encontrado' }, { status: 404 })
+      }
+      const archetypeData = archetype as any
+
+      charName = characterName || archetypeData.name
+      charArchetype = archetypeData.name
+      charStats = archetypeData.starting_stats
+      charInventory = archetypeData.starting_inventory as string[]
+      charLevel = 1
     }
-    const archetypeData = archetype as any
 
     // Generar el map_state inicial
     const mapState = createCampaignMapState(lore)
@@ -115,14 +158,29 @@ export async function POST(req: NextRequest) {
       act: 1,
       narrative_anchors_hit: [] as string[],
       party: {
-        [characterName || archetypeData.name]: {
-          hp: `${archetypeData.starting_stats.hp}/${archetypeData.starting_stats.maxHp}`,
-          level: 1,
+        [charName]: {
+          hp: isDnD5eCharacter
+            ? `${charStats.hp}/${charStats.maxHp}`
+            : `${charStats.hp}/${charStats.maxHp}`,
+          level: charLevel,
           experience: 0,
           conditions: [] as string[],
           active_effects: [] as string[],
-          inventory: archetypeData.starting_inventory as string[],
+          inventory: charInventory,
           relationships: {} as Record<string, string>,
+          // D&D 5e specific stats
+          ...(isDnD5eCharacter && {
+            ac: charStats.ac,
+            STR: charStats.STR,
+            DEX: charStats.DEX,
+            CON: charStats.CON,
+            INT: charStats.INT,
+            WIS: charStats.WIS,
+            CHA: charStats.CHA,
+            proficiencyBonus: charStats.proficiencyBonus,
+            className: charStats.className,
+            raceName: charStats.raceName,
+          }),
         },
       },
       world_flags: {} as Record<string, boolean>,
@@ -196,16 +254,18 @@ export async function POST(req: NextRequest) {
         data: {
           userId: user.id,
           campaignId: campaign.id,
-          name: characterName || archetypeData.name,
+          name: charName,
           lore,
-          archetype: archetypeData.name,
-          level: 1,
+          archetype: charArchetype,
+          level: charLevel,
           experience: 0,
-          stats: archetypeData.starting_stats,
-          inventory: archetypeData.starting_inventory,
+          stats: charStats,
+          inventory: charInventory,
           conditions: [],
           activeEffects: [],
-          backstory: archetypeData.description,
+          backstory: isDnD5eCharacter
+            ? `${charStats.raceName} ${charStats.className} nivel ${charLevel}`
+            : loreData.archetypes.find((a: any) => a.id === archetypeId)?.description || '',
         },
       })
 

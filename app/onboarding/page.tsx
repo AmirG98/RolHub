@@ -6,6 +6,7 @@ import { useUser } from '@clerk/nextjs'
 import { LoreSelector } from '@/components/onboarding/LoreSelector'
 import { ModeSelector } from '@/components/onboarding/ModeSelector'
 import { ArchetypeSelector } from '@/components/onboarding/ArchetypeSelector'
+import { DnD5eCharacterCreator } from '@/components/onboarding/DnD5eCharacterCreator'
 import { Lore, GameMode, GameEngine, TutorialLevel, Archetype } from '@/lib/types/lore'
 
 // Importar todos los lores
@@ -99,6 +100,74 @@ export default function OnboardingPage() {
     }
   }
 
+  // Handler para personajes D&D 5e creados con el creador completo
+  const handleDnD5eCharacterCreate = async (character: {
+    name: string
+    archetypeId: string
+    archetypeName: string
+    stats: Record<string, number | string>
+    inventory: string[]
+    level: number
+  }) => {
+    console.log('handleDnD5eCharacterCreate called', { selectedLore, gameMode, engine, tutorialLevel, user: !!user, character })
+
+    if (!selectedLore || !gameMode || !engine || !tutorialLevel) {
+      console.error('Missing required fields', { selectedLore, gameMode, engine, tutorialLevel })
+      setError('Faltan datos requeridos. Por favor vuelve a empezar.')
+      return
+    }
+
+    if (!user) {
+      console.error('User not authenticated')
+      setError('Debes iniciar sesión para comenzar una aventura.')
+      return
+    }
+
+    setLoading(true)
+    setError(null)
+
+    try {
+      const response = await fetch('/api/character/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          lore: selectedLore,
+          mode: gameMode,
+          engine,
+          tutorialLevel,
+          archetypeId: character.archetypeId,
+          characterName: character.name,
+          isMultiplayer,
+          // D&D 5e specific fields
+          isDnD5eCharacter: true,
+          dnd5eStats: character.stats,
+          dnd5eInventory: character.inventory,
+          dnd5eLevel: character.level,
+        }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.details || data.error || 'Error creando personaje')
+      }
+
+      if (data.sessionId) {
+        if (isMultiplayer && data.campaignId) {
+          router.push(`/lobby/${data.campaignId}`)
+        } else {
+          router.push(`/play/${data.sessionId}`)
+        }
+      } else {
+        throw new Error('No se recibio ID de sesion')
+      }
+    } catch (err) {
+      console.error('Error creating D&D 5e character:', err)
+      setError((err as Error).message)
+      setLoading(false)
+    }
+  }
+
   // Cargar los arquetipos segun el lore seleccionado
   const getArchetypes = (): Archetype[] => {
     if (!selectedLore) return []
@@ -175,14 +244,21 @@ export default function OnboardingPage() {
         />
       )}
 
-      {/* Paso 3: Seleccion de Arquetipo */}
+      {/* Paso 3: Seleccion de Arquetipo o Creador D&D 5e */}
       {step === 3 && selectedLore && (
-        <ArchetypeSelector
-          archetypes={getArchetypes()}
-          loreName={getLoreName()}
-          onSelect={handleCreateCharacter}
-          onBack={() => setStep(2)}
-        />
+        engine === 'DND_5E' ? (
+          <DnD5eCharacterCreator
+            onComplete={handleDnD5eCharacterCreate}
+            onBack={() => setStep(2)}
+          />
+        ) : (
+          <ArchetypeSelector
+            archetypes={getArchetypes()}
+            loreName={getLoreName()}
+            onSelect={handleCreateCharacter}
+            onBack={() => setStep(2)}
+          />
+        )
       )}
     </>
   )

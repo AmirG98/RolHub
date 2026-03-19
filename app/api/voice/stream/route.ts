@@ -65,37 +65,45 @@ const FISH_AUDIO_VOICES: Record<string, string> = {
 }
 
 /**
- * Voces de Deepgram Aura (versión rápida ~800ms vs 2s de aura-2)
- * Usando voces multilingües que soportan español
+ * Voces de Deepgram Aura-2 en ESPAÑOL
+ * Voces nativas en español con pronunciación natural
  * Documentación: https://developers.deepgram.com/docs/tts-models
+ *
+ * Voces disponibles en español:
+ * - aura-2-nestor-es: Masculina profunda, ideal para narradores épicos
+ * - aura-2-aurora-es: Femenina expresiva, ideal para NPCs femeninos
+ * - aura-2-dario-es: Masculina energética, ideal para narradores dinámicos
  */
 const DEEPGRAM_VOICES: Record<string, string> = {
-  // Voces de narrador - usando voces bilingües para español
-  narrator_grave: 'aura-orion-en',      // Voz masculina profunda
-  skald_epic: 'aura-arcas-en',          // Voz masculina épica
-  narrator_deep: 'aura-orion-en',       // Voz masculina profunda
-  whisper_tense: 'aura-luna-en',        // Voz femenina suave
-  whisper_survival: 'aura-stella-en',   // Voz femenina clara
-  anime_energetic: 'aura-stella-en',    // Voz femenina energética
-  anime_narrator: 'aura-athena-en',     // Voz femenina expresiva
-  nordic_bard: 'aura-arcas-en',         // Voz masculina épica
+  // Voces de narrador - ESPAÑOL nativo
+  narrator_grave: 'aura-2-nestor-es',     // Voz masculina profunda (LOTR)
+  skald_epic: 'aura-2-nestor-es',         // Voz masculina épica (vikingos)
+  narrator_deep: 'aura-2-nestor-es',      // Voz masculina profunda
+  narrator_epic: 'aura-2-nestor-es',      // Voz épica (Star Wars)
+  whisper_tense: 'aura-2-aurora-es',      // Voz femenina tensa (zombies)
+  whisper_survival: 'aura-2-aurora-es',   // Voz femenina (supervivencia)
+  whisper_dread: 'aura-2-aurora-es',      // Voz ominosa (Lovecraft)
+  synth_narrator: 'aura-2-dario-es',      // Voz sintética (Cyberpunk)
+  anime_energetic: 'aura-2-dario-es',     // Voz masculina energética (isekai)
+  anime_narrator: 'aura-2-dario-es',      // Voz masculina expresiva
+  nordic_bard: 'aura-2-nestor-es',        // Voz masculina épica
 
   // NPCs masculinos
-  npc_male_1: 'aura-orion-en',
-  npc_male_2: 'aura-arcas-en',
-  npc_male_3: 'aura-helios-en',
+  npc_male_1: 'aura-2-nestor-es',         // Profunda
+  npc_male_2: 'aura-2-dario-es',          // Energética
+  npc_male_3: 'aura-2-dario-es',          // Joven
 
   // NPCs femeninos
-  npc_female_1: 'aura-luna-en',
-  npc_female_2: 'aura-stella-en',
-  npc_female_3: 'aura-athena-en',
+  npc_female_1: 'aura-2-aurora-es',       // Sabia
+  npc_female_2: 'aura-2-aurora-es',       // Media
+  npc_female_3: 'aura-2-aurora-es',       // Joven
 
   // Neutral
-  npc_neutral_1: 'aura-zeus-en',
+  npc_neutral_1: 'aura-2-dario-es',
 
-  // Defaults
-  default_es: 'aura-orion-en',
-  default_en: 'aura-orion-en',
+  // Defaults - SIEMPRE español
+  default_es: 'aura-2-nestor-es',
+  default_en: 'aura-2-nestor-es',         // También español para consistencia
 }
 
 interface VoiceRequest {
