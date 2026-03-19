@@ -168,7 +168,8 @@ export async function generateCharacterPortrait(
   const config = qualityConfig[options.quality || 'standard']
 
   try {
-    const response = await fetch('https://fal.run/fal-ai/flux-pro', {
+    // FLUX Schnell: ~$0.003/imagen vs FLUX Pro ~$0.05/imagen
+    const response = await fetch('https://fal.run/fal-ai/flux/schnell', {
       method: 'POST',
       headers: {
         'Authorization': `Key ${FAL_KEY}`,
