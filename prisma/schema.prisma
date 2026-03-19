@@ -325,3 +325,26 @@ enum DmMode {
   AI      // Claude is the DM
   HUMAN   // A player is the DM
 }
+
+/// Cache for generated images to avoid regenerating
+model GeneratedAsset {
+  id          String      @id @default(cuid())
+  type        AssetType   // IMAGE, AUDIO, TEXT
+  key         String      // Unique key: "location:LOTR:rivendell" or "portrait:char123"
+  url         String      // Generated asset URL
+  prompt      String?     // Original prompt used
+  metadata    Json?       // Extra info (dimensions, duration, etc)
+  lore        Lore?       // Associated lore
+  createdAt   DateTime    @default(now())
+  expiresAt   DateTime?   // Optional expiration
+
+  @@unique([type, key])
+  @@index([type, key])
+  @@index([lore])
+}
+
+enum AssetType {
+  IMAGE
+  AUDIO
+  TEXT
+}

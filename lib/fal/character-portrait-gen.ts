@@ -1,11 +1,16 @@
 /**
  * Character Portrait Generation
  *
- * Genera retratos de personajes usando Fal.ai FLUX Pro
+ * Genera retratos de personajes usando Fal.ai FLUX Schnell
  * Cada lore tiene un estilo de arte específico
+ * Usa caché en PostgreSQL para evitar regenerar retratos
  */
 
 import { type Lore } from '@/lib/maps/map-config'
+import {
+  getCachedCharacterPortrait,
+  cacheCharacterPortrait,
+} from '@/lib/cache/asset-cache'
 
 // Estilos de arte para retratos por lore
 const LORE_PORTRAIT_STYLES: Record<Lore, string> = {
@@ -257,6 +262,115 @@ export async function handleCharacterPortraitRequest(
       url: result.url,
       prompt: result.prompt,
       generationTime: result.generationTime,
+    }
+  } catch (error) {
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : 'Unknown error',
+    }
+  }
+}
+
+// =============================================================================
+// Cached Character Portrait Generation
+// =============================================================================
+
+export interface CachedPortraitOptions extends CharacterPortraitOptions {
+  /** Character ID para el cache key */
+  characterId: string
+  /** Forzar regeneración ignorando caché */
+  forceRegenerate?: boolean
+}
+
+/**
+ * Genera retrato de personaje con caché
+ * Primero busca en DB, si no existe genera y guarda
+ * También actualiza Character.avatarUrl automáticamente
+ */
+export async function generateCachedCharacterPortrait(
+  options: CachedPortraitOptions
+): Promise<CharacterPortraitResult> {
+  // Si no se fuerza regeneración, buscar en caché
+  if (!options.forceRegenerate) {
+    const cachedUrl = await getCachedCharacterPortrait(options.characterId)
+    if (cachedUrl) {
+      console.log(`[Cache HIT] Character portrait: ${options.characterId}`)
+      return {
+        url: cachedUrl,
+        prompt: buildPortraitPrompt(options),
+        isGenerated: true,
+        generationTime: 0, // Desde caché = instantáneo
+      }
+    }
+  }
+
+  console.log(`[Cache MISS] Generating portrait: ${options.characterId}`)
+
+  // Generar nuevo retrato
+  const result = await generateCharacterPortrait(options)
+
+  // Si se generó exitosamente, guardar en caché
+  // Esto también actualiza Character.avatarUrl automáticamente
+  if (result.isGenerated && result.url) {
+    await cacheCharacterPortrait(
+      options.characterId,
+      result.url,
+      result.prompt
+    )
+    console.log(`[Cache SAVED] Character portrait: ${options.characterId}`)
+  }
+
+  return result
+}
+
+/**
+ * Handler para API route con soporte de caché
+ */
+export async function handleCachedCharacterPortraitRequest(
+  body: {
+    characterId: string
+    name: string
+    archetype: string
+    lore: string
+    description?: string
+    gender?: string
+    quality?: string
+    forceRegenerate?: boolean
+  }
+): Promise<{
+  success: boolean
+  url?: string
+  error?: string
+  prompt?: string
+  generationTime?: number
+  fromCache?: boolean
+}> {
+  try {
+    const result = await generateCachedCharacterPortrait({
+      characterId: body.characterId,
+      name: body.name,
+      archetype: body.archetype,
+      lore: body.lore as Lore,
+      description: body.description,
+      gender: body.gender as 'male' | 'female' | 'neutral' | undefined,
+      quality: (body.quality as 'draft' | 'standard' | 'high') || 'standard',
+      forceRegenerate: body.forceRegenerate,
+    })
+
+    if (!result.isGenerated || !result.url) {
+      return {
+        success: false,
+        error: 'Portrait generation failed or disabled',
+        prompt: result.prompt,
+      }
+    }
+
+    return {
+      success: true,
+      url: result.url,
+      prompt: result.prompt,
+      generationTime: result.generationTime,
+      fromCache: result.generationTime === 0,
     }
   } catch (error) {
     return {

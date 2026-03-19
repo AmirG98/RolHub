@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@clerk/nextjs/server'
-import { handleCharacterPortraitRequest } from '@/lib/fal/character-portrait-gen'
+import {
+  handleCharacterPortraitRequest,
+  handleCachedCharacterPortraitRequest,
+} from '@/lib/fal/character-portrait-gen'
 
 export async function POST(req: NextRequest) {
   try {
@@ -10,7 +13,7 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json()
-    const { name, archetype, lore, description, gender, quality } = body
+    const { characterId, name, archetype, lore, description, gender, quality, forceRegenerate } = body
 
     if (!name || !archetype || !lore) {
       return NextResponse.json(
@@ -19,6 +22,22 @@ export async function POST(req: NextRequest) {
       )
     }
 
+    // Si hay characterId, usar versión con caché
+    if (characterId) {
+      const result = await handleCachedCharacterPortraitRequest({
+        characterId,
+        name,
+        archetype,
+        lore,
+        description,
+        gender,
+        quality,
+        forceRegenerate,
+      })
+      return NextResponse.json(result)
+    }
+
+    // Sin characterId, usar versión sin caché
     const result = await handleCharacterPortraitRequest({
       name,
       archetype,

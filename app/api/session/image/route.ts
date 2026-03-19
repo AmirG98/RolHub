@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@clerk/nextjs/server'
-import { handleSceneImageRequest } from '@/lib/fal/scene-image-gen'
+import {
+  handleSceneImageRequest,
+  handleCachedSceneImageRequest,
+} from '@/lib/fal/scene-image-gen'
 
 export async function POST(req: NextRequest) {
   try {
@@ -10,12 +13,27 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json()
-    const { prompt, lore, mood, locationName, quality } = body
+    const { prompt, lore, locationId, mood, locationName, quality, forceRegenerate } = body
 
     if (!prompt) {
       return NextResponse.json({ error: 'Prompt requerido' }, { status: 400 })
     }
 
+    // Si hay locationId, usar versión con caché
+    if (locationId) {
+      const result = await handleCachedSceneImageRequest({
+        prompt,
+        lore: lore || 'LOTR',
+        locationId,
+        mood,
+        locationName,
+        quality,
+        forceRegenerate,
+      })
+      return NextResponse.json(result)
+    }
+
+    // Sin locationId, usar versión sin caché
     const result = await handleSceneImageRequest({
       prompt,
       lore: lore || 'LOTR',

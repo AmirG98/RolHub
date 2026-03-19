@@ -5,10 +5,17 @@
  * - Prompts del DM (image_prompt en la respuesta)
  * - Contexto del lore y ubicación actual
  * - Estado de la escena (combate, diálogo, exploración)
+ *
+ * Usa caché en PostgreSQL para evitar regenerar imágenes repetidas
  */
 
 import { type Lore } from '@/lib/maps/map-config'
 import { type UIMood } from '@/lib/game/ui-mood'
+import {
+  getCachedLocationImage,
+  cacheLocationImage,
+  generateAssetKey,
+} from '@/lib/cache/asset-cache'
 
 // Estilos de arte por lore (para escenas de juego)
 const LORE_SCENE_STYLES: Record<Lore, string> = {
@@ -339,4 +346,119 @@ export async function generateSceneImagesBatch(
   }
 
   return results
+}
+
+// =============================================================================
+// Cached Scene Image Generation
+// =============================================================================
+
+export interface CachedSceneImageOptions extends SceneImageOptions {
+  /** Lore ID para el cache key */
+  loreId: string
+  /** Location ID para el cache key */
+  locationId: string
+  /** Forzar regeneración ignorando caché */
+  forceRegenerate?: boolean
+}
+
+/**
+ * Genera imagen de escena con caché
+ * Primero busca en DB, si no existe genera y guarda
+ */
+export async function generateCachedSceneImage(
+  options: CachedSceneImageOptions
+): Promise<SceneImageResult> {
+  // Si no se fuerza regeneración, buscar en caché
+  if (!options.forceRegenerate) {
+    const cachedUrl = await getCachedLocationImage(options.loreId, options.locationId)
+    if (cachedUrl) {
+      console.log(`[Cache HIT] Location image: ${options.loreId}/${options.locationId}`)
+      return {
+        url: cachedUrl,
+        prompt: options.prompt,
+        isGenerated: true,
+        generationTime: 0, // Desde caché = instantáneo
+      }
+    }
+  }
+
+  console.log(`[Cache MISS] Generating location image: ${options.loreId}/${options.locationId}`)
+
+  // Generar nueva imagen
+  const result = await generateSceneImageSafe(options)
+
+  // Si se generó exitosamente, guardar en caché
+  if (result.isGenerated && result.url) {
+    await cacheLocationImage(
+      options.loreId,
+      options.locationId,
+      result.url,
+      result.prompt
+    )
+    console.log(`[Cache SAVED] Location image: ${options.loreId}/${options.locationId}`)
+  }
+
+  return result
+}
+
+/**
+ * Handler para API route con soporte de caché
+ */
+export async function handleCachedSceneImageRequest(
+  body: {
+    prompt: string
+    lore: string
+    locationId?: string
+    mood?: string
+    locationName?: string
+    quality?: string
+    forceRegenerate?: boolean
+  }
+): Promise<{
+  success: boolean
+  url?: string
+  error?: string
+  prompt?: string
+  generationTime?: number
+  fromCache?: boolean
+}> {
+  try {
+    // Si hay locationId, usar versión con caché
+    if (body.locationId) {
+      const result = await generateCachedSceneImage({
+        prompt: body.prompt,
+        lore: body.lore as Lore,
+        loreId: body.lore,
+        locationId: body.locationId,
+        mood: body.mood as UIMood | undefined,
+        locationName: body.locationName,
+        quality: (body.quality as 'draft' | 'standard' | 'high') || 'standard',
+        forceRegenerate: body.forceRegenerate,
+      })
+
+      if (!result.isGenerated || !result.url) {
+        return {
+          success: false,
+          error: 'Image generation failed or disabled',
+          prompt: result.prompt,
+        }
+      }
+
+      return {
+        success: true,
+        url: result.url,
+        prompt: result.prompt,
+        generationTime: result.generationTime,
+        fromCache: result.generationTime === 0,
+      }
+    }
+
+    // Sin locationId, usar versión normal (sin caché)
+    return handleSceneImageRequest(body)
+  } catch (error) {
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : 'Unknown error',
+    }
+  }
 }
