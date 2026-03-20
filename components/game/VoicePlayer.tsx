@@ -338,6 +338,9 @@ export function VoicePlayerAuto({
 
   // Generar audio para un segmento con su voz específica
   const generateSegmentAudio = async (segment: VoiceSegment, index: number): Promise<void> => {
+    // Evitar regenerar si ya existe
+    if (audioQueueRef.current[index]) return
+
     console.log(`[VoicePlayerAuto] Generating segment ${index}: "${segment.text.substring(0, 50)}..."`)
     try {
       const startTime = Date.now()
@@ -366,6 +369,12 @@ export function VoicePlayerAuto({
       // Guardar en la posición correcta con info del speaker
       audioQueueRef.current[index] = { url, speaker: segment.speaker }
 
+      // Verificar si todos los segmentos están generados
+      const allGenerated = audioQueueRef.current.every(s => s !== null)
+      if (allGenerated) {
+        generationCompleteRef.current = true
+      }
+
       // Si es el primero y no hemos empezado a reproducir, empezar inmediatamente
       if (index === 0 && !hasStartedPlayingRef.current) {
         hasStartedPlayingRef.current = true
@@ -374,22 +383,34 @@ export function VoicePlayerAuto({
       }
     } catch (err) {
       console.error(`[VoicePlayerAuto] Error generating segment ${index}:`, err)
+      // Marcar como "generado" con null para evitar loops infinitos
+      // El playSegment lo saltará via timeout
     }
   }
 
   // Reproducir un segmento específico
-  const playSegment = async (index: number) => {
+  const playSegment = async (index: number, waitStartTime?: number) => {
     if (!mountedRef.current || isPaused) return
 
     const audio = audioRef.current
     if (!audio) return
 
     const segment = audioQueueRef.current[index]
+    const MAX_WAIT_MS = 500 // Máximo tiempo de espera por segmento
 
     if (segment) {
       currentIndexRef.current = index
       setCurrentSegment(index + 1)
       setCurrentSpeaker(segment.speaker || null)
+
+      // PREFETCH: Asegurar que N+1 y N+2 estén generándose
+      const segments = segmentsRef.current
+      if (index + 1 < segments.length && !audioQueueRef.current[index + 1]) {
+        generateSegmentAudio(segments[index + 1], index + 1)
+      }
+      if (index + 2 < segments.length && !audioQueueRef.current[index + 2]) {
+        generateSegmentAudio(segments[index + 2], index + 2)
+      }
 
       audio.src = segment.url
       try {
@@ -401,12 +422,22 @@ export function VoicePlayerAuto({
         tryPlayNext(index + 1)
       }
     } else if (!generationCompleteRef.current) {
-      // Audio aún no está listo, esperar y reintentar
-      setTimeout(() => {
-        if (mountedRef.current && !isPaused) {
-          playSegment(index)
-        }
-      }, 50)
+      // Audio aún no está listo
+      const startTime = waitStartTime || Date.now()
+      const elapsed = Date.now() - startTime
+
+      if (elapsed > MAX_WAIT_MS) {
+        // Timeout: skip este segmento
+        console.warn(`[VoicePlayerAuto] Segment ${index} timeout after ${elapsed}ms, skipping`)
+        tryPlayNext(index + 1)
+      } else {
+        // Retry más rápido (20ms en lugar de 50ms)
+        setTimeout(() => {
+          if (mountedRef.current && !isPaused) {
+            playSegment(index, startTime)
+          }
+        }, 20)
+      }
     } else {
       // Generación completa, no hay más audios
       setIsPlaying(false)
@@ -451,15 +482,23 @@ export function VoicePlayerAuto({
     hasStartedPlayingRef.current = false
     generationCompleteRef.current = false
 
-    // OPTIMIZACIÓN: Generar TODOS los chunks en paralelo inmediatamente
-    // El primero que termine (el más corto) comenzará a reproducirse
-    const generationPromises = segments.map((segment, i) =>
+    // OPTIMIZACIÓN: Generar solo los primeros 3 segmentos inicialmente
+    // El resto se generan bajo demanda via prefetch en playSegment
+    const INITIAL_SEGMENTS = 3
+    const initialSegments = segments.slice(0, INITIAL_SEGMENTS)
+
+    console.log(`[VoicePlayerAuto] Generating first ${initialSegments.length} segments, rest on-demand`)
+
+    const generationPromises = initialSegments.map((segment, i) =>
       generateSegmentAudio(segment, i)
     )
 
-    // Marcar cuando todas terminen
+    // Marcar cuando las iniciales terminen (el prefetch genera el resto)
     Promise.all(generationPromises).then(() => {
-      generationCompleteRef.current = true
+      // Si hay 3 o menos segmentos, ya terminamos
+      if (segments.length <= INITIAL_SEGMENTS) {
+        generationCompleteRef.current = true
+      }
     })
   }
 
