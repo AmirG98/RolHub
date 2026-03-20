@@ -423,28 +423,99 @@ export default function GameSession({
         </div>
       </div>
 
-      {/* Contenedor principal */}
+      {/* Barra horizontal de stats/acciones rápidas */}
+      <div className="border-b border-gold-dim/20 glass-panel-dark">
+        <div className="max-w-[1800px] mx-auto px-3 md:px-4 lg:px-6 py-2">
+          <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide">
+            {/* Tab buttons - ahora horizontales */}
+            <button
+              onClick={() => setActiveTab('engine')}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-ui text-xs whitespace-nowrap transition-all ${
+                activeTab === 'engine' ? 'bg-gold/20 text-gold border border-gold/40' : 'text-parchment/60 hover:text-parchment hover:bg-white/5'
+              }`}
+            >
+              <Cog className="w-3.5 h-3.5" />
+              {locale === 'en' ? 'Engine' : 'Motor'}
+            </button>
+            <button
+              onClick={() => setActiveTab('stats')}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-ui text-xs whitespace-nowrap transition-all ${
+                activeTab === 'stats' ? 'bg-gold/20 text-gold border border-gold/40' : 'text-parchment/60 hover:text-parchment hover:bg-white/5'
+              }`}
+            >
+              <Shield className="w-3.5 h-3.5" />
+              Stats
+            </button>
+            <button
+              onClick={() => setActiveTab('inventory')}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-ui text-xs whitespace-nowrap transition-all ${
+                activeTab === 'inventory' ? 'bg-gold/20 text-gold border border-gold/40' : 'text-parchment/60 hover:text-parchment hover:bg-white/5'
+              }`}
+            >
+              <Backpack className="w-3.5 h-3.5" />
+              Inv
+            </button>
+            <button
+              onClick={() => setActiveTab('quests')}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-ui text-xs whitespace-nowrap transition-all ${
+                activeTab === 'quests' ? 'bg-gold/20 text-gold border border-gold/40' : 'text-parchment/60 hover:text-parchment hover:bg-white/5'
+              }`}
+            >
+              <Scroll className="w-3.5 h-3.5" />
+              Quests
+            </button>
+            {isMultiplayer && (
+              <button
+                onClick={() => setActiveTab('party')}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-ui text-xs whitespace-nowrap transition-all ${
+                  activeTab === 'party' ? 'bg-gold/20 text-gold border border-gold/40' : 'text-parchment/60 hover:text-parchment hover:bg-white/5'
+                }`}
+              >
+                <Users className="w-3.5 h-3.5" />
+                Grupo
+              </button>
+            )}
+
+            {/* Separador */}
+            <div className="w-px h-6 bg-gold-dim/30 mx-1" />
+
+            {/* Quick stats display */}
+            {character && character.stats && (
+              <>
+                <div className="flex items-center gap-1 px-2 py-1 bg-blood/10 rounded text-xs">
+                  <Sword className="w-3 h-3 text-blood" />
+                  <span className="text-parchment font-semibold">{character.stats.combat}</span>
+                </div>
+                <div className="flex items-center gap-1 px-2 py-1 bg-emerald/10 rounded text-xs">
+                  <Map className="w-3 h-3 text-emerald" />
+                  <span className="text-parchment font-semibold">{character.stats.exploration}</span>
+                </div>
+                <div className="flex items-center gap-1 px-2 py-1 bg-gold/10 rounded text-xs">
+                  <MessageCircle className="w-3 h-3 text-gold" />
+                  <span className="text-parchment font-semibold">{character.stats.social}</span>
+                </div>
+              </>
+            )}
+
+            {/* Dice roller button */}
+            <button
+              onClick={() => setShowDiceRoller(true)}
+              disabled={isSubmitting}
+              className="flex items-center gap-1.5 px-3 py-1.5 ml-auto text-xs font-ui text-gold border border-gold/40 rounded-lg
+                       hover:bg-gold/10 transition-all disabled:opacity-50"
+            >
+              <Dices className="w-3.5 h-3.5" />
+              Dados
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Contenedor principal - 2 columnas */}
       <div className="max-w-[1800px] mx-auto p-3 md:p-4 lg:p-6 content-wrapper">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-5">
-          {/* Panel principal - Narración (6/12 = 50%) */}
-          <div className="lg:col-span-6 space-y-3 md:space-y-4">
-            {/* Scene Image - shows when available */}
-            {(sceneImageUrl || isImageLoading) && (
-              <div className={`rounded-lg overflow-hidden border ${moodConfig.borderClass} transition-all duration-500`}>
-                <SceneImage
-                  imageUrl={sceneImageUrl}
-                  isLoading={isImageLoading}
-                  lore={lore as LoreType}
-                  error={imageError}
-                  onRetry={async () => {
-                    // Could implement retry logic here
-                    setImageError(null)
-                  }}
-                  aspectRatio="16:9"
-                  showFullscreenButton={true}
-                />
-              </div>
-            )}
+          {/* Panel izquierdo - Narración (7/12) */}
+          <div className="lg:col-span-7 space-y-3 md:space-y-4">
 
             {/* NarratorPanel inline */}
             <OrnateFrame variant="gold">
@@ -623,21 +694,8 @@ export default function GameSession({
                   </div>
                 )}
 
-                {/* Actions bar */}
+                {/* Suggested actions */}
                 <div className="flex flex-wrap items-center gap-2">
-                  {/* Dice roller button */}
-                  <button
-                    type="button"
-                    onClick={() => setShowDiceRoller(true)}
-                    disabled={isSubmitting}
-                    className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-ui text-gold border border-gold/50 rounded-lg
-                             hover:bg-gold/10 hover:border-gold transition-all disabled:opacity-50"
-                  >
-                    <Dices className="w-4 h-4" />
-                    Tirar Dados
-                  </button>
-
-                  {/* Suggested actions */}
                   {suggestedActions.map((suggestion, i) => (
                     <button
                       key={i}
@@ -699,337 +757,166 @@ export default function GameSession({
             )}
           </div>
 
-          {/* Panel del Mapa (4/12 = 33%) */}
-          <div className="lg:col-span-4 space-y-3 md:space-y-4 order-3 lg:order-2">
+          {/* Panel derecho - Mapa + Imagen de escena (5/12) */}
+          <div className="lg:col-span-5 space-y-3 md:space-y-4 order-1 lg:order-2">
+            {/* Mapa */}
             <GameMapPanel
               lore={lore as LoreType}
               worldState={worldState}
               onTravelRequest={(actionText, toLocationId) => {
-                // Establecer la acción de viaje como la acción actual
                 setAction(actionText)
-                // Opcionalmente enviar automáticamente
-                // handleSubmit(new Event('submit') as any)
               }}
               onError={(message) => {
                 setError(message)
-                // Limpiar error después de 3 segundos
                 setTimeout(() => setError(null), 3000)
               }}
               locale={locale as 'es' | 'en'}
             />
-          </div>
 
-          {/* Panel lateral compacto - Info del personaje (2/12 = 17%) */}
-          <div className="lg:col-span-2 space-y-3 md:space-y-4 order-2 lg:order-3">
-            {/* Mobile: Stats compactos en una fila */}
-            <div className="lg:hidden">
-              {character && character.stats && (
-                <div className="glass-panel-dark rounded-lg p-3">
-                  <div className="flex items-center justify-between gap-2">
-                    <div className="flex items-center gap-2">
-                      <span className="font-heading text-sm text-gold">{characterName}</span>
-                      <span className="font-ui text-xs text-gold-dim">Nv.{character.level}</span>
-                    </div>
-                    <div className="flex gap-3 text-xs font-ui">
-                      <div className="text-center">
-                        <div className="text-parchment font-semibold">{character.stats.combat}</div>
-                        <div className="text-gold-dim text-[10px]">COM</div>
-                      </div>
-                      <div className="text-center">
-                        <div className="text-parchment font-semibold">{character.stats.exploration}</div>
-                        <div className="text-gold-dim text-[10px]">EXP</div>
-                      </div>
-                      <div className="text-center">
-                        <div className="text-parchment font-semibold">{character.stats.social}</div>
-                        <div className="text-gold-dim text-[10px]">SOC</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Desktop: Panel completo */}
-            <div className="hidden lg:block space-y-4">
-              {/* Tab navigation */}
-              <div className="flex gap-1 p-1 bg-shadow/50 rounded-lg">
-                <button
-                  onClick={() => setActiveTab('engine')}
-                  className={`flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg font-ui text-sm transition-all ${
-                    activeTab === 'engine' ? 'bg-gold/20 text-gold' : 'text-parchment/60 hover:text-parchment'
-                  }`}
-                >
-                  <Cog className="w-4 h-4" />
-                  {locale === 'en' ? 'Engine' : 'Motor'}
-                </button>
-                <button
-                  onClick={() => setActiveTab('stats')}
-                  className={`flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg font-ui text-sm transition-all ${
-                    activeTab === 'stats' ? 'bg-gold/20 text-gold' : 'text-parchment/60 hover:text-parchment'
-                  }`}
-                >
-                  <Shield className="w-4 h-4" />
-                  Stats
-                </button>
-                <button
-                  onClick={() => setActiveTab('inventory')}
-                  className={`flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg font-ui text-sm transition-all ${
-                    activeTab === 'inventory' ? 'bg-gold/20 text-gold' : 'text-parchment/60 hover:text-parchment'
-                  }`}
-                >
-                  <Backpack className="w-4 h-4" />
-                  Inv
-                </button>
-                <button
-                  onClick={() => setActiveTab('quests')}
-                  className={`flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg font-ui text-sm transition-all ${
-                    activeTab === 'quests' ? 'bg-gold/20 text-gold' : 'text-parchment/60 hover:text-parchment'
-                  }`}
-                >
-                  <Scroll className="w-4 h-4" />
-                  Quests
-                </button>
-                {isMultiplayer && (
-                  <button
-                    onClick={() => setActiveTab('party')}
-                    className={`flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg font-ui text-sm transition-all ${
-                      activeTab === 'party' ? 'bg-gold/20 text-gold' : 'text-parchment/60 hover:text-parchment'
-                    }`}
-                  >
-                    <Users className="w-4 h-4" />
-                    Grupo
-                  </button>
-                )}
+            {/* Imagen de escena - debajo del mapa */}
+            {(sceneImageUrl || isImageLoading) && (
+              <div className={`rounded-lg overflow-hidden border ${moodConfig.borderClass} transition-all duration-500`}>
+                <SceneImage
+                  imageUrl={sceneImageUrl}
+                  isLoading={isImageLoading}
+                  lore={lore as LoreType}
+                  error={imageError}
+                  onRetry={async () => {
+                    setImageError(null)
+                  }}
+                  aspectRatio="16:9"
+                  showFullscreenButton={true}
+                />
               </div>
+            )}
 
-              {/* Tab content */}
-              {activeTab === 'engine' && character && (
-                <OrnateFrame variant="shadow">
-                  <div className="glass-panel-dark rounded-lg p-4 max-h-[calc(100vh-350px)] overflow-y-auto custom-scrollbar">
-                    <EnginePanel
-                      engine={engine as GameEngine}
-                      character={{
-                        name: characterName,
-                        archetype: character.archetype,
-                        level: character.level,
-                        stats: character.stats as Record<string, number>,
-                        inventory: worldState.party?.[character.name]?.inventory || character.inventory || [],
-                        conditions: worldState.party?.[character.name]?.conditions || [],
-                        hp: hp.current,
-                        maxHp: hp.max
-                      }}
-                      worldState={{
-                        currentScene: worldState.current_scene,
-                        activeQuests: worldState.active_quests,
-                        weather: worldState.weather,
-                        timeOfDay: worldState.time_in_world
-                      }}
-                      locale={locale as Locale}
-                      onDiceRoll={handleEngineDiceRoll}
-                      disabled={isSubmitting}
-                    />
-                  </div>
-                </OrnateFrame>
-              )}
-
-              {activeTab === 'stats' && character && (
-                <OrnateFrame variant="shadow">
-                  <ParchmentPanel>
-                    <h3 className="font-heading text-xl text-ink mb-4">{characterName}</h3>
-
-                    {/* HP Bar in stats */}
-                    <div className="mb-4 p-3 bg-ink/10 rounded-lg">
-                      <div className="flex items-center justify-between mb-2">
-                        <div className="flex items-center gap-2">
-                          <Heart className="w-5 h-5 text-blood" />
-                          <span className="font-ui text-ink/70">Puntos de Vida</span>
-                        </div>
-                        <span className="font-heading text-lg text-blood">{hp.current}/{hp.max}</span>
+            {/* Panel de contenido expandido cuando se selecciona un tab */}
+            {activeTab !== 'engine' && (
+              <div className="glass-panel-dark rounded-lg p-4 border border-gold-dim/20">
+                {activeTab === 'stats' && character && (
+                  <div>
+                    <h3 className="font-heading text-lg text-gold mb-3">{characterName}</h3>
+                    <div className="grid grid-cols-2 gap-3 text-sm">
+                      <div>
+                        <span className="font-ui text-parchment/60">Arquetipo</span>
+                        <p className="font-body text-parchment">{character.archetype}</p>
                       </div>
-                      <div className="h-3 bg-ink/20 rounded-full overflow-hidden border border-ink/10">
-                        <div
-                          className={`h-full ${hpColor} transition-all duration-500`}
-                          style={{ width: `${hpPercentage}%` }}
-                        />
+                      <div>
+                        <span className="font-ui text-parchment/60">Nivel</span>
+                        <p className="font-body text-parchment">{character.level}</p>
                       </div>
                     </div>
-
-                    <div className="space-y-3">
-                      <div className="flex justify-between items-center">
-                        <span className="font-ui text-ink/60">Arquetipo</span>
-                        <span className="font-body text-ink">{character.archetype}</span>
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <span className="font-ui text-ink/60">Nivel</span>
-                        <span className="font-body text-ink">{character.level}</span>
-                      </div>
-                      {character.stats && (
-                        <div className="border-t border-ink/10 pt-3 mt-3">
-                          <p className="font-ui text-xs text-ink/60 uppercase mb-3">Estadísticas</p>
-                          <div className="space-y-2">
-                            <div className="flex items-center gap-2">
-                              <Sword className="w-4 h-4 text-blood" />
-                              <span className="text-ink/80 flex-1">Combate</span>
-                              <div className="flex gap-1">
-                                {Array.from({ length: 5 }).map((_, i) => (
-                                  <div
-                                    key={i}
-                                    className={`w-3 h-3 rounded-full ${
-                                      i < character.stats.combat ? 'bg-blood' : 'bg-ink/20'
-                                    }`}
-                                  />
-                                ))}
-                              </div>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <Map className="w-4 h-4 text-emerald" />
-                              <span className="text-ink/80 flex-1">Exploración</span>
-                              <div className="flex gap-1">
-                                {Array.from({ length: 5 }).map((_, i) => (
-                                  <div
-                                    key={i}
-                                    className={`w-3 h-3 rounded-full ${
-                                      i < character.stats.exploration ? 'bg-emerald' : 'bg-ink/20'
-                                    }`}
-                                  />
-                                ))}
-                              </div>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <MessageCircle className="w-4 h-4 text-gold-dim" />
-                              <span className="text-ink/80 flex-1">Social</span>
-                              <div className="flex gap-1">
-                                {Array.from({ length: 5 }).map((_, i) => (
-                                  <div
-                                    key={i}
-                                    className={`w-3 h-3 rounded-full ${
-                                      i < character.stats.social ? 'bg-gold-dim' : 'bg-ink/20'
-                                    }`}
-                                  />
-                                ))}
-                              </div>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <BookOpen className="w-4 h-4 text-stone" />
-                              <span className="text-ink/80 flex-1">Lore</span>
-                              <div className="flex gap-1">
-                                {Array.from({ length: 5 }).map((_, i) => (
-                                  <div
-                                    key={i}
-                                    className={`w-3 h-3 rounded-full ${
-                                      i < character.stats.lore ? 'bg-stone' : 'bg-ink/20'
-                                    }`}
-                                  />
-                                ))}
-                              </div>
-                            </div>
+                    {character.stats && (
+                      <div className="mt-3 pt-3 border-t border-gold-dim/20">
+                        <div className="grid grid-cols-4 gap-2">
+                          <div className="text-center p-2 bg-blood/10 rounded">
+                            <Sword className="w-4 h-4 text-blood mx-auto mb-1" />
+                            <span className="text-xs text-parchment">{character.stats.combat}</span>
+                          </div>
+                          <div className="text-center p-2 bg-emerald/10 rounded">
+                            <Map className="w-4 h-4 text-emerald mx-auto mb-1" />
+                            <span className="text-xs text-parchment">{character.stats.exploration}</span>
+                          </div>
+                          <div className="text-center p-2 bg-gold/10 rounded">
+                            <MessageCircle className="w-4 h-4 text-gold mx-auto mb-1" />
+                            <span className="text-xs text-parchment">{character.stats.social}</span>
+                          </div>
+                          <div className="text-center p-2 bg-stone/20 rounded">
+                            <BookOpen className="w-4 h-4 text-stone mx-auto mb-1" />
+                            <span className="text-xs text-parchment">{character.stats.lore}</span>
                           </div>
                         </div>
-                      )}
-                    </div>
-                  </ParchmentPanel>
-                </OrnateFrame>
-              )}
+                      </div>
+                    )}
+                  </div>
+                )}
 
-              {activeTab === 'inventory' && (
-                <OrnateFrame variant="shadow">
-                  <ParchmentPanel>
-                    <h3 className="font-heading text-xl text-ink mb-4">
-                      <Backpack className="w-5 h-5 inline-block mr-2" />
+                {activeTab === 'inventory' && (
+                  <div>
+                    <h3 className="font-heading text-lg text-gold mb-3">
+                      <Backpack className="w-4 h-4 inline-block mr-2" />
                       Inventario
                     </h3>
-                    <div className="space-y-2">
+                    <div className="space-y-2 max-h-[200px] overflow-y-auto">
                       {(worldState.party?.[character?.name || '']?.inventory || character?.inventory || []).length > 0 ? (
                         (worldState.party?.[character?.name || '']?.inventory || character?.inventory || []).map((item: string, i: number) => (
-                          <div key={i} className="flex items-center gap-2 p-2 bg-ink/10 rounded-lg">
-                            <div className="w-8 h-8 bg-gold/20 rounded flex items-center justify-center text-gold-dim">
-                              📦
-                            </div>
-                            <span className="font-body text-ink text-sm">{item}</span>
+                          <div key={i} className="flex items-center gap-2 p-2 bg-white/5 rounded">
+                            <span className="text-gold-dim">📦</span>
+                            <span className="font-body text-parchment text-sm">{item}</span>
                           </div>
                         ))
                       ) : (
-                        <p className="text-ink/50 italic text-center py-4">Tu bolsa está vacía</p>
+                        <p className="text-parchment/50 italic text-center py-2">Tu bolsa está vacía</p>
                       )}
-                    </div>
-                  </ParchmentPanel>
-                </OrnateFrame>
-              )}
-
-              {activeTab === 'quests' && (
-                <OrnateFrame variant="shadow">
-                  <ParchmentPanel>
-                    <h3 className="font-heading text-xl text-ink mb-4">
-                      <Scroll className="w-5 h-5 inline-block mr-2" />
-                      Misiones
-                    </h3>
-                    <div className="space-y-3">
-                      {/* Active quests */}
-                      {(worldState.active_quests || []).length > 0 && (
-                        <div>
-                          <p className="font-ui text-xs text-gold uppercase mb-2 font-semibold">Activas</p>
-                          {worldState.active_quests.map((quest: string, i: number) => (
-                            <div key={i} className="flex items-start gap-2 p-3 bg-gold/20 rounded-lg mb-2 border border-gold/30">
-                              <div className="w-2 h-2 bg-gold rounded-full mt-1.5 flex-shrink-0" />
-                              <span className="font-body text-ink text-sm font-medium">{quest}</span>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                      {/* Completed quests */}
-                      {(worldState.completed_quests || []).length > 0 && (
-                        <div>
-                          <p className="font-ui text-xs text-emerald uppercase mb-2 font-semibold">Completadas</p>
-                          {worldState.completed_quests.map((quest: string, i: number) => (
-                            <div key={i} className="flex items-start gap-2 p-3 bg-emerald/20 rounded-lg mb-2 border border-emerald/30">
-                              <div className="w-2 h-2 bg-emerald rounded-full mt-1.5 flex-shrink-0" />
-                              <span className="font-body text-ink/70 text-sm line-through">{quest}</span>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                      {(worldState.active_quests || []).length === 0 && (worldState.completed_quests || []).length === 0 && (
-                        <p className="text-ink/50 italic text-center py-4">Sin misiones activas</p>
-                      )}
-                    </div>
-                  </ParchmentPanel>
-                </OrnateFrame>
-              )}
-
-              {/* Party tab for multiplayer */}
-              {activeTab === 'party' && isMultiplayer && (
-                <ParticipantList
-                  participants={participants}
-                  currentUserId={currentUserId}
-                  isMultiplayer={isMultiplayer}
-                />
-              )}
-
-              {/* Info de la campaña */}
-              <OrnateFrame variant="shadow">
-                <ParchmentPanel>
-                  <h3 className="font-heading text-xl text-ink mb-4">Tu Aventura</h3>
-                  <div className="space-y-2 text-sm">
-                    <div className="flex justify-between">
-                      <span className="font-ui text-ink/60">Mundo</span>
-                      <span className="font-body text-ink">{lore}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="font-ui text-ink/60">Modo</span>
-                      <span className="font-body text-ink">{mode === 'CAMPAIGN' ? 'Campaña' : 'One-Shot'}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="font-ui text-ink/60">Sistema</span>
-                      <span className="font-body text-ink">{engine.replace('_', ' ')}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="font-ui text-ink/60">Acto</span>
-                      <span className="font-body text-ink">{worldState.act || 1} / 5</span>
                     </div>
                   </div>
-                </ParchmentPanel>
+                )}
+
+                {activeTab === 'quests' && (
+                  <div>
+                    <h3 className="font-heading text-lg text-gold mb-3">
+                      <Scroll className="w-4 h-4 inline-block mr-2" />
+                      Misiones
+                    </h3>
+                    <div className="space-y-2 max-h-[200px] overflow-y-auto">
+                      {(worldState.active_quests || []).map((quest: string, i: number) => (
+                        <div key={i} className="flex items-start gap-2 p-2 bg-gold/10 rounded border border-gold/20">
+                          <div className="w-2 h-2 bg-gold rounded-full mt-1.5 flex-shrink-0" />
+                          <span className="font-body text-parchment text-sm">{quest}</span>
+                        </div>
+                      ))}
+                      {(worldState.completed_quests || []).map((quest: string, i: number) => (
+                        <div key={i} className="flex items-start gap-2 p-2 bg-emerald/10 rounded border border-emerald/20">
+                          <div className="w-2 h-2 bg-emerald rounded-full mt-1.5 flex-shrink-0" />
+                          <span className="font-body text-parchment/60 text-sm line-through">{quest}</span>
+                        </div>
+                      ))}
+                      {(worldState.active_quests || []).length === 0 && (worldState.completed_quests || []).length === 0 && (
+                        <p className="text-parchment/50 italic text-center py-2">Sin misiones activas</p>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {activeTab === 'party' && isMultiplayer && (
+                  <ParticipantList
+                    participants={participants}
+                    currentUserId={currentUserId}
+                    isMultiplayer={isMultiplayer}
+                  />
+                )}
+              </div>
+            )}
+
+            {/* Engine Panel - se muestra cuando está activo */}
+            {activeTab === 'engine' && character && (
+              <OrnateFrame variant="shadow">
+                <div className="glass-panel-dark rounded-lg p-4 max-h-[300px] overflow-y-auto custom-scrollbar">
+                  <EnginePanel
+                    engine={engine as GameEngine}
+                    character={{
+                      name: characterName,
+                      archetype: character.archetype,
+                      level: character.level,
+                      stats: character.stats as Record<string, number>,
+                      inventory: worldState.party?.[character.name]?.inventory || character.inventory || [],
+                      conditions: worldState.party?.[character.name]?.conditions || [],
+                      hp: hp.current,
+                      maxHp: hp.max
+                    }}
+                    worldState={{
+                      currentScene: worldState.current_scene,
+                      activeQuests: worldState.active_quests,
+                      weather: worldState.weather,
+                      timeOfDay: worldState.time_in_world
+                    }}
+                    locale={locale as Locale}
+                    onDiceRoll={handleEngineDiceRoll}
+                    disabled={isSubmitting}
+                  />
+                </div>
               </OrnateFrame>
-            </div>
+            )}
           </div>
         </div>
       </div>
