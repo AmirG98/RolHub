@@ -176,12 +176,10 @@ async function generateWithDeepgram(
   const apiKey = process.env.DEEPGRAM_API_KEY!
   const model = DEEPGRAM_VOICES[voiceKey] || DEEPGRAM_VOICES.default_es
 
-  // Parámetros optimizados para mínima latencia
+  // Parámetros simples - Deepgram Aura-2 no soporta sample_rate ni bit_rate
   const params = new URLSearchParams({
     model,
     encoding: 'mp3',
-    sample_rate: '24000',
-    bit_rate: '48000',
   })
 
   const response = await fetch(`https://api.deepgram.com/v1/speak?${params}`, {
