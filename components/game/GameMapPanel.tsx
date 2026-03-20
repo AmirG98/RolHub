@@ -2,7 +2,7 @@
 
 import React, { useState, useCallback, useMemo } from 'react'
 import dynamic from 'next/dynamic'
-import { Lock, Unlock, MapIcon, Compass, Eye, EyeOff, Maximize2, Minimize2, ChevronRight, Scroll } from 'lucide-react'
+import { Lock, Unlock, MapIcon, Compass, Eye, EyeOff, Maximize2, Minimize2, ChevronRight, Scroll, Box, Layers } from 'lucide-react'
 import { type Lore, getMapConfig } from '@/lib/maps/map-config'
 import { type MapLocationWithStatus, type NavigationLockReason } from '@/lib/types/map-state'
 import { type Quest, type QuestMarker as QuestMarkerType } from '@/lib/types/quest'
@@ -21,6 +21,12 @@ const MapContainer = dynamic(
 const DynamicSubmapRouter = dynamic(
   () => import('@/components/maps/submap/SubmapRouter').then(mod => ({ default: mod.SubmapRouter })),
   { ssr: false, loading: () => <SubmapLoading /> }
+)
+
+// Importar ThreeMapViewer dinámicamente para evitar SSR issues
+const ThreeMapViewer = dynamic(
+  () => import('@/components/maps-3d/ThreeMapViewer').then(mod => mod.ThreeMapViewer),
+  { ssr: false, loading: () => <Map3DLoading /> }
 )
 
 // Mensajes de bloqueo de navegación
@@ -64,6 +70,7 @@ export function GameMapPanel({
   const [isExpanded, setIsExpanded] = useState(false)
   const [submapLocation, setSubmapLocation] = useState<MapLocationWithStatus | null>(null)
   const [showQuests, setShowQuests] = useState(false)
+  const [view3D, setView3D] = useState(true) // Default a 3D
 
   const config = getMapConfig(lore)
 
@@ -183,14 +190,30 @@ export function GameMapPanel({
             </button>
           )}
 
-          {/* Toggle Fog */}
+          {/* Toggle 2D/3D */}
           <button
-            onClick={() => setShowFog(!showFog)}
-            className="p-1.5 rounded hover:bg-shadow-mid text-parchment/70 hover:text-parchment transition-colors"
-            title={showFog ? 'Ocultar niebla' : 'Mostrar niebla'}
+            onClick={() => setView3D(!view3D)}
+            className={cn(
+              'p-1.5 rounded transition-colors',
+              view3D
+                ? 'bg-emerald/20 text-emerald'
+                : 'hover:bg-shadow-mid text-parchment/70 hover:text-parchment'
+            )}
+            title={view3D ? 'Cambiar a mapa 2D' : 'Cambiar a mapa 3D'}
           >
-            {showFog ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
+            {view3D ? <Box className="w-4 h-4" /> : <Layers className="w-4 h-4" />}
           </button>
+
+          {/* Toggle Fog (solo en modo 2D) */}
+          {!view3D && (
+            <button
+              onClick={() => setShowFog(!showFog)}
+              className="p-1.5 rounded hover:bg-shadow-mid text-parchment/70 hover:text-parchment transition-colors"
+              title={showFog ? 'Ocultar niebla' : 'Mostrar niebla'}
+            >
+              {showFog ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
+            </button>
+          )}
 
           {/* Expand/Collapse */}
           <button
@@ -205,21 +228,44 @@ export function GameMapPanel({
 
       {/* Mapa */}
       <div className={cn(containerHeight, 'transition-all duration-300 relative')}>
-        <MapContainer
-          lore={lore}
-          locations={locations}
-          currentLocationId={currentLocation?.id}
-          onLocationClick={(location) => {
-            // Encontrar la versión extendida con status
-            const fullLocation = locations.find(l => l.id === location.id)
-            if (fullLocation) {
-              handleLocationClick(fullLocation)
-            }
-          }}
-          showFog={showFog}
-          className="w-full h-full"
-          questMarkers={getQuestMarkers(questState, locations, currentLocation?.id)}
-        />
+        {view3D ? (
+          <ThreeMapViewer
+            lore={lore}
+            locations={locations.map(loc => ({
+              id: loc.id,
+              name: loc.name,
+              x: loc.coordinates.x,
+              y: loc.coordinates.y,
+              type: loc.type as 'city' | 'dungeon' | 'wilderness' | 'poi' | 'quest' | undefined,
+            }))}
+            currentLocation={currentLocation?.id || null}
+            visitedLocations={locations.filter(l => l.visited).map(l => l.id)}
+            discoveredLocations={locations.filter(l => l.discovered).map(l => l.id)}
+            onLocationClick={(locationId) => {
+              const location = locations.find(l => l.id === locationId)
+              if (location) {
+                handleLocationClick(location)
+              }
+            }}
+            onTravelRequest={onTravelRequest}
+            className="w-full h-full"
+          />
+        ) : (
+          <MapContainer
+            lore={lore}
+            locations={locations}
+            currentLocationId={currentLocation?.id}
+            onLocationClick={(location) => {
+              const fullLocation = locations.find(l => l.id === location.id)
+              if (fullLocation) {
+                handleLocationClick(fullLocation)
+              }
+            }}
+            showFog={showFog}
+            className="w-full h-full"
+            questMarkers={getQuestMarkers(questState, locations, currentLocation?.id)}
+          />
+        )}
 
         {/* Panel de quests overlay (expandido) */}
         {showQuests && isExpanded && (
@@ -313,6 +359,18 @@ function SubmapLoading() {
       <div className="text-center text-gold animate-pulse">
         <div className="text-4xl mb-3">🏰</div>
         <p className="text-sm font-heading">Explorando ubicación...</p>
+      </div>
+    </div>
+  )
+}
+
+// Loading skeleton para mapa 3D
+function Map3DLoading() {
+  return (
+    <div className="w-full h-full flex items-center justify-center bg-shadow">
+      <div className="text-center text-gold animate-pulse">
+        <div className="text-3xl mb-2">🌍</div>
+        <p className="text-xs">Cargando mapa 3D...</p>
       </div>
     </div>
   )
