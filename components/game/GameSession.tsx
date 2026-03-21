@@ -715,12 +715,12 @@ export default function GameSession({
       {/* Contenedor principal - 2 columnas */}
       <div className="max-w-[1800px] mx-auto p-3 md:p-4 lg:p-6 content-wrapper">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-5">
-          {/* Panel izquierdo - Narración (7/12) */}
-          <div className="lg:col-span-7 space-y-3 md:space-y-4">
+          {/* Panel izquierdo - Narración (8/12) */}
+          <div className="lg:col-span-8 space-y-3 md:space-y-4">
 
             {/* NarratorPanel inline */}
             <OrnateFrame variant="gold">
-              <ParchmentPanel variant="ornate" className="min-h-[300px] md:min-h-[400px] max-h-[50vh] md:max-h-[60vh]">
+              <ParchmentPanel variant="ornate" className="min-h-[400px] md:min-h-[500px] max-h-[60vh] md:max-h-[70vh]">
                 {/* Header with DM Orb */}
                 <div className="flex items-center justify-center gap-3 mb-3 md:mb-4">
                   {/* DM Orb - visible on larger screens */}
@@ -734,7 +734,7 @@ export default function GameSession({
                   <h2 className="font-title text-xl md:text-2xl text-ink">El Narrador</h2>
                 </div>
 
-                <div ref={scrollRef} className="space-y-3 md:space-y-4 overflow-y-auto max-h-[calc(50vh-100px)] md:max-h-[calc(60vh-100px)] pr-1 md:pr-2">
+                <div ref={scrollRef} className="space-y-3 md:space-y-4 overflow-y-auto max-h-[calc(60vh-100px)] md:max-h-[calc(70vh-100px)] pr-1 md:pr-2">
                   {turns.length === 0 ? (
                     <div className="text-center py-8">
                       <p className="font-body text-stone/60 italic">
@@ -802,10 +802,10 @@ export default function GameSession({
                             speed={25}
                             onComplete={() => setTypewriterTurnId(null)}
                             skipOnClick={true}
-                            className="text-sm md:text-base"
+                            className="text-base md:text-lg"
                           />
                         ) : (
-                          <p className="font-body text-sm md:text-base text-parchment leading-relaxed whitespace-pre-wrap">
+                          <p className="font-body text-base md:text-lg text-parchment leading-relaxed whitespace-pre-wrap">
                             {turn.content}
                           </p>
                         )}
@@ -1003,8 +1003,8 @@ export default function GameSession({
             )}
           </div>
 
-          {/* Panel derecho - Mapa + Imagen de escena (5/12) */}
-          <div className="lg:col-span-5 space-y-3 md:space-y-4 order-1 lg:order-2">
+          {/* Panel derecho - Mapa + Imagen de escena (4/12) */}
+          <div className="lg:col-span-4 space-y-3 md:space-y-4 order-1 lg:order-2">
             {/* Mapa */}
             <GameMapPanel
               lore={lore as LoreType}

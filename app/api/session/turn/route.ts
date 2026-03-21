@@ -210,7 +210,7 @@ export async function POST(req: NextRequest) {
       diceRoll: 'PLAYER DICE ROLL',
       dice: 'dice',
       responseInstructions: 'RESPONSE INSTRUCTIONS',
-      narrationInstructions: 'Your narration here (2-3 paragraphs, English, cinematic and exciting)',
+      narrationInstructions: 'Your narration here (ADAPT length to player input - if they write briefly, respond concisely; if they elaborate, you can too)',
       partyEffects: 'For effects on OTHER party members (not the one acting), use other_party_effects',
       mechanicRules: 'MECHANIC RULES',
       rule1: 'If there is combat and the player fails (low roll or bad decision), use negative hp_change (-1 to -5 depending on severity)',
@@ -271,7 +271,7 @@ export async function POST(req: NextRequest) {
       diceRoll: 'TIRADA DE DADOS DEL JUGADOR',
       dice: 'dados',
       responseInstructions: 'INSTRUCCIONES DE RESPUESTA',
-      narrationInstructions: 'Tu narración aquí (2-3 párrafos, español, cinematográfico y emocionante)',
+      narrationInstructions: 'Tu narración aquí (ADAPTA la longitud al input del jugador - si escribe poco, responde conciso; si escribe mucho, puedes elaborar más)',
       partyEffects: 'Para efectos en OTROS miembros del grupo (no el que actúa), usa other_party_effects',
       mechanicRules: 'REGLAS DE MECANICAS',
       rule1: 'Si hay combate y el jugador falla (tirada baja o mala decisión), usa hp_change negativo (-1 a -5 según gravedad)',
@@ -686,7 +686,14 @@ ${labels.important}:
 - ${labels.narrationLanguage}
 - ${labels.unconscious}
 - ${labels.coherence}
-- ${diceRoll ? `${labels.diceInterpret} (${diceRoll.result}): 1-5 ${labels.failure}, 6-10 ${labels.partialSuccess}, 11-15 ${labels.success}, 16-20 ${labels.criticalSuccess}` : labels.noDice}`
+- ${diceRoll ? `${labels.diceInterpret} (${diceRoll.result}): 1-5 ${labels.failure}, 6-10 ${labels.partialSuccess}, 11-15 ${labels.success}, 16-20 ${labels.criticalSuccess}` : labels.noDice}
+
+${isEnglish ? 'ADAPTIVE RESPONSE LENGTH' : 'LONGITUD DE RESPUESTA ADAPTATIVA'}:
+- ${isEnglish ? 'If the player writes 1-2 sentences: respond with 1-2 SHORT paragraphs (max 4 sentences total)' : 'Si el jugador escribe 1-2 oraciones: responde con 1-2 párrafos CORTOS (máx 4 oraciones total)'}
+- ${isEnglish ? 'If the player writes 3-4 sentences: respond with 2-3 medium paragraphs' : 'Si el jugador escribe 3-4 oraciones: responde con 2-3 párrafos medianos'}
+- ${isEnglish ? 'If the player writes a detailed paragraph: you can elaborate more' : 'Si el jugador escribe un párrafo detallado: puedes elaborar más'}
+- ${isEnglish ? 'PRIORITIZE action and dialogue over lengthy descriptions' : 'PRIORIZA acción y diálogo sobre descripciones largas'}
+- ${isEnglish ? 'Keep the pace dynamic - less is more' : 'Mantén el ritmo dinámico - menos es más'}`
 
     const response = await anthropic.messages.create({
       model: 'claude-sonnet-4-20250514',
