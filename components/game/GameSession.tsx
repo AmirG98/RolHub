@@ -9,14 +9,13 @@ import { ParticipantList } from '@/components/game/ParticipantList'
 import { useSessionRealtime, broadcastTurn } from '@/hooks/useSessionRealtime'
 import { useParticipantPresence } from '@/hooks/useParticipantPresence'
 import { useLanguage, useTranslations } from '@/lib/i18n'
-import { Sword, Shield, Map, MessageCircle, BookOpen, Heart, Backpack, Scroll, Dices, Users, Wifi, Crown, Cog, Swords } from 'lucide-react'
+import { BookOpen, Heart, Scroll, Dices, Users, Wifi, Crown, Swords } from 'lucide-react'
 import DMPanel from '@/components/game/DMPanel'
-import { EnginePanel } from '@/components/engines/EnginePanel'
 import { GameMapPanel } from '@/components/game/GameMapPanel'
 import { type Lore as LoreType } from '@/lib/maps/map-config'
 import { VoicePlayerCompact, VoicePlayerAuto } from '@/components/game/VoicePlayer'
 // import { DynamicMusicPlayer, useDynamicMusic } from '@/components/audio/DynamicMusicPlayer' // DISABLED
-import { GameEngine, DiceRoll as EngineDiceRoll, Locale, CharacterContext } from '@/lib/engines/types'
+import { GameEngine, CharacterContext } from '@/lib/engines/types'
 import { Lore } from '@prisma/client'
 // Immersion system
 import { TypewriterText } from '@/components/ui/TypewriterText'
@@ -144,7 +143,13 @@ export default function GameSession({
   const [error, setError] = useState<string | null>(null)
   const [showDiceRoller, setShowDiceRoller] = useState(false)
   const [lastDiceRoll, setLastDiceRoll] = useState<{ formula: string; result: number; rolls: number[] } | null>(null)
-  const [activeTab, setActiveTab] = useState<'engine' | 'stats' | 'inventory' | 'quests' | 'party'>('engine')
+  // Scroll helpers for quick navigation
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId)
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+  }
 
   // Character sheet and portrait state
   const [showPortraitSplash, setShowPortraitSplash] = useState(false)
@@ -361,15 +366,6 @@ export default function GameSession({
   const handleDiceRoll = (result: { total: number; rolls: number[]; formula: string }) => {
     setLastDiceRoll({ formula: result.formula, result: result.total, rolls: result.rolls })
     setShowDiceRoller(false)
-  }
-
-  // Handler for EnginePanel dice rolls
-  const handleEngineDiceRoll = (roll: EngineDiceRoll) => {
-    setLastDiceRoll({
-      formula: roll.formula,
-      result: roll.total + (roll.modifier || 0),
-      rolls: roll.results
-    })
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -674,78 +670,37 @@ export default function GameSession({
         </div>
       </div>
 
-      {/* Barra horizontal de stats/acciones rápidas */}
+      {/* Barra horizontal de navegación rápida */}
       <div className="border-b border-gold-dim/20 glass-panel-dark">
         <div className="max-w-[1800px] mx-auto px-3 md:px-4 lg:px-6 py-2">
           <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide">
-            {/* Tab buttons - ahora horizontales */}
+            {/* Navigation buttons - scroll to sections */}
             <button
-              onClick={() => setActiveTab('engine')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-ui text-xs whitespace-nowrap transition-all ${
-                activeTab === 'engine' ? 'bg-gold/20 text-gold border border-gold/40' : 'text-parchment/60 hover:text-parchment hover:bg-white/5'
-              }`}
-            >
-              <Cog className="w-3.5 h-3.5" />
-              {locale === 'en' ? 'Engine' : 'Motor'}
-            </button>
-            <button
-              onClick={() => setActiveTab('stats')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-ui text-xs whitespace-nowrap transition-all ${
-                activeTab === 'stats' ? 'bg-gold/20 text-gold border border-gold/40' : 'text-parchment/60 hover:text-parchment hover:bg-white/5'
-              }`}
-            >
-              <Shield className="w-3.5 h-3.5" />
-              Stats
-            </button>
-            <button
-              onClick={() => setActiveTab('inventory')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-ui text-xs whitespace-nowrap transition-all ${
-                activeTab === 'inventory' ? 'bg-gold/20 text-gold border border-gold/40' : 'text-parchment/60 hover:text-parchment hover:bg-white/5'
-              }`}
-            >
-              <Backpack className="w-3.5 h-3.5" />
-              Inv
-            </button>
-            <button
-              onClick={() => setActiveTab('quests')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-ui text-xs whitespace-nowrap transition-all ${
-                activeTab === 'quests' ? 'bg-gold/20 text-gold border border-gold/40' : 'text-parchment/60 hover:text-parchment hover:bg-white/5'
-              }`}
+              onClick={() => scrollToSection('character-sheet-section')}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-ui text-xs whitespace-nowrap transition-all
+                       text-parchment/80 hover:text-gold hover:bg-gold/10 border border-transparent hover:border-gold/30"
             >
               <Scroll className="w-3.5 h-3.5" />
+              Hoja del PJ
+            </button>
+            <button
+              onClick={() => scrollToSection('quests-section')}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-ui text-xs whitespace-nowrap transition-all
+                       text-parchment/80 hover:text-gold hover:bg-gold/10 border border-transparent hover:border-gold/30"
+            >
+              <BookOpen className="w-3.5 h-3.5" />
               Quests
             </button>
+
             {isMultiplayer && (
               <button
-                onClick={() => setActiveTab('party')}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-ui text-xs whitespace-nowrap transition-all ${
-                  activeTab === 'party' ? 'bg-gold/20 text-gold border border-gold/40' : 'text-parchment/60 hover:text-parchment hover:bg-white/5'
-                }`}
+                onClick={() => scrollToSection('party-section')}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-ui text-xs whitespace-nowrap transition-all
+                         text-parchment/80 hover:text-gold hover:bg-gold/10 border border-transparent hover:border-gold/30"
               >
                 <Users className="w-3.5 h-3.5" />
                 Grupo
               </button>
-            )}
-
-            {/* Separador */}
-            <div className="w-px h-6 bg-gold-dim/30 mx-1" />
-
-            {/* Quick stats display */}
-            {character && character.stats && (
-              <>
-                <div className="flex items-center gap-1 px-2 py-1 bg-blood/10 rounded text-xs">
-                  <Sword className="w-3 h-3 text-blood" />
-                  <span className="text-parchment font-semibold">{character.stats.combat}</span>
-                </div>
-                <div className="flex items-center gap-1 px-2 py-1 bg-emerald/10 rounded text-xs">
-                  <Map className="w-3 h-3 text-emerald" />
-                  <span className="text-parchment font-semibold">{character.stats.exploration}</span>
-                </div>
-                <div className="flex items-center gap-1 px-2 py-1 bg-gold/10 rounded text-xs">
-                  <MessageCircle className="w-3 h-3 text-gold" />
-                  <span className="text-parchment font-semibold">{character.stats.social}</span>
-                </div>
-              </>
             )}
 
             {/* Dice roller button */}
@@ -988,7 +943,7 @@ export default function GameSession({
 
             {/* Character Stats Bar + Expandable Sheet */}
             {character && (
-              <div className="space-y-3">
+              <div id="character-sheet-section" className="space-y-3 scroll-mt-4">
                 {/* Stats Summary Bar */}
                 {engine === 'DND_5E' ? (
                   <StatsBarSummary
@@ -1154,132 +1109,40 @@ export default function GameSession({
               </div>
             )}
 
-            {/* Panel de contenido expandido cuando se selecciona un tab */}
-            {activeTab !== 'engine' && (
-              <div className="glass-panel-dark rounded-lg p-4 border border-gold-dim/20">
-                {activeTab === 'stats' && character && (
-                  <div>
-                    <h3 className="font-heading text-lg text-gold mb-3">{characterName}</h3>
-                    <div className="grid grid-cols-2 gap-3 text-sm">
-                      <div>
-                        <span className="font-ui text-parchment/60">Arquetipo</span>
-                        <p className="font-body text-parchment">{character.archetype}</p>
-                      </div>
-                      <div>
-                        <span className="font-ui text-parchment/60">Nivel</span>
-                        <p className="font-body text-parchment">{character.level}</p>
-                      </div>
-                    </div>
-                    {character.stats && (
-                      <div className="mt-3 pt-3 border-t border-gold-dim/20">
-                        <div className="grid grid-cols-4 gap-2">
-                          <div className="text-center p-2 bg-blood/10 rounded">
-                            <Sword className="w-4 h-4 text-blood mx-auto mb-1" />
-                            <span className="text-xs text-parchment">{character.stats.combat}</span>
-                          </div>
-                          <div className="text-center p-2 bg-emerald/10 rounded">
-                            <Map className="w-4 h-4 text-emerald mx-auto mb-1" />
-                            <span className="text-xs text-parchment">{character.stats.exploration}</span>
-                          </div>
-                          <div className="text-center p-2 bg-gold/10 rounded">
-                            <MessageCircle className="w-4 h-4 text-gold mx-auto mb-1" />
-                            <span className="text-xs text-parchment">{character.stats.social}</span>
-                          </div>
-                          <div className="text-center p-2 bg-stone/20 rounded">
-                            <BookOpen className="w-4 h-4 text-stone mx-auto mb-1" />
-                            <span className="text-xs text-parchment">{character.stats.lore}</span>
-                          </div>
-                        </div>
-                      </div>
-                    )}
+            {/* Quests Section */}
+            <div id="quests-section" className="glass-panel-dark rounded-lg p-4 border border-gold-dim/20 scroll-mt-4">
+              <h3 className="font-heading text-lg text-gold mb-3">
+                <Scroll className="w-4 h-4 inline-block mr-2" />
+                Misiones
+              </h3>
+              <div className="space-y-2 max-h-[250px] overflow-y-auto">
+                {(worldState.active_quests || []).map((quest: string, i: number) => (
+                  <div key={i} className="flex items-start gap-2 p-2 bg-gold/10 rounded border border-gold/20">
+                    <div className="w-2 h-2 bg-gold rounded-full mt-1.5 flex-shrink-0" />
+                    <span className="font-body text-parchment text-sm">{quest}</span>
                   </div>
-                )}
-
-                {activeTab === 'inventory' && (
-                  <div>
-                    <h3 className="font-heading text-lg text-gold mb-3">
-                      <Backpack className="w-4 h-4 inline-block mr-2" />
-                      Inventario
-                    </h3>
-                    <div className="space-y-2 max-h-[200px] overflow-y-auto">
-                      {(worldState.party?.[character?.name || '']?.inventory || character?.inventory || []).length > 0 ? (
-                        (worldState.party?.[character?.name || '']?.inventory || character?.inventory || []).map((item: string, i: number) => (
-                          <div key={i} className="flex items-center gap-2 p-2 bg-white/5 rounded">
-                            <span className="text-gold-dim">📦</span>
-                            <span className="font-body text-parchment text-sm">{item}</span>
-                          </div>
-                        ))
-                      ) : (
-                        <p className="text-parchment/50 italic text-center py-2">Tu bolsa está vacía</p>
-                      )}
-                    </div>
+                ))}
+                {(worldState.completed_quests || []).map((quest: string, i: number) => (
+                  <div key={`completed-${i}`} className="flex items-start gap-2 p-2 bg-emerald/10 rounded border border-emerald/20">
+                    <div className="w-2 h-2 bg-emerald rounded-full mt-1.5 flex-shrink-0" />
+                    <span className="font-body text-parchment/60 text-sm line-through">{quest}</span>
                   </div>
-                )}
-
-                {activeTab === 'quests' && (
-                  <div>
-                    <h3 className="font-heading text-lg text-gold mb-3">
-                      <Scroll className="w-4 h-4 inline-block mr-2" />
-                      Misiones
-                    </h3>
-                    <div className="space-y-2 max-h-[200px] overflow-y-auto">
-                      {(worldState.active_quests || []).map((quest: string, i: number) => (
-                        <div key={i} className="flex items-start gap-2 p-2 bg-gold/10 rounded border border-gold/20">
-                          <div className="w-2 h-2 bg-gold rounded-full mt-1.5 flex-shrink-0" />
-                          <span className="font-body text-parchment text-sm">{quest}</span>
-                        </div>
-                      ))}
-                      {(worldState.completed_quests || []).map((quest: string, i: number) => (
-                        <div key={i} className="flex items-start gap-2 p-2 bg-emerald/10 rounded border border-emerald/20">
-                          <div className="w-2 h-2 bg-emerald rounded-full mt-1.5 flex-shrink-0" />
-                          <span className="font-body text-parchment/60 text-sm line-through">{quest}</span>
-                        </div>
-                      ))}
-                      {(worldState.active_quests || []).length === 0 && (worldState.completed_quests || []).length === 0 && (
-                        <p className="text-parchment/50 italic text-center py-2">Sin misiones activas</p>
-                      )}
-                    </div>
-                  </div>
-                )}
-
-                {activeTab === 'party' && isMultiplayer && (
-                  <ParticipantList
-                    participants={participants}
-                    currentUserId={currentUserId}
-                    isMultiplayer={isMultiplayer}
-                  />
+                ))}
+                {(worldState.active_quests || []).length === 0 && (worldState.completed_quests || []).length === 0 && (
+                  <p className="text-parchment/50 italic text-center py-2">Sin misiones activas</p>
                 )}
               </div>
-            )}
+            </div>
 
-            {/* Engine Panel - se muestra cuando está activo */}
-            {activeTab === 'engine' && character && (
-              <OrnateFrame variant="shadow">
-                <div className="glass-panel-dark rounded-lg p-4 max-h-[300px] overflow-y-auto custom-scrollbar">
-                  <EnginePanel
-                    engine={engine as GameEngine}
-                    character={{
-                      name: characterName,
-                      archetype: character.archetype,
-                      level: character.level,
-                      stats: character.stats as Record<string, number>,
-                      inventory: worldState.party?.[character.name]?.inventory || character.inventory || [],
-                      conditions: worldState.party?.[character.name]?.conditions || [],
-                      hp: hp.current,
-                      maxHp: hp.max
-                    }}
-                    worldState={{
-                      currentScene: worldState.current_scene,
-                      activeQuests: worldState.active_quests,
-                      weather: worldState.weather,
-                      timeOfDay: worldState.time_in_world
-                    }}
-                    locale={locale as Locale}
-                    onDiceRoll={handleEngineDiceRoll}
-                    disabled={isSubmitting}
-                  />
-                </div>
-              </OrnateFrame>
+            {/* Party Section - Multiplayer only */}
+            {isMultiplayer && (
+              <div id="party-section" className="scroll-mt-4">
+                <ParticipantList
+                  participants={participants}
+                  currentUserId={currentUserId}
+                  isMultiplayer={isMultiplayer}
+                />
+              </div>
             )}
           </div>
         </div>
