@@ -29,6 +29,9 @@ import { CombatState, CombatTrigger, DEFAULT_COMBAT_STATE, CombatActionRequest, 
 import { initializeCombat, checkCombatEnd } from '@/lib/tactical/combat-init'
 // Character stats panel and narrator orb
 import { CharacterStatsPanel } from '@/components/game/CharacterStatsPanel'
+import { PortraitSplash } from '@/components/game/PortraitSplash'
+import { StatsBarSummary, StoryModeStatsBar } from '@/components/game/StatsBarSummary'
+import { DnD5eCharacterSheet } from '@/components/game/DnD5eCharacterSheet'
 import dynamic from 'next/dynamic'
 
 // Dynamic import for 3D orb (SSR-safe)
@@ -142,6 +145,10 @@ export default function GameSession({
   const [showDiceRoller, setShowDiceRoller] = useState(false)
   const [lastDiceRoll, setLastDiceRoll] = useState<{ formula: string; result: number; rolls: number[] } | null>(null)
   const [activeTab, setActiveTab] = useState<'engine' | 'stats' | 'inventory' | 'quests' | 'party'>('engine')
+
+  // Character sheet and portrait state
+  const [showPortraitSplash, setShowPortraitSplash] = useState(false)
+  const [isCharacterSheetExpanded, setIsCharacterSheetExpanded] = useState(false)
 
   // Combat system state
   const [combatState, setCombatState] = useState<CombatState>(DEFAULT_COMBAT_STATE)
@@ -339,6 +346,17 @@ export default function GameSession({
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight
     }
   }, [turns])
+
+  // Portrait splash on session start
+  useEffect(() => {
+    if (character?.avatarUrl && sessionId) {
+      const splashKey = `portrait_splash_${sessionId}`
+      if (!sessionStorage.getItem(splashKey)) {
+        setShowPortraitSplash(true)
+        sessionStorage.setItem(splashKey, 'shown')
+      }
+    }
+  }, [character?.avatarUrl, sessionId])
 
   const handleDiceRoll = (result: { total: number; rolls: number[]; formula: string }) => {
     setLastDiceRoll({ formula: result.formula, result: result.total, rolls: result.rolls })
@@ -580,6 +598,17 @@ export default function GameSession({
             <h2 className="font-heading text-2xl text-gold">¡Combate!</h2>
           </div>
         </div>
+      )}
+
+      {/* Portrait Splash on session start */}
+      {showPortraitSplash && character && (
+        <PortraitSplash
+          avatarUrl={character.avatarUrl || ''}
+          characterName={character.name}
+          archetype={`${character.stats?.raceName || ''} ${character.stats?.className || character.archetype}`.trim()}
+          level={character.level}
+          onComplete={() => setShowPortraitSplash(false)}
+        />
       )}
 
       {/* Scene Transition Overlay */}
@@ -957,38 +986,106 @@ export default function GameSession({
               </form>
             </ParchmentPanel>
 
-            {/* Character Stats Panel - below action input */}
+            {/* Character Stats Bar + Expandable Sheet */}
             {character && (
-              <CharacterStatsPanel
-                name={characterName}
-                archetype={character.archetype}
-                avatarUrl={character.avatarUrl || undefined}
-                engine={engine as GameEngine}
-                stats={{
-                  hp: hp.current,
-                  maxHp: hp.max,
-                  level: character.level,
-                  experience: worldState.party?.[character.name]?.experience || 0,
-                  // Story Mode stats
-                  combat: character.stats?.combat,
-                  exploration: character.stats?.exploration,
-                  social: character.stats?.social,
-                  knowledge: character.stats?.knowledge || character.stats?.lore,
-                  // D&D 5e stats
-                  ac: character.stats?.ac,
-                  STR: character.stats?.STR,
-                  DEX: character.stats?.DEX,
-                  CON: character.stats?.CON,
-                  INT: character.stats?.INT,
-                  WIS: character.stats?.WIS,
-                  CHA: character.stats?.CHA,
-                  proficiencyBonus: character.stats?.proficiencyBonus,
-                  speed: character.stats?.speed,
-                  className: character.stats?.className,
-                  raceName: character.stats?.raceName,
-                }}
-                conditions={worldState.party?.[character.name]?.conditions || []}
-              />
+              <div className="space-y-3">
+                {/* Stats Summary Bar */}
+                {engine === 'DND_5E' ? (
+                  <StatsBarSummary
+                    name={characterName}
+                    archetype={`${character.stats?.raceName || ''} ${character.stats?.className || character.archetype}`.trim()}
+                    avatarUrl={character.avatarUrl || undefined}
+                    level={character.level}
+                    hp={hp.current}
+                    maxHp={hp.max}
+                    ac={character.stats?.ac || 10}
+                    proficiencyBonus={character.stats?.proficiencyBonus || 2}
+                    abilities={{
+                      STR: character.stats?.STR || 10,
+                      DEX: character.stats?.DEX || 10,
+                      CON: character.stats?.CON || 10,
+                      INT: character.stats?.INT || 10,
+                      WIS: character.stats?.WIS || 10,
+                      CHA: character.stats?.CHA || 10,
+                    }}
+                    isExpanded={isCharacterSheetExpanded}
+                    onToggleExpand={() => setIsCharacterSheetExpanded(!isCharacterSheetExpanded)}
+                    isDnD5e={true}
+                  />
+                ) : (
+                  <StoryModeStatsBar
+                    name={characterName}
+                    archetype={character.archetype}
+                    avatarUrl={character.avatarUrl || undefined}
+                    level={character.level}
+                    hp={hp.current}
+                    maxHp={hp.max}
+                    combat={character.stats?.combat || 0}
+                    exploration={character.stats?.exploration || 0}
+                    social={character.stats?.social || 0}
+                    knowledge={character.stats?.knowledge || character.stats?.lore || 0}
+                    isExpanded={isCharacterSheetExpanded}
+                    onToggleExpand={() => setIsCharacterSheetExpanded(!isCharacterSheetExpanded)}
+                  />
+                )}
+
+                {/* Expanded Character Sheet (D&D 5e only) */}
+                {isCharacterSheetExpanded && engine === 'DND_5E' && (
+                  <DnD5eCharacterSheet
+                    name={characterName}
+                    archetype={character.archetype}
+                    avatarUrl={character.avatarUrl || undefined}
+                    stats={{
+                      hp: hp.current,
+                      maxHp: hp.max,
+                      ac: character.stats?.ac || 10,
+                      level: character.level,
+                      proficiencyBonus: character.stats?.proficiencyBonus || 2,
+                      speed: character.stats?.speed || 30,
+                      STR: character.stats?.STR || 10,
+                      DEX: character.stats?.DEX || 10,
+                      CON: character.stats?.CON || 10,
+                      INT: character.stats?.INT || 10,
+                      WIS: character.stats?.WIS || 10,
+                      CHA: character.stats?.CHA || 10,
+                      className: character.stats?.className,
+                      raceName: character.stats?.raceName,
+                      subrace: character.stats?.subrace,
+                      hitDice: character.stats?.hitDice || `${character.level}d10`,
+                      experience: worldState.party?.[character.name]?.experience || 0,
+                      experienceToNext: character.stats?.experienceToNext || 300,
+                      savingThrowProficiencies: character.stats?.savingThrowProficiencies || [],
+                      skillProficiencies: character.stats?.skillProficiencies || [],
+                      features: character.stats?.features || [],
+                    }}
+                    inventory={character.inventory || []}
+                    conditions={worldState.party?.[character.name]?.conditions || []}
+                    gold={character.stats?.gold || 0}
+                    tutorialLevel="novice"
+                  />
+                )}
+
+                {/* Expanded Story Mode Stats */}
+                {isCharacterSheetExpanded && engine !== 'DND_5E' && (
+                  <CharacterStatsPanel
+                    name={characterName}
+                    archetype={character.archetype}
+                    avatarUrl={character.avatarUrl || undefined}
+                    engine={engine as GameEngine}
+                    stats={{
+                      hp: hp.current,
+                      maxHp: hp.max,
+                      level: character.level,
+                      experience: worldState.party?.[character.name]?.experience || 0,
+                      combat: character.stats?.combat,
+                      exploration: character.stats?.exploration,
+                      social: character.stats?.social,
+                      knowledge: character.stats?.knowledge || character.stats?.lore,
+                    }}
+                    conditions={worldState.party?.[character.name]?.conditions || []}
+                  />
+                )}
+              </div>
             )}
 
             {/* DM Panel Toggle Button - Only for Human DMs */}

@@ -22,7 +22,7 @@ interface DnD5eCharacterCreatorProps {
     description: string
     archetypeId: string
     archetypeName: string
-    stats: Record<string, number | string>
+    stats: Record<string, unknown>
     inventory: string[]
     level: number
   }) => void
@@ -256,7 +256,7 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
       description: characterDescription,
       archetypeId: `dnd5e_${selectedClassId}_${selectedRaceId}`,
       archetypeName: `${character.race.name} ${character.class.name}`,
-      stats,
+      stats: { ...stats } as Record<string, unknown>,
       inventory: equipment,
       level: selectedLevel
     })

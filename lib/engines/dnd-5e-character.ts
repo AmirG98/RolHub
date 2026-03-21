@@ -570,31 +570,176 @@ export function createDnD5eCharacter(options: CharacterCreationOptions): DnD5eCh
 }
 
 /**
- * Convert D&D 5e character to game-compatible stats format
+ * Full game stats type for D&D 5e characters
  */
-export function convertToGameStats(character: DnD5eCharacter): Record<string, number | string> {
+export interface DnD5eGameStats {
+  // Basic stats
+  hp: number
+  maxHp: number
+  ac: number
+  level: number
+  proficiencyBonus: number
+  speed: number
+
+  // Ability scores
+  STR: number
+  DEX: number
+  CON: number
+  INT: number
+  WIS: number
+  CHA: number
+
+  // Ability modifiers
+  strMod: number
+  dexMod: number
+  conMod: number
+  intMod: number
+  wisMod: number
+  chaMod: number
+
+  // Class/Race info
+  className: string
+  classId: string
+  raceName: string
+  raceId: string
+  subraceName: string
+  subraceId: string
+
+  // Hit dice
+  hitDice: string
+  hitDiceRemaining: number
+
+  // Experience
+  experience: number
+  experienceToNext: number
+
+  // Proficiencies
+  savingThrowProficiencies: AbilityScore[]
+  skillProficiencies: string[]
+
+  // Features and traits
+  features: string[]
+  traits: string[]
+  languages: string[]
+
+  // Equipment
+  equipment: string[]
+
+  // Spellcasting (optional)
+  spellcasting?: {
+    ability: AbilityScore
+    spellSaveDC: number
+    spellAttackBonus: number
+    cantripsKnown: number
+    spellsKnown?: number
+    spellSlots?: Record<number, number>
+  }
+
+  // Dragonborn ancestry (optional)
+  draconicAncestry?: {
+    dragon: string
+    damageType: string
+    breathWeapon: string
+  }
+}
+
+// Experience thresholds by level (D&D 5e)
+const EXPERIENCE_THRESHOLDS: Record<number, number> = {
+  1: 0,
+  2: 300,
+  3: 900,
+  4: 2700,
+  5: 6500,
+  6: 14000,
+  7: 23000,
+  8: 34000,
+  9: 48000,
+  10: 64000,
+  11: 85000,
+  12: 100000,
+  13: 120000,
+  14: 140000,
+  15: 165000,
+  16: 195000,
+  17: 225000,
+  18: 265000,
+  19: 305000,
+  20: 355000,
+}
+
+/**
+ * Get experience needed for next level
+ */
+export function getExperienceToNextLevel(level: number): number {
+  if (level >= 20) return 0
+  return EXPERIENCE_THRESHOLDS[level + 1] - EXPERIENCE_THRESHOLDS[level]
+}
+
+/**
+ * Convert D&D 5e character to game-compatible stats format (full version)
+ */
+export function convertToGameStats(character: DnD5eCharacter): DnD5eGameStats {
+  const characterClass = getClass(character.class.id)
+  const hitDie = characterClass?.hitDie || 'd8'
+
   return {
+    // Basic stats
     hp: character.hitPoints.current,
     maxHp: character.hitPoints.max,
     ac: character.armorClass,
     level: character.level,
     proficiencyBonus: character.proficiencyBonus,
     speed: character.speed,
+
+    // Ability scores
     STR: character.abilityScores.STR,
     DEX: character.abilityScores.DEX,
     CON: character.abilityScores.CON,
     INT: character.abilityScores.INT,
     WIS: character.abilityScores.WIS,
     CHA: character.abilityScores.CHA,
+
+    // Ability modifiers
     strMod: calculateModifier(character.abilityScores.STR),
     dexMod: calculateModifier(character.abilityScores.DEX),
     conMod: calculateModifier(character.abilityScores.CON),
     intMod: calculateModifier(character.abilityScores.INT),
     wisMod: calculateModifier(character.abilityScores.WIS),
     chaMod: calculateModifier(character.abilityScores.CHA),
+
+    // Class/Race info
     className: character.class.name,
+    classId: character.class.id,
     raceName: character.race.name,
-    subraceName: character.subrace?.name || ''
+    raceId: character.race.id,
+    subraceName: character.subrace?.name || '',
+    subraceId: character.subrace?.id || '',
+
+    // Hit dice
+    hitDice: `${character.level}${hitDie}`,
+    hitDiceRemaining: character.level,
+
+    // Experience
+    experience: 0,
+    experienceToNext: getExperienceToNextLevel(character.level),
+
+    // Proficiencies
+    savingThrowProficiencies: character.savingThrows,
+    skillProficiencies: character.skills,
+
+    // Features and traits
+    features: character.features,
+    traits: character.traits,
+    languages: character.languages,
+
+    // Equipment
+    equipment: character.equipment,
+
+    // Spellcasting
+    spellcasting: character.spellcasting,
+
+    // Dragonborn ancestry
+    draconicAncestry: character.draconicAncestry,
   }
 }
 

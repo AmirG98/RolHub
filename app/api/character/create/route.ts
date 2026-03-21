@@ -113,21 +113,64 @@ export async function POST(req: NextRequest) {
       // Personaje D&D 5e creado con el creador completo
       charName = characterName || 'Aventurero'
       charArchetype = archetypeId // e.g., "dnd5e_fighter_human"
+
+      // Save ALL D&D 5e stats including proficiencies, features, etc.
       charStats = {
+        // Basic stats
         hp: dnd5eStats.hp || 10,
         maxHp: dnd5eStats.maxHp || 10,
         ac: dnd5eStats.ac || 10,
+        speed: dnd5eStats.speed || 30,
+        proficiencyBonus: dnd5eStats.proficiencyBonus || 2,
+
+        // Ability scores
         STR: dnd5eStats.STR || 10,
         DEX: dnd5eStats.DEX || 10,
         CON: dnd5eStats.CON || 10,
         INT: dnd5eStats.INT || 10,
         WIS: dnd5eStats.WIS || 10,
         CHA: dnd5eStats.CHA || 10,
-        proficiencyBonus: dnd5eStats.proficiencyBonus || 2,
+
+        // Ability modifiers
+        strMod: dnd5eStats.strMod || 0,
+        dexMod: dnd5eStats.dexMod || 0,
+        conMod: dnd5eStats.conMod || 0,
+        intMod: dnd5eStats.intMod || 0,
+        wisMod: dnd5eStats.wisMod || 0,
+        chaMod: dnd5eStats.chaMod || 0,
+
+        // Class/Race info
         className: dnd5eStats.className || '',
+        classId: dnd5eStats.classId || '',
         raceName: dnd5eStats.raceName || '',
+        raceId: dnd5eStats.raceId || '',
+        subraceName: dnd5eStats.subraceName || '',
+        subraceId: dnd5eStats.subraceId || '',
+
+        // Hit dice
+        hitDice: dnd5eStats.hitDice || `${dnd5eLevel || 1}d8`,
+        hitDiceRemaining: dnd5eStats.hitDiceRemaining || dnd5eLevel || 1,
+
+        // Experience
+        experience: dnd5eStats.experience || 0,
+        experienceToNext: dnd5eStats.experienceToNext || 300,
+
+        // Proficiencies (arrays)
+        savingThrowProficiencies: dnd5eStats.savingThrowProficiencies || [],
+        skillProficiencies: dnd5eStats.skillProficiencies || [],
+
+        // Features and traits (arrays)
+        features: dnd5eStats.features || [],
+        traits: dnd5eStats.traits || [],
+        languages: dnd5eStats.languages || ['Común'],
+
+        // Spellcasting (optional object)
+        spellcasting: dnd5eStats.spellcasting || null,
+
+        // Dragonborn ancestry (optional)
+        draconicAncestry: dnd5eStats.draconicAncestry || null,
       }
-      charInventory = dnd5eInventory || []
+      charInventory = dnd5eInventory || (Array.isArray(dnd5eStats.equipment) ? dnd5eStats.equipment : []) || []
       charLevel = dnd5eLevel || 1
     } else {
       // Personaje de arquetipo narrativo tradicional

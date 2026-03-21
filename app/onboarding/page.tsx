@@ -108,7 +108,7 @@ export default function OnboardingPage() {
     description: string
     archetypeId: string
     archetypeName: string
-    stats: Record<string, number | string>
+    stats: Record<string, unknown>
     inventory: string[]
     level: number
   }) => {
