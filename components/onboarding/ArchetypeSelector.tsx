@@ -1,16 +1,24 @@
 'use client'
 
-import { useState } from 'react'
-import { Archetype } from '@/lib/types/lore'
+import { useState, useCallback } from 'react'
+import { Archetype, Lore } from '@/lib/types/lore'
 import { RunicButton } from '@/components/medieval/RunicButton'
-import { Sword, BookOpen, Shield, Zap, Heart, Eye, Target, Sparkles, Skull, Star, HelpCircle } from 'lucide-react'
+import { Sword, BookOpen, Shield, Zap, Heart, Eye, Target, Sparkles, Skull, Star, HelpCircle, Dices, User } from 'lucide-react'
 import { useTranslations } from '@/lib/i18n'
 import Link from 'next/link'
+import { generateRandomDescription } from '@/lib/character/description-templates'
+
+export interface CharacterCreationData {
+  archetype: Archetype
+  characterName: string
+  characterDescription: string
+}
 
 interface ArchetypeSelectorProps {
   archetypes: Archetype[]
   loreName?: string
-  onSelect: (archetype: Archetype) => void
+  lore?: Lore
+  onSelect: (data: CharacterCreationData) => void
   onBack: () => void
 }
 
@@ -49,9 +57,43 @@ const getArchetypeIcon = (id: string): React.ReactNode => {
   return iconMap[id] || <Sword className="h-12 w-12" />
 }
 
-export function ArchetypeSelector({ archetypes, loreName, onSelect, onBack }: ArchetypeSelectorProps) {
+export function ArchetypeSelector({ archetypes, loreName, lore, onSelect, onBack }: ArchetypeSelectorProps) {
   const t = useTranslations()
   const [selectedArchetype, setSelectedArchetype] = useState<Archetype | null>(null)
+  const [characterName, setCharacterName] = useState('')
+  const [characterDescription, setCharacterDescription] = useState('')
+  const [showCharacterForm, setShowCharacterForm] = useState(false)
+
+  // Generar descripcion aleatoria
+  const handleGenerateDescription = useCallback(() => {
+    const description = generateRandomDescription(lore || 'CUSTOM')
+    setCharacterDescription(description)
+  }, [lore])
+
+  // Confirmar seleccion de arquetipo y mostrar formulario
+  const handleArchetypeConfirm = useCallback(() => {
+    if (selectedArchetype) {
+      setShowCharacterForm(true)
+      // Sugerir nombre del arquetipo como placeholder
+      if (!characterName) {
+        setCharacterName('')
+      }
+    }
+  }, [selectedArchetype, characterName])
+
+  // Enviar datos completos
+  const handleSubmit = useCallback(() => {
+    if (selectedArchetype && characterName.trim()) {
+      onSelect({
+        archetype: selectedArchetype,
+        characterName: characterName.trim(),
+        characterDescription: characterDescription.trim(),
+      })
+    }
+  }, [selectedArchetype, characterName, characterDescription, onSelect])
+
+  // Validar si puede continuar
+  const canContinue = selectedArchetype && characterName.trim().length >= 2
 
   if (archetypes.length === 0) {
     return (
@@ -207,6 +249,80 @@ export function ArchetypeSelector({ archetypes, loreName, onSelect, onBack }: Ar
           </div>
         )}
 
+        {/* Formulario de personaje - aparece despues de seleccionar arquetipo */}
+        {selectedArchetype && (
+          <div className="glass-panel-dark rounded-lg p-4 md:p-6 mb-6 md:mb-8 ink-reveal">
+            <div className="flex items-center gap-2 mb-4">
+              <User className="w-5 h-5 text-gold" />
+              <h3 className="font-heading text-lg md:text-xl text-gold">
+                Crea tu personaje
+              </h3>
+            </div>
+
+            <p className="font-body text-sm text-parchment/70 mb-4">
+              Has elegido ser un <span className="text-gold">{selectedArchetype.name}</span>. Ahora dale nombre y personalidad a tu personaje.
+            </p>
+
+            {/* Nombre del personaje */}
+            <div className="mb-4">
+              <label className="block font-ui text-sm text-gold-dim mb-2">
+                Nombre de tu personaje *
+              </label>
+              <input
+                type="text"
+                value={characterName}
+                onChange={(e) => setCharacterName(e.target.value)}
+                placeholder={selectedArchetype.name}
+                className="w-full px-4 py-3 bg-shadow border border-gold-dim/50 rounded-lg
+                         font-body text-parchment placeholder:text-parchment/30
+                         focus:border-gold focus:outline-none focus:ring-1 focus:ring-gold/50
+                         transition-colors"
+                maxLength={50}
+              />
+              <p className="text-xs text-parchment/50 mt-1">
+                Minimo 2 caracteres
+              </p>
+            </div>
+
+            {/* Descripcion del personaje */}
+            <div className="mb-4">
+              <label className="block font-ui text-sm text-gold-dim mb-2">
+                Describe a tu personaje
+                <span className="text-parchment/50 ml-1">(opcional)</span>
+              </label>
+              <textarea
+                value={characterDescription}
+                onChange={(e) => setCharacterDescription(e.target.value)}
+                placeholder="Apariencia, personalidad, historia..."
+                className="w-full px-4 py-3 bg-shadow border border-gold-dim/50 rounded-lg
+                         font-body text-parchment placeholder:text-parchment/30
+                         focus:border-gold focus:outline-none focus:ring-1 focus:ring-gold/50
+                         transition-colors resize-none"
+                rows={3}
+                maxLength={500}
+              />
+              <div className="flex justify-between items-center mt-1">
+                <p className="text-xs text-parchment/50">
+                  Esta descripcion se usara para generar tu retrato
+                </p>
+                <span className="text-xs text-parchment/40">{characterDescription.length}/500</span>
+              </div>
+            </div>
+
+            {/* Boton generar descripcion aleatoria */}
+            <button
+              type="button"
+              onClick={handleGenerateDescription}
+              className="flex items-center gap-2 px-4 py-2 bg-emerald/20 hover:bg-emerald/30
+                       border border-emerald/50 rounded-lg text-emerald font-ui text-sm
+                       transition-colors group"
+            >
+              <Dices className="w-4 h-4 group-hover:animate-spin" />
+              Generar descripcion aleatoria
+            </button>
+          </div>
+        )}
+
         {/* Botones de navegacion - fixed en mobile */}
         <div className="fixed bottom-0 left-0 right-0 md:relative bg-shadow/95 md:bg-transparent p-4 md:p-0 border-t border-gold/20 md:border-0 flex justify-between items-center z-40">
           <RunicButton variant="secondary" onClick={onBack} className="text-sm md:text-base px-4 md:px-6">
@@ -215,8 +331,8 @@ export function ArchetypeSelector({ archetypes, loreName, onSelect, onBack }: Ar
 
           <RunicButton
             variant="primary"
-            disabled={!selectedArchetype}
-            onClick={() => selectedArchetype && onSelect(selectedArchetype)}
+            disabled={!canContinue}
+            onClick={handleSubmit}
             className="text-sm md:text-base px-4 md:px-12"
           >
             {t.archetypeSelector.startAdventure}

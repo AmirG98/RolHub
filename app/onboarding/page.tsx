@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { useUser } from '@clerk/nextjs'
 import { LoreSelector } from '@/components/onboarding/LoreSelector'
 import { ModeSelector } from '@/components/onboarding/ModeSelector'
-import { ArchetypeSelector } from '@/components/onboarding/ArchetypeSelector'
+import { ArchetypeSelector, CharacterCreationData } from '@/components/onboarding/ArchetypeSelector'
 import { DnD5eCharacterCreator } from '@/components/onboarding/DnD5eCharacterCreator'
 import { Lore, GameMode, GameEngine, TutorialLevel, Archetype } from '@/lib/types/lore'
 
@@ -43,8 +43,9 @@ export default function OnboardingPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const handleCreateCharacter = async (archetype: Archetype) => {
-    console.log('handleCreateCharacter called', { selectedLore, gameMode, engine, tutorialLevel, user: !!user, archetype })
+  const handleCreateCharacter = async (data: CharacterCreationData) => {
+    const { archetype, characterName, characterDescription } = data
+    console.log('handleCreateCharacter called', { selectedLore, gameMode, engine, tutorialLevel, user: !!user, archetype, characterName, characterDescription })
 
     if (!selectedLore || !gameMode || !engine || !tutorialLevel) {
       console.error('Missing required fields', { selectedLore, gameMode, engine, tutorialLevel })
@@ -72,7 +73,8 @@ export default function OnboardingPage() {
           engine,
           tutorialLevel,
           archetypeId: archetype.id,
-          characterName: archetype.name,
+          characterName,
+          characterDescription,
           isMultiplayer,
         }),
       })
@@ -255,6 +257,7 @@ export default function OnboardingPage() {
           <ArchetypeSelector
             archetypes={getArchetypes()}
             loreName={getLoreName()}
+            lore={selectedLore}
             onSelect={handleCreateCharacter}
             onBack={() => setStep(2)}
           />

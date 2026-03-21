@@ -4,6 +4,8 @@ import { prisma } from '@/lib/db/prisma'
 import { Lore, GameMode, GameEngine, TutorialLevel, Prisma } from '@prisma/client'
 import { createCampaignMapState } from '@/lib/maps/map-init'
 import { getExampleMapData } from '@/lib/maps/lore-map-data'
+import { generateCharacterPortrait } from '@/lib/fal/character-portrait-gen'
+import { type Lore as LoreType } from '@/lib/types/lore'
 
 // Generar código de invitación único de 6 caracteres
 function generateInviteCode(): string {
@@ -33,7 +35,7 @@ export async function POST(req: NextRequest) {
     // Parsear request body
     const body = await req.json()
     const {
-      lore, mode, engine, tutorialLevel, archetypeId, characterName, isMultiplayer,
+      lore, mode, engine, tutorialLevel, archetypeId, characterName, characterDescription, isMultiplayer,
       isDnD5eCharacter, dnd5eStats, dnd5eInventory, dnd5eLevel
     } = body as {
       lore: Lore
@@ -42,6 +44,7 @@ export async function POST(req: NextRequest) {
       tutorialLevel: TutorialLevel
       archetypeId: string
       characterName?: string
+      characterDescription?: string
       isMultiplayer?: boolean
       // D&D 5e specific fields
       isDnD5eCharacter?: boolean
@@ -305,6 +308,30 @@ export async function POST(req: NextRequest) {
       })
 
       return { campaign, character, session }
+    })
+
+    // Generar retrato del personaje en background (no bloquea la respuesta)
+    // Se guarda en el character cuando termine
+    generateCharacterPortrait({
+      name: charName,
+      archetype: charArchetype,
+      lore: lore as unknown as LoreType,
+      description: characterDescription,
+      quality: 'standard',
+    }).then(async (portraitResult) => {
+      if (portraitResult.isGenerated && portraitResult.url) {
+        try {
+          await prisma.character.update({
+            where: { id: result.character.id },
+            data: { avatarUrl: portraitResult.url },
+          })
+          console.log(`Portrait generated for character ${result.character.id}: ${portraitResult.url}`)
+        } catch (updateError) {
+          console.error('Failed to update character avatar:', updateError)
+        }
+      }
+    }).catch((err) => {
+      console.error('Portrait generation failed:', err)
     })
 
     // Retornar el ID de la sesión para redirigir

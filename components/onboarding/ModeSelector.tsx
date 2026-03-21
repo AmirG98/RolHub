@@ -57,24 +57,7 @@ export function ModeSelector({ onSelect, onBack }: ModeSelectorProps) {
       icon: '📚',
       color: '#00D9FF',
       recommended: true,
-    },
-    {
-      id: 'PBTA' as GameEngine,
-      name: t.onboarding.engine.pbta,
-      tagline: t.onboarding.engine.pbtaDesc,
-      description: t.onboarding.engine.pbtaDetail,
-      icon: '🎲',
-      color: '#FFD93D',
-      recommended: false,
-    },
-    {
-      id: 'YEAR_ZERO' as GameEngine,
-      name: t.onboarding.engine.yearZero,
-      tagline: t.onboarding.engine.yearZeroDesc,
-      description: t.onboarding.engine.yearZeroDetail,
-      icon: '💀',
-      color: '#FF6B6B',
-      recommended: false,
+      comingSoon: false,
     },
     {
       id: 'DND_5E' as GameEngine,
@@ -84,6 +67,27 @@ export function ModeSelector({ onSelect, onBack }: ModeSelectorProps) {
       icon: '🐉',
       color: '#B026FF',
       recommended: false,
+      comingSoon: false,
+    },
+    {
+      id: 'PBTA' as GameEngine,
+      name: t.onboarding.engine.pbta,
+      tagline: t.onboarding.engine.pbtaDesc,
+      description: t.onboarding.engine.pbtaDetail,
+      icon: '🎲',
+      color: '#FFD93D',
+      recommended: false,
+      comingSoon: true,
+    },
+    {
+      id: 'YEAR_ZERO' as GameEngine,
+      name: t.onboarding.engine.yearZero,
+      tagline: t.onboarding.engine.yearZeroDesc,
+      description: t.onboarding.engine.yearZeroDetail,
+      icon: '💀',
+      color: '#FF6B6B',
+      recommended: false,
+      comingSoon: true,
     },
   ]
 
@@ -207,19 +211,29 @@ export function ModeSelector({ onSelect, onBack }: ModeSelectorProps) {
             {engines.map((engine) => (
               <button
                 key={engine.id}
-                className={`glass-panel rounded-lg p-3 md:p-4 cursor-pointer transition-all duration-300 hover:scale-105 text-left relative ${
-                  selectedEngine === engine.id ? 'glow-effect ring-2 ring-gold-bright' : ''
+                className={`glass-panel rounded-lg p-3 md:p-4 transition-all duration-300 text-left relative ${
+                  engine.comingSoon
+                    ? 'opacity-50 cursor-not-allowed'
+                    : 'cursor-pointer hover:scale-105'
+                } ${
+                  selectedEngine === engine.id && !engine.comingSoon ? 'glow-effect ring-2 ring-gold-bright' : ''
                 }`}
-                onClick={() => setSelectedEngine(engine.id)}
+                onClick={() => !engine.comingSoon && setSelectedEngine(engine.id)}
+                disabled={engine.comingSoon}
               >
                 {engine.recommended && (
                   <div className="absolute top-1 right-1 md:top-2 md:right-2 bg-emerald text-parchment px-1.5 md:px-2 py-0.5 rounded-full text-[10px] md:text-xs font-ui font-semibold">
                     ★ {t.onboarding.engine.recommended}
                   </div>
                 )}
+                {engine.comingSoon && (
+                  <div className="absolute top-1 right-1 md:top-2 md:right-2 bg-gold/80 text-shadow px-1.5 md:px-2 py-0.5 rounded-full text-[10px] md:text-xs font-ui font-semibold">
+                    Próximamente
+                  </div>
+                )}
                 <div className="text-2xl md:text-4xl mb-1 md:mb-2">{engine.icon}</div>
                 <h3 className="font-heading text-sm md:text-lg text-parchment mb-0.5 md:mb-1 line-clamp-1">{engine.name}</h3>
-                <p className="font-ui text-[10px] md:text-xs mb-1 md:mb-2 line-clamp-1" style={{ color: engine.color }}>
+                <p className="font-ui text-[10px] md:text-xs mb-1 md:mb-2 line-clamp-1" style={{ color: engine.comingSoon ? '#888' : engine.color }}>
                   {engine.tagline}
                 </p>
                 <p className="font-body text-xs text-parchment/60 hidden md:block">{engine.description}</p>
