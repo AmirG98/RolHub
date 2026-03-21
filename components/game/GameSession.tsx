@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useRef, useEffect, useCallback } from 'react'
-import dynamic from 'next/dynamic'
 import { ParchmentPanel } from '@/components/medieval/ParchmentPanel'
 import { OrnateFrame } from '@/components/medieval/OrnateFrame'
 import { RunicButton } from '@/components/medieval/RunicButton'
@@ -30,16 +29,7 @@ import { CombatState, CombatTrigger, DEFAULT_COMBAT_STATE, CombatActionRequest, 
 import { initializeCombat, checkCombatEnd } from '@/lib/tactical/combat-init'
 // Character stats panel and DM orb
 import { CharacterStatsPanel } from '@/components/game/CharacterStatsPanel'
-
-// Dynamic import for 3D orb (SSR-safe)
-const DMOrb3D = dynamic(() => import('@/components/game/DMOrb3D').then(mod => ({ default: mod.DMOrb3D })), {
-  ssr: false,
-  loading: () => <div className="w-16 h-16 rounded-full bg-gold/20 animate-pulse" />
-})
-const DMOrbSimple = dynamic(() => import('@/components/game/DMOrb3D').then(mod => ({ default: mod.DMOrbSimple })), {
-  ssr: false,
-  loading: () => <div className="w-12 h-12 rounded-full bg-gold/20 animate-pulse" />
-})
+import { DMOrb3D, DMOrbSimple } from '@/components/game/DMOrb3D'
 
 interface Turn {
   id: string
