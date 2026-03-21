@@ -4,10 +4,16 @@ import { useState } from 'react'
 import { EnginePanelProps, DiceRoll } from '@/lib/engines/types'
 import { dnd5eAbilityScores, calculateModifier, formatModifier, getProficiencyBonus } from '@/lib/engines/dnd-5e'
 import { RunicButton } from '@/components/medieval/RunicButton'
-import { Shield, Swords, Heart, Brain, Eye, Sparkles, ChevronUp, ChevronDown, Minus } from 'lucide-react'
+import { Shield, Swords, Heart, Brain, Eye, Sparkles, ChevronUp, ChevronDown, Minus, Scroll } from 'lucide-react'
 
 interface DnD5ePanelProps extends EnginePanelProps {
   // D&D 5e props
+}
+
+// Truncar texto largo
+function truncateText(text: string, maxLength: number): string {
+  if (text.length <= maxLength) return text
+  return text.substring(0, maxLength - 3) + '...'
 }
 
 // Iconos para atributos
@@ -34,11 +40,15 @@ type RollMode = 'normal' | 'advantage' | 'disadvantage'
 
 export function DnD5ePanel({
   character,
+  worldState,
   locale,
   onDiceRoll,
   disabled = false
 }: DnD5ePanelProps) {
   const isEnglish = locale === 'en'
+
+  // Get active quest for display
+  const activeQuest = worldState?.activeQuests?.[0] || (isEnglish ? 'Explore the world' : 'Explora el mundo')
   const [selectedAbility, setSelectedAbility] = useState<string | null>(null)
   const [rollMode, setRollMode] = useState<RollMode>('normal')
   const [lastRoll, setLastRoll] = useState<{
@@ -163,13 +173,22 @@ export function DnD5ePanel({
 
   return (
     <div className="space-y-4">
-      {/* Header */}
-      <div className="text-center pb-3 border-b border-gold-dim/30">
-        <div className="flex items-center justify-center gap-2 mb-1">
-          <Shield className="h-5 w-5 text-gold" />
-          <h3 className="font-heading text-lg text-gold">{labels.title}</h3>
+      {/* Active Quest Header */}
+      <div className="pb-3 border-b border-gold-dim/30">
+        <div className="flex items-center gap-2 mb-2">
+          <Scroll className="h-5 w-5 text-gold flex-shrink-0" />
+          <span className="font-heading text-sm text-gold uppercase tracking-wide">
+            {isEnglish ? 'Quest' : 'Misión'}
+          </span>
         </div>
-        <p className="font-ui text-xs text-parchment/60">{labels.subtitle}</p>
+        <p className="font-body text-sm text-parchment leading-relaxed">
+          {truncateText(activeQuest, 100)}
+        </p>
+        {worldState?.currentScene && (
+          <p className="font-ui text-xs text-parchment/50 mt-1">
+            📍 {worldState.currentScene}
+          </p>
+        )}
       </div>
 
       {/* Character Info */}

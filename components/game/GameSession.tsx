@@ -27,9 +27,9 @@ import { type UIMood, getUIMood, getMoodConfig } from '@/lib/game/ui-mood'
 import { TacticalCombatPanel } from '@/components/game/TacticalCombatPanel'
 import { CombatState, CombatTrigger, DEFAULT_COMBAT_STATE, CombatActionRequest, CombatActionResponse } from '@/lib/types/combat-state'
 import { initializeCombat, checkCombatEnd } from '@/lib/tactical/combat-init'
-// Character stats panel and DM orb
+// Character stats panel and narrator mage
 import { CharacterStatsPanel } from '@/components/game/CharacterStatsPanel'
-import { DMOrb3D, DMOrbSimple } from '@/components/game/DMOrb3D'
+import { NarratorMage, NarratorMageSimple } from '@/components/game/NarratorMage'
 
 interface Turn {
   id: string
@@ -721,15 +721,15 @@ export default function GameSession({
             {/* NarratorPanel inline */}
             <OrnateFrame variant="gold">
               <ParchmentPanel variant="ornate" className="min-h-[400px] md:min-h-[500px] max-h-[60vh] md:max-h-[70vh]">
-                {/* Header with DM Orb */}
+                {/* Header with Narrator Mage */}
                 <div className="flex items-center justify-center gap-3 mb-3 md:mb-4">
-                  {/* DM Orb - visible on larger screens */}
+                  {/* Hooded Mage - visible on larger screens */}
                   <div className="hidden md:block">
-                    <DMOrb3D state={getDMOrbState()} size={80} />
+                    <NarratorMage state={getDMOrbState()} size={80} />
                   </div>
-                  {/* Simple orb for mobile */}
+                  {/* Simple mage for mobile */}
                   <div className="md:hidden">
-                    <DMOrbSimple state={getDMOrbState()} size={50} />
+                    <NarratorMageSimple state={getDMOrbState()} size={50} />
                   </div>
                   <h2 className="font-title text-xl md:text-2xl text-ink">El Narrador</h2>
                 </div>

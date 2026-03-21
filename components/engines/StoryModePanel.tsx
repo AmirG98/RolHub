@@ -2,24 +2,32 @@
 
 import { EnginePanelProps, DiceRoll } from '@/lib/engines/types'
 import { RunicButton } from '@/components/medieval/RunicButton'
-import { BookOpen, Sparkles, Swords, Compass, Users } from 'lucide-react'
+import { Sparkles, Swords, Compass, Users, Scroll } from 'lucide-react'
 
 interface StoryModePanelProps extends EnginePanelProps {
   // Story Mode no tiene props adicionales
 }
 
+// Truncar texto largo
+function truncateText(text: string, maxLength: number): string {
+  if (text.length <= maxLength) return text
+  return text.substring(0, maxLength - 3) + '...'
+}
+
 export function StoryModePanel({
   character,
+  worldState,
   locale,
   onDiceRoll,
   disabled = false
 }: StoryModePanelProps) {
   const isEnglish = locale === 'en'
 
+  // Get active quest for display
+  const activeQuest = worldState?.activeQuests?.[0] || (isEnglish ? 'Explore the world' : 'Explora el mundo')
+
   const labels = isEnglish ? {
-    title: 'Story Mode',
-    subtitle: 'Narrative-focused gameplay',
-    description: 'This mode prioritizes the story over mechanics. Dice are optional - your choices and character abilities guide the narrative.',
+    quest: 'Quest',
     stats: 'Character Abilities',
     combat: 'Combat',
     exploration: 'Exploration',
@@ -28,9 +36,7 @@ export function StoryModePanel({
     inspirationDesc: 'Roll for dramatic moments',
     tip: 'Tip: Focus on describing your actions. The DM will determine outcomes based on narrative coherence.'
   } : {
-    title: 'Modo Historia',
-    subtitle: 'Juego enfocado en la narrativa',
-    description: 'Este modo prioriza la historia sobre las mecánicas. Los dados son opcionales - tus elecciones y habilidades del personaje guían la narrativa.',
+    quest: 'Misión',
     stats: 'Habilidades del Personaje',
     combat: 'Combate',
     exploration: 'Exploración',
@@ -61,20 +67,22 @@ export function StoryModePanel({
 
   return (
     <div className="space-y-4">
-      {/* Header */}
-      <div className="text-center pb-3 border-b border-gold-dim/30">
-        <div className="flex items-center justify-center gap-2 mb-1">
-          <BookOpen className="h-5 w-5 text-gold" />
-          <h3 className="font-heading text-lg text-gold">{labels.title}</h3>
+      {/* Active Quest Header */}
+      <div className="pb-3 border-b border-gold-dim/30">
+        <div className="flex items-center gap-2 mb-2">
+          <Scroll className="h-5 w-5 text-gold flex-shrink-0" />
+          <span className="font-heading text-sm text-gold uppercase tracking-wide">
+            {labels.quest}
+          </span>
         </div>
-        <p className="font-ui text-xs text-parchment/60">{labels.subtitle}</p>
-      </div>
-
-      {/* Description */}
-      <div className="glass-panel rounded-lg p-3">
-        <p className="font-body text-xs text-parchment/80 leading-relaxed">
-          {labels.description}
+        <p className="font-body text-sm text-parchment leading-relaxed">
+          {truncateText(activeQuest, 100)}
         </p>
+        {worldState?.currentScene && (
+          <p className="font-ui text-xs text-parchment/50 mt-1">
+            📍 {worldState.currentScene}
+          </p>
+        )}
       </div>
 
       {/* Stats Display */}

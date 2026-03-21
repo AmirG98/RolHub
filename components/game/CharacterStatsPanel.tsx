@@ -198,28 +198,29 @@ export function CharacterStatsPanel({
         className
       )}
     >
-      {/* Header with Avatar */}
-      <div className="flex items-center gap-3 mb-3 pb-2 border-b border-gold-dim/20">
-        {/* Avatar */}
-        <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-gold flex-shrink-0 bg-shadow-mid">
+      {/* Header with Large Avatar */}
+      <div className="flex items-start gap-4 mb-3 pb-3 border-b border-gold-dim/20">
+        {/* Large Avatar */}
+        <div className="w-20 h-20 md:w-24 md:h-24 rounded-lg overflow-hidden border-2 border-gold flex-shrink-0 bg-shadow-mid shadow-lg shadow-gold/20">
           {avatarUrl ? (
             <img src={avatarUrl} alt={name} className="w-full h-full object-cover" />
           ) : (
-            <div className="w-full h-full flex items-center justify-center text-gold text-xl">
+            <div className="w-full h-full flex items-center justify-center text-gold text-3xl font-heading bg-gradient-to-br from-shadow to-shadow-mid">
               {name.charAt(0).toUpperCase()}
             </div>
           )}
         </div>
 
         {/* Name and Archetype */}
-        <div className="flex-1 min-w-0">
-          <h3 className="font-heading text-base text-parchment truncate">{name}</h3>
-          <p className="text-xs text-gold-dim truncate">
+        <div className="flex-1 min-w-0 pt-1">
+          <h3 className="font-heading text-lg md:text-xl text-parchment truncate">{name}</h3>
+          <p className="text-sm text-gold-dim truncate mb-1">
             {isDnD5e && stats.raceName && stats.className
               ? `${stats.raceName} ${stats.className}`
               : archetype}
-            {' '}
-            <span className="text-parchment/50">Nivel {stats.level || 1}</span>
+          </p>
+          <p className="text-xs text-parchment/50">
+            Nivel {stats.level || 1}
           </p>
         </div>
       </div>
