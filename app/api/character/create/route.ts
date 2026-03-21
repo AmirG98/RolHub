@@ -345,7 +345,7 @@ export async function POST(req: NextRequest) {
         data: {
           sessionId: session.id,
           role: 'SYSTEM',
-          content: `Bienvenido a ${loreData.name}. ${narrativeHook}`,
+          content: `Bienvenido a ${loreData.name}, ${charName}. ${narrativeHook}`,
           createdAt: new Date(),
         },
       })
