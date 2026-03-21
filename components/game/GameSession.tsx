@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import { ParchmentPanel } from '@/components/medieval/ParchmentPanel'
 import { OrnateFrame } from '@/components/medieval/OrnateFrame'
 import { RunicButton } from '@/components/medieval/RunicButton'
@@ -9,20 +9,24 @@ import { ParticipantList } from '@/components/game/ParticipantList'
 import { useSessionRealtime, broadcastTurn } from '@/hooks/useSessionRealtime'
 import { useParticipantPresence } from '@/hooks/useParticipantPresence'
 import { useLanguage, useTranslations } from '@/lib/i18n'
-import { Sword, Shield, Map, MessageCircle, BookOpen, Heart, Backpack, Scroll, Dices, Users, Wifi, Crown, Cog } from 'lucide-react'
+import { Sword, Shield, Map, MessageCircle, BookOpen, Heart, Backpack, Scroll, Dices, Users, Wifi, Crown, Cog, Swords } from 'lucide-react'
 import DMPanel from '@/components/game/DMPanel'
 import { EnginePanel } from '@/components/engines/EnginePanel'
 import { GameMapPanel } from '@/components/game/GameMapPanel'
 import { type Lore as LoreType } from '@/lib/maps/map-config'
 import { VoicePlayerCompact, VoicePlayerAuto } from '@/components/game/VoicePlayer'
 // import { DynamicMusicPlayer, useDynamicMusic } from '@/components/audio/DynamicMusicPlayer' // DISABLED
-import { GameEngine, DiceRoll as EngineDiceRoll, Locale } from '@/lib/engines/types'
+import { GameEngine, DiceRoll as EngineDiceRoll, Locale, CharacterContext } from '@/lib/engines/types'
 import { Lore } from '@prisma/client'
 // Immersion system
 import { TypewriterText } from '@/components/ui/TypewriterText'
 import { SceneTransition, useSceneTransition } from '@/components/ui/SceneTransition'
 import { SceneImage } from '@/components/game/SceneImage'
 import { type UIMood, getUIMood, getMoodConfig } from '@/lib/game/ui-mood'
+// Combat system
+import { TacticalCombatPanel } from '@/components/game/TacticalCombatPanel'
+import { CombatState, CombatTrigger, DEFAULT_COMBAT_STATE, CombatActionRequest, CombatActionResponse } from '@/lib/types/combat-state'
+import { initializeCombat, checkCombatEnd } from '@/lib/tactical/combat-init'
 
 interface Turn {
   id: string
@@ -114,6 +118,10 @@ export default function GameSession({
   const [lastDiceRoll, setLastDiceRoll] = useState<{ formula: string; result: number; rolls: number[] } | null>(null)
   const [activeTab, setActiveTab] = useState<'engine' | 'stats' | 'inventory' | 'quests' | 'party'>('engine')
 
+  // Combat system state
+  const [combatState, setCombatState] = useState<CombatState>(DEFAULT_COMBAT_STATE)
+  const [combatTransitioning, setCombatTransitioning] = useState(false)
+
   // i18n
   const { locale } = useLanguage()
   const t = useTranslations()
@@ -170,7 +178,7 @@ export default function GameSession({
   // const { onNarration } = useDynamicMusic()
   const onNarration = (_text: string) => {} // No-op
 
-  // Parse current HP from worldState or character stats
+  // Parse current HP from worldState or character stats (moved up for combat handlers)
   const getCurrentHP = () => {
     if (!character) return { current: 0, max: 0 }
     const partyHP = worldState.party?.[character.name]?.hp
@@ -187,6 +195,110 @@ export default function GameSession({
   const hp = getCurrentHP()
   const hpPercentage = (hp.current / hp.max) * 100
   const hpColor = hpPercentage > 60 ? 'bg-emerald' : hpPercentage > 30 ? 'bg-gold' : 'bg-blood'
+
+  // ============================================================================
+  // COMBAT SYSTEM HANDLERS
+  // ============================================================================
+
+  // Initialize combat from a trigger
+  const initiateCombat = useCallback((trigger: CombatTrigger) => {
+    if (!character) return
+
+    setCombatTransitioning(true)
+
+    // Create character context for combat initialization
+    const playerCharacter: CharacterContext = {
+      name: character.name,
+      archetype: character.archetype,
+      level: character.level,
+      stats: character.stats as Record<string, number>,
+      inventory: worldState.party?.[character.name]?.inventory || character.inventory || [],
+      conditions: worldState.party?.[character.name]?.conditions || [],
+      hp: hp.current,
+      maxHp: hp.max,
+    }
+
+    // Initialize combat with tactical map
+    const newCombatState = initializeCombat({
+      trigger,
+      playerCharacters: [playerCharacter], // Single player for now
+      gridType: 'square',
+      cellSizeInFeet: 5,
+    })
+
+    // Short delay for transition effect
+    setTimeout(() => {
+      setCombatState(newCombatState)
+      setUiMood('combat')
+      setCombatTransitioning(false)
+    }, 500)
+  }, [character, worldState, hp])
+
+  // Handle combat state updates
+  const handleCombatUpdate = useCallback((newState: CombatState) => {
+    setCombatState(newState)
+
+    // Check if combat ended
+    const checkedState = checkCombatEnd(newState)
+    if (checkedState.result !== 'ongoing') {
+      setCombatState(checkedState)
+    }
+  }, [])
+
+  // Handle combat end
+  const handleCombatEnd = useCallback((finalState: CombatState) => {
+    setCombatTransitioning(true)
+
+    // Add combat result to turns
+    const resultText = finalState.result === 'victory'
+      ? '¡Victoria! Has derrotado a todos los enemigos.'
+      : finalState.result === 'defeat'
+      ? 'Has caído en combate...'
+      : finalState.result === 'fled'
+      ? 'Has escapado del combate.'
+      : 'Se ha acordado una tregua.'
+
+    const systemTurn: Turn = {
+      id: `combat-end-${Date.now()}`,
+      sessionId,
+      role: 'SYSTEM',
+      content: `⚔️ ${resultText}`,
+      createdAt: new Date().toISOString(),
+    }
+    setLocalTurns(prev => [...prev, systemTurn])
+
+    // Update world state with combat results
+    if (finalState.result === 'victory') {
+      // Could add XP, loot, etc. here
+    }
+
+    // Reset combat state after short delay
+    setTimeout(() => {
+      setCombatState(DEFAULT_COMBAT_STATE)
+      setUiMood('exploration')
+      setCombatTransitioning(false)
+    }, 1000)
+  }, [sessionId])
+
+  // Handle combat action (called from TacticalCombatPanel)
+  const handleCombatAction = useCallback(async (request: CombatActionRequest): Promise<CombatActionResponse> => {
+    // In the future, this could call the DM API for action resolution
+    // For now, return a basic response
+    return {
+      success: true,
+      narration: `${request.action} ejecutado`,
+      combatLog: {
+        id: `log-${Date.now()}`,
+        timestamp: new Date(),
+        round: combatState.roundNumber,
+        tokenId: request.tokenId,
+        tokenName: combatState.tacticalMap?.tokens.find(t => t.id === request.tokenId)?.name || 'Unknown',
+        actionType: request.action,
+        description: `Acción ${request.action}`,
+        success: true,
+      },
+    }
+  }, [combatState])
 
   // Auto-scroll cuando hay nuevos turnos
   useEffect(() => {
@@ -296,6 +408,11 @@ export default function GameSession({
         setSuggestedActions(data.suggestedActions)
       }
 
+      // Check for combat trigger from DM
+      if (data.combat_trigger) {
+        initiateCombat(data.combat_trigger as CombatTrigger)
+      }
+
       // === IMMERSION SYSTEM ===
       // Set typewriter animation for this turn
       setTypewriterTurnId(dmTurnId)
@@ -358,8 +475,80 @@ export default function GameSession({
   // Get mood config for styling
   const moodConfig = getMoodConfig(uiMood)
 
+  // ============================================================================
+  // COMBAT VIEW
+  // ============================================================================
+  if (combatState.inCombat && combatState.tacticalMap) {
+    return (
+      <div className="min-h-screen bg-shadow flex flex-col">
+        {/* Combat transition overlay */}
+        {combatTransitioning && (
+          <div className="fixed inset-0 bg-blood/50 z-50 flex items-center justify-center">
+            <div className="text-center">
+              <Swords className="w-16 h-16 text-gold animate-pulse mx-auto mb-4" />
+              <h2 className="font-heading text-2xl text-gold">¡Combate!</h2>
+            </div>
+          </div>
+        )}
+
+        {/* Header */}
+        <div className="flex items-center justify-between px-4 py-2 glass-panel-dark border-b border-blood/30">
+          <div className="flex items-center gap-3">
+            <Swords className="w-5 h-5 text-blood" />
+            <span className="font-heading text-gold">{campaignName}</span>
+          </div>
+          {character && (
+            <div className="flex items-center gap-3">
+              <span className="font-ui text-parchment text-sm">{character.name}</span>
+              <div className="flex items-center gap-1">
+                <Heart className="w-4 h-4 text-blood" />
+                <span className="font-heading text-sm text-parchment">
+                  {hp.current}/{hp.max}
+                </span>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Tactical Combat Panel */}
+        <div className="flex-1">
+          <TacticalCombatPanel
+            combatState={combatState}
+            playerCharacters={character ? [{
+              name: character.name,
+              archetype: character.archetype,
+              level: character.level,
+              stats: character.stats as Record<string, number>,
+              inventory: character.inventory || [],
+              conditions: [],
+              hp: hp.current,
+              maxHp: hp.max,
+            }] : []}
+            sessionId={sessionId}
+            onCombatUpdate={handleCombatUpdate}
+            onCombatEnd={handleCombatEnd}
+            onCombatAction={handleCombatAction}
+          />
+        </div>
+      </div>
+    )
+  }
+
+  // ============================================================================
+  // NORMAL VIEW (Exploration, etc.)
+  // ============================================================================
   return (
     <div className={`min-h-screen particle-bg pb-4 ${moodConfig.cssClass}`}>
+      {/* Combat transition overlay */}
+      {combatTransitioning && (
+        <div className="fixed inset-0 bg-blood/50 z-50 flex items-center justify-center">
+          <div className="text-center">
+            <Swords className="w-16 h-16 text-gold animate-pulse mx-auto mb-4" />
+            <h2 className="font-heading text-2xl text-gold">¡Combate!</h2>
+          </div>
+        </div>
+      )}
+
       {/* Scene Transition Overlay */}
       <SceneTransition {...transitionProps} />
 

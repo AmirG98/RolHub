@@ -493,6 +493,39 @@ Example image prompts by lore:
 - ZOMBIES: "An abandoned hospital corridor, flickering lights, blood trails on the floor"
 - ISEKAI: "A floating island city with crystal spires, sunset colors, flying ships"
 === END IMAGE SYSTEM ===
+
+=== COMBAT TRIGGER SYSTEM ===
+When combat begins (enemies attack, player starts fight, ambush, etc), you can trigger tactical combat.
+
+WHEN to trigger combat:
+- Player attacks an enemy or enemies attack the player
+- An ambush or surprise encounter occurs
+- A hostile creature blocks the path
+- A tense situation escalates to violence
+
+WHEN NOT to trigger combat:
+- Just seeing enemies in the distance
+- Negotiation or diplomacy attempts
+- Non-combat challenges (puzzles, traps that don't involve creatures)
+
+Include in your response when combat starts:
+- "combat_trigger": {
+    "enemies": [
+      {"name": "Goblin", "type": "goblin", "count": 3, "hp": 7, "ac": 12},
+      {"name": "Hobgoblin Captain", "type": "hobgoblin", "hp": 22, "ac": 15}
+    ],
+    "terrain": "dungeon" | "forest" | "castle" | "cavern" | "arena" | "street",
+    "ambush": true/false,
+    "ambushedBy": "enemies" | "players" (who surprised whom),
+    "difficulty": "easy" | "medium" | "hard" | "deadly",
+    "description": "Brief description of the combat scenario"
+  }
+
+IMPORTANT:
+- When you trigger combat, also set "navigation_locked": true, "lock_reason": "combat"
+- Keep the narration focused on the moment before combat begins
+- Let the tactical system handle the actual combat
+=== END COMBAT SYSTEM ===
 ` : `
 === SISTEMA DE QUESTS Y DESCUBRIMIENTO ===
 Quests Activas: ${activeQuestsData.length}
@@ -545,6 +578,39 @@ Ejemplos de prompts por lore:
 - ZOMBIES: "Un pasillo de hospital abandonado, luces parpadeantes, rastros de sangre en el suelo"
 - ISEKAI: "Una ciudad flotante con agujas de cristal, colores de atardecer, naves voladoras"
 === FIN SISTEMA DE IMÁGENES ===
+
+=== SISTEMA DE COMBATE TÁCTICO ===
+Cuando comienza un combate (enemigos atacan, jugador inicia pelea, emboscada, etc), puedes activar combate táctico.
+
+CUÁNDO activar combate:
+- El jugador ataca a un enemigo o enemigos atacan al jugador
+- Ocurre una emboscada o encuentro sorpresa
+- Una criatura hostil bloquea el camino
+- Una situación tensa escala a violencia
+
+CUÁNDO NO activar combate:
+- Solo ver enemigos a lo lejos
+- Intentos de negociación o diplomacia
+- Desafíos sin combate (puzzles, trampas sin criaturas)
+
+Incluir en tu respuesta cuando comience combate:
+- "combat_trigger": {
+    "enemies": [
+      {"name": "Goblin", "type": "goblin", "count": 3, "hp": 7, "ac": 12},
+      {"name": "Capitán Hobgoblin", "type": "hobgoblin", "hp": 22, "ac": 15}
+    ],
+    "terrain": "dungeon" | "forest" | "castle" | "cavern" | "arena" | "street",
+    "ambush": true/false,
+    "ambushedBy": "enemies" | "players" (quién sorprendió a quién),
+    "difficulty": "easy" | "medium" | "hard" | "deadly",
+    "description": "Breve descripción del escenario de combate"
+  }
+
+IMPORTANTE:
+- Al activar combate, también establece "navigation_locked": true, "lock_reason": "combat"
+- Mantén la narración enfocada en el momento antes del combate
+- Deja que el sistema táctico maneje el combate real
+=== FIN SISTEMA DE COMBATE ===
 `
 
     const systemPrompt = `${labels.dmRole}${isMultiplayer ? ` ${labels.multiplayer}` : ''}. ${isEnglish ? 'Your role is to create an immersive and exciting experience.' : 'Tu rol es crear una experiencia inmersiva y emocionante.'}
@@ -678,6 +744,22 @@ ${labels.important}:
       image_prompt?: string
       // UI mood hint
       mood_hint?: 'exploration' | 'combat' | 'dialogue' | 'dramatic'
+      // Combat trigger
+      combat_trigger?: {
+        enemies: Array<{
+          name: string
+          type: string
+          count?: number
+          hp?: number
+          ac?: number
+          level?: number
+        }>
+        terrain?: 'dungeon' | 'forest' | 'castle' | 'cavern' | 'arena' | 'street'
+        ambush?: boolean
+        ambushedBy?: 'enemies' | 'players'
+        difficulty?: 'easy' | 'medium' | 'hard' | 'deadly'
+        description?: string
+      }
     }
 
     try {
@@ -959,6 +1041,8 @@ ${labels.important}:
       moodHint: dmResponse.mood_hint || null,
       // Scene change info for transitions
       sceneChange: dmResponse.scene_change || dmResponse.location_id || null,
+      // Combat trigger
+      combat_trigger: dmResponse.combat_trigger || null,
     })
   } catch (error) {
     console.error('Error processing turn:', error)

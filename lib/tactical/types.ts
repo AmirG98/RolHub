@@ -6,6 +6,9 @@
 // Tipos de grilla soportados
 export type GridType = 'square' | 'hex'
 
+// Tamaños de token
+export type TokenSize = 'tiny' | 'small' | 'medium' | 'large' | 'huge' | 'gargantuan'
+
 // Coordenadas de grilla
 export interface GridCoord {
   x: number
@@ -102,6 +105,7 @@ export interface TacticalToken {
   tempHp: number
   ac: number
   speed: number               // Velocidad base en pies
+  dexMod?: number             // Modificador de destreza (para iniciativa)
 
   // Estado
   conditions: TokenCondition[]
