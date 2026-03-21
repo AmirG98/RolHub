@@ -9,7 +9,7 @@ import { ParticipantList } from '@/components/game/ParticipantList'
 import { useSessionRealtime, broadcastTurn } from '@/hooks/useSessionRealtime'
 import { useParticipantPresence } from '@/hooks/useParticipantPresence'
 import { useLanguage, useTranslations } from '@/lib/i18n'
-import { BookOpen, Heart, Scroll, Dices, Users, Wifi, Crown, Swords } from 'lucide-react'
+import { BookOpen, Heart, Scroll, Dices, Users, Wifi, Crown, Swords, MessageSquare } from 'lucide-react'
 import DMPanel from '@/components/game/DMPanel'
 import { GameMapPanel } from '@/components/game/GameMapPanel'
 import { type Lore as LoreType } from '@/lib/maps/map-config'
@@ -676,6 +676,14 @@ export default function GameSession({
           <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide">
             {/* Navigation buttons - scroll to sections */}
             <button
+              onClick={() => scrollToSection('narrator-section')}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-ui text-xs whitespace-nowrap transition-all
+                       text-parchment/80 hover:text-gold hover:bg-gold/10 border border-transparent hover:border-gold/30"
+            >
+              <MessageSquare className="w-3.5 h-3.5" />
+              Narrador
+            </button>
+            <button
               onClick={() => scrollToSection('character-sheet-section')}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-ui text-xs whitespace-nowrap transition-all
                        text-parchment/80 hover:text-gold hover:bg-gold/10 border border-transparent hover:border-gold/30"
@@ -724,6 +732,7 @@ export default function GameSession({
           <div className="lg:col-span-8 space-y-3 md:space-y-4">
 
             {/* NarratorPanel inline */}
+            <div id="narrator-section" className="scroll-mt-4">
             <OrnateFrame variant="gold">
               <ParchmentPanel variant="ornate" className="min-h-[400px] md:min-h-[500px] max-h-[60vh] md:max-h-[70vh]">
                 {/* Header with 3D Narrator Orb */}
@@ -858,6 +867,7 @@ export default function GameSession({
                 </div>
               </ParchmentPanel>
             </OrnateFrame>
+            </div>
 
             {/* Dice Roller Modal */}
             {showDiceRoller && (
