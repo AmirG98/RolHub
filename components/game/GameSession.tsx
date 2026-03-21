@@ -27,9 +27,30 @@ import { type UIMood, getUIMood, getMoodConfig } from '@/lib/game/ui-mood'
 import { TacticalCombatPanel } from '@/components/game/TacticalCombatPanel'
 import { CombatState, CombatTrigger, DEFAULT_COMBAT_STATE, CombatActionRequest, CombatActionResponse } from '@/lib/types/combat-state'
 import { initializeCombat, checkCombatEnd } from '@/lib/tactical/combat-init'
-// Character stats panel and narrator mage
+// Character stats panel and narrator orb
 import { CharacterStatsPanel } from '@/components/game/CharacterStatsPanel'
-import { NarratorMage, NarratorMageSimple } from '@/components/game/NarratorMage'
+import dynamic from 'next/dynamic'
+
+// Dynamic import for 3D orb (SSR-safe)
+const NarratorOrb3D = dynamic(
+  () => import('@/components/game/NarratorOrb3D').then(mod => mod.NarratorOrb3D),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="w-20 h-20 rounded-full animate-pulse bg-gradient-to-br from-gold/30 to-gold/10" />
+    )
+  }
+)
+
+const NarratorOrbSimple = dynamic(
+  () => import('@/components/game/NarratorOrb3D').then(mod => mod.NarratorOrbSimple),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="w-12 h-12 rounded-full animate-pulse bg-gradient-to-br from-gold/30 to-gold/10" />
+    )
+  }
+)
 
 interface Turn {
   id: string
@@ -721,15 +742,15 @@ export default function GameSession({
             {/* NarratorPanel inline */}
             <OrnateFrame variant="gold">
               <ParchmentPanel variant="ornate" className="min-h-[400px] md:min-h-[500px] max-h-[60vh] md:max-h-[70vh]">
-                {/* Header with Narrator Mage */}
+                {/* Header with 3D Narrator Orb */}
                 <div className="flex items-center justify-center gap-3 mb-3 md:mb-4">
-                  {/* Hooded Mage - visible on larger screens */}
+                  {/* 3D Orb - visible on larger screens */}
                   <div className="hidden md:block">
-                    <NarratorMage state={getDMOrbState()} size={80} />
+                    <NarratorOrb3D state={getDMOrbState()} size={100} />
                   </div>
-                  {/* Simple mage for mobile */}
+                  {/* Simple orb for mobile */}
                   <div className="md:hidden">
-                    <NarratorMageSimple state={getDMOrbState()} size={50} />
+                    <NarratorOrbSimple state={getDMOrbState()} size={60} />
                   </div>
                   <h2 className="font-title text-xl md:text-2xl text-ink">El Narrador</h2>
                 </div>
