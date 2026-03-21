@@ -237,10 +237,9 @@ export function GameMapPanel({
               x: loc.coordinates.x,
               y: loc.coordinates.y,
               type: loc.type as 'city' | 'dungeon' | 'wilderness' | 'poi' | 'quest' | undefined,
+              knowledgeLevel: loc.knowledgeLevel,
             }))}
             currentLocation={currentLocation?.id || null}
-            visitedLocations={locations.filter(l => l.visited).map(l => l.id)}
-            discoveredLocations={locations.filter(l => l.discovered).map(l => l.id)}
             onLocationClick={(locationId) => {
               const location = locations.find(l => l.id === locationId)
               if (location) {

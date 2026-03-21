@@ -5,7 +5,7 @@ import { Canvas } from '@react-three/fiber'
 import { OrbitControls, PerspectiveCamera, Html } from '@react-three/drei'
 import { EnvironmentSetup } from './EnvironmentSetup'
 import { TerrainMesh } from './TerrainMesh'
-import { LocationMarker3D } from './LocationMarker3D'
+import { LocationMarker3D, type LocationKnowledgeLevel } from './LocationMarker3D'
 import { type Lore } from '@/lib/maps/map-config'
 import { Loader2, Eye, EyeOff, Maximize2 } from 'lucide-react'
 
@@ -17,30 +17,26 @@ interface Location {
   z?: number
   type?: 'city' | 'dungeon' | 'wilderness' | 'poi' | 'quest'
   icon?: string
-  knowledge?: 'unknown' | 'discovered' | 'visited'
+  knowledgeLevel: LocationKnowledgeLevel
 }
 
 interface ThreeMapViewerProps {
   lore: Lore
   locations: Location[]
   currentLocation: string | null
-  visitedLocations: string[]
-  discoveredLocations: string[]
   onLocationClick: (locationId: string) => void
   onTravelRequest?: (actionText: string, toLocationId: string) => void
   className?: string
 }
 
 /**
- * Visor de mapa 3D principal
- * Integra terreno, marcadores, ambiente y controles
+ * Visor de mapa 3D principal con fog of war progresivo
+ * Muestra TODAS las ubicaciones con efectos visuales según nivel de conocimiento
  */
 export function ThreeMapViewer({
   lore,
   locations,
   currentLocation,
-  visitedLocations,
-  discoveredLocations,
   onLocationClick,
   onTravelRequest,
   className = ''
@@ -59,6 +55,8 @@ export function ThreeMapViewer({
 
   // Manejar click en ubicación
   const handleLocationClick = useCallback((location: Location) => {
+    // Solo permitir selección si no es unknown
+    if (location.knowledgeLevel === 'unknown') return
     setSelectedLocation(location)
     onLocationClick(location.id)
   }, [onLocationClick])
@@ -73,6 +71,12 @@ export function ThreeMapViewer({
       setSelectedLocation(null)
     }
   }, [selectedLocation, onTravelRequest])
+
+  // Calcular estadísticas basadas en knowledgeLevel
+  const knownLocations = locations.filter(l => l.knowledgeLevel !== 'unknown')
+  const visitedLocations = locations.filter(l =>
+    ['visited', 'explored', 'mastered'].includes(l.knowledgeLevel)
+  )
 
   return (
     <div
@@ -101,15 +105,14 @@ export function ThreeMapViewer({
           {/* Terreno */}
           <TerrainMesh lore={lore} size={400} segments={64} />
 
-          {/* Marcadores de ubicación */}
+          {/* Marcadores de ubicación - ahora muestra TODAS las ubicaciones */}
           {mapLocations.map(location => (
             <LocationMarker3D
               key={location.id}
               location={location}
               lore={lore}
               isCurrentLocation={location.id === currentLocation}
-              isVisited={visitedLocations.includes(location.id)}
-              isDiscovered={discoveredLocations.includes(location.id)}
+              knowledgeLevel={location.knowledgeLevel}
               onClick={() => handleLocationClick(location)}
             />
           ))}
@@ -151,14 +154,18 @@ export function ThreeMapViewer({
         </button>
       </div>
 
-      {/* Stats display */}
+      {/* Stats display - muestra conocidas y visitadas */}
       <div className="absolute bottom-2 left-2 glass-panel-dark rounded-lg px-3 py-1.5 text-xs">
         <span className="text-gold-dim">
-          {discoveredLocations.length}/{locations.length} descubiertas
+          {knownLocations.length}/{locations.length} conocidas
+        </span>
+        <span className="mx-2 text-gold-dim/30">•</span>
+        <span className="text-emerald/80">
+          {visitedLocations.length} visitadas
         </span>
         <span className="mx-2 text-gold-dim/30">•</span>
         <span className="text-parchment/60">
-          {Math.round((discoveredLocations.length / locations.length) * 100)}%
+          {Math.round((visitedLocations.length / locations.length) * 100)}%
         </span>
       </div>
 
@@ -167,6 +174,7 @@ export function ThreeMapViewer({
         <div className="absolute bottom-2 right-2 glass-panel-dark rounded-lg p-3 max-w-[200px]">
           <h4 className="font-heading text-gold text-sm mb-1">
             {selectedLocation.name}
+            {selectedLocation.knowledgeLevel === 'rumored' && ' ?'}
           </h4>
           <p className="text-xs text-parchment/60 mb-2">
             {selectedLocation.type === 'city' && '🏰 Ciudad'}
@@ -174,15 +182,33 @@ export function ThreeMapViewer({
             {selectedLocation.type === 'quest' && '⚔️ Misión'}
             {selectedLocation.type === 'poi' && '📍 Punto de interés'}
             {selectedLocation.type === 'wilderness' && '🌲 Naturaleza'}
+            {!selectedLocation.type && '📍 Ubicación'}
           </p>
 
-          {currentLocation !== selectedLocation.id && onTravelRequest && (
+          {/* Indicador de nivel de conocimiento */}
+          <div className="text-xs text-parchment/50 mb-2">
+            {selectedLocation.knowledgeLevel === 'rumored' && '🌫️ Solo rumores'}
+            {selectedLocation.knowledgeLevel === 'discovered' && '👁️ Descubierta'}
+            {selectedLocation.knowledgeLevel === 'visited' && '✅ Visitada'}
+            {selectedLocation.knowledgeLevel === 'explored' && '🔍 Explorada'}
+            {selectedLocation.knowledgeLevel === 'mastered' && '⭐ Dominada'}
+          </div>
+
+          {currentLocation !== selectedLocation.id && onTravelRequest &&
+           ['discovered', 'visited', 'explored', 'mastered'].includes(selectedLocation.knowledgeLevel) && (
             <button
               onClick={handleTravel}
               className="w-full py-1.5 text-xs font-ui bg-gold/20 text-gold rounded hover:bg-gold/30 transition-colors"
             >
               Viajar aquí
             </button>
+          )}
+
+          {currentLocation !== selectedLocation.id &&
+           selectedLocation.knowledgeLevel === 'rumored' && (
+            <p className="text-xs text-parchment/40 italic">
+              Necesitas descubrir esta ubicación primero
+            </p>
           )}
 
           {currentLocation === selectedLocation.id && (

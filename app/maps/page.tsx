@@ -4,7 +4,15 @@ import { useState, useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import { type Lore, type MapLocation } from '@/lib/maps/map-config'
 import { getExampleMapData } from '@/lib/maps/lore-map-data'
+import { type LocationKnowledgeLevel } from '@/components/maps-3d/LocationMarker3D'
 import { Box, Layers } from 'lucide-react'
+
+// Convertir flags discovered/visited a knowledgeLevel
+function getKnowledgeLevel(loc: MapLocation): LocationKnowledgeLevel {
+  if (loc.visited) return 'visited'
+  if (loc.discovered) return 'discovered'
+  return 'unknown'
+}
 
 // Loading component
 function MapLoading() {
@@ -71,8 +79,6 @@ export default function MapsPage() {
 
   const locations = getExampleMapData(selectedLore)
   const currentLocation = locations.find(l => l.visited) || locations[0]
-  const visitedLocations = locations.filter(l => l.visited).map(l => l.id)
-  const discoveredLocations = locations.filter(l => l.discovered).map(l => l.id)
 
   return (
     <div className="min-h-screen bg-shadow p-6">
@@ -147,10 +153,9 @@ export default function MapsPage() {
                     x: loc.coordinates.x / 8, // Escalar coordenadas para el mapa 3D
                     y: loc.coordinates.y / 8,
                     type: loc.type as 'city' | 'dungeon' | 'wilderness' | 'poi' | 'quest' | undefined,
+                    knowledgeLevel: getKnowledgeLevel(loc),
                   }))}
                   currentLocation={currentLocation?.id || null}
-                  visitedLocations={visitedLocations}
-                  discoveredLocations={discoveredLocations}
                   onLocationClick={(locationId) => {
                     const location = locations.find(l => l.id === locationId)
                     if (location) {
