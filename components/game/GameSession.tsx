@@ -671,7 +671,7 @@ export default function GameSession({
       </div>
 
       {/* Barra horizontal de navegación rápida */}
-      <div className="border-b border-gold-dim/20 glass-panel-dark">
+      <div className="sticky top-0 z-40 border-b border-gold-dim/20 glass-panel-dark">
         <div className="max-w-[1800px] mx-auto px-3 md:px-4 lg:px-6 py-2">
           <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide">
             {/* Navigation buttons - scroll to sections */}
