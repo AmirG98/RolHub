@@ -1,6 +1,6 @@
 'use client'
 
-import { Suspense, useState, useCallback } from 'react'
+import { Suspense, useState, useCallback, useEffect } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, PerspectiveCamera, Html } from '@react-three/drei'
 import { EnvironmentSetup } from './EnvironmentSetup'
@@ -44,6 +44,23 @@ export function ThreeMapViewer({
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [showLabels, setShowLabels] = useState(true)
   const [selectedLocation, setSelectedLocation] = useState<Location | null>(null)
+  const [webGLSupported, setWebGLSupported] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  // Verificar soporte de WebGL
+  useEffect(() => {
+    try {
+      const canvas = document.createElement('canvas')
+      const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl')
+      if (!gl) {
+        setWebGLSupported(false)
+        setError('WebGL no está soportado en este navegador')
+      }
+    } catch (e) {
+      setWebGLSupported(false)
+      setError('Error al inicializar WebGL')
+    }
+  }, [])
 
   // Convertir coordenadas 2D a 3D (escalado)
   const mapLocations = locations.map(loc => ({
@@ -78,14 +95,38 @@ export function ThreeMapViewer({
     ['visited', 'explored', 'mastered'].includes(l.knowledgeLevel)
   )
 
+  // Mostrar error si WebGL no está soportado
+  if (!webGLSupported || error) {
+    return (
+      <div
+        className={`relative rounded-lg overflow-hidden border border-gold-dim/30 flex items-center justify-center bg-shadow-mid ${className}`}
+        style={{ minHeight: '400px' }}
+      >
+        <div className="text-center p-4">
+          <div className="text-4xl mb-3">⚠️</div>
+          <p className="text-gold font-heading">{error || 'WebGL no disponible'}</p>
+          <p className="text-parchment/60 text-sm mt-2">
+            Tu navegador no soporta gráficos 3D. Prueba con Chrome o Firefox.
+          </p>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div
       className={`relative rounded-lg overflow-hidden border border-gold-dim/30 ${
-        isFullscreen ? 'fixed inset-4 z-50' : 'h-[400px]'
+        isFullscreen ? 'fixed inset-4 z-50' : ''
       } ${className}`}
+      style={{ minHeight: isFullscreen ? undefined : '400px' }}
     >
       {/* Canvas 3D */}
       <Canvas
+        onCreated={() => console.log('Three.js Canvas created successfully')}
+        onError={(e) => {
+          console.error('Three.js Canvas error:', e)
+          setError('Error al renderizar el mapa 3D')
+        }}
         shadows
         dpr={[1, 2]}
         gl={{ antialias: true, alpha: false }}
