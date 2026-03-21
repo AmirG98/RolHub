@@ -1,9 +1,10 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import { type Lore, type MapLocation } from '@/lib/maps/map-config'
 import { getExampleMapData } from '@/lib/maps/lore-map-data'
+import { Box, Layers } from 'lucide-react'
 
 // Loading component
 function MapLoading() {
@@ -18,12 +19,33 @@ function MapLoading() {
   )
 }
 
+function Map3DLoading() {
+  return (
+    <div className="w-full h-[500px] flex items-center justify-center bg-shadow-mid rounded-lg border-2 border-gold">
+      <div className="text-center animate-pulse">
+        <div className="text-5xl mb-3">🌍</div>
+        <p className="text-gold-bright font-heading text-lg">Cargando mapa 3D...</p>
+        <p className="text-parchment/70 text-sm mt-1">Generando terreno</p>
+      </div>
+    </div>
+  )
+}
+
 // Importar MapPanel dinámicamente
 const DynamicMapPanel = dynamic(
   () => import('@/components/maps/MapPanel').then(mod => ({ default: mod.MapPanel })),
   {
     ssr: false,
     loading: () => <MapLoading />
+  }
+)
+
+// Importar ThreeMapViewer dinámicamente
+const DynamicThreeMapViewer = dynamic(
+  () => import('@/components/maps-3d/ThreeMapViewer').then(mod => mod.ThreeMapViewer),
+  {
+    ssr: false,
+    loading: () => <Map3DLoading />
   }
 )
 
@@ -41,6 +63,7 @@ export default function MapsPage() {
   const [selectedLore, setSelectedLore] = useState<Lore>('LOTR')
   const [selectedLocation, setSelectedLocation] = useState<MapLocation | null>(null)
   const [mounted, setMounted] = useState(false)
+  const [view3D, setView3D] = useState(true) // Default a 3D
 
   useEffect(() => {
     setMounted(true)
@@ -48,6 +71,8 @@ export default function MapsPage() {
 
   const locations = getExampleMapData(selectedLore)
   const currentLocation = locations.find(l => l.visited) || locations[0]
+  const visitedLocations = locations.filter(l => l.visited).map(l => l.id)
+  const discoveredLocations = locations.filter(l => l.discovered).map(l => l.id)
 
   return (
     <div className="min-h-screen bg-shadow p-6">
@@ -58,7 +83,36 @@ export default function MapsPage() {
 
         {/* Selector de Lore */}
         <div className="mb-6">
-          <h2 className="text-lg font-heading text-parchment mb-3">Selecciona un mundo:</h2>
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-lg font-heading text-parchment">Selecciona un mundo:</h2>
+
+            {/* Toggle 2D/3D */}
+            <div className="flex items-center gap-2 bg-shadow-mid rounded-lg p-1 border border-gold-dim">
+              <button
+                onClick={() => setView3D(false)}
+                className={`flex items-center gap-2 px-3 py-1.5 rounded transition-all ${
+                  !view3D
+                    ? 'bg-gold text-shadow font-semibold'
+                    : 'text-parchment hover:bg-shadow'
+                }`}
+              >
+                <Layers className="w-4 h-4" />
+                <span className="text-sm">2D</span>
+              </button>
+              <button
+                onClick={() => setView3D(true)}
+                className={`flex items-center gap-2 px-3 py-1.5 rounded transition-all ${
+                  view3D
+                    ? 'bg-emerald text-white font-semibold'
+                    : 'text-parchment hover:bg-shadow'
+                }`}
+              >
+                <Box className="w-4 h-4" />
+                <span className="text-sm">3D</span>
+              </button>
+            </div>
+          </div>
+
           <div className="flex flex-wrap gap-2">
             {LORES.map(lore => (
               <button
@@ -84,16 +138,39 @@ export default function MapsPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2">
             {mounted ? (
-              <DynamicMapPanel
-                lore={selectedLore}
-                locations={locations}
-                currentLocationId={currentLocation?.id}
-                onLocationClick={setSelectedLocation}
-                className="h-[500px]"
-                defaultCollapsed={false}
-              />
+              view3D ? (
+                <DynamicThreeMapViewer
+                  lore={selectedLore}
+                  locations={locations.map(loc => ({
+                    id: loc.id,
+                    name: loc.name,
+                    x: loc.coordinates.x / 8, // Escalar coordenadas para el mapa 3D
+                    y: loc.coordinates.y / 8,
+                    type: loc.type as 'city' | 'dungeon' | 'wilderness' | 'poi' | 'quest' | undefined,
+                  }))}
+                  currentLocation={currentLocation?.id || null}
+                  visitedLocations={visitedLocations}
+                  discoveredLocations={discoveredLocations}
+                  onLocationClick={(locationId) => {
+                    const location = locations.find(l => l.id === locationId)
+                    if (location) {
+                      setSelectedLocation(location)
+                    }
+                  }}
+                  className="h-[500px]"
+                />
+              ) : (
+                <DynamicMapPanel
+                  lore={selectedLore}
+                  locations={locations}
+                  currentLocationId={currentLocation?.id}
+                  onLocationClick={setSelectedLocation}
+                  className="h-[500px]"
+                  defaultCollapsed={false}
+                />
+              )
             ) : (
-              <MapLoading />
+              view3D ? <Map3DLoading /> : <MapLoading />
             )}
           </div>
 
@@ -153,27 +230,51 @@ export default function MapsPage() {
         {/* Instrucciones */}
         <div className="mt-6 bg-shadow-mid rounded-lg border border-gold p-4">
           <h3 className="font-heading text-gold-bright mb-3">Controles</h3>
-          <ul className="text-parchment text-sm space-y-2">
-            <li className="flex items-center gap-2">
-              <span>🖱️</span>
-              <span><strong className="text-gold">Arrastrar:</strong> Mueve el mapa</span>
-            </li>
-            <li className="flex items-center gap-2">
-              <span>🔍</span>
-              <span><strong className="text-gold">Rueda del mouse:</strong> Zoom in/out</span>
-            </li>
-            <li className="flex items-center gap-2">
-              <span>👆</span>
-              <span><strong className="text-gold">Click en ubicación:</strong> Abre el submapa detallado</span>
-            </li>
-          </ul>
+          {view3D ? (
+            <ul className="text-parchment text-sm space-y-2">
+              <li className="flex items-center gap-2">
+                <span>🖱️</span>
+                <span><strong className="text-gold">Click + Arrastrar:</strong> Rota la cámara</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <span>🔍</span>
+                <span><strong className="text-gold">Rueda del mouse:</strong> Zoom in/out</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <span>👆</span>
+                <span><strong className="text-gold">Click en marcador:</strong> Selecciona ubicación</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <span>✋</span>
+                <span><strong className="text-gold">Click derecho + Arrastrar:</strong> Pan (mover cámara)</span>
+              </li>
+            </ul>
+          ) : (
+            <ul className="text-parchment text-sm space-y-2">
+              <li className="flex items-center gap-2">
+                <span>🖱️</span>
+                <span><strong className="text-gold">Arrastrar:</strong> Mueve el mapa</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <span>🔍</span>
+                <span><strong className="text-gold">Rueda del mouse:</strong> Zoom in/out</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <span>👆</span>
+                <span><strong className="text-gold">Click en ubicación:</strong> Abre el submapa detallado</span>
+              </li>
+            </ul>
+          )}
           <div className="mt-4 pt-3 border-t border-gold/30">
-            <h4 className="font-heading text-gold text-sm mb-2">Sistema de Submapas</h4>
+            <h4 className="font-heading text-gold text-sm mb-2">
+              {view3D ? 'Mapa 3D con Three.js' : 'Sistema de Submapas'}
+            </h4>
             <p className="text-parchment/80 text-xs">
-              Cada ubicación genera un submapa único según su tipo: ciudades con calles y plazas,
-              dungeons con habitaciones conectadas, áreas salvajes con puntos de interés,
-              y fortalezas con murallas y torres. Los submapas son consistentes -
-              la misma ubicación siempre genera el mismo mapa.
+              {view3D ? (
+                'El mapa 3D genera un terreno procedural único para cada mundo. El ambiente (cielo, niebla, iluminación) cambia según el lore seleccionado. Los marcadores flotan sobre el terreno y muestran el nombre de cada ubicación.'
+              ) : (
+                'Cada ubicación genera un submapa único según su tipo: ciudades con calles y plazas, dungeons con habitaciones conectadas, áreas salvajes con puntos de interés, y fortalezas con murallas y torres. Los submapas son consistentes - la misma ubicación siempre genera el mismo mapa.'
+              )}
             </p>
           </div>
         </div>
