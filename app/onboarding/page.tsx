@@ -41,6 +41,7 @@ export default function OnboardingPage() {
   const [isMultiplayer, setIsMultiplayer] = useState<boolean>(false)
   const [selectedArchetype, setSelectedArchetype] = useState<Archetype | null>(null)
   const [loading, setLoading] = useState(false)
+  const [loadingPhase, setLoadingPhase] = useState<'creating' | 'portrait' | 'finalizing'>('creating')
   const [error, setError] = useState<string | null>(null)
 
   const handleCreateCharacter = async (data: CharacterCreationData) => {
@@ -61,9 +62,13 @@ export default function OnboardingPage() {
 
     setSelectedArchetype(archetype)
     setLoading(true)
+    setLoadingPhase('creating')
     setError(null)
 
     try {
+      // Cambiar a fase de retrato después de un momento
+      setTimeout(() => setLoadingPhase('portrait'), 1500)
+
       const response = await fetch('/api/character/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -84,6 +89,9 @@ export default function OnboardingPage() {
       if (!response.ok) {
         throw new Error(data.details || data.error || 'Error creando personaje')
       }
+
+      // Fase de finalización
+      setLoadingPhase('finalizing')
 
       if (data.sessionId) {
         // Si es multijugador, ir al lobby para esperar jugadores
@@ -127,9 +135,13 @@ export default function OnboardingPage() {
     }
 
     setLoading(true)
+    setLoadingPhase('creating')
     setError(null)
 
     try {
+      // Cambiar a fase de retrato después de un momento
+      setTimeout(() => setLoadingPhase('portrait'), 1500)
+
       const response = await fetch('/api/character/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -155,6 +167,9 @@ export default function OnboardingPage() {
       if (!response.ok) {
         throw new Error(data.details || data.error || 'Error creando personaje')
       }
+
+      // Fase de finalización
+      setLoadingPhase('finalizing')
 
       if (data.sessionId) {
         if (isMultiplayer && data.campaignId) {
@@ -192,16 +207,42 @@ export default function OnboardingPage() {
   }
 
   if (loading) {
+    const loadingMessages = {
+      creating: {
+        icon: '📜',
+        title: 'Creando tu personaje...',
+        subtitle: `Inscribiendo tu destino en ${getLoreName()}`,
+      },
+      portrait: {
+        icon: '🎨',
+        title: 'Generando tu retrato...',
+        subtitle: 'Un artista mágico dibuja tu semblante',
+      },
+      finalizing: {
+        icon: '✨',
+        title: 'Preparando la aventura...',
+        subtitle: 'El mundo te espera',
+      },
+    }
+
+    const { icon, title, subtitle } = loadingMessages[loadingPhase]
+
     return (
       <div className="min-h-screen particle-bg flex items-center justify-center">
         <div className="text-center content-wrapper">
-          <div className="candlelight text-gold-bright text-6xl mb-4">⏳</div>
-          <p className="font-heading text-gold-bright text-2xl glow-effect">Preparando tu aventura...</p>
-          <p className="font-body text-parchment/60 mt-2">Creando tu personaje en {getLoreName()}</p>
+          <div className="candlelight text-gold-bright text-6xl mb-4">{icon}</div>
+          <p className="font-heading text-gold-bright text-2xl glow-effect">{title}</p>
+          <p className="font-body text-parchment/60 mt-2">{subtitle}</p>
           <div className="mt-8 flex justify-center gap-2">
             <div className="w-2 h-2 bg-gold-bright rounded-full animate-pulse" style={{ animationDelay: '0s' }}></div>
             <div className="w-2 h-2 bg-gold-bright rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
             <div className="w-2 h-2 bg-gold-bright rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
+          </div>
+          {/* Progress indicator */}
+          <div className="mt-6 flex justify-center gap-1">
+            <div className={`w-8 h-1 rounded-full transition-all ${loadingPhase === 'creating' || loadingPhase === 'portrait' || loadingPhase === 'finalizing' ? 'bg-gold' : 'bg-gold/30'}`} />
+            <div className={`w-8 h-1 rounded-full transition-all ${loadingPhase === 'portrait' || loadingPhase === 'finalizing' ? 'bg-gold' : 'bg-gold/30'}`} />
+            <div className={`w-8 h-1 rounded-full transition-all ${loadingPhase === 'finalizing' ? 'bg-gold' : 'bg-gold/30'}`} />
           </div>
         </div>
       </div>

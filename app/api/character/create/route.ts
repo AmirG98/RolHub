@@ -353,36 +353,47 @@ export async function POST(req: NextRequest) {
       return { campaign, character, session }
     })
 
-    // Generar retrato del personaje en background (no bloquea la respuesta)
-    // Se guarda en el character cuando termine
-    generateCharacterPortrait({
-      name: charName,
-      archetype: charArchetype,
-      lore: lore as unknown as LoreType,
-      description: characterDescription,
-      quality: 'standard',
-    }).then(async (portraitResult) => {
-      if (portraitResult.isGenerated && portraitResult.url) {
-        try {
-          await prisma.character.update({
-            where: { id: result.character.id },
-            data: { avatarUrl: portraitResult.url },
-          })
-          console.log(`Portrait generated for character ${result.character.id}: ${portraitResult.url}`)
-        } catch (updateError) {
-          console.error('Failed to update character avatar:', updateError)
-        }
-      }
-    }).catch((err) => {
-      console.error('Portrait generation failed:', err)
-    })
+    // Generar retrato del personaje SÍNCRONAMENTE antes de retornar
+    // Esto asegura que el avatar esté disponible cuando el usuario llegue al juego
+    let avatarUrl: string | null = null
 
-    // Retornar el ID de la sesión para redirigir
+    try {
+      console.log(`[Portrait] Starting generation for ${charName}...`)
+      const startTime = Date.now()
+
+      const portraitResult = await generateCharacterPortrait({
+        name: charName,
+        archetype: charArchetype,
+        lore: lore as unknown as LoreType,
+        description: characterDescription,
+        quality: 'standard',
+      })
+
+      console.log(`[Portrait] Generation completed in ${Date.now() - startTime}ms`)
+
+      if (portraitResult.isGenerated && portraitResult.url) {
+        avatarUrl = portraitResult.url
+        // Actualizar el personaje con el avatar
+        await prisma.character.update({
+          where: { id: result.character.id },
+          data: { avatarUrl: portraitResult.url },
+        })
+        console.log(`[Portrait] Saved avatar for character ${result.character.id}: ${portraitResult.url}`)
+      } else {
+        console.log(`[Portrait] Generation returned no image (isGenerated: ${portraitResult.isGenerated})`)
+      }
+    } catch (err) {
+      console.error('[Portrait] Generation failed:', err)
+      // No bloquear la creación si falla el retrato
+    }
+
+    // Retornar el ID de la sesión para redirigir (incluye avatarUrl si se generó)
     return NextResponse.json({
       success: true,
       sessionId: result.session.id,
       campaignId: result.campaign.id,
       characterId: result.character.id,
+      avatarUrl: avatarUrl,
       inviteCode: inviteCode,
       isMultiplayer: isMultiplayer || false,
     })
