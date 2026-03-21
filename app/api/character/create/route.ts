@@ -337,9 +337,11 @@ export async function POST(req: NextRequest) {
       })
 
       // 4. Crear el primer turn del sistema con el hook narrativo
+      // one_shot_hooks es un array con objetos que tienen .hook
+      // narrative_skeleton.act_1.description es el hook para campañas
       const narrativeHook = mode === 'ONE_SHOT'
-        ? loreData.one_shot_hook
-        : loreData.narrative_skeleton.act_1.description
+        ? (loreData.one_shot_hooks?.[0]?.hook || loreData.narrative_skeleton?.act_1?.description || 'Tu aventura comienza...')
+        : (loreData.narrative_skeleton?.act_1?.description || 'Tu aventura comienza...')
 
       await tx.turn.create({
         data: {
