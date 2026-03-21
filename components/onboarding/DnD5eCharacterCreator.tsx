@@ -1,11 +1,12 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useCallback } from 'react'
 import { RunicButton } from '@/components/medieval/RunicButton'
 import {
   Sword, Shield, BookOpen, Wand2, Heart, Zap, Flame, Snowflake,
-  Skull, Star, Users, ChevronRight, ChevronLeft, Check, Sparkles
+  Skull, Star, Users, ChevronRight, ChevronLeft, Check, Sparkles, Dices
 } from 'lucide-react'
+import { generateRandomDescription } from '@/lib/character/description-templates'
 import {
   getClasses, getRaces, getClass, getRace,
   getRecommendedAbilityScores, getStartingGold, getMagicItemsAllowed,
@@ -18,6 +19,7 @@ import { calculateModifier, formatModifier } from '@/lib/engines/dnd-5e'
 interface DnD5eCharacterCreatorProps {
   onComplete: (character: {
     name: string
+    description: string
     archetypeId: string
     archetypeName: string
     stats: Record<string, number | string>
@@ -25,6 +27,7 @@ interface DnD5eCharacterCreatorProps {
     level: number
   }) => void
   onBack: () => void
+  lore?: string
 }
 
 type Step = 'race' | 'class' | 'abilities' | 'level' | 'equipment' | 'name'
@@ -76,7 +79,7 @@ const LEVEL_OPTIONS = [
   { level: 10, name: 'Nivel 10 - Leyenda', description: 'Poderoso y experimentado. Tres items mágicos.' }
 ]
 
-export function DnD5eCharacterCreator({ onComplete, onBack }: DnD5eCharacterCreatorProps) {
+export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharacterCreatorProps) {
   const [currentStep, setCurrentStep] = useState<Step>('race')
   const [selectedRaceId, setSelectedRaceId] = useState<string | null>(null)
   const [selectedSubraceId, setSelectedSubraceId] = useState<string | null>(null)
@@ -87,7 +90,14 @@ export function DnD5eCharacterCreator({ onComplete, onBack }: DnD5eCharacterCrea
   const [assignmentMethod, setAssignmentMethod] = useState<'standard' | 'pointbuy'>('standard')
   const [selectedLevel, setSelectedLevel] = useState<number>(1)
   const [characterName, setCharacterName] = useState('')
+  const [characterDescription, setCharacterDescription] = useState('')
   const [draconicAncestry, setDraconicAncestry] = useState<string | null>(null)
+
+  // Generar descripcion aleatoria
+  const handleGenerateDescription = useCallback(() => {
+    const description = generateRandomDescription((lore as any) || 'LOTR')
+    setCharacterDescription(description)
+  }, [lore])
 
   const classes = useMemo(() => getClasses(), [])
   const races = useMemo(() => getRaces(), [])
@@ -243,6 +253,7 @@ export function DnD5eCharacterCreator({ onComplete, onBack }: DnD5eCharacterCrea
 
     onComplete({
       name: characterName,
+      description: characterDescription,
       archetypeId: `dnd5e_${selectedClassId}_${selectedRaceId}`,
       archetypeName: `${character.race.name} ${character.class.name}`,
       stats,
@@ -679,10 +690,11 @@ export function DnD5eCharacterCreator({ onComplete, onBack }: DnD5eCharacterCrea
             </div>
           )}
 
-          {/* CHARACTER NAME */}
+          {/* CHARACTER NAME & DESCRIPTION */}
           {currentStep === 'name' && (
-            <div className="space-y-6 max-w-md mx-auto">
+            <div className="space-y-6 max-w-lg mx-auto">
               <div className="glass-panel-dark rounded-lg p-6">
+                {/* Nombre */}
                 <label className="block font-heading text-gold text-lg mb-4 text-center">
                   ¿Cómo se llama tu personaje?
                 </label>
@@ -691,9 +703,36 @@ export function DnD5eCharacterCreator({ onComplete, onBack }: DnD5eCharacterCrea
                   value={characterName}
                   onChange={(e) => setCharacterName(e.target.value)}
                   placeholder="Nombre del personaje"
-                  className="w-full bg-shadow border border-gold-dim/30 rounded-lg p-4 text-parchment font-body text-xl text-center placeholder:text-parchment/30 focus:outline-none focus:border-gold"
+                  className="w-full bg-shadow border border-gold-dim/30 rounded-lg p-4 text-parchment font-body text-xl text-center placeholder:text-parchment/30 focus:outline-none focus:border-gold mb-6"
                   autoFocus
                 />
+
+                {/* Descripción */}
+                <label className="block font-ui text-sm text-gold-dim mb-2">
+                  Describe a tu personaje
+                  <span className="text-parchment/50 ml-1">(para generar su retrato)</span>
+                </label>
+                <textarea
+                  value={characterDescription}
+                  onChange={(e) => setCharacterDescription(e.target.value)}
+                  placeholder="Apariencia física, rasgos distintivos, expresión, vestimenta..."
+                  className="w-full bg-shadow border border-gold-dim/30 rounded-lg p-4 text-parchment font-body text-sm placeholder:text-parchment/30 focus:outline-none focus:border-gold resize-none"
+                  rows={3}
+                  maxLength={500}
+                />
+                <div className="flex justify-between items-center mt-2">
+                  <button
+                    type="button"
+                    onClick={handleGenerateDescription}
+                    className="flex items-center gap-2 px-3 py-1.5 bg-emerald/20 hover:bg-emerald/30
+                             border border-emerald/50 rounded-lg text-emerald font-ui text-xs
+                             transition-colors group"
+                  >
+                    <Dices className="w-3.5 h-3.5 group-hover:animate-spin" />
+                    Generar descripción
+                  </button>
+                  <span className="text-xs text-parchment/40">{characterDescription.length}/500</span>
+                </div>
               </div>
 
               {/* Character Summary */}
@@ -718,6 +757,12 @@ export function DnD5eCharacterCreator({ onComplete, onBack }: DnD5eCharacterCrea
                       <span className="text-parchment ml-2">{selectedLevel}</span>
                     </div>
                   </div>
+                  {characterDescription && (
+                    <div className="mt-3 pt-3 border-t border-gold-dim/30">
+                      <span className="text-gold-dim text-xs">Descripción:</span>
+                      <p className="text-parchment text-xs mt-1 italic">"{characterDescription}"</p>
+                    </div>
+                  )}
                 </div>
               )}
             </div>

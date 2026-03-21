@@ -105,6 +105,7 @@ export default function OnboardingPage() {
   // Handler para personajes D&D 5e creados con el creador completo
   const handleDnD5eCharacterCreate = async (character: {
     name: string
+    description: string
     archetypeId: string
     archetypeName: string
     stats: Record<string, number | string>
@@ -139,6 +140,7 @@ export default function OnboardingPage() {
           tutorialLevel,
           archetypeId: character.archetypeId,
           characterName: character.name,
+          characterDescription: character.description,
           isMultiplayer,
           // D&D 5e specific fields
           isDnD5eCharacter: true,
@@ -252,6 +254,7 @@ export default function OnboardingPage() {
           <DnD5eCharacterCreator
             onComplete={handleDnD5eCharacterCreate}
             onBack={() => setStep(2)}
+            lore={selectedLore}
           />
         ) : (
           <ArchetypeSelector
