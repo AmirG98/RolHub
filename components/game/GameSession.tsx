@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useRef, useEffect, useCallback } from 'react'
+import dynamic from 'next/dynamic'
 import { ParchmentPanel } from '@/components/medieval/ParchmentPanel'
 import { OrnateFrame } from '@/components/medieval/OrnateFrame'
 import { RunicButton } from '@/components/medieval/RunicButton'
@@ -27,6 +28,18 @@ import { type UIMood, getUIMood, getMoodConfig } from '@/lib/game/ui-mood'
 import { TacticalCombatPanel } from '@/components/game/TacticalCombatPanel'
 import { CombatState, CombatTrigger, DEFAULT_COMBAT_STATE, CombatActionRequest, CombatActionResponse } from '@/lib/types/combat-state'
 import { initializeCombat, checkCombatEnd } from '@/lib/tactical/combat-init'
+// Character stats panel and DM orb
+import { CharacterStatsPanel } from '@/components/game/CharacterStatsPanel'
+
+// Dynamic import for 3D orb (SSR-safe)
+const DMOrb3D = dynamic(() => import('@/components/game/DMOrb3D').then(mod => ({ default: mod.DMOrb3D })), {
+  ssr: false,
+  loading: () => <div className="w-16 h-16 rounded-full bg-gold/20 animate-pulse" />
+})
+const DMOrbSimple = dynamic(() => import('@/components/game/DMOrb3D').then(mod => ({ default: mod.DMOrbSimple })), {
+  ssr: false,
+  loading: () => <div className="w-12 h-12 rounded-full bg-gold/20 animate-pulse" />
+})
 
 interface Turn {
   id: string
@@ -54,6 +67,7 @@ interface Character {
   level: number
   stats: any
   inventory?: string[]
+  avatarUrl?: string | null
 }
 
 interface Participant {
@@ -150,6 +164,14 @@ export default function GameSession({
   const [typewriterTurnId, setTypewriterTurnId] = useState<string | null>(null) // Track which turn is animating
   const { isTransitioning, triggerTransition, transitionProps } = useSceneTransition({ type: 'fade', duration: 600 })
   const isImagesEnabled = process.env.NEXT_PUBLIC_ENABLE_IMAGES === 'true'
+
+  // DM Orb state - derived from other states
+  const getDMOrbState = (): 'idle' | 'speaking' | 'thinking' | 'combat' => {
+    if (combatState.inCombat) return 'combat'
+    if (isSubmitting) return 'thinking'
+    if (typewriterTurnId) return 'speaking'
+    return 'idle'
+  }
 
   // Multiplayer hooks - only active when isMultiplayer is true
   const {
@@ -709,7 +731,18 @@ export default function GameSession({
             {/* NarratorPanel inline */}
             <OrnateFrame variant="gold">
               <ParchmentPanel variant="ornate" className="min-h-[300px] md:min-h-[400px] max-h-[50vh] md:max-h-[60vh]">
-                <h2 className="font-title text-xl md:text-2xl text-ink text-center mb-3 md:mb-4">El Narrador</h2>
+                {/* Header with DM Orb */}
+                <div className="flex items-center justify-center gap-3 mb-3 md:mb-4">
+                  {/* DM Orb - visible on larger screens */}
+                  <div className="hidden md:block">
+                    <DMOrb3D state={getDMOrbState()} size={80} />
+                  </div>
+                  {/* Simple orb for mobile */}
+                  <div className="md:hidden">
+                    <DMOrbSimple state={getDMOrbState()} size={50} />
+                  </div>
+                  <h2 className="font-title text-xl md:text-2xl text-ink">El Narrador</h2>
+                </div>
 
                 <div ref={scrollRef} className="space-y-3 md:space-y-4 overflow-y-auto max-h-[calc(50vh-100px)] md:max-h-[calc(60vh-100px)] pr-1 md:pr-2">
                   {turns.length === 0 ? (
@@ -912,6 +945,40 @@ export default function GameSession({
                 </div>
               </form>
             </ParchmentPanel>
+
+            {/* Character Stats Panel - below action input */}
+            {character && (
+              <CharacterStatsPanel
+                name={characterName}
+                archetype={character.archetype}
+                avatarUrl={character.avatarUrl || undefined}
+                engine={engine as GameEngine}
+                stats={{
+                  hp: hp.current,
+                  maxHp: hp.max,
+                  level: character.level,
+                  experience: worldState.party?.[character.name]?.experience || 0,
+                  // Story Mode stats
+                  combat: character.stats?.combat,
+                  exploration: character.stats?.exploration,
+                  social: character.stats?.social,
+                  knowledge: character.stats?.knowledge || character.stats?.lore,
+                  // D&D 5e stats
+                  ac: character.stats?.ac,
+                  STR: character.stats?.STR,
+                  DEX: character.stats?.DEX,
+                  CON: character.stats?.CON,
+                  INT: character.stats?.INT,
+                  WIS: character.stats?.WIS,
+                  CHA: character.stats?.CHA,
+                  proficiencyBonus: character.stats?.proficiencyBonus,
+                  speed: character.stats?.speed,
+                  className: character.stats?.className,
+                  raceName: character.stats?.raceName,
+                }}
+                conditions={worldState.party?.[character.name]?.conditions || []}
+              />
+            )}
 
             {/* DM Panel Toggle Button - Only for Human DMs */}
             {isUserDM && (

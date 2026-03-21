@@ -137,6 +137,7 @@ export default async function PlayPage({ params }: PlayPageProps) {
         level: (character as any).level || 1,
         stats: character.stats as any,
         inventory: (character as any).inventory as string[] || [],
+        avatarUrl: (character as any).avatarUrl || null,
       }
     : null
 
