@@ -1080,6 +1080,30 @@
     }
   ],
 
+  "initial_missions": [
+    {
+      "id": "coastal_raid",
+      "title": "Raid a la Aldea Costera",
+      "description": "El jarl busca guerreros para un raid rápido a una aldea sajona mal defendida. Es tu oportunidad de ganar gloria y botín.",
+      "difficulty": "easy",
+      "tags": ["combat", "pillage"]
+    },
+    {
+      "id": "jarl_tomb",
+      "title": "La Tumba del Jarl Antiguo",
+      "description": "Se ha encontrado la entrada a la tumba de un jarl legendario. Sus tesoros son tentadores, pero se dice que los draugr guardan su sueño eterno.",
+      "difficulty": "medium",
+      "tags": ["exploration", "combat"]
+    },
+    {
+      "id": "giant_wolf_hunt",
+      "title": "La Caza del Lobo Gigante",
+      "description": "Un lobo enorme, quizás hijo de Fenrir, ha estado matando ganado y guerreros. El jarl ofrece riquezas al que traiga su cabeza.",
+      "difficulty": "hard",
+      "tags": ["tracking", "combat"]
+    }
+  ],
+
   "engine_notes": {
     "story_mode": "Narrativa de saga nórdica. El destino (wyrd) es tema central pero puede desafiarse. Muerte honorable > vida cobarde. Los dioses intervienen activamente. El DM debe narrar en estilo épico, como un skald contando la saga del jugador. Los fallos nunca son aburridos - siempre llevan a complicaciones interesantes.",
     "pbta": "Movimientos como 'Desafiar el Destino', 'Invocar a los Dioses', 'Enfrentar el Miedo', 'Imponer tu Voluntad'. Fallos parciales (7-9) = ayuda divina con precio, gloria con herida, victoria con pérdida. El lobo que te ayuda hoy podría comerte mañana.",

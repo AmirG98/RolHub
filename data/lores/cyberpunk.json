@@ -101,6 +101,30 @@
 
   "one_shot_hook": "Un Fixer te ofrece 50,000 eddies por un trabajo simple: entrar a un edificio corporativo, robar un chip de data, salir. Dos horas máximo. Pero cuando conectás el chip, descubrís que contiene consciencia humana digitalizada... y esa persona sabe algo que hará que Arasaka te quiera muerto. El reloj corre. ¿Qué hacés?",
 
+  "initial_missions": [
+    {
+      "id": "data_heist",
+      "title": "Robo de Datos",
+      "description": "Un Fixer local tiene un trabajo simple: robar un chip de datos de una oficina corporativa de bajo nivel. Entrar, tomar el chip, salir. Paga 10,000 eddies.",
+      "difficulty": "easy",
+      "tags": ["stealth", "hacking"]
+    },
+    {
+      "id": "security_hack",
+      "title": "Sistema de Seguridad",
+      "description": "Una banda rival tiene información sobre ti que no debería. Necesitas entrar a su sistema, borrar los datos, y dejarles un mensaje. Sin matanzas... preferiblemente.",
+      "difficulty": "medium",
+      "tags": ["hacking", "infiltration"]
+    },
+    {
+      "id": "convoy_assault",
+      "title": "Asalto al Convoy",
+      "description": "Militech transporta prototipos de implantes por la autopista norte. Un cliente anónimo paga mucho por interceptar ese convoy. Es suicida, pero la paga es de leyenda.",
+      "difficulty": "hard",
+      "tags": ["combat", "vehicles", "heist"]
+    }
+  ],
+
   "engine_notes": {
     "story_mode": "Narrativa noir con tecnología. Cada implante tiene costo emocional. Las corporaciones son invencibles pero podés lastimar las. Tono: desesperanza con chispas de rebeldía.",
     "pbta": "Movimientos como 'Actuar Bajo Fuego' y 'Hackear el Sistema'. Fallos parciales = complicaciones tech, llamar atención corp, implante falla.",

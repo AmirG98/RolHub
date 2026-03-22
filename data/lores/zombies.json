@@ -945,6 +945,30 @@
     }
   ],
 
+  "initial_missions": [
+    {
+      "id": "supply_run",
+      "title": "Suministros en el Hospital",
+      "description": "El grupo necesita medicinas urgentes. Hay un hospital a tres kilómetros, pero está en zona roja. Entrar rápido, buscar antibióticos, salir antes del anochecer.",
+      "difficulty": "easy",
+      "tags": ["exploration", "stealth"]
+    },
+    {
+      "id": "rescue_survivors",
+      "title": "Señales de Radio",
+      "description": "Una señal de radio pide ayuda desde una estación de servicio cercana. Son sobrevivientes atrapados. Podrían unirse al grupo... o ser una trampa.",
+      "difficulty": "medium",
+      "tags": ["social", "combat"]
+    },
+    {
+      "id": "secure_perimeter",
+      "title": "Limpiar el Perímetro",
+      "description": "El campamento necesita expandirse. Una zona cercana tiene recursos pero está infestada. Hay que limpiarla antes de que más zombies lleguen.",
+      "difficulty": "hard",
+      "tags": ["combat", "strategy"]
+    }
+  ],
+
   "engine_notes": {
     "story_mode": "Enfocarse en dilemas morales: ¿salvar a quién? ¿confiar en extraños? ¿cruzar líneas éticas para sobrevivir? Los zombies son amenaza constante pero el verdadero horror son las decisiones imposibles y lo que la supervivencia nos hace.",
     "pbta": "Movimientos como 'Actuar Bajo Presión' y 'Leer una Situación Peligrosa'. Los fallos parciales = ruido atrae zombies, recursos gastados, heridas leves. Los vínculos entre personajes son vitales - perder a alguien tiene consecuencias mecánicas.",

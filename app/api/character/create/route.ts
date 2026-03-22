@@ -336,18 +336,37 @@ export async function POST(req: NextRequest) {
         },
       })
 
-      // 4. Crear el primer turn del sistema con el hook narrativo
+      // 4. Crear el primer turn del sistema con el hook narrativo y misiones iniciales
       // one_shot_hooks es un array con objetos que tienen .hook
       // narrative_skeleton.act_1.description es el hook para campañas
       const narrativeHook = mode === 'ONE_SHOT'
         ? (loreData.one_shot_hooks?.[0]?.hook || loreData.narrative_skeleton?.act_1?.description || 'Tu aventura comienza...')
         : (loreData.narrative_skeleton?.act_1?.description || 'Tu aventura comienza...')
 
+      // Construir lista de misiones iniciales
+      const initialMissions = loreData.initial_missions || []
+      let missionsText = ''
+      let suggestedActions: string[] = []
+
+      if (initialMissions.length > 0) {
+        missionsText = '\n\n---\n\n**Misiones Disponibles:**\n'
+        initialMissions.forEach((mission: any) => {
+          const difficultyLabel = mission.difficulty === 'easy' ? 'Facil'
+            : mission.difficulty === 'medium' ? 'Media'
+            : mission.difficulty === 'hard' ? 'Dificil'
+            : ''
+          missionsText += `\n**${mission.title}** ${difficultyLabel ? `(${difficultyLabel})` : ''}\n${mission.description}\n`
+          suggestedActions.push(`Elegir: ${mission.title}`)
+        })
+        missionsText += '\n\n*Elige tu primera aventura, heroe.*'
+      }
+
       await tx.turn.create({
         data: {
           sessionId: session.id,
-          role: 'SYSTEM',
-          content: `Bienvenido a ${loreData.name}, ${charName}. ${narrativeHook}`,
+          role: 'DM',
+          content: `Bienvenido a ${loreData.name}, ${charName}.\n\n${narrativeHook}${missionsText}`,
+          diceRolls: suggestedActions.length > 0 ? { suggested_actions: suggestedActions } : undefined,
           createdAt: new Date(),
         },
       })

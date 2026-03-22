@@ -110,6 +110,30 @@
 
   "one_shot_hook": "Un droide astromecánico llega a tu puerta con un mensaje holográfico urgente de la Princesa Leia: 'Ayúdenme, son mi única esperanza.' El Imperio la capturó. Los planos de la Estrella de la Muerte están en el droide. Tenés una nave y pocas horas antes de que los Stormtroopers lleguen. ¿Qué hacés?",
 
+  "initial_missions": [
+    {
+      "id": "smuggling_run",
+      "title": "Contrabando a Tatooine",
+      "description": "Un Hutt necesita entregar una carga a Mos Eisley sin pasar por controles imperiales. El pago es bueno, pero si te atrapan, estás solo.",
+      "difficulty": "easy",
+      "tags": ["stealth", "piloting"]
+    },
+    {
+      "id": "prisoner_rescue",
+      "title": "Rescate de Prisioneros",
+      "description": "La Rebelión tiene información sobre prisioneros políticos en una base imperial menor. Un equipo pequeño podría sacarlos antes de que sean transferidos.",
+      "difficulty": "medium",
+      "tags": ["combat", "infiltration"]
+    },
+    {
+      "id": "imperial_infiltration",
+      "title": "Infiltrar la Base Imperial",
+      "description": "Hay datos críticos en una base imperial en Scarif. La Alianza necesita esa información a cualquier costo. Es una misión suicida, pero podría cambiar la guerra.",
+      "difficulty": "hard",
+      "tags": ["stealth", "combat", "espionage"]
+    }
+  ],
+
   "engine_notes": {
     "story_mode": "Narrativa cinematográfica tipo películas. Cada escena es memorable. Los héroes siempre tienen oportunidad heroica. El destino es fuerte.",
     "pbta": "Movimientos como 'Pilotar Bajo Presión' y 'Usar la Fuerza'. Fallos = complicaciones emocionantes, nunca boring.",

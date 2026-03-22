@@ -954,6 +954,30 @@
     }
   ],
 
+  "initial_missions": [
+    {
+      "id": "escort_merchant",
+      "title": "El Mercader de Bree",
+      "description": "Un mercader enano necesita escolta hasta Bree. El camino es corto pero peligroso - se rumorea que hay bandidos en el Camino Verde.",
+      "difficulty": "easy",
+      "tags": ["combat", "exploration"]
+    },
+    {
+      "id": "investigate_barrows",
+      "title": "Los Túmulos Encantados",
+      "description": "Luces extrañas se ven en los Túmulos de los Reyes. Los aldeanos de Bree temen lo peor y buscan a alguien valiente que investigue.",
+      "difficulty": "medium",
+      "tags": ["exploration", "mystery"]
+    },
+    {
+      "id": "find_artifact",
+      "title": "La Daga de Westernesse",
+      "description": "Un erudito de Rivendel busca una daga élfica perdida en ruinas cercanas al Bosque Viejo. Paga bien, pero otros también la buscan.",
+      "difficulty": "hard",
+      "tags": ["exploration", "combat"]
+    }
+  ],
+
   "engine_notes": {
     "story_mode": "Enfocarse en decisiones morales y consecuencias narrativas. Las batallas son rápidas y cinematográficas. La atmósfera y descripción son prioritarias. El fallo siempre avanza la historia de forma interesante.",
     "pbta": "Usar movimientos como 'Desafiar el Peligro' y 'Discernir Realidades'. Los fallos parciales (7-9) crean complicaciones interesantes, no bloqueos. La comunidad y las relaciones son importantes.",

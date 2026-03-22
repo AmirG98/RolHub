@@ -112,6 +112,30 @@
 
   "one_shot_hook": "Herencia te un viejo profesor universitario que murió en circunstancias misteriosas. Entre sus posesiones: un diario con anotaciones frenéticas sobre 'Cthulhu fhtagn' y coordenadas de una isla en el Pacífico. Su última entrada: 'Si estás leyendo esto, ya es demasiado tarde. Las estrellas están alineándose. Ellos despiertan.' Esta noche, tuviste pesadillas con una ciudad imposible y cantos en lenguas muertas. Tu investigación comienza ahora.",
 
+  "initial_missions": [
+    {
+      "id": "missing_persons",
+      "title": "Las Desapariciones de Arkham",
+      "description": "Tres estudiantes de Miskatonic han desaparecido en la última semana. La policía no tiene pistas. Un profesor te pide investigar discretamente.",
+      "difficulty": "easy",
+      "tags": ["investigation", "mystery"]
+    },
+    {
+      "id": "haunted_mansion",
+      "title": "La Mansión Corbitt",
+      "description": "Una mansión abandonada en las afueras de Arkham ha estado vacía 40 años. Los vecinos reportan luces y sonidos. El nuevo dueño necesita que investigues antes de mudarse.",
+      "difficulty": "medium",
+      "tags": ["exploration", "horror"]
+    },
+    {
+      "id": "lighthouse_ritual",
+      "title": "El Ritual del Faro",
+      "description": "Pescadores hablan de cantos extraños en el viejo faro de Innsmouth. La última luna llena, un barco desapareció cerca. Alguien debe investigar antes de la próxima luna.",
+      "difficulty": "hard",
+      "tags": ["horror", "cult", "investigation"]
+    }
+  ],
+
   "engine_notes": {
     "story_mode": "Horror psicológico narrativo. Sanity es recurso crítico. Combate es ÚLTIMO recurso. Huir es victoria. Conocer la verdad = perder. Atmosfera > mecánicas.",
     "pbta": "Movimientos como 'Mantener la Cordura' y 'Investigar lo Prohibido'. Fallos = pérdida de Sanity, atención no deseada, verdades terribles reveladas.",

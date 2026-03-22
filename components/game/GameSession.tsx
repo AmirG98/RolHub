@@ -5,6 +5,7 @@ import { ParchmentPanel } from '@/components/medieval/ParchmentPanel'
 import { OrnateFrame } from '@/components/medieval/OrnateFrame'
 import { DiceRoller } from '@/components/medieval/DiceRoller'
 import { ActionInputWithVoice } from '@/components/game/ActionInputWithVoice'
+import { MissionSelector } from '@/components/game/MissionSelector'
 import { ParticipantList } from '@/components/game/ParticipantList'
 import { useSessionRealtime, broadcastTurn } from '@/hooks/useSessionRealtime'
 import { useParticipantPresence } from '@/hooks/useParticipantPresence'
@@ -361,6 +362,21 @@ export default function GameSession({
       }
     }
   }, [character?.avatarUrl, sessionId])
+
+  // Load initial missions from first turn if available
+  useEffect(() => {
+    if (initialTurns.length > 0) {
+      const firstTurn = initialTurns[0]
+      // Check if diceRolls contains suggested_actions (missions)
+      if (firstTurn.diceRolls?.suggested_actions && Array.isArray(firstTurn.diceRolls.suggested_actions)) {
+        setSuggestedActions(firstTurn.diceRolls.suggested_actions)
+      }
+    }
+  }, [initialTurns])
+
+  // Detect if we're in mission selection mode (first turn with mission options)
+  const isMissionSelectionMode = turns.length <= 1 &&
+    suggestedActions.some(a => a.startsWith('Elegir:'))
 
   const handleDiceRoll = (result: { total: number; rolls: number[]; formula: string }) => {
     setLastDiceRoll({ formula: result.formula, result: result.total, rolls: result.rolls })
@@ -881,16 +897,24 @@ export default function GameSession({
               </div>
             )}
 
-            {/* Action Input with Voice + Do/Talk */}
-            <ActionInputWithVoice
-              onSubmit={handleSubmit}
-              isSubmitting={isSubmitting}
-              suggestedActions={suggestedActions}
-              lastDiceRoll={lastDiceRoll}
-              onClearDiceRoll={() => setLastDiceRoll(null)}
-              error={error}
-              locale={locale as 'es' | 'en'}
-            />
+            {/* Mission Selector for first turn OR Action Input */}
+            {isMissionSelectionMode ? (
+              <MissionSelector
+                missions={suggestedActions}
+                onSelect={(mission) => handleSubmit(mission, 'do')}
+                disabled={isSubmitting}
+              />
+            ) : (
+              <ActionInputWithVoice
+                onSubmit={handleSubmit}
+                isSubmitting={isSubmitting}
+                suggestedActions={suggestedActions}
+                lastDiceRoll={lastDiceRoll}
+                onClearDiceRoll={() => setLastDiceRoll(null)}
+                error={error}
+                locale={locale as 'es' | 'en'}
+              />
+            )}
 
             {/* Character Stats Bar + Expandable Sheet */}
             {character && (

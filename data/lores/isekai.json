@@ -967,6 +967,30 @@
     }
   ],
 
+  "initial_missions": [
+    {
+      "id": "guild_first_quest",
+      "title": "Primera Misión del Gremio",
+      "description": "El Gremio de Aventureros te asigna tu primera tarea: eliminar slimes en las afueras de la ciudad. Parece fácil, pero dicen que hay un slime dorado que nadie ha podido atrapar.",
+      "difficulty": "easy",
+      "tags": ["combat", "exploration"]
+    },
+    {
+      "id": "forest_monster",
+      "title": "El Monstruo del Bosque",
+      "description": "Un jabalí gigante aterroriza a los aldeanos. El Gremio ofrece buena recompensa por su derrota. Es tu oportunidad de subir de rango.",
+      "difficulty": "medium",
+      "tags": ["combat", "tracking"]
+    },
+    {
+      "id": "dungeon_exploration",
+      "title": "La Mazmorra Olvidada",
+      "description": "Se ha descubierto una antigua mazmorra cerca de la ciudad. Nadie sabe qué hay dentro, pero los rumores hablan de tesoros y un jefe final poderoso.",
+      "difficulty": "hard",
+      "tags": ["exploration", "combat", "puzzle"]
+    }
+  ],
+
   "engine_notes": {
     "story_mode": "Narrativa de JRPG clásico. El poder de la amistad importa mecánicamente. Curva de poder clara: débil al inicio, semi-dios al final. Eventos dramáticos con giros anime. Muertes permanentes muy raras (siempre hay resurreción disponible).",
     "pbta": "Movimientos como 'Usar Poder Especial', 'Hacer Amigos', 'Nivel Up Dramático'. Fallos parciales = complicaciones cómicas o dramáticas, nunca muerte permanente. Los vínculos de party dan bonificaciones mecánicas.",

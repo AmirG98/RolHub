@@ -29,6 +29,7 @@ export interface LoreBible {
     act_5: NarrativeAct
   }
   one_shot_hook: string
+  initial_missions?: InitialMission[]
   engine_notes: {
     story_mode: string
     pbta: string
@@ -95,6 +96,14 @@ export interface NarrativeAct {
   anchors: string[]
   typical_scenes: string[]
   mood: string
+}
+
+export interface InitialMission {
+  id: string
+  title: string
+  description: string
+  difficulty?: 'easy' | 'medium' | 'hard'
+  tags?: string[]
 }
 
 export type Lore = 'LOTR' | 'ZOMBIES' | 'ISEKAI' | 'VIKINGOS' | 'STAR_WARS' | 'CYBERPUNK' | 'LOVECRAFT_HORROR' | 'CUSTOM'
