@@ -128,9 +128,19 @@ export function GameMapPanel({
   const lockReason: NavigationLockReason = mapState?.lockReason || 'none'
 
   // Obtener ubicaciones conectadas a la actual
+  // Buscamos las conexiones en el currentLocation o en la lista de locations
   const connectedLocations = useMemo(() => {
     if (!currentLocation) return []
-    const connectionIds = currentLocation.connections || []
+
+    // Primero intentamos obtener conexiones del currentLocation
+    let connectionIds = currentLocation.connections || []
+
+    // Si no hay conexiones, buscamos en la lista de locations
+    if (connectionIds.length === 0) {
+      const locFromList = locations.find(l => l.id === currentLocation.id)
+      connectionIds = locFromList?.connections || []
+    }
+
     return locations.filter(loc => connectionIds.includes(loc.id))
   }, [currentLocation, locations])
 
