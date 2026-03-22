@@ -115,7 +115,6 @@ export function MapMarker({
       onTap={handleClick}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
-      style={{ cursor: canTravel ? 'pointer' : 'not-allowed' }}
       opacity={markerOpacity}
     >
       {/* Efecto de borde discontinuo para rumored */}
