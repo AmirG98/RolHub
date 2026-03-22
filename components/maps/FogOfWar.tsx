@@ -69,25 +69,41 @@ interface FogStyleProps {
 
 // Niebla estándar (LOTR, Vikingos, Isekai)
 function StandardFog({ width, height, config, discoveredLocations }: FogStyleProps) {
+  // Radio de visibilidad más grande para ubicaciones visitadas
+  const getVisibilityRadius = (loc: MapLocation) => loc.visited ? 140 : 100
+
   // Crear puntos de niebla que cubren áreas no descubiertas
-  const fogCells: Array<{ x: number; y: number; radius: number }> = []
-  const cellSize = 80
+  const fogCells: Array<{ x: number; y: number; radius: number; opacity: number }> = []
+  const cellSize = 70
 
   for (let x = -width / 2; x < width * 1.5; x += cellSize) {
     for (let y = -height / 2; y < height * 1.5; y += cellSize) {
-      // Verificar si alguna locación descubierta está cerca
-      const nearDiscovered = discoveredLocations.some(loc => {
+      // Calcular distancia mínima a cualquier locación descubierta
+      let minDistance = Infinity
+      discoveredLocations.forEach(loc => {
         const dx = loc.coordinates.x - x
         const dy = loc.coordinates.y - y
         const distance = Math.sqrt(dx * dx + dy * dy)
-        return distance < 100 // Radio de visibilidad
+        const visRadius = getVisibilityRadius(loc)
+        const adjustedDistance = distance - visRadius
+        if (adjustedDistance < minDistance) {
+          minDistance = adjustedDistance
+        }
       })
 
-      if (!nearDiscovered) {
+      // Solo crear fog si está lejos de ubicaciones descubiertas
+      if (minDistance > 0) {
+        // Opacity gradual basada en distancia (más cerca = más transparente)
+        const fadeDistance = 60 // Distancia de transición
+        const opacity = minDistance < fadeDistance
+          ? (minDistance / fadeDistance) * config.fogOpacity * 0.8
+          : config.fogOpacity * 0.8
+
         fogCells.push({
-          x: x + Math.random() * 20 - 10,
-          y: y + Math.random() * 20 - 10,
-          radius: cellSize * 0.8 + Math.random() * 20,
+          x: x + Math.random() * 15 - 7.5,
+          y: y + Math.random() * 15 - 7.5,
+          radius: cellSize * 0.75 + Math.random() * 15,
+          opacity,
         })
       }
     }
@@ -95,6 +111,7 @@ function StandardFog({ width, height, config, discoveredLocations }: FogStylePro
 
   return (
     <Group>
+      {/* Celdas de niebla con opacity gradual */}
       {fogCells.map((cell, i) => (
         <Circle
           key={i}
@@ -102,27 +119,32 @@ function StandardFog({ width, height, config, discoveredLocations }: FogStylePro
           y={cell.y}
           radius={cell.radius}
           fill={config.fogColor}
-          opacity={config.fogOpacity * 0.8}
+          opacity={cell.opacity}
         />
       ))}
-      {/* Borde suave de la niebla */}
-      {discoveredLocations.map((loc, i) => (
-        <Circle
-          key={`edge-${i}`}
-          x={loc.coordinates.x}
-          y={loc.coordinates.y}
-          radius={120}
-          fillRadialGradientStartPoint={{ x: 0, y: 0 }}
-          fillRadialGradientEndPoint={{ x: 0, y: 0 }}
-          fillRadialGradientStartRadius={60}
-          fillRadialGradientEndRadius={120}
-          fillRadialGradientColorStops={[
-            0, 'transparent',
-            1, config.fogColor,
-          ]}
-          opacity={config.fogOpacity * 0.5}
-        />
-      ))}
+      {/* Bordes suaves con gradiente radial mejorado */}
+      {discoveredLocations.map((loc, i) => {
+        const radius = getVisibilityRadius(loc) + 40
+        return (
+          <Circle
+            key={`edge-${i}`}
+            x={loc.coordinates.x}
+            y={loc.coordinates.y}
+            radius={radius}
+            fillRadialGradientStartPoint={{ x: 0, y: 0 }}
+            fillRadialGradientEndPoint={{ x: 0, y: 0 }}
+            fillRadialGradientStartRadius={radius * 0.5}
+            fillRadialGradientEndRadius={radius}
+            fillRadialGradientColorStops={[
+              0, 'transparent',
+              0.6, 'transparent',
+              0.85, `${config.fogColor}40`,
+              1, config.fogColor,
+            ]}
+            opacity={config.fogOpacity * 0.7}
+          />
+        )
+      })}
     </Group>
   )
 }

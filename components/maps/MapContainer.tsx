@@ -214,30 +214,56 @@ export function MapContainer({
           </Layer>
         )}
 
-        {/* Capa de marcadores */}
+        {/* Capa de marcadores - ordenados para jerarquía visual */}
         <Layer>
-          {locations.map((location) => {
-            // Obtener knowledgeLevel si la location lo tiene
-            const knowledgeLevel = 'knowledgeLevel' in location
-              ? (location as MapLocationWithStatus).knowledgeLevel
-              : undefined
+          {/* Primero renderizar ubicaciones normales */}
+          {locations
+            .filter(l => l.id !== currentLocationId)
+            .map((location) => {
+              const knowledgeLevel = 'knowledgeLevel' in location
+                ? (location as MapLocationWithStatus).knowledgeLevel
+                : undefined
 
-            return (
-              <MapMarker
-                key={location.id}
-                location={location}
-                lore={lore}
-                isCurrentLocation={location.id === currentLocationId}
-                isHovered={hoveredLocation?.id === location.id}
-                onClick={() => handleLocationClick(location)}
-                onMouseEnter={() => handleLocationHover(location)}
-                onMouseLeave={() => handleLocationHover(null)}
-                showFog={showFog}
-                questMarker={questMarkersMap[location.id]}
-                knowledgeLevel={knowledgeLevel}
-              />
-            )
-          })}
+              return (
+                <MapMarker
+                  key={location.id}
+                  location={location}
+                  lore={lore}
+                  isCurrentLocation={false}
+                  isHovered={hoveredLocation?.id === location.id}
+                  onClick={() => handleLocationClick(location)}
+                  onMouseEnter={() => handleLocationHover(location)}
+                  onMouseLeave={() => handleLocationHover(null)}
+                  showFog={showFog}
+                  questMarker={questMarkersMap[location.id]}
+                  knowledgeLevel={knowledgeLevel}
+                />
+              )
+            })}
+          {/* Ubicación actual al final (encima de todas) */}
+          {currentLocationId && locations
+            .filter(l => l.id === currentLocationId)
+            .map((location) => {
+              const knowledgeLevel = 'knowledgeLevel' in location
+                ? (location as MapLocationWithStatus).knowledgeLevel
+                : undefined
+
+              return (
+                <MapMarker
+                  key={location.id}
+                  location={location}
+                  lore={lore}
+                  isCurrentLocation={true}
+                  isHovered={hoveredLocation?.id === location.id}
+                  onClick={() => handleLocationClick(location)}
+                  onMouseEnter={() => handleLocationHover(location)}
+                  onMouseLeave={() => handleLocationHover(null)}
+                  showFog={showFog}
+                  questMarker={questMarkersMap[location.id]}
+                  knowledgeLevel={knowledgeLevel}
+                />
+              )
+            })}
         </Layer>
       </Stage>
 

@@ -151,24 +151,12 @@ export function MapPanel({
         />
       </div>
 
-      {/* Leyenda */}
-      <div
-        className="flex items-center justify-center gap-4 px-3 py-2 border-t text-xs"
-        style={{ borderColor: config.primaryColor, color: config.textColor }}
-      >
-        <span className="flex items-center gap-1">
-          <span>{config.icons.city}</span> Ciudad
-        </span>
-        <span className="flex items-center gap-1">
-          <span>{config.icons.dungeon}</span> Dungeon
-        </span>
-        <span className="flex items-center gap-1">
-          <span>{config.icons.danger}</span> Peligro
-        </span>
-        <span className="flex items-center gap-1">
-          <span>{config.icons.safe}</span> Seguro
-        </span>
-      </div>
+      {/* Leyenda mejorada */}
+      <MapLegend
+        config={config}
+        locations={locations}
+        currentLocationId={currentLocationId}
+      />
 
       {/* Submapa modal */}
       {submapLocation && (
@@ -180,6 +168,110 @@ export function MapPanel({
           onPlayerMove={handlePlayerMove}
         />
       )}
+    </div>
+  )
+}
+
+// Leyenda mejorada del mapa
+interface MapLegendProps {
+  config: ReturnType<typeof getMapConfig>
+  locations: MapLocation[]
+  currentLocationId?: string
+}
+
+function MapLegend({ config, locations, currentLocationId }: MapLegendProps) {
+  // Obtener tipos únicos presentes en el mapa
+  const presentTypes = new Set(locations.map(l => l.type))
+
+  // Contar ubicaciones visitadas vs descubiertas
+  const visitedCount = locations.filter(l => l.visited).length
+  const discoveredCount = locations.filter(l => l.discovered).length
+  const totalCount = locations.length
+
+  // Nombre de la ubicación actual
+  const currentLocation = locations.find(l => l.id === currentLocationId)
+
+  return (
+    <div
+      className="px-3 py-2 border-t"
+      style={{ borderColor: config.primaryColor, backgroundColor: `${config.backgroundColor}ee` }}
+    >
+      {/* Fila 1: Ubicación actual */}
+      {currentLocation && (
+        <div
+          className="flex items-center gap-2 mb-2 pb-2 border-b"
+          style={{ borderColor: `${config.primaryColor}50` }}
+        >
+          <span className="text-base">📍</span>
+          <span
+            className="font-bold text-sm"
+            style={{ color: config.accentColor }}
+          >
+            {currentLocation.name}
+          </span>
+          <span
+            className="text-xs opacity-70 ml-auto"
+            style={{ color: config.textColor }}
+          >
+            Tu posición
+          </span>
+        </div>
+      )}
+
+      {/* Fila 2: Tipos de ubicación presentes */}
+      <div
+        className="flex flex-wrap items-center gap-3 text-xs"
+        style={{ color: config.textColor }}
+      >
+        {presentTypes.has('city') && (
+          <span className="flex items-center gap-1">
+            <span className="text-sm">{config.icons.city}</span>
+            <span>Ciudad</span>
+          </span>
+        )}
+        {presentTypes.has('safe') && (
+          <span className="flex items-center gap-1">
+            <span className="text-sm">{config.icons.safe}</span>
+            <span>Refugio</span>
+          </span>
+        )}
+        {presentTypes.has('dungeon') && (
+          <span className="flex items-center gap-1">
+            <span className="text-sm">{config.icons.dungeon}</span>
+            <span>Mazmorra</span>
+          </span>
+        )}
+        {presentTypes.has('danger') && (
+          <span className="flex items-center gap-1">
+            <span className="text-sm">{config.icons.danger}</span>
+            <span>Peligro</span>
+          </span>
+        )}
+        {presentTypes.has('wilderness') && (
+          <span className="flex items-center gap-1">
+            <span className="text-sm">{config.icons.wilderness}</span>
+            <span>Salvaje</span>
+          </span>
+        )}
+        {presentTypes.has('mystery') && (
+          <span className="flex items-center gap-1">
+            <span className="text-sm">{config.icons.mystery}</span>
+            <span>Misterio</span>
+          </span>
+        )}
+
+        {/* Separador y estadísticas */}
+        <span className="mx-2 opacity-30">|</span>
+        <span className="opacity-70">
+          {visitedCount}/{discoveredCount} visitadas
+        </span>
+        {discoveredCount < totalCount && (
+          <span className="flex items-center gap-1 opacity-70">
+            <span>❓</span>
+            <span>{totalCount - discoveredCount} por descubrir</span>
+          </span>
+        )}
+      </div>
     </div>
   )
 }

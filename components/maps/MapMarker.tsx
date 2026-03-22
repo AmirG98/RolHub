@@ -144,17 +144,15 @@ export function MapMarker({
         />
       )}
 
-      {/* Nombre de la locación */}
-      <Text
+      {/* Nombre de la locación con fondo para legibilidad */}
+      <LabelWithBackground
         text={knowledgeStyle.showName ? displayName : '???'}
-        x={-50}
-        y={config.markerSize / 2 + 5}
-        width={100}
-        align="center"
-        fontSize={11}
+        markerSize={config.markerSize}
+        textColor={config.textColor}
+        backgroundColor={config.backgroundColor}
         fontFamily={config.fontFamily}
-        fill={config.textColor}
-        opacity={location.visited ? 1 : 0.7}
+        isCurrentLocation={isCurrentLocation}
+        visited={location.visited}
       />
     </Group>
   )
@@ -600,4 +598,71 @@ interface MarkerStyleProps {
   location: MapLocation
   config: ReturnType<typeof getMapConfig>
   isCurrentLocation: boolean
+}
+
+// Componente de label con fondo para mejor legibilidad
+interface LabelWithBackgroundProps {
+  text: string
+  markerSize: number
+  textColor: string
+  backgroundColor: string
+  fontFamily: string
+  isCurrentLocation: boolean
+  visited: boolean
+}
+
+function LabelWithBackground({
+  text,
+  markerSize,
+  textColor,
+  backgroundColor,
+  fontFamily,
+  isCurrentLocation,
+  visited,
+}: LabelWithBackgroundProps) {
+  // Truncar nombres muy largos (> 14 chars)
+  const displayText = text.length > 14 ? text.slice(0, 12) + '...' : text
+
+  // Calcular ancho aproximado del texto (8px por caracter aprox para font 13px)
+  const textWidth = Math.max(displayText.length * 8, 60)
+  const padding = 6
+  const rectWidth = textWidth + padding * 2
+  const rectHeight = 20
+
+  // Posición arriba del marker
+  const labelY = -markerSize / 2 - rectHeight - 8
+
+  return (
+    <Group>
+      {/* Fondo semi-transparente */}
+      <Rect
+        x={-rectWidth / 2}
+        y={labelY}
+        width={rectWidth}
+        height={rectHeight}
+        fill={backgroundColor}
+        opacity={0.9}
+        cornerRadius={4}
+        stroke={isCurrentLocation ? '#C9A84C' : 'rgba(255,255,255,0.2)'}
+        strokeWidth={isCurrentLocation ? 2 : 1}
+        shadowColor="black"
+        shadowBlur={4}
+        shadowOpacity={0.5}
+        shadowOffsetY={2}
+      />
+      {/* Texto */}
+      <Text
+        text={displayText}
+        x={-rectWidth / 2}
+        y={labelY + 3}
+        width={rectWidth}
+        align="center"
+        fontSize={13}
+        fontFamily={fontFamily}
+        fontStyle={isCurrentLocation ? 'bold' : 'normal'}
+        fill={isCurrentLocation ? '#F5C842' : textColor}
+        opacity={visited ? 1 : 0.8}
+      />
+    </Group>
+  )
 }
