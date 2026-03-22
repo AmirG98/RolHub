@@ -8,6 +8,17 @@ import { useTranslations } from '@/lib/i18n'
 import Link from 'next/link'
 import { generateRandomDescription } from '@/lib/character/description-templates'
 
+// Agrupa items repetidos: ["daga", "daga", "daga"] -> ["daga x3"]
+function groupInventoryItems(items: string[]): string[] {
+  const counts: Record<string, number> = {}
+  for (const item of items) {
+    counts[item] = (counts[item] || 0) + 1
+  }
+  return Object.entries(counts).map(([item, count]) =>
+    count > 1 ? `${item} x${count}` : item
+  )
+}
+
 export interface CharacterCreationData {
   archetype: Archetype
   characterName: string
@@ -237,7 +248,7 @@ export function ArchetypeSelector({ archetypes, loreName, lore, onSelect, onBack
               <>
                 <h3 className="font-heading text-base md:text-xl text-gold mb-3 md:mb-4">{t.archetypeSelector.startingEquipment}</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-1.5 md:gap-2">
-                  {selectedArchetype.starting_inventory.map((item, index) => (
+                  {groupInventoryItems(selectedArchetype.starting_inventory).map((item, index) => (
                     <div key={index} className="flex items-center space-x-2 font-body text-parchment/80 text-xs md:text-sm">
                       <span className="text-gold-dim">•</span>
                       <span>{item}</span>

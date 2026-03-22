@@ -740,15 +740,31 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
                       <span className="text-sm font-ui text-gold-dim">Equipo de {selectedClass.name}</span>
                     </div>
 
-                    {/* Agrupar items por categoría */}
+                    {/* Agrupar items por categoría y cantidad */}
                     {(() => {
-                      const itemsByCategory: Record<string, { name: string; icon: React.ReactNode }[]> = {}
+                      // Primero contar repetidos
+                      const itemCounts: Record<string, number> = {}
                       selectedClass.startingEquipment.fixed.forEach(item => {
+                        itemCounts[item] = (itemCounts[item] || 0) + 1
+                      })
+
+                      // Luego agrupar por categoría
+                      const itemsByCategory: Record<string, { name: string; icon: React.ReactNode; count: number }[]> = {}
+                      const processedItems = new Set<string>()
+
+                      selectedClass.startingEquipment.fixed.forEach(item => {
+                        if (processedItems.has(item)) return
+                        processedItems.add(item)
+
                         const info = getItemInfo(item)
                         if (!itemsByCategory[info.category]) {
                           itemsByCategory[info.category] = []
                         }
-                        itemsByCategory[info.category].push({ name: info.name, icon: info.icon })
+                        itemsByCategory[info.category].push({
+                          name: info.name,
+                          icon: info.icon,
+                          count: itemCounts[item]
+                        })
                       })
 
                       return (
@@ -767,7 +783,9 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
                                     <span className={CATEGORY_INFO[category]?.color || 'text-gold-dim'}>
                                       {item.icon}
                                     </span>
-                                    <span className="text-sm font-body">{item.name}</span>
+                                    <span className="text-sm font-body">
+                                      {item.name}{item.count > 1 ? ` x${item.count}` : ''}
+                                    </span>
                                   </div>
                                 ))}
                               </div>

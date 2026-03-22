@@ -134,30 +134,30 @@ export function ActionInputWithVoice({
           </label>
 
           <div className="flex items-center gap-2">
-            {/* Do button */}
+            {/* Do button - physical actions */}
             <button
               type="button"
               onClick={() => setMode(mode === 'do' ? 'auto' : 'do')}
               className={cn(
-                "flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-ui text-sm transition-all border",
+                "flex items-center gap-1.5 px-4 py-2 rounded-lg font-heading text-sm transition-all border-2",
                 mode === 'do'
-                  ? "bg-gold/20 text-gold border-gold/50 shadow-[0_0_10px_rgba(201,168,76,0.3)]"
-                  : "bg-transparent text-parchment/70 border-gold/20 hover:border-gold/40 hover:text-gold"
+                  ? "bg-blood/30 text-parchment border-blood shadow-[0_0_12px_rgba(139,26,26,0.4)]"
+                  : "bg-shadow/50 text-parchment/60 border-gold-dim/30 hover:border-blood/50 hover:text-parchment hover:bg-blood/10"
               )}
             >
               <Swords className="w-4 h-4" />
               {labels.do}
             </button>
 
-            {/* Talk button */}
+            {/* Talk button - dialogue */}
             <button
               type="button"
               onClick={() => setMode(mode === 'talk' ? 'auto' : 'talk')}
               className={cn(
-                "flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-ui text-sm transition-all border",
+                "flex items-center gap-1.5 px-4 py-2 rounded-lg font-heading text-sm transition-all border-2",
                 mode === 'talk'
-                  ? "bg-gold/20 text-gold border-gold/50 shadow-[0_0_10px_rgba(201,168,76,0.3)]"
-                  : "bg-transparent text-parchment/70 border-gold/20 hover:border-gold/40 hover:text-gold"
+                  ? "bg-emerald/30 text-parchment border-emerald shadow-[0_0_12px_rgba(26,58,42,0.4)]"
+                  : "bg-shadow/50 text-parchment/60 border-gold-dim/30 hover:border-emerald/50 hover:text-parchment hover:bg-emerald/10"
               )}
             >
               <MessageCircle className="w-4 h-4" />
@@ -165,7 +165,7 @@ export function ActionInputWithVoice({
             </button>
 
             {/* Hint for current mode */}
-            <span className="text-xs text-parchment/50 ml-2">
+            <span className="text-xs text-parchment/50 ml-2 hidden sm:inline">
               {mode === 'do' && (locale === 'en' ? 'Physical action' : 'Acción física')}
               {mode === 'talk' && (locale === 'en' ? 'Dialogue' : 'Diálogo')}
               {mode === 'auto' && (locale === 'en' ? 'Use *text* for actions' : 'Usa *texto* para acciones')}
