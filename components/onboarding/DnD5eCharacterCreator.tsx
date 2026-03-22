@@ -4,7 +4,8 @@ import { useState, useMemo, useCallback } from 'react'
 import { RunicButton } from '@/components/medieval/RunicButton'
 import {
   Sword, Shield, BookOpen, Wand2, Heart, Zap, Flame, Snowflake,
-  Skull, Star, Users, ChevronRight, ChevronLeft, Check, Sparkles, Dices
+  Skull, Star, Users, ChevronRight, ChevronLeft, Check, Sparkles, Dices,
+  Shirt, Backpack, Coins, Gem, Axe, Crosshair, Music, FlaskConical
 } from 'lucide-react'
 import { generateRandomDescription } from '@/lib/character/description-templates'
 import {
@@ -78,6 +79,79 @@ const LEVEL_OPTIONS = [
   { level: 5, name: 'Nivel 5 - Héroe Establecido', description: 'Ataque Extra, conjuros de nivel 3. Un item mágico.' },
   { level: 10, name: 'Nivel 10 - Leyenda', description: 'Poderoso y experimentado. Tres items mágicos.' }
 ]
+
+// Traducción de items al español
+const ITEM_TRANSLATIONS: Record<string, { name: string; icon: React.ReactNode; category: 'weapon' | 'armor' | 'tool' | 'gear' }> = {
+  // Armas
+  'dagger': { name: 'Daga', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
+  'shortsword': { name: 'Espada corta', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
+  'longsword': { name: 'Espada larga', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
+  'greatsword': { name: 'Espadón', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
+  'rapier': { name: 'Estoque', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
+  'scimitar': { name: 'Cimitarra', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
+  'battleaxe': { name: 'Hacha de batalla', icon: <Axe className="h-4 w-4" />, category: 'weapon' },
+  'greataxe': { name: 'Hacha grande', icon: <Axe className="h-4 w-4" />, category: 'weapon' },
+  'handaxe': { name: 'Hacha de mano', icon: <Axe className="h-4 w-4" />, category: 'weapon' },
+  'warhammer': { name: 'Martillo de guerra', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
+  'mace': { name: 'Maza', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
+  'quarterstaff': { name: 'Bastón', icon: <Wand2 className="h-4 w-4" />, category: 'weapon' },
+  'club': { name: 'Garrote', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
+  'javelin': { name: 'Jabalina', icon: <Crosshair className="h-4 w-4" />, category: 'weapon' },
+  'spear': { name: 'Lanza', icon: <Crosshair className="h-4 w-4" />, category: 'weapon' },
+  'light_crossbow': { name: 'Ballesta ligera', icon: <Crosshair className="h-4 w-4" />, category: 'weapon' },
+  'crossbow_bolts': { name: 'Virotes de ballesta', icon: <Crosshair className="h-4 w-4" />, category: 'weapon' },
+  'shortbow': { name: 'Arco corto', icon: <Crosshair className="h-4 w-4" />, category: 'weapon' },
+  'longbow': { name: 'Arco largo', icon: <Crosshair className="h-4 w-4" />, category: 'weapon' },
+  'arrows': { name: 'Flechas (20)', icon: <Crosshair className="h-4 w-4" />, category: 'weapon' },
+  'sling': { name: 'Honda', icon: <Crosshair className="h-4 w-4" />, category: 'weapon' },
+  // Armaduras
+  'leather_armor': { name: 'Armadura de cuero', icon: <Shirt className="h-4 w-4" />, category: 'armor' },
+  'studded_leather': { name: 'Cuero tachonado', icon: <Shirt className="h-4 w-4" />, category: 'armor' },
+  'chain_mail': { name: 'Cota de mallas', icon: <Shield className="h-4 w-4" />, category: 'armor' },
+  'chain_shirt': { name: 'Camisa de mallas', icon: <Shirt className="h-4 w-4" />, category: 'armor' },
+  'scale_mail': { name: 'Cota de escamas', icon: <Shield className="h-4 w-4" />, category: 'armor' },
+  'shield': { name: 'Escudo', icon: <Shield className="h-4 w-4" />, category: 'armor' },
+  // Herramientas
+  'thieves_tools': { name: 'Herramientas de ladrón', icon: <FlaskConical className="h-4 w-4" />, category: 'tool' },
+  'musical_instrument': { name: 'Instrumento musical', icon: <Music className="h-4 w-4" />, category: 'tool' },
+  'lute': { name: 'Laúd', icon: <Music className="h-4 w-4" />, category: 'tool' },
+  'flute': { name: 'Flauta', icon: <Music className="h-4 w-4" />, category: 'tool' },
+  'herbalism_kit': { name: 'Kit de herbolario', icon: <FlaskConical className="h-4 w-4" />, category: 'tool' },
+  'holy_symbol': { name: 'Símbolo sagrado', icon: <Sparkles className="h-4 w-4" />, category: 'tool' },
+  'arcane_focus': { name: 'Foco arcano', icon: <Wand2 className="h-4 w-4" />, category: 'tool' },
+  'component_pouch': { name: 'Bolsa de componentes', icon: <Backpack className="h-4 w-4" />, category: 'tool' },
+  'druidic_focus': { name: 'Foco druídico', icon: <Sparkles className="h-4 w-4" />, category: 'tool' },
+  'spellbook': { name: 'Libro de conjuros', icon: <BookOpen className="h-4 w-4" />, category: 'tool' },
+  // Equipo general
+  'explorer_pack': { name: 'Equipo de explorador', icon: <Backpack className="h-4 w-4" />, category: 'gear' },
+  'dungeoneer_pack': { name: 'Equipo de aventurero', icon: <Backpack className="h-4 w-4" />, category: 'gear' },
+  'entertainer_pack': { name: 'Equipo de artista', icon: <Backpack className="h-4 w-4" />, category: 'gear' },
+  'priest_pack': { name: 'Equipo de sacerdote', icon: <Backpack className="h-4 w-4" />, category: 'gear' },
+  'scholar_pack': { name: 'Equipo de erudito', icon: <Backpack className="h-4 w-4" />, category: 'gear' },
+  'diplomat_pack': { name: 'Equipo de diplomático', icon: <Backpack className="h-4 w-4" />, category: 'gear' },
+  'burglar_pack': { name: 'Equipo de ladrón', icon: <Backpack className="h-4 w-4" />, category: 'gear' },
+}
+
+const CATEGORY_INFO: Record<string, { label: string; color: string; bgColor: string }> = {
+  weapon: { label: 'Armas', color: 'text-blood', bgColor: 'bg-blood/20' },
+  armor: { label: 'Armadura', color: 'text-blue-400', bgColor: 'bg-blue-400/20' },
+  tool: { label: 'Herramientas', color: 'text-purple-400', bgColor: 'bg-purple-400/20' },
+  gear: { label: 'Equipo', color: 'text-gold', bgColor: 'bg-gold/20' },
+}
+
+// Función para traducir y obtener info de un item
+function getItemInfo(item: string): { name: string; icon: React.ReactNode; category: 'weapon' | 'armor' | 'tool' | 'gear' } {
+  const normalized = item.toLowerCase().replace(/\s+/g, '_')
+  if (ITEM_TRANSLATIONS[normalized]) {
+    return ITEM_TRANSLATIONS[normalized]
+  }
+  // Si no está en el diccionario, devolver el item formateado
+  return {
+    name: item.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase()),
+    icon: <Backpack className="h-4 w-4" />,
+    category: 'gear'
+  }
+}
 
 export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharacterCreatorProps) {
   const [currentStep, setCurrentStep] = useState<Step>('race')
@@ -648,43 +722,115 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
           {/* EQUIPMENT */}
           {currentStep === 'equipment' && (
             <div className="space-y-6">
-              <div className="glass-panel-dark rounded-lg p-4">
-                <h3 className="font-heading text-lg text-gold mb-3">Equipamiento Inicial</h3>
-                <p className="text-sm text-parchment/60 mb-4">
-                  Tu personaje comenzará con el equipamiento básico de su clase más los recursos de nivel {selectedLevel}.
-                </p>
+              <div className="glass-panel-dark rounded-lg p-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <Backpack className="h-6 w-6 text-gold" />
+                  <div>
+                    <h3 className="font-heading text-xl text-gold">Tu Equipamiento Inicial</h3>
+                    <p className="text-xs text-parchment/60">
+                      Todo lo que llevarás al comenzar tu aventura
+                    </p>
+                  </div>
+                </div>
 
+                {/* Equipo de clase - organizado por categorías */}
                 {selectedClass?.startingEquipment.fixed && selectedClass.startingEquipment.fixed.length > 0 && (
-                  <div className="mb-4">
-                    <h4 className="text-sm text-gold-dim mb-2">Equipo de clase ({selectedClass.name}):</h4>
-                    <ul className="text-sm text-parchment space-y-1">
-                      {selectedClass.startingEquipment.fixed.map((item, i) => (
-                        <li key={i} className="flex items-center gap-2">
-                          <Check className="h-4 w-4 text-emerald" />
-                          {item.replace(/_/g, ' ')}
-                        </li>
-                      ))}
-                    </ul>
+                  <div className="mb-6">
+                    <div className="flex items-center gap-2 mb-3 pb-2 border-b border-gold-dim/30">
+                      <span className="text-sm font-ui text-gold-dim">Equipo de {selectedClass.name}</span>
+                    </div>
+
+                    {/* Agrupar items por categoría */}
+                    {(() => {
+                      const itemsByCategory: Record<string, { name: string; icon: React.ReactNode }[]> = {}
+                      selectedClass.startingEquipment.fixed.forEach(item => {
+                        const info = getItemInfo(item)
+                        if (!itemsByCategory[info.category]) {
+                          itemsByCategory[info.category] = []
+                        }
+                        itemsByCategory[info.category].push({ name: info.name, icon: info.icon })
+                      })
+
+                      return (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                          {Object.entries(itemsByCategory).map(([category, items]) => (
+                            <div
+                              key={category}
+                              className={`rounded-lg p-3 border ${CATEGORY_INFO[category]?.bgColor || 'bg-shadow/50'} border-gold-dim/20`}
+                            >
+                              <div className={`text-xs font-ui mb-2 ${CATEGORY_INFO[category]?.color || 'text-parchment'}`}>
+                                {CATEGORY_INFO[category]?.label || category}
+                              </div>
+                              <div className="space-y-1.5">
+                                {items.map((item, i) => (
+                                  <div key={i} className="flex items-center gap-2 text-parchment">
+                                    <span className={CATEGORY_INFO[category]?.color || 'text-gold-dim'}>
+                                      {item.icon}
+                                    </span>
+                                    <span className="text-sm font-body">{item.name}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )
+                    })()}
                   </div>
                 )}
 
-                <div className="border-t border-gold-dim/30 pt-4">
-                  <h4 className="text-sm text-gold-dim mb-2">Recursos por nivel {selectedLevel}:</h4>
-                  <ul className="text-sm text-parchment space-y-1">
-                    <li className="flex items-center gap-2">
-                      <Check className="h-4 w-4 text-emerald" />
-                      {(() => {
-                        const goldInfo = getStartingGold(selectedLevel)
-                        return 'fixed' in goldInfo ? `${goldInfo.fixed} monedas de oro` : `${goldInfo.min}-${goldInfo.max} monedas de oro`
-                      })()}
-                    </li>
+                {/* Recursos por nivel */}
+                <div className="pt-4 border-t border-gold-dim/30">
+                  <div className="flex items-center gap-2 mb-3">
+                    <Coins className="h-4 w-4 text-gold" />
+                    <span className="text-sm font-ui text-gold-dim">Recursos de Nivel {selectedLevel}</span>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {/* Oro */}
+                    <div className="flex items-center gap-3 p-3 rounded-lg bg-gold/10 border border-gold/30">
+                      <div className="w-10 h-10 rounded-full bg-gold/20 flex items-center justify-center">
+                        <Coins className="h-5 w-5 text-gold" />
+                      </div>
+                      <div>
+                        <div className="text-lg font-heading text-gold">
+                          {(() => {
+                            const goldInfo = getStartingGold(selectedLevel)
+                            return 'fixed' in goldInfo ? goldInfo.fixed : `${goldInfo.min}-${goldInfo.max}`
+                          })()}
+                        </div>
+                        <div className="text-xs text-parchment/60">Monedas de oro</div>
+                      </div>
+                    </div>
+
+                    {/* Items mágicos si aplica */}
                     {getMagicItemsAllowed(selectedLevel).count > 0 && (
-                      <li className="flex items-center gap-2">
-                        <Check className="h-4 w-4 text-emerald" />
-                        {getMagicItemsAllowed(selectedLevel).count} objeto(s) mágico(s) (hasta {getMagicItemsAllowed(selectedLevel).maxTier})
-                      </li>
+                      <div className="flex items-center gap-3 p-3 rounded-lg bg-purple-500/10 border border-purple-500/30">
+                        <div className="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center">
+                          <Gem className="h-5 w-5 text-purple-400" />
+                        </div>
+                        <div>
+                          <div className="text-lg font-heading text-purple-400">
+                            {getMagicItemsAllowed(selectedLevel).count} Item{getMagicItemsAllowed(selectedLevel).count > 1 ? 's' : ''}
+                          </div>
+                          <div className="text-xs text-parchment/60">
+                            Mágico{getMagicItemsAllowed(selectedLevel).count > 1 ? 's' : ''} (hasta {getMagicItemsAllowed(selectedLevel).maxTier})
+                          </div>
+                        </div>
+                      </div>
                     )}
-                  </ul>
+                  </div>
+                </div>
+
+                {/* Nota informativa */}
+                <div className="mt-4 p-3 rounded-lg bg-emerald/10 border border-emerald/30">
+                  <p className="text-xs text-emerald flex items-start gap-2">
+                    <Check className="h-4 w-4 flex-shrink-0 mt-0.5" />
+                    <span>
+                      Tu equipamiento está listo. Al comenzar la partida, el DM te ayudará a elegir
+                      opciones adicionales si tu clase lo permite.
+                    </span>
+                  </p>
                 </div>
               </div>
             </div>
