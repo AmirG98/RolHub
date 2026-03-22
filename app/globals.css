@@ -86,7 +86,8 @@
 
   .particle-bg {
     position: relative;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
   }
 
   .particle-bg::before {
