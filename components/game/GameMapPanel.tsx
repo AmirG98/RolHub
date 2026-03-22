@@ -2,7 +2,7 @@
 
 import React, { useState, useCallback, useMemo } from 'react'
 import dynamic from 'next/dynamic'
-import { Lock, Unlock, MapIcon, Compass, Eye, EyeOff, Maximize2, Minimize2, ChevronRight, Scroll } from 'lucide-react'
+import { Lock, Unlock, MapIcon, Compass, Eye, EyeOff, Maximize2, Minimize2, ChevronRight, Scroll, MapPin, Navigation } from 'lucide-react'
 import { type Lore, getMapConfig } from '@/lib/maps/map-config'
 import { type MapLocationWithStatus, type NavigationLockReason } from '@/lib/types/map-state'
 import { type Quest, type QuestMarker as QuestMarkerType } from '@/lib/types/quest'
@@ -10,6 +10,7 @@ import { getQuestMarkers, getActiveQuests, getMainQuest } from '@/lib/quests/que
 import { useMapSync } from '@/hooks/useMapSync'
 import { cn } from '@/lib/utils'
 import { QuestPanelCompact, CurrentQuestWidget } from './QuestPanel'
+import { SceneView } from '@/components/maps/SceneView'
 
 // Importar MapContainer dinámicamente para evitar SSR issues con Konva
 const MapContainer = dynamic(
@@ -63,6 +64,8 @@ export function GameMapPanel({
   onQuestClick,
   onViewQuestOnMap,
 }: GameMapPanelProps) {
+  // Vista: 'scene' muestra ubicación actual inmersiva, 'worldMap' muestra el mapa completo
+  const [viewMode, setViewMode] = useState<'scene' | 'worldMap'>('scene')
   const [showFog, setShowFog] = useState(true)
   const [isExpanded, setIsExpanded] = useState(false)
   const [submapLocation, setSubmapLocation] = useState<MapLocationWithStatus | null>(null)
@@ -124,6 +127,21 @@ export function GameMapPanel({
   const isLocked = mapState?.navigationLocked || false
   const lockReason: NavigationLockReason = mapState?.lockReason || 'none'
 
+  // Obtener ubicaciones conectadas a la actual
+  const connectedLocations = useMemo(() => {
+    if (!currentLocation) return []
+    const connectionIds = currentLocation.connections || []
+    return locations.filter(loc => connectionIds.includes(loc.id))
+  }, [currentLocation, locations])
+
+  // Handler para viajar desde SceneView
+  const handleSceneTravel = useCallback((toLocationId: string) => {
+    const targetLocation = locations.find(l => l.id === toLocationId)
+    if (targetLocation) {
+      handleLocationClick(targetLocation)
+    }
+  }, [locations, handleLocationClick])
+
   // Calcular altura según modo
   const containerHeight = isExpanded
     ? 'h-[500px]'
@@ -131,6 +149,44 @@ export function GameMapPanel({
       ? 'h-48'
       : 'h-64'
 
+  // Si estamos en modo escena, mostrar SceneView
+  if (viewMode === 'scene') {
+    return (
+      <div
+        className={cn(
+          'relative rounded-lg overflow-hidden',
+          isExpanded ? 'h-[500px]' : compact ? 'h-64' : 'h-80',
+          className
+        )}
+      >
+        <SceneView
+          location={currentLocation}
+          lore={lore}
+          connectedLocations={connectedLocations}
+          onTravel={handleSceneTravel}
+          onExploreInterior={handleExploreInterior}
+          onShowWorldMap={() => setViewMode('worldMap')}
+          canExploreInterior={currentLocation ? hasSubmapAvailable(currentLocation) : false}
+          isNavigationLocked={isLocked}
+          lockReason={LOCK_MESSAGES[lockReason]}
+          className="h-full"
+        />
+
+        {/* Submapa modal */}
+        {submapLocation && (
+          <DynamicSubmapRouter
+            location={submapLocation}
+            lore={lore}
+            isOpen={true}
+            onClose={handleCloseSubmap}
+            onPlayerMove={handlePlayerMove}
+          />
+        )}
+      </div>
+    )
+  }
+
+  // Modo mapa del mundo
   return (
     <div
       className={cn(
@@ -141,16 +197,17 @@ export function GameMapPanel({
     >
       {/* Header del mapa */}
       <div className="flex items-center justify-between px-3 py-2 border-b border-gold-dim bg-shadow">
-        {/* Ubicación actual */}
-        <div className="flex items-center gap-2 min-w-0">
-          <Compass className="w-4 h-4 text-gold flex-shrink-0" />
-          <span
-            className="text-sm text-parchment font-heading truncate"
-            title={currentLocation?.name}
-          >
-            {currentLocation?.name || (locale === 'es' ? 'Ubicación desconocida' : 'Unknown location')}
+        {/* Toggle a vista de escena */}
+        <button
+          onClick={() => setViewMode('scene')}
+          className="flex items-center gap-2 px-2 py-1 rounded bg-gold/20 hover:bg-gold/30 text-gold transition-colors"
+          title="Volver a vista de escena"
+        >
+          <MapPin className="w-4 h-4" />
+          <span className="text-xs font-heading">
+            {currentLocation?.name || 'Escena'}
           </span>
-        </div>
+        </button>
 
         {/* Controles */}
         <div className="flex items-center gap-1">
@@ -170,7 +227,7 @@ export function GameMapPanel({
             <button
               onClick={() => setShowQuests(!showQuests)}
               className={cn(
-                'p-1.5 rounded transition-colors',
+                'p-1.5 rounded transition-colors relative',
                 showQuests
                   ? 'bg-gold/20 text-gold'
                   : 'hover:bg-shadow-mid text-parchment/70 hover:text-parchment'
@@ -245,7 +302,7 @@ export function GameMapPanel({
         )}
       </div>
 
-      {/* Footer con stats y botón de explorar */}
+      {/* Footer con stats y botón de volver a escena */}
       <div className="flex items-center justify-between px-3 py-2 border-t border-gold-dim bg-shadow">
         {/* Stats */}
         <div className="flex items-center gap-3 text-xs text-parchment/70">
@@ -255,23 +312,14 @@ export function GameMapPanel({
           <span className="text-gold">{stats.completionPercent}%</span>
         </div>
 
-        {/* Botón explorar interior */}
-        {currentLocation && hasSubmapAvailable(currentLocation) && (
-          <button
-            onClick={handleExploreInterior}
-            disabled={isLocked}
-            className={cn(
-              'flex items-center gap-1 px-2 py-1 rounded text-xs font-ui transition-all',
-              isLocked
-                ? 'bg-shadow-mid text-parchment/40 cursor-not-allowed'
-                : 'bg-emerald/80 hover:bg-emerald text-parchment hover:text-white'
-            )}
-          >
-            <MapIcon className="w-3 h-3" />
-            <span>{locale === 'es' ? 'Explorar interior' : 'Explore interior'}</span>
-            <ChevronRight className="w-3 h-3" />
-          </button>
-        )}
+        {/* Botón volver a escena */}
+        <button
+          onClick={() => setViewMode('scene')}
+          className="flex items-center gap-1 px-2 py-1 rounded text-xs font-ui bg-shadow-mid hover:bg-shadow border border-gold-dim/30 hover:border-gold text-parchment transition-all"
+        >
+          <Navigation className="w-3 h-3" />
+          <span>Volver a Escena</span>
+        </button>
       </div>
 
       {/* Indicador de navegación libre */}
