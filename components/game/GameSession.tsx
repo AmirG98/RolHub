@@ -3,8 +3,8 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { ParchmentPanel } from '@/components/medieval/ParchmentPanel'
 import { OrnateFrame } from '@/components/medieval/OrnateFrame'
-import { RunicButton } from '@/components/medieval/RunicButton'
 import { DiceRoller } from '@/components/medieval/DiceRoller'
+import { ActionInputWithVoice } from '@/components/game/ActionInputWithVoice'
 import { ParticipantList } from '@/components/game/ParticipantList'
 import { useSessionRealtime, broadcastTurn } from '@/hooks/useSessionRealtime'
 import { useParticipantPresence } from '@/hooks/useParticipantPresence'
@@ -138,7 +138,6 @@ export default function GameSession({
 }: GameSessionProps) {
   const [localTurns, setLocalTurns] = useState<Turn[]>(initialTurns)
   const [worldState, setWorldState] = useState(initialWorldState)
-  const [action, setAction] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [showDiceRoller, setShowDiceRoller] = useState(false)
@@ -368,9 +367,7 @@ export default function GameSession({
     setShowDiceRoller(false)
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-
+  const handleSubmit = async (action: string, actionType: 'do' | 'talk' = 'talk') => {
     if (!action.trim()) {
       setError('Debes escribir una acción')
       return
@@ -393,7 +390,6 @@ export default function GameSession({
     }
     setLocalTurns(prev => [...prev, playerTurn])
     const submittedAction = action.trim()
-    setAction('')
     const submittedDiceRoll = lastDiceRoll
     setLastDiceRoll(null)
 
@@ -405,6 +401,7 @@ export default function GameSession({
           sessionId,
           campaignId,
           action: submittedAction,
+          actionType, // 'do' for physical actions, 'talk' for dialogue
           diceRoll: submittedDiceRoll,
           locale, // Pass language preference for DM narration
         }),
@@ -884,72 +881,16 @@ export default function GameSession({
               </div>
             )}
 
-            {/* Action Input */}
-            <ParchmentPanel variant="ornate">
-              <form onSubmit={handleSubmit} className="space-y-3 md:space-y-4">
-                <div>
-                  <label htmlFor="action" className="font-heading text-ink text-base md:text-lg mb-1.5 md:mb-2 block">
-                    ¿Qué haces?
-                  </label>
-                  <textarea
-                    id="action"
-                    value={action}
-                    onChange={(e) => setAction(e.target.value)}
-                    disabled={isSubmitting}
-                    placeholder="Describe tu acción..."
-                    className="w-full h-20 md:h-24 p-3 md:p-4 bg-parchment-dark/50 border-2 border-gold-dim/30 rounded-lg
-                             font-body text-sm md:text-base text-ink placeholder:text-stone/50
-                             focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/20
-                             disabled:opacity-50 disabled:cursor-not-allowed
-                             resize-none"
-                  />
-                </div>
-
-                {/* Show current dice roll if any */}
-                {lastDiceRoll && (
-                  <div className="flex items-center gap-2 p-2 bg-gold/10 rounded-lg border border-gold/30">
-                    <Dices className="w-4 h-4 text-gold" />
-                    <span className="font-mono text-sm text-gold-dim">{lastDiceRoll.formula}</span>
-                    <span className="font-heading text-lg text-gold-bright">→ {lastDiceRoll.result}</span>
-                    <button
-                      type="button"
-                      onClick={() => setLastDiceRoll(null)}
-                      className="ml-auto text-xs text-blood hover:text-blood/80"
-                    >
-                      Descartar
-                    </button>
-                  </div>
-                )}
-
-                {/* Suggested actions */}
-                <div className="flex flex-wrap items-center gap-2">
-                  {suggestedActions.map((suggestion, i) => (
-                    <button
-                      key={i}
-                      type="button"
-                      onClick={() => setAction(suggestion)}
-                      disabled={isSubmitting}
-                      className="px-2 md:px-3 py-1 text-xs md:text-sm font-ui text-gold-dim border border-gold-dim/30 rounded-full
-                               hover:bg-gold/10 hover:border-gold transition-all disabled:opacity-50"
-                    >
-                      {suggestion}
-                    </button>
-                  ))}
-                </div>
-
-                {error && (
-                  <div className="p-2 md:p-3 bg-blood/10 border border-blood/30 rounded-lg">
-                    <p className="font-ui text-blood text-xs md:text-sm">{error}</p>
-                  </div>
-                )}
-
-                <div className="flex justify-end">
-                  <RunicButton type="submit" disabled={isSubmitting || !action.trim()} variant="primary" className="text-sm md:text-base px-4 md:px-6">
-                    {isSubmitting ? 'Enviando...' : 'Enviar →'}
-                  </RunicButton>
-                </div>
-              </form>
-            </ParchmentPanel>
+            {/* Action Input with Voice + Do/Talk */}
+            <ActionInputWithVoice
+              onSubmit={handleSubmit}
+              isSubmitting={isSubmitting}
+              suggestedActions={suggestedActions}
+              lastDiceRoll={lastDiceRoll}
+              onClearDiceRoll={() => setLastDiceRoll(null)}
+              error={error}
+              locale={locale as 'es' | 'en'}
+            />
 
             {/* Character Stats Bar + Expandable Sheet */}
             {character && (
@@ -1093,7 +1034,8 @@ export default function GameSession({
               lore={lore as LoreType}
               worldState={worldState}
               onTravelRequest={(actionText, toLocationId) => {
-                setAction(actionText)
+                // Travel requests are always physical actions ('do')
+                handleSubmit(actionText, 'do')
               }}
               onError={(message) => {
                 setError(message)
