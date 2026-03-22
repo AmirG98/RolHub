@@ -213,7 +213,7 @@ export interface MapLocationWithStatus {
 // Resultado de validación de viaje
 export interface TravelValidation {
   valid: boolean
-  reason?: 'not_discovered' | 'not_connected' | 'locked' | 'same_location'
+  reason?: 'not_discovered' | 'only_rumored' | 'not_connected' | 'locked' | 'same_location'
   lockReason?: NavigationLockReason
 }
 

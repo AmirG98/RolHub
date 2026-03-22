@@ -49,6 +49,11 @@ export function MapMarker({
   // Calcular opacidad basada en knowledge level
   const markerOpacity = knowledgeStyle.opacity
 
+  // Determinar si se puede hacer click para viajar
+  // Nota: si llegamos aquí, knowledgeLevel ya no es 'unknown' (early return arriba)
+  const isRumored = knowledgeLevel === 'rumored'
+  const canTravel = !isRumored
+
   // Animación de hover y locación actual
   useEffect(() => {
     const group = groupRef.current
@@ -94,18 +99,37 @@ export function MapMarker({
   // Determinar texto a mostrar según knowledge level
   const displayName = knowledgeStyle.showQuestionMark ? `${location.name}?` : location.name
 
+  // Handler que solo permite click si puede viajar
+  const handleClick = () => {
+    if (canTravel) {
+      onClick()
+    }
+  }
+
   return (
     <Group
       ref={groupRef}
       x={x}
       y={y}
-      onClick={onClick}
-      onTap={onClick}
+      onClick={handleClick}
+      onTap={handleClick}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
-      style={{ cursor: 'pointer' }}
+      style={{ cursor: canTravel ? 'pointer' : 'not-allowed' }}
       opacity={markerOpacity}
     >
+      {/* Efecto de borde discontinuo para rumored */}
+      {isRumored && (
+        <Circle
+          radius={config.markerSize / 2 + 5}
+          fill="transparent"
+          stroke={config.primaryColor}
+          strokeWidth={2}
+          dash={[6, 4]}
+          opacity={0.6}
+        />
+      )}
+
       {renderMarker()}
 
       {/* Quest Marker Overlay */}

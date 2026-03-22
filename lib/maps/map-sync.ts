@@ -52,6 +52,10 @@ const TRAVEL_FAIL_MESSAGES: Record<string, { es: string; en: string }> = {
     es: 'No has descubierto esta locación',
     en: "You haven't discovered this location",
   },
+  only_rumored: {
+    es: 'Solo has escuchado rumores de este lugar. Necesitas descubrir cómo llegar.',
+    en: "You've only heard rumors of this place. You need to discover how to get there.",
+  },
   not_connected: {
     es: 'No hay camino directo desde tu ubicación actual',
     en: 'No direct path from your current location',
@@ -214,12 +218,21 @@ export function canTravelTo(
     }
   }
 
-  // No descubierta
-  if (!mapState.discoveredLocationIds.includes(toLocation.id)) {
+  // Verificar nivel de conocimiento (nueva validación basada en narrativa)
+  const knowledgeLevel = getKnowledgeLevel(mapState, toLocation.id)
+
+  // Si es "unknown", no aparece ni en el mapa
+  if (knowledgeLevel === 'unknown') {
     return { valid: false, reason: 'not_discovered' }
   }
 
-  // Verificar conexión o si ya fue visitada (puede volver a lugares visitados)
+  // Si es "rumored", solo lo han escuchado pero no saben cómo llegar
+  if (knowledgeLevel === 'rumored') {
+    return { valid: false, reason: 'only_rumored' }
+  }
+
+  // Nivel >= 'discovered' - saben cómo llegar, pueden viajar
+  // Pero aún verificamos conexión para viajes largos
   const isConnected = fromLocation ? fromLocation.connections.includes(toLocation.id) : false
   const wasVisited = mapState.visitedLocationIds.includes(toLocation.id)
 

@@ -395,51 +395,110 @@ ${diceInterpretation}
       : null
     const discoveredLocations = mapState?.discoveredLocationIds || []
     const navigationLocked = mapState?.navigationLocked || false
+    const locationKnowledge = worldState.map_state?.locationKnowledge || {}
+
+    // Build location list with knowledge levels
+    const discoveredLocationIds = mapState?.discoveredLocationIds || discoveredLocations
+    const buildLocationList = (locations: typeof mapLocations, knowledge: Record<string, string>) => {
+      return locations.map(l => {
+        const level = knowledge[l.id] || 'unknown'
+        const canTravel = level !== 'unknown' && level !== 'rumored'
+        const statusIcon = level === 'unknown' ? '❌' : level === 'rumored' ? '❓' : '✅'
+        return `${statusIcon} ${l.id}: ${l.name} (${l.type}) [${level}] ${canTravel ? '- CAN TRAVEL' : '- CANNOT TRAVEL YET'}`
+      }).join('\n')
+    }
 
     const locationContextSection = isEnglish ? `
-=== LOCATION SYSTEM ===
+=== LOCATION SYSTEM (NARRATIVE DISCOVERY) ===
 Current Location ID: ${currentLocationId || 'unknown'}
 Current Location: ${currentMapLocation?.name || worldState.current_scene}
 Navigation Status: ${navigationLocked ? 'LOCKED' : 'FREE'}
 ${mapState?.lockReason ? `Lock Reason: ${mapState.lockReason}` : ''}
 
-Available Locations (discovered by player):
-${mapLocations.filter(l => discoveredLocations.includes(l.id)).map(l =>
-  `- ${l.id}: ${l.name} (${l.type}, danger: ${l.dangerLevel})`
-).join('\n') || '- None discovered yet'}
+ALL WORLD LOCATIONS (with knowledge levels):
+${buildLocationList(mapLocations, locationKnowledge)}
 
-LOCATION RULES:
-1. When the player arrives at a NEW location, include "location_id" with the location ID
-2. Use "navigation_locked": true during combat, important dialogue, or crucial decisions
-3. Use "lock_reason" to explain why: "combat", "dialogue", "cutscene", "important_choice"
-4. After arriving at a new location, suggest "Explore the area" as an action
-5. Only use location IDs from the discovered locations list above
+KNOWLEDGE LEVELS:
+- "unknown": Player has never heard of this place
+- "rumored": Player heard about it (name shown with "?" on map, CANNOT travel)
+- "discovered": Player knows how to get there (CAN travel)
+- "visited": Player has been there
+- "explored": Player investigated thoroughly
+- "mastered": Player knows all secrets
+
+NARRATIVE DISCOVERY RULES:
+1. The player can ONLY travel to locations with knowledge level >= "discovered"
+2. To REVEAL new locations, use "discover_locations" in your response
+3. Use level "rumored" when they HEAR about a place (NPC mentions it, rumor, etc.)
+4. Use level "discovered" when they LEARN HOW to get there (map found, directions given, etc.)
+5. The narrative MUST justify the discovery: NPC tells them, they find a map, overhear conversation, etc.
+6. When player arrives at a new location, include "location_id" with the ID
+7. Use "navigation_locked": true during combat, important dialogue, or crucial decisions
+
+EXAMPLE - Revealing a location through narrative:
+{
+  "narration": "The old merchant leans closer and whispers: 'There's an ancient temple hidden in the northern mountains... I've heard strange lights there at night.'",
+  "discover_locations": [
+    { "locationId": "ancient-temple", "level": "rumored", "source": "NPC dialogue" }
+  ]
+}
+
+EXAMPLE - Upgrading to discovered (can now travel):
+{
+  "narration": "The merchant hands you a weathered map. 'Here, this shows the path through the mountains to the temple.'",
+  "discover_locations": [
+    { "locationId": "ancient-temple", "level": "discovered", "source": "found map" }
+  ]
+}
 === END LOCATION SYSTEM ===
 ` : `
-=== SISTEMA DE UBICACIÓN ===
+=== SISTEMA DE UBICACIÓN (DESCUBRIMIENTO NARRATIVO) ===
 ID de Ubicación Actual: ${currentLocationId || 'desconocido'}
 Ubicación Actual: ${currentMapLocation?.name || worldState.current_scene}
 Estado de Navegación: ${navigationLocked ? 'BLOQUEADA' : 'LIBRE'}
 ${mapState?.lockReason ? `Razón del Bloqueo: ${mapState.lockReason}` : ''}
 
-Ubicaciones Disponibles (descubiertas por el jugador):
-${mapLocations.filter(l => discoveredLocations.includes(l.id)).map(l =>
-  `- ${l.id}: ${l.name} (${l.type}, peligro: ${l.dangerLevel})`
-).join('\n') || '- Ninguna descubierta aún'}
+TODAS LAS UBICACIONES DEL MUNDO (con niveles de conocimiento):
+${buildLocationList(mapLocations, locationKnowledge)}
 
-REGLAS DE UBICACIÓN:
-1. Cuando el jugador llegue a una NUEVA ubicación, incluir "location_id" con el ID
-2. Usar "navigation_locked": true durante combate, diálogo importante o decisiones cruciales
-3. Usar "lock_reason" para explicar: "combat", "dialogue", "cutscene", "important_choice"
-4. Después de llegar a nueva ubicación, sugerir "Explorar el área" como acción
-5. Solo usar IDs de ubicación de la lista de ubicaciones descubiertas arriba
+NIVELES DE CONOCIMIENTO:
+- "unknown": El jugador nunca ha oído de este lugar
+- "rumored": El jugador escuchó hablar de él (nombre con "?" en mapa, NO PUEDE viajar)
+- "discovered": El jugador sabe cómo llegar (PUEDE viajar)
+- "visited": El jugador ha estado ahí
+- "explored": El jugador investigó a fondo
+- "mastered": El jugador conoce todos los secretos
+
+REGLAS DE DESCUBRIMIENTO NARRATIVO:
+1. El jugador SOLO puede viajar a ubicaciones con nivel de conocimiento >= "discovered"
+2. Para REVELAR nuevas ubicaciones, usa "discover_locations" en tu respuesta
+3. Usa nivel "rumored" cuando ESCUCHEN sobre un lugar (NPC lo menciona, rumor, etc.)
+4. Usa nivel "discovered" cuando APRENDAN CÓMO llegar (encuentran mapa, les dan indicaciones, etc.)
+5. La narrativa DEBE justificar el descubrimiento: NPC les cuenta, encuentran mapa, escuchan conversación, etc.
+6. Cuando el jugador llegue a una nueva ubicación, incluye "location_id" con el ID
+7. Usa "navigation_locked": true durante combate, diálogo importante o decisiones cruciales
+
+EJEMPLO - Revelando una ubicación mediante narrativa:
+{
+  "narration": "El viejo mercader se acerca y susurra: 'Hay un templo antiguo oculto en las montañas del norte... He oído de luces extrañas ahí por las noches.'",
+  "discover_locations": [
+    { "locationId": "templo-antiguo", "level": "rumored", "source": "NPC dialogue" }
+  ]
+}
+
+EJEMPLO - Mejorando a discovered (ahora pueden viajar):
+{
+  "narration": "El mercader te entrega un mapa desgastado. 'Aquí, esto muestra el camino a través de las montañas hasta el templo.'",
+  "discover_locations": [
+    { "locationId": "templo-antiguo", "level": "discovered", "source": "found map" }
+  ]
+}
 === FIN SISTEMA DE UBICACIÓN ===
 `
 
     // Build quest context section
     const quests: Quest[] = worldState.quests || []
     const activeQuestsData = quests.filter(q => q.status === 'active')
-    const locationKnowledge = worldState.map_state?.locationKnowledge || {}
 
     const questContextSection = isEnglish ? `
 === QUEST AND DISCOVERY SYSTEM ===
@@ -746,6 +805,12 @@ ${isEnglish ? 'ADAPTIVE RESPONSE LENGTH' : 'LONGITUD DE RESPUESTA ADAPTATIVA'}:
         locationId: string
         newLevel: LocationKnowledgeLevel
       }
+      // Narrative location discovery - new system
+      discover_locations?: Array<{
+        locationId: string
+        level: 'rumored' | 'discovered'
+        source: string  // "NPC dialogue", "found map", "overheard", "explored"
+      }>
       // Image generation fields
       generate_image?: boolean
       image_prompt?: string
@@ -972,6 +1037,47 @@ ${isEnglish ? 'ADAPTIVE RESPONSE LENGTH' : 'LONGITUD DE RESPUESTA ADAPTATIVA'}:
       worldStateUpdates.map_state.locationKnowledge = {
         ...currentKnowledge,
         [locationId]: newLevel
+      }
+    }
+
+    // Handle narrative location discovery (new system)
+    if (dmResponse.discover_locations && Array.isArray(dmResponse.discover_locations)) {
+      const levelOrder = ['unknown', 'rumored', 'discovered', 'visited', 'explored', 'mastered']
+
+      for (const discovery of dmResponse.discover_locations) {
+        const { locationId, level } = discovery
+        // Validate the location exists in lore data
+        const location = mapLocations.find(l => l.id === locationId)
+        if (location) {
+          // Get current knowledge level
+          const currentLevel = worldStateUpdates.map_state?.locationKnowledge?.[locationId]
+            || mapState?.locationKnowledge?.[locationId]
+            || 'unknown'
+
+          // Only upgrade, never downgrade
+          if (levelOrder.indexOf(level) > levelOrder.indexOf(currentLevel)) {
+            if (!worldStateUpdates.map_state) {
+              worldStateUpdates.map_state = { ...(worldState.map_state || {}) }
+            }
+            worldStateUpdates.map_state.locationKnowledge = {
+              ...(worldStateUpdates.map_state.locationKnowledge || mapState?.locationKnowledge || {}),
+              [locationId]: level
+            }
+
+            // If level >= discovered, also add to discoveredLocationIds
+            if (level !== 'rumored') {
+              const currentDiscovered = worldStateUpdates.map_state.discoveredLocationIds
+                || mapState?.discoveredLocationIds
+                || []
+              if (!currentDiscovered.includes(locationId)) {
+                worldStateUpdates.map_state.discoveredLocationIds = [
+                  ...currentDiscovered,
+                  locationId
+                ]
+              }
+            }
+          }
+        }
       }
     }
 
