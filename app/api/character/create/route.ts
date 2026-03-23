@@ -379,78 +379,51 @@ export async function POST(req: NextRequest) {
       return { campaign, character, session, firstTurnId: firstTurn.id, introContent }
     }, { timeout: 8000 }), 1, 2000)
 
-    // === RETORNAR INMEDIATAMENTE — no bloquear el request ===
-    // Las imágenes (retrato + escena) se generan en BACKGROUND
-    // El jugador entra al juego inmediato y las imágenes aparecen cuando estén listas
-
-    // Background: Generar retrato del personaje
+    // Generar retrato con timeout de 7s — si llega, lo incluimos en la response
+    // Si no llega a tiempo, retornamos sin él (el jugador puede verlo después)
     const characterId = result.character.id
-    generateCharacterPortrait({
-      name: charName,
-      archetype: charArchetype,
-      lore: lore as unknown as LoreType,
-      description: characterDescription,
-      quality: 'standard',
-      ...(isDnD5eCharacter && dnd5eStats && {
-        raceId: dnd5eStats.raceId as string | undefined,
-        subraceId: dnd5eStats.subraceId as string | undefined,
-        classId: dnd5eStats.classId as string | undefined,
-        draconicAncestry: dnd5eStats.draconicAncestry as string | undefined,
-      }),
-    }).then(async (portraitResult) => {
-      if (portraitResult.isGenerated && portraitResult.url) {
-        try {
-          await prisma.character.update({
-            where: { id: characterId },
-            data: { avatarUrl: portraitResult.url },
-          })
-          console.log(`[Portrait] Saved avatar for character ${characterId}`)
-        } catch (err) {
-          console.warn('[Portrait] Failed to save:', err)
-        }
-      }
-    }).catch(err => console.warn('[Portrait] Generation failed:', err))
+    let avatarUrl: string | null = null
 
-    // Background: Generar imagen de escena inicial
-    const openingScenes = (loreData as any).opening_scenes || (loreData.opening_scene ? [loreData.opening_scene] : [])
-    const openingSceneData = openingScenes.length > 0 ? openingScenes[0] : null
-    if (openingSceneData && process.env.NEXT_PUBLIC_ENABLE_IMAGES === 'true') {
-      const firstTurnId = result.firstTurnId
-      handleCachedSceneImageRequest({
-        prompt: openingSceneData.description || `Escena inicial de ${loreData.name}`,
-        lore: lore,
-        locationId: openingSceneData.location_id || 'opening',
-        mood: 'exploration',
-        locationName: openingSceneData.location_name || loreData.name,
+    try {
+      const portraitPromise = generateCharacterPortrait({
+        name: charName,
+        archetype: charArchetype,
+        lore: lore as unknown as LoreType,
+        description: characterDescription,
         quality: 'standard',
-      }).then(async (sceneResult) => {
-        if (sceneResult.success && sceneResult.url) {
-          try {
-            await prisma.turn.update({
-              where: { id: firstTurnId },
-              data: { imageUrl: sceneResult.url },
-            })
-            console.log('[InitialScene] Image saved to turn')
-          } catch (err) {
-            console.warn('[InitialScene] Failed to save:', err)
-          }
-        }
-      }).catch(err => console.warn('[InitialScene] Failed:', err))
+        ...(isDnD5eCharacter && dnd5eStats && {
+          raceId: dnd5eStats.raceId as string | undefined,
+          subraceId: dnd5eStats.subraceId as string | undefined,
+          classId: dnd5eStats.classId as string | undefined,
+          draconicAncestry: dnd5eStats.draconicAncestry as string | undefined,
+        }),
+      })
+
+      // Race: retrato vs timeout de 7s
+      const timeoutPromise = new Promise<null>((resolve) => setTimeout(() => resolve(null), 7000))
+      const portraitResult = await Promise.race([portraitPromise, timeoutPromise])
+
+      if (portraitResult && 'isGenerated' in portraitResult && portraitResult.isGenerated && portraitResult.url) {
+        avatarUrl = portraitResult.url
+        await prisma.character.update({
+          where: { id: characterId },
+          data: { avatarUrl },
+        })
+        console.log(`[Portrait] Generated in time for character ${characterId}`)
+      } else {
+        console.log('[Portrait] Timed out or no image — continuing without portrait')
+      }
+    } catch (err) {
+      console.warn('[Portrait] Generation failed:', err)
     }
 
-    // Background: Pre-generar audio del intro
-    import('@/lib/tts/intro-prefetch').then(({ prefetchIntroAudio }) =>
-      prefetchIntroAudio(result.introContent, lore, 'es')
-    ).catch(() => {})
-
-    // Retornar INMEDIATO — el jugador entra al juego sin esperar imágenes
+    // Retornar — el jugador entra al juego
     return NextResponse.json({
       success: true,
       sessionId: result.session.id,
       campaignId: result.campaign.id,
       characterId: result.character.id,
-      avatarUrl: null,  // Se cargará cuando esté listo
-      initialSceneImageUrl: null,  // Se cargará cuando esté listo
+      avatarUrl,
       inviteCode: inviteCode,
       isMultiplayer: isMultiplayer || false,
     })
