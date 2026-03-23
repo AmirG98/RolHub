@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
     const body = await req.json()
     const {
       lore, mode, engine, tutorialLevel, archetypeId, characterName, characterDescription, isMultiplayer,
-      isDnD5eCharacter, dnd5eStats, dnd5eInventory, dnd5eLevel
+      isDnD5eCharacter, dnd5eStats, dnd5eInventory, dnd5eLevel, dnd5eSubclass
     } = body as {
       lore: Lore
       mode: GameMode
@@ -51,6 +51,7 @@ export async function POST(req: NextRequest) {
       dnd5eStats?: Record<string, number | string>
       dnd5eInventory?: string[]
       dnd5eLevel?: number
+      dnd5eSubclass?: { id: string; name: string }
       customStats?: { combat: number; exploration: number; social: number; lore: number }
     }
 
@@ -147,6 +148,8 @@ export async function POST(req: NextRequest) {
         raceId: dnd5eStats.raceId || '',
         subraceName: dnd5eStats.subraceName || '',
         subraceId: dnd5eStats.subraceId || '',
+        subclassName: dnd5eSubclass?.name || dnd5eStats.subclassName || '',
+        subclassId: dnd5eSubclass?.id || dnd5eStats.subclassId || '',
 
         // Hit dice
         hitDice: dnd5eStats.hitDice || `${dnd5eLevel || 1}d8`,
@@ -422,6 +425,13 @@ export async function POST(req: NextRequest) {
         lore: lore as unknown as LoreType,
         description: characterDescription,
         quality: 'standard',
+        // Pasar datos D&D 5e para retratos race/class-aware
+        ...(isDnD5eCharacter && dnd5eStats && {
+          raceId: dnd5eStats.raceId as string | undefined,
+          subraceId: dnd5eStats.subraceId as string | undefined,
+          classId: dnd5eStats.classId as string | undefined,
+          draconicAncestry: dnd5eStats.draconicAncestry as string | undefined,
+        }),
       })
 
       console.log(`[Portrait] Generation completed in ${Date.now() - startTime}ms`)

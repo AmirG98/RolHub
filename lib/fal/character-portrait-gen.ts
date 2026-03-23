@@ -76,6 +76,59 @@ const ARCHETYPE_DESCRIPTIONS: Record<string, string> = {
   'Profesor': 'professor, scholarly clothes, ancient tome, worried eyes',
 }
 
+// Descripciones visuales de razas D&D 5e para retratos
+const DND5E_RACE_VISUALS: Record<string, string> = {
+  // Razas base
+  human: 'human, normal proportions, realistic features',
+  elf: 'slender elf with pointed ears, angular elegant features, ethereal beauty',
+  'high-elf': 'slender high elf with pointed ears, angular features, ethereal beauty, pale luminous skin',
+  'wood-elf': 'wild wood elf with pointed ears, tanned skin, nature-woven hair, forest markings',
+  drow: 'dark elf with obsidian black skin, stark white hair, pointed ears, red or violet glowing eyes',
+  dwarf: 'stout dwarf, broad shoulders, thick braided beard, compact muscular build, weathered face',
+  'hill-dwarf': 'stout hill dwarf, broad shoulders, braided red-brown beard, warm weathered face',
+  'mountain-dwarf': 'massive mountain dwarf, broad shoulders, iron-gray braided beard, stern face',
+  halfling: 'small halfling, 3 feet tall, curly hair, round friendly face, bare large hairy feet',
+  'lightfoot-halfling': 'small lightfoot halfling, nimble build, mischievous smile, curly hair',
+  'stout-halfling': 'small stout halfling, sturdy build, ruddy cheeks, curly hair',
+  dragonborn: 'dragonborn with reptilian scales covering entire body, draconic head with snout, no hair, tall muscular humanoid dragon',
+  gnome: 'tiny gnome, 3 feet tall, large bright curious eyes, wild unkempt hair, small pointed ears',
+  'forest-gnome': 'tiny forest gnome, wild green-tinted hair, bright eyes, nature-touched appearance',
+  'rock-gnome': 'tiny rock gnome, goggles on forehead, bright inquisitive eyes, tinkerer appearance',
+  'half-elf': 'half-elf with slightly pointed ears, blend of human and elven features, graceful yet sturdy',
+  'half-orc': 'half-orc with grayish-green skin, prominent lower tusks, muscular imposing build, fierce eyes',
+  tiefling: 'tiefling with curved ram-like horns, solid colored eyes without pupils, reddish skin, long sinuous tail, infernal demonic features',
+}
+
+// Colores de ancestría dracónica para Dragonborn
+const DRACONIC_ANCESTRY_COLORS: Record<string, string> = {
+  black: 'black scales, acid-scarred',
+  blue: 'deep blue scales, lightning-crackled',
+  brass: 'warm brass-colored scales, desert-weathered',
+  bronze: 'gleaming bronze scales, ocean-touched',
+  copper: 'bright copper scales, playful expression',
+  gold: 'majestic golden scales, regal bearing',
+  green: 'deep green scales, forest-dwelling',
+  red: 'crimson red scales, fire-touched',
+  silver: 'shining silver scales, frost-tinged',
+  white: 'pale white scales, ice-covered',
+}
+
+// Descripciones visuales de clases D&D 5e para retratos
+const DND5E_CLASS_VISUALS: Record<string, string> = {
+  barbarian: 'wearing fur and leather armor, tribal war markings, massive weapon, wild untamed ferocious appearance',
+  bard: 'wearing colorful elegant performer clothes, carrying a lute or instrument, charming charismatic expression',
+  cleric: 'wearing ceremonial religious robes with prominent holy symbol, divine light aura, sacred vestments',
+  druid: 'wearing natural materials with leaves and vines woven in, wooden gnarled staff, deep nature connection',
+  fighter: 'wearing heavy plate armor, shield and longsword, battle-scarred veteran, military disciplined bearing',
+  monk: 'wearing simple monastic robes tied at waist, martial arts ready stance, calm focused serene expression',
+  paladin: 'wearing brilliant shining plate armor with holy crest, radiant divine aura, righteous noble bearing',
+  ranger: 'wearing practical leather armor with hooded forest cloak, longbow and quiver, rugged wilderness survivor',
+  rogue: 'wearing dark fitted leather armor, daggers and lockpicks at belt, shadowy hooded figure, sharp cunning eyes',
+  sorcerer: 'arcane magical energy crackling visibly around hands, flowing enchanted robes with glowing magical symbols',
+  warlock: 'wearing dark mystical robes with eldritch otherworldly symbols, patron mark glowing, mysterious dangerous aura',
+  wizard: 'wearing scholarly academic robes, ancient spellbook in hand, ornate arcane staff, wise intellectual appearance',
+}
+
 // Negative prompt para evitar problemas comunes
 const NEGATIVE_PROMPT = 'text, watermark, signature, ugly, deformed, disfigured, poor quality, bad anatomy, extra limbs, blurry, low resolution, duplicate, morbid, mutilated, out of frame, poorly drawn face, mutation, extra fingers, missing limbs, floating limbs, disconnected limbs, malformed hands, blur, out of focus, long neck, long body, mutated hands, fused fingers, multiple faces'
 
@@ -92,6 +145,14 @@ export interface CharacterPortraitOptions {
   gender?: 'male' | 'female' | 'neutral'
   /** Calidad de generación */
   quality?: 'draft' | 'standard' | 'high'
+  /** ID de la raza D&D 5e (opcional) */
+  raceId?: string
+  /** ID de la subraza D&D 5e (opcional) */
+  subraceId?: string
+  /** ID de la clase D&D 5e (opcional) */
+  classId?: string
+  /** Ancestría dracónica para Dragonborn (opcional) */
+  draconicAncestry?: string
 }
 
 export interface CharacterPortraitResult {
@@ -103,8 +164,23 @@ export interface CharacterPortraitResult {
 
 /**
  * Construye el prompt para el retrato
+ * Si el personaje tiene datos de raza y clase D&D 5e, usa el builder especializado
  */
 export function buildPortraitPrompt(options: CharacterPortraitOptions): string {
+  // Si tiene datos de raza y clase D&D 5e, usar el builder especializado
+  if (options.raceId && options.classId) {
+    return buildDnD5ePortraitPrompt({
+      raceId: options.raceId,
+      subraceId: options.subraceId,
+      classId: options.classId,
+      lore: options.lore,
+      gender: options.gender,
+      characterDescription: options.description,
+      draconicAncestry: options.draconicAncestry,
+    })
+  }
+
+  // Flujo original para personajes no-D&D 5e
   const style = LORE_PORTRAIT_STYLES[options.lore] || LORE_PORTRAIT_STYLES.CUSTOM
 
   // Buscar descripción del arquetipo
@@ -130,6 +206,68 @@ export function buildPortraitPrompt(options: CharacterPortraitOptions): string {
 
   // Calidad
   parts.push('masterpiece, highly detailed, professional illustration, centered composition')
+
+  return parts.join(', ')
+}
+
+// Opciones específicas para retratos D&D 5e
+export interface DnD5ePortraitOptions {
+  /** ID de la raza (e.g., 'elf', 'dwarf', 'dragonborn') */
+  raceId: string
+  /** ID de la subraza (e.g., 'high-elf', 'hill-dwarf') */
+  subraceId?: string
+  /** ID de la clase (e.g., 'fighter', 'wizard') */
+  classId: string
+  /** Lore/mundo para determinar el estilo artístico */
+  lore: string
+  /** Género del personaje */
+  gender?: string
+  /** Descripción personalizada adicional */
+  characterDescription?: string
+  /** Ancestría dracónica (solo para Dragonborn) */
+  draconicAncestry?: string
+}
+
+/**
+ * Construye un prompt de retrato específico para personajes D&D 5e
+ * Combina raza, clase, ancestría dracónica y estilo del lore
+ */
+export function buildDnD5ePortraitPrompt(options: DnD5ePortraitOptions): string {
+  const loreKey = options.lore as Lore
+  const artStyle = LORE_PORTRAIT_STYLES[loreKey] || LORE_PORTRAIT_STYLES.CUSTOM
+
+  // Priorizar subraza sobre raza base para descripciones más específicas
+  const raceVisual = (options.subraceId && DND5E_RACE_VISUALS[options.subraceId])
+    || DND5E_RACE_VISUALS[options.raceId]
+    || options.raceId
+
+  const classVisual = DND5E_CLASS_VISUALS[options.classId] || options.classId
+
+  const parts: string[] = [artStyle, raceVisual]
+
+  // Añadir color de ancestría dracónica si es dragonborn
+  if (options.draconicAncestry && options.raceId === 'dragonborn') {
+    const draconicColor = DRACONIC_ANCESTRY_COLORS[options.draconicAncestry.toLowerCase()]
+    if (draconicColor) {
+      parts.push(draconicColor)
+    }
+  }
+
+  parts.push(classVisual)
+
+  // Género
+  if (options.gender === 'male') {
+    parts.push('male character')
+  } else if (options.gender === 'female') {
+    parts.push('female character')
+  }
+
+  // Descripción personalizada
+  if (options.characterDescription) {
+    parts.push(options.characterDescription)
+  }
+
+  parts.push('character portrait, upper body, detailed face, masterpiece, high quality')
 
   return parts.join(', ')
 }

@@ -9,7 +9,7 @@ import {
 } from 'lucide-react'
 import { generateRandomDescription } from '@/lib/character/description-templates'
 import {
-  getClasses, getRaces, getClass, getRace,
+  getClasses, getRaces, getClass, getRace, getSubclasses,
   getRecommendedAbilityScores, getStartingGold, getMagicItemsAllowed,
   createDnD5eCharacter, convertToGameStats,
   STANDARD_ARRAY, POINT_BUY_COSTS, POINT_BUY_TOTAL,
@@ -26,20 +26,20 @@ interface DnD5eCharacterCreatorProps {
     stats: Record<string, unknown>
     inventory: string[]
     level: number
+    subclass?: { id: string; name: string }
   }) => void
   onBack: () => void
   lore?: string
 }
 
-type Step = 'race' | 'class' | 'abilities' | 'level' | 'equipment' | 'name'
-
-const STEPS: Step[] = ['race', 'class', 'abilities', 'level', 'equipment', 'name']
+type Step = 'race' | 'class' | 'abilities' | 'level' | 'subclass' | 'equipment' | 'name'
 
 const STEP_TITLES: Record<Step, string> = {
   race: 'Elige tu Raza',
   class: 'Elige tu Clase',
   abilities: 'Asigna tus Atributos',
   level: 'Nivel Inicial',
+  subclass: 'Elige tu Subclase',
   equipment: 'Equipamiento',
   name: 'Nombre tu Personaje'
 }
@@ -163,6 +163,7 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
   })
   const [assignmentMethod, setAssignmentMethod] = useState<'standard' | 'pointbuy'>('standard')
   const [selectedLevel, setSelectedLevel] = useState<number>(1)
+  const [selectedSubclassId, setSelectedSubclassId] = useState<string | null>(null)
   const [characterName, setCharacterName] = useState('')
   const [characterDescription, setCharacterDescription] = useState('')
   const [draconicAncestry, setDraconicAncestry] = useState<string | null>(null)
@@ -178,6 +179,34 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
 
   const selectedRace = selectedRaceId ? getRace(selectedRaceId) : null
   const selectedClass = selectedClassId ? getClass(selectedClassId) : null
+
+  // Obtener subclases disponibles para la clase seleccionada
+  const availableSubclasses = useMemo(() => {
+    if (!selectedClassId) return []
+    return getSubclasses(selectedClassId) || []
+  }, [selectedClassId])
+
+  // Determinar si el paso de subclase debe mostrarse
+  const needsSubclassStep = useMemo(() => {
+    if (!availableSubclasses || availableSubclasses.length === 0) return false
+    const subclassLevel = availableSubclasses[0]?.subclassLevel || 99
+    return selectedLevel >= subclassLevel
+  }, [availableSubclasses, selectedLevel])
+
+  // Calcular pasos dinámicamente
+  const STEPS: Step[] = useMemo(() => {
+    const base: Step[] = ['race', 'class', 'abilities', 'level']
+    if (needsSubclassStep) {
+      base.push('subclass')
+    }
+    base.push('equipment', 'name')
+    return base
+  }, [needsSubclassStep])
+
+  const selectedSubclass = useMemo(() => {
+    if (!selectedSubclassId || !availableSubclasses) return null
+    return availableSubclasses.find(sc => sc.id === selectedSubclassId) || null
+  }, [selectedSubclassId, availableSubclasses])
 
   // Calculate point buy total
   const pointBuySpent = useMemo(() => {
@@ -265,6 +294,8 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
         return pointBuySpent <= POINT_BUY_TOTAL
       case 'level':
         return true
+      case 'subclass':
+        return !!selectedSubclassId
       case 'equipment':
         return true
       case 'name':
@@ -316,6 +347,7 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
       raceId: selectedRaceId,
       subraceId: selectedSubraceId || undefined,
       classId: selectedClassId,
+      subclassId: selectedSubclassId || undefined,
       level: selectedLevel,
       abilityScores,
       skills: [],
@@ -332,7 +364,8 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
       archetypeName: `${character.race.name} ${character.class.name}`,
       stats: { ...stats } as Record<string, unknown>,
       inventory: equipment,
-      level: selectedLevel
+      level: selectedLevel,
+      subclass: selectedSubclass ? { id: selectedSubclass.id, name: selectedSubclass.name } : undefined
     })
   }
 
@@ -493,7 +526,10 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
                     className={`glass-panel rounded-lg p-4 cursor-pointer transition-all hover:scale-105 ${
                       selectedClassId === cls.id ? 'glow-effect ring-2 ring-gold-bright' : ''
                     }`}
-                    onClick={() => setSelectedClassId(cls.id)}
+                    onClick={() => {
+                      setSelectedClassId(cls.id)
+                      setSelectedSubclassId(null)
+                    }}
                   >
                     <div className="flex flex-col items-center text-center gap-2">
                       <div className="text-gold-bright">
@@ -699,7 +735,16 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
                     className={`glass-panel rounded-lg p-4 cursor-pointer transition-all hover:scale-[1.02] ${
                       selectedLevel === option.level ? 'glow-effect ring-2 ring-gold-bright' : ''
                     }`}
-                    onClick={() => setSelectedLevel(option.level)}
+                    onClick={() => {
+                      setSelectedLevel(option.level)
+                      // Resetear subclase si el nuevo nivel no la soporta
+                      if (availableSubclasses.length > 0) {
+                        const subclassLevel = availableSubclasses[0]?.subclassLevel || 99
+                        if (option.level < subclassLevel) {
+                          setSelectedSubclassId(null)
+                        }
+                      }
+                    }}
                   >
                     <div className="flex items-center justify-between">
                       <div>
@@ -716,6 +761,67 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
                   </div>
                 )
               })}
+            </div>
+          )}
+
+          {/* SUBCLASS SELECTION */}
+          {currentStep === 'subclass' && (
+            <div className="space-y-6">
+              <p className="text-center text-sm text-parchment/80 mb-4">
+                Al alcanzar el nivel {availableSubclasses[0]?.subclassLevel}, tu {selectedClass?.name} debe elegir una especialización.
+              </p>
+              <div className="grid grid-cols-1 gap-4">
+                {availableSubclasses.map((sc) => {
+                  // Obtener features disponibles para el nivel seleccionado
+                  const availableFeatures: Array<{ name: string; description: string; level: number }> = []
+                  for (let lvl = 1; lvl <= selectedLevel; lvl++) {
+                    const lvlFeatures = sc.features[lvl.toString()]
+                    if (lvlFeatures) {
+                      lvlFeatures.forEach(f => availableFeatures.push({ ...f, level: lvl }))
+                    }
+                  }
+
+                  return (
+                    <div
+                      key={sc.id}
+                      className={`glass-panel rounded-lg p-5 cursor-pointer transition-all hover:scale-[1.02] ${
+                        selectedSubclassId === sc.id ? 'glow-effect ring-2 ring-gold-bright' : ''
+                      }`}
+                      onClick={() => setSelectedSubclassId(sc.id)}
+                    >
+                      <div className="flex items-start gap-4">
+                        <div className="text-gold-bright mt-1">
+                          {CLASS_ICONS[selectedClassId || ''] || <Star className="h-10 w-10" />}
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="font-heading text-xl text-gold mb-1">{sc.name}</h3>
+                          <p className="font-body text-sm text-parchment/80 mb-3">{sc.description}</p>
+
+                          {availableFeatures.length > 0 && (
+                            <div className="space-y-2 pt-3 border-t border-gold-dim/30">
+                              <span className="text-xs font-ui text-gold">Características desbloqueadas (nivel {selectedLevel}):</span>
+                              {availableFeatures.map((feat, i) => (
+                                <div key={i} className="p-2 rounded bg-shadow/50 border border-gold-dim/20">
+                                  <div className="flex items-center gap-2">
+                                    <span className="text-sm font-heading text-gold">{feat.name}</span>
+                                    <span className="text-xs text-parchment/50">Nv. {feat.level}</span>
+                                  </div>
+                                  <p className="text-xs text-parchment/70 mt-1">{feat.description}</p>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                        {selectedSubclassId === sc.id && (
+                          <div className="text-gold-bright">
+                            <Check className="h-6 w-6" />
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
             </div>
           )}
 
@@ -920,6 +1026,12 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
                       <span className="text-gold">Nivel:</span>
                       <span className="text-parchment ml-2">{selectedLevel}</span>
                     </div>
+                    {selectedSubclass && (
+                      <div>
+                        <span className="text-gold">Subclase:</span>
+                        <span className="text-parchment ml-2">{selectedSubclass.name}</span>
+                      </div>
+                    )}
                   </div>
                   {characterDescription && (
                     <div className="mt-3 pt-3 border-t border-gold-dim/30">

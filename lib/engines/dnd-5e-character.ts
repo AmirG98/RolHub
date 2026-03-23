@@ -48,6 +48,13 @@ export interface DnD5eClass {
     fixed: string[]
   }
   features: Record<string, Array<{ name: string; nameEn: string; description: string }>>
+  subclasses?: Array<{
+    id: string
+    name: string
+    description: string
+    subclassLevel: number
+    features: Record<string, Array<{ name: string; description: string }>>
+  }>
 }
 
 export interface DnD5eRaceTrait {
@@ -95,6 +102,10 @@ export interface DnD5eCharacter {
     id: string
     name: string
   }
+  subclass?: {
+    id: string
+    name: string
+  }
   level: number
   abilityScores: AbilityScores
   hitPoints: {
@@ -131,6 +142,7 @@ export interface CharacterCreationOptions {
   raceId: string
   subraceId?: string
   classId: string
+  subclassId?: string
   level: number
   abilityScores: AbilityScores
   skills: string[]
@@ -209,6 +221,14 @@ export function getRaces(): DnD5eRace[] {
  */
 export function getRace(raceId: string): DnD5eRace | undefined {
   return racesData.races.find((r: { id: string }) => r.id === raceId) as DnD5eRace | undefined
+}
+
+/**
+ * Get subclasses for a given class
+ */
+export function getSubclasses(classId: string): DnD5eClass['subclasses'] {
+  const characterClass = getClass(classId)
+  return characterClass?.subclasses || []
 }
 
 /**
@@ -321,7 +341,7 @@ export function applyRacialBonuses(
 export interface FeatureDetail {
   name: string
   description: string
-  source: 'race' | 'class' | 'subrace' | 'background'
+  source: 'race' | 'class' | 'subclass' | 'subrace' | 'background'
 }
 
 /**
@@ -515,8 +535,22 @@ export function createDnD5eCharacter(options: CharacterCreationOptions): DnD5eCh
   // Proficiency bonus
   const proficiencyBonus = getProficiencyBonus(options.level)
 
+  // Resolve subclass
+  const subclassData = options.subclassId && characterClass.subclasses
+    ? characterClass.subclasses.find(sc => sc.id === options.subclassId)
+    : undefined
+
   // Features and traits
   const features = getClassFeatures(options.classId, options.level)
+  // Agregar features de subclase
+  if (subclassData) {
+    for (let lvl = 1; lvl <= options.level; lvl++) {
+      const scFeatures = subclassData.features[lvl.toString()]
+      if (scFeatures) {
+        features.push(...scFeatures.map(f => f.name))
+      }
+    }
+  }
   const traits = getRacialTraits(race, subrace)
 
   // Spellcasting (if applicable)
@@ -601,6 +635,10 @@ export function createDnD5eCharacter(options: CharacterCreationOptions): DnD5eCh
       id: characterClass.id,
       name: characterClass.name
     },
+    subclass: subclassData ? {
+      id: subclassData.id,
+      name: subclassData.name
+    } : undefined,
     level: options.level,
     abilityScores: finalAbilityScores,
     hitPoints: {
@@ -657,6 +695,8 @@ export interface DnD5eGameStats {
   raceId: string
   subraceName: string
   subraceId: string
+  subclassName: string
+  subclassId: string
 
   // Hit dice
   hitDice: string
@@ -749,8 +789,26 @@ export function convertToGameStats(character: DnD5eCharacter): DnD5eGameStats {
     raceTraits = getRacialTraitsDetailed(race, subrace)
   }
 
-  // Combine all features (class features + racial traits)
-  const allFeatures: FeatureDetail[] = [...raceTraits, ...classFeatures]
+  // Get subclass features if applicable
+  let subclassFeatures: FeatureDetail[] = []
+  if (character.subclass?.id && characterClass?.subclasses) {
+    const subclassData = characterClass.subclasses.find(sc => sc.id === character.subclass?.id)
+    if (subclassData) {
+      for (let lvl = 1; lvl <= character.level; lvl++) {
+        const scFeatures = subclassData.features[lvl.toString()]
+        if (scFeatures) {
+          subclassFeatures.push(...scFeatures.map(f => ({
+            name: f.name,
+            description: f.description,
+            source: 'subclass' as const
+          })))
+        }
+      }
+    }
+  }
+
+  // Combine all features (class features + subclass features + racial traits)
+  const allFeatures: FeatureDetail[] = [...raceTraits, ...classFeatures, ...subclassFeatures]
 
   return {
     // Basic stats
@@ -784,6 +842,8 @@ export function convertToGameStats(character: DnD5eCharacter): DnD5eGameStats {
     raceId: character.race.id,
     subraceName: character.subrace?.name || '',
     subraceId: character.subrace?.id || '',
+    subclassName: character.subclass?.name || '',
+    subclassId: character.subclass?.id || '',
 
     // Hit dice
     hitDice: `${character.level}${hitDie}`,

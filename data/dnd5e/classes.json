@@ -76,6 +76,20 @@
           }
         ]
       },
+      "subclasses": [
+        {
+          "id": "berserker",
+          "name": "Camino del Berserker",
+          "description": "Para algunos bárbaros, la furia es un medio para un fin: la violencia pura y sin control.",
+          "subclassLevel": 3,
+          "features": {
+            "3": [{ "name": "Frenesí", "description": "Puedes entrar en frenesí cuando usas tu Furia. Durante el frenesí, puedes hacer un ataque cuerpo a cuerpo adicional como acción bonus en cada turno." }],
+            "6": [{ "name": "Furia Descontrolada", "description": "No puedes ser hechizado ni asustado mientras estás en furia. Si ya estás hechizado o asustado, el efecto se suspende durante la furia." }],
+            "10": [{ "name": "Presencia Intimidante", "description": "Puedes usar tu acción para asustar a alguien con tu presencia amenazadora. La criatura debe superar una tirada de salvación de Sabiduría o quedar asustada de ti." }],
+            "14": [{ "name": "Represalia", "description": "Cuando recibes daño de una criatura a 5 pies de ti, puedes usar tu reacción para hacer un ataque cuerpo a cuerpo contra esa criatura." }]
+          }
+        }
+      ],
       "rageCount": { "1": 2, "3": 3, "6": 4, "12": 5, "17": 6, "20": "unlimited" },
       "rageDamage": { "1": 2, "9": 3, "16": 4 }
     },
@@ -169,6 +183,21 @@
           }
         ]
       },
+      "subclasses": [
+        {
+          "id": "lore",
+          "name": "Colegio del Saber",
+          "description": "Los bardos del Colegio del Saber saben algo sobre la mayoría de las cosas, recopilando fragmentos de conocimiento de fuentes tan diversas como tomos académicos y cuentos campesinos.",
+          "subclassLevel": 3,
+          "features": {
+            "3": [
+              { "name": "Competencias Adicionales", "description": "Cuando te unes al Colegio del Saber, ganas competencia en tres habilidades de tu elección." },
+              { "name": "Palabras Cortantes", "description": "Puedes usar tu Inspiración Bárdica para distraer, confundir o minar la confianza de otro. Como reacción, resta el dado de Inspiración Bárdica de la tirada de ataque, daño o habilidad de la criatura." }
+            ],
+            "6": [{ "name": "Secretos Mágicos Adicionales", "description": "Aprendes dos conjuros de cualquier clase. Cuentan como conjuros de bardo para ti." }]
+          }
+        }
+      ],
       "inspirationDie": { "1": "d6", "5": "d8", "10": "d10", "15": "d12" }
     },
     {
@@ -252,7 +281,23 @@
             "description": "Los muertos vivientes de CR 1/2 o menos son destruidos instantáneamente."
           }
         ]
-      }
+      },
+      "subclasses": [
+        {
+          "id": "life",
+          "name": "Dominio de la Vida",
+          "description": "El Dominio de la Vida se centra en la vibrante energía positiva, una de las fuerzas fundamentales del universo, que sustenta toda la vida.",
+          "subclassLevel": 1,
+          "features": {
+            "1": [
+              { "name": "Competencia con Armaduras Pesadas", "description": "Ganas competencia con armaduras pesadas." },
+              { "name": "Discípulo de la Vida", "description": "Tus conjuros de curación son más efectivos. Cuando usas un conjuro de nivel 1 o superior para restaurar puntos de golpe, la criatura recupera puntos de golpe adicionales iguales a 2 + el nivel del conjuro." }
+            ],
+            "2": [{ "name": "Canalizar Divinidad: Preservar Vida", "description": "Puedes usar tu Canalizar Divinidad para curar a los gravemente heridos. Restauras una cantidad de puntos de golpe igual a 5 veces tu nivel de clérigo, dividida entre las criaturas que elijas a 30 pies." }],
+            "6": [{ "name": "Sanador Bendecido", "description": "Los conjuros de curación que lanzas sobre otros también te curan a ti. Cuando lanzas un conjuro de curación sobre otra criatura, recuperas puntos de golpe iguales a 2 + el nivel del conjuro." }]
+          }
+        }
+      ]
     },
     {
       "id": "druid",
@@ -318,6 +363,21 @@
           }
         ]
       },
+      "subclasses": [
+        {
+          "id": "land",
+          "name": "Círculo de la Tierra",
+          "description": "El Círculo de la Tierra está formado por místicos y sabios que salvaguardan el conocimiento antiguo a través de una vasta tradición oral.",
+          "subclassLevel": 2,
+          "features": {
+            "2": [
+              { "name": "Truco Adicional", "description": "Aprendes un truco de druida adicional de tu elección." },
+              { "name": "Recuperación Natural", "description": "Puedes recuperar espacios de conjuro gastados durante un descanso corto. Los espacios combinados deben ser iguales o menores a la mitad de tu nivel de druida (redondeado hacia arriba)." }
+            ],
+            "3": [{ "name": "Hechizos de Círculo", "description": "Tu conexión mística con la tierra te infunde la capacidad de lanzar ciertos conjuros adicionales basados en el tipo de terreno donde te convertiste en druida." }]
+          }
+        }
+      ],
       "wildShapeCR": { "2": "1/4", "4": "1/2", "8": "1" }
     },
     {
@@ -411,7 +471,21 @@
             "description": "Puedes atacar tres veces cuando usas la acción de Atacar."
           }
         ]
-      }
+      },
+      "subclasses": [
+        {
+          "id": "champion",
+          "name": "Campeón",
+          "description": "El arquetipo del Campeón se centra en el desarrollo de la fuerza física bruta hasta alcanzar una perfección mortal.",
+          "subclassLevel": 3,
+          "features": {
+            "3": [{ "name": "Crítico Mejorado", "description": "Tus ataques con armas consiguen un golpe crítico con una tirada de 19 o 20." }],
+            "7": [{ "name": "Atleta Notable", "description": "Puedes añadir la mitad de tu bonificación por competencia (redondeada hacia arriba) a cualquier prueba de Fuerza, Destreza o Constitución que no uses ya tu bonificación." }],
+            "10": [{ "name": "Estilo de Combate Adicional", "description": "Puedes elegir un segundo estilo de combate como especialidad." }],
+            "15": [{ "name": "Crítico Superior", "description": "Tus ataques con armas consiguen un golpe crítico con una tirada de 18, 19 o 20." }]
+          }
+        }
+      ]
     },
     {
       "id": "monk",
@@ -502,6 +576,19 @@
           }
         ]
       },
+      "subclasses": [
+        {
+          "id": "open_hand",
+          "name": "Camino de la Mano Abierta",
+          "description": "Los monjes del Camino de la Mano Abierta son los maestros supremos del combate con artes marciales.",
+          "subclassLevel": 3,
+          "features": {
+            "3": [{ "name": "Técnica de la Mano Abierta", "description": "Cuando impactas a una criatura con un ataque de Ráfaga de Golpes, puedes imponerle uno de estos efectos: debe superar una tirada de salvación de Destreza o caer derribada; debe superar una tirada de salvación de Fuerza o ser empujada 15 pies; o no puede usar reacciones hasta el final de tu siguiente turno." }],
+            "6": [{ "name": "Integridad Corporal", "description": "Ganas la capacidad de curarte a ti mismo. Como acción, puedes recuperar puntos de golpe iguales a tres veces tu nivel de monje. Debes terminar un descanso largo antes de poder usar esta capacidad de nuevo." }],
+            "11": [{ "name": "Tranquilidad", "description": "Al final de un descanso largo, ganas el efecto de un conjuro de Santuario que dura hasta el inicio de tu siguiente descanso largo." }]
+          }
+        }
+      ],
       "martialArtsDie": { "1": "d4", "5": "d6", "11": "d8", "17": "d10" },
       "kiPoints": "level",
       "unarmoredMovement": { "2": 10, "6": 15, "10": 20, "14": 25, "18": 30 }
@@ -605,6 +692,19 @@
           }
         ]
       },
+      "subclasses": [
+        {
+          "id": "devotion",
+          "name": "Juramento de Devoción",
+          "description": "El Juramento de Devoción vincula a un paladín a los ideales más elevados de justicia, virtud y orden.",
+          "subclassLevel": 3,
+          "features": {
+            "3": [{ "name": "Canalizar Divinidad", "description": "Ganas dos opciones de Canalizar Divinidad: Arma Sagrada (durante 1 minuto, añades tu modificador de Carisma a las tiradas de ataque con un arma) y Rechazar lo Profano (cada demonio o muerto viviente a 30 pies debe superar una tirada de salvación de Sabiduría o quedar expulsado)." }],
+            "7": [{ "name": "Aura de Devoción", "description": "Tú y las criaturas amistosas a 10 pies no podéis ser hechizados mientras estés consciente." }],
+            "15": [{ "name": "Pureza de Espíritu", "description": "Estás siempre bajo los efectos del conjuro Protección contra el Bien y el Mal." }]
+          }
+        }
+      ],
       "layOnHandsPool": "level * 5"
     },
     {
@@ -694,7 +794,20 @@
             "description": "Puedes atacar dos veces cuando usas la acción de Atacar."
           }
         ]
-      }
+      },
+      "subclasses": [
+        {
+          "id": "hunter",
+          "name": "Cazador",
+          "description": "Emular al arquetipo del Cazador significa aceptar tu lugar como bastión entre la civilización y los terrores de la naturaleza salvaje.",
+          "subclassLevel": 3,
+          "features": {
+            "3": [{ "name": "Presa del Cazador", "description": "Eliges uno de estos rasgos: Asesino de Colosos (una vez por turno, +1d8 daño a criatura con HP reducido), Asesino de Gigantes (cuando una criatura Grande o mayor te ataca, puedes contraatacar como reacción), o Destructor de Hordas (una vez por turno, ataca a otra criatura a 5 pies del objetivo original)." }],
+            "7": [{ "name": "Tácticas Defensivas", "description": "Eliges uno: Escapar de la Horda (ataques de oportunidad contra ti tienen desventaja), Defensa contra Ataques Múltiples (cuando te impactan, +4 CA contra ataques subsecuentes de la misma criatura), o Voluntad de Acero (ventaja contra ser asustado)." }],
+            "11": [{ "name": "Ataque Múltiple", "description": "Eliges uno: Salva contra Volley (como acción, haz un ataque a distancia contra cada criatura en un radio de 10 pies de un punto) o Ataque Giratorio (como acción, haz un ataque cuerpo a cuerpo contra cada criatura a 5 pies)." }]
+          }
+        }
+      ]
     },
     {
       "id": "rogue",
@@ -782,6 +895,22 @@
           }
         ]
       },
+      "subclasses": [
+        {
+          "id": "thief",
+          "name": "Ladrón",
+          "description": "Perfeccionas tus habilidades en las artes del robo. Ladrones, bandidos, carteristas y otros criminales suelen seguir este arquetipo.",
+          "subclassLevel": 3,
+          "features": {
+            "3": [
+              { "name": "Manos Rápidas", "description": "Puedes usar la acción bonus de tu Acción Astuta para hacer una prueba de Destreza (Juego de Manos), usar herramientas de ladrón para desarmar una trampa o abrir una cerradura, o usar la acción Usar Objeto." },
+              { "name": "Movimiento Sigiloso", "description": "Ganas la capacidad de escalar más rápido de lo normal. Escalar ya no te cuesta movimiento extra. Además, cuando haces un salto con carrera, la distancia aumenta en un número de pies igual a tu modificador de Destreza." }
+            ],
+            "9": [{ "name": "Sigilo Supremo", "description": "Tienes ventaja en las pruebas de Destreza (Sigilo) si te mueves no más de la mitad de tu velocidad en el mismo turno." }],
+            "13": [{ "name": "Usar Objeto Mágico", "description": "Has aprendido lo suficiente sobre el funcionamiento de la magia como para improvisar el uso de objetos incluso cuando no están destinados a ti. Ignoras todos los requisitos de clase, raza y nivel en el uso de objetos mágicos." }]
+          }
+        }
+      ],
       "sneakAttackDice": { "1": 1, "3": 2, "5": 3, "7": 4, "9": 5, "11": 6, "13": 7, "15": 8, "17": 9, "19": 10 }
     },
     {
@@ -855,6 +984,21 @@
           }
         ]
       },
+      "subclasses": [
+        {
+          "id": "draconic",
+          "name": "Linaje Dracónico",
+          "description": "Tu magia innata proviene de la magia dracónica que se mezcló con tu sangre o la de tus ancestros.",
+          "subclassLevel": 1,
+          "features": {
+            "1": [
+              { "name": "Antepasado Dracónico", "description": "Eliges un tipo de dragón como antepasado. Puedes hablar, leer y escribir Dracónico. Además, tu bonificación por competencia se duplica en pruebas de Carisma al interactuar con dragones." },
+              { "name": "Resistencia Dracónica", "description": "La magia de tu antepasado fluye por tu cuerpo. Tu máximo de puntos de golpe aumenta en 1 por cada nivel de hechicero. Además, sin armadura tu CA es 13 + tu modificador de Destreza." }
+            ],
+            "6": [{ "name": "Afinidad Elemental", "description": "Cuando lanzas un conjuro que inflige daño del tipo asociado a tu ancestro dracónico, puedes añadir tu modificador de Carisma al daño." }]
+          }
+        }
+      ],
       "sorceryPoints": "level"
     },
     {
@@ -930,6 +1074,19 @@
           }
         ]
       },
+      "subclasses": [
+        {
+          "id": "fiend",
+          "name": "El Diablo",
+          "description": "Has hecho un pacto con un diablo de los planos inferiores. Seres de este tipo desean la corrupción o destrucción de todas las cosas.",
+          "subclassLevel": 1,
+          "features": {
+            "1": [{ "name": "Bendición del Oscuro", "description": "Cuando reduces a una criatura hostil a 0 puntos de golpe, ganas puntos de golpe temporales iguales a tu modificador de Carisma + tu nivel de brujo (mínimo 1)." }],
+            "6": [{ "name": "Suerte del Oscuro", "description": "Puedes pedir a tu patrón que altere el destino a tu favor. Cuando haces una prueba de habilidad o tirada de salvación, puedes añadir un d10 al resultado. Debes terminar un descanso corto o largo antes de usar esta capacidad de nuevo." }],
+            "10": [{ "name": "Resistencia del Diablo", "description": "Puedes elegir un tipo de daño cuando terminas un descanso corto o largo. Ganas resistencia a ese tipo de daño hasta que elijas otro." }]
+          }
+        }
+      ],
       "invocationsKnown": { "2": 2, "5": 3, "7": 4, "9": 5, "12": 6, "15": 7, "18": 8 }
     },
     {
@@ -995,7 +1152,20 @@
             "description": "Eliges una tradición arcana: Escuela de Abjuración, Conjuración, Adivinación, Encantamiento, Evocación, Ilusión, Nigromancia, o Transmutación."
           }
         ]
-      }
+      },
+      "subclasses": [
+        {
+          "id": "evocation",
+          "name": "Escuela de Evocación",
+          "description": "Te centras en la magia que crea poderosos efectos elementales como frío amargo, llamas abrasadoras, truenos retumbantes y relámpagos cegadores.",
+          "subclassLevel": 2,
+          "features": {
+            "2": [{ "name": "Experto en Evocación", "description": "Cuando lanzas un conjuro de evocación que afecta a otras criaturas que puedes ver, puedes elegir un número de ellas igual a 1 + el nivel del conjuro. Las criaturas elegidas superan automáticamente su tirada de salvación y no reciben daño del conjuro." }],
+            "6": [{ "name": "Canalizar Evocación", "description": "Los trucos de daño que lanzas afectan incluso a criaturas que evitan la fuerza principal del conjuro. Cuando una criatura supera su tirada de salvación contra tu truco, recibe la mitad del daño pero ningún efecto adicional." }],
+            "10": [{ "name": "Evocación Potenciada", "description": "Puedes añadir tu modificador de Inteligencia al daño de cualquier conjuro de evocación de mago que lances." }]
+          }
+        }
+      ]
     }
   ]
 }

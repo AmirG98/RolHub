@@ -120,6 +120,7 @@ export default function OnboardingPage() {
     stats: Record<string, unknown>
     inventory: string[]
     level: number
+    subclass?: { id: string; name: string }
   }) => {
     console.log('handleDnD5eCharacterCreate called', { selectedLore, gameMode, engine, tutorialLevel, user: !!user, character })
 
@@ -160,6 +161,7 @@ export default function OnboardingPage() {
           dnd5eStats: character.stats,
           dnd5eInventory: character.inventory,
           dnd5eLevel: character.level,
+          dnd5eSubclass: character.subclass,
         }),
       })
 
