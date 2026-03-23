@@ -316,7 +316,16 @@ export function applyRacialBonuses(
 }
 
 /**
- * Get features for a class at a given level
+ * Feature with full details including source
+ */
+export interface FeatureDetail {
+  name: string
+  description: string
+  source: 'race' | 'class' | 'subrace' | 'background'
+}
+
+/**
+ * Get features for a class at a given level (full details)
  */
 export function getClassFeatures(classId: string, level: number): string[] {
   const characterClass = getClass(classId)
@@ -335,13 +344,57 @@ export function getClassFeatures(classId: string, level: number): string[] {
 }
 
 /**
- * Get racial traits
+ * Get features for a class at a given level with full details
+ */
+export function getClassFeaturesDetailed(classId: string, level: number): FeatureDetail[] {
+  const characterClass = getClass(classId)
+  if (!characterClass) return []
+
+  const features: FeatureDetail[] = []
+
+  for (let lvl = 1; lvl <= level; lvl++) {
+    const levelFeatures = characterClass.features[lvl.toString()]
+    if (levelFeatures) {
+      features.push(...levelFeatures.map(f => ({
+        name: f.name,
+        description: f.description,
+        source: 'class' as const
+      })))
+    }
+  }
+
+  return features
+}
+
+/**
+ * Get racial traits (names only)
  */
 export function getRacialTraits(race: DnD5eRace, subrace?: DnD5eSubrace): string[] {
   const traits = race.traits.map(t => t.name)
 
   if (subrace) {
     traits.push(...subrace.traits.map(t => t.name))
+  }
+
+  return traits
+}
+
+/**
+ * Get racial traits with full details
+ */
+export function getRacialTraitsDetailed(race: DnD5eRace, subrace?: DnD5eSubrace): FeatureDetail[] {
+  const traits: FeatureDetail[] = race.traits.map(t => ({
+    name: t.name,
+    description: t.description,
+    source: 'race' as const
+  }))
+
+  if (subrace) {
+    traits.push(...subrace.traits.map(t => ({
+      name: t.name,
+      description: t.description,
+      source: 'subrace' as const
+    })))
   }
 
   return traits
@@ -617,8 +670,8 @@ export interface DnD5eGameStats {
   savingThrowProficiencies: AbilityScore[]
   skillProficiencies: string[]
 
-  // Features and traits
-  features: string[]
+  // Features and traits (with full details)
+  features: FeatureDetail[]
   traits: string[]
   languages: string[]
 
@@ -677,10 +730,27 @@ export function getExperienceToNextLevel(level: number): number {
 
 /**
  * Convert D&D 5e character to game-compatible stats format (full version)
+ * Now includes detailed features with descriptions from class and race
  */
 export function convertToGameStats(character: DnD5eCharacter): DnD5eGameStats {
   const characterClass = getClass(character.class.id)
+  const race = getRace(character.race.id)
   const hitDie = characterClass?.hitDie || 'd8'
+
+  // Get detailed features from class
+  const classFeatures = getClassFeaturesDetailed(character.class.id, character.level)
+
+  // Get detailed traits from race (these become features too)
+  let raceTraits: FeatureDetail[] = []
+  if (race) {
+    const subrace = character.subrace?.id
+      ? race.subraces.find(s => s.id === character.subrace?.id)
+      : undefined
+    raceTraits = getRacialTraitsDetailed(race, subrace)
+  }
+
+  // Combine all features (class features + racial traits)
+  const allFeatures: FeatureDetail[] = [...raceTraits, ...classFeatures]
 
   return {
     // Basic stats
@@ -727,8 +797,8 @@ export function convertToGameStats(character: DnD5eCharacter): DnD5eGameStats {
     savingThrowProficiencies: character.savingThrows,
     skillProficiencies: character.skills,
 
-    // Features and traits
-    features: character.features,
+    // Features and traits (combined with details)
+    features: allFeatures,
     traits: character.traits,
     languages: character.languages,
 

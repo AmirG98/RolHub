@@ -1,11 +1,19 @@
 'use client'
 
 import { useState } from 'react'
-import { ChevronDown, ChevronUp, HelpCircle, Heart, Shield, Zap, Footprints, Target, Dices } from 'lucide-react'
+import { ChevronDown, ChevronUp, HelpCircle, Heart, Shield, Zap, Footprints, Target, Dices, Weight, Package } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { HelpTooltip, HelpModal } from './HelpTooltip'
 import { ALL_SKILLS, type AbilityId } from '@/lib/game/help-content'
 import { calculateModifier, formatModifier } from '@/lib/engines/dnd-5e'
+import {
+  calculateEncumbrance,
+  getItemWeight,
+  formatWeight,
+  getEncumbranceColor,
+  getEncumbranceMessage,
+  type EncumbranceStatus
+} from '@/lib/game/encumbrance'
 
 // ============================================
 // TYPES
@@ -44,7 +52,7 @@ interface DnD5eStats {
   features?: {
     name: string
     description: string
-    source: 'race' | 'class' | 'background'
+    source: 'race' | 'class' | 'subrace' | 'background'
   }[]
 }
 
@@ -229,6 +237,139 @@ function SkillRow({
 }
 
 // ============================================
+// EQUIPMENT SECTION WITH WEIGHT
+// ============================================
+
+function EncumbranceBar({ status }: { status: EncumbranceStatus }) {
+  const { currentWeight, carryCapacity, percentFull, level } = status
+
+  // Colores de la barra según nivel de carga
+  const barColor = level === 'normal' ? 'bg-emerald-500'
+    : level === 'encumbered' ? 'bg-yellow-500'
+    : level === 'heavily_encumbered' ? 'bg-orange-500'
+    : 'bg-red-500'
+
+  return (
+    <div className="space-y-1">
+      <div className="flex justify-between text-xs font-ui">
+        <span className={getEncumbranceColor(level)}>
+          {currentWeight} / {carryCapacity} lb
+        </span>
+        <span className="text-parchment/50">{percentFull}%</span>
+      </div>
+      <div className="relative h-2 bg-shadow rounded-full overflow-hidden border border-gold-dim/20">
+        {/* Marcadores de umbrales */}
+        <div
+          className="absolute top-0 bottom-0 w-px bg-yellow-500/50"
+          style={{ left: `${(status.encumberedThreshold / carryCapacity) * 100}%` }}
+        />
+        <div
+          className="absolute top-0 bottom-0 w-px bg-orange-500/50"
+          style={{ left: `${(status.heavyThreshold / carryCapacity) * 100}%` }}
+        />
+        {/* Barra de peso actual */}
+        <div
+          className={cn("absolute inset-y-0 left-0 transition-all duration-300", barColor)}
+          style={{ width: `${Math.min(percentFull, 100)}%` }}
+        />
+      </div>
+      <p className={cn("text-[10px] font-ui", getEncumbranceColor(level))}>
+        {getEncumbranceMessage(level)}
+      </p>
+    </div>
+  )
+}
+
+function EquipmentSection({
+  inventory,
+  gold,
+  strength,
+  isOpen,
+  onToggle,
+}: {
+  inventory: string[]
+  gold: number
+  strength: number
+  isOpen: boolean
+  onToggle: () => void
+}) {
+  const encumbrance = calculateEncumbrance(inventory, strength)
+
+  return (
+    <div>
+      <SectionHeader
+        title="EQUIPO"
+        isOpen={isOpen}
+        onToggle={onToggle}
+      />
+      {isOpen && (
+        <div className="p-3 border border-t-0 border-gold-dim/30 rounded-b-lg bg-shadow/30 space-y-3">
+          {/* Barra de carga */}
+          <EncumbranceBar status={encumbrance} />
+
+          {/* Lista de items con peso */}
+          {inventory.length > 0 ? (
+            <ul className="space-y-1 pt-2 border-t border-gold-dim/20">
+              {inventory.map((item, index) => {
+                const weight = getItemWeight(item)
+                return (
+                  <li
+                    key={index}
+                    className="text-sm font-body text-parchment/80 flex items-center justify-between gap-2"
+                  >
+                    <span className="flex items-center gap-2 flex-1 min-w-0">
+                      <Package className="w-3 h-3 text-gold-dim flex-shrink-0" />
+                      <span className="truncate">{item}</span>
+                    </span>
+                    <span className="text-xs font-mono text-parchment/50 flex-shrink-0">
+                      {formatWeight(weight)}
+                    </span>
+                  </li>
+                )
+              })}
+            </ul>
+          ) : (
+            <p className="text-sm text-parchment/50 font-body italic">Sin equipo</p>
+          )}
+
+          {/* Oro */}
+          {gold > 0 && (
+            <div className="pt-2 border-t border-gold-dim/20 flex justify-between items-center">
+              <span className="text-sm font-body text-gold">
+                Oro: {gold} gp
+              </span>
+              <span className="text-xs font-mono text-parchment/50">
+                {formatWeight(gold * 0.02)} {/* 50 monedas = 1 lb */}
+              </span>
+            </div>
+          )}
+
+          {/* Resumen de capacidad */}
+          <div className="pt-2 border-t border-gold-dim/20">
+            <div className="flex items-center gap-2 text-xs font-ui text-parchment/60">
+              <Weight className="w-3 h-3" />
+              <span>Capacidad: STR ({strength}) × 15 = {strength * 15} lb</span>
+            </div>
+            {encumbrance.speedPenalty !== 0 && (
+              <div className="flex items-center gap-2 text-xs font-ui text-orange-400 mt-1">
+                <Footprints className="w-3 h-3" />
+                <span>Velocidad: {encumbrance.speedPenalty} pies</span>
+              </div>
+            )}
+            {encumbrance.hasDisadvantage && (
+              <div className="flex items-center gap-2 text-xs font-ui text-red-400 mt-1">
+                <Target className="w-3 h-3" />
+                <span>Desventaja en checks de STR, DEX y CON</span>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+// ============================================
 // MAIN COMPONENT
 // ============================================
 
@@ -263,6 +404,10 @@ export function DnD5eCharacterSheet({
   const proficiencyBonus = stats.proficiencyBonus || 2
   const saveProficiencies = stats.savingThrowProficiencies || []
   const skillProficiencies = stats.skillProficiencies || []
+
+  // Calculate encumbrance from inventory
+  const encumbrance = calculateEncumbrance(inventory, stats.STR || 10)
+  const effectiveSpeed = Math.max(0, (stats.speed || 30) + encumbrance.speedPenalty)
 
   return (
     <div className={cn(
@@ -401,13 +546,38 @@ export function DnD5eCharacterSheet({
                   </div>
                 </div>
 
-                {/* Speed */}
-                <div className="flex items-center gap-2 p-2 bg-shadow/50 rounded border border-gold-dim/20">
-                  <Footprints className="w-5 h-5 text-blue-400" />
+                {/* Speed - with encumbrance penalty */}
+                <div className={cn(
+                  "flex items-center gap-2 p-2 bg-shadow/50 rounded border",
+                  encumbrance.speedPenalty !== 0
+                    ? "border-orange-500/50"
+                    : "border-gold-dim/20"
+                )}>
+                  <Footprints className={cn(
+                    "w-5 h-5",
+                    encumbrance.speedPenalty !== 0 ? "text-orange-400" : "text-blue-400"
+                  )} />
                   <div>
-                    <span className="text-lg font-heading text-parchment">{stats.speed || 30}</span>
+                    <div className="flex items-baseline gap-1">
+                      <span className={cn(
+                        "text-lg font-heading",
+                        encumbrance.speedPenalty !== 0 ? "text-orange-400" : "text-parchment"
+                      )}>
+                        {effectiveSpeed}
+                      </span>
+                      {encumbrance.speedPenalty !== 0 && (
+                        <span className="text-xs text-parchment/40 line-through">
+                          {stats.speed || 30}
+                        </span>
+                      )}
+                    </div>
                     <div className="flex items-center gap-1">
                       <span className="text-[10px] font-ui text-gold-dim">pies</span>
+                      {encumbrance.speedPenalty !== 0 && (
+                        <span className="text-[8px] font-ui text-orange-400">
+                          ({encumbrance.speedPenalty})
+                        </span>
+                      )}
                       <HelpTooltip category="combat" term="speed" level={tutorialLevel} iconSize="sm" />
                     </div>
                   </div>
@@ -529,36 +699,13 @@ export function DnD5eCharacterSheet({
         )}
 
         {/* ============ EQUIPO ============ */}
-        <div>
-          <SectionHeader
-            title="EQUIPO"
-            isOpen={openSections.equipment}
-            onToggle={() => toggleSection('equipment')}
-          />
-          {openSections.equipment && (
-            <div className="p-3 border border-t-0 border-gold-dim/30 rounded-b-lg bg-shadow/30">
-              {inventory.length > 0 ? (
-                <ul className="space-y-1">
-                  {inventory.map((item, index) => (
-                    <li key={index} className="text-sm font-body text-parchment/80 flex items-start gap-2">
-                      <span className="text-gold-dim">•</span>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <p className="text-sm text-parchment/50 font-body italic">Sin equipo</p>
-              )}
-              {gold > 0 && (
-                <div className="mt-3 pt-2 border-t border-gold-dim/20">
-                  <span className="text-sm font-body text-gold">
-                    Oro: {gold} gp
-                  </span>
-                </div>
-              )}
-            </div>
-          )}
-        </div>
+        <EquipmentSection
+          inventory={inventory}
+          gold={gold}
+          strength={stats.STR}
+          isOpen={openSections.equipment}
+          onToggle={() => toggleSection('equipment')}
+        />
       </div>
 
       {/* Help Modal */}
