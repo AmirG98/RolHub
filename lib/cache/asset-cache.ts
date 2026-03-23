@@ -149,7 +149,7 @@ export async function cacheLocationImage(
   await setCachedAsset('IMAGE', key, url, {
     prompt,
     lore: lore as Lore,
-    expiresInDays: 30 // Las ubicaciones expiran en 30 días
+    // Sin expiración — reutilizable en futuras partidas
   })
 }
 
@@ -228,7 +228,7 @@ export async function cacheAudio(
 ): Promise<void> {
   const key = generateAudioCacheKey(text, voiceKey)
   await setCachedAsset('AUDIO', key, audioBase64Url, {
-    expiresInDays: 7, // Audio expira en 7 días para ahorrar storage
+    // Sin expiración — reutilizable en futuras partidas
   })
 }
 
