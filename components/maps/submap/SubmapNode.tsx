@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { Group, Rect, Text, Circle } from 'react-konva'
+import { Group, Rect, Text, Circle, Line } from 'react-konva'
 import { type SubmapNode as SubmapNodeType, type SubmapTheme, type SubmapNodeType as NodeTypeEnum } from '@/lib/maps/submap-types'
 
 interface SubmapNodeProps {
@@ -15,49 +15,51 @@ interface SubmapNodeProps {
   onDoubleClick: (nodeId: string) => void
 }
 
-// Iconos por tipo de nodo - más grandes y claros
-const NODE_ICONS: Partial<Record<NodeTypeEnum, string>> = {
-  // City
-  street: '🛤️',
-  plaza: '⭐',
-  market: '🏪',
-  tavern: '🍺',
-  temple: '⛪',
-  palace: '👑',
-  gate: '🚪',
-  house: '🏠',
-  shop: '🛒',
+// Categorías visuales: color de fondo + label corto + icono simple
+const NODE_VISUAL: Partial<Record<NodeTypeEnum, { bg: string; label: string; icon: string }>> = {
+  // Ciudad
+  street: { bg: '#3A3528', label: 'Calle', icon: '━' },
+  plaza: { bg: '#4A3A1A', label: 'Plaza', icon: '◆' },
+  market: { bg: '#4A4020', label: 'Mercado', icon: '◈' },
+  tavern: { bg: '#5A3020', label: 'Taberna', icon: '◉' },
+  temple: { bg: '#2A3A4A', label: 'Templo', icon: '△' },
+  palace: { bg: '#5A4A2A', label: 'Palacio', icon: '♛' },
+  gate: { bg: '#3A3A3A', label: 'Puerta', icon: '▣' },
+  house: { bg: '#3A3020', label: 'Casa', icon: '▪' },
+  shop: { bg: '#3A4030', label: 'Tienda', icon: '◇' },
   // Dungeon
-  room: '🚪',
-  corridor: '➡️',
-  treasure_room: '💎',
-  boss_room: '💀',
-  trap_room: '⚠️',
-  safe_room: '🛡️',
+  room: { bg: '#2A2A30', label: 'Sala', icon: '□' },
+  corridor: { bg: '#252530', label: 'Pasillo', icon: '═' },
+  treasure_room: { bg: '#4A3A10', label: 'Tesoro', icon: '★' },
+  boss_room: { bg: '#4A1A1A', label: 'Jefe', icon: '☠' },
+  trap_room: { bg: '#4A3020', label: 'Trampa', icon: '⚠' },
+  safe_room: { bg: '#1A3A2A', label: 'Refugio', icon: '♦' },
   // Wilderness
-  clearing: '☀️',
-  path: '🛤️',
-  camp: '🏕️',
-  cave_entrance: '🕳️',
-  river_crossing: '🌉',
-  ruins: '🏛️',
-  grove: '🌲',
+  clearing: { bg: '#2A3A1A', label: 'Claro', icon: '○' },
+  path: { bg: '#3A3A20', label: 'Sendero', icon: '~' },
+  camp: { bg: '#3A2A10', label: 'Campamento', icon: '▲' },
+  cave_entrance: { bg: '#2A2A2A', label: 'Cueva', icon: '◖' },
+  river_crossing: { bg: '#1A3040', label: 'Río', icon: '≈' },
+  ruins: { bg: '#3A3030', label: 'Ruinas', icon: '▨' },
+  grove: { bg: '#1A3A1A', label: 'Arboleda', icon: '♣' },
   // Stronghold
-  wall: '🧱',
-  tower: '🗼',
-  courtyard: '🏟️',
-  keep: '🏰',
-  dungeon_cell: '⛓️',
-  armory: '⚔️',
-  great_hall: '🎭',
+  wall: { bg: '#3A3A3A', label: 'Muro', icon: '▬' },
+  tower: { bg: '#3A3540', label: 'Torre', icon: '▲' },
+  courtyard: { bg: '#2A3020', label: 'Patio', icon: '□' },
+  keep: { bg: '#4A3A2A', label: 'Torreón', icon: '♜' },
+  dungeon_cell: { bg: '#1A1A20', label: 'Celda', icon: '▥' },
+  armory: { bg: '#3A3030', label: 'Armería', icon: '⚔' },
+  great_hall: { bg: '#4A3A1A', label: 'Salón', icon: '♔' },
   // Nautical
-  dock: '⚓',
-  ship: '⛵',
-  warehouse: '📦',
-  lighthouse: '🗼',
-  beach: '🏖️',
-  reef: '🪸',
+  dock: { bg: '#2A3040', label: 'Muelle', icon: '⚓' },
+  ship: { bg: '#2A3545', label: 'Barco', icon: '⛵' },
+  warehouse: { bg: '#3A3530', label: 'Almacén', icon: '▣' },
+  lighthouse: { bg: '#3A3A40', label: 'Faro', icon: '◈' },
+  beach: { bg: '#3A3A20', label: 'Playa', icon: '~' },
+  reef: { bg: '#1A3040', label: 'Arrecife', icon: '≋' },
 }
+
+const DEFAULT_VISUAL = { bg: '#2A2A2A', label: '???', icon: '●' }
 
 export function SubmapNode({
   node,
@@ -69,131 +71,158 @@ export function SubmapNode({
   onClick,
   onDoubleClick,
 }: SubmapNodeProps) {
-  // Determinar color según estado
-  const getNodeColor = () => {
-    if (isPlayerHere) return theme.colors.nodeCurrent
-    if (node.isEntrance) return theme.colors.entrance
-    if (node.isObjective) return theme.colors.objective
-    if (!node.discovered) return '#333333'
-    if (isSelected) return theme.colors.nodeHover
-    if (isHovered) return theme.colors.nodeHover
-    return theme.colors.node
+  const visual = NODE_VISUAL[node.type] || DEFAULT_VISUAL
+
+  // === ESTADOS VISUALES CLAROS ===
+
+  // No descubierto: silueta difusa con "?"
+  if (!node.discovered) {
+    return (
+      <Group
+        x={node.x}
+        y={node.y}
+        opacity={0.3}
+        onMouseEnter={() => onHover(node.id)}
+        onMouseLeave={() => onHover(null)}
+      >
+        <Rect
+          width={node.width}
+          height={node.height}
+          fill="#1A1A1A"
+          stroke="#333"
+          strokeWidth={1}
+          cornerRadius={6}
+          dash={[4, 4]}
+        />
+        <Text
+          x={0}
+          y={node.height / 2 - 10}
+          width={node.width}
+          align="center"
+          text="?"
+          fontSize={20}
+          fill="#555"
+          fontStyle="bold"
+        />
+      </Group>
+    )
   }
 
-  // Opacidad según descubrimiento
-  const opacity = node.discovered ? 1 : 0.4
+  // Descubierto pero no visitado: visible pero apagado
+  const isKnownButUnvisited = node.discovered && !node.visited && !isPlayerHere
 
-  // Obtener icono
-  const icon = NODE_ICONS[node.type] || '●'
+  // Color del borde según estado
+  const getBorderColor = () => {
+    if (isPlayerHere) return '#F5C842'  // Dorado brillante
+    if (node.isEntrance) return '#4CAF50' // Verde
+    if (node.isObjective) return '#FF9800' // Naranja
+    if (isSelected) return '#C9A84C' // Dorado
+    if (isHovered) return '#8B6914' // Dorado dim
+    if (isKnownButUnvisited) return '#555' // Gris — no visitado
+    return '#6B5A3A' // Marrón — visitado
+  }
+
+  const borderWidth = isPlayerHere || isSelected ? 3 : isHovered ? 2.5 : 1.5
+  const nodeOpacity = isKnownButUnvisited ? 0.6 : 1
 
   return (
     <Group
       x={node.x}
       y={node.y}
-      opacity={opacity}
+      opacity={nodeOpacity}
       onMouseEnter={() => onHover(node.id)}
       onMouseLeave={() => onHover(null)}
       onClick={() => onClick(node)}
       onDblClick={() => onDoubleClick(node.id)}
       onTap={() => onClick(node)}
     >
-      {/* Sombra */}
-      <Rect
-        x={3}
-        y={3}
-        width={node.width}
-        height={node.height}
-        fill="rgba(0,0,0,0.3)"
-        cornerRadius={8}
-      />
-
-      {/* Fondo del nodo */}
-      <Rect
-        width={node.width}
-        height={node.height}
-        fill={getNodeColor()}
-        stroke={isSelected ? '#fff' : theme.colors.connection}
-        strokeWidth={isSelected ? 3 : 2}
-        cornerRadius={8}
-        shadowColor="black"
-        shadowBlur={isHovered ? 10 : 5}
-        shadowOpacity={0.3}
-      />
-
-      {/* Indicador de objetivo */}
-      {node.isObjective && (
-        <Circle
-          x={node.width - 10}
-          y={10}
-          radius={8}
-          fill="#FFD700"
-          stroke="#000"
-          strokeWidth={1}
-        />
-      )}
-
-      {/* Indicador de entrada */}
-      {node.isEntrance && (
-        <Circle
-          x={node.width - 10}
-          y={10}
-          radius={8}
-          fill="#32CD32"
-          stroke="#000"
-          strokeWidth={1}
-        />
-      )}
-
-      {/* Icono del tipo - más grande */}
-      <Text
-        x={0}
-        y={node.height / 2 - 18}
-        width={node.width}
-        align="center"
-        text={icon}
-        fontSize={Math.min(32, node.width * 0.4)}
-        fill={node.discovered ? '#fff' : '#666'}
-      />
-
-      {/* Nombre del nodo - siempre visible si hay espacio */}
-      {node.width >= 50 && (
-        <Text
-          x={2}
-          y={node.height - 18}
-          width={node.width - 4}
-          align="center"
-          text={node.name.length > 12 ? node.name.slice(0, 10) + '...' : node.name}
-          fontSize={Math.min(11, node.width * 0.12)}
-          fill={node.discovered ? 'rgba(255,255,255,0.9)' : '#555'}
-          fontStyle="bold"
-        />
-      )}
-
-      {/* Indicador de visitado */}
-      {node.visited && (
-        <Circle
-          x={10}
-          y={10}
-          radius={5}
-          fill="#4CAF50"
-          stroke="#fff"
-          strokeWidth={1}
-        />
-      )}
-
-      {/* Glow si el jugador está aquí */}
+      {/* Glow del jugador */}
       {isPlayerHere && (
         <Rect
-          x={-4}
-          y={-4}
-          width={node.width + 8}
-          height={node.height + 8}
-          stroke={theme.colors.nodeCurrent}
+          x={-5}
+          y={-5}
+          width={node.width + 10}
+          height={node.height + 10}
+          fill="transparent"
+          stroke="#F5C842"
           strokeWidth={2}
           cornerRadius={10}
-          dash={[5, 3]}
-          opacity={0.8}
+          opacity={0.5}
+          dash={[6, 3]}
         />
+      )}
+
+      {/* Fondo del nodo con color por tipo */}
+      <Rect
+        width={node.width}
+        height={node.height}
+        fill={visual.bg}
+        stroke={getBorderColor()}
+        strokeWidth={borderWidth}
+        cornerRadius={6}
+        shadowColor="black"
+        shadowBlur={isHovered || isPlayerHere ? 12 : 4}
+        shadowOpacity={0.4}
+      />
+
+      {/* Icono + Label de tipo (arriba) */}
+      <Text
+        x={0}
+        y={6}
+        width={node.width}
+        align="center"
+        text={visual.icon}
+        fontSize={Math.min(18, node.width * 0.25)}
+        fill={isPlayerHere ? '#F5C842' : node.visited ? '#C9A84C' : '#888'}
+      />
+
+      {/* Nombre del nodo — más legible */}
+      <Text
+        x={3}
+        y={node.height / 2 - 2}
+        width={node.width - 6}
+        align="center"
+        text={node.name.length > 14 ? node.name.slice(0, 12) + '…' : node.name}
+        fontSize={Math.min(10, node.width * 0.13)}
+        fill={node.visited ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.55)'}
+        fontStyle="bold"
+        fontFamily="Cinzel, serif"
+      />
+
+      {/* Label de tipo (abajo) — categoría clara */}
+      <Text
+        x={0}
+        y={node.height - 14}
+        width={node.width}
+        align="center"
+        text={visual.label}
+        fontSize={8}
+        fill={node.visited ? 'rgba(201,168,76,0.7)' : 'rgba(255,255,255,0.3)'}
+        fontFamily="Crimson Text, serif"
+        fontStyle="italic"
+      />
+
+      {/* Badge de estado especial */}
+      {node.isObjective && (
+        <Group x={node.width - 12} y={-4}>
+          <Circle radius={7} fill="#FF9800" stroke="#000" strokeWidth={1} />
+          <Text x={-4} y={-5} text="!" fontSize={10} fill="#000" fontStyle="bold" />
+        </Group>
+      )}
+
+      {node.isEntrance && (
+        <Group x={node.width - 12} y={-4}>
+          <Circle radius={7} fill="#4CAF50" stroke="#000" strokeWidth={1} />
+          <Text x={-4} y={-6} text="▶" fontSize={8} fill="#000" />
+        </Group>
+      )}
+
+      {/* Checkmark si visitado */}
+      {node.visited && !isPlayerHere && (
+        <Group x={-4} y={-4}>
+          <Circle radius={6} fill="#1A3A2A" stroke="#4CAF50" strokeWidth={1} />
+          <Text x={-4} y={-5} text="✓" fontSize={9} fill="#4CAF50" />
+        </Group>
       )}
     </Group>
   )

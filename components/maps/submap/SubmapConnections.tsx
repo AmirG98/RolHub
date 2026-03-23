@@ -49,8 +49,9 @@ export function SubmapConnections({ connections, nodes, theme }: SubmapConnectio
 
         const style = CONNECTION_STYLES[connection.style] || CONNECTION_STYLES.path
 
-        // Opacidad reducida si no está descubierta
-        const opacity = connection.discovered ? style.opacity : 0.2
+        // Conexiones no descubiertas: muy tenues con dash
+        const opacity = connection.discovered ? style.opacity : 0.12
+        const connectionDash = connection.discovered ? style.dash : [3, 6]
 
         return (
           <Group key={connection.id}>
@@ -61,7 +62,7 @@ export function SubmapConnections({ connections, nodes, theme }: SubmapConnectio
               strokeWidth={style.width + 2}
               lineCap="round"
               lineJoin="round"
-              dash={style.dash}
+              dash={connectionDash}
               opacity={opacity * 0.5}
             />
 
@@ -72,7 +73,7 @@ export function SubmapConnections({ connections, nodes, theme }: SubmapConnectio
               strokeWidth={style.width}
               lineCap="round"
               lineJoin="round"
-              dash={style.dash}
+              dash={connectionDash}
               opacity={opacity}
               tension={0.3}
             />
