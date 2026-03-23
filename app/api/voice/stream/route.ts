@@ -225,60 +225,63 @@ export async function POST(request: NextRequest) {
       console.log('[Voice] Cache miss, generating fresh audio')
     }
 
-    let ttsResponse: Response
-    let provider: string
+    let ttsResponse: Response = null as any
+    let provider: string = 'unknown'
 
-    // Primary: Fish Audio S2-Pro (voces ultra naturales)
+    // Fish Audio S2-Pro ONLY — no Deepgram fallback (calidad inconsistente)
+    // Reintentar Fish Audio hasta 2 veces antes de fallar
+    const MAX_RETRIES = 2
     if (fishKey) {
-      console.log(`[Voice] Trying Fish Audio S2-Pro, text: ${text.length} chars, voice: ${voiceKey}`)
-      const ttsStart = Date.now()
+      let lastError: string | null = null
 
-      try {
-        ttsResponse = await generateWithFishAudio(text, voiceKey, locale)
-        provider = 'fishaudio'
-        console.log(`[Voice] Fish Audio took: ${Date.now() - ttsStart}ms`)
-
-        if (!ttsResponse.ok) {
-          const errorText = await ttsResponse.text()
-          console.warn(`[Voice] Fish Audio failed (${ttsResponse.status}): ${errorText}`)
-
-          // Fallback a Deepgram si Fish Audio falla
-          if (deepgramKey) {
-            console.log('[Voice] Falling back to Deepgram')
-            ttsResponse = await generateWithDeepgram(text, voiceKey, locale)
-            provider = 'deepgram'
-          } else {
-            return new Response(JSON.stringify({ error: 'TTS generation failed' }), {
-              status: ttsResponse.status,
-              headers: { 'Content-Type': 'application/json' }
-            })
+      for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
+        try {
+          if (attempt > 0) {
+            console.log(`[Voice] Fish Audio retry ${attempt}/${MAX_RETRIES}...`)
+            await new Promise(r => setTimeout(r, 500 * attempt)) // backoff
           }
-        }
-      } catch (fishError) {
-        console.warn('[Voice] Fish Audio error:', fishError)
 
-        // Fallback a Deepgram
-        if (deepgramKey) {
-          console.log('[Voice] Falling back to Deepgram after Fish Audio error')
-          ttsResponse = await generateWithDeepgram(text, voiceKey, locale)
-          provider = 'deepgram'
-        } else {
-          throw fishError
+          console.log(`[Voice] Fish Audio S2-Pro (attempt ${attempt + 1}), text: ${text.length} chars, voice: ${voiceKey}`)
+          const ttsStart = Date.now()
+          ttsResponse = await generateWithFishAudio(text, voiceKey, locale)
+          provider = 'fishaudio'
+          console.log(`[Voice] Fish Audio took: ${Date.now() - ttsStart}ms`)
+
+          if (ttsResponse.ok) {
+            break // Éxito, salir del loop
+          }
+
+          lastError = await ttsResponse.text()
+          console.warn(`[Voice] Fish Audio failed (${ttsResponse.status}, attempt ${attempt + 1}): ${lastError}`)
+        } catch (fishError) {
+          lastError = (fishError as Error).message
+          console.warn(`[Voice] Fish Audio error (attempt ${attempt + 1}):`, lastError)
         }
       }
-    }
-    // Fallback: Deepgram Aura-2 directamente
-    else if (deepgramKey) {
-      console.log(`[Voice] Using Deepgram (no Fish Audio key), text: ${text.length} chars, voice: ${voiceKey}`)
-      const ttsStart = Date.now()
-      ttsResponse = await generateWithDeepgram(text, voiceKey, locale)
-      provider = 'deepgram'
-      console.log(`[Voice] Deepgram took: ${Date.now() - ttsStart}ms`)
+
+      // Si después de todos los reintentos sigue fallando, retornar error
+      // NO hacer fallback a Deepgram — la calidad es inconsistente
+      if (!ttsResponse! || !ttsResponse.ok) {
+        console.error(`[Voice] Fish Audio failed after ${MAX_RETRIES + 1} attempts: ${lastError}`)
+        return new Response(JSON.stringify({ error: 'Voice generation temporarily unavailable' }), {
+          status: 503,
+          headers: { 'Content-Type': 'application/json' }
+        })
+      }
     } else {
-      return new Response(JSON.stringify({ error: 'No TTS provider available' }), {
-        status: 503,
-        headers: { 'Content-Type': 'application/json' }
-      })
+      // Sin Fish Audio key — intentar Deepgram como último recurso
+      if (deepgramKey) {
+        console.log(`[Voice] Using Deepgram (no Fish Audio key), text: ${text.length} chars, voice: ${voiceKey}`)
+        const ttsStart = Date.now()
+        ttsResponse = await generateWithDeepgram(text, voiceKey, locale)
+        provider = 'deepgram'
+        console.log(`[Voice] Deepgram took: ${Date.now() - ttsStart}ms`)
+      } else {
+        return new Response(JSON.stringify({ error: 'No TTS provider available' }), {
+          status: 503,
+          headers: { 'Content-Type': 'application/json' }
+        })
+      }
     }
 
     if (!ttsResponse.ok) {
