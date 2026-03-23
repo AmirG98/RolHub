@@ -465,30 +465,28 @@ export function VoicePlayerAuto({
     setHasStarted(true)
     setIsLoading(true)
 
-    // Generar todo el texto como un solo segmento con voz del narrador
-    // Esto evita inconsistencias de género en NPCs y ahorra créditos de Fish Audio
+    // Parsear texto en segmentos: narración con voz de narrador, diálogos con voz de NPC
     const narratorConfig = getVoiceConfig(lore, locale)
     const narratorVoice = narratorConfig.voice
-
-    // Un solo segmento con todo el texto limpio
     const cleanedText = cleanTextForTTS(text)
-    const singleSegment: VoiceSegment = {
-      text: cleanedText,
-      voice: narratorVoice,
-      type: 'narration',
-    }
 
-    segmentsRef.current = [singleSegment]
-    setTotalSegments(1)
+    const segments = parseTextForVoices(cleanedText, narratorVoice, locale)
+    segmentsRef.current = segments
+    setTotalSegments(segments.length)
 
-    console.log(`[VoicePlayerAuto] Single segment generation, text: ${cleanedText.length} chars`)
+    console.log(`[VoicePlayerAuto] Multi-voice generation: ${segments.length} segments, voices: ${segments.map(s => s.voice).join(', ')}`)
 
-    audioQueueRef.current = [null]
+    audioQueueRef.current = segments.map(() => null)
     currentIndexRef.current = 0
     hasStartedPlayingRef.current = false
     generationCompleteRef.current = false
 
-    await generateSegmentAudio(singleSegment, 0)
+    // Generar primer segmento inmediatamente (await para empezar a reproducir rápido)
+    await generateSegmentAudio(segments[0], 0)
+    // Prefetch resto en background sin bloquear
+    for (let i = 1; i < segments.length; i++) {
+      generateSegmentAudio(segments[i], i)
+    }
     generationCompleteRef.current = true
   }
 
