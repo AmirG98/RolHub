@@ -66,8 +66,11 @@ export default function OnboardingPage() {
     setError(null)
 
     try {
-      // Cambiar a fase de retrato después de un momento
-      setTimeout(() => setLoadingPhase('portrait'), 1500)
+      // Timeout de seguridad: si tarda más de 30s, mostrar error
+      const timeoutId = setTimeout(() => {
+        setLoading(false)
+        setError('La creación está tardando demasiado. Intenta de nuevo.')
+      }, 30000)
 
       const response = await fetch('/api/character/create', {
         method: 'POST',
@@ -85,17 +88,16 @@ export default function OnboardingPage() {
         }),
       })
 
+      clearTimeout(timeoutId)
+
       const data = await response.json()
 
       if (!response.ok) {
         throw new Error(data.details || data.error || 'Error creando personaje')
       }
 
-      // Fase de finalización
-      setLoadingPhase('finalizing')
-
+      // Redirigir inmediatamente
       if (data.sessionId) {
-        // Si es multijugador, ir al lobby para esperar jugadores
         if (isMultiplayer && data.campaignId) {
           router.push(`/lobby/${data.campaignId}`)
         } else {
@@ -141,8 +143,10 @@ export default function OnboardingPage() {
     setError(null)
 
     try {
-      // Cambiar a fase de retrato después de un momento
-      setTimeout(() => setLoadingPhase('portrait'), 1500)
+      const timeoutId = setTimeout(() => {
+        setLoading(false)
+        setError('La creación está tardando demasiado. Intenta de nuevo.')
+      }, 30000)
 
       const response = await fetch('/api/character/create', {
         method: 'POST',
@@ -156,7 +160,6 @@ export default function OnboardingPage() {
           characterName: character.name,
           characterDescription: character.description,
           isMultiplayer,
-          // D&D 5e specific fields
           isDnD5eCharacter: true,
           dnd5eStats: character.stats,
           dnd5eInventory: character.inventory,
@@ -165,14 +168,13 @@ export default function OnboardingPage() {
         }),
       })
 
+      clearTimeout(timeoutId)
+
       const data = await response.json()
 
       if (!response.ok) {
         throw new Error(data.details || data.error || 'Error creando personaje')
       }
-
-      // Fase de finalización
-      setLoadingPhase('finalizing')
 
       if (data.sessionId) {
         if (isMultiplayer && data.campaignId) {
@@ -212,19 +214,19 @@ export default function OnboardingPage() {
   if (loading) {
     const loadingMessages = {
       creating: {
-        icon: '📜',
+        icon: '⚔️',
         title: 'Creando tu personaje...',
-        subtitle: `Inscribiendo tu destino en ${getLoreName()}`,
+        subtitle: `Preparando tu aventura en ${getLoreName()}`,
       },
       portrait: {
-        icon: '🎨',
-        title: 'Generando tu retrato...',
-        subtitle: 'Un artista mágico dibuja tu semblante',
+        icon: '⚔️',
+        title: 'Creando tu personaje...',
+        subtitle: 'Casi listo...',
       },
       finalizing: {
         icon: '✨',
-        title: 'Preparando la aventura...',
-        subtitle: 'El mundo te espera',
+        title: 'Entrando al mundo...',
+        subtitle: 'Tu aventura comienza',
       },
     }
 
