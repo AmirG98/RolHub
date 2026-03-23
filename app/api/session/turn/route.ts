@@ -865,7 +865,12 @@ Then the player rolls, and you narrate the RESULT in the next turn.
 INTERPRETING A SUBMITTED ROLL:
 ${diceRoll ? `The player just rolled: ${diceRoll.formula} = ${diceRoll.result} (dice: ${diceRoll.rolls.join(', ')}). Narrate the OUTCOME based on this result.` : 'No dice roll submitted - if the action requires one, REQUEST IT with dice_request.'}
 
-RULE: On average, request a dice roll every 2-3 turns. Combat = EVERY turn. Never let 4+ turns pass without a roll unless the player is just talking.
+RULES:
+- ANY action requiring skill = ALWAYS request a roll. No exceptions.
+- Combat = EVERY turn requires a roll (attack, dodge, cast spell).
+- Only pure dialogue/conversation turns skip dice. Everything else needs a roll.
+- If the player says "I try to...", "I attempt...", "I attack...", "I sneak...", "I search...", "I convince..." → REQUEST A ROLL.
+- NEVER auto-succeed or auto-fail a skill action without a dice roll.
 === END DICE SYSTEM ===` : `=== SISTEMA DE TIRADA DE DADOS ===
 CRÍTICO: ¡DEBES pedir tiradas de dados frecuentemente! Esto es un RPG de mesa, no un "elige tu propia aventura".
 
@@ -899,7 +904,12 @@ El jugador tira, y narrás el RESULTADO en el siguiente turno.
 INTERPRETANDO UNA TIRADA ENVIADA:
 ${diceRoll ? `El jugador acaba de tirar: ${diceRoll.formula} = ${diceRoll.result} (dados: ${diceRoll.rolls.join(', ')}). Narrá el RESULTADO basándote en esta tirada.` : 'Sin tirada de dados enviada - si la acción requiere una, PEDILA con dice_request.'}
 
-REGLA: En promedio, pedí una tirada cada 2-3 turnos. Combate = CADA turno. Nunca dejes pasar 4+ turnos sin tirada a menos que el jugador solo esté hablando.
+REGLAS:
+- CUALQUIER acción que requiera habilidad = SIEMPRE pedí tirada. Sin excepciones.
+- Combate = CADA turno requiere tirada (atacar, esquivar, lanzar hechizo).
+- Solo los turnos de pura conversación/diálogo se saltan dados. Todo lo demás necesita tirada.
+- Si el jugador dice "intento...", "ataco...", "me escabullo...", "busco...", "convenzo..." → PEDÍ TIRADA.
+- NUNCA auto-éxito o auto-fallo en una acción de habilidad sin tirada de dados.
 === FIN SISTEMA DE DADOS ===`}
 
 ${labels.important}:
