@@ -747,7 +747,7 @@ export default function GameSession({
             {/* NarratorPanel inline */}
             <div id="narrator-section" className="scroll-mt-4">
             <OrnateFrame variant="gold">
-              <ParchmentPanel variant="ornate" className="min-h-[400px] md:min-h-[500px] max-h-[60vh] md:max-h-[70vh]">
+              <ParchmentPanel variant="ornate" className="min-h-[400px] md:min-h-[500px] max-h-[60vh] md:max-h-[70vh] overflow-hidden flex flex-col">
                 {/* Header with 3D Narrator Orb */}
                 <div className="flex items-center justify-center gap-3 mb-3 md:mb-4">
                   {/* 3D Orb - visible on larger screens */}
@@ -761,7 +761,7 @@ export default function GameSession({
                   <h2 className="font-title text-xl md:text-2xl text-ink">El Narrador</h2>
                 </div>
 
-                <div ref={scrollRef} className="space-y-3 md:space-y-4 overflow-y-auto max-h-[calc(60vh-100px)] md:max-h-[calc(70vh-100px)] pr-1 md:pr-2">
+                <div ref={scrollRef} className="space-y-3 md:space-y-4 overflow-y-auto flex-1 min-h-0 pr-1 md:pr-2">
                   {turns.length === 0 ? (
                     <div className="text-center py-8">
                       <p className="font-body text-stone/60 italic">
