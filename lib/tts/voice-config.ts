@@ -243,28 +243,42 @@ export function cleanTextForTTS(text: string): string {
 
 /**
  * Añade pausas naturales al texto para mejor prosody en TTS
- * Inserta puntuación adicional antes de conectores y transiciones
+ * Usa puntuación especial de Deepgram:
+ * - ... (3 puntos) = pausa corta (~300ms)
+ * - ...... (6 puntos) = pausa larga (~600ms)
  */
 export function addNaturalPauses(text: string): string {
   return text
-    // Pausa larga antes de conectores adversativos (con coma)
-    .replace(/\s+(pero|sin embargo|aunque|no obstante)\s+/gi, ', $1 ')
+    // Pausa LARGA antes de nuevos párrafos/escenas
+    .replace(/\n\n+/g, '...... ')
+
+    // Pausa LARGA antes de revelaciones dramáticas
+    .replace(/(de repente|entonces|de pronto|en ese momento|súbitamente|inesperadamente)/gi, '...... $1')
+
+    // Pausa MEDIA después de punto y seguido (antes de mayúscula)
+    .replace(/\. ([A-ZÁÉÍÓÚ])/g, '... $1')
+
+    // Pausa CORTA antes de conectores adversativos
+    .replace(/,?\s*(pero|sin embargo|aunque|no obstante|mientras tanto)/gi, '... $1')
+
     // Pausa antes de conectores aditivos
-    .replace(/\s+(además|también|por otro lado|por otra parte)\s+/gi, '. $1, ')
-    // Pausa antes de conectores causales
-    .replace(/\s+(porque|ya que|puesto que|dado que)\s+/gi, ', $1 ')
-    // Pausa antes de conectores consecutivos
-    .replace(/\s+(por lo tanto|así que|entonces|por eso)\s+/gi, '. $1, ')
-    // Asegurar espacio después de puntuación si falta
+    .replace(/\s+(además|también|asimismo)\s+/gi, '... $1 ')
+
+    // Pausa LARGA antes de diálogos (dos puntos + comillas)
+    .replace(/:(\s*["«—])/g, ':... $1')
+
+    // Pausa después de nombres con verbos dicendi
+    .replace(/([A-ZÁÉÍÓÚ][a-záéíóúñ]+)\s+(dijo|exclamó|preguntó|murmuró|susurró|gritó|respondió)/g, '$1... $2')
+
+    // Asegurar espacio después de puntuación
     .replace(/([.!?])([A-ZÁÉÍÓÚ])/g, '$1 $2')
-    // Pausa breve antes de diálogos (comillas)
-    .replace(/(\w)\s*(["«])/g, '$1: $2')
-    // Pausa después de vocativos (nombres seguidos de coma)
-    .replace(/([A-ZÁÉÍÓÚ][a-záéíóúñ]+),\s+/g, '$1, ')
-    // Normalizar múltiples comas seguidas
-    .replace(/,\s*,/g, ',')
-    // Normalizar múltiples puntos
-    .replace(/\.{2,}/g, '.')
+
+    // Limpiar pausas excesivas (máximo 6 puntos)
+    .replace(/\.{7,}/g, '......')
+    .replace(/\.{4,5}/g, '...')
+
+    // Normalizar múltiples espacios
+    .replace(/\s+/g, ' ')
     .trim()
 }
 
@@ -346,6 +360,8 @@ export function splitIntoSentences(text: string, maxChunkSize: number = 120): st
  * - «Texto entre comillas francesas» → diálogo
  * - — Texto con guión largo → diálogo
  * - NombreNPC: "diálogo" → diálogo con nombre
+ * - NombreNPC dijo: "diálogo" → diálogo con nombre
+ * - "Diálogo", dijo NombreNPC → diálogo invertido
  */
 export function parseTextForVoices(
   text: string,
@@ -358,8 +374,27 @@ export function parseTextForVoices(
   const segments: VoiceSegment[] = []
   const MAX_CHUNK = 120 // Máximo 120 caracteres por chunk para baja latencia
 
-  // Regex para detectar diferentes tipos de diálogo
-  const dialoguePattern = /(?:([A-ZÁÉÍÓÚ][a-záéíóúñ]+(?:\s[A-ZÁÉÍÓÚ][a-záéíóúñ]+)?)\s*:\s*)?["«]([^"»]+)["»]|(?:—\s*)([^.!?]+[.!?]?)/g
+  // Regex EXPANDIDA para detectar más patrones de diálogo
+  // Patrón 1: NombreNPC [verbo]: "texto" o NombreNPC: "texto"
+  // Patrón 2: "texto" o «texto» (sin nombre)
+  // Patrón 3: —texto (guión largo)
+  // Patrón 4: "texto", dijo/exclamó NombreNPC (invertido)
+  const dialoguePattern = new RegExp(
+    // Patrón 1: Nombre [verbo]: "texto" - captura nombre en grupo 1, texto en grupo 2
+    '(?:([A-ZÁÉÍÓÚ][a-záéíóúñ]+(?:\\s+[A-ZÁÉÍÓÚ][a-záéíóúñ]+)?)' +
+    '(?:\\s+(?:dijo|exclamó|preguntó|murmuró|susurró|gritó|respondió|añadió|continuó))?\\s*:\\s*)' +
+    '["«]([^"»]+)["»]' +
+    '|' +
+    // Patrón 2: Solo comillas sin nombre - texto en grupo 3
+    '(?<!\\w\\s*)["«]([^"»]+)["»]' +
+    '|' +
+    // Patrón 3: Guión largo - texto en grupo 4
+    '(?:—\\s*)([^—\\n.!?]+[.!?]?)' +
+    '|' +
+    // Patrón 4: "texto", dijo Nombre - texto en grupo 5, nombre en grupo 6
+    '["«]([^"»]+)["»](?:,?\\s*(?:dijo|exclamó|preguntó|murmuró|susurró|gritó|respondió)\\s+([A-ZÁÉÍÓÚ][a-záéíóúñ]+))',
+    'g'
+  )
 
   let lastIndex = 0
   let match
@@ -387,9 +422,15 @@ export function parseTextForVoices(
       }
     }
 
-    // Determinar el contenido del diálogo y el hablante
-    const speaker = match[1] || undefined
-    const dialogueText = match[2] || match[3]
+    // Determinar el contenido del diálogo y el hablante según el patrón que hizo match
+    // match[1] = nombre en patrón 1 (Nombre: "texto")
+    // match[2] = texto en patrón 1
+    // match[3] = texto en patrón 2 (solo comillas)
+    // match[4] = texto en patrón 3 (guión largo)
+    // match[5] = texto en patrón 4 (invertido)
+    // match[6] = nombre en patrón 4 (invertido)
+    const speaker = match[1] || match[6] || undefined
+    const dialogueText = match[2] || match[3] || match[4] || match[5]
 
     if (dialogueText && dialogueText.trim()) {
       const npcVoice = speaker

@@ -766,7 +766,32 @@ ${isEnglish ? 'ADAPTIVE RESPONSE LENGTH' : 'LONGITUD DE RESPUESTA ADAPTATIVA'}:
 ${isEnglish ? 'ACTION TYPE INTERPRETATION' : 'INTERPRETACIÓN DEL TIPO DE ACCIÓN'}:
 - ${isEnglish ? '[PHYSICAL ACTION] = The player is DOING something physical (attack, explore, move, examine, etc.). Narrate what happens as they perform this action.' : '[ACCIÓN FÍSICA] = El jugador está HACIENDO algo físico (atacar, explorar, moverse, examinar, etc.). Narra lo que sucede mientras realiza esta acción.'}
 - ${isEnglish ? '[DIALOGUE] = The player is SPEAKING. Focus on the dialogue exchange, NPC reactions, and conversational flow.' : '[DIÁLOGO] = El jugador está HABLANDO. Enfócate en el intercambio de diálogo, reacciones de NPCs y el flujo de la conversación.'}
-- ${isEnglish ? 'Keep the pace dynamic - less is more' : 'Mantén el ritmo dinámico - menos es más'}`
+- ${isEnglish ? 'Keep the pace dynamic - less is more' : 'Mantén el ritmo dinámico - menos es más'}
+
+${isEnglish ? 'VOICE FORMAT FOR NPCs' : 'FORMATO DE VOZ PARA NPCs'}:
+${isEnglish
+  ? `CRITICAL: For NPCs to have distinct voices, ALWAYS format dialogue like this:
+- NPCName: "What the NPC says here"
+- "What the NPC says", said NPCName.
+- —What the NPC says —replied NPCName.
+
+WRONG (will be read as narrator):
+- NPCName says something (no quotes)
+- The NPC speaks without clear format
+
+Example:
+"The forest closes around you. Gandalf: «Fear not, young hobbit... the path still lies ahead.» His words resonate with ancient wisdom."`
+  : `CRÍTICO: Para que los NPCs tengan voces distintas, SIEMPRE formatea diálogos así:
+- NombreNPC: "Lo que dice el NPC aquí"
+- «Lo que dice el NPC», dijo NombreNPC.
+- —Lo que dice el NPC —respondió NombreNPC.
+
+INCORRECTO (se leerá como narrador):
+- NombreNPC dice algo importante (sin comillas)
+- El NPC habla sin formato claro
+
+Ejemplo:
+"El bosque se cierra a tu alrededor. Gandalf: «No temas, joven hobbit... el camino aún está por delante.» Sus palabras resuenan con antigua sabiduría."`}`
 
     const response = await anthropic.messages.create({
       model: 'claude-sonnet-4-20250514',
