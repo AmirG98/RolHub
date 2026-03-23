@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react'
 import { Volume2, VolumeX, Pause, Loader2 } from 'lucide-react'
 import { RunicButton } from '@/components/medieval/RunicButton'
 import { Lore } from '@prisma/client'
-import { getRandomLoadingMessage, parseTextForVoices, getVoiceConfig, VoiceSegment, splitIntoSentences } from '@/lib/tts/voice-config'
+import { getRandomLoadingMessage, parseTextForVoices, getVoiceConfig, VoiceSegment, splitIntoSentences, cleanTextForTTS } from '@/lib/tts/voice-config'
 
 interface VoicePlayerProps {
   text: string
@@ -465,41 +465,31 @@ export function VoicePlayerAuto({
     setHasStarted(true)
     setIsLoading(true)
 
-    // Obtener voz del narrador para este lore
+    // Generar todo el texto como un solo segmento con voz del narrador
+    // Esto evita inconsistencias de género en NPCs y ahorra créditos de Fish Audio
     const narratorConfig = getVoiceConfig(lore, locale)
     const narratorVoice = narratorConfig.voice
 
-    // Parsear texto en segmentos (ahora divididos en chunks más pequeños)
-    const segments = parseTextForVoices(text, narratorVoice, locale)
-    segmentsRef.current = segments
-    setTotalSegments(segments.length)
+    // Un solo segmento con todo el texto limpio
+    const cleanedText = cleanTextForTTS(text)
+    const singleSegment: VoiceSegment = {
+      text: cleanedText,
+      voice: narratorVoice,
+      type: 'narration',
+    }
 
-    console.log(`[VoicePlayerAuto] ${segments.length} segments to generate`)
+    segmentsRef.current = [singleSegment]
+    setTotalSegments(1)
 
-    // Inicializar array de audios
-    audioQueueRef.current = new Array(segments.length).fill(null)
+    console.log(`[VoicePlayerAuto] Single segment generation, text: ${cleanedText.length} chars`)
+
+    audioQueueRef.current = [null]
     currentIndexRef.current = 0
     hasStartedPlayingRef.current = false
     generationCompleteRef.current = false
 
-    // OPTIMIZACIÓN: Generar solo los primeros 3 segmentos inicialmente
-    // El resto se generan bajo demanda via prefetch en playSegment
-    const INITIAL_SEGMENTS = 3
-    const initialSegments = segments.slice(0, INITIAL_SEGMENTS)
-
-    console.log(`[VoicePlayerAuto] Generating first ${initialSegments.length} segments, rest on-demand`)
-
-    const generationPromises = initialSegments.map((segment, i) =>
-      generateSegmentAudio(segment, i)
-    )
-
-    // Marcar cuando las iniciales terminen (el prefetch genera el resto)
-    Promise.all(generationPromises).then(() => {
-      // Si hay 3 o menos segmentos, ya terminamos
-      if (segments.length <= INITIAL_SEGMENTS) {
-        generationCompleteRef.current = true
-      }
-    })
+    await generateSegmentAudio(singleSegment, 0)
+    generationCompleteRef.current = true
   }
 
   // Auto-start al montar

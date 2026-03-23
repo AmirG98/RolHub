@@ -5,6 +5,7 @@ import { Lore, GameMode, GameEngine, TutorialLevel, Prisma } from '@prisma/clien
 import { createCampaignMapState } from '@/lib/maps/map-init'
 import { getExampleMapData } from '@/lib/maps/lore-map-data'
 import { generateCharacterPortrait } from '@/lib/fal/character-portrait-gen'
+import { handleCachedSceneImageRequest } from '@/lib/fal/scene-image-gen'
 import { type Lore as LoreType } from '@/lib/types/lore'
 
 // Generar código de invitación único de 6 caracteres
@@ -434,6 +435,29 @@ export async function POST(req: NextRequest) {
       // No bloquear la creación si falla el retrato
     }
 
+    // Generar imagen de escena inicial (cacheada por lore + locationId)
+    let initialSceneImageUrl: string | null = null
+    const openingSceneData = loreData.opening_scene
+    if (openingSceneData && process.env.NEXT_PUBLIC_ENABLE_IMAGES === 'true') {
+      try {
+        console.log('[InitialScene] Generating opening scene image...')
+        const sceneResult = await handleCachedSceneImageRequest({
+          prompt: openingSceneData.description || `Escena inicial de ${loreData.name}`,
+          lore: lore,
+          locationId: openingSceneData.location_id || 'opening',
+          mood: 'exploration',
+          locationName: openingSceneData.location_name || loreData.name,
+          quality: 'standard',
+        })
+        if (sceneResult.success && sceneResult.url) {
+          initialSceneImageUrl = sceneResult.url
+          console.log('[InitialScene] Image generated:', sceneResult.url?.substring(0, 80))
+        }
+      } catch (sceneErr) {
+        console.error('[InitialScene] Failed to generate:', sceneErr)
+      }
+    }
+
     // Retornar el ID de la sesión para redirigir (incluye avatarUrl si se generó)
     return NextResponse.json({
       success: true,
@@ -441,6 +465,7 @@ export async function POST(req: NextRequest) {
       campaignId: result.campaign.id,
       characterId: result.character.id,
       avatarUrl: avatarUrl,
+      initialSceneImageUrl: initialSceneImageUrl,
       inviteCode: inviteCode,
       isMultiplayer: isMultiplayer || false,
     })

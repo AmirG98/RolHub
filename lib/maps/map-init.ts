@@ -16,7 +16,7 @@ const LORE_STARTING_CONFIG: Record<
   }
 > = {
   LOTR: {
-    starting: 'comarca',
+    starting: 'bree',
     discoveredNames: ['La Comarca', 'Bree', 'Rivendel'],
   },
   ZOMBIES: {
@@ -24,7 +24,7 @@ const LORE_STARTING_CONFIG: Record<
     discoveredNames: ['Campamento Base', 'Centro Comercial', 'Estación de Policía'],
   },
   ISEKAI: {
-    starting: 'aldea-inicio',
+    starting: 'gremio',
     discoveredNames: ['Aldea de Inicio', 'Bosque Inicial', 'Cueva de Slimes', 'Ciudad Capital', 'Gremio de Aventureros'],
   },
   VIKINGOS: {
@@ -32,15 +32,15 @@ const LORE_STARTING_CONFIG: Record<
     discoveredNames: ['Tu Aldea', 'Puerto del Norte', 'Bosque Sagrado', 'Islas del Este', 'Costa Sajona'],
   },
   STAR_WARS: {
-    starting: 'tatooine',
+    starting: 'mos-eisley',
     discoveredNames: ['Tatooine', 'Mos Eisley', 'Coruscant'],
   },
   CYBERPUNK: {
-    starting: 'tu-apartamento',
+    starting: 'afterlife',
     discoveredNames: ['Tu Apartamento', 'Downtown', 'Club Afterlife', 'Distrito Corporativo', 'Mercado Negro', 'Clínica del Ripperdoc'],
   },
   LOVECRAFT_HORROR: {
-    starting: 'tu-oficina',
+    starting: 'biblioteca',
     discoveredNames: ['Tu Oficina', 'Arkham', 'Universidad Miskatonic', 'Biblioteca Orne', 'Cementerio de Arkham', 'Puerto de Arkham', 'Manicomio de Arkham'],
   },
   CUSTOM: {
