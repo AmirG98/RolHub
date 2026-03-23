@@ -140,6 +140,10 @@ export async function POST(req: NextRequest) {
       content: turn.content,
     }))
 
+    // Contar turnos desde la última imagen generada
+    const lastImageTurnIndex = [...session.turns].reverse().findIndex(t => t.imageUrl)
+    const turnsSinceLastImage = lastImageTurnIndex === -1 ? session.turns.length : lastImageTurnIndex
+
     // Agregar el turno actual del jugador con contexto de tipo de acción
     // actionType: 'do' = acción física, 'talk' = diálogo
     const actionContext = actionType === 'do'
@@ -619,20 +623,26 @@ Include in your response when relevant:
 === END QUEST SYSTEM ===
 
 === IMAGE GENERATION SYSTEM ===
-You can request scene images to be generated when the visual scene changes significantly.
+Generate images FREQUENTLY to keep the experience visually immersive.
 
-WHEN to generate images:
-- Player arrives at a NEW location
+WHEN to generate images (set "generate_image": true):
+- Player arrives at a NEW location (ALWAYS)
 - A dramatic moment occurs (combat start, revelation, major event)
 - Scene changes significantly (entering a building, going underground, etc.)
+- An important NPC appears for the first time
+- The environment changes (weather, time of day, destruction)
+- Every 4-5 turns even if the scene hasn't changed dramatically — show the current moment from a new angle or detail
+- Any moment that would look visually stunning or memorable
 
 WHEN NOT to generate images:
-- Regular dialogue or actions
-- Small movements within the same location
-- Every single turn (too expensive)
+- Pure dialogue turns where nothing visual changes
+- If an image was generated in the last 2 turns
+
+RULE: Generate an image at LEAST every 5 turns. If 4+ turns have passed without an image, generate one for the current scene.
+TURNS SINCE LAST IMAGE: ${turnsSinceLastImage}${turnsSinceLastImage >= 4 ? ' ← GENERATE AN IMAGE THIS TURN!' : ''}
 
 Include in your response when appropriate:
-- "generate_image": true (only when an image should be generated)
+- "generate_image": true
 - "image_prompt": "Detailed visual description in 2-3 sentences. MUST include: (1) specific environment, lighting and atmosphere, (2) exact number of characters visible and their appearance (race, gender, clothing, weapons held), (3) the key action or emotional mood. Reference the player character's established appearance. Specify ONLY characters actually present — do not add extra people. Example: 'A hooded human ranger with dark hair draws his longbow in a misty forest clearing at dawn, a single goblin emerging from shadows between ancient oaks. Golden light filters through the canopy.'"
 
 Also include mood hints for UI styling:
@@ -704,20 +714,26 @@ Incluir en tu respuesta cuando sea relevante:
 === FIN SISTEMA DE QUESTS ===
 
 === SISTEMA DE IMÁGENES ===
-Puedes solicitar que se generen imágenes de escena cuando el ambiente visual cambie significativamente.
+Generá imágenes FRECUENTEMENTE para mantener la experiencia visualmente inmersiva.
 
-CUÁNDO generar imágenes:
-- El jugador llega a una NUEVA ubicación
+CUÁNDO generar imágenes (poner "generate_image": true):
+- El jugador llega a una NUEVA ubicación (SIEMPRE)
 - Ocurre un momento dramático (inicio de combate, revelación, evento mayor)
 - La escena cambia significativamente (entrar a un edificio, ir bajo tierra, etc.)
+- Un NPC importante aparece por primera vez
+- El ambiente cambia (clima, hora del día, destrucción)
+- Cada 4-5 turnos aunque la escena no cambie drásticamente — mostrá el momento actual desde un nuevo ángulo o detalle
+- Cualquier momento que se vería visualmente impresionante o memorable
 
 CUÁNDO NO generar imágenes:
-- Diálogo regular o acciones menores
-- Pequeños movimientos dentro de la misma ubicación
-- Cada turno (muy costoso)
+- Turnos de puro diálogo donde nada visual cambia
+- Si se generó una imagen en los últimos 2 turnos
+
+REGLA: Generá una imagen AL MENOS cada 5 turnos. Si pasaron 4+ turnos sin imagen, generá una para la escena actual.
+TURNOS DESDE ÚLTIMA IMAGEN: ${turnsSinceLastImage}${turnsSinceLastImage >= 4 ? ' ← ¡GENERÁ UNA IMAGEN ESTE TURNO!' : ''}
 
 Incluir en tu respuesta cuando sea apropiado:
-- "generate_image": true (solo cuando deba generarse una imagen)
+- "generate_image": true
 - "image_prompt": "Descripción visual detallada en 2-3 oraciones. DEBE incluir: (1) ambiente específico, iluminación y atmósfera, (2) número exacto de personajes visibles y su apariencia (raza, género, vestimenta, armas que portan), (3) la acción clave o mood emocional. Referir la apariencia establecida del personaje jugador. Especificar SOLO los personajes realmente presentes — no agregar personas extra. Ejemplo: 'Un montaraz humano encapuchado de cabello oscuro tensa su arco largo en un claro del bosque al amanecer, un único goblin emerge de las sombras entre robles ancestrales. Luz dorada se filtra por el dosel.'"
 
 También incluye hints de mood para estilización de UI:
