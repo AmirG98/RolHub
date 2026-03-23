@@ -140,10 +140,6 @@ export async function POST(req: NextRequest) {
       content: turn.content,
     }))
 
-    // Contar turnos desde la última imagen generada
-    const lastImageTurnIndex = [...session.turns].reverse().findIndex(t => t.imageUrl)
-    const turnsSinceLastImage = lastImageTurnIndex === -1 ? session.turns.length : lastImageTurnIndex
-
     // Detectar estancamiento narrativo
     const recentTurns = session.turns.slice(-6)
     const recentUserActions = recentTurns.filter(t => t.role === 'USER').map(t => t.content.toLowerCase())
@@ -638,35 +634,34 @@ Include in your response when relevant:
 === END QUEST SYSTEM ===
 
 === IMAGE GENERATION SYSTEM ===
-Generate images FREQUENTLY to keep the experience visually immersive.
+Generate images ONLY when the visual scene changes meaningfully.
 
 WHEN to generate images (set "generate_image": true):
 - Player arrives at a NEW location (ALWAYS)
-- A dramatic moment occurs (combat start, revelation, major event)
-- Scene changes significantly (entering a building, going underground, etc.)
-- An important NPC appears for the first time
-- The environment changes (weather, time of day, destruction)
-- Every 4-5 turns even if the scene hasn't changed dramatically — show the current moment from a new angle or detail
-- Any moment that would look visually stunning or memorable
+- The mood shifts dramatically (peaceful → combat, safe → danger, calm → storm)
+- Entering/exiting a building, going underground, crossing a threshold
+- A visually dramatic event (explosion, magical phenomenon, dramatic reveal)
 
 WHEN NOT to generate images:
-- Pure dialogue turns where nothing visual changes
-- If an image was generated in the last 2 turns
+- Dialogue or conversation (even with new NPCs)
+- Actions within the same scene that don't change the visual environment
+- Consecutive turns in the same location with the same mood
+- Combat turns after the initial combat image
 
-RULE: Generate an image at LEAST every 5 turns. If 4+ turns have passed without an image, generate one for the current scene.
-TURNS SINCE LAST IMAGE: ${turnsSinceLastImage}${turnsSinceLastImage >= 4 ? ' ← GENERATE AN IMAGE THIS TURN!' : ''}
+PERSPECTIVE RULE (CRITICAL):
+ALWAYS describe the scene from FIRST PERSON POV — what the player character SEES in front of them.
+The player character is the CAMERA. They are NEVER visible in the image.
+Describe the environment, NPCs facing the viewer, objects ahead, the path forward.
+
+CONSISTENCY RULE:
+Maintain visual consistency across images in the same scene: same lighting, same color palette, same architectural style. If the previous image was a warm firelit tavern, the next one in that tavern must feel the same unless something changed (fire goes out, fight breaks out).
 
 Include in your response when appropriate:
 - "generate_image": true
-- "image_prompt": "Detailed visual description in 2-3 sentences. MUST include: (1) specific environment, lighting and atmosphere, (2) exact number of characters visible and their appearance (race, gender, clothing, weapons held), (3) the key action or emotional mood. Reference the player character's established appearance. Specify ONLY characters actually present — do not add extra people. Example: 'A hooded human ranger with dark hair draws his longbow in a misty forest clearing at dawn, a single goblin emerging from shadows between ancient oaks. Golden light filters through the canopy.'"
+- "image_prompt": "First-person POV description in 2-3 sentences. Describe what the player SEES ahead: the environment, lighting, atmosphere, any NPCs or creatures FACING the viewer, objects in the foreground. The player character is NOT visible. Example: 'Looking down a misty forest path at dawn, golden light filtering through ancient oaks. A single goblin crouches behind a mossy boulder ahead, its yellow eyes gleaming. The dirt trail splits into two directions.'"
 
 Also include mood hints for UI styling:
 - "mood_hint": "exploration" (calm, exploring) | "combat" (tense, dangerous) | "dialogue" (intimate, conversation) | "dramatic" (epic, revelatory)
-
-Example image prompts by lore:
-- LOTR: "A hobbit hole door surrounded by autumn leaves, warm golden light spilling from within"
-- ZOMBIES: "An abandoned hospital corridor, flickering lights, blood trails on the floor"
-- ISEKAI: "A floating island city with crystal spires, sunset colors, flying ships"
 === END IMAGE SYSTEM ===
 
 === COMBAT TRIGGER SYSTEM ===
@@ -729,35 +724,34 @@ Incluir en tu respuesta cuando sea relevante:
 === FIN SISTEMA DE QUESTS ===
 
 === SISTEMA DE IMÁGENES ===
-Generá imágenes FRECUENTEMENTE para mantener la experiencia visualmente inmersiva.
+Generá imágenes SOLO cuando la escena visual cambie significativamente.
 
 CUÁNDO generar imágenes (poner "generate_image": true):
 - El jugador llega a una NUEVA ubicación (SIEMPRE)
-- Ocurre un momento dramático (inicio de combate, revelación, evento mayor)
-- La escena cambia significativamente (entrar a un edificio, ir bajo tierra, etc.)
-- Un NPC importante aparece por primera vez
-- El ambiente cambia (clima, hora del día, destrucción)
-- Cada 4-5 turnos aunque la escena no cambie drásticamente — mostrá el momento actual desde un nuevo ángulo o detalle
-- Cualquier momento que se vería visualmente impresionante o memorable
+- El ánimo cambia drásticamente (pacífico → combate, seguro → peligro, calma → tormenta)
+- Entrar/salir de un edificio, ir bajo tierra, cruzar un umbral
+- Un evento visualmente dramático (explosión, fenómeno mágico, revelación dramática)
 
 CUÁNDO NO generar imágenes:
-- Turnos de puro diálogo donde nada visual cambia
-- Si se generó una imagen en los últimos 2 turnos
+- Diálogo o conversación (incluso con NPCs nuevos)
+- Acciones dentro de la misma escena que no cambian el entorno visual
+- Turnos consecutivos en la misma ubicación con el mismo ánimo
+- Turnos de combate después de la imagen inicial de combate
 
-REGLA: Generá una imagen AL MENOS cada 5 turnos. Si pasaron 4+ turnos sin imagen, generá una para la escena actual.
-TURNOS DESDE ÚLTIMA IMAGEN: ${turnsSinceLastImage}${turnsSinceLastImage >= 4 ? ' ← ¡GENERÁ UNA IMAGEN ESTE TURNO!' : ''}
+REGLA DE PERSPECTIVA (CRÍTICO):
+SIEMPRE describí la escena desde PRIMERA PERSONA (POV) — lo que el personaje jugador VE frente a él.
+El personaje jugador es la CÁMARA. NUNCA es visible en la imagen.
+Describí el entorno, NPCs de frente al espectador, objetos adelante, el camino a seguir.
+
+REGLA DE CONSISTENCIA:
+Mantené consistencia visual entre imágenes de la misma escena: misma iluminación, misma paleta de colores, mismo estilo arquitectónico. Si la imagen anterior era una taberna cálida con fuego, la siguiente en esa taberna debe sentirse igual a menos que algo haya cambiado (el fuego se apagó, empezó una pelea).
 
 Incluir en tu respuesta cuando sea apropiado:
 - "generate_image": true
-- "image_prompt": "Descripción visual detallada en 2-3 oraciones. DEBE incluir: (1) ambiente específico, iluminación y atmósfera, (2) número exacto de personajes visibles y su apariencia (raza, género, vestimenta, armas que portan), (3) la acción clave o mood emocional. Referir la apariencia establecida del personaje jugador. Especificar SOLO los personajes realmente presentes — no agregar personas extra. Ejemplo: 'Un montaraz humano encapuchado de cabello oscuro tensa su arco largo en un claro del bosque al amanecer, un único goblin emerge de las sombras entre robles ancestrales. Luz dorada se filtra por el dosel.'"
+- "image_prompt": "Descripción en primera persona (POV) en 2-3 oraciones. Describí lo que el jugador VE adelante: el entorno, iluminación, atmósfera, NPCs o criaturas DE FRENTE al espectador, objetos en primer plano. El personaje jugador NO es visible. Ejemplo: 'Mirando por un sendero brumoso del bosque al amanecer, luz dorada filtrándose entre robles ancestrales. Un goblin solitario se agazapa detrás de un peñasco cubierto de musgo adelante, sus ojos amarillos brillando. El camino de tierra se bifurca en dos direcciones.'"
 
-También incluye hints de mood para estilización de UI:
+También incluí hints de mood para estilización de UI:
 - "mood_hint": "exploration" (calmo) | "combat" (tenso) | "dialogue" (íntimo) | "dramatic" (épico)
-
-Ejemplos de prompts por lore:
-- LOTR: "La puerta de un agujero hobbit rodeada de hojas otoñales, luz dorada cálida saliendo del interior"
-- ZOMBIES: "Un pasillo de hospital abandonado, luces parpadeantes, rastros de sangre en el suelo"
-- ISEKAI: "Una ciudad flotante con agujas de cristal, colores de atardecer, naves voladoras"
 === FIN SISTEMA DE IMÁGENES ===
 
 === SISTEMA DE COMBATE TÁCTICO ===
