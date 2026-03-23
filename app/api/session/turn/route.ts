@@ -460,6 +460,24 @@ EXAMPLE - Upgrading to discovered (can now travel):
     { "locationId": "ancient-temple", "level": "discovered", "source": "found map" }
   ]
 }
+
+CRITICAL RULE - TRAVEL BETWEEN LOCATIONS:
+When the player says they travel to another location (e.g. "I travel to Rivendell", "I head to Bree", "I go to the city"):
+1. ALWAYS include "location_id" with the exact destination location ID
+2. ALWAYS include "scene_change" with the name of the new place
+3. Narrate the journey immersively (landscapes, road dangers, arrival)
+4. Upon arrival, describe the new location
+
+EXAMPLE - Player travels to another location:
+{
+  "narration": "You set off eastward, leaving behind the green fields of the Shire. The path winds through increasingly dense hills and forests. After hours of walking, the Valley of Rivendell opens before you: crystal waterfalls, elven terraces among ancient trees, and an ancient peace fills the air.",
+  "location_id": "rivendel",
+  "scene_change": "Rivendell",
+  "generate_image": true,
+  "image_prompt": "Elven valley with crystal waterfalls, terraces among ancient trees, elegant elven architecture, golden sunset light filtering through foliage, a hobbit traveler arriving at the valley",
+  "mood_hint": "exploration",
+  "suggested_actions": ["Seek Lord Elrond", "Explore the elven terraces", "Rest by the waterfalls"]
+}
 === END LOCATION SYSTEM ===
 ` : `
 === SISTEMA DE UBICACIÓN (DESCUBRIMIENTO NARRATIVO) ===
@@ -502,6 +520,24 @@ EJEMPLO - Mejorando a discovered (ahora pueden viajar):
   "discover_locations": [
     { "locationId": "templo-antiguo", "level": "discovered", "source": "found map" }
   ]
+}
+
+REGLA CRÍTICA - VIAJE ENTRE UBICACIONES:
+Cuando el jugador dice que viaja a otra ubicación (ej: "Viajo hacia Rivendel", "Me dirijo a Bree", "Voy a la ciudad"):
+1. SIEMPRE incluir "location_id" con el ID exacto de la ubicación de destino
+2. SIEMPRE incluir "scene_change" con el nombre del nuevo lugar
+3. Narra el viaje de forma inmersiva (paisajes, peligros del camino, llegada)
+4. Al llegar, describe la nueva ubicación
+
+EJEMPLO - Jugador viaja a otra ubicación:
+{
+  "narration": "Emprendes el camino hacia el este, dejando atrás los verdes campos de la Comarca. El sendero serpentea entre colinas y bosques cada vez más densos. Tras horas de marcha, el Valle de Rivendel se abre ante ti: cascadas de cristal, terrazas élficas entre los árboles, y una paz antigua que invade el aire.",
+  "location_id": "rivendel",
+  "scene_change": "Rivendel",
+  "generate_image": true,
+  "image_prompt": "Valle élfico con cascadas cristalinas, terrazas entre árboles ancestrales, arquitectura élfica elegante, luz dorada del atardecer filtrándose entre el follaje, un viajero hobbit llegando al valle",
+  "mood_hint": "exploration",
+  "suggested_actions": ["Buscar al Señor Elrond", "Explorar las terrazas élficas", "Descansar junto a las cascadas"]
 }
 === FIN SISTEMA DE UBICACIÓN ===
 `
@@ -961,6 +997,30 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
     // Update scene
     if (dmResponse.scene_change) {
       worldStateUpdates.current_scene = dmResponse.scene_change
+    }
+
+    // Fallback: Si el jugador hizo una acción de viaje pero Claude no seteo location_id,
+    // parsear el destino del texto de la acción del jugador
+    if (!dmResponse.location_id && action) {
+      const travelMatch = action.match(/[Vv]iajo (?:desde .+ )?hacia (.+)|[Tt]ravel(?:ing)? to (.+)|[Mm]e dirijo (?:a|hacia) (.+)|[Vv]oy (?:a|hacia) (.+)/i)
+      if (travelMatch) {
+        const destinationName = (travelMatch[1] || travelMatch[2] || travelMatch[3] || travelMatch[4] || '').trim()
+        if (destinationName) {
+          const matchedLocation = mapLocations.find(l =>
+            l.name.toLowerCase() === destinationName.toLowerCase() ||
+            l.id.toLowerCase() === destinationName.toLowerCase() ||
+            l.name.toLowerCase().includes(destinationName.toLowerCase()) ||
+            destinationName.toLowerCase().includes(l.name.toLowerCase())
+          )
+          if (matchedLocation) {
+            console.log(`[Turn] Auto-detected travel to: ${matchedLocation.id} (from action: "${destinationName}")`)
+            dmResponse.location_id = matchedLocation.id
+            if (!dmResponse.scene_change) {
+              dmResponse.scene_change = matchedLocation.name
+            }
+          }
+        }
+      }
     }
 
     // Update map location
