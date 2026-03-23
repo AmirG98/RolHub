@@ -397,100 +397,78 @@ export async function POST(req: NextRequest) {
       return { campaign, character, session, firstTurnId: firstTurn.id, introContent }
     }), 2, 1500)
 
-    // Generar retrato del personaje SÍNCRONAMENTE antes de retornar
-    // Esto asegura que el avatar esté disponible cuando el usuario llegue al juego
-    let avatarUrl: string | null = null
+    // === RETORNAR INMEDIATAMENTE — no bloquear el request ===
+    // Las imágenes (retrato + escena) se generan en BACKGROUND
+    // El jugador entra al juego inmediato y las imágenes aparecen cuando estén listas
 
-    try {
-      console.log(`[Portrait] Starting generation for ${charName}...`)
-      const startTime = Date.now()
-
-      const portraitResult = await generateCharacterPortrait({
-        name: charName,
-        archetype: charArchetype,
-        lore: lore as unknown as LoreType,
-        description: characterDescription,
-        quality: 'standard',
-        // Pasar datos D&D 5e para retratos race/class-aware
-        ...(isDnD5eCharacter && dnd5eStats && {
-          raceId: dnd5eStats.raceId as string | undefined,
-          subraceId: dnd5eStats.subraceId as string | undefined,
-          classId: dnd5eStats.classId as string | undefined,
-          draconicAncestry: dnd5eStats.draconicAncestry as string | undefined,
-        }),
-      })
-
-      console.log(`[Portrait] Generation completed in ${Date.now() - startTime}ms`)
-
+    // Background: Generar retrato del personaje
+    const characterId = result.character.id
+    generateCharacterPortrait({
+      name: charName,
+      archetype: charArchetype,
+      lore: lore as unknown as LoreType,
+      description: characterDescription,
+      quality: 'standard',
+      ...(isDnD5eCharacter && dnd5eStats && {
+        raceId: dnd5eStats.raceId as string | undefined,
+        subraceId: dnd5eStats.subraceId as string | undefined,
+        classId: dnd5eStats.classId as string | undefined,
+        draconicAncestry: dnd5eStats.draconicAncestry as string | undefined,
+      }),
+    }).then(async (portraitResult) => {
       if (portraitResult.isGenerated && portraitResult.url) {
-        avatarUrl = portraitResult.url
-        // Actualizar el personaje con el avatar
-        await prisma.character.update({
-          where: { id: result.character.id },
-          data: { avatarUrl: portraitResult.url },
-        })
-        console.log(`[Portrait] Saved avatar for character ${result.character.id}: ${portraitResult.url}`)
-      } else {
-        console.log(`[Portrait] Generation returned no image (isGenerated: ${portraitResult.isGenerated})`)
+        try {
+          await prisma.character.update({
+            where: { id: characterId },
+            data: { avatarUrl: portraitResult.url },
+          })
+          console.log(`[Portrait] Saved avatar for character ${characterId}`)
+        } catch (err) {
+          console.warn('[Portrait] Failed to save:', err)
+        }
       }
-    } catch (err) {
-      console.error('[Portrait] Generation failed:', err)
-      // No bloquear la creación si falla el retrato
-    }
+    }).catch(err => console.warn('[Portrait] Generation failed:', err))
 
-    // Generar imagen de escena inicial (cacheada por lore + locationId)
-    // Usar la variante de openingScene seleccionada (del array opening_scenes o legacy opening_scene)
+    // Background: Generar imagen de escena inicial
     const openingScenes = (loreData as any).opening_scenes || (loreData.opening_scene ? [loreData.opening_scene] : [])
     const openingSceneData = openingScenes.length > 0 ? openingScenes[0] : null
-    let initialSceneImageUrl: string | null = null
     if (openingSceneData && process.env.NEXT_PUBLIC_ENABLE_IMAGES === 'true') {
-      try {
-        console.log('[InitialScene] Generating opening scene image...')
-        const sceneResult = await handleCachedSceneImageRequest({
-          prompt: openingSceneData.description || `Escena inicial de ${loreData.name}`,
-          lore: lore,
-          locationId: openingSceneData.location_id || 'opening',
-          mood: 'exploration',
-          locationName: openingSceneData.location_name || loreData.name,
-          quality: 'standard',
-        })
+      const firstTurnId = result.firstTurnId
+      handleCachedSceneImageRequest({
+        prompt: openingSceneData.description || `Escena inicial de ${loreData.name}`,
+        lore: lore,
+        locationId: openingSceneData.location_id || 'opening',
+        mood: 'exploration',
+        locationName: openingSceneData.location_name || loreData.name,
+        quality: 'standard',
+      }).then(async (sceneResult) => {
         if (sceneResult.success && sceneResult.url) {
-          initialSceneImageUrl = sceneResult.url
-          console.log('[InitialScene] Image generated:', sceneResult.url?.substring(0, 80))
-
-          // Persistir la URL en el primer turn para que el cliente la cargue
           try {
             await prisma.turn.update({
-              where: { id: result.firstTurnId },
-              data: { imageUrl: initialSceneImageUrl },
+              where: { id: firstTurnId },
+              data: { imageUrl: sceneResult.url },
             })
-          } catch (updateErr) {
-            console.warn('[InitialScene] Failed to save imageUrl to turn:', updateErr)
+            console.log('[InitialScene] Image saved to turn')
+          } catch (err) {
+            console.warn('[InitialScene] Failed to save:', err)
           }
         }
-      } catch (sceneErr) {
-        console.error('[InitialScene] Failed to generate:', sceneErr)
-      }
+      }).catch(err => console.warn('[InitialScene] Failed:', err))
     }
 
-    // Pre-generar audio del intro en background (no bloquea respuesta)
-    try {
-      const { prefetchIntroAudio } = await import('@/lib/tts/intro-prefetch')
-      prefetchIntroAudio(result.introContent, lore, 'es').catch(err =>
-        console.warn('[IntroAudio] Prefetch failed:', err)
-      )
-    } catch {
-      // No bloquear por fallo de pre-cache
-    }
+    // Background: Pre-generar audio del intro
+    import('@/lib/tts/intro-prefetch').then(({ prefetchIntroAudio }) =>
+      prefetchIntroAudio(result.introContent, lore, 'es')
+    ).catch(() => {})
 
-    // Retornar el ID de la sesión para redirigir (incluye avatarUrl si se generó)
+    // Retornar INMEDIATO — el jugador entra al juego sin esperar imágenes
     return NextResponse.json({
       success: true,
       sessionId: result.session.id,
       campaignId: result.campaign.id,
       characterId: result.character.id,
-      avatarUrl: avatarUrl,
-      initialSceneImageUrl: initialSceneImageUrl,
+      avatarUrl: null,  // Se cargará cuando esté listo
+      initialSceneImageUrl: null,  // Se cargará cuando esté listo
       inviteCode: inviteCode,
       isMultiplayer: isMultiplayer || false,
     })
