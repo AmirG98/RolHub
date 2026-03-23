@@ -19,26 +19,26 @@ const FISH_AUDIO_VOICES: Record<string, string> = {
   // NARRADORES - Voces profundas y dramáticas
   // ============================================
 
-  // Narrador principal - voz masculina profunda, dramática, formal
-  // https://fish.audio/m/79c16ea0ead2460c9934a4af53cd07ab/
-  narrator_grave: '79c16ea0ead2460c9934a4af53cd07ab',
-  narrator_deep: '79c16ea0ead2460c9934a4af53cd07ab',
-  narrator_epic: '79c16ea0ead2460c9934a4af53cd07ab',
-  narrator_wise: '79c16ea0ead2460c9934a4af53cd07ab',
+  // Narrador principal - "Locutor K": voz profunda, autoritaria, dramática, nativa español
+  // https://fish.audio/m/3f45a7fd7a614655a61eb7027b955783/
+  narrator_grave: '3f45a7fd7a614655a61eb7027b955783',
+  narrator_deep: '3f45a7fd7a614655a61eb7027b955783',
+  narrator_epic: '3f45a7fd7a614655a61eb7027b955783',
+  narrator_wise: '3f45a7fd7a614655a61eb7027b955783',
 
-  // Vikingos/Lovecraft - misma voz profunda (épica)
-  skald_epic: '79c16ea0ead2460c9934a4af53cd07ab',
-  nordic_bard: '79c16ea0ead2460c9934a4af53cd07ab',
-  whisper_dread: '79c16ea0ead2460c9934a4af53cd07ab',
+  // Vikingos/Lovecraft
+  skald_epic: '3f45a7fd7a614655a61eb7027b955783',
+  nordic_bard: '3f45a7fd7a614655a61eb7027b955783',
+  whisper_dread: '3f45a7fd7a614655a61eb7027b955783',
 
-  // Zombies/Horror - voz tensa
-  whisper_tense: '79c16ea0ead2460c9934a4af53cd07ab',
-  whisper_survival: '79c16ea0ead2460c9934a4af53cd07ab',
-  whisper_dark: '79c16ea0ead2460c9934a4af53cd07ab',
-  tension_survival: '79c16ea0ead2460c9934a4af53cd07ab',
+  // Zombies/Horror
+  whisper_tense: '3f45a7fd7a614655a61eb7027b955783',
+  whisper_survival: '3f45a7fd7a614655a61eb7027b955783',
+  whisper_dark: '3f45a7fd7a614655a61eb7027b955783',
+  tension_survival: '3f45a7fd7a614655a61eb7027b955783',
 
   // Cyberpunk
-  synth_narrator: '79c16ea0ead2460c9934a4af53cd07ab',
+  synth_narrator: '3f45a7fd7a614655a61eb7027b955783',
 
   // Isekai/Anime - voz masculina joven, conversacional
   // https://fish.audio/m/44cc9923b0b443e8a1a7887fed528c17/
@@ -48,10 +48,10 @@ const FISH_AUDIO_VOICES: Record<string, string> = {
   // ============================================
   // NPCs MASCULINOS
   // ============================================
-  npc_male_1: '79c16ea0ead2460c9934a4af53cd07ab',   // Profundo, sabio
+  npc_male_1: '3f45a7fd7a614655a61eb7027b955783',   // Profundo, sabio
   npc_male_2: '44cc9923b0b443e8a1a7887fed528c17',   // Joven, conversacional
   npc_male_3: '44cc9923b0b443e8a1a7887fed528c17',   // Joven, energético
-  npc_male_deep: '79c16ea0ead2460c9934a4af53cd07ab',
+  npc_male_deep: '3f45a7fd7a614655a61eb7027b955783',
   npc_male_young: '44cc9923b0b443e8a1a7887fed528c17',
 
   // ============================================
@@ -76,8 +76,8 @@ const FISH_AUDIO_VOICES: Record<string, string> = {
   // ============================================
   // DEFAULTS
   // ============================================
-  default_es: '79c16ea0ead2460c9934a4af53cd07ab',
-  default_en: '79c16ea0ead2460c9934a4af53cd07ab',
+  default_es: '3f45a7fd7a614655a61eb7027b955783',
+  default_en: '3f45a7fd7a614655a61eb7027b955783',
 }
 
 export class FishAudioProvider implements TTSProvider {
