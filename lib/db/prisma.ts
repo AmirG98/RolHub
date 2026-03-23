@@ -4,32 +4,19 @@ const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined
 }
 
-// Configurar URL de la base de datos para serverless (Vercel + Supabase)
-function getDatasourceUrl(): string {
-  const url = process.env.DATABASE_URL || ''
-  if (!url) return url
-
+// Usar la DATABASE_URL tal como viene de Supabase (session mode, puerto 5432)
+// NO cambiar al puerto 6543 — transaction mode NO soporta Prisma interactive transactions
+// Solo limitar conexiones para serverless
+function buildUrl(): string | undefined {
+  const url = process.env.DATABASE_URL
+  if (!url) return undefined
   try {
     const parsed = new URL(url)
-
-    // Usar puerto 6543 (transaction pooling) en vez de 5432 (session mode)
-    if (parsed.port === '5432' && parsed.hostname.includes('pooler.supabase.com')) {
-      parsed.port = '6543'
+    if (!parsed.searchParams.has('connection_limit')) {
+      parsed.searchParams.set('connection_limit', '1')
     }
-
-    // Parámetros optimizados para serverless
-    if (!parsed.searchParams.has('pgbouncer')) {
-      parsed.searchParams.set('pgbouncer', 'true')
-    }
-    // En serverless cada instancia solo necesita 1 conexión
-    parsed.searchParams.set('connection_limit', '1')
-    // Fallar rápido — Vercel Hobby tiene 10s timeout
-    parsed.searchParams.set('pool_timeout', '5')
-    parsed.searchParams.set('connect_timeout', '5')
-
     return parsed.toString()
   } catch {
-    // Si la URL no es parseable, devolverla tal cual
     return url
   }
 }
@@ -37,7 +24,7 @@ function getDatasourceUrl(): string {
 export const prisma =
   globalForPrisma.prisma ??
   new PrismaClient({
-    datasourceUrl: getDatasourceUrl(),
+    datasourceUrl: buildUrl(),
   })
 
 // Reutilizar instancia en TODOS los entornos (dev Y producción)
