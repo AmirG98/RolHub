@@ -336,36 +336,58 @@ export async function POST(req: NextRequest) {
         },
       })
 
-      // 4. Crear el primer turn del sistema con el hook narrativo y misiones iniciales
-      // one_shot_hooks es un array con objetos que tienen .hook
-      // narrative_skeleton.act_1.description es el hook para campañas
-      const narrativeHook = mode === 'ONE_SHOT'
-        ? (loreData.one_shot_hooks?.[0]?.hook || loreData.narrative_skeleton?.act_1?.description || 'Tu aventura comienza...')
-        : (loreData.narrative_skeleton?.act_1?.description || 'Tu aventura comienza...')
-
-      // Construir lista de misiones iniciales
-      const initialMissions = loreData.initial_missions || []
-      let missionsText = ''
+      // 4. Crear el primer turn del sistema con contexto espacial inmersivo
+      // Usar opening_scene si existe, sino fallback al hook narrativo
+      const openingScene = loreData.opening_scene
+      let introContent = ''
       let suggestedActions: string[] = []
 
-      if (initialMissions.length > 0) {
-        missionsText = '\n\n---\n\n**Misiones Disponibles:**\n'
-        initialMissions.forEach((mission: any) => {
-          const difficultyLabel = mission.difficulty === 'easy' ? 'Facil'
-            : mission.difficulty === 'medium' ? 'Media'
-            : mission.difficulty === 'hard' ? 'Dificil'
-            : ''
-          missionsText += `\n**${mission.title}** ${difficultyLabel ? `(${difficultyLabel})` : ''}\n${mission.description}\n`
-          suggestedActions.push(`Elegir: ${mission.title}`)
-        })
-        missionsText += '\n\n*Elige tu primera aventura, heroe.*'
+      if (openingScene) {
+        // Construir intro inmersiva con contexto espacial
+        introContent = `Bienvenido a ${loreData.name}, ${charName}.\n\n`
+        introContent += openingScene.description + '\n\n'
+
+        // Direcciones visibles - mostrar qué lugares puede ver el jugador
+        if (openingScene.visible_directions?.length > 0) {
+          introContent += 'Desde aquí, varios caminos se abren ante ti:\n'
+          openingScene.visible_directions.forEach((dir: { direction: string; landmark: string }) => {
+            introContent += `• Al ${dir.direction}, ${dir.landmark}\n`
+          })
+          introContent += '\n'
+        }
+
+        // Rumores ambientales - hooks de misiones integrados narrativamente
+        if (openingScene.ambient_rumors?.length > 0) {
+          introContent += 'Los rumores corren por el lugar: '
+          introContent += openingScene.ambient_rumors.join('; ') + '.\n\n'
+        }
+
+        // Pregunta de cierre
+        introContent += openingScene.closing_prompt || '¿Qué deseas hacer?'
+
+        // Acciones sugeridas basadas en direcciones y rumores
+        if (openingScene.visible_directions?.length > 0) {
+          openingScene.visible_directions.slice(0, 3).forEach((dir: { direction: string; landmark: string }) => {
+            suggestedActions.push(`Ir al ${dir.direction}`)
+          })
+        }
+        suggestedActions.push('Hablar con alguien cercano')
+        suggestedActions.push('Explorar el lugar actual')
+
+      } else {
+        // Fallback al sistema anterior si no hay opening_scene
+        const narrativeHook = mode === 'ONE_SHOT'
+          ? (loreData.one_shot_hooks?.[0]?.hook || loreData.narrative_skeleton?.act_1?.description || 'Tu aventura comienza...')
+          : (loreData.narrative_skeleton?.act_1?.description || 'Tu aventura comienza...')
+
+        introContent = `Bienvenido a ${loreData.name}, ${charName}.\n\n${narrativeHook}`
       }
 
       await tx.turn.create({
         data: {
           sessionId: session.id,
           role: 'DM',
-          content: `Bienvenido a ${loreData.name}, ${charName}.\n\n${narrativeHook}${missionsText}`,
+          content: introContent,
           diceRolls: suggestedActions.length > 0 ? { suggested_actions: suggestedActions } : undefined,
           createdAt: new Date(),
         },

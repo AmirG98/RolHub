@@ -112,6 +112,25 @@
 
   "one_shot_hook": "Herencia te un viejo profesor universitario que murió en circunstancias misteriosas. Entre sus posesiones: un diario con anotaciones frenéticas sobre 'Cthulhu fhtagn' y coordenadas de una isla en el Pacífico. Su última entrada: 'Si estás leyendo esto, ya es demasiado tarde. Las estrellas están alineándose. Ellos despiertan.' Esta noche, tuviste pesadillas con una ciudad imposible y cantos en lenguas muertas. Tu investigación comienza ahora.",
 
+  "opening_scene": {
+    "location_id": "arkham-library",
+    "location_name": "Biblioteca Orne, Universidad Miskatonic",
+    "description": "Te encontrás en la Biblioteca Orne de la Universidad Miskatonic, entre estanterías de madera oscura que alcanzan techos imposiblemente altos. La luz de las lámparas de gas crea sombras danzantes sobre tomos antiguos. El silencio es casi absoluto, roto solo por el crujir del edificio y el ocasional susurro de páginas. El olor a papel viejo y cuero es opresivo. En la sección de libros raros, custodiada con llave, dicen que hay volúmenes que no deberían existir. Esta noche, las sombras parecen más densas de lo normal.",
+    "visible_directions": [
+      { "direction": "la sección de ocultismo", "landmark": "estantes marcados con símbolos que no reconocés, donde pocos estudiantes se atreven a entrar" },
+      { "direction": "el escritorio del bibliotecario", "landmark": "el Dr. Armitage, un anciano que parece saber más de lo que dice, revisa documentos con nerviosismo" },
+      { "direction": "la ventana empañada", "landmark": "las calles de Arkham bajo la niebla nocturna, donde ocasionalmente pasan siluetas que no parecen del todo humanas" },
+      { "direction": "las escaleras al sótano", "landmark": "los archivos restringidos, donde se guardan los textos que la universidad prefiere olvidar" }
+    ],
+    "ambient_rumors": [
+      "tres estudiantes desaparecieron la semana pasada investigando un libro llamado el Necronomicón",
+      "el conserje dice que escucha cánticos desde el sótano en noches de luna llena",
+      "una mansión abandonada en las afueras tiene luces que nadie puede explicar",
+      "pescadores del puerto hablan de figuras que emergen del mar en Innsmouth"
+    ],
+    "closing_prompt": "La noche de Nueva Inglaterra se cierne sobre Arkham. Tu cordura es frágil, pero la verdad te llama. ¿Qué hacés?"
+  },
+
   "initial_missions": [
     {
       "id": "missing_persons",

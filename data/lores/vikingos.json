@@ -1080,6 +1080,25 @@
     }
   ],
 
+  "opening_scene": {
+    "location_id": "mead-hall",
+    "location_name": "Gran Salón del Jarl Sigurd, Kaupang",
+    "description": "Te encontrás en el Gran Salón del Jarl Sigurd Sangre de Lobo, bajo vigas de roble ennegrecidas por el humo de cien fogatas. Las antorchas iluminan tapices que cuentan sagas de gloria. Guerreros beben hidromiel de cuernos mientras el skald canta hazañas antiguas. El fuego central crepita, proyectando sombras danzantes sobre los escudos colgados en las paredes. El olor a carne asada, cerveza y cuero empapa el aire. Afuera, los drakkars descansan en el fiordo, esperando la próxima incursión. El Jarl busca guerreros valientes para empresas que otorgarán fama eterna.",
+    "visible_directions": [
+      { "direction": "el trono del Jarl", "landmark": "Sigurd Sangre de Lobo escucha peticiones y planea la próxima campaña vikinga" },
+      { "direction": "el muelle del fiordo", "landmark": "los drakkars se balancean suavemente, listos para surcar mares hacia tierras de saqueo" },
+      { "direction": "el bosque sagrado", "landmark": "donde la völva hace sus profecías y los dioses a veces responden" },
+      { "direction": "las montañas del norte", "landmark": "territorios inexplorados donde dicen que habitan gigantes y dragones" }
+    ],
+    "ambient_rumors": [
+      "el Jarl planea un raid masivo a las costas de Inglaterra antes del invierno",
+      "un barco llegó del oeste con noticias de tierras nuevas más allá del mar helado",
+      "la völva tuvo visiones de un tesoro antiguo en una tumba de jarls olvidada",
+      "gigantes de hielo fueron vistos cerca de las montañas, presagio del Fimbulwinter"
+    ],
+    "closing_prompt": "Los dioses observan. La gloria espera a quienes la buscan. ¿Qué hacés?"
+  },
+
   "initial_missions": [
     {
       "id": "coastal_raid",

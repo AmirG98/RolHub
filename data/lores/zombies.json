@@ -945,6 +945,25 @@
     }
   ],
 
+  "opening_scene": {
+    "location_id": "safe-house",
+    "location_name": "Refugio en la Escuela Abandonada",
+    "description": "Te encontrás en el segundo piso de una escuela primaria abandonada, convertida en refugio improvisado. Las ventanas están tapiadas con pupitres. Las paredes tienen marcas de conteo de días: 87 desde el Día Cero. El olor a sudor, comida enlatada y miedo es constante. Afuera, el silencio ocasionalmente se rompe con gruñidos distantes. Hay ocho sobrevivientes más contigo. Los suministros se agotan. La tensión es palpable.",
+    "visible_directions": [
+      { "direction": "la ventana del tercer piso", "landmark": "se ve el hospital a unas diez cuadras, posible fuente de medicinas pero infestado de caminantes" },
+      { "direction": "el este", "landmark": "el centro comercial abandonado donde dicen que hay comida, pero también saqueadores" },
+      { "direction": "el norte", "landmark": "la zona residencial, casas que podrían tener suministros pero muchas puertas cerradas significan infectados adentro" },
+      { "direction": "el sur", "landmark": "la autopista bloqueada con autos, una trampa mortal pero el único camino fuera de la ciudad" }
+    ],
+    "ambient_rumors": [
+      "el líder del grupo dice que escuchó una transmisión de radio militar ayer, pero nadie más la oyó",
+      "una mujer dice que vio luces en el hospital anoche, ¿sobrevivientes o trampa?",
+      "un adolescente jura que hay un tipo armado hasta los dientes en el centro comercial que mata a quien se acerque",
+      "alguien encontró un mapa con una ruta marcada hacia una supuesta zona segura fuera de la ciudad"
+    ],
+    "closing_prompt": "El sol comienza a ponerse. Las noches son más peligrosas. ¿Qué hacés?"
+  },
+
   "initial_missions": [
     {
       "id": "supply_run",

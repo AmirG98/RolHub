@@ -967,6 +967,25 @@
     }
   ],
 
+  "opening_scene": {
+    "location_id": "luminaria-guild",
+    "location_name": "Sede del Gremio de Aventureros, Ciudad Luminaria",
+    "description": "Te encontrás en el salón principal del Gremio de Aventureros de Luminaria, un edificio de piedra blanca con estandartes de todos los rangos colgando del techo. Aventureros de todas las razas revisan el tablón de misiones, comparan botín, o celebran con jarras de hidromiel. Detrás del mostrador, Luna, la recepcionista de cabello azul, organiza pergaminos con eficiencia sobrenatural. El cristal de tu estado flotante sobre tu muñeca brilla suavemente, recordándote que sos diferente. Fuiste invocado de otro mundo. Tu aventura apenas comienza.",
+    "visible_directions": [
+      { "direction": "el tablón de misiones", "landmark": "docenas de pergaminos con trabajos que van desde eliminar slimes hasta rescatar princesas" },
+      { "direction": "las mesas del fondo", "landmark": "grupos de aventureros veteranos que podrían tener información valiosa sobre calabozos cercanos" },
+      { "direction": "la puerta principal", "landmark": "las calles bulliciosas de Luminaria, con tiendas de equipo, posadas y el mercado mágico" },
+      { "direction": "la escalera al segundo piso", "landmark": "las oficinas de los Guildmasters y la sala de briefing para misiones de alto rango" }
+    ],
+    "ambient_rumors": [
+      "dicen que apareció un calabozo nuevo en el Bosque Esmeralda, aún sin explorar",
+      "un comerciante ofrece recompensa por escoltar su caravana a través de territorio goblin",
+      "una chica misteriosa busca aventureros para una misión secreta, paga en oro y objetos mágicos",
+      "el calabozo del Rey Demonio muestra actividad inusual, los aventureros rango A están preocupados"
+    ],
+    "closing_prompt": "Tu nueva vida te espera. El Gremio está lleno de oportunidades. ¿Qué hacés?"
+  },
+
   "initial_missions": [
     {
       "id": "guild_first_quest",

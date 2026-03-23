@@ -954,6 +954,37 @@
     }
   ],
 
+  "opening_scene": {
+    "location_id": "bree-inn",
+    "location_name": "La Posada del Pony Pisador, Bree",
+    "description": "Te encuentras en la Posada del Pony Pisador, el corazón de Bree. El fuego crepita suavemente en la gran chimenea de piedra mientras los últimos rayos del atardecer se filtran por las ventanas empañadas. El aroma a estofado de cordero y cerveza de cebada llena el aire. A tu alrededor, viajeros de todas las razas comparten historias en voz baja: hobbits de la Comarca, enanos camino a las Montañas Azules, y uno que otro Montaraz de mirada penetrante.",
+    "visible_directions": [
+      {
+        "direction": "norte",
+        "landmark": "el Camino Verde serpentea hacia las Colinas de los Vientos, donde dicen que aún quedan ruinas de la antigua Arnor"
+      },
+      {
+        "direction": "este",
+        "landmark": "los siniestros Túmulos de los Reyes se recortan contra el horizonte crepuscular, evitados por los lugareños"
+      },
+      {
+        "direction": "sur",
+        "landmark": "el camino comercial lleva hacia el Puente de Brandy y, más allá, las verdes colinas de la Comarca"
+      },
+      {
+        "direction": "oeste",
+        "landmark": "el Bosque Viejo se extiende denso y misterioso, hogar de árboles que algunos juran pueden caminar"
+      }
+    ],
+    "ambient_rumors": [
+      "un mercader enano busca escolta para su caravana hacia las Montañas Azules",
+      "luces fantasmales han sido vistas en los Túmulos por las noches",
+      "un erudito de Rivendel ofrece buena paga por cierta reliquia perdida",
+      "los caminos se han vuelto más peligrosos últimamente, y no solo por los lobos"
+    ],
+    "closing_prompt": "La noche se cierne sobre Bree. ¿Qué deseas hacer?"
+  },
+
   "initial_missions": [
     {
       "id": "escort_merchant",

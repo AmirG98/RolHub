@@ -110,6 +110,25 @@
 
   "one_shot_hook": "Un droide astromecánico llega a tu puerta con un mensaje holográfico urgente de la Princesa Leia: 'Ayúdenme, son mi única esperanza.' El Imperio la capturó. Los planos de la Estrella de la Muerte están en el droide. Tenés una nave y pocas horas antes de que los Stormtroopers lleguen. ¿Qué hacés?",
 
+  "opening_scene": {
+    "location_id": "mos-eisley-cantina",
+    "location_name": "Cantina de Chalmun, Mos Eisley",
+    "description": "Te encontrás en la cantina más infame de Mos Eisley, un antro lleno de humo donde la escoria de la galaxia cierra tratos y ahoga sus penas. La banda de jazz Bith toca una melodía pegadiza mientras alienígenas de docenas de especies beben líquidos de colores imposibles. El barman no sirve droides, y los problemas se resuelven con blasters. Afuera, los soles gemelos de Tatooine queman el desierto, pero acá adentro hace fresco y peligroso. Patrullas de Stormtroopers revisan los hangares cercanos.",
+    "visible_directions": [
+      { "direction": "la barra", "landmark": "varios pilotos buscan pasajeros o carga para sus naves en el puerto espacial" },
+      { "direction": "un rincón sombrío", "landmark": "un Rodiano con aspecto de cazarrecompensas observa la entrada con la mano cerca de su blaster" },
+      { "direction": "la puerta trasera", "landmark": "conecta directamente con la Bahía de Atraque 94, donde las naves esperan" },
+      { "direction": "el tablón de anuncios", "landmark": "carteles de SE BUSCA y ofertas de trabajo para contrabandistas valientes" }
+    ],
+    "ambient_rumors": [
+      "el Imperio reforzó los controles en las rutas de Kessel por alguna razón clasificada",
+      "un viejo ermitaño en el desierto de Jundland tiene conexiones con los Rebeldes",
+      "los Jawas encontraron droides con información valiosa en el desierto",
+      "Jabba el Hutt paga fortunas por pilotos que evadan los bloqueos imperiales"
+    ],
+    "closing_prompt": "La cantina bulle con oportunidades y peligros. ¿Qué hacés?"
+  },
+
   "initial_missions": [
     {
       "id": "smuggling_run",
