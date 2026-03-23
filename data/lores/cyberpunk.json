@@ -120,6 +120,66 @@
     "closing_prompt": "Los créditos escasean y la renta del mes no se paga sola. ¿Qué hacés?"
   },
 
+  "opening_scenes": [
+    {
+      "id": "default",
+      "location_id": "afterlife-bar",
+      "location_name": "Club Afterlife, Night City",
+      "description": "Te encontrás en el Club Afterlife, el bar de mercenarios más famoso de Night City. Las luces de neón tiñen de púrpura y azul los rostros de asesinos, hackers y contrabandistas que beben sintético mientras cierran tratos mortales. La música industrial late como un segundo corazón. El olor a humo de cigarros electrónicos y alcohol barato llena el aire reciclado. En las pantallas, noticias corporativas que nadie mira. Acá es donde se hacen los trabajos que definen carreras... o las terminan.",
+      "visible_directions": [
+        { "direction": "fondo del bar", "landmark": "la barra donde Rogue, la Fixer más legendaria de la ciudad, cierra tratos con una mirada fría" },
+        { "direction": "rincón oscuro", "landmark": "las cabinas privadas donde se negocian los trabajos más peligrosos y lucrativos" },
+        { "direction": "salida trasera", "landmark": "un callejón que conecta con los Bajos Fondos, donde todo se vende y nadie pregunta" },
+        { "direction": "ventanas polarizadas", "landmark": "la vista de los rascacielos de Downtown, las torres de Arasaka brillando como una promesa o una amenaza" }
+      ],
+      "ambient_rumors": [
+        "dicen que Arasaka perdió un prototipo de implante neural y paga una fortuna por recuperarlo",
+        "un Netrunner quemó los servidores de una banda y ahora tiene precio en la cabeza",
+        "los Nomads del desierto tienen acceso a tech militar y buscan socios en la ciudad",
+        "hay un Ripperdoc en los Bajos que instala chrome experimental por mitad de precio"
+      ],
+      "closing_prompt": "Los créditos escasean y la renta del mes no se paga sola. ¿Qué hacés?"
+    },
+    {
+      "id": "blackout_night",
+      "location_id": "afterlife-bar",
+      "location_name": "Club Afterlife, Night City",
+      "description": "Un apagón masivo golpeó Night City hace veinte minutos y el Afterlife funciona con generadores de emergencia. La mitad de los neones están muertos, dejando el bar en una penumbra rojiza que solo interrumpen las brasas de cigarros electrónicos y los implantes ópticos brillando en la oscuridad. Sin las pantallas corporativas, la gente habla más de lo que debería. Los mercenarios se agrupan tensos, susurrando sobre oportunidades: un blackout así no pasa sin que alguien lo haya planeado. Afuera, las sirenas de Trauma Team aúllan sin parar y el caos se huele en el aire reciclado.",
+      "visible_directions": [
+        { "direction": "fondo del bar", "landmark": "la barra donde Rogue, la Fixer más legendaria de la ciudad, cierra tratos con una mirada fría" },
+        { "direction": "rincón oscuro", "landmark": "las cabinas privadas donde se negocian los trabajos más peligrosos y lucrativos" },
+        { "direction": "salida trasera", "landmark": "un callejón que conecta con los Bajos Fondos, donde todo se vende y nadie pregunta" },
+        { "direction": "ventanas polarizadas", "landmark": "la vista de los rascacielos de Downtown, las torres de Arasaka brillando como una promesa o una amenaza" }
+      ],
+      "ambient_rumors": [
+        "dicen que Arasaka perdió un prototipo de implante neural y paga una fortuna por recuperarlo",
+        "un Netrunner quemó los servidores de una banda y ahora tiene precio en la cabeza",
+        "los Nomads del desierto tienen acceso a tech militar y buscan socios en la ciudad",
+        "hay un Ripperdoc en los Bajos que instala chrome experimental por mitad de precio"
+      ],
+      "closing_prompt": "Night City está a oscuras y el caos es una ventana de oportunidad. ¿Qué hacés?"
+    },
+    {
+      "id": "corpo_raid",
+      "location_id": "afterlife-bar",
+      "location_name": "Club Afterlife, Night City",
+      "description": "El Afterlife hierve de actividad esta madrugada. Hace una hora, un escuadrón táctico de Arasaka allanó tres bloques de los Bajos Fondos buscando un paquete de data robado, y los mercenarios desplazados por la redada se refugiaron acá. El bar está al doble de su capacidad: cuerpos sudorosos con chrome brillante apretados entre mesas, la música ahogada por conversaciones urgentes. Rogue atiende llamadas sin parar detrás de la barra, repartiendo trabajos de evacuación y contraespionaje. El aire apesta a adrenalina sintética y miedo real. Por las ventanas polarizadas se ven los reflectores de los AVs corporativos barriendo las calles como ojos furiosos.",
+      "visible_directions": [
+        { "direction": "fondo del bar", "landmark": "la barra donde Rogue, la Fixer más legendaria de la ciudad, cierra tratos con una mirada fría" },
+        { "direction": "rincón oscuro", "landmark": "las cabinas privadas donde se negocian los trabajos más peligrosos y lucrativos" },
+        { "direction": "salida trasera", "landmark": "un callejón que conecta con los Bajos Fondos, donde todo se vende y nadie pregunta" },
+        { "direction": "ventanas polarizadas", "landmark": "la vista de los rascacielos de Downtown, las torres de Arasaka brillando como una promesa o una amenaza" }
+      ],
+      "ambient_rumors": [
+        "dicen que Arasaka perdió un prototipo de implante neural y paga una fortuna por recuperarlo",
+        "un Netrunner quemó los servidores de una banda y ahora tiene precio en la cabeza",
+        "los Nomads del desierto tienen acceso a tech militar y buscan socios en la ciudad",
+        "hay un Ripperdoc en los Bajos que instala chrome experimental por mitad de precio"
+      ],
+      "closing_prompt": "Arasaka patea puertas y la ciudad arde. Es la peor noche para estar quieto. ¿Qué hacés?"
+    }
+  ],
+
   "initial_missions": [
     {
       "id": "data_heist",

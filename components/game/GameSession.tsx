@@ -21,7 +21,7 @@ import { Lore } from '@prisma/client'
 // Immersion system
 import { TypewriterText } from '@/components/ui/TypewriterText'
 import { SceneTransition, useSceneTransition } from '@/components/ui/SceneTransition'
-// SceneImage ahora se renderiza dentro de SceneView (integrada en el mapa)
+import { SceneImage } from '@/components/game/SceneImage'
 import { type UIMood, getUIMood, getMoodConfig } from '@/lib/game/ui-mood'
 // Combat system
 import { TacticalCombatPanel } from '@/components/game/TacticalCombatPanel'
@@ -372,11 +372,18 @@ export default function GameSession({
         setSuggestedActions(firstTurn.diceRolls.suggested_actions)
       }
 
-      // Auto-play voice for the latest DM turn when session loads
+      // Auto-play voice + typewriter for the latest DM turn when session loads
       const lastDMTurn = [...initialTurns].reverse().find(t => t.role === 'DM')
       if (lastDMTurn && initialTurns.length <= 2) {
         // Only auto-play on fresh sessions (1-2 turns = just the intro)
         setLatestDMTurnId(lastDMTurn.id)
+        setTypewriterTurnId(lastDMTurn.id)
+      }
+
+      // Cargar imagen de escena inicial si existe en el primer turn
+      const firstDMTurn = initialTurns.find(t => t.role === 'DM')
+      if (firstDMTurn?.imageUrl) {
+        setSceneImageUrl(firstDMTurn.imageUrl)
       }
     }
   }, [initialTurns])
@@ -1060,6 +1067,17 @@ export default function GameSession({
 
           {/* Panel derecho - Mapa + Imagen de escena (4/12) */}
           <div className="lg:col-span-4 space-y-3 md:space-y-4 order-1 lg:order-2">
+            {/* Imagen de escena - panel independiente */}
+            {(sceneImageUrl || isImageLoading) && (
+              <SceneImage
+                imageUrl={sceneImageUrl}
+                isLoading={isImageLoading}
+                lore={lore as LoreType}
+                error={imageError}
+                className="rounded-lg overflow-hidden"
+              />
+            )}
+
             {/* Mapa */}
             <GameMapPanel
               lore={lore as LoreType}
@@ -1073,8 +1091,6 @@ export default function GameSession({
                 setTimeout(() => setError(null), 3000)
               }}
               locale={locale as 'es' | 'en'}
-              sceneImageUrl={sceneImageUrl}
-              isSceneImageLoading={isImageLoading}
             />
 
             {/* Quests Section */}

@@ -1099,6 +1099,66 @@
     "closing_prompt": "Los dioses observan. La gloria espera a quienes la buscan. ¿Qué hacés?"
   },
 
+  "opening_scenes": [
+    {
+      "id": "default",
+      "location_id": "mead-hall",
+      "location_name": "Gran Salón del Jarl Sigurd, Kaupang",
+      "description": "Te encontrás en el Gran Salón del Jarl Sigurd Sangre de Lobo, bajo vigas de roble ennegrecidas por el humo de cien fogatas. Las antorchas iluminan tapices que cuentan sagas de gloria. Guerreros beben hidromiel de cuernos mientras el skald canta hazañas antiguas. El fuego central crepita, proyectando sombras danzantes sobre los escudos colgados en las paredes. El olor a carne asada, cerveza y cuero empapa el aire. Afuera, los drakkars descansan en el fiordo, esperando la próxima incursión. El Jarl busca guerreros valientes para empresas que otorgarán fama eterna.",
+      "visible_directions": [
+        { "direction": "el trono del Jarl", "landmark": "Sigurd Sangre de Lobo escucha peticiones y planea la próxima campaña vikinga" },
+        { "direction": "el muelle del fiordo", "landmark": "los drakkars se balancean suavemente, listos para surcar mares hacia tierras de saqueo" },
+        { "direction": "el bosque sagrado", "landmark": "donde la völva hace sus profecías y los dioses a veces responden" },
+        { "direction": "las montañas del norte", "landmark": "territorios inexplorados donde dicen que habitan gigantes y dragones" }
+      ],
+      "ambient_rumors": [
+        "el Jarl planea un raid masivo a las costas de Inglaterra antes del invierno",
+        "un barco llegó del oeste con noticias de tierras nuevas más allá del mar helado",
+        "la völva tuvo visiones de un tesoro antiguo en una tumba de jarls olvidada",
+        "gigantes de hielo fueron vistos cerca de las montañas, presagio del Fimbulwinter"
+      ],
+      "closing_prompt": "Los dioses observan. La gloria espera a quienes la buscan. ¿Qué hacés?"
+    },
+    {
+      "id": "storm_feast",
+      "location_id": "mead-hall",
+      "location_name": "Gran Salón del Jarl Sigurd, Kaupang",
+      "description": "Una tormenta brutal sacude el Gran Salón del Jarl Sigurd. El viento aúlla entre las vigas de roble como lobos hambrientos y la lluvia golpea el techo de turba con furia divina. Adentro, los guerreros festejan más fuerte para no escuchar a Thor martillando el cielo. Los cuernos de hidromiel chocan entre carcajadas borrachas mientras un rayo ilumina el salón entero en blanco cegador. El skald canta la saga de Ragnar Lodbrok a los gritos, compitiendo con el trueno. Alguien volcó un barril de cerveza y nadie lo limpió. Esta noche, los dioses están furiosos o celebrando, y la diferencia importa poco.",
+      "visible_directions": [
+        { "direction": "el trono del Jarl", "landmark": "Sigurd Sangre de Lobo escucha peticiones y planea la próxima campaña vikinga" },
+        { "direction": "el muelle del fiordo", "landmark": "los drakkars se balancean suavemente, listos para surcar mares hacia tierras de saqueo" },
+        { "direction": "el bosque sagrado", "landmark": "donde la völva hace sus profecías y los dioses a veces responden" },
+        { "direction": "las montañas del norte", "landmark": "territorios inexplorados donde dicen que habitan gigantes y dragones" }
+      ],
+      "ambient_rumors": [
+        "el Jarl planea un raid masivo a las costas de Inglaterra antes del invierno",
+        "un barco llegó del oeste con noticias de tierras nuevas más allá del mar helado",
+        "la völva tuvo visiones de un tesoro antiguo en una tumba de jarls olvidada",
+        "gigantes de hielo fueron vistos cerca de las montañas, presagio del Fimbulwinter"
+      ],
+      "closing_prompt": "Thor martilla el cielo y el hidromiel corre como ríos. Una noche de tormenta es noche de decisiones. ¿Qué hacés?"
+    },
+    {
+      "id": "dawn_departure",
+      "location_id": "mead-hall",
+      "location_name": "Gran Salón del Jarl Sigurd, Kaupang",
+      "description": "El alba tiñe el Gran Salón del Jarl Sigurd de un dorado pálido que entra por las rendijas del techo. Los restos de la noche anterior cubren el suelo: huesos roídos, cuernos vacíos, guerreros dormidos sobre las mesas. Pero en el muelle, los drakkars ya están siendo cargados. El Jarl está de pie junto al fuego moribundo, con armadura completa y la mirada fija en el fiordo brumoso. Hoy zarpan. El agua del fiordo humea bajo el frío de la madrugada y las velas de los barcos flamean impacientes. Esclavos cargan provisiones mientras los guerreros más veteranos afilan hachas en silencio solemne. Es la calma que precede a la sangre.",
+      "visible_directions": [
+        { "direction": "el trono del Jarl", "landmark": "Sigurd Sangre de Lobo escucha peticiones y planea la próxima campaña vikinga" },
+        { "direction": "el muelle del fiordo", "landmark": "los drakkars se balancean suavemente, listos para surcar mares hacia tierras de saqueo" },
+        { "direction": "el bosque sagrado", "landmark": "donde la völva hace sus profecías y los dioses a veces responden" },
+        { "direction": "las montañas del norte", "landmark": "territorios inexplorados donde dicen que habitan gigantes y dragones" }
+      ],
+      "ambient_rumors": [
+        "el Jarl planea un raid masivo a las costas de Inglaterra antes del invierno",
+        "un barco llegó del oeste con noticias de tierras nuevas más allá del mar helado",
+        "la völva tuvo visiones de un tesoro antiguo en una tumba de jarls olvidada",
+        "gigantes de hielo fueron vistos cerca de las montañas, presagio del Fimbulwinter"
+      ],
+      "closing_prompt": "Los drakkars están listos y el Jarl espera. El mar llama y la gloria no se gana durmiendo. ¿Qué hacés?"
+    }
+  ],
+
   "initial_missions": [
     {
       "id": "coastal_raid",

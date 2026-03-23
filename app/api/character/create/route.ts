@@ -353,8 +353,11 @@ export async function POST(req: NextRequest) {
       })
 
       // 4. Crear el primer turn del sistema con contexto espacial inmersivo
-      // Usar opening_scene si existe, sino fallback al hook narrativo
-      const openingScene = loreData.opening_scene
+      // Soportar opening_scenes (array de variantes) o opening_scene (legacy singular)
+      const openingScenes = (loreData as any).opening_scenes || (loreData.opening_scene ? [loreData.opening_scene] : [])
+      const openingScene = openingScenes.length > 0
+        ? openingScenes[Math.floor(Math.random() * openingScenes.length)]
+        : null
       let introContent = ''
       let suggestedActions: string[] = []
 
@@ -381,7 +384,7 @@ export async function POST(req: NextRequest) {
         introContent = `Bienvenido a ${loreData.name}, ${charName}.\n\n${narrativeHook}`
       }
 
-      await tx.turn.create({
+      const firstTurn = await tx.turn.create({
         data: {
           sessionId: session.id,
           role: 'DM',
@@ -391,7 +394,7 @@ export async function POST(req: NextRequest) {
         },
       })
 
-      return { campaign, character, session }
+      return { campaign, character, session, firstTurnId: firstTurn.id, introContent }
     })
 
     // Generar retrato del personaje SÍNCRONAMENTE antes de retornar
@@ -436,8 +439,10 @@ export async function POST(req: NextRequest) {
     }
 
     // Generar imagen de escena inicial (cacheada por lore + locationId)
+    // Usar la variante de openingScene seleccionada (del array opening_scenes o legacy opening_scene)
+    const openingScenes = (loreData as any).opening_scenes || (loreData.opening_scene ? [loreData.opening_scene] : [])
+    const openingSceneData = openingScenes.length > 0 ? openingScenes[0] : null
     let initialSceneImageUrl: string | null = null
-    const openingSceneData = loreData.opening_scene
     if (openingSceneData && process.env.NEXT_PUBLIC_ENABLE_IMAGES === 'true') {
       try {
         console.log('[InitialScene] Generating opening scene image...')
@@ -452,10 +457,30 @@ export async function POST(req: NextRequest) {
         if (sceneResult.success && sceneResult.url) {
           initialSceneImageUrl = sceneResult.url
           console.log('[InitialScene] Image generated:', sceneResult.url?.substring(0, 80))
+
+          // Persistir la URL en el primer turn para que el cliente la cargue
+          try {
+            await prisma.turn.update({
+              where: { id: result.firstTurnId },
+              data: { imageUrl: initialSceneImageUrl },
+            })
+          } catch (updateErr) {
+            console.warn('[InitialScene] Failed to save imageUrl to turn:', updateErr)
+          }
         }
       } catch (sceneErr) {
         console.error('[InitialScene] Failed to generate:', sceneErr)
       }
+    }
+
+    // Pre-generar audio del intro en background (no bloquea respuesta)
+    try {
+      const { prefetchIntroAudio } = await import('@/lib/tts/intro-prefetch')
+      prefetchIntroAudio(result.introContent, lore, 'es').catch(err =>
+        console.warn('[IntroAudio] Prefetch failed:', err)
+      )
+    } catch {
+      // No bloquear por fallo de pre-cache
     }
 
     // Retornar el ID de la sesión para redirigir (incluye avatarUrl si se generó)

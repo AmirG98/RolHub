@@ -994,6 +994,66 @@
     "closing_prompt": "El sol comienza a ponerse. Las noches son más peligrosas. ¿Qué hacés?"
   },
 
+  "opening_scenes": [
+    {
+      "id": "default",
+      "location_id": "safe-house",
+      "location_name": "Refugio en la Escuela Abandonada",
+      "description": "Te encontrás en el segundo piso de una escuela primaria abandonada, convertida en refugio improvisado. Las ventanas están tapiadas con pupitres. Las paredes tienen marcas de conteo de días: 87 desde el Día Cero. El olor a sudor, comida enlatada y miedo es constante. Afuera, el silencio ocasionalmente se rompe con gruñidos distantes. Hay ocho sobrevivientes más contigo. Los suministros se agotan. La tensión es palpable.",
+      "visible_directions": [
+        { "direction": "la ventana del tercer piso", "landmark": "se ve el hospital a unas diez cuadras, posible fuente de medicinas pero infestado de caminantes" },
+        { "direction": "el este", "landmark": "el centro comercial abandonado donde dicen que hay comida, pero también saqueadores" },
+        { "direction": "el norte", "landmark": "la zona residencial, casas que podrían tener suministros pero muchas puertas cerradas significan infectados adentro" },
+        { "direction": "el sur", "landmark": "la autopista bloqueada con autos, una trampa mortal pero el único camino fuera de la ciudad" }
+      ],
+      "ambient_rumors": [
+        "el líder del grupo dice que escuchó una transmisión de radio militar ayer, pero nadie más la oyó",
+        "una mujer dice que vio luces en el hospital anoche, ¿sobrevivientes o trampa?",
+        "un adolescente jura que hay un tipo armado hasta los dientes en el centro comercial que mata a quien se acerque",
+        "alguien encontró un mapa con una ruta marcada hacia una supuesta zona segura fuera de la ciudad"
+      ],
+      "closing_prompt": "El sol comienza a ponerse. Las noches son más peligrosas. ¿Qué hacés?"
+    },
+    {
+      "id": "night_watch",
+      "location_id": "safe-house",
+      "location_name": "Refugio en la Escuela Abandonada",
+      "description": "Son las tres de la madrugada y te toca guardia en el segundo piso de la escuela abandonada. La oscuridad es casi total — solo una vela medio consumida proyecta sombras nerviosas sobre las paredes llenas de marcas de conteo. Los demás duermen, o lo intentan. Desde la calle llega un arrastre lento y constante, como pies descalzos sobre vidrio roto. De pronto, un golpe seco contra la puerta de la planta baja. Luego otro. Alguien — o algo — está probando las barricadas.",
+      "visible_directions": [
+        { "direction": "la ventana del tercer piso", "landmark": "se ve el hospital a unas diez cuadras, posible fuente de medicinas pero infestado de caminantes" },
+        { "direction": "el este", "landmark": "el centro comercial abandonado donde dicen que hay comida, pero también saqueadores" },
+        { "direction": "el norte", "landmark": "la zona residencial, casas que podrían tener suministros pero muchas puertas cerradas significan infectados adentro" },
+        { "direction": "el sur", "landmark": "la autopista bloqueada con autos, una trampa mortal pero el único camino fuera de la ciudad" }
+      ],
+      "ambient_rumors": [
+        "el líder del grupo dice que escuchó una transmisión de radio militar ayer, pero nadie más la oyó",
+        "una mujer dice que vio luces en el hospital anoche, ¿sobrevivientes o trampa?",
+        "un adolescente jura que hay un tipo armado hasta los dientes en el centro comercial que mata a quien se acerque",
+        "alguien encontró un mapa con una ruta marcada hacia una supuesta zona segura fuera de la ciudad"
+      ],
+      "closing_prompt": "Los golpes en la planta baja se repiten. Nadie más se despertó todavía. ¿Qué hacés?"
+    },
+    {
+      "id": "supply_run",
+      "location_id": "safe-house",
+      "location_name": "Refugio en la Escuela Abandonada",
+      "description": "El amanecer entra gris y frío por las rendijas de los pupitres que tapian las ventanas. Es día de expedición. Sobre una mesa de la antigua sala de maestros, el grupo desplegó un mapa dibujado a mano con las zonas ya saqueadas tachadas en rojo. Quedan pocas opciones. La última lata de atún se repartió anoche entre ocho personas. El agua del tanque del techo alcanza para un día más. Dos voluntarios se preparan junto a la puerta trasera, ajustando mochilas vacías y empuñando lo que tienen: un bate, un cuchillo de cocina.",
+      "visible_directions": [
+        { "direction": "la ventana del tercer piso", "landmark": "se ve el hospital a unas diez cuadras, posible fuente de medicinas pero infestado de caminantes" },
+        { "direction": "el este", "landmark": "el centro comercial abandonado donde dicen que hay comida, pero también saqueadores" },
+        { "direction": "el norte", "landmark": "la zona residencial, casas que podrían tener suministros pero muchas puertas cerradas significan infectados adentro" },
+        { "direction": "el sur", "landmark": "la autopista bloqueada con autos, una trampa mortal pero el único camino fuera de la ciudad" }
+      ],
+      "ambient_rumors": [
+        "el líder del grupo dice que escuchó una transmisión de radio militar ayer, pero nadie más la oyó",
+        "una mujer dice que vio luces en el hospital anoche, ¿sobrevivientes o trampa?",
+        "un adolescente jura que hay un tipo armado hasta los dientes en el centro comercial que mata a quien se acerque",
+        "alguien encontró un mapa con una ruta marcada hacia una supuesta zona segura fuera de la ciudad"
+      ],
+      "closing_prompt": "Los suministros se acabaron. Hay que salir hoy o mañana no habrá nada para comer. ¿Qué hacés?"
+    }
+  ],
+
   "initial_missions": [
     {
       "id": "supply_run",

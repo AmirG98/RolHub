@@ -50,9 +50,6 @@ interface GameMapPanelProps {
   quests?: Quest[]
   onQuestClick?: (quest: Quest) => void
   onViewQuestOnMap?: (locationId: string) => void
-  // Imagen de escena
-  sceneImageUrl?: string | null
-  isSceneImageLoading?: boolean
 }
 
 export function GameMapPanel({
@@ -66,8 +63,6 @@ export function GameMapPanel({
   quests = [],
   onQuestClick,
   onViewQuestOnMap,
-  sceneImageUrl,
-  isSceneImageLoading = false,
 }: GameMapPanelProps) {
   // Vista: 'scene' muestra ubicación actual inmersiva, 'worldMap' muestra el mapa completo
   const [viewMode, setViewMode] = useState<'scene' | 'worldMap'>('scene')
@@ -184,8 +179,6 @@ export function GameMapPanel({
           canExploreInterior={currentLocation ? hasSubmapAvailable(currentLocation) : false}
           isNavigationLocked={isLocked}
           lockReason={LOCK_MESSAGES[lockReason]}
-          sceneImageUrl={sceneImageUrl}
-          isSceneImageLoading={isSceneImageLoading}
           className="h-full"
         />
 

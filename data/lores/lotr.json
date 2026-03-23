@@ -1016,6 +1016,66 @@
     "closing_prompt": "La noche se cierne sobre Bree. ¿Qué deseas hacer?"
   },
 
+  "opening_scenes": [
+    {
+      "id": "default",
+      "location_id": "bree-inn",
+      "location_name": "La Posada del Pony Pisador, Bree",
+      "description": "Te encuentras en la Posada del Pony Pisador, el corazón de Bree. El fuego crepita suavemente en la gran chimenea de piedra mientras los últimos rayos del atardecer se filtran por las ventanas empañadas. El aroma a estofado de cordero y cerveza de cebada llena el aire. A tu alrededor, viajeros de todas las razas comparten historias en voz baja: hobbits de la Comarca, enanos camino a las Montañas Azules, y uno que otro Montaraz de mirada penetrante.",
+      "visible_directions": [
+        { "direction": "norte", "landmark": "el Camino Verde serpentea hacia las Colinas de los Vientos, donde dicen que aún quedan ruinas de la antigua Arnor" },
+        { "direction": "este", "landmark": "los siniestros Túmulos de los Reyes se recortan contra el horizonte crepuscular, evitados por los lugareños" },
+        { "direction": "sur", "landmark": "el camino comercial lleva hacia el Puente de Brandy y, más allá, las verdes colinas de la Comarca" },
+        { "direction": "oeste", "landmark": "el Bosque Viejo se extiende denso y misterioso, hogar de árboles que algunos juran pueden caminar" }
+      ],
+      "ambient_rumors": [
+        "un mercader enano busca escolta para su caravana hacia las Montañas Azules",
+        "luces fantasmales han sido vistas en los Túmulos por las noches",
+        "un erudito de Rivendel ofrece buena paga por cierta reliquia perdida",
+        "los caminos se han vuelto más peligrosos últimamente, y no solo por los lobos"
+      ],
+      "closing_prompt": "La noche se cierne sobre Bree. ¿Qué deseas hacer?"
+    },
+    {
+      "id": "rainy_evening",
+      "location_id": "bree-inn",
+      "location_name": "La Posada del Pony Pisador, Bree",
+      "description": "La lluvia golpea sin piedad los postigos de la Posada del Pony Pisador, y cada ráfaga de viento trae consigo el olor a barro y hojas empapadas. Adentro, la chimenea lucha contra la humedad que se cuela por cada rendija. Los pocos viajeros que lograron llegar antes de la tormenta se apiñan cerca del fuego, con las capas chorreando charcos sobre el suelo de madera. Un relámpago ilumina la sala y por un instante ves la silueta de un jinete encapuchado detenido frente a la puerta, inmóvil bajo el diluvio.",
+      "visible_directions": [
+        { "direction": "norte", "landmark": "el Camino Verde serpentea hacia las Colinas de los Vientos, donde dicen que aún quedan ruinas de la antigua Arnor" },
+        { "direction": "este", "landmark": "los siniestros Túmulos de los Reyes se recortan contra el horizonte crepuscular, evitados por los lugareños" },
+        { "direction": "sur", "landmark": "el camino comercial lleva hacia el Puente de Brandy y, más allá, las verdes colinas de la Comarca" },
+        { "direction": "oeste", "landmark": "el Bosque Viejo se extiende denso y misterioso, hogar de árboles que algunos juran pueden caminar" }
+      ],
+      "ambient_rumors": [
+        "un mercader enano busca escolta para su caravana hacia las Montañas Azules",
+        "luces fantasmales han sido vistas en los Túmulos por las noches",
+        "un erudito de Rivendel ofrece buena paga por cierta reliquia perdida",
+        "los caminos se han vuelto más peligrosos últimamente, y no solo por los lobos"
+      ],
+      "closing_prompt": "La tormenta ruge afuera y la noche será larga. ¿Qué deseas hacer?"
+    },
+    {
+      "id": "market_day",
+      "location_id": "bree-inn",
+      "location_name": "La Posada del Pony Pisador, Bree",
+      "description": "Es día de mercado en Bree y la Posada del Pony Pisador rebosa de vida. El sol de mediodía entra a raudales por las ventanas abiertas, trayendo el bullicio de comerciantes que pregonan sus mercancías en la plaza. Dentro, las mesas están repletas de mercaderes enanos desplegando gemas sobre paños de terciopelo, hobbits regateando por semillas de la Comarca y un bardo elfo que afina su laúd en la esquina. El aroma de empanadas recién horneadas compite con el de la hierba para pipa del Cuaderno Sur que fuma un viejo Montaraz junto a la barra.",
+      "visible_directions": [
+        { "direction": "norte", "landmark": "el Camino Verde serpentea hacia las Colinas de los Vientos, donde dicen que aún quedan ruinas de la antigua Arnor" },
+        { "direction": "este", "landmark": "los siniestros Túmulos de los Reyes se recortan contra el horizonte crepuscular, evitados por los lugareños" },
+        { "direction": "sur", "landmark": "el camino comercial lleva hacia el Puente de Brandy y, más allá, las verdes colinas de la Comarca" },
+        { "direction": "oeste", "landmark": "el Bosque Viejo se extiende denso y misterioso, hogar de árboles que algunos juran pueden caminar" }
+      ],
+      "ambient_rumors": [
+        "un mercader enano busca escolta para su caravana hacia las Montañas Azules",
+        "luces fantasmales han sido vistas en los Túmulos por las noches",
+        "un erudito de Rivendel ofrece buena paga por cierta reliquia perdida",
+        "los caminos se han vuelto más peligrosos últimamente, y no solo por los lobos"
+      ],
+      "closing_prompt": "El mercado de Bree bulle de actividad y oportunidades. ¿Qué deseas hacer?"
+    }
+  ],
+
   "initial_missions": [
     {
       "id": "escort_merchant",

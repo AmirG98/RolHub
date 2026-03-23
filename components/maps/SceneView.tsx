@@ -1,11 +1,10 @@
 'use client'
 
 import React from 'react'
-import { ChevronRight, Map, Compass, Lock, Loader2 } from 'lucide-react'
+import { ChevronRight, Map, Compass, Lock } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { type Lore, getMapConfig } from '@/lib/maps/map-config'
 import { type MapLocationWithStatus } from '@/lib/types/map-state'
-import { AnimatePresence, motion } from 'framer-motion'
 
 // Iconos por tipo de ubicación
 const LOCATION_ICONS: Record<string, string> = {
@@ -103,9 +102,6 @@ interface SceneViewProps {
   isNavigationLocked?: boolean
   lockReason?: string
   className?: string
-  // Imagen de escena
-  sceneImageUrl?: string | null
-  isSceneImageLoading?: boolean
 }
 
 export function SceneView({
@@ -119,8 +115,6 @@ export function SceneView({
   isNavigationLocked = false,
   lockReason = '',
   className = '',
-  sceneImageUrl,
-  isSceneImageLoading = false,
 }: SceneViewProps) {
   const config = getMapConfig(lore)
 
@@ -139,63 +133,24 @@ export function SceneView({
   const dangerLevel = location.dangerLevel || 1
   const dangerColor = dangerLevel >= 4 ? 'text-red-400' : dangerLevel >= 2 ? 'text-gold' : 'text-emerald'
 
-  const hasImage = !!sceneImageUrl
-
   return (
     <div
       className={cn(
         'relative flex flex-col overflow-hidden',
-        hasImage ? 'min-h-[280px] md:min-h-[320px]' : 'h-full',
+        'h-full',
         'border border-gold-dim/30 rounded-lg',
         className
       )}
     >
-      {/* Imagen de escena como fondo */}
-      <AnimatePresence mode="wait">
-        {hasImage && (
-          <motion.div
-            key={sceneImageUrl}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.8 }}
-            className="absolute inset-0 z-0"
-          >
-            <img
-              src={sceneImageUrl!}
-              alt={location.name}
-              className="w-full h-full object-cover"
-            />
-            {/* Gradient overlay para legibilidad */}
-            <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/80" />
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Loading skeleton cuando se genera imagen */}
-      {isSceneImageLoading && !hasImage && (
-        <div className="absolute inset-0 z-0 bg-gradient-to-b from-shadow to-shadow-mid">
-          <div className="absolute inset-0 animate-pulse bg-gradient-to-r from-transparent via-gold/5 to-transparent" />
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="flex items-center gap-2 text-gold/50">
-              <Loader2 className="w-4 h-4 animate-spin" />
-              <span className="font-ui text-xs">Visualizando escena...</span>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Fondo oscuro cuando no hay imagen */}
-      {!hasImage && !isSceneImageLoading && (
-        <div className="absolute inset-0 z-0 bg-gradient-to-b from-shadow to-shadow-mid" />
-      )}
+      {/* Fondo oscuro */}
+      <div className="absolute inset-0 z-0 bg-gradient-to-b from-shadow to-shadow-mid" />
 
       {/* Contenido superpuesto sobre la imagen */}
       <div className="relative z-10 flex flex-col h-full">
         {/* Header con nombre de ubicación */}
         <div className={cn(
           'flex items-center justify-between px-3 py-2',
-          hasImage ? 'bg-black/30 backdrop-blur-sm' : 'border-b border-gold-dim/20 bg-shadow/50'
+          'border-b border-gold-dim/20 bg-shadow/50'
         )}>
           <div className="flex items-center gap-2 min-w-0 flex-1">
             <span className="text-xl flex-shrink-0">{icon}</span>
@@ -215,13 +170,10 @@ export function SceneView({
           </div>
         </div>
 
-        {/* Spacer cuando hay imagen — empuja navegación al fondo */}
-        {hasImage && <div className="flex-1" />}
-
         {/* Destinos de viaje */}
         <div className={cn(
           'px-3 py-2',
-          hasImage ? 'bg-black/50 backdrop-blur-sm' : 'flex-1 overflow-auto'
+          'flex-1 overflow-auto'
         )}>
           <div className="flex items-center gap-2 mb-2">
             <Compass className="w-3.5 h-3.5 text-gold drop-shadow-md" />
@@ -259,9 +211,7 @@ export function SceneView({
                       'flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-left transition-all',
                       'border',
                       canTravel
-                        ? hasImage
-                          ? 'border-parchment/20 hover:border-gold bg-black/30 hover:bg-black/50 backdrop-blur-sm cursor-pointer'
-                          : 'border-gold-dim/30 hover:border-gold bg-shadow/30 hover:bg-shadow-mid cursor-pointer'
+                        ? 'border-gold-dim/30 hover:border-gold bg-shadow/30 hover:bg-shadow-mid cursor-pointer'
                         : 'border-gold-dim/10 bg-shadow/10 cursor-not-allowed opacity-50'
                     )}
                   >
@@ -289,7 +239,7 @@ export function SceneView({
         {/* Footer con botones de acción */}
         <div className={cn(
           'flex items-center gap-2 px-3 py-2',
-          hasImage ? 'bg-black/50 backdrop-blur-sm' : 'border-t border-gold-dim/20 bg-shadow'
+          'border-t border-gold-dim/20 bg-shadow'
         )}>
           {canExploreInterior && (
             <button
@@ -310,9 +260,7 @@ export function SceneView({
             onClick={onShowWorldMap}
             className={cn(
               'flex items-center justify-center gap-1.5 px-3 py-1.5 rounded font-heading text-xs transition-all',
-              hasImage
-                ? 'bg-black/40 hover:bg-black/60 border border-parchment/20 hover:border-gold text-parchment backdrop-blur-sm'
-                : 'bg-shadow-mid hover:bg-shadow border border-gold-dim/30 hover:border-gold text-parchment',
+              'bg-shadow-mid hover:bg-shadow border border-gold-dim/30 hover:border-gold text-parchment',
               canExploreInterior ? '' : 'flex-1'
             )}
           >
