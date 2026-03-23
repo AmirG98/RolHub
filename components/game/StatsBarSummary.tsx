@@ -94,9 +94,9 @@ export function StatsBarSummary({
           {/* Name & Archetype */}
           <div className="flex items-baseline gap-2">
             <h3 className="font-heading text-lg text-gold-bright truncate">{name}</h3>
-            <span className="text-xs text-gold-dim font-ui">Nv.{level}</span>
+            <span className="text-xs text-gold font-ui">Nv.{level}</span>
           </div>
-          <p className="text-xs text-parchment/60 truncate">{archetype}</p>
+          <p className="text-xs text-parchment/80 truncate">{archetype}</p>
 
           {/* HP Row */}
           <div className="flex items-center gap-2 mt-1">
@@ -125,7 +125,7 @@ export function StatsBarSummary({
               const mod = calculateModifier(score)
               return (
                 <div key={ability} className="text-center">
-                  <span className="text-[10px] font-ui text-gold-dim block">{ability}</span>
+                  <span className="text-[10px] font-ui text-gold block">{ability}</span>
                   <span className="text-sm font-heading text-parchment block">{score}</span>
                   <span className={cn(
                     "text-[10px] font-mono",
@@ -170,7 +170,7 @@ export function StatsBarSummary({
               const mod = calculateModifier(score)
               return (
                 <div key={ability} className="text-center">
-                  <span className="text-[9px] font-ui text-gold-dim block">{ability}</span>
+                  <span className="text-[9px] font-ui text-gold block">{ability}</span>
                   <span className="text-xs font-heading text-parchment block">{score}</span>
                   <span className={cn(
                     "text-[9px] font-mono",
@@ -251,9 +251,9 @@ export function StoryModeStatsBar({
         <div className="flex-1 min-w-0">
           <div className="flex items-baseline gap-2">
             <h3 className="font-heading text-lg text-gold-bright truncate">{name}</h3>
-            <span className="text-xs text-gold-dim font-ui">Nv.{level}</span>
+            <span className="text-xs text-gold font-ui">Nv.{level}</span>
           </div>
-          <p className="text-xs text-parchment/60 truncate">{archetype}</p>
+          <p className="text-xs text-parchment/80 truncate">{archetype}</p>
 
           {/* HP Row */}
           <div className="flex items-center gap-2 mt-1">
@@ -266,7 +266,7 @@ export function StoryModeStatsBar({
         <div className="hidden sm:grid grid-cols-4 gap-2">
           {stats.map((stat) => (
             <div key={stat.label} className="text-center">
-              <span className="text-[10px] font-ui text-gold-dim block">{stat.label}</span>
+              <span className="text-[10px] font-ui text-gold block">{stat.label}</span>
               <span className={cn("text-lg font-heading", stat.color)}>{stat.value}</span>
             </div>
           ))}
@@ -300,7 +300,7 @@ export function StoryModeStatsBar({
           <div className="grid grid-cols-4 gap-2 bg-shadow/30 rounded-lg p-2 border border-gold-dim/20">
             {stats.map((stat) => (
               <div key={stat.label} className="text-center">
-                <span className="text-[9px] font-ui text-gold-dim block">{stat.label}</span>
+                <span className="text-[9px] font-ui text-gold block">{stat.label}</span>
                 <span className={cn("text-base font-heading", stat.color)}>{stat.value}</span>
               </div>
             ))}

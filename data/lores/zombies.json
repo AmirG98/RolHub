@@ -271,7 +271,12 @@
         "Vendas y gasas",
         "Linterna de mano",
         "Manual de primeros auxilios",
-        "Adrenalina (1 dosis de emergencia)"
+        "Adrenalina (1 dosis de emergencia)",
+        "Mochila resistente",
+        "Botella de agua reutilizable",
+        "Barras energéticas (3 días)",
+        "Encendedor",
+        "Cuerda de nylon (15m)"
       ],
       "special_ability": "Primeros Auxilios Expertos: Podés estabilizar heridas graves y curar el doble con suministros médicos. Podés retrasar la infección por mordida 1d6 horas extra",
       "advancement_paths": [
@@ -302,7 +307,12 @@
         "Cuchillo de combate Ka-Bar",
         "Brújula y mapa topográfico",
         "Cantimplora militar",
-        "MRE (3 raciones)"
+        "MRE (3 raciones)",
+        "Mochila resistente",
+        "Linterna con baterías de repuesto",
+        "Cinta adhesiva",
+        "Cuerda de nylon (15m)",
+        "Encendedor"
       ],
       "special_ability": "Tácticas de Combate: Podés planear emboscadas perfectas y tu daño es crítico contra grupos. En combate, siempre actuás primero",
       "advancement_paths": [
@@ -333,7 +343,12 @@
         "Cuerda de escalada (50ft)",
         "Comida enlatada (5 latas)",
         "Walkie-talkie (sin baterías)",
-        "Navaja multiusos"
+        "Navaja multiusos",
+        "Linterna con baterías de repuesto",
+        "Botella de agua reutilizable",
+        "Encendedor",
+        "Cinta adhesiva",
+        "Botiquín básico de primeros auxilios"
       ],
       "special_ability": "Buscador Nato: Siempre encontrás recursos extra cuando saqueas. Podés abrir cualquier cerradura y detectar trampas antes de activarlas",
       "advancement_paths": [
@@ -364,7 +379,12 @@
         "Cinta americana y WD-40",
         "Radio de auto modificada",
         "Guantes de trabajo",
-        "Manual de reparación de autos"
+        "Manual de reparación de autos",
+        "Mochila resistente",
+        "Linterna con baterías de repuesto",
+        "Botella de agua reutilizable",
+        "Barras energéticas (3 días)",
+        "Encendedor"
       ],
       "special_ability": "Ingeniero Improvizado: Podés reparar cualquier vehículo o máquina con los materiales disponibles. Podés crear armas y herramientas improvisadas",
       "advancement_paths": [
@@ -395,7 +415,12 @@
         "Tienda de campaña compacta",
         "Kit de supervivencia",
         "Carne seca (5 raciones)",
-        "Poncho impermeable"
+        "Poncho impermeable",
+        "Botella de agua reutilizable",
+        "Cuerda de nylon (15m)",
+        "Encendedor",
+        "Linterna con baterías de repuesto",
+        "Botiquín básico de primeros auxilios"
       ],
       "special_ability": "Cazador Silencioso: Tus ataques con arco no atraen zombies. Podés rastrear cualquier cosa y siempre sabés dónde está el norte",
       "advancement_paths": [
@@ -426,7 +451,12 @@
         "Radio de largo alcance",
         "Mapa de la región con notas",
         "Raciones extra (para compartir)",
-        "Botiquín básico"
+        "Botiquín básico",
+        "Mochila resistente",
+        "Linterna con baterías de repuesto",
+        "Botella de agua reutilizable",
+        "Cuerda de nylon (15m)",
+        "Encendedor"
       ],
       "special_ability": "Inspiración: Podés dar bonificaciones a los aliados con tus palabras. Una vez por sesión, podés convencer a un NPC hostil de escucharte",
       "advancement_paths": [

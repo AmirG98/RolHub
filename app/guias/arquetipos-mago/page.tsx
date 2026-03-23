@@ -234,7 +234,7 @@ export default function ArquetiposMagoPage() {
                 <span className="font-ui text-xs text-emerald">Debilidad narrativa:</span>
                 <p className="font-body text-ink text-sm">{arch.weakness}</p>
               </div>
-              <p className="font-ui text-xs text-gold-dim">Ejemplos: {arch.examples.join(', ')}</p>
+              <p className="font-ui text-xs text-gold">Ejemplos: {arch.examples.join(', ')}</p>
             </ParchmentPanel>
           ))}
         </div>
@@ -249,7 +249,7 @@ export default function ArquetiposMagoPage() {
             <ParchmentPanel key={flavor.flavor} className="p-4 border border-gold-dim/50">
               <h4 className="font-heading text-ink mb-1">{flavor.flavor}</h4>
               <p className="font-body text-ink text-sm mb-1">{flavor.desc}</p>
-              <p className="font-ui text-xs text-gold-dim">Feel: {flavor.feel}</p>
+              <p className="font-ui text-xs text-gold">Feel: {flavor.feel}</p>
             </ParchmentPanel>
           ))}
         </div>
@@ -264,7 +264,7 @@ export default function ArquetiposMagoPage() {
             <ParchmentPanel key={rel.with} className="p-4 border border-gold-dim/50">
               <h4 className="font-heading text-ink mb-1">Con {rel.with}</h4>
               <p className="font-body text-ink text-sm mb-1 italic">"{rel.question}"</p>
-              <p className="font-ui text-xs text-gold-dim">Conflicto: {rel.conflict}</p>
+              <p className="font-ui text-xs text-gold">Conflicto: {rel.conflict}</p>
             </ParchmentPanel>
           ))}
         </div>

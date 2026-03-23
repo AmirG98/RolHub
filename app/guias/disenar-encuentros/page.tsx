@@ -130,7 +130,7 @@ export default function DisenarEncuentrosPage() {
                 <div>
                   <h3 className="font-heading text-xl text-ink mb-2">{type.type}</h3>
                   <p className="font-body text-ink mb-2">{type.desc}</p>
-                  <p className="font-ui text-sm text-gold-dim mb-3">Cuando usar: {type.when}</p>
+                  <p className="font-ui text-sm text-gold mb-3">Cuando usar: {type.when}</p>
                   <ul className="font-body text-ink text-sm space-y-1">
                     {type.tips.map((tip, i) => (
                       <li key={i}>• {tip}</li>
@@ -185,7 +185,7 @@ export default function DisenarEncuentrosPage() {
                 <div>
                   <div className="flex items-center gap-2 mb-1">
                     <h4 className="font-heading text-ink">{p.phase}</h4>
-                    <span className="text-xs font-ui text-gold-dim">{p.time}</span>
+                    <span className="text-xs font-ui text-gold">{p.time}</span>
                   </div>
                   <p className="font-body text-ink text-sm">{p.desc}</p>
                 </div>

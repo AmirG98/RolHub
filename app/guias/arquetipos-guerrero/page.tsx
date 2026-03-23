@@ -209,7 +209,7 @@ export default function ArquetiposGuerreroPage() {
                 <span className="font-ui text-xs text-blood">Debilidad narrativa:</span>
                 <p className="font-body text-ink text-sm">{arch.weakness}</p>
               </div>
-              <p className="font-ui text-xs text-gold-dim">Ejemplos: {arch.examples.join(', ')}</p>
+              <p className="font-ui text-xs text-gold">Ejemplos: {arch.examples.join(', ')}</p>
             </ParchmentPanel>
           ))}
         </div>
@@ -224,8 +224,8 @@ export default function ArquetiposGuerreroPage() {
             <ParchmentPanel key={style.style} className="p-4 border border-gold-dim/50">
               <h4 className="font-heading text-ink mb-1">{style.style}</h4>
               <p className="font-body text-ink text-sm mb-1">{style.approach}</p>
-              <p className="font-ui text-xs text-gold-dim">Mecanicas: {style.mechanics}</p>
-              <p className="font-ui text-xs text-gold-dim">Rol en equipo: {style.teamRole}</p>
+              <p className="font-ui text-xs text-gold">Mecanicas: {style.mechanics}</p>
+              <p className="font-ui text-xs text-gold">Rol en equipo: {style.teamRole}</p>
             </ParchmentPanel>
           ))}
         </div>
@@ -240,7 +240,7 @@ export default function ArquetiposGuerreroPage() {
             <ParchmentPanel key={hook.hook} className="p-4 border border-gold-dim/50">
               <h4 className="font-heading text-ink mb-1">{hook.hook}</h4>
               <p className="font-body text-ink text-sm mb-1 italic">"{hook.prompt}"</p>
-              <p className="font-ui text-xs text-gold-dim">Conflicto potencial: {hook.conflict}</p>
+              <p className="font-ui text-xs text-gold">Conflicto potencial: {hook.conflict}</p>
             </ParchmentPanel>
           ))}
         </div>

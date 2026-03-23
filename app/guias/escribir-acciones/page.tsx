@@ -199,7 +199,7 @@ export default function EscribirAccionesPage() {
                 <div className="p-3 bg-gold/10 rounded-lg border-l-4 border-gold-dim">
                   <div className="flex items-center gap-2 mb-1">
                     <CheckCircle className="h-4 w-4 text-gold-dim" />
-                    <span className="font-heading text-gold-dim text-sm">Bueno</span>
+                    <span className="font-heading text-gold text-sm">Bueno</span>
                   </div>
                   <p className="font-body text-ink italic">"{ex.good}"</p>
                 </div>
@@ -233,7 +233,7 @@ export default function EscribirAccionesPage() {
               <h3 className="font-heading text-ink mb-2">{tech.title}</h3>
               <p className="font-body text-ink mb-3">{tech.description}</p>
               <div className="p-3 bg-gold/10 rounded-lg">
-                <span className="font-ui text-sm text-gold-dim">Ejemplo:</span>
+                <span className="font-ui text-sm text-gold">Ejemplo:</span>
                 <p className="font-body text-ink italic">{tech.example}</p>
               </div>
             </ParchmentPanel>

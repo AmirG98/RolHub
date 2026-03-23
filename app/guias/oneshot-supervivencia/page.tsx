@@ -242,7 +242,7 @@ export default function OneshotSupervivenciaPage() {
                 <div>
                   <h3 className="font-heading text-ink mb-1">{pillar.pillar}</h3>
                   <p className="font-body text-ink text-sm mb-1">{pillar.desc}</p>
-                  <p className="font-ui text-xs text-gold-dim">Mecanica: {pillar.mechanic}</p>
+                  <p className="font-ui text-xs text-gold">Mecanica: {pillar.mechanic}</p>
                 </div>
               </div>
             </ParchmentPanel>
@@ -267,7 +267,7 @@ export default function OneshotSupervivenciaPage() {
                     <span className="font-mono text-xs text-gold bg-gold/10 px-2 py-1 rounded">{phase.time}</span>
                   </div>
                   <p className="font-body text-ink text-sm mb-1">{phase.desc}</p>
-                  <p className="font-ui text-xs text-gold-dim">Clave: {phase.key}</p>
+                  <p className="font-ui text-xs text-gold">Clave: {phase.key}</p>
                 </div>
               </div>
             ))}
@@ -285,7 +285,7 @@ export default function OneshotSupervivenciaPage() {
               <h4 className="font-heading text-ink mb-1">{res.resource}</h4>
               <div className="grid md:grid-cols-2 gap-2 text-sm">
                 <div className="p-2 bg-gold/10 rounded">
-                  <span className="font-ui text-xs text-gold-dim">Trackear</span>
+                  <span className="font-ui text-xs text-gold">Trackear</span>
                   <p className="font-body text-ink">{res.track}</p>
                 </div>
                 <div className="p-2 bg-blood/10 rounded">
@@ -308,7 +308,7 @@ export default function OneshotSupervivenciaPage() {
               <h3 className="font-heading text-ink mb-2">{scenario.scenario}</h3>
               <p className="font-body text-ink text-sm mb-1"><strong>Setup:</strong> {scenario.setup}</p>
               <p className="font-body text-ink text-sm mb-1"><strong>Amenaza:</strong> {scenario.amenaza}</p>
-              <p className="font-ui text-xs text-gold-dim"><strong>Recursos clave:</strong> {scenario.recursos}</p>
+              <p className="font-ui text-xs text-gold"><strong>Recursos clave:</strong> {scenario.recursos}</p>
             </ParchmentPanel>
           ))}
         </div>
@@ -323,7 +323,7 @@ export default function OneshotSupervivenciaPage() {
             <ParchmentPanel key={mech.mechanic} className="p-4 border border-gold-dim/50">
               <h4 className="font-heading text-ink mb-1">{mech.mechanic}</h4>
               <p className="font-body text-ink text-sm mb-2">{mech.desc}</p>
-              <p className="font-ui text-xs text-gold-dim">Uso: {mech.use}</p>
+              <p className="font-ui text-xs text-gold">Uso: {mech.use}</p>
             </ParchmentPanel>
           ))}
         </div>

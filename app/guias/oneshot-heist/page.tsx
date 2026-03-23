@@ -218,7 +218,7 @@ export default function OneshotHeistPage() {
                     <span className="font-mono text-xs text-gold bg-gold/10 px-2 py-1 rounded">{phase.time}</span>
                   </div>
                   <p className="font-body text-ink text-sm mb-1">{phase.desc}</p>
-                  <p className="font-ui text-xs text-gold-dim">Clave: {phase.key}</p>
+                  <p className="font-ui text-xs text-gold">Clave: {phase.key}</p>
                 </div>
               </div>
             ))}
@@ -235,7 +235,7 @@ export default function OneshotHeistPage() {
             <ParchmentPanel key={role.role} className="p-5 border border-gold-dim">
               <h3 className="font-heading text-ink mb-2">{role.role}</h3>
               <p className="font-body text-ink text-sm mb-2">{role.desc}</p>
-              <p className="font-ui text-xs text-gold-dim">Su momento: {role.moment}</p>
+              <p className="font-ui text-xs text-gold">Su momento: {role.moment}</p>
             </ParchmentPanel>
           ))}
         </div>
@@ -250,7 +250,7 @@ export default function OneshotHeistPage() {
             <ParchmentPanel key={obj.type} className="p-4 border border-gold-dim/50">
               <h4 className="font-heading text-ink mb-1">{obj.type}</h4>
               <p className="font-body text-ink text-sm mb-1">{obj.desc}</p>
-              <p className="font-ui text-xs text-gold-dim">Seguridad: {obj.security}</p>
+              <p className="font-ui text-xs text-gold">Seguridad: {obj.security}</p>
             </ParchmentPanel>
           ))}
         </div>

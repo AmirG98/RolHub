@@ -31,7 +31,7 @@
       "description": "Académico que busca conocimiento peligroso",
       "simple_description": "Tu intelecto es tu arma. Traducís lenguas muertas. Cada libro te acerca más a la verdad... y a la locura.",
       "starting_stats": {"hp": 12, "maxHp": 12, "combat": 1, "exploration": 3, "social": 3, "lore": 7, "sanity": 60, "maxSanity": 100},
-      "starting_inventory": ["Ejemplar del Necronomicón (peligroso)", "Lupa", "Diario de investigación", "Contactos académicos", "Linterna"],
+      "starting_inventory": ["Ejemplar del Necronomicón (peligroso)", "Lupa", "Diario de investigación", "Contactos académicos", "Linterna", "Maletín de cuero", "Provisiones enlatadas (3 días)", "Cantimplora de latón", "Cuerda resistente (15m)", "Cerillas y encendedor", "Botiquín de primeros auxilios", "Billetera con 25 dólares"],
       "special_ability": "Erudición Oscura: Podés leer textos prohibidos. Cada lectura te da +1 Lore pero -10 Sanity"
     },
     {
@@ -40,7 +40,7 @@
       "description": "Investigador que siguió el caso equivocado",
       "simple_description": "Sabés seguir pistas. Tu instinto te mantiene vivo. Has visto cosas que no deberías.",
       "starting_stats": {"hp": 16, "maxHp": 16, "combat": 3, "exploration": 5, "social": 4, "lore": 2, "sanity": 70, "maxSanity": 100},
-      "starting_inventory": ["Revólver .38", "Insignia de detective", "Notas del caso", "Contacto en la policía", "Cámara"],
+      "starting_inventory": ["Revólver .38", "Insignia de detective", "Notas del caso", "Contacto en la policía", "Cámara", "Maletín de cuero", "Provisiones enlatadas (3 días)", "Cantimplora de latón", "Cuerda resistente (15m)", "Linterna de mano con pilas", "Cerillas y encendedor", "Billetera con 25 dólares"],
       "special_ability": "Olfato para el Peligro: Detectás emboscadas y trampas. Primer ataque sorpresa siempre falla contra vos"
     },
     {
@@ -49,7 +49,7 @@
       "description": "Practicante de artes místicas - conocés rituales",
       "simple_description": "Podés realizar rituales antiguos. Entendés símbolos que otros no ven. La magia tiene precio.",
       "starting_stats": {"hp": 14, "maxHp": 14, "combat": 2, "exploration": 3, "social": 3, "lore": 6, "sanity": 50, "maxSanity": 100},
-      "starting_inventory": ["Grimorio personal", "Velas rituales", "Sangre de cordero", "Amuleto protector", "Tiza para círculos"],
+      "starting_inventory": ["Grimorio personal", "Velas rituales", "Sangre de cordero", "Amuleto protector", "Tiza para círculos", "Maletín de cuero", "Provisiones enlatadas (3 días)", "Cantimplora de latón", "Cuerda resistente (15m)", "Linterna de mano con pilas", "Botiquín de primeros auxilios", "Billetera con 25 dólares"],
       "special_ability": "Magia Ritual: Podés lanzar hechizos prohibidos. Cada hechizo cuesta Sanity pero puede salvar vidas"
     }
   ],

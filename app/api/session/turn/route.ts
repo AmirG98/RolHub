@@ -552,7 +552,7 @@ WHEN NOT to generate images:
 
 Include in your response when appropriate:
 - "generate_image": true (only when an image should be generated)
-- "image_prompt": "Brief visual description of the scene in 1-2 sentences. Focus on atmosphere, lighting, key elements."
+- "image_prompt": "Detailed visual description in 2-3 sentences. MUST include: (1) specific environment, lighting and atmosphere, (2) exact number of characters visible and their appearance (race, gender, clothing, weapons held), (3) the key action or emotional mood. Reference the player character's established appearance. Specify ONLY characters actually present — do not add extra people. Example: 'A hooded human ranger with dark hair draws his longbow in a misty forest clearing at dawn, a single goblin emerging from shadows between ancient oaks. Golden light filters through the canopy.'"
 
 Also include mood hints for UI styling:
 - "mood_hint": "exploration" (calm, exploring) | "combat" (tense, dangerous) | "dialogue" (intimate, conversation) | "dramatic" (epic, revelatory)
@@ -637,7 +637,7 @@ CUÁNDO NO generar imágenes:
 
 Incluir en tu respuesta cuando sea apropiado:
 - "generate_image": true (solo cuando deba generarse una imagen)
-- "image_prompt": "Breve descripción visual de la escena en 1-2 oraciones. Enfócate en atmósfera, iluminación, elementos clave."
+- "image_prompt": "Descripción visual detallada en 2-3 oraciones. DEBE incluir: (1) ambiente específico, iluminación y atmósfera, (2) número exacto de personajes visibles y su apariencia (raza, género, vestimenta, armas que portan), (3) la acción clave o mood emocional. Referir la apariencia establecida del personaje jugador. Especificar SOLO los personajes realmente presentes — no agregar personas extra. Ejemplo: 'Un montaraz humano encapuchado de cabello oscuro tensa su arco largo en un claro del bosque al amanecer, un único goblin emerge de las sombras entre robles ancestrales. Luz dorada se filtra por el dosel.'"
 
 También incluye hints de mood para estilización de UI:
 - "mood_hint": "exploration" (calmo) | "combat" (tenso) | "dialogue" (íntimo) | "dramatic" (épico)
@@ -791,7 +791,30 @@ INCORRECTO (se leerá como narrador):
 - El NPC habla sin formato claro
 
 Ejemplo:
-"El bosque se cierra a tu alrededor. Gandalf: «No temas, joven hobbit... el camino aún está por delante.» Sus palabras resuenan con antigua sabiduría."`}`
+"El bosque se cierra a tu alrededor. Gandalf: «No temas, joven hobbit... el camino aún está por delante.» Sus palabras resuenan con antigua sabiduría."`}
+
+${isEnglish ? 'ANTI-REDUNDANCY RULES' : 'REGLAS ANTI-REDUNDANCIA'}:
+- ${isEnglish
+  ? 'NEVER repeat a scene description you already gave. If the player stays in the same location, describe new details, NPC reactions, or time passing — not the same scenery.'
+  : 'NUNCA repitas una descripción de escena que ya diste. Si el jugador sigue en el mismo lugar, describe nuevos detalles, reacciones de NPCs o paso del tiempo — no el mismo escenario.'}
+- ${isEnglish
+  ? 'If the player repeats the same action, vary your response significantly: show different consequences, NPC reactions, or escalating outcomes. The third time they repeat something, have the world react (NPC gets annoyed, guard becomes suspicious, enemy adapts).'
+  : 'Si el jugador repite la misma acción, varía tu respuesta significativamente: muestra consecuencias diferentes, reacciones de NPCs o resultados que escalen. A la tercera repetición, haz que el mundo reaccione (NPC se irrita, guardia sospecha, enemigo se adapta).'}
+- ${isEnglish
+  ? 'NEVER suggest the same actions you suggested in the previous turn. Always offer fresh options that advance the plot.'
+  : 'NUNCA sugieras las mismas acciones que sugeriste en el turno anterior. Siempre ofrece opciones frescas que avancen la trama.'}
+- ${isEnglish
+  ? 'If the player input is nonsensical, gibberish, or completely off-topic, redirect them narratively without breaking the fourth wall. Present 3 clear action options to get them back on track.'
+  : 'Si el input del jugador es sin sentido, incoherente o completamente fuera de tema, redirigilo narrativamente sin romper la cuarta pared. Presenta 3 opciones claras de acción para reencauzarlo.'}
+- ${isEnglish
+  ? 'Advance the plot even when the player stalls. After 2 turns of inaction or repetition, introduce a world event: an NPC approaches, weather changes, a sound is heard, or a quest-related development occurs.'
+  : 'Avanza la trama incluso cuando el jugador se estanca. Después de 2 turnos de inacción o repetición, introduce un evento del mundo: un NPC se acerca, el clima cambia, se escucha un sonido o ocurre un desarrollo relacionado a una quest.'}
+
+${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
+- ${isEnglish
+  ? 'When introducing a new NPC, always use gendered pronouns or descriptors clearly (he/she, the woman/the man, the old lady/the old man). This is critical for the voice system to assign the correct voice gender.'
+  : 'Al introducir un NPC nuevo, siempre usa pronombres o descriptores de género claros (él/ella, la mujer/el hombre, la anciana/el anciano). Esto es crítico para que el sistema de voz asigne el género de voz correcto.'}
+`
 
     const response = await anthropic.messages.create({
       model: 'claude-sonnet-4-20250514',

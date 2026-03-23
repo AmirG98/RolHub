@@ -161,7 +161,7 @@ export default function SeguridadJuegoPage() {
                   <div className="p-3 bg-gold/10 rounded mb-2">
                     <p className="font-ui text-sm text-ink"><strong>Ejemplo:</strong> {tool.example}</p>
                   </div>
-                  <p className="font-ui text-xs text-gold-dim">Como funciona: {tool.howTo}</p>
+                  <p className="font-ui text-xs text-gold">Como funciona: {tool.howTo}</p>
                 </div>
               </div>
             </ParchmentPanel>

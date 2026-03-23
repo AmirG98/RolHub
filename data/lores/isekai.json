@@ -320,7 +320,13 @@
         "Piedra de Traducción (entiendes todos los idiomas)",
         "Mochila Dimensional (50 slots de inventario)",
         "Manual del Héroe (explica el Sistema)",
-        "1000 monedas de oro (regalo del reino)"
+        "1000 monedas de oro (regalo del reino)",
+        "Cantimplora mágica",
+        "Raciones de viaje (3 días)",
+        "Saco de dormir ligero",
+        "Piedra de luz (iluminación mágica)",
+        "Poción de curación menor",
+        "Cuerda resistente (15m)"
       ],
       "special_ability": "Vista del Sistema: Ves estadísticas de personas, monstruos y objetos. Creces 10 veces más rápido que los nativos. Puedes 'guardar' antes de momentos peligrosos (1 vez por día).",
       "advancement_paths": [
@@ -352,7 +358,12 @@
         "Balanza de Precisión mágica",
         "Muestras de productos únicos de la Tierra (ideas)",
         "Contrato en blanco mágico (se auto-ejecuta)",
-        "Daga oculta (por si acaso)"
+        "Daga oculta (por si acaso)",
+        "Cantimplora mágica",
+        "Raciones de viaje (3 días)",
+        "Saco de dormir ligero",
+        "Piedra de luz (iluminación mágica)",
+        "Cuerda resistente (15m)"
       ],
       "special_ability": "Ingenio Terrenal: Puedes crear 'inventos' basados en conocimientos de la Tierra. Los NPCs pagan 50% más por tus productos. Detectas valor oculto en objetos que otros ignoran.",
       "advancement_paths": [
@@ -384,7 +395,12 @@
         "Pociones de Mana x10",
         "Libro de Hechizos Básicos (10 hechizos iniciales)",
         "Cristal de Comunicación (contacto con la Academia)",
-        "500 monedas de oro"
+        "500 monedas de oro",
+        "Mochila de aventurero",
+        "Cantimplora mágica",
+        "Raciones de viaje (3 días)",
+        "Saco de dormir ligero",
+        "Poción de curación menor"
       ],
       "special_ability": "Aprendizaje Infinito: Puedes copiar cualquier magia que veas al Grimorio. Mana se regenera el doble de rápido. Sin límite de elementos mágicos.",
       "advancement_paths": [
@@ -416,7 +432,12 @@
         "Manual de Monstruos (información de especies)",
         "Comida especial para monstruos x20",
         "Armadura ligera de explorador",
-        "300 monedas de oro"
+        "300 monedas de oro",
+        "Mochila de aventurero",
+        "Cantimplora mágica",
+        "Raciones de viaje (3 días)",
+        "Saco de dormir ligero",
+        "Cuerda resistente (15m)"
       ],
       "special_ability": "Corazón de Bestia: Puedes domesticar cualquier monstruo si reduces su HP sin matarlo. Máximo 6 monstruos activos, infinitos en reserva. Los monstruos te obedecen y crecen contigo.",
       "advancement_paths": [
@@ -448,7 +469,11 @@
         "Red de contactos (preparada durante años)",
         "Base secreta (ubicación oculta)",
         "3000 monedas de oro (ahorros)",
-        "Plan detallado para 'arreglar este mundo'"
+        "Plan detallado para 'arreglar este mundo'",
+        "Cantimplora mágica",
+        "Raciones de viaje (3 días)",
+        "Piedra de luz (iluminación mágica)",
+        "Poción de curación menor"
       ],
       "special_ability": "18 Años de Preparación: Tienes contactos, bases, equipo y planes. Puedes declarar 'Ya lo había previsto' una vez por sesión para revelar una preparación conveniente.",
       "advancement_paths": [
@@ -480,7 +505,12 @@
         "Incienso de Resurreción x3",
         "Kit de primeros auxilios mágico",
         "Contrato de Party (beneficios legales)",
-        "800 monedas de oro"
+        "800 monedas de oro",
+        "Mochila de aventurero",
+        "Cantimplora mágica",
+        "Raciones de viaje (3 días)",
+        "Saco de dormir ligero",
+        "Piedra de luz (iluminación mágica)"
       ],
       "special_ability": "Apoyo Absoluto: Curación y buffs no tienen límite de uso. Puedes revivir a alguien que murió en los últimos 10 minutos (1 vez por día). No puedes hacer daño directo.",
       "advancement_paths": [

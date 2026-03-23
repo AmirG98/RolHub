@@ -249,7 +249,7 @@ export default function EntenderDadosPage() {
             <ParchmentPanel key={m.type} className="p-4 border border-gold-dim/50">
               <h4 className="font-heading text-ink mb-2">{m.type}</h4>
               <p className="font-body text-ink text-sm mb-2">{m.effect}</p>
-              <p className="font-ui text-xs text-gold-dim">Cuando: {m.when}</p>
+              <p className="font-ui text-xs text-gold">Cuando: {m.when}</p>
             </ParchmentPanel>
           ))}
         </div>

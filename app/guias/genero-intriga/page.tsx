@@ -172,7 +172,7 @@ export default function GeneroIntrigaPage() {
                 <div>
                   <h3 className="font-heading text-ink mb-1">{elem.element}</h3>
                   <p className="font-body text-ink text-sm mb-2">{elem.desc}</p>
-                  <p className="font-ui text-xs text-gold-dim">Tip: {elem.tip}</p>
+                  <p className="font-ui text-xs text-gold">Tip: {elem.tip}</p>
                 </div>
               </div>
             </ParchmentPanel>
@@ -208,7 +208,7 @@ export default function GeneroIntrigaPage() {
             <ParchmentPanel key={role.role} className="p-5 border border-gold-dim">
               <h3 className="font-heading text-lg text-ink mb-2">{role.role}</h3>
               <p className="font-body text-ink text-sm mb-2">{role.desc}</p>
-              <p className="font-ui text-xs text-gold-dim">Dinamica: {role.dynamics}</p>
+              <p className="font-ui text-xs text-gold">Dinamica: {role.dynamics}</p>
             </ParchmentPanel>
           ))}
         </div>

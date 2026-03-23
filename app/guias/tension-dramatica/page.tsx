@@ -187,7 +187,7 @@ export default function TensionDramaticaPage() {
                   <h3 className="font-heading text-xl text-ink mb-2">{principle.title}</h3>
                   <p className="font-body text-ink mb-3">{principle.description}</p>
                   <div className="p-3 bg-gold/10 rounded mb-3">
-                    <span className="font-ui text-sm text-gold-dim">Ejemplo:</span>
+                    <span className="font-ui text-sm text-gold">Ejemplo:</span>
                     <p className="font-body text-ink italic">{principle.example}</p>
                   </div>
                   <p className="font-ui text-sm text-ink">

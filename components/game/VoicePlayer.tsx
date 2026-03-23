@@ -175,7 +175,7 @@ export function VoicePlayer({
 
   if (error) {
     return (
-      <div className={`flex items-center gap-2 text-blood/70 ${className}`}>
+      <div className={`flex items-center gap-2 text-red-400/70 ${className}`}>
         <VolumeX className="h-4 w-4" />
         <span className="font-ui text-xs">{labels.error}</span>
       </div>

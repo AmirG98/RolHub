@@ -268,7 +268,7 @@ export default function TablaSistemasPage() {
               <div className="flex items-center gap-3 mb-3">
                 <div className={`w-3 h-3 rounded-full ${sys.color}`}></div>
                 <h3 className="font-heading text-lg text-ink">{sys.name}</h3>
-                <span className="font-ui text-xs text-gold-dim ml-auto">{sys.complexity}</span>
+                <span className="font-ui text-xs text-gold ml-auto">{sys.complexity}</span>
               </div>
               <div className="space-y-1 text-sm">
                 <p className="font-body text-ink"><strong>Dados:</strong> {sys.dice}</p>
@@ -277,7 +277,7 @@ export default function TablaSistemasPage() {
                 <p className="font-body text-ink"><strong>Muerte:</strong> {sys.death}</p>
               </div>
               <div className="mt-3 p-2 bg-gold/5 rounded">
-                <p className="font-ui text-xs text-gold-dim">Vibe: {sys.vibe}</p>
+                <p className="font-ui text-xs text-gold">Vibe: {sys.vibe}</p>
               </div>
             </ParchmentPanel>
           ))}
@@ -366,7 +366,7 @@ export default function TablaSistemasPage() {
                   <span className="text-gold-dim hidden md:block">→</span>
                   <span className="font-heading text-gold text-sm">{pick.recommendation}</span>
                 </div>
-                <p className="font-body text-ink text-xs text-gold-dim">{pick.why}</p>
+                <p className="font-body text-ink text-xs text-gold">{pick.why}</p>
               </div>
             ))}
           </div>

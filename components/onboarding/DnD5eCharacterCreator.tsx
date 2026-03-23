@@ -341,7 +341,7 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
       <div className="max-w-5xl w-full content-wrapper pb-24 md:pb-8">
         {/* Progress bar */}
         <div className="mb-6">
-          <div className="flex justify-between text-xs font-ui text-gold-dim mb-2">
+          <div className="flex justify-between text-xs font-ui text-gold mb-2">
             {STEPS.map((step, i) => (
               <span
                 key={step}
@@ -388,7 +388,7 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
                       </div>
                       <div>
                         <h3 className="font-heading text-lg text-gold">{race.name}</h3>
-                        <p className="font-body text-xs text-parchment/60 line-clamp-2">
+                        <p className="font-body text-xs text-parchment/80 line-clamp-2">
                           {race.description}
                         </p>
                       </div>
@@ -413,7 +413,7 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
                         onClick={() => setSelectedSubraceId(subrace.id)}
                       >
                         <h4 className="font-heading text-sm text-gold">{subrace.name}</h4>
-                        <p className="text-xs text-parchment/60">{subrace.description}</p>
+                        <p className="text-xs text-parchment/80">{subrace.description}</p>
                       </div>
                     ))}
                   </div>
@@ -436,7 +436,7 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
                         onClick={() => setDraconicAncestry(ancestry.dragon)}
                       >
                         <div className="font-heading text-sm text-gold">{ancestry.dragon}</div>
-                        <div className="text-xs text-parchment/60">{ancestry.damageType}</div>
+                        <div className="text-xs text-parchment/80">{ancestry.damageType}</div>
                       </div>
                     ))}
                   </div>
@@ -449,19 +449,19 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
                   <h3 className="font-heading text-lg text-gold mb-2">{selectedRace.name}</h3>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-sm">
                     <div>
-                      <span className="text-gold-dim">Velocidad:</span>
+                      <span className="text-gold">Velocidad:</span>
                       <span className="text-parchment ml-2">{selectedRace.speed} pies</span>
                     </div>
                     <div>
-                      <span className="text-gold-dim">Tamaño:</span>
+                      <span className="text-gold">Tamaño:</span>
                       <span className="text-parchment ml-2">{selectedRace.size}</span>
                     </div>
                     <div>
-                      <span className="text-gold-dim">Idiomas:</span>
+                      <span className="text-gold">Idiomas:</span>
                       <span className="text-parchment ml-2">{selectedRace.languages.join(', ')}</span>
                     </div>
                     <div>
-                      <span className="text-gold-dim">Bonificadores:</span>
+                      <span className="text-gold">Bonificadores:</span>
                       <span className="text-parchment ml-2">
                         {Object.entries(selectedRace.abilityScoreIncrease)
                           .filter(([k]) => k !== 'choice')
@@ -472,7 +472,7 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
                   </div>
                   {selectedRace.traits.length > 0 && (
                     <div className="mt-3 pt-3 border-t border-gold-dim/30">
-                      <span className="text-gold-dim text-sm">Rasgos: </span>
+                      <span className="text-gold text-sm">Rasgos: </span>
                       <span className="text-parchment text-sm">
                         {selectedRace.traits.map(t => t.name).join(', ')}
                       </span>
@@ -500,7 +500,7 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
                         {CLASS_ICONS[cls.id] || <Sword className="h-10 w-10" />}
                       </div>
                       <h3 className="font-heading text-lg text-gold">{cls.name}</h3>
-                      <p className="font-body text-xs text-parchment/60 line-clamp-2">
+                      <p className="font-body text-xs text-parchment/80 line-clamp-2">
                         {cls.description}
                       </p>
                       <div className="text-xs text-emerald">
@@ -518,19 +518,19 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
                   <p className="text-sm text-parchment/80 mb-3">{selectedClass.description}</p>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-sm">
                     <div>
-                      <span className="text-gold-dim">Dado de golpe:</span>
+                      <span className="text-gold">Dado de golpe:</span>
                       <span className="text-parchment ml-2">{selectedClass.hitDie}</span>
                     </div>
                     <div>
-                      <span className="text-gold-dim">Habilidad principal:</span>
+                      <span className="text-gold">Habilidad principal:</span>
                       <span className="text-parchment ml-2">{selectedClass.primaryAbility.join(', ')}</span>
                     </div>
                     <div>
-                      <span className="text-gold-dim">Salvaciones:</span>
+                      <span className="text-gold">Salvaciones:</span>
                       <span className="text-parchment ml-2">{selectedClass.savingThrows.join(', ')}</span>
                     </div>
                     <div>
-                      <span className="text-gold-dim">Armaduras:</span>
+                      <span className="text-gold">Armaduras:</span>
                       <span className="text-parchment ml-2">
                         {selectedClass.armorProficiencies.length > 0
                           ? selectedClass.armorProficiencies.join(', ')
@@ -540,7 +540,7 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
                   </div>
                   {selectedClass.features['1'] && (
                     <div className="mt-3 pt-3 border-t border-gold-dim/30">
-                      <span className="text-gold-dim text-sm">Características nivel 1: </span>
+                      <span className="text-gold text-sm">Características nivel 1: </span>
                       <span className="text-parchment text-sm">
                         {selectedClass.features['1'].map(f => f.name).join(', ')}
                       </span>
@@ -593,7 +593,7 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
               {/* Standard Array */}
               {assignmentMethod === 'standard' && (
                 <div className="glass-panel-dark rounded-lg p-4">
-                  <p className="text-center text-sm text-parchment/60 mb-4">
+                  <p className="text-center text-sm text-parchment/80 mb-4">
                     Asigna los valores {STANDARD_ARRAY.join(', ')} a tus atributos
                   </p>
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
@@ -629,11 +629,11 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
               {assignmentMethod === 'pointbuy' && (
                 <div className="glass-panel-dark rounded-lg p-4">
                   <div className="text-center mb-4">
-                    <span className="text-gold-dim">Puntos restantes: </span>
+                    <span className="text-gold">Puntos restantes: </span>
                     <span className={`font-mono text-lg ${pointBuyRemaining < 0 ? 'text-blood' : 'text-emerald'}`}>
                       {pointBuyRemaining}
                     </span>
-                    <span className="text-parchment/60 text-sm"> / {POINT_BUY_TOTAL}</span>
+                    <span className="text-parchment/80 text-sm"> / {POINT_BUY_TOTAL}</span>
                   </div>
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                     {(['STR', 'DEX', 'CON', 'INT', 'WIS', 'CHA'] as AbilityScore[]).map((ability) => (
@@ -649,7 +649,7 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
                           </button>
                           <div className="w-12 text-center">
                             <div className="font-mono text-lg text-parchment">{abilityScores[ability]}</div>
-                            <div className="text-xs text-gold-dim">
+                            <div className="text-xs text-gold">
                               ({formatModifier(calculateModifier(abilityScores[ability]))})
                             </div>
                           </div>
@@ -672,7 +672,7 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
 
               {/* Racial bonuses preview */}
               {selectedRace && (
-                <div className="text-center text-sm text-parchment/60">
+                <div className="text-center text-sm text-parchment/80">
                   Bonificadores raciales de {selectedRace.name}:{' '}
                   <span className="text-emerald">
                     {Object.entries(selectedRace.abilityScoreIncrease)
@@ -704,10 +704,10 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
                     <div className="flex items-center justify-between">
                       <div>
                         <h3 className="font-heading text-lg text-gold">{option.name}</h3>
-                        <p className="text-sm text-parchment/60">{option.description}</p>
+                        <p className="text-sm text-parchment/80">{option.description}</p>
                       </div>
                       <div className="text-right text-sm">
-                        <div className="text-gold-dim">{goldText} oro</div>
+                        <div className="text-gold">{goldText} oro</div>
                         {magicInfo.count > 0 && (
                           <div className="text-emerald">{magicInfo.count} item(s) mágico(s)</div>
                         )}
@@ -727,7 +727,7 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
                   <Backpack className="h-6 w-6 text-gold" />
                   <div>
                     <h3 className="font-heading text-xl text-gold">Tu Equipamiento Inicial</h3>
-                    <p className="text-xs text-parchment/60">
+                    <p className="text-xs text-parchment/80">
                       Todo lo que llevarás al comenzar tu aventura
                     </p>
                   </div>
@@ -737,7 +737,7 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
                 {selectedClass?.startingEquipment.fixed && selectedClass.startingEquipment.fixed.length > 0 && (
                   <div className="mb-6">
                     <div className="flex items-center gap-2 mb-3 pb-2 border-b border-gold-dim/30">
-                      <span className="text-sm font-ui text-gold-dim">Equipo de {selectedClass.name}</span>
+                      <span className="text-sm font-ui text-gold">Equipo de {selectedClass.name}</span>
                     </div>
 
                     {/* Agrupar items por categoría y cantidad */}
@@ -801,7 +801,7 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
                 <div className="pt-4 border-t border-gold-dim/30">
                   <div className="flex items-center gap-2 mb-3">
                     <Coins className="h-4 w-4 text-gold" />
-                    <span className="text-sm font-ui text-gold-dim">Recursos de Nivel {selectedLevel}</span>
+                    <span className="text-sm font-ui text-gold">Recursos de Nivel {selectedLevel}</span>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -817,7 +817,7 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
                             return 'fixed' in goldInfo ? goldInfo.fixed : `${goldInfo.min}-${goldInfo.max}`
                           })()}
                         </div>
-                        <div className="text-xs text-parchment/60">Monedas de oro</div>
+                        <div className="text-xs text-parchment/80">Monedas de oro</div>
                       </div>
                     </div>
 
@@ -831,7 +831,7 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
                           <div className="text-lg font-heading text-purple-400">
                             {getMagicItemsAllowed(selectedLevel).count} Item{getMagicItemsAllowed(selectedLevel).count > 1 ? 's' : ''}
                           </div>
-                          <div className="text-xs text-parchment/60">
+                          <div className="text-xs text-parchment/80">
                             Mágico{getMagicItemsAllowed(selectedLevel).count > 1 ? 's' : ''} (hasta {getMagicItemsAllowed(selectedLevel).maxTier})
                           </div>
                         </div>
@@ -872,7 +872,7 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
                 />
 
                 {/* Descripción */}
-                <label className="block font-ui text-sm text-gold-dim mb-2">
+                <label className="block font-ui text-sm text-gold mb-2">
                   Describe a tu personaje
                   <span className="text-parchment/50 ml-1">(para generar su retrato)</span>
                 </label>
@@ -905,25 +905,25 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
                   <h3 className="font-heading text-lg text-gold mb-3 text-center">Resumen</h3>
                   <div className="grid grid-cols-2 gap-4 text-sm">
                     <div>
-                      <span className="text-gold-dim">Nombre:</span>
+                      <span className="text-gold">Nombre:</span>
                       <span className="text-parchment ml-2">{characterName}</span>
                     </div>
                     <div>
-                      <span className="text-gold-dim">Raza:</span>
+                      <span className="text-gold">Raza:</span>
                       <span className="text-parchment ml-2">{selectedRace.name}</span>
                     </div>
                     <div>
-                      <span className="text-gold-dim">Clase:</span>
+                      <span className="text-gold">Clase:</span>
                       <span className="text-parchment ml-2">{selectedClass.name}</span>
                     </div>
                     <div>
-                      <span className="text-gold-dim">Nivel:</span>
+                      <span className="text-gold">Nivel:</span>
                       <span className="text-parchment ml-2">{selectedLevel}</span>
                     </div>
                   </div>
                   {characterDescription && (
                     <div className="mt-3 pt-3 border-t border-gold-dim/30">
-                      <span className="text-gold-dim text-xs">Descripción:</span>
+                      <span className="text-gold text-xs">Descripción:</span>
                       <p className="text-parchment text-xs mt-1 italic">"{characterDescription}"</p>
                     </div>
                   )}

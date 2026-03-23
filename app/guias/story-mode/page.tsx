@@ -269,7 +269,7 @@ export default function StoryModePage() {
                 <div className="p-4 bg-gold/10 rounded-lg border border-gold-dim">
                   <div className="flex items-center gap-2 mb-2">
                     <Sparkles className="h-4 w-4 text-gold-dim" />
-                    <span className="font-heading text-gold-dim text-sm">Stat Baja</span>
+                    <span className="font-heading text-gold text-sm">Stat Baja</span>
                   </div>
                   <p className="font-body text-ink text-base">{example.heroWithLowExploration || example.heroWithLowSocial}</p>
                 </div>

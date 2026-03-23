@@ -238,7 +238,7 @@ export default function JugarSoloPage() {
               <p className="font-body text-ink text-sm mb-2">{style.desc}</p>
               <div className="grid md:grid-cols-2 gap-2 text-xs">
                 <div className="p-2 bg-gold/10 rounded">
-                  <span className="font-ui text-gold-dim">Mecanicas:</span>
+                  <span className="font-ui text-gold">Mecanicas:</span>
                   <p className="font-body text-ink">{style.mechanics}</p>
                 </div>
                 <div className="p-2 bg-emerald/10 rounded">
@@ -260,7 +260,7 @@ export default function JugarSoloPage() {
             <ParchmentPanel key={tech.technique} className="p-4 border border-gold-dim/50">
               <h4 className="font-heading text-ink mb-1">{tech.technique}</h4>
               <p className="font-mono text-ink text-sm bg-gold/10 p-2 rounded mb-2">"{tech.prompt}"</p>
-              <p className="font-ui text-xs text-gold-dim">{tech.use}</p>
+              <p className="font-ui text-xs text-gold">{tech.use}</p>
             </ParchmentPanel>
           ))}
         </div>

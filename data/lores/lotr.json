@@ -367,7 +367,12 @@
         "Capa élfica que oculta del enemigo",
         "Pipa de fumar y hierba del sur",
         "Mapa de las Tierras Salvajes",
-        "Hierbas medicinales (athelas)"
+        "Hierbas medicinales (athelas)",
+        "Saco de dormir de lana",
+        "Raciones de viaje (3 días)",
+        "Odre de agua",
+        "Cuerda de cáñamo (15m)",
+        "Pedernal y acero"
       ],
       "special_ability": "Rastreador Experto: Siempre sabes qué criaturas han pasado por un lugar, cuándo, y hacia dónde fueron",
       "advancement_paths": [
@@ -396,7 +401,12 @@
         "Kit de escritura con tinta especial",
         "Lupa de cristal enano",
         "Pergaminos en quenya y sindarin",
-        "Mapas de ruinas conocidas"
+        "Mapas de ruinas conocidas",
+        "Saco de dormir de lana",
+        "Raciones de viaje (3 días)",
+        "Odre de agua",
+        "Antorchas (2)",
+        "Bolsa de cuero con 15 monedas de plata"
       ],
       "special_ability": "Conocimiento Antiguo: Puedes leer cualquier lengua antigua y recordar leyendas relevantes sobre lugares, objetos y criaturas",
       "advancement_paths": [
@@ -425,7 +435,13 @@
         "Armadura de mallas reforzada",
         "Cuerno de guerra",
         "Estandarte de tu unidad",
-        "Cota de supervivencia (raciones, cuerda)"
+        "Saco de dormir de lana",
+        "Raciones de viaje (3 días)",
+        "Odre de agua",
+        "Cuerda de cáñamo (15m)",
+        "Antorchas (2)",
+        "Pedernal y acero",
+        "Bolsa de cuero con 15 monedas de plata"
       ],
       "special_ability": "Protector: Puedes interponerte para recibir daño en lugar de un aliado, reduciendo el daño a la mitad",
       "advancement_paths": [
@@ -456,7 +472,12 @@
         "Pipa y hierba para pipa",
         "Raciones hobbits (abundantes)",
         "Cuerda élfica",
-        "Pañuelo bordado (importante)"
+        "Pañuelo bordado (importante)",
+        "Saco de dormir de lana",
+        "Odre de agua",
+        "Pedernal y acero",
+        "Bolsa de cuero con 15 monedas de plata",
+        "Hierbas curativas básicas"
       ],
       "special_ability": "Corazón Inquebrantable: Tienes resistencia natural a la corrupción y el miedo mágico. Los anillos de poder tienen menos efecto sobre ti",
       "advancement_paths": [
@@ -485,7 +506,11 @@
         "Capa élfica que oculta y protege",
         "Pan de viaje (lembas)",
         "Cuerda élfica",
-        "Fial con luz de estrella"
+        "Fial con luz de estrella",
+        "Odre de agua élfico",
+        "Hierbas curativas básicas",
+        "Saco de dormir de seda élfica",
+        "Bolsa de cuero con 15 monedas de plata"
       ],
       "special_ability": "Vista de las Estrellas: Ves en la oscuridad como de día, detectas magia y corrupción, y puedes comunicarte con animales del bosque",
       "advancement_paths": [
@@ -515,7 +540,13 @@
         "Casco con runas de protección",
         "Kit de herramientas de forja",
         "Cerveza enana (varios barriles pequeños)",
-        "Mapa de túneles conocidos"
+        "Mapa de túneles conocidos",
+        "Saco de dormir de lana gruesa",
+        "Raciones de viaje (3 días)",
+        "Odre de agua",
+        "Cuerda de cáñamo (15m)",
+        "Pedernal y acero",
+        "Bolsa de cuero con 15 monedas de plata"
       ],
       "special_ability": "Hijo de la Piedra: Nunca te pierdes bajo tierra, resistes magia de forma natural, y detectas trampas y pasajes secretos en la roca",
       "advancement_paths": [

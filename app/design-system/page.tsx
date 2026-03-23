@@ -184,7 +184,7 @@ export default function DesignSystemPage() {
       </section>
 
       <div className="text-center py-8">
-        <p className="font-ui text-parchment/60 text-sm">
+        <p className="font-ui text-parchment/80 text-sm">
           Sistema de Diseño Medieval - Fase 2
         </p>
       </div>

@@ -432,7 +432,7 @@ export default function AdminPage() {
                             : '-'}
                         </td>
                         <td className="p-3 text-center">
-                          <button className="text-gold-dim hover:text-gold">
+                          <button className="text-gold hover:text-gold-bright">
                             <Eye className="h-4 w-4" />
                           </button>
                         </td>
@@ -452,7 +452,7 @@ export default function AdminPage() {
                     <button
                       onClick={() => setPage(p => Math.max(1, p - 1))}
                       disabled={page === 1}
-                      className="p-1 text-gold-dim hover:text-gold disabled:opacity-30"
+                      className="p-1 text-gold hover:text-gold-bright disabled:opacity-30"
                     >
                       <ChevronLeft className="h-5 w-5" />
                     </button>
@@ -462,7 +462,7 @@ export default function AdminPage() {
                     <button
                       onClick={() => setPage(p => Math.min(pagination.totalPages, p + 1))}
                       disabled={page === pagination.totalPages}
-                      className="p-1 text-gold-dim hover:text-gold disabled:opacity-30"
+                      className="p-1 text-gold hover:text-gold-bright disabled:opacity-30"
                     >
                       <ChevronRight className="h-5 w-5" />
                     </button>

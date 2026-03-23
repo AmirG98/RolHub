@@ -236,7 +236,7 @@ export default function MusicaAmbientacionPage() {
               <p className="font-body text-ink text-sm mb-2">{mood.desc}</p>
               <div className="grid md:grid-cols-2 gap-2 text-xs mb-2">
                 <div className="p-2 bg-gold/10 rounded">
-                  <span className="font-ui text-gold-dim">Caracteristicas:</span>
+                  <span className="font-ui text-gold">Caracteristicas:</span>
                   <ul className="font-body text-ink">
                     {mood.characteristics.map((c, i) => (
                       <li key={i}>• {c}</li>
@@ -270,7 +270,7 @@ export default function MusicaAmbientacionPage() {
                   <li key={i}>• {p}</li>
                 ))}
               </ul>
-              <p className="font-ui text-xs text-gold-dim">Uso: {cat.usage}</p>
+              <p className="font-ui text-xs text-gold">Uso: {cat.usage}</p>
             </ParchmentPanel>
           ))}
         </div>
@@ -289,7 +289,7 @@ export default function MusicaAmbientacionPage() {
                   <li key={i}>• {s}</li>
                 ))}
               </ul>
-              <p className="font-ui text-xs text-gold-dim">{cat.tip}</p>
+              <p className="font-ui text-xs text-gold">{cat.tip}</p>
             </ParchmentPanel>
           ))}
         </div>
@@ -327,7 +327,7 @@ export default function MusicaAmbientacionPage() {
                 <span className="font-ui text-blood">Cons: </span>
                 <span className="font-body text-ink">{tool.cons}</span>
               </div>
-              <p className="font-ui text-xs text-gold-dim">Mejor para: {tool.best}</p>
+              <p className="font-ui text-xs text-gold">Mejor para: {tool.best}</p>
             </ParchmentPanel>
           ))}
         </div>

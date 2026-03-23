@@ -158,7 +158,7 @@ export default function VikingosPage() {
           {gods.map((g) => (
             <ParchmentPanel key={g.name} className="p-5 border border-gold-dim">
               <h3 className="font-heading text-ink mb-1">{g.name}</h3>
-              <p className="font-ui text-xs text-gold-dim mb-2">{g.domain}</p>
+              <p className="font-ui text-xs text-gold mb-2">{g.domain}</p>
               <p className="font-body text-ink text-sm">{g.desc}</p>
             </ParchmentPanel>
           ))}

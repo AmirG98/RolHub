@@ -229,7 +229,7 @@ export default function SerBuenDMPage() {
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-1">
                     <h4 className="font-heading text-ink">{phase.phase}</h4>
-                    <span className="text-xs font-ui text-gold-dim">~{phase.time}</span>
+                    <span className="text-xs font-ui text-gold">~{phase.time}</span>
                   </div>
                   <p className="font-body text-ink text-sm">{phase.desc}</p>
                 </div>

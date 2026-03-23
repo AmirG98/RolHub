@@ -45,7 +45,7 @@ export default function OnboardingPage() {
   const [error, setError] = useState<string | null>(null)
 
   const handleCreateCharacter = async (data: CharacterCreationData) => {
-    const { archetype, characterName, characterDescription } = data
+    const { archetype, characterName, characterDescription, customStats } = data
     console.log('handleCreateCharacter called', { selectedLore, gameMode, engine, tutorialLevel, user: !!user, archetype, characterName, characterDescription })
 
     if (!selectedLore || !gameMode || !engine || !tutorialLevel) {
@@ -81,6 +81,7 @@ export default function OnboardingPage() {
           characterName,
           characterDescription,
           isMultiplayer,
+          customStats,
         }),
       })
 
@@ -232,7 +233,7 @@ export default function OnboardingPage() {
         <div className="text-center content-wrapper">
           <div className="candlelight text-gold-bright text-6xl mb-4">{icon}</div>
           <p className="font-heading text-gold-bright text-2xl glow-effect">{title}</p>
-          <p className="font-body text-parchment/60 mt-2">{subtitle}</p>
+          <p className="font-body text-parchment/80 mt-2">{subtitle}</p>
           <div className="mt-8 flex justify-center gap-2">
             <div className="w-2 h-2 bg-gold-bright rounded-full animate-pulse" style={{ animationDelay: '0s' }}></div>
             <div className="w-2 h-2 bg-gold-bright rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>

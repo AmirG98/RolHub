@@ -163,7 +163,7 @@ export default function GeneroHorrorPage() {
             <ParchmentPanel key={type.type} className="p-5 border border-gold-dim">
               <h3 className="font-heading text-lg text-ink mb-2">{type.type}</h3>
               <p className="font-body text-ink text-sm mb-2">{type.desc}</p>
-              <p className="font-ui text-xs text-gold-dim mb-2">Ejemplos: {type.examples.join(', ')}</p>
+              <p className="font-ui text-xs text-gold mb-2">Ejemplos: {type.examples.join(', ')}</p>
               <p className="font-body text-ink text-sm italic bg-gold/10 p-2 rounded">
                 Clave: {type.key}
               </p>

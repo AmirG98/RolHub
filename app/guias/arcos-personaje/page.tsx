@@ -183,7 +183,7 @@ export default function ArcosPersonajePage() {
                 <div>
                   <h3 className="font-heading text-xl text-ink mb-2">{arc.type}</h3>
                   <p className="font-body text-ink mb-2">{arc.desc}</p>
-                  <p className="font-ui text-sm text-gold-dim mb-3 italic">Ejemplo: {arc.example}</p>
+                  <p className="font-ui text-sm text-gold mb-3 italic">Ejemplo: {arc.example}</p>
                   <div className="p-3 bg-gold/10 rounded">
                     <p className="font-ui text-xs text-ink font-bold mb-1">Momentos clave:</p>
                     <ul className="font-body text-ink text-sm">
@@ -212,7 +212,7 @@ export default function ArcosPersonajePage() {
               <div key={m.momento} className="p-3 bg-gold/5 rounded">
                 <h4 className="font-heading text-ink text-sm mb-1">{m.momento}</h4>
                 <p className="font-body text-ink text-sm mb-1">{m.desc}</p>
-                <p className="font-ui text-xs text-gold-dim italic">Ejemplo: {m.example}</p>
+                <p className="font-ui text-xs text-gold italic">Ejemplo: {m.example}</p>
               </div>
             ))}
           </div>
@@ -233,7 +233,7 @@ export default function ArcosPersonajePage() {
                 <div>
                   <div className="flex items-center gap-2 mb-1">
                     <h4 className="font-heading text-ink">{p.phase}</h4>
-                    <span className="text-xs font-ui text-gold-dim">{p.focus}</span>
+                    <span className="text-xs font-ui text-gold">{p.focus}</span>
                   </div>
                   <ul className="font-body text-ink text-sm">
                     {p.actions.map((a, j) => (

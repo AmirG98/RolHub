@@ -188,7 +188,7 @@ export default function PrimeraSesionPage() {
               <div className="p-2 bg-gold/10 rounded mb-2">
                 <p className="font-body text-ink text-sm italic">Ejemplo: {hook.example}</p>
               </div>
-              <p className="font-ui text-xs text-gold-dim">{hook.works}</p>
+              <p className="font-ui text-xs text-gold">{hook.works}</p>
             </ParchmentPanel>
           ))}
         </div>
@@ -247,7 +247,7 @@ export default function PrimeraSesionPage() {
             <ParchmentPanel key={method.method} className="p-4 border border-gold-dim/50">
               <h4 className="font-heading text-ink mb-1">{method.method}</h4>
               <p className="font-body text-ink text-sm mb-1">{method.desc}</p>
-              <p className="font-ui text-xs text-gold-dim">Usar cuando: {method.when}</p>
+              <p className="font-ui text-xs text-gold">Usar cuando: {method.when}</p>
             </ParchmentPanel>
           ))}
         </div>

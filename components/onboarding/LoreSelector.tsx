@@ -66,7 +66,7 @@ export function LoreSelector({ onSelect }: LoreSelectorProps) {
               <p className="font-ui text-xs md:text-sm mb-1 md:mb-2 line-clamp-2" style={{ color: lore.color }}>
                 {lore.tagline}
               </p>
-              <p className="font-body text-xs text-parchment/60 hidden md:block">
+              <p className="font-body text-xs text-parchment/80 hidden md:block">
                 {lore.description}
               </p>
             </button>

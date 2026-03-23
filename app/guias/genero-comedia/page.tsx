@@ -179,7 +179,7 @@ export default function GeneroComediaPage() {
               <div className="p-2 bg-gold/10 rounded mb-2">
                 <p className="font-body text-ink text-sm italic">Ejemplo: {type.example}</p>
               </div>
-              <p className="font-ui text-xs text-gold-dim">{type.works}</p>
+              <p className="font-ui text-xs text-gold">{type.works}</p>
             </ParchmentPanel>
           ))}
         </div>

@@ -270,7 +270,7 @@ export default function JoinCharacterPage() {
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
-          <p className="font-ui text-gold-dim mb-2">Uniéndote a</p>
+          <p className="font-ui text-gold mb-2">Uniéndote a</p>
           <h1 className="font-title text-3xl text-gold mb-2">{campaignInfo?.name}</h1>
           <p className="font-heading text-lg" style={{ color: loreData?.color }}>
             {loreData?.name}
@@ -369,7 +369,7 @@ export default function JoinCharacterPage() {
                               </div>
                               <div>
                                 <h3 className="font-heading text-lg text-gold">{char.name}</h3>
-                                <p className="font-ui text-xs text-parchment/60">
+                                <p className="font-ui text-xs text-parchment/80">
                                   {char.archetype} • Nivel {char.level}
                                 </p>
                               </div>
@@ -377,19 +377,19 @@ export default function JoinCharacterPage() {
 
                             {/* Stats Preview */}
                             <div className="grid grid-cols-2 gap-2 text-xs font-ui">
-                              <div className="flex justify-between text-parchment/60">
+                              <div className="flex justify-between text-parchment/80">
                                 <span>HP:</span>
-                                <span className="text-blood">{char.stats?.hp || 20}/{char.stats?.maxHp || 20}</span>
+                                <span className="text-red-400">{char.stats?.hp || 20}/{char.stats?.maxHp || 20}</span>
                               </div>
-                              <div className="flex justify-between text-parchment/60">
+                              <div className="flex justify-between text-parchment/80">
                                 <span>Combate:</span>
                                 <span className="text-gold">{char.stats?.combat || 2}</span>
                               </div>
-                              <div className="flex justify-between text-parchment/60">
+                              <div className="flex justify-between text-parchment/80">
                                 <span>Exploración:</span>
                                 <span className="text-gold">{char.stats?.exploration || 2}</span>
                               </div>
-                              <div className="flex justify-between text-parchment/60">
+                              <div className="flex justify-between text-parchment/80">
                                 <span>Social:</span>
                                 <span className="text-gold">{char.stats?.social || 2}</span>
                               </div>
@@ -429,7 +429,7 @@ export default function JoinCharacterPage() {
                     <h3 className="font-heading text-xl text-gold mb-2">
                       No tienes personajes de {loreData?.name}
                     </h3>
-                    <p className="font-body text-parchment/60 mb-6">
+                    <p className="font-body text-parchment/80 mb-6">
                       Crea tu primer personaje para esta ambientación
                     </p>
                     <RunicButton onClick={() => setViewMode('create')} variant="primary">
@@ -498,19 +498,19 @@ export default function JoinCharacterPage() {
 
                         {/* Stats Preview */}
                         <div className="grid grid-cols-2 gap-2 text-xs font-ui">
-                          <div className="flex justify-between text-parchment/60">
+                          <div className="flex justify-between text-parchment/80">
                             <span>HP:</span>
-                            <span className="text-blood">{archetype.starting_stats.hp}</span>
+                            <span className="text-red-400">{archetype.starting_stats.hp}</span>
                           </div>
-                          <div className="flex justify-between text-parchment/60">
+                          <div className="flex justify-between text-parchment/80">
                             <span>Combate:</span>
                             <span className="text-gold">{archetype.starting_stats.combat}</span>
                           </div>
-                          <div className="flex justify-between text-parchment/60">
+                          <div className="flex justify-between text-parchment/80">
                             <span>Exploración:</span>
                             <span className="text-gold">{archetype.starting_stats.exploration}</span>
                           </div>
-                          <div className="flex justify-between text-parchment/60">
+                          <div className="flex justify-between text-parchment/80">
                             <span>Social:</span>
                             <span className="text-gold">{archetype.starting_stats.social}</span>
                           </div>
@@ -518,7 +518,7 @@ export default function JoinCharacterPage() {
 
                         {/* Special Ability */}
                         <div className="mt-3 pt-3 border-t border-gold-dim/30">
-                          <p className="font-ui text-xs text-gold-dim">
+                          <p className="font-ui text-xs text-gold">
                             <span className="text-gold">Habilidad:</span> {archetype.special_ability}
                           </p>
                         </div>

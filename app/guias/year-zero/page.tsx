@@ -230,16 +230,16 @@ export default function YearZeroPage() {
                 </h4>
                 <div className="space-y-3">
                   <div className="flex gap-3">
-                    <span className="font-heading text-gold-dim">1.</span>
+                    <span className="font-heading text-gold">1.</span>
                     <p className="font-body text-ink">{ex.firstRoll}</p>
                   </div>
                   <div className="flex gap-3">
-                    <span className="font-heading text-gold-dim">2.</span>
+                    <span className="font-heading text-gold">2.</span>
                     <p className="font-body text-ink">{ex.decision}</p>
                   </div>
                   {ex.pushRoll && (
                     <div className="flex gap-3">
-                      <span className="font-heading text-gold-dim">3.</span>
+                      <span className="font-heading text-gold">3.</span>
                       <p className="font-body text-ink">{ex.pushRoll}</p>
                     </div>
                   )}

@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json()
-    const { prompt, lore, locationId, mood, locationName, quality, forceRegenerate } = body
+    const { prompt, lore, locationId, mood, locationName, quality, forceRegenerate, characterDescription } = body
 
     if (!prompt) {
       return NextResponse.json({ error: 'Prompt requerido' }, { status: 400 })
@@ -40,6 +40,7 @@ export async function POST(req: NextRequest) {
       mood,
       locationName,
       quality,
+      characterDescription,
     })
 
     return NextResponse.json(result)

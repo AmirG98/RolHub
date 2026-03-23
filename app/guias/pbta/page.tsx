@@ -220,7 +220,7 @@ export default function PbtAPage() {
                 <p className="font-ui text-ink text-sm">Exito Total</p>
               </div>
               <div className="p-3 rounded-lg bg-gold/20 border border-gold-dim">
-                <p className="font-heading text-gold-dim text-xl">7-9</p>
+                <p className="font-heading text-gold text-xl">7-9</p>
                 <p className="font-ui text-ink text-sm">Exito Parcial</p>
               </div>
               <div className="p-3 rounded-lg bg-blood/20 border border-blood">

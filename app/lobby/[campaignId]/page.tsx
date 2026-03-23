@@ -181,7 +181,7 @@ export default function LobbyPage() {
               <div className="flex flex-col sm:flex-row gap-3">
                 {/* Invite Code */}
                 <div className="flex-1">
-                  <p className="font-ui text-xs text-gold-dim mb-1">Código</p>
+                  <p className="font-ui text-xs text-gold mb-1">Código</p>
                   <div className="flex items-center gap-2">
                     <div className="flex-1 bg-shadow/20 rounded-lg px-4 py-2 font-mono text-xl text-gold tracking-widest text-center">
                       {campaign.inviteCode}
@@ -218,7 +218,7 @@ export default function LobbyPage() {
                 <Users className="w-5 h-5 text-gold" />
                 Jugadores
               </h2>
-              <span className="font-ui text-sm text-gold-dim">
+              <span className="font-ui text-sm text-gold">
                 {onlineCount}/{campaign.participants.length} en línea
                 ({campaign.maxPlayers} máx)
               </span>
@@ -239,7 +239,7 @@ export default function LobbyPage() {
                     {participant.isOnline ? (
                       <Wifi className="w-4 h-4 text-emerald" />
                     ) : (
-                      <WifiOff className="w-4 h-4 text-stone/50" />
+                      <WifiOff className="w-4 h-4 text-parchment-dark/50" />
                     )}
 
                     <div>
@@ -256,18 +256,18 @@ export default function LobbyPage() {
                           <Gamepad2 className="w-4 h-4 text-gold" />
                         )}
                         {participant.user?.id === user?.id && (
-                          <span className="text-[10px] text-gold-dim">(Tú)</span>
+                          <span className="text-[10px] text-gold">(Tú)</span>
                         )}
                       </div>
                       {participant.character ? (
                         <p className="font-heading text-sm text-gold">
                           {participant.character.name}
-                          <span className="text-gold-dim font-ui ml-1">
+                          <span className="text-gold font-ui ml-1">
                             ({participant.character.archetype})
                           </span>
                         </p>
                       ) : (
-                        <p className="font-ui text-xs text-stone/50 italic">
+                        <p className="font-ui text-xs text-parchment-dark/50 italic">
                           Sin personaje
                         </p>
                       )}
@@ -299,7 +299,7 @@ export default function LobbyPage() {
               <Shield className="w-5 h-5 text-gold flex-shrink-0" />
               <div>
                 <p className="font-ui text-gold text-sm">Necesitas crear un personaje</p>
-                <p className="font-body text-gold-dim text-xs">
+                <p className="font-body text-gold text-xs">
                   Antes de comenzar, debes elegir tu personaje para esta campaña.
                 </p>
               </div>
@@ -338,7 +338,7 @@ export default function LobbyPage() {
               </RunicButton>
             ) : (
               <div className="flex-1 text-center py-4">
-                <p className="font-ui text-gold-dim">
+                <p className="font-ui text-gold">
                   Esperando a que el anfitrión inicie la partida...
                 </p>
               </div>

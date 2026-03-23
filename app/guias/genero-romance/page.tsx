@@ -178,7 +178,7 @@ export default function GeneroRomancePage() {
         <ParchmentPanel className="p-6 border-2 border-gold">
           <h2 className="font-heading text-xl text-ink mb-3">{fadeToBlack.title}</h2>
           <p className="font-body text-ink mb-3">{fadeToBlack.desc}</p>
-          <p className="font-ui text-sm text-gold-dim mb-3">{fadeToBlack.why}</p>
+          <p className="font-ui text-sm text-gold mb-3">{fadeToBlack.why}</p>
           <div className="p-3 bg-gold/10 rounded">
             <p className="font-body text-ink text-sm italic">{fadeToBlack.example}</p>
           </div>
@@ -223,7 +223,7 @@ export default function GeneroRomancePage() {
                 <div>
                   <h4 className="font-heading text-ink text-sm">{phase.phase}</h4>
                   <p className="font-body text-ink text-sm">{phase.desc}</p>
-                  <p className="font-ui text-xs text-gold-dim">Tip: {phase.tip}</p>
+                  <p className="font-ui text-xs text-gold">Tip: {phase.tip}</p>
                 </div>
               </div>
             ))}

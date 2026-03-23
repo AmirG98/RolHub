@@ -342,7 +342,7 @@ export default function DadosPage() {
                 {/* Resultado total */}
                 {showResult && (
                   <div className="text-center animate-result-pop">
-                    <p className="font-ui text-parchment/60 text-sm mb-2">Total</p>
+                    <p className="font-ui text-parchment/80 text-sm mb-2">Total</p>
                     <div
                       className={`
                         font-title text-6xl md:text-7xl text-gold-bright

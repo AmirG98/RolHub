@@ -23,6 +23,12 @@ export interface CharacterCreationData {
   archetype: Archetype
   characterName: string
   characterDescription: string
+  customStats?: {
+    combat: number
+    exploration: number
+    social: number
+    lore: number
+  }
 }
 
 interface ArchetypeSelectorProps {
@@ -74,6 +80,38 @@ export function ArchetypeSelector({ archetypes, loreName, lore, onSelect, onBack
   const [characterName, setCharacterName] = useState('')
   const [characterDescription, setCharacterDescription] = useState('')
   const [showCharacterForm, setShowCharacterForm] = useState(false)
+  const [showPointBuy, setShowPointBuy] = useState(false)
+  const [customStats, setCustomStats] = useState<{ combat: number; exploration: number; social: number; lore: number } | null>(null)
+
+  // Point buy: total de puntos del arquetipo (combat + exploration + social + lore)
+  const getStatTotal = useCallback((stats: { combat: number; exploration: number; social: number; lore: number }) => {
+    return stats.combat + stats.exploration + stats.social + stats.lore
+  }, [])
+
+  const defaultStats = selectedArchetype?.starting_stats
+    ? { combat: selectedArchetype.starting_stats.combat, exploration: selectedArchetype.starting_stats.exploration, social: selectedArchetype.starting_stats.social, lore: selectedArchetype.starting_stats.lore }
+    : null
+
+  const activeStats = customStats || defaultStats
+  const statTotal = defaultStats ? getStatTotal(defaultStats) : 0
+  const currentTotal = activeStats ? getStatTotal(activeStats) : 0
+  const pointsRemaining = statTotal - currentTotal
+
+  const handleStatChange = useCallback((stat: 'combat' | 'exploration' | 'social' | 'lore', delta: number) => {
+    if (!defaultStats) return
+    const current = customStats || { ...defaultStats }
+    const newValue = current[stat] + delta
+    if (newValue < 0 || newValue > 6) return
+    const newStats = { ...current, [stat]: newValue }
+    const newTotal = getStatTotal(newStats)
+    if (newTotal > statTotal) return
+    setCustomStats(newStats)
+  }, [customStats, defaultStats, statTotal, getStatTotal])
+
+  const handleResetStats = useCallback(() => {
+    setCustomStats(null)
+    setShowPointBuy(false)
+  }, [])
 
   // Generar descripcion aleatoria
   const handleGenerateDescription = useCallback(() => {
@@ -99,9 +137,10 @@ export function ArchetypeSelector({ archetypes, loreName, lore, onSelect, onBack
         archetype: selectedArchetype,
         characterName: characterName.trim(),
         characterDescription: characterDescription.trim(),
+        customStats: customStats || undefined,
       })
     }
-  }, [selectedArchetype, characterName, characterDescription, onSelect])
+  }, [selectedArchetype, characterName, characterDescription, customStats, onSelect])
 
   // Validar si puede continuar
   const canContinue = selectedArchetype && characterName.trim().length >= 2
@@ -151,7 +190,7 @@ export function ArchetypeSelector({ archetypes, loreName, lore, onSelect, onBack
               className={`glass-panel rounded-lg p-4 md:p-6 cursor-pointer transition-all duration-300 hover:scale-105 ${
                 selectedArchetype?.id === archetype.id ? 'glow-effect ring-2 ring-gold-bright' : ''
               }`}
-              onClick={() => setSelectedArchetype(archetype)}
+              onClick={() => { setSelectedArchetype(archetype); setCustomStats(null); setShowPointBuy(false) }}
             >
               <div className="flex sm:flex-col items-center sm:items-center text-left sm:text-center gap-4 sm:gap-0 sm:space-y-4">
                 {/* Icono */}
@@ -173,19 +212,19 @@ export function ArchetypeSelector({ archetypes, loreName, lore, onSelect, onBack
                     <div className="hidden sm:block w-full pt-4 border-t border-gold-dim/30 mt-4">
                       <div className="grid grid-cols-2 gap-2 text-xs font-ui">
                         <div>
-                          <span className="text-gold-dim">{t.archetypeSelector.hp}:</span>{' '}
+                          <span className="text-gold">{t.archetypeSelector.hp}:</span>{' '}
                           <span className="text-parchment font-semibold">{archetype.starting_stats.maxHp}</span>
                         </div>
                         <div>
-                          <span className="text-gold-dim">{t.archetypeSelector.combat}:</span>{' '}
+                          <span className="text-gold">{t.archetypeSelector.combat}:</span>{' '}
                           <span className="text-parchment font-semibold">{archetype.starting_stats.combat}</span>
                         </div>
                         <div>
-                          <span className="text-gold-dim">{t.archetypeSelector.exploration}:</span>{' '}
+                          <span className="text-gold">{t.archetypeSelector.exploration}:</span>{' '}
                           <span className="text-parchment font-semibold">{archetype.starting_stats.exploration}</span>
                         </div>
                         <div>
-                          <span className="text-gold-dim">{t.archetypeSelector.social}:</span>{' '}
+                          <span className="text-gold">{t.archetypeSelector.social}:</span>{' '}
                           <span className="text-parchment font-semibold">{archetype.starting_stats.social}</span>
                         </div>
                       </div>
@@ -216,19 +255,19 @@ export function ArchetypeSelector({ archetypes, loreName, lore, onSelect, onBack
                 <div className="grid grid-cols-4 gap-2 text-xs font-ui text-center">
                   <div>
                     <div className="text-parchment font-semibold text-lg">{selectedArchetype.starting_stats.maxHp}</div>
-                    <div className="text-gold-dim">{t.archetypeSelector.hp}</div>
+                    <div className="text-gold">{t.archetypeSelector.hp}</div>
                   </div>
                   <div>
                     <div className="text-parchment font-semibold text-lg">{selectedArchetype.starting_stats.combat}</div>
-                    <div className="text-gold-dim">{t.archetypeSelector.combat}</div>
+                    <div className="text-gold">{t.archetypeSelector.combat}</div>
                   </div>
                   <div>
                     <div className="text-parchment font-semibold text-lg">{selectedArchetype.starting_stats.exploration}</div>
-                    <div className="text-gold-dim">{t.archetypeSelector.exploration}</div>
+                    <div className="text-gold">{t.archetypeSelector.exploration}</div>
                   </div>
                   <div>
                     <div className="text-parchment font-semibold text-lg">{selectedArchetype.starting_stats.social}</div>
-                    <div className="text-gold-dim">{t.archetypeSelector.social}</div>
+                    <div className="text-gold">{t.archetypeSelector.social}</div>
                   </div>
                 </div>
               </div>
@@ -241,6 +280,79 @@ export function ArchetypeSelector({ archetypes, loreName, lore, onSelect, onBack
                 <p className="text-xs font-ui text-emerald font-semibold">
                   {selectedArchetype.special_ability}
                 </p>
+              </div>
+            )}
+
+            {/* Personalizar Stats (Point Buy narrativo) */}
+            {selectedArchetype.starting_stats && (
+              <div className="mb-4 pb-4 border-b border-gold-dim/30">
+                {!showPointBuy ? (
+                  <button
+                    type="button"
+                    onClick={() => setShowPointBuy(true)}
+                    className="flex items-center gap-2 font-ui text-sm text-emerald hover:text-emerald/80 transition-colors"
+                  >
+                    <Sparkles className="w-4 h-4" />
+                    Personalizar stats
+                  </button>
+                ) : (
+                  <div>
+                    <div className="flex items-center justify-between mb-3">
+                      <h3 className="font-heading text-base text-gold">Redistribuir Puntos</h3>
+                      <div className="flex items-center gap-3">
+                        <span className="font-ui text-xs text-parchment/80">
+                          Puntos restantes: <span className={`font-mono text-sm ${pointsRemaining > 0 ? 'text-emerald' : pointsRemaining < 0 ? 'text-red-400' : 'text-gold-bright'}`}>{pointsRemaining}</span>
+                          <span className="text-parchment/50"> / {statTotal}</span>
+                        </span>
+                        <button
+                          type="button"
+                          onClick={handleResetStats}
+                          className="font-ui text-xs text-parchment/60 hover:text-parchment transition-colors underline"
+                        >
+                          Resetear
+                        </button>
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                      {(['combat', 'exploration', 'social', 'lore'] as const).map((stat) => {
+                        const labels: Record<string, string> = {
+                          combat: t.archetypeSelector.combat,
+                          exploration: t.archetypeSelector.exploration,
+                          social: t.archetypeSelector.social,
+                          lore: 'Lore',
+                        }
+                        const value = activeStats ? activeStats[stat] : 0
+                        return (
+                          <div key={stat} className="flex items-center justify-between glass-panel rounded-lg px-3 py-2">
+                            <span className="font-ui text-xs text-gold">{labels[stat]}</span>
+                            <div className="flex items-center gap-2">
+                              <button
+                                type="button"
+                                onClick={() => handleStatChange(stat, -1)}
+                                disabled={value <= 0}
+                                className="w-6 h-6 rounded bg-shadow border border-gold-dim/50 text-parchment font-mono text-sm hover:border-gold disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                              >
+                                -
+                              </button>
+                              <span className="font-mono text-parchment font-semibold w-4 text-center">{value}</span>
+                              <button
+                                type="button"
+                                onClick={() => handleStatChange(stat, 1)}
+                                disabled={value >= 6 || pointsRemaining <= 0}
+                                className="w-6 h-6 rounded bg-shadow border border-gold-dim/50 text-parchment font-mono text-sm hover:border-gold disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                              >
+                                +
+                              </button>
+                            </div>
+                          </div>
+                        )
+                      })}
+                    </div>
+                    <p className="font-ui text-xs text-parchment/50 mt-2">
+                      Redistribuí los puntos como quieras. El total se mantiene igual.
+                    </p>
+                  </div>
+                )}
               </div>
             )}
 
@@ -276,7 +388,7 @@ export function ArchetypeSelector({ archetypes, loreName, lore, onSelect, onBack
 
             {/* Nombre del personaje */}
             <div className="mb-4">
-              <label className="block font-ui text-sm text-gold-dim mb-2">
+              <label className="block font-ui text-sm text-gold mb-2">
                 Nombre de tu personaje *
               </label>
               <input
@@ -297,7 +409,7 @@ export function ArchetypeSelector({ archetypes, loreName, lore, onSelect, onBack
 
             {/* Descripcion del personaje */}
             <div className="mb-4">
-              <label className="block font-ui text-sm text-gold-dim mb-2">
+              <label className="block font-ui text-sm text-gold mb-2">
                 Describe a tu personaje
                 <span className="text-parchment/50 ml-1">(opcional)</span>
               </label>

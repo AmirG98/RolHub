@@ -245,7 +245,7 @@ export default function RolVsVideojuegosPage() {
               <h3 className="font-heading text-lg text-ink mb-3">{diff.aspect}</h3>
               <div className="grid md:grid-cols-2 gap-3 mb-3">
                 <div className="p-3 bg-stone/30 rounded">
-                  <span className="font-ui text-xs text-gold-dim block mb-1">Videojuego</span>
+                  <span className="font-ui text-xs text-gold block mb-1">Videojuego</span>
                   <p className="font-body text-ink text-sm">{diff.videogame}</p>
                 </div>
                 <div className="p-3 bg-gold/10 rounded">
@@ -253,7 +253,7 @@ export default function RolVsVideojuegosPage() {
                   <p className="font-body text-ink text-sm">{diff.tabletop}</p>
                 </div>
               </div>
-              <p className="font-ui text-xs text-gold-dim italic">Ejemplo: {diff.example}</p>
+              <p className="font-ui text-xs text-gold italic">Ejemplo: {diff.example}</p>
             </ParchmentPanel>
           ))}
         </div>
@@ -269,7 +269,7 @@ export default function RolVsVideojuegosPage() {
             {whatYouKeep.map((item) => (
               <div key={item.from} className="p-3 bg-gold/5 rounded">
                 <span className="font-heading text-ink text-sm">{item.from}</span>
-                <p className="font-body text-ink text-sm text-gold-dim">{item.in_tabletop}</p>
+                <p className="font-body text-ink text-sm text-gold">{item.in_tabletop}</p>
               </div>
             ))}
           </div>

@@ -200,7 +200,7 @@ export default function EscribirBackstoryPage() {
                   <p className="font-body text-ink">{l.cons}</p>
                 </div>
                 <div className="p-2 bg-gold/10 rounded">
-                  <span className="font-ui text-xs text-gold-dim">Ideal para</span>
+                  <span className="font-ui text-xs text-gold">Ideal para</span>
                   <p className="font-body text-ink">{l.best}</p>
                 </div>
               </div>
@@ -222,7 +222,7 @@ export default function EscribirBackstoryPage() {
               <div key={h.hook} className="p-3 bg-gold/5 rounded">
                 <h4 className="font-heading text-ink text-sm mb-1">{h.hook}</h4>
                 <p className="font-body text-ink text-sm mb-1">{h.desc}</p>
-                <p className="font-ui text-xs text-gold-dim italic">Ejemplo: "{h.example}"</p>
+                <p className="font-ui text-xs text-gold italic">Ejemplo: "{h.example}"</p>
               </div>
             ))}
           </div>

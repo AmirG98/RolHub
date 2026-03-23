@@ -241,7 +241,7 @@ export default function CrearCampanasPage() {
                   <li key={j}>• {event}</li>
                 ))}
               </ul>
-              <p className="font-ui text-xs text-gold-dim">Tip: {act.tip}</p>
+              <p className="font-ui text-xs text-gold">Tip: {act.tip}</p>
             </ParchmentPanel>
           ))}
         </div>
@@ -257,7 +257,7 @@ export default function CrearCampanasPage() {
               <div key={aspect.aspect} className="p-3 bg-gold/5 rounded">
                 <h4 className="font-heading text-ink text-sm">{aspect.aspect}</h4>
                 <p className="font-body text-ink text-sm">{aspect.question}</p>
-                <p className="font-ui text-xs text-gold-dim">Tip: {aspect.tip}</p>
+                <p className="font-ui text-xs text-gold">Tip: {aspect.tip}</p>
               </div>
             ))}
           </div>
@@ -283,7 +283,7 @@ export default function CrearCampanasPage() {
                   <span className="font-body text-ink"> {method.cons}</span>
                 </div>
               </div>
-              <p className="font-ui text-xs text-gold-dim">Ideal para: {method.ideal}</p>
+              <p className="font-ui text-xs text-gold">Ideal para: {method.ideal}</p>
             </ParchmentPanel>
           ))}
         </div>
@@ -298,7 +298,7 @@ export default function CrearCampanasPage() {
             <ParchmentPanel key={milestone.type} className="p-4 border border-gold-dim/50">
               <h4 className="font-heading text-ink mb-1">{milestone.type}</h4>
               <p className="font-body text-ink text-sm mb-1">Ej: {milestone.example}</p>
-              <p className="font-ui text-xs text-gold-dim">Reward: {milestone.reward}</p>
+              <p className="font-ui text-xs text-gold">Reward: {milestone.reward}</p>
             </ParchmentPanel>
           ))}
         </div>
@@ -315,7 +315,7 @@ export default function CrearCampanasPage() {
                 <span className="text-gold">□</span>
                 <div>
                   <span className="font-heading text-ink text-sm">{item.item}</span>
-                  <p className="font-body text-ink text-xs text-gold-dim">{item.detail}</p>
+                  <p className="font-body text-ink text-xs text-gold">{item.detail}</p>
                 </div>
               </div>
             ))}

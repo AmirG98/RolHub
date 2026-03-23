@@ -159,7 +159,7 @@ export default function ExploracionPage() {
                       <li key={i}>• {ex}</li>
                     ))}
                   </ul>
-                  <p className="font-ui text-xs text-gold-dim">
+                  <p className="font-ui text-xs text-gold">
                     <Sparkles className="h-3 w-3 inline mr-1" /> {type.tip}
                   </p>
                 </div>

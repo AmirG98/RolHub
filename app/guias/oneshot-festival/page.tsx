@@ -244,7 +244,7 @@ export default function OneshotFestivalPage() {
                 <div>
                   <h3 className="font-heading text-ink mb-1">{elem.element}</h3>
                   <p className="font-body text-ink text-sm mb-2">{elem.desc}</p>
-                  <ul className="font-ui text-xs text-gold-dim">
+                  <ul className="font-ui text-xs text-gold">
                     {elem.examples.map((ex, i) => (
                       <li key={i}>• {ex}</li>
                     ))}
@@ -273,7 +273,7 @@ export default function OneshotFestivalPage() {
                     <span className="font-mono text-xs text-gold bg-gold/10 px-2 py-1 rounded">{phase.time}</span>
                   </div>
                   <p className="font-body text-ink text-sm mb-1">{phase.desc}</p>
-                  <p className="font-ui text-xs text-gold-dim">Tip: {phase.tip}</p>
+                  <p className="font-ui text-xs text-gold">Tip: {phase.tip}</p>
                 </div>
               </div>
             ))}
@@ -291,7 +291,7 @@ export default function OneshotFestivalPage() {
               <h3 className="font-heading text-ink mb-2">{comp.name}</h3>
               <p className="font-body text-ink text-sm mb-1"><strong>Mecanica:</strong> {comp.mechanic}</p>
               <p className="font-body text-ink text-sm mb-1"><strong>Rondas:</strong> {comp.rounds}</p>
-              <p className="font-ui text-xs text-gold-dim"><strong>Premio:</strong> {comp.premio}</p>
+              <p className="font-ui text-xs text-gold"><strong>Premio:</strong> {comp.premio}</p>
             </ParchmentPanel>
           ))}
         </div>
@@ -306,7 +306,7 @@ export default function OneshotFestivalPage() {
             <ParchmentPanel key={game.game} className="p-4 border border-gold-dim/50">
               <h4 className="font-heading text-ink mb-1">{game.game}</h4>
               <p className="font-body text-ink text-sm mb-1">{game.desc}</p>
-              <p className="font-ui text-xs text-gold-dim">Reward: {game.reward}</p>
+              <p className="font-ui text-xs text-gold">Reward: {game.reward}</p>
             </ParchmentPanel>
           ))}
         </div>
@@ -355,7 +355,7 @@ export default function OneshotFestivalPage() {
             <ParchmentPanel key={theme.theme} className="p-4 border border-gold-dim/50">
               <h4 className="font-heading text-ink mb-1">Festival de {theme.theme}</h4>
               <p className="font-body text-ink text-sm mb-1">{theme.vibe}</p>
-              <p className="font-ui text-xs text-gold-dim">Eventos: {theme.events}</p>
+              <p className="font-ui text-xs text-gold">Eventos: {theme.events}</p>
             </ParchmentPanel>
           ))}
         </div>

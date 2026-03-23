@@ -237,11 +237,11 @@ export default function PersonalizarPartidaPage() {
               <h3 className="font-heading text-ink mb-2">{level.level}</h3>
               <div className="grid md:grid-cols-3 gap-2 text-xs mb-2">
                 <div className="p-2 bg-gold/10 rounded">
-                  <span className="font-ui text-gold-dim">Combate:</span>
+                  <span className="font-ui text-gold">Combate:</span>
                   <p className="font-body text-ink">{level.combat}</p>
                 </div>
                 <div className="p-2 bg-gold/10 rounded">
-                  <span className="font-ui text-gold-dim">Consecuencias:</span>
+                  <span className="font-ui text-gold">Consecuencias:</span>
                   <p className="font-body text-ink">{level.consequences}</p>
                 </div>
                 <div className="p-2 bg-blood/10 rounded">
@@ -249,7 +249,7 @@ export default function PersonalizarPartidaPage() {
                   <p className="font-body text-ink">{level.death}</p>
                 </div>
               </div>
-              <p className="font-ui text-xs text-gold-dim">Mejor para: {level.bestFor}</p>
+              <p className="font-ui text-xs text-gold">Mejor para: {level.bestFor}</p>
             </ParchmentPanel>
           ))}
         </div>
@@ -266,11 +266,11 @@ export default function PersonalizarPartidaPage() {
               <p className="font-body text-ink text-sm mb-2">{pacing.desc}</p>
               <div className="grid md:grid-cols-2 gap-2 text-xs">
                 <div className="p-2 bg-gold/10 rounded">
-                  <span className="font-ui text-gold-dim">Sesiones:</span>
+                  <span className="font-ui text-gold">Sesiones:</span>
                   <p className="font-body text-ink">{pacing.sessions}</p>
                 </div>
                 <div className="p-2 bg-gold/10 rounded">
-                  <span className="font-ui text-gold-dim">Roleplay:</span>
+                  <span className="font-ui text-gold">Roleplay:</span>
                   <p className="font-body text-ink">{pacing.roleplay}</p>
                 </div>
               </div>
@@ -310,7 +310,7 @@ export default function PersonalizarPartidaPage() {
             {quickCommands.map((cmd) => (
               <div key={cmd.command} className="p-2 bg-gold/5 rounded">
                 <span className="font-mono text-ink text-sm">{cmd.command}</span>
-                <p className="font-body text-ink text-xs text-gold-dim">{cmd.effect}</p>
+                <p className="font-body text-ink text-xs text-gold">{cmd.effect}</p>
               </div>
             ))}
           </div>
@@ -326,7 +326,7 @@ export default function PersonalizarPartidaPage() {
             <ParchmentPanel key={i} className="p-4 border border-gold-dim/50">
               <div className="grid md:grid-cols-2 gap-3">
                 <div className="p-2 bg-gold/10 rounded">
-                  <span className="font-ui text-xs text-gold-dim">Pedis:</span>
+                  <span className="font-ui text-xs text-gold">Pedis:</span>
                   <p className="font-body text-ink text-sm">"{ex.request}"</p>
                 </div>
                 <div className="p-2 bg-emerald/10 rounded">

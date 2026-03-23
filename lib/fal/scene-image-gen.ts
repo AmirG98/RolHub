@@ -45,7 +45,7 @@ const MOOD_MODIFIERS: Record<UIMood, string> = {
 }
 
 // Prefijos negativos para evitar problemas comunes
-const NEGATIVE_PROMPT = 'text, watermark, signature, ugly, deformed, disfigured, poor quality, bad anatomy, extra limbs, blurry, low resolution, duplicate, morbid, mutilated, out of frame, poorly drawn face, mutation'
+const NEGATIVE_PROMPT = 'text, watermark, signature, ugly, deformed, disfigured, poor quality, bad anatomy, extra limbs, extra fingers, extra hands, wrong number of fingers, too many characters, extra people, blurry, low resolution, duplicate, morbid, mutilated, out of frame, poorly drawn face, mutation, wrong weapon, mismatched equipment, floating objects'
 
 export interface SceneImageOptions {
   /** Prompt generado por el DM */
@@ -58,6 +58,8 @@ export interface SceneImageOptions {
   locationName?: string
   /** Tipo de ubicación */
   locationType?: string
+  /** Descripción del personaje principal para consistencia visual */
+  characterDescription?: string
   /** Ancho de imagen */
   width?: number
   /** Alto de imagen */
@@ -85,6 +87,10 @@ export function buildScenePrompt(options: SceneImageOptions): string {
     options.prompt,
   ]
 
+  if (options.characterDescription) {
+    parts.push(`main character: ${options.characterDescription}`)
+  }
+
   if (moodModifier) {
     parts.push(moodModifier)
   }
@@ -94,7 +100,7 @@ export function buildScenePrompt(options: SceneImageOptions): string {
   }
 
   // Añadir indicaciones de calidad
-  parts.push('masterpiece, high detail, professional illustration, cinematic composition')
+  parts.push('masterpiece, high detail, professional illustration, cinematic composition, correct anatomy, correct number of fingers')
 
   return parts.join(', ')
 }
@@ -268,6 +274,7 @@ export async function handleSceneImageRequest(
     mood?: string
     locationName?: string
     quality?: string
+    characterDescription?: string
   }
 ): Promise<{
   success: boolean
@@ -282,6 +289,7 @@ export async function handleSceneImageRequest(
       lore: body.lore as Lore,
       mood: body.mood as UIMood | undefined,
       locationName: body.locationName,
+      characterDescription: body.characterDescription,
       quality: (body.quality as 'draft' | 'standard' | 'high') || 'standard',
     })
 

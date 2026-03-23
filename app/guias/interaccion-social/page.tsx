@@ -179,7 +179,7 @@ export default function InteraccionSocialPage() {
                 <div>
                   <h3 className="font-heading text-xl text-ink mb-2">{a.approach}</h3>
                   <p className="font-body text-ink mb-2">{a.desc}</p>
-                  <p className="font-ui text-sm text-gold-dim mb-3">Cuando usar: {a.when}</p>
+                  <p className="font-ui text-sm text-gold mb-3">Cuando usar: {a.when}</p>
                   <div className="p-3 bg-gold/10 rounded">
                     <p className="font-body text-ink text-sm italic">"{a.example}"</p>
                   </div>

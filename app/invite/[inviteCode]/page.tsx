@@ -135,7 +135,7 @@ export default function InvitePage() {
             </p>
 
             {/* Player count */}
-            <div className="flex items-center justify-center gap-2 mb-6 text-stone">
+            <div className="flex items-center justify-center gap-2 mb-6 text-parchment-dark">
               <Users className="w-5 h-5" />
               <span className="font-ui">
                 {campaignInfo?.playerCount} / {campaignInfo?.maxPlayers} jugadores
@@ -144,7 +144,7 @@ export default function InvitePage() {
 
             {/* Invite Code */}
             <div className="glass-panel rounded-lg p-3 mb-6">
-              <p className="font-ui text-xs text-gold-dim mb-1">Código de invitación</p>
+              <p className="font-ui text-xs text-gold mb-1">Código de invitación</p>
               <p className="font-mono text-2xl text-gold tracking-widest">{inviteCode}</p>
             </div>
 
@@ -180,7 +180,7 @@ export default function InvitePage() {
               </RunicButton>
             ) : (
               <div className="space-y-3">
-                <p className="font-body text-stone text-sm">
+                <p className="font-body text-parchment-dark text-sm">
                   Inicia sesión para unirte a esta aventura
                 </p>
                 <SignInButton mode="modal">

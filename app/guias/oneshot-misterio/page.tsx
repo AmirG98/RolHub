@@ -222,7 +222,7 @@ export default function OneshotMisterioPage() {
                     <span className="font-mono text-xs text-gold bg-gold/10 px-2 py-1 rounded">{phase.time}</span>
                   </div>
                   <p className="font-body text-ink text-sm mb-1">{phase.desc}</p>
-                  <p className="font-ui text-xs text-gold-dim">Tip: {phase.tip}</p>
+                  <p className="font-ui text-xs text-gold">Tip: {phase.tip}</p>
                 </div>
               </div>
             ))}
@@ -266,7 +266,7 @@ export default function OneshotMisterioPage() {
               <h4 className="font-heading text-ink mb-1">{clue.type}</h4>
               <div className="grid md:grid-cols-2 gap-2 text-sm">
                 <div className="p-2 bg-gold/10 rounded">
-                  <span className="font-ui text-xs text-gold-dim">Ejemplo</span>
+                  <span className="font-ui text-xs text-gold">Ejemplo</span>
                   <p className="font-body text-ink">{clue.example}</p>
                 </div>
                 <div className="p-2 bg-emerald/10 rounded">
@@ -289,7 +289,7 @@ export default function OneshotMisterioPage() {
               <h3 className="font-heading text-ink mb-2">{setup.setup}</h3>
               <p className="font-body text-ink text-sm mb-2"><strong>Hook:</strong> {setup.hook}</p>
               <p className="font-body text-ink text-sm mb-2"><strong>Sospechosos:</strong> {setup.sospechosos}</p>
-              <p className="font-ui text-xs text-gold-dim"><strong>Complicacion:</strong> {setup.complicacion}</p>
+              <p className="font-ui text-xs text-gold"><strong>Complicacion:</strong> {setup.complicacion}</p>
             </ParchmentPanel>
           ))}
         </div>

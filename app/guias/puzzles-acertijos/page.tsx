@@ -219,7 +219,7 @@ export default function PuzzlesAcertijosPage() {
               <div className="p-2 bg-gold/10 rounded mb-2">
                 <p className="font-body text-ink text-sm italic">Ejemplo: {puzzle.example}</p>
               </div>
-              <p className="font-ui text-xs text-gold-dim">Respuesta: {puzzle.answer}</p>
+              <p className="font-ui text-xs text-gold">Respuesta: {puzzle.answer}</p>
             </ParchmentPanel>
           ))}
         </div>
@@ -234,7 +234,7 @@ export default function PuzzlesAcertijosPage() {
             <ParchmentPanel key={principle.principle} className="p-4 border border-gold-dim/50">
               <h4 className="font-heading text-ink mb-1">{principle.principle}</h4>
               <p className="font-body text-ink text-sm mb-1">{principle.desc}</p>
-              <p className="font-ui text-xs text-gold-dim">Por que: {principle.why}</p>
+              <p className="font-ui text-xs text-gold">Por que: {principle.why}</p>
             </ParchmentPanel>
           ))}
         </div>
@@ -265,7 +265,7 @@ export default function PuzzlesAcertijosPage() {
               <h3 className="font-heading text-ink mb-2">{puzzle.name}</h3>
               <p className="font-body text-ink text-sm mb-2"><strong>Setup:</strong> {puzzle.setup}</p>
               <div className="mb-2">
-                <span className="font-ui text-xs text-gold-dim">Pistas:</span>
+                <span className="font-ui text-xs text-gold">Pistas:</span>
                 <ul className="font-body text-ink text-sm ml-4">
                   {puzzle.pistas.map((pista, i) => (
                     <li key={i}>• {pista}</li>
@@ -273,7 +273,7 @@ export default function PuzzlesAcertijosPage() {
                 </ul>
               </div>
               <p className="font-body text-ink text-sm mb-2"><strong>Solucion:</strong> {puzzle.solucion}</p>
-              <p className="font-ui text-xs text-gold-dim"><strong>Escape:</strong> {puzzle.escape}</p>
+              <p className="font-ui text-xs text-gold"><strong>Escape:</strong> {puzzle.escape}</p>
             </ParchmentPanel>
           ))}
         </div>

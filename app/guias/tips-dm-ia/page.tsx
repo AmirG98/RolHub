@@ -209,7 +209,7 @@ export default function TipsDmIaPage() {
                   <p className="font-mono text-ink text-sm">"{tip.good}"</p>
                 </div>
               </div>
-              <p className="font-ui text-xs text-gold-dim">Por que: {tip.why}</p>
+              <p className="font-ui text-xs text-gold">Por que: {tip.why}</p>
             </ParchmentPanel>
           ))}
         </div>
@@ -224,7 +224,7 @@ export default function TipsDmIaPage() {
             <ParchmentPanel key={format.format} className="p-4 border border-gold-dim/50">
               <h4 className="font-heading text-ink mb-1">{format.format}</h4>
               <p className="font-mono text-ink text-sm bg-gold/10 p-2 rounded mb-2">"{format.example}"</p>
-              <p className="font-ui text-xs text-gold-dim">Resultado: {format.result}</p>
+              <p className="font-ui text-xs text-gold">Resultado: {format.result}</p>
             </ParchmentPanel>
           ))}
         </div>
@@ -239,7 +239,7 @@ export default function TipsDmIaPage() {
             <ParchmentPanel key={exp.expectation} className="p-4 border border-gold-dim/50">
               <h4 className="font-heading text-ink mb-1">{exp.expectation}</h4>
               <p className="font-body text-ink text-sm mb-1">{exp.reality}</p>
-              <p className="font-ui text-xs text-gold-dim">Tip: {exp.tip}</p>
+              <p className="font-ui text-xs text-gold">Tip: {exp.tip}</p>
             </ParchmentPanel>
           ))}
         </div>
@@ -254,7 +254,7 @@ export default function TipsDmIaPage() {
             <ParchmentPanel key={tech.technique} className="p-4 border border-gold-dim/50">
               <h4 className="font-heading text-ink mb-1">{tech.technique}</h4>
               <p className="font-mono text-ink text-xs bg-gold/10 p-2 rounded mb-2">"{tech.how}"</p>
-              <p className="font-ui text-xs text-gold-dim">{tech.benefit}</p>
+              <p className="font-ui text-xs text-gold">{tech.benefit}</p>
             </ParchmentPanel>
           ))}
         </div>

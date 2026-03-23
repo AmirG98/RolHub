@@ -269,7 +269,7 @@ export default function SesionCeroPage() {
             <ParchmentPanel key={tip.tip} className="p-4 border border-gold-dim/50">
               <h4 className="font-heading text-ink mb-1">{tip.tip}</h4>
               <p className="font-body text-ink text-sm mb-2">{tip.desc}</p>
-              <p className="font-ui text-xs text-gold-dim italic">Ej: {tip.example}</p>
+              <p className="font-ui text-xs text-gold italic">Ej: {tip.example}</p>
             </ParchmentPanel>
           ))}
         </div>
@@ -286,7 +286,7 @@ export default function SesionCeroPage() {
                 <CheckCircle className="h-4 w-4 text-gold flex-shrink-0 mt-1" />
                 <div>
                   <span className="font-heading text-ink text-sm">{item.item}</span>
-                  <p className="font-body text-ink text-xs text-gold-dim">{item.detail}</p>
+                  <p className="font-body text-ink text-xs text-gold">{item.detail}</p>
                 </div>
               </div>
             ))}
@@ -303,7 +303,7 @@ export default function SesionCeroPage() {
             <ParchmentPanel key={tool.tool} className="p-4 border border-gold-dim/50">
               <h4 className="font-heading text-ink mb-1">{tool.tool}</h4>
               <p className="font-body text-ink text-sm mb-2">{tool.desc}</p>
-              <p className="font-ui text-xs text-gold-dim">{tool.how}</p>
+              <p className="font-ui text-xs text-gold">{tool.how}</p>
             </ParchmentPanel>
           ))}
         </div>

@@ -174,7 +174,7 @@ export default function CombatePage() {
                 <div>
                   <h3 className="font-heading text-ink mb-1">{phase.phase}</h3>
                   <p className="font-body text-ink text-sm mb-2">{phase.desc}</p>
-                  <p className="font-ui text-xs text-gold-dim">Tip: {phase.tip}</p>
+                  <p className="font-ui text-xs text-gold">Tip: {phase.tip}</p>
                 </div>
               </div>
             ))}

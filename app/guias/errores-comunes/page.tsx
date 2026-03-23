@@ -196,7 +196,7 @@ export default function ErroresComunesPage() {
                 </div>
 
                 <div className="p-3 bg-gold/10 rounded-lg border-l-4 border-gold">
-                  <span className="font-heading text-gold-dim text-sm">Ejemplo:</span>
+                  <span className="font-heading text-gold text-sm">Ejemplo:</span>
                   <p className="font-body text-ink italic">{error.example}</p>
                 </div>
               </div>

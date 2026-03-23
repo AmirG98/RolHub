@@ -176,7 +176,7 @@ export default function EtiquetaMesaPage() {
                 <div>
                   <h3 className="font-heading text-lg text-ink mb-1">{rule.rule}</h3>
                   <p className="font-body text-ink text-sm mb-2">{rule.desc}</p>
-                  <p className="font-ui text-xs text-gold-dim">
+                  <p className="font-ui text-xs text-gold">
                     <Sparkles className="h-3 w-3 inline mr-1" /> {rule.tip}
                   </p>
                 </div>

@@ -224,7 +224,7 @@ export default function SesionFinalPage() {
               <p className="font-body text-ink text-sm mb-2">{type.desc}</p>
               <div className="grid grid-cols-2 gap-2 text-xs">
                 <div className="p-1 bg-gold/10 rounded">
-                  <span className="font-ui text-gold-dim">Tono:</span>
+                  <span className="font-ui text-gold">Tono:</span>
                   <span className="font-body text-ink"> {type.tone}</span>
                 </div>
                 <div className="p-1 bg-emerald/10 rounded">
@@ -251,7 +251,7 @@ export default function SesionFinalPage() {
                 <div>
                   <h4 className="font-heading text-ink">{phase.phase}</h4>
                   <p className="font-body text-ink text-sm mb-1">{phase.desc}</p>
-                  <p className="font-ui text-xs text-gold-dim">Tip: {phase.tip}</p>
+                  <p className="font-ui text-xs text-gold">Tip: {phase.tip}</p>
                 </div>
               </div>
             ))}
@@ -309,7 +309,7 @@ export default function SesionFinalPage() {
           <div className="space-y-3">
             {callbackIdeas.map((idea) => (
               <div key={idea.from} className="p-3 bg-gold/5 rounded">
-                <span className="font-ui text-xs text-gold-dim">{idea.from}:</span>
+                <span className="font-ui text-xs text-gold">{idea.from}:</span>
                 <p className="font-body text-ink text-sm">{idea.callback}</p>
               </div>
             ))}

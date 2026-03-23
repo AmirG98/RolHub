@@ -149,7 +149,7 @@ export function CharacterPortrait({
       {/* Character name below */}
       <div className="mt-2 text-center">
         <p className="font-heading text-gold text-sm truncate">{name}</p>
-        <p className="font-ui text-gold-dim text-xs truncate">{archetype}</p>
+        <p className="font-ui text-gold text-xs truncate">{archetype}</p>
       </div>
     </div>
   )
@@ -214,7 +214,7 @@ export function CharacterPortraitCompact({
       {/* Info + button */}
       <div className="flex-1 min-w-0">
         <p className="font-heading text-gold text-sm truncate">{name}</p>
-        <p className="font-ui text-gold-dim text-xs truncate">{archetype}</p>
+        <p className="font-ui text-gold text-xs truncate">{archetype}</p>
         {!currentUrl && !isGenerating && (
           <button
             onClick={handleGenerate}

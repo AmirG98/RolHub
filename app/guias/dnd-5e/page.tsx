@@ -424,15 +424,15 @@ export default function DnD5ePage() {
             <h3 className="font-heading text-ink mb-3">Para atacar:</h3>
             <ol className="space-y-2">
               <li className="flex gap-3 text-ink">
-                <span className="font-heading text-gold-dim">1.</span>
+                <span className="font-heading text-gold">1.</span>
                 <span>Tiras d20 + modificador de ataque</span>
               </li>
               <li className="flex gap-3 text-ink">
-                <span className="font-heading text-gold-dim">2.</span>
+                <span className="font-heading text-gold">2.</span>
                 <span>Si igualas o superas la Clase de Armadura (CA) del enemigo, pegas</span>
               </li>
               <li className="flex gap-3 text-ink">
-                <span className="font-heading text-gold-dim">3.</span>
+                <span className="font-heading text-gold">3.</span>
                 <span>Tiras el dado de daño de tu arma + modificador</span>
               </li>
             </ol>

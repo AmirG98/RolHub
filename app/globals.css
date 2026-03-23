@@ -162,17 +162,17 @@
 
   .dialogue-text::before {
     content: '"';
-    @apply text-parchment/60;
+    @apply text-parchment/80;
   }
 
   .dialogue-text::after {
     content: '"';
-    @apply text-parchment/60;
+    @apply text-parchment/80;
   }
 
   /* Mensajes del sistema */
   .system-text {
-    @apply font-mono text-sm text-parchment/60;
+    @apply font-mono text-sm text-parchment/80;
   }
 
   /* Nombre de NPC */

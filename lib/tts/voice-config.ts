@@ -192,7 +192,7 @@ export const NPC_VOICES = {
  * Obtiene una voz de NPC consistente basada en el nombre
  * El mismo nombre siempre retorna la misma voz
  */
-export function getNPCVoice(npcName: string, locale: 'es' | 'en'): string {
+export function getNPCVoice(npcName: string, locale: 'es' | 'en', gender?: 'male' | 'female' | 'neutral'): string {
   // Hash simple del nombre para consistencia
   let hash = 0
   for (let i = 0; i < npcName.length; i++) {
@@ -201,12 +201,38 @@ export function getNPCVoice(npcName: string, locale: 'es' | 'en'): string {
   }
   hash = Math.abs(hash)
 
-  // Determinar género por nombre (heurística simple)
-  const femaleIndicators = ['a', 'ella', 'ina', 'ara', 'isa', 'ia']
-  const lastName = npcName.toLowerCase().split(' ').pop() || ''
-  const isFemale = femaleIndicators.some(ind => lastName.endsWith(ind))
+  let detectedGender: 'male' | 'female' | 'neutral'
 
-  const voices = isFemale ? NPC_VOICES[locale].female : NPC_VOICES[locale].male
+  if (gender) {
+    // Si se proporciona género explícito, usarlo directamente
+    detectedGender = gender
+  } else {
+    // Heurística mejorada de detección de género por nombre
+    const firstName = npcName.toLowerCase().split(' ')[0] || ''
+    const lastName = npcName.toLowerCase().split(' ').pop() || ''
+
+    // Terminaciones masculinas que sobreescriben (evita falsos positivos con -a)
+    const maleOverrides = ['aldo', 'ardo', 'ondo', 'undo', 'ulf', 'alf', 'orn', 'mund', 'vald', 'brand', 'heim', 'rik', 'gar', 'mar', 'nar', 'thor', 'dur', 'grim', 'bjorn']
+    const isMaleOverride = maleOverrides.some(ind => firstName.endsWith(ind) || lastName.endsWith(ind))
+
+    if (isMaleOverride) {
+      detectedGender = 'male'
+    } else {
+      // Terminaciones femeninas comunes en español y fantasía
+      const femaleIndicators = ['a', 'ella', 'ina', 'ara', 'isa', 'ia', 'iel', 'wen', 'lyn', 'beth', 'ith']
+      // Excluir nombres que terminan en -a pero son típicamente masculinos
+      const maleExceptions = ['sha', 'ka', 'ra', 'da']
+      const isFemale = femaleIndicators.some(ind => firstName.endsWith(ind)) &&
+        !maleExceptions.some(exc => firstName.endsWith(exc) && firstName.length <= 4)
+      detectedGender = isFemale ? 'female' : 'male'
+    }
+  }
+
+  const voices = detectedGender === 'neutral'
+    ? NPC_VOICES[locale].neutral
+    : detectedGender === 'female'
+      ? NPC_VOICES[locale].female
+      : NPC_VOICES[locale].male
   const index = hash % voices.length
 
   return voices[index]
@@ -249,33 +275,21 @@ export function cleanTextForTTS(text: string): string {
  */
 export function addNaturalPauses(text: string): string {
   return text
-    // Pausa LARGA antes de nuevos párrafos/escenas
-    .replace(/\n\n+/g, '...... ')
+    // Pausa media entre párrafos (NO larga — evita silencios incómodos)
+    .replace(/\n\n+/g, '... ')
 
-    // Pausa LARGA antes de revelaciones dramáticas
-    .replace(/(de repente|entonces|de pronto|en ese momento|súbitamente|inesperadamente)/gi, '...... $1')
+    // Pausa corta solo antes de revelaciones dramáticas clave
+    .replace(/(de repente|de pronto|en ese momento)/gi, '... $1')
 
-    // Pausa MEDIA después de punto y seguido (antes de mayúscula)
-    .replace(/\. ([A-ZÁÉÍÓÚ])/g, '... $1')
-
-    // Pausa CORTA antes de conectores adversativos
-    .replace(/,?\s*(pero|sin embargo|aunque|no obstante|mientras tanto)/gi, '... $1')
-
-    // Pausa antes de conectores aditivos
-    .replace(/\s+(además|también|asimismo)\s+/gi, '... $1 ')
-
-    // Pausa LARGA antes de diálogos (dos puntos + comillas)
-    .replace(/:(\s*["«—])/g, ':... $1')
-
-    // Pausa después de nombres con verbos dicendi
-    .replace(/([A-ZÁÉÍÓÚ][a-záéíóúñ]+)\s+(dijo|exclamó|preguntó|murmuró|susurró|gritó|respondió)/g, '$1... $2')
-
-    // Asegurar espacio después de puntuación
+    // Asegurar espacio después de puntuación (sin agregar pausas extra —
+    // el modelo TTS ya pausa naturalmente en puntos y comas)
     .replace(/([.!?])([A-ZÁÉÍÓÚ])/g, '$1 $2')
 
-    // Limpiar pausas excesivas (máximo 6 puntos)
-    .replace(/\.{7,}/g, '......')
-    .replace(/\.{4,5}/g, '...')
+    // Limpiar saltos de línea restantes
+    .replace(/\n/g, ' ')
+
+    // Limpiar pausas excesivas (máximo 3 puntos)
+    .replace(/\.{4,}/g, '...')
 
     // Normalizar múltiples espacios
     .replace(/\s+/g, ' ')

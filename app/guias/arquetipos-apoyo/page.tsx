@@ -240,10 +240,10 @@ export default function ArquetiposApoyoPage() {
                 </div>
               </div>
               <div className="p-2 bg-gold/10 rounded mb-2">
-                <span className="font-ui text-xs text-gold-dim">Debilidad narrativa:</span>
+                <span className="font-ui text-xs text-gold">Debilidad narrativa:</span>
                 <p className="font-body text-ink text-sm">{arch.weakness}</p>
               </div>
-              <p className="font-ui text-xs text-gold-dim">Ejemplos: {arch.examples.join(', ')}</p>
+              <p className="font-ui text-xs text-gold">Ejemplos: {arch.examples.join(', ')}</p>
             </ParchmentPanel>
           ))}
         </div>
@@ -258,7 +258,7 @@ export default function ArquetiposApoyoPage() {
             <ParchmentPanel key={mind.mindset} className="p-4 border border-gold-dim/50">
               <h4 className="font-heading text-ink mb-1">{mind.mindset}</h4>
               <p className="font-body text-ink text-sm italic mb-1">"{mind.desc}"</p>
-              <p className="font-ui text-xs text-gold-dim">Playstyle: {mind.playstyle}</p>
+              <p className="font-ui text-xs text-gold">Playstyle: {mind.playstyle}</p>
             </ParchmentPanel>
           ))}
         </div>
@@ -295,7 +295,7 @@ export default function ArquetiposApoyoPage() {
             <ParchmentPanel key={dyn.dynamic} className="p-4 border border-gold-dim/50">
               <h4 className="font-heading text-ink mb-1">{dyn.dynamic}</h4>
               <p className="font-body text-ink text-sm mb-1">{dyn.interaction}</p>
-              <p className="font-ui text-xs text-gold-dim">Tip: {dyn.tip}</p>
+              <p className="font-ui text-xs text-gold">Tip: {dyn.tip}</p>
             </ParchmentPanel>
           ))}
         </div>

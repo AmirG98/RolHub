@@ -167,7 +167,7 @@ export default function ImprovisarPage() {
               )}
               {tech.example && (
                 <div className="p-3 bg-gold/10 rounded mt-3">
-                  <span className="font-ui text-sm text-gold-dim">Ejemplo:</span>
+                  <span className="font-ui text-sm text-gold">Ejemplo:</span>
                   <p className="font-body text-ink italic">{tech.example}</p>
                 </div>
               )}
@@ -190,7 +190,7 @@ export default function ImprovisarPage() {
                 ))}
               </ol>
               <div className="p-2 bg-gold/10 rounded">
-                <span className="font-ui text-xs text-gold-dim">Resultado:</span>
+                <span className="font-ui text-xs text-gold">Resultado:</span>
                 <p className="font-body text-ink text-sm italic">{item.example}</p>
               </div>
             </ParchmentPanel>
@@ -233,7 +233,7 @@ export default function ImprovisarPage() {
               <div key={ex.name} className="p-3 bg-gold/5 rounded">
                 <div className="flex items-center justify-between mb-1">
                   <h4 className="font-heading text-ink">{ex.name}</h4>
-                  <span className="text-xs font-ui text-gold-dim">{ex.duration}</span>
+                  <span className="text-xs font-ui text-gold">{ex.duration}</span>
                 </div>
                 <p className="font-body text-ink text-sm">{ex.desc}</p>
               </div>

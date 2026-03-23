@@ -218,10 +218,10 @@ export default function ArquetiposPicaroPage() {
                 </div>
               </div>
               <div className="p-2 bg-stone/30 rounded mb-2">
-                <span className="font-ui text-xs text-gold-dim">Debilidad narrativa:</span>
+                <span className="font-ui text-xs text-gold">Debilidad narrativa:</span>
                 <p className="font-body text-ink text-sm">{arch.weakness}</p>
               </div>
-              <p className="font-ui text-xs text-gold-dim">Ejemplos: {arch.examples.join(', ')}</p>
+              <p className="font-ui text-xs text-gold">Ejemplos: {arch.examples.join(', ')}</p>
             </ParchmentPanel>
           ))}
         </div>
@@ -258,7 +258,7 @@ export default function ArquetiposPicaroPage() {
             <ParchmentPanel key={type.type} className="p-4 border border-gold-dim/50">
               <h4 className="font-heading text-ink mb-1">{type.type}</h4>
               <p className="font-body text-ink text-sm mb-1">{type.desc}</p>
-              <p className="font-ui text-xs text-gold-dim">Tension: {type.tension}</p>
+              <p className="font-ui text-xs text-gold">Tension: {type.tension}</p>
             </ParchmentPanel>
           ))}
         </div>

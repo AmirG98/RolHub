@@ -29,7 +29,7 @@ export default function DiceTestPage() {
         <h1 className="font-title text-4xl text-gold text-center mb-2">
           Dados 3D
         </h1>
-        <p className="font-ui text-parchment/60 text-center mb-8">
+        <p className="font-ui text-parchment/80 text-center mb-8">
           Sistema de dados con física real (WebGL + BabylonJS)
         </p>
 
@@ -46,7 +46,7 @@ export default function DiceTestPage() {
                 <div className="font-heading text-2xl text-gold mb-1">
                   {dice.label}
                 </div>
-                <div className="font-ui text-xs text-parchment/60">
+                <div className="font-ui text-xs text-parchment/80">
                   {dice.description}
                 </div>
               </button>
@@ -58,7 +58,7 @@ export default function DiceTestPage() {
           <ParchmentPanel className="p-6">
             <h2 className="font-heading text-xl text-ink mb-4">Último Resultado</h2>
             <div className="flex items-center gap-4">
-              <div className="font-mono text-parchment/60">
+              <div className="font-mono text-parchment/80">
                 {result.formula}
               </div>
               <div className="font-heading text-3xl text-gold">

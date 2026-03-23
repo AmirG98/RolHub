@@ -218,7 +218,7 @@ export default function SesionesCortasPage() {
                 <h3 className="font-heading text-ink">{format.format}</h3>
               </div>
               <p className="font-body text-ink text-sm mb-2">{format.structure}</p>
-              <p className="font-ui text-xs text-gold-dim">Ideal: {format.ideal}</p>
+              <p className="font-ui text-xs text-gold">Ideal: {format.ideal}</p>
             </ParchmentPanel>
           ))}
         </div>

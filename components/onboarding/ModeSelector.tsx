@@ -143,10 +143,10 @@ export function ModeSelector({ onSelect, onBack }: ModeSelectorProps) {
             >
               <div className="text-4xl md:text-6xl mb-2 md:mb-3">🧙</div>
               <h3 className="font-heading text-lg md:text-2xl text-parchment mb-1 md:mb-2">{t.onboarding.chooseMode.solo}</h3>
-              <p className="font-ui text-xs md:text-sm text-gold-dim mb-1">
+              <p className="font-ui text-xs md:text-sm text-gold mb-1">
                 {t.onboarding.chooseMode.soloDesc}
               </p>
-              <p className="font-body text-xs text-parchment/60 hidden md:block">
+              <p className="font-body text-xs text-parchment/80 hidden md:block">
                 {t.onboarding.chooseMode.soloDetail}
               </p>
             </button>
@@ -162,7 +162,7 @@ export function ModeSelector({ onSelect, onBack }: ModeSelectorProps) {
               <p className="font-ui text-xs md:text-sm text-emerald mb-1">
                 {t.onboarding.chooseMode.withFriendsDesc}
               </p>
-              <p className="font-body text-xs text-parchment/60 hidden md:block">
+              <p className="font-body text-xs text-parchment/80 hidden md:block">
                 {t.onboarding.chooseMode.withFriendsDetail}
               </p>
             </button>
@@ -192,7 +192,7 @@ export function ModeSelector({ onSelect, onBack }: ModeSelectorProps) {
                 <p className="font-ui text-xs md:text-sm mb-1 md:mb-2 line-clamp-2" style={{ color: mode.color }}>
                   {mode.tagline}
                 </p>
-                <p className="font-body text-xs text-parchment/60 hidden md:block">{mode.description}</p>
+                <p className="font-body text-xs text-parchment/80 hidden md:block">{mode.description}</p>
               </button>
             ))}
           </div>
@@ -236,7 +236,7 @@ export function ModeSelector({ onSelect, onBack }: ModeSelectorProps) {
                 <p className="font-ui text-[10px] md:text-xs mb-1 md:mb-2 line-clamp-1" style={{ color: engine.comingSoon ? '#888' : engine.color }}>
                   {engine.tagline}
                 </p>
-                <p className="font-body text-xs text-parchment/60 hidden md:block">{engine.description}</p>
+                <p className="font-body text-xs text-parchment/80 hidden md:block">{engine.description}</p>
               </button>
             ))}
           </div>
@@ -268,7 +268,7 @@ export function ModeSelector({ onSelect, onBack }: ModeSelectorProps) {
               >
                 <div className="text-2xl md:text-4xl mb-1 md:mb-2">{level.icon}</div>
                 <h3 className="font-heading text-sm md:text-lg text-parchment mb-0.5 md:mb-1">{level.name}</h3>
-                <p className="font-body text-[10px] md:text-xs text-parchment/60 line-clamp-2">{level.description}</p>
+                <p className="font-body text-[10px] md:text-xs text-parchment/80 line-clamp-2">{level.description}</p>
               </button>
             ))}
           </div>

@@ -194,7 +194,7 @@ export default function CrearNPCsPage() {
             <ParchmentPanel key={arch.name} className="p-4 border border-gold-dim/50">
               <h3 className="font-heading text-ink mb-1">{arch.name}</h3>
               <p className="font-body text-ink text-sm mb-2">{arch.desc}</p>
-              <p className="font-ui text-xs text-gold-dim">Ejemplos: {arch.example}</p>
+              <p className="font-ui text-xs text-gold">Ejemplos: {arch.example}</p>
             </ParchmentPanel>
           ))}
         </div>

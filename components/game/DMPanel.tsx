@@ -128,7 +128,7 @@ export default function DMPanel({
         {/* Damage/Heal Target Selector */}
         {(actionType === 'damage' || actionType === 'heal') && (
           <div className="mb-4 p-3 bg-shadow/20 rounded-lg">
-            <label className="font-ui text-sm text-gold-dim mb-2 block">
+            <label className="font-ui text-sm text-gold mb-2 block">
               {actionType === 'damage' ? 'Infligir daño a:' : 'Curar a:'}
             </label>
             <div className="flex gap-3">
@@ -242,7 +242,7 @@ export default function DMPanel({
         {/* World State Info (DM Only) */}
         <div className="mt-4 pt-4 border-t border-gold/20">
           <details className="group">
-            <summary className="font-ui text-sm text-gold-dim cursor-pointer hover:text-gold">
+            <summary className="font-ui text-sm text-gold cursor-pointer hover:text-gold-bright">
               Ver Estado del Mundo (solo DM)
             </summary>
             <div className="mt-2 p-3 bg-shadow/30 rounded-lg text-xs font-mono text-parchment/70 max-h-40 overflow-auto">

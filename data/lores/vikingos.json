@@ -437,7 +437,7 @@
       "description": "Guerrero que pelea con furia divina sin sentir dolor. Bendecido (o maldecido) por Odín, entras en un trance de batalla donde no conoces miedo ni piedad. Los enemigos huyen ante tu presencia. Tus aliados te respetan... y te temen.",
       "simple_description": "En batalla, entrás en frenesí sagrado. No sentís dolor. Tu furia es legendaria. Los enemigos te temen.",
       "starting_stats": {"hp": 28, "maxHp": 28, "combat": 6, "exploration": 2, "social": 1, "lore": 1},
-      "starting_inventory": ["Hacha de guerra danesa", "Piel de oso", "Amuleto de Odín", "Cuerno de hidromiel", "Pintura de guerra"],
+      "starting_inventory": ["Hacha de guerra danesa", "Piel de oso", "Amuleto de Odín", "Cuerno de hidromiel", "Pintura de guerra", "Saco de dormir de piel", "Carne seca y pan de viaje (3 días)", "Cuerda trenzada (15m)", "Antorcha de resina (2)", "Pedernal y yesca", "Ungüento curativo"],
       "special_ability": "Furia Berserker: En combate, no podés morir hasta que termine (quedás con 1 HP). Después colapsás exhausto",
       "background": {
         "origin": "Nadie nace berserker. El don llega en un momento de desesperación - una batalla perdida, la muerte de seres queridos, una herida mortal que no mata. Algo se rompe dentro. Algo se despierta. La primera vez que entraste en furia, no recordás nada. Solo los cuerpos después.",
@@ -468,7 +468,7 @@
       "description": "Poeta, cantor e historiador. Tus palabras tienen poder: podés inmortalizar o destruir la reputación de un guerrero. Los skalds recuerdan las sagas, componen nuevas, y su lengua afilada puede ser más letal que cualquier espada. En una cultura donde la fama eterna importa más que la vida, vos controlás quién será recordado.",
       "simple_description": "Tus palabras inspiran a guerreros. Conocés las sagas antiguas. Tu lengua es tan poderosa como cualquier espada.",
       "starting_stats": {"hp": 16, "maxHp": 16, "combat": 2, "exploration": 3, "social": 5, "lore": 4},
-      "starting_inventory": ["Lira de madera", "Pergaminos de sagas", "Ropa fina", "Anillo de plata", "Favor de un jarl"],
+      "starting_inventory": ["Lira de madera", "Pergaminos de sagas", "Ropa fina", "Anillo de plata", "Favor de un jarl", "Saco de dormir de piel", "Carne seca y pan de viaje (3 días)", "Odre de hidromiel", "Cuerda trenzada (15m)", "Antorcha de resina (2)", "Bolsa con 10 piezas de plata"],
       "special_ability": "Canto de Batalla: Tus aliados reciben +2 a combate mientras cantás. Podés desmoralizar enemigos con insultos épicos",
       "background": {
         "origin": "Desde joven mostraste talento con las palabras. Mientras otros niños jugaban con espadas de madera, vos memorizabas las sagas de los ancestros. Un skald viajero te escuchó recitar y te tomó como aprendiz. Te enseñó el arte de la poesía escáldica: kennings, metro, aliteración.",
@@ -499,7 +499,7 @@
       "description": "Guerrera que ha demostrado su valía en combate. En una sociedad donde los hombres guerrean, elegiste tomar el escudo y la espada. Tuviste que ser el doble de buena para ganar la mitad del respeto, pero ahora nadie cuestiona tu lugar en el muro de escudos.",
       "simple_description": "Luchás tan bien como cualquier hombre. Tu escudo protege a tus compañeros. Has ganado tu lugar en el salón.",
       "starting_stats": {"hp": 22, "maxHp": 22, "combat": 4, "exploration": 3, "social": 3, "lore": 2},
-      "starting_inventory": ["Espada y escudo", "Cota de mallas", "Lanza de caza", "Cuchillo de sacrificio", "Amuleto de Freyja"],
+      "starting_inventory": ["Espada y escudo", "Cota de mallas", "Lanza de caza", "Cuchillo de sacrificio", "Amuleto de Freyja", "Saco de dormir de piel", "Carne seca y pan de viaje (3 días)", "Odre de hidromiel", "Cuerda trenzada (15m)", "Pedernal y yesca", "Ungüento curativo"],
       "special_ability": "Muro de Escudos: Podés proteger a aliados adyacentes. Los ataques a ellos te afectan a vos en su lugar",
       "background": {
         "origin": "Las razones varían. Algunas nacen en familias sin hijos varones. Otras rechazan el telar por la espada. Algunas buscan venganza. Vos tomaste las armas porque era lo correcto para vos. Tu familia lo aceptó... eventualmente.",
@@ -530,7 +530,7 @@
       "description": "Practicante de seiðr, la magia de la visión y el destino. Podés ver el futuro, hablar con los muertos, y maldecir a tus enemigos. Tu poder viene con un precio: la magia te cambia, y la sociedad te mira con mezcla de reverencia y miedo.",
       "simple_description": "Ves el futuro en las runas. Los espíritus te hablan. Tu magia puede bendecir o maldecir.",
       "starting_stats": {"hp": 14, "maxHp": 14, "combat": 1, "exploration": 3, "social": 4, "lore": 6},
-      "starting_inventory": ["Báculo tallado con runas", "Bolsa de runas divinatorias", "Capa de plumas", "Hierbas rituales", "Cráneo ancestral"],
+      "starting_inventory": ["Báculo tallado con runas", "Bolsa de runas divinatorias", "Capa de plumas", "Hierbas rituales", "Cráneo ancestral", "Saco de dormir de piel", "Carne seca y pan de viaje (3 días)", "Odre de hidromiel", "Antorcha de resina (2)", "Pedernal y yesca", "Ungüento curativo"],
       "special_ability": "Visión del Destino: Una vez por sesión, podés ver un fragmento del futuro. El DM te da una pista críptica pero útil",
       "background": {
         "origin": "Los dones se manifiestan jóvenes: sueños que se cumplen, voces de los muertos, visiones durante fiebres. Una völva mayor te encontró y te tomó como aprendiz. El entrenamiento duró años, e incluyó rituales que la mayoría no sobreviviría.",
@@ -561,7 +561,7 @@
       "description": "Hijo o hija de un líder del clan. Naciste con privilegios pero también con expectativas imposibles. Debés demostrar que merecés liderar por tus propios méritos, no solo por tu sangre. El trono te espera... si sobrevivís.",
       "simple_description": "Sangre noble corre por tus venas. Debés demostrar que merecés liderar. El clan te observa.",
       "starting_stats": {"hp": 20, "maxHp": 20, "combat": 3, "exploration": 3, "social": 5, "lore": 3},
-      "starting_inventory": ["Espada ancestral de la familia", "Armadura de calidad", "Anillo de sello del clan", "Capa de piel fina", "Mapa de territorios del clan"],
+      "starting_inventory": ["Espada ancestral de la familia", "Armadura de calidad", "Anillo de sello del clan", "Capa de piel fina", "Mapa de territorios del clan", "Saco de dormir de piel", "Carne seca y pan de viaje (3 días)", "Odre de hidromiel", "Cuerda trenzada (15m)", "Pedernal y yesca", "Bolsa con 10 piezas de plata"],
       "special_ability": "Autoridad de Sangre: Podés invocar el nombre de tu familia para obtener respeto, recursos o paso seguro en territorio amigo",
       "background": {
         "origin": "Creciste en el gran salón, rodeado de guerreros, consejeros y espías. Aprendiste política antes de caminar. Viste a tu padre/madre tomar decisiones imposibles. Sabés que el poder tiene precio.",
@@ -592,7 +592,7 @@
       "description": "Naciste o fuiste capturado como thrall (esclavo). Contra toda probabilidad, ganaste tu libertad - por valor en batalla, compra, o servicio excepcional. Ahora debés construir una nueva identidad. No tenés linaje, pero tenés determinación.",
       "simple_description": "Fuiste esclavo. Ahora sos libre. No tenés linaje pero tenés voluntad de hierro.",
       "starting_stats": {"hp": 18, "maxHp": 18, "combat": 3, "exploration": 4, "social": 2, "lore": 3},
-      "starting_inventory": ["Cuchillo de trabajo (ahora arma)", "Ropas simples de hombre libre", "Documento de liberación", "Herramientas de oficio", "Pequeño ahorro de plata"],
+      "starting_inventory": ["Cuchillo de trabajo (ahora arma)", "Ropas simples de hombre libre", "Documento de liberación", "Herramientas de oficio", "Pequeño ahorro de plata", "Saco de dormir de piel", "Carne seca y pan de viaje (3 días)", "Odre de hidromiel", "Cuerda trenzada (15m)", "Antorcha de resina (2)", "Pedernal y yesca"],
       "special_ability": "Superviviente: Has sobrevivido lo peor. Tiradas de supervivencia y resistencia +2. Nunca te rendís",
       "background": {
         "origin": "Tal vez naciste esclavo de padres thralls. Tal vez fuiste capturado en una incursión cuando eras joven. Los años de servidumbre te endurecieron. Aprendiste a observar, a aguantar, a esperar tu momento.",

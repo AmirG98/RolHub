@@ -234,7 +234,7 @@ export default function JugadoresDificilesPage() {
                 <div>
                   <h4 className="font-heading text-ink">{step.step}</h4>
                   <p className="font-body text-ink text-sm mb-1">{step.desc}</p>
-                  <p className="font-ui text-xs text-gold-dim">Tip: {step.tip}</p>
+                  <p className="font-ui text-xs text-gold">Tip: {step.tip}</p>
                 </div>
               </div>
             ))}
@@ -251,7 +251,7 @@ export default function JugadoresDificilesPage() {
             <ParchmentPanel key={strategy.strategy} className="p-4 border border-gold-dim/50">
               <h4 className="font-heading text-ink mb-1">{strategy.strategy}</h4>
               <p className="font-body text-ink text-sm mb-1">{strategy.how}</p>
-              <p className="font-ui text-xs text-gold-dim">Previene: {strategy.prevents}</p>
+              <p className="font-ui text-xs text-gold">Previene: {strategy.prevents}</p>
             </ParchmentPanel>
           ))}
         </div>

@@ -51,6 +51,7 @@ export async function POST(req: NextRequest) {
       dnd5eStats?: Record<string, number | string>
       dnd5eInventory?: string[]
       dnd5eLevel?: number
+      customStats?: { combat: number; exploration: number; social: number; lore: number }
     }
 
     // Validar campos requeridos
@@ -182,7 +183,18 @@ export async function POST(req: NextRequest) {
 
       charName = characterName || archetypeData.name
       charArchetype = archetypeData.name
-      charStats = archetypeData.starting_stats
+      // Si hay customStats del point buy, usarlos en lugar de los defaults
+      if (body.customStats) {
+        charStats = {
+          ...archetypeData.starting_stats,
+          combat: body.customStats.combat,
+          exploration: body.customStats.exploration,
+          social: body.customStats.social,
+          lore: body.customStats.lore,
+        }
+      } else {
+        charStats = archetypeData.starting_stats
+      }
       charInventory = archetypeData.starting_inventory as string[]
       charLevel = 1
     }
