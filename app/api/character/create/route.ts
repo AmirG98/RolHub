@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@clerk/nextjs/server'
-import { prisma } from '@/lib/db/prisma'
+import { prisma, withRetry } from '@/lib/db/prisma'
 import { Lore, GameMode, GameEngine, TutorialLevel, Prisma } from '@prisma/client'
 import { createCampaignMapState } from '@/lib/maps/map-init'
 import { getExampleMapData } from '@/lib/maps/lore-map-data'
@@ -64,10 +64,10 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    // Buscar el usuario por clerkId
-    let user = await prisma.user.findUnique({
+    // Buscar el usuario por clerkId (con retry para pool timeouts)
+    let user = await withRetry(() => prisma.user.findUnique({
       where: { clerkId: userId },
-    })
+    }))
 
     if (!user) {
       // Generar email único usando timestamp para evitar conflictos
@@ -282,8 +282,8 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // Crear Campaign, Character y Session en una transacción
-    const result = await prisma.$transaction(async (tx) => {
+    // Crear Campaign, Character y Session en una transacción (con retry para pool timeouts)
+    const result = await withRetry(() => prisma.$transaction(async (tx) => {
       // 1. Crear la campaña
       const campaign = await tx.campaign.create({
         data: {
@@ -395,7 +395,7 @@ export async function POST(req: NextRequest) {
       })
 
       return { campaign, character, session, firstTurnId: firstTurn.id, introContent }
-    })
+    }), 2, 1500)
 
     // Generar retrato del personaje SÍNCRONAMENTE antes de retornar
     // Esto asegura que el avatar esté disponible cuando el usuario llegue al juego
