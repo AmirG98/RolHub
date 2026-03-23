@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation'
 import { auth } from '@clerk/nextjs/server'
 import { prisma } from '@/lib/db/prisma'
 import GameSession from '@/components/game/GameSession'
+import { ErrorBoundary } from '@/components/ui/ErrorBoundary'
 import { createCampaignMapState } from '@/lib/maps/map-init'
 import { type Lore } from '@/lib/types/lore'
 
@@ -165,21 +166,23 @@ export default async function PlayPage({ params }: PlayPageProps) {
   })
 
   return (
-    <GameSession
-      sessionId={session.id}
-      campaignId={session.campaign.id}
-      campaignName={session.campaign.name}
-      lore={session.campaign.lore}
-      engine={session.campaign.engine}
-      mode={session.campaign.mode}
-      initialTurns={serializedTurns}
-      character={serializedCharacter}
-      worldState={worldState}
-      isMultiplayer={session.campaign.isMultiplayer}
-      initialParticipants={serializedParticipants}
-      currentUserId={user.id}
-      inviteCode={session.campaign.inviteCode}
-      dmMode={(session.campaign as any).dmMode || 'AI'}
-    />
+    <ErrorBoundary>
+      <GameSession
+        sessionId={session.id}
+        campaignId={session.campaign.id}
+        campaignName={session.campaign.name}
+        lore={session.campaign.lore}
+        engine={session.campaign.engine}
+        mode={session.campaign.mode}
+        initialTurns={serializedTurns}
+        character={serializedCharacter || { id: '', name: 'Viajero', archetype: 'Aventurero', level: 1, stats: {}, inventory: [], avatarUrl: null }}
+        worldState={worldState}
+        isMultiplayer={session.campaign.isMultiplayer}
+        initialParticipants={serializedParticipants}
+        currentUserId={user.id}
+        inviteCode={session.campaign.inviteCode}
+        dmMode={(session.campaign as any).dmMode || 'AI'}
+      />
+    </ErrorBoundary>
   )
 }

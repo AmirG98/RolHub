@@ -54,16 +54,22 @@ export function MapContainer({
 
   // Normalizar coordenadas legacy a sistema 0-1000 y luego escalar al canvas
   const scaledLocations = useMemo(() => {
-    const normalized = normalizeLegacyCoordinates([...locations])
-    return normalized.map(loc => ({
-      ...loc,
-      coordinates: toCanvasCoords(
-        loc.coordinates.x,
-        loc.coordinates.y,
-        dimensions.width,
-        dimensions.height
-      ),
-    }))
+    try {
+      if (!locations || locations.length === 0) return []
+      const normalized = normalizeLegacyCoordinates([...locations])
+      return normalized.map(loc => ({
+        ...loc,
+        coordinates: toCanvasCoords(
+          loc.coordinates?.x || 0,
+          loc.coordinates?.y || 0,
+          dimensions.width || 800,
+          dimensions.height || 600
+        ),
+      }))
+    } catch (err) {
+      console.error('[MapContainer] Error normalizing locations:', err)
+      return locations.map(loc => ({ ...loc }))
+    }
   }, [locations, dimensions.width, dimensions.height])
 
   // Crear mapa de quest markers por locationId para acceso rápido

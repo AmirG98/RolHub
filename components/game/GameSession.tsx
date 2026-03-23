@@ -881,12 +881,14 @@ export default function GameSession({
                           </p>
                         )}
                         {/* Show dice roll if present */}
-                        {turn.diceRoll && (
+                        {turn.diceRoll && turn.diceRoll.formula && (
                           <div className="mt-2 flex items-center gap-2 p-2 bg-gold/10 rounded-lg border border-gold/30">
                             <Dices className="w-4 h-4 text-gold" />
                             <span className="font-mono text-xs text-gold-dim">{turn.diceRoll.formula}</span>
                             <span className="font-heading text-gold-bright">→ {turn.diceRoll.result}</span>
-                            <span className="text-xs text-parchment/60">({turn.diceRoll.rolls.join(', ')})</span>
+                            {Array.isArray(turn.diceRoll.rolls) && (
+                              <span className="text-xs text-parchment/60">({turn.diceRoll.rolls.join(', ')})</span>
+                            )}
                           </div>
                         )}
                         {turn.imageUrl && (
