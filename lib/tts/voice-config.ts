@@ -213,6 +213,62 @@ export function getNPCVoice(npcName: string, locale: 'es' | 'en'): string {
 }
 
 /**
+ * Limpia markdown y formato del texto antes de enviarlo a TTS
+ * Elimina: **bold**, *italic*, # headers, --- separadores, bullets, quotes, `code`
+ */
+export function cleanTextForTTS(text: string): string {
+  return text
+    // Eliminar bold **texto** → texto
+    .replace(/\*\*([^*]+)\*\*/g, '$1')
+    // Eliminar italic *texto* (pero no confundir con bold)
+    .replace(/(?<!\*)\*([^*]+)\*(?!\*)/g, '$1')
+    // Eliminar headers # ## ###
+    .replace(/^#{1,6}\s*/gm, '')
+    // Eliminar separadores ---
+    .replace(/^-{3,}$/gm, '')
+    // Eliminar bullets - y •
+    .replace(/^\s*[-•]\s*/gm, '')
+    // Eliminar quotes >
+    .replace(/^>\s*/gm, '')
+    // Eliminar código inline `texto`
+    .replace(/`([^`]+)`/g, '$1')
+    // Eliminar links [texto](url) → texto
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+    // Normalizar múltiples saltos de línea
+    .replace(/\n{3,}/g, '\n\n')
+    // Normalizar espacios múltiples
+    .replace(/[ \t]+/g, ' ')
+    .trim()
+}
+
+/**
+ * Añade pausas naturales al texto para mejor prosody en TTS
+ * Inserta puntuación adicional antes de conectores y transiciones
+ */
+export function addNaturalPauses(text: string): string {
+  return text
+    // Pausa larga antes de conectores adversativos (con coma)
+    .replace(/\s+(pero|sin embargo|aunque|no obstante)\s+/gi, ', $1 ')
+    // Pausa antes de conectores aditivos
+    .replace(/\s+(además|también|por otro lado|por otra parte)\s+/gi, '. $1, ')
+    // Pausa antes de conectores causales
+    .replace(/\s+(porque|ya que|puesto que|dado que)\s+/gi, ', $1 ')
+    // Pausa antes de conectores consecutivos
+    .replace(/\s+(por lo tanto|así que|entonces|por eso)\s+/gi, '. $1, ')
+    // Asegurar espacio después de puntuación si falta
+    .replace(/([.!?])([A-ZÁÉÍÓÚ])/g, '$1 $2')
+    // Pausa breve antes de diálogos (comillas)
+    .replace(/(\w)\s*(["«])/g, '$1: $2')
+    // Pausa después de vocativos (nombres seguidos de coma)
+    .replace(/([A-ZÁÉÍÓÚ][a-záéíóúñ]+),\s+/g, '$1, ')
+    // Normalizar múltiples comas seguidas
+    .replace(/,\s*,/g, ',')
+    // Normalizar múltiples puntos
+    .replace(/\.{2,}/g, '.')
+    .trim()
+}
+
+/**
  * Tipo de segmento de voz
  */
 export type VoiceSegmentType = 'narration' | 'dialogue'
@@ -296,6 +352,9 @@ export function parseTextForVoices(
   narratorVoice: string,
   locale: 'es' | 'en'
 ): VoiceSegment[] {
+  // PASO 1: Limpiar markdown y mejorar prosody ANTES de parsear
+  const cleanedText = addNaturalPauses(cleanTextForTTS(text))
+
   const segments: VoiceSegment[] = []
   const MAX_CHUNK = 120 // Máximo 120 caracteres por chunk para baja latencia
 
@@ -311,10 +370,10 @@ export function parseTextForVoices(
     return splitIntoSentences(txt, MAX_CHUNK)
   }
 
-  while ((match = dialoguePattern.exec(text)) !== null) {
+  while ((match = dialoguePattern.exec(cleanedText)) !== null) {
     // Agregar narración antes del diálogo
     if (match.index > lastIndex) {
-      const narrationText = text.slice(lastIndex, match.index).trim()
+      const narrationText = cleanedText.slice(lastIndex, match.index).trim()
       if (narrationText) {
         // Dividir narración larga en chunks
         const chunks = splitLongText(narrationText)
@@ -353,8 +412,8 @@ export function parseTextForVoices(
   }
 
   // Agregar cualquier narración restante
-  if (lastIndex < text.length) {
-    const remainingText = text.slice(lastIndex).trim()
+  if (lastIndex < cleanedText.length) {
+    const remainingText = cleanedText.slice(lastIndex).trim()
     if (remainingText) {
       const chunks = splitLongText(remainingText)
       for (const chunk of chunks) {
@@ -369,7 +428,7 @@ export function parseTextForVoices(
 
   // Si no se encontraron diálogos, dividir todo como narración
   if (segments.length === 0) {
-    const chunks = splitLongText(text)
+    const chunks = splitLongText(cleanedText)
     for (const chunk of chunks) {
       segments.push({
         type: 'narration',
