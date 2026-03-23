@@ -192,6 +192,46 @@ export async function cacheCharacterPortrait(
 /**
  * Limpia assets expirados
  */
+/**
+ * Genera una key de cache para audio TTS
+ * Usa un hash del texto + voz para identificar segmentos únicos
+ */
+export function generateAudioCacheKey(text: string, voiceKey: string): string {
+  // Hash simple del texto para key corta
+  let hash = 0
+  for (let i = 0; i < text.length; i++) {
+    hash = ((hash << 5) - hash) + text.charCodeAt(i)
+    hash = hash & hash
+  }
+  return `audio:${voiceKey}:${Math.abs(hash).toString(36)}`
+}
+
+/**
+ * Busca audio en caché
+ */
+export async function getCachedAudio(
+  text: string,
+  voiceKey: string
+): Promise<string | null> {
+  const key = generateAudioCacheKey(text, voiceKey)
+  const cached = await getCachedAsset('AUDIO', key)
+  return cached?.url || null
+}
+
+/**
+ * Guarda audio generado en caché (base64 data URL)
+ */
+export async function cacheAudio(
+  text: string,
+  voiceKey: string,
+  audioBase64Url: string
+): Promise<void> {
+  const key = generateAudioCacheKey(text, voiceKey)
+  await setCachedAsset('AUDIO', key, audioBase64Url, {
+    expiresInDays: 7, // Audio expira en 7 días para ahorrar storage
+  })
+}
+
 export async function cleanupExpiredAssets(): Promise<number> {
   try {
     const result = await prisma.generatedAsset.deleteMany({

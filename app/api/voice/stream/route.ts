@@ -10,6 +10,7 @@ import { NextRequest } from 'next/server'
 import { auth } from '@clerk/nextjs/server'
 import { Lore } from '@prisma/client'
 import { getVoiceConfig } from '@/lib/tts'
+import { getCachedAudio, cacheAudio } from '@/lib/cache/asset-cache'
 
 /**
  * Voces REALES de Fish Audio para narración RPG en español
@@ -201,6 +202,29 @@ export async function POST(request: NextRequest) {
       voiceKey = voiceConfig.voice
     }
 
+    // Check cache primero (ahorra tokens de Fish Audio)
+    try {
+      const cachedAudio = await getCachedAudio(text, voiceKey)
+      if (cachedAudio) {
+        console.log(`[Voice] Cache HIT for voice: ${voiceKey}, text: ${text.length} chars`)
+        // Decodificar base64 data URL a buffer
+        const base64Data = cachedAudio.replace(/^data:audio\/mp3;base64,/, '')
+        const audioBuffer = Buffer.from(base64Data, 'base64')
+        return new Response(audioBuffer, {
+          status: 200,
+          headers: {
+            'Content-Type': 'audio/mpeg',
+            'Cache-Control': 'no-cache',
+            'X-Voice-Provider': 'cache',
+            'X-Voice-Key': voiceKey,
+          }
+        })
+      }
+    } catch (cacheError) {
+      // Cache miss o error — continuar con generación normal
+      console.log('[Voice] Cache miss, generating fresh audio')
+    }
+
     let ttsResponse: Response
     let provider: string
 
@@ -268,11 +292,20 @@ export async function POST(request: NextRequest) {
 
     console.log(`[Voice] Total time: ${Date.now() - startTime}ms, provider: ${provider}`)
 
-    return new Response(ttsResponse.body, {
+    // Leer el audio completo para cachear y servir
+    const audioBuffer = await ttsResponse.arrayBuffer()
+    const audioBytes = Buffer.from(audioBuffer)
+
+    // Cachear en background (no bloquea la respuesta)
+    const base64Url = `data:audio/mp3;base64,${audioBytes.toString('base64')}`
+    cacheAudio(text, voiceKey, base64Url).catch(err =>
+      console.warn('[Voice] Cache save failed:', err)
+    )
+
+    return new Response(audioBytes, {
       status: 200,
       headers: {
         'Content-Type': 'audio/mpeg',
-        'Transfer-Encoding': 'chunked',
         'Cache-Control': 'no-cache',
         'X-Voice-Provider': provider,
         'X-Voice-Key': voiceKey,

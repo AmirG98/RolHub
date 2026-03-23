@@ -207,24 +207,49 @@ export function getNPCVoice(npcName: string, locale: 'es' | 'en', gender?: 'male
     // Si se proporciona género explícito, usarlo directamente
     detectedGender = gender
   } else {
-    // Heurística mejorada de detección de género por nombre
     const firstName = npcName.toLowerCase().split(' ')[0] || ''
     const lastName = npcName.toLowerCase().split(' ').pop() || ''
 
-    // Terminaciones masculinas que sobreescriben (evita falsos positivos con -a)
-    const maleOverrides = ['aldo', 'ardo', 'ondo', 'undo', 'ulf', 'alf', 'orn', 'mund', 'vald', 'brand', 'heim', 'rik', 'gar', 'mar', 'nar', 'thor', 'dur', 'grim', 'bjorn']
-    const isMaleOverride = maleOverrides.some(ind => firstName.endsWith(ind) || lastName.endsWith(ind))
+    // Nombres femeninos conocidos en fantasía/RPG (fallback directo)
+    const knownFemaleNames = [
+      'rosie', 'arwen', 'galadriel', 'eowyn', 'luthien', 'rose', 'daisy', 'mary', 'lucy',
+      'alice', 'elise', 'sophie', 'chloe', 'claire', 'diane', 'eve', 'grace', 'hope',
+      'jade', 'june', 'kate', 'mae', 'rue', 'jane', 'anne', 'marie', 'louise',
+      'freya', 'sigrid', 'astrid', 'ingrid', 'gudrun', 'brynhild', 'sif',
+      'leia', 'padme', 'ahsoka', 'rey', 'jyn',
+      'yennefer', 'triss', 'ciri', 'gertrude', 'beatrice', 'isolde',
+    ]
+    const knownMaleNames = [
+      'gandalf', 'aragorn', 'legolas', 'gimli', 'frodo', 'sam', 'bilbo', 'boromir',
+      'luke', 'han', 'obi', 'anakin', 'finn', 'poe',
+      'geralt', 'vesemir', 'dandelion', 'regis',
+      'thor', 'odin', 'loki', 'ragnar', 'bjorn', 'ivar', 'floki',
+    ]
 
-    if (isMaleOverride) {
+    if (knownFemaleNames.includes(firstName)) {
+      detectedGender = 'female'
+    } else if (knownMaleNames.includes(firstName)) {
       detectedGender = 'male'
     } else {
-      // Terminaciones femeninas comunes en español y fantasía
-      const femaleIndicators = ['a', 'ella', 'ina', 'ara', 'isa', 'ia', 'iel', 'wen', 'lyn', 'beth', 'ith']
-      // Excluir nombres que terminan en -a pero son típicamente masculinos
-      const maleExceptions = ['sha', 'ka', 'ra', 'da']
-      const isFemale = femaleIndicators.some(ind => firstName.endsWith(ind)) &&
-        !maleExceptions.some(exc => firstName.endsWith(exc) && firstName.length <= 4)
-      detectedGender = isFemale ? 'female' : 'male'
+      // Terminaciones masculinas que sobreescriben
+      const maleOverrides = ['aldo', 'ardo', 'ondo', 'undo', 'ulf', 'alf', 'orn', 'mund', 'vald', 'brand', 'heim', 'rik', 'gar', 'mar', 'nar', 'thor', 'dur', 'grim', 'bjorn']
+      const isMaleOverride = maleOverrides.some(ind => firstName.endsWith(ind) || lastName.endsWith(ind))
+
+      if (isMaleOverride) {
+        detectedGender = 'male'
+      } else {
+        // Terminaciones femeninas comunes: español + inglés + fantasía
+        const femaleIndicators = [
+          'a', 'ella', 'ina', 'ara', 'isa', 'ia', 'iel', 'wen', 'lyn', 'beth', 'ith',
+          'ie', 'y', 'ne', 'le', 'ette', 'ine', 'ice', 'ise', 'ene', 'ese',
+          'rid', 'hild', 'run', 'dis', 'borg',
+        ]
+        // Excluir nombres cortos que terminan en patrones ambiguos
+        const maleExceptions = ['sha', 'ka', 'ra', 'da', 'ry', 'dy', 'ny', 'ty', 'ly']
+        const isFemale = femaleIndicators.some(ind => firstName.endsWith(ind)) &&
+          !maleExceptions.some(exc => firstName.endsWith(exc) && firstName.length <= 4)
+        detectedGender = isFemale ? 'female' : 'male'
+      }
     }
   }
 
