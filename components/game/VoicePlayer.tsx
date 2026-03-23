@@ -396,7 +396,7 @@ export function VoicePlayerAuto({
     if (!audio) return
 
     const segment = audioQueueRef.current[index]
-    const MAX_WAIT_MS = 500 // Máximo tiempo de espera por segmento
+    const MAX_WAIT_MS = 5000 // Máximo tiempo de espera por segmento (Fish Audio puede tardar 2-3s)
 
     if (segment) {
       currentIndexRef.current = index
@@ -482,12 +482,22 @@ export function VoicePlayerAuto({
     generationCompleteRef.current = false
 
     // Generar primer segmento inmediatamente (await para empezar a reproducir rápido)
-    await generateSegmentAudio(segments[0], 0)
-    // Prefetch resto en background sin bloquear
-    for (let i = 1; i < segments.length; i++) {
-      generateSegmentAudio(segments[i], i)
+    if (segments.length > 0) {
+      await generateSegmentAudio(segments[0], 0)
     }
-    generationCompleteRef.current = true
+    // Generar resto en paralelo y esperar que TODOS terminen
+    if (segments.length > 1) {
+      const prefetchPromises = segments.slice(1).map((seg, i) =>
+        generateSegmentAudio(seg, i + 1)
+      )
+      // Esperar todos en background — NO bloquear playback del primer segmento
+      Promise.all(prefetchPromises).then(() => {
+        generationCompleteRef.current = true
+        console.log(`[VoicePlayerAuto] All ${segments.length} segments generated`)
+      })
+    } else {
+      generationCompleteRef.current = true
+    }
   }
 
   // Auto-start al montar
