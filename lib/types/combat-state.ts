@@ -42,6 +42,14 @@ export interface CombatTrigger {
   environmentalHazards?: string[] // "lava", "traps", "poison_gas"
   lightLevel?: 'bright' | 'dim' | 'darkness'
   description?: string            // Descripción del DM de la escena
+
+  // NUEVO: Contexto de ubicación para mapas contextuales
+  locationId?: string             // ID de la ubicación en el mapa narrativo
+  locationName?: string           // "Posada del Pony Pisador", "Bosque Oscuro"
+  locationType?: 'city' | 'dungeon' | 'wilderness' | 'building' | 'cave' | 'ship' | 'tower'
+  environmentFeatures?: string[]  // ["mesas de madera", "bar", "escaleras"] para generar obstáculos
+  weatherConditions?: string      // "lluvia", "niebla", "tormenta"
+  timeOfDay?: 'day' | 'dusk' | 'night' | 'dawn'
 }
 
 // ============================================================================
@@ -162,6 +170,14 @@ export interface CombatActionRequest {
   targetCell?: GridCoord
   spellOrAbility?: string
   customDescription?: string
+  // Información del arma/hechizo seleccionado
+  weaponInfo?: {
+    name: string
+    damage: string
+    damageType: string
+    range: string
+    type: 'weapon' | 'spell' | 'ability' | 'unarmed'
+  }
 }
 
 export interface CombatActionResponse {

@@ -19,6 +19,7 @@ import {
 import { motion, AnimatePresence } from 'framer-motion'
 
 import { TacticalCombatScene } from '@/components/tactical/TacticalCombatScene'
+import { WeaponSelector, AttackOption } from '@/components/game/WeaponSelector'
 import {
   CombatState,
   CombatLogEntry,
@@ -62,6 +63,8 @@ export function TacticalCombatPanel({
   const [soundEnabled, setSoundEnabled] = useState(true)
   const [showEndCombatConfirm, setShowEndCombatConfirm] = useState(false)
   const [enemyNarration, setEnemyNarration] = useState<string | null>(null)
+  const [showWeaponSelector, setShowWeaponSelector] = useState(false)
+  const [selectedAttackOption, setSelectedAttackOption] = useState<AttackOption | null>(null)
 
   // Ref para evitar doble ejecución de turno de enemigo
   const enemyTurnProcessedRef = useRef<string | null>(null)
@@ -88,6 +91,13 @@ export function TacticalCombatPanel({
   const isPlayerTurn = useMemo(() => {
     return currentTurnToken?.type === 'player' || currentTurnToken?.type === 'ally'
   }, [currentTurnToken])
+
+  // Obtener inventario del personaje actual
+  const currentPlayerInventory = useMemo(() => {
+    if (!currentTurnToken || !isPlayerTurn) return []
+    const character = playerCharacters.find(c => c.name === currentTurnToken.name)
+    return character?.inventory || []
+  }, [currentTurnToken, isPlayerTurn, playerCharacters])
 
   // Lista de iniciativa
   const initiativeList: InitiativeEntry[] = useMemo(() => {
@@ -378,6 +388,14 @@ export function TacticalCombatPanel({
         tokenId: currentTurnToken.id,
         action: selectedAction,
         targetTokenId,
+        // Incluir información del arma si está seleccionada
+        weaponInfo: selectedAttackOption ? {
+          name: selectedAttackOption.name,
+          damage: selectedAttackOption.damage,
+          damageType: selectedAttackOption.damageType,
+          range: selectedAttackOption.range,
+          type: selectedAttackOption.type,
+        } : undefined,
       }
 
       // Si hay callback de acción, usarlo
@@ -616,9 +634,17 @@ export function TacticalCombatPanel({
                   {availableActions.map(action => (
                     <button
                       key={action.type}
-                      onClick={() => action.available && setSelectedAction(
-                        selectedAction === action.type ? null : action.type
-                      )}
+                      onClick={() => {
+                        if (!action.available) return
+                        // Para ataque o hechizo, mostrar el selector de armas
+                        if (action.type === 'attack' || action.type === 'spell') {
+                          setShowWeaponSelector(true)
+                          setSelectedAction(null)
+                          setSelectedAttackOption(null)
+                        } else {
+                          setSelectedAction(selectedAction === action.type ? null : action.type)
+                        }
+                      }}
                       disabled={!action.available || isProcessing}
                       className={`flex flex-col items-center gap-1 px-3 py-2 rounded transition-all ${
                         selectedAction === action.type
@@ -647,8 +673,33 @@ export function TacticalCombatPanel({
                   </button>
                 </div>
 
+                {/* Mostrar arma/hechizo seleccionado */}
+                {selectedAttackOption && (
+                  <div className="mt-2 pt-2 border-t border-gold/20">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <Swords className="w-4 h-4 text-gold" />
+                        <span className="text-sm text-gold font-heading">{selectedAttackOption.name}</span>
+                        <span className="text-xs text-red-400">{selectedAttackOption.damage}</span>
+                      </div>
+                      <button
+                        onClick={() => {
+                          setSelectedAttackOption(null)
+                          setSelectedAction(null)
+                        }}
+                        className="text-xs text-parchment/50 hover:text-parchment"
+                      >
+                        Cambiar
+                      </button>
+                    </div>
+                    <p className="text-xs text-parchment/70 mt-1">
+                      Haz clic en un enemigo para atacar con {selectedAttackOption.name}
+                    </p>
+                  </div>
+                )}
+
                 {/* Instrucciones según acción seleccionada */}
-                {selectedAction && (
+                {selectedAction && !selectedAttackOption && (
                   <div className="mt-2 pt-2 border-t border-gold/20 text-xs text-parchment/70">
                     {selectedAction === 'attack' && 'Haz clic en un enemigo para atacar'}
                     {selectedAction === 'spell' && 'Haz clic en un objetivo para el hechizo'}
@@ -669,6 +720,24 @@ export function TacticalCombatPanel({
               </div>
             </div>
           )}
+
+          {/* Selector de armas/hechizos */}
+          <AnimatePresence>
+            {showWeaponSelector && isPlayerTurn && (
+              <div className="absolute inset-0 bg-black/50 flex items-center justify-center z-20">
+                <WeaponSelector
+                  inventory={currentPlayerInventory}
+                  onSelect={(option) => {
+                    setSelectedAttackOption(option)
+                    setSelectedAction(option.type === 'spell' ? 'spell' : 'attack')
+                    setShowWeaponSelector(false)
+                  }}
+                  onCancel={() => setShowWeaponSelector(false)}
+                  className="w-96 max-w-[90vw]"
+                />
+              </div>
+            )}
+          </AnimatePresence>
 
           {/* Turno de enemigo */}
           {!isPlayerTurn && currentTurnToken && (

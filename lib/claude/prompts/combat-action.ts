@@ -14,6 +14,13 @@ export interface CombatActionContext {
     type: CombatActionType
     targetTokenId?: string
     description?: string
+    weaponInfo?: {
+      name: string
+      damage: string
+      damageType: string
+      range: string
+      type: 'weapon' | 'spell' | 'ability' | 'unarmed'
+    }
   }
   lore?: string
   locale?: string
@@ -170,33 +177,40 @@ ${enemiesStatus}
 `
 
   if (isEnemyTurn) {
-    // Encontrar jugador más cercano
-    const nearestPlayer = players.reduce((nearest, p) => {
-      const dist = Math.abs(p.x - currentToken.x) + Math.abs(p.y - currentToken.y)
-      const nearestDist = nearest ? Math.abs(nearest.x - currentToken.x) + Math.abs(nearest.y - currentToken.y) : Infinity
-      return dist < nearestDist ? p : nearest
-    }, players[0])
+    // Generar opciones tácticas para el enemigo
+    const tacticalAnalysis = generateEnemyTacticalAnalysis(currentToken, players, enemies)
 
     prompt += `ACCION A RESOLVER:
 Es el turno de ${currentToken.name} (enemigo).
-Decide la acción del enemigo. Considera:
-- Atacar al jugador más cercano (${nearestPlayer?.name} a distancia ${Math.abs(nearestPlayer.x - currentToken.x) + Math.abs(nearestPlayer.y - currentToken.y)})
-- Moverse a una mejor posición táctica
-- Usar habilidades especiales si tiene
-- Los enemigos quieren derrotar a los jugadores
 
-Elige la acción más inteligente y resuélvela.`
+${tacticalAnalysis}
+
+REGLAS DE COMPORTAMIENTO:
+- Si el enemigo tiene menos del 30% de HP, considerar huir o defenderse
+- Si hay aliados caídos, puede entrar en furia o intentar negociar
+- Los enemigos inteligentes flanquean y atacan al más débil
+- Los enemigos brutos simplemente cargan
+- Variar acciones entre turnos para evitar patrones predecibles
+- Los hechiceros mantienen distancia, los guerreros se acercan
+
+Elige UNA acción tácticamente apropiada y resuélvela de forma dramática.`
   } else {
     const target = playerAction?.targetTokenId
       ? tokens.find(t => t.id === playerAction.targetTokenId)
       : null
 
+    const weaponInfo = playerAction?.weaponInfo
     prompt += `ACCION A RESOLVER:
 El jugador ${currentToken.name} quiere: ${playerAction?.type || 'acción desconocida'}
 ${playerAction?.description ? `Descripción: ${playerAction.description}` : ''}
 ${target ? `Objetivo: ${target.name} (HP: ${target.hp}/${target.maxHp}, CA: ${target.ac})` : ''}
-
-Resuelve esta acción con una tirada de ataque si aplica, calcula el daño, y describe el resultado de forma dramática.`
+${weaponInfo ? `
+ARMA/HECHIZO: ${weaponInfo.name}
+- Daño: ${weaponInfo.damage} ${weaponInfo.damageType}
+- Alcance: ${weaponInfo.range}
+- Tipo: ${weaponInfo.type === 'spell' ? 'Hechizo' : weaponInfo.type === 'weapon' ? 'Arma' : 'Habilidad'}
+` : ''}
+Resuelve esta acción con una tirada de ataque si aplica, usa el daño del arma especificada, y describe el resultado de forma dramática.`
   }
 
   return prompt
@@ -268,4 +282,112 @@ export function parseCombatResponse(responseText: string): CombatActionResult {
       combatEnded: false,
     }
   }
+}
+
+/**
+ * Genera análisis táctico para que el enemigo tome decisiones inteligentes
+ */
+function generateEnemyTacticalAnalysis(
+  enemy: TacticalToken,
+  players: TacticalToken[],
+  allies: TacticalToken[]
+): string {
+  const lines: string[] = []
+
+  // Calcular distancias a cada jugador
+  const playersWithDistance = players
+    .filter(p => p.hp > 0)
+    .map(p => ({
+      ...p,
+      distance: Math.abs(p.x - enemy.x) + Math.abs(p.y - enemy.y),
+    }))
+    .sort((a, b) => a.distance - b.distance)
+
+  const nearestPlayer = playersWithDistance[0]
+  const weakestPlayer = playersWithDistance.sort((a, b) => a.hp - b.hp)[0]
+
+  // Estado del enemigo
+  const enemyHealthPercent = (enemy.hp / enemy.maxHp) * 100
+  const isLowHealth = enemyHealthPercent < 30
+  const isMediumHealth = enemyHealthPercent < 60
+
+  // Estado de aliados enemigos
+  const aliveAllies = allies.filter(a => a.hp > 0 && a.id !== enemy.id)
+  const deadAllies = allies.filter(a => a.hp <= 0)
+
+  lines.push(`ANÁLISIS TÁCTICO PARA ${enemy.name}:`)
+  lines.push(``)
+
+  // Estado del enemigo
+  lines.push(`Estado actual:`)
+  lines.push(`- HP: ${enemy.hp}/${enemy.maxHp} (${Math.round(enemyHealthPercent)}%)`)
+  if (isLowHealth) {
+    lines.push(`- ADVERTENCIA: Salud crítica - considera retirarse o rendirse`)
+  } else if (isMediumHealth) {
+    lines.push(`- Precaución: Salud media - ser más cauteloso`)
+  }
+  if (enemy.conditions.length > 0) {
+    lines.push(`- Condiciones: ${enemy.conditions.map(c => c.name).join(', ')}`)
+  }
+  lines.push(``)
+
+  // Información de objetivos
+  lines.push(`Objetivos disponibles:`)
+  for (const player of playersWithDistance) {
+    const healthStatus = player.hp < player.maxHp * 0.3 ? '(HERIDO)' :
+                         player.hp < player.maxHp * 0.6 ? '(dañado)' : ''
+    const isInMelee = player.distance <= 1
+    lines.push(`- ${player.name}: ${player.hp}/${player.maxHp} HP, distancia ${player.distance * 5}ft ${healthStatus}${isInMelee ? ' (cuerpo a cuerpo)' : ''}`)
+  }
+  lines.push(``)
+
+  // Opciones tácticas
+  lines.push(`OPCIONES TÁCTICAS:`)
+  let optionNum = 1
+
+  // Opción 1: Atacar al más cercano
+  if (nearestPlayer) {
+    const inRange = nearestPlayer.distance <= 1
+    lines.push(`${optionNum}. ATACAR a ${nearestPlayer.name} (más cercano, ${nearestPlayer.distance * 5}ft)`)
+    if (inRange) {
+      lines.push(`   - Ya en rango de cuerpo a cuerpo`)
+    } else {
+      lines.push(`   - Moverse ${nearestPlayer.distance * 5}ft para alcanzar`)
+    }
+    optionNum++
+  }
+
+  // Opción 2: Atacar al más débil (si es diferente)
+  if (weakestPlayer && weakestPlayer.id !== nearestPlayer?.id) {
+    lines.push(`${optionNum}. ATACAR a ${weakestPlayer.name} (más débil, solo ${weakestPlayer.hp} HP)`)
+    lines.push(`   - Distancia: ${weakestPlayer.distance * 5}ft`)
+    optionNum++
+  }
+
+  // Opción 3: Flanquear si hay aliados
+  if (aliveAllies.length > 0 && nearestPlayer) {
+    lines.push(`${optionNum}. FLANQUEAR a ${nearestPlayer.name} con aliados`)
+    lines.push(`   - ${aliveAllies.length} aliados disponibles para maniobra`)
+    optionNum++
+  }
+
+  // Opción 4: Retroceder si está herido
+  if (isLowHealth || isMediumHealth) {
+    lines.push(`${optionNum}. RETROCEDER y adoptar posición defensiva`)
+    lines.push(`   - Usar acción de Esquivar para sobrevivir`)
+    optionNum++
+  }
+
+  // Opción 5: Habilidad especial (si las tiene)
+  lines.push(`${optionNum}. HABILIDAD ESPECIAL (si el enemigo tiene alguna)`)
+  lines.push(`   - Usar aliento de fuego, magia, veneno, etc.`)
+  optionNum++
+
+  // Contexto adicional
+  if (deadAllies.length > 0) {
+    lines.push(``)
+    lines.push(`NOTA: ${deadAllies.length} aliados han caído. El enemigo puede estar furioso o desesperado.`)
+  }
+
+  return lines.join('\n')
 }

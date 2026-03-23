@@ -25,6 +25,13 @@ interface CombatActionRequestBody {
     type: CombatActionType
     targetTokenId?: string
     description?: string
+    weaponInfo?: {
+      name: string
+      damage: string
+      damageType: string
+      range: string
+      type: 'weapon' | 'spell' | 'ability' | 'unarmed'
+    }
   }
   locale?: 'es' | 'en'
 }
@@ -145,6 +152,25 @@ export async function POST(req: NextRequest): Promise<NextResponse<CombatActionA
             duration: -1,
           })) || existingToken.conditions,
         })
+      }
+    }
+
+    // CRÍTICO: Si hubo daño y target, asegurar que el target tenga su HP actualizado
+    // Esto corrige el bug donde Claude no incluye al target en tokenUpdates
+    if (result.damage && result.damage > 0 && result.targetId) {
+      const targetToken = tokens.find(t => t.id === result.targetId)
+      const existingTargetUpdate = tokenUpdates.find(u => u.id === result.targetId)
+
+      if (targetToken && !existingTargetUpdate) {
+        // El target no fue incluido en tokenUpdates, agregarlo manualmente
+        tokenUpdates.push({
+          id: result.targetId,
+          hp: Math.max(0, targetToken.hp - result.damage),
+          conditions: targetToken.conditions,
+        })
+      } else if (targetToken && existingTargetUpdate && existingTargetUpdate.hp === undefined) {
+        // El target fue incluido pero sin HP actualizado
+        existingTargetUpdate.hp = Math.max(0, targetToken.hp - result.damage)
       }
     }
 
