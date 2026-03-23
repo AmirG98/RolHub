@@ -5,6 +5,7 @@ import { RunicButton } from './RunicButton'
 
 interface DiceRollerProps {
   onRoll?: (result: DiceRollResult) => void
+  defaultFormula?: string   // Fórmula pre-seleccionada (e.g. del DM)
 }
 
 interface DiceRollResult {
@@ -13,7 +14,7 @@ interface DiceRollResult {
   formula: string
 }
 
-export function DiceRoller({ onRoll }: DiceRollerProps) {
+export function DiceRoller({ onRoll, defaultFormula }: DiceRollerProps) {
   const [result, setResult] = useState<DiceRollResult | null>(null)
   const [rolling, setRolling] = useState(false)
 
@@ -60,6 +61,18 @@ export function DiceRoller({ onRoll }: DiceRollerProps) {
   return (
     <div className="glass-panel-dark rounded-lg p-6">
       <h3 className="font-heading text-xl text-gold mb-4">Tirar Dados</h3>
+
+      {/* Prominent button for DM-requested formula */}
+      {defaultFormula && (
+        <button
+          onClick={() => rollDice(defaultFormula)}
+          disabled={rolling}
+          className="w-full mb-4 py-4 rounded-lg bg-gold/20 border-2 border-gold hover:bg-gold/30 transition-all hover:scale-[1.02] disabled:opacity-50 glow-effect"
+        >
+          <div className="font-heading text-2xl text-gold-bright">{defaultFormula}</div>
+          <div className="font-ui text-xs text-parchment/60 mt-1">Toca para tirar</div>
+        </button>
+      )}
 
       {/* Quick Roll Buttons */}
       <div className="grid grid-cols-4 gap-2 mb-6">

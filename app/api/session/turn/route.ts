@@ -808,6 +808,7 @@ ${isEnglish ? 'You must ALWAYS respond in JSON format with this exact structure'
   "navigation_locked": null,
   "lock_reason": null,
   "suggested_actions": ["${isEnglish ? 'action 1' : 'acción 1'}", "${isEnglish ? 'action 2' : 'acción 2'}", "${isEnglish ? 'action 3' : 'acción 3'}"],
+  "dice_request": null,
   "generate_image": false,
   "image_prompt": null,
   "mood_hint": null${isMultiplayer ? `,
@@ -831,12 +832,81 @@ ${isMultiplayer ? `6. ${labels.rule6} ${character.name}
 ${labels.narrativeTone}:
 ${narrativeTone}
 
+${isEnglish ? `=== DICE ROLLING SYSTEM ===
+CRITICAL: You MUST request dice rolls frequently! This is a tabletop RPG, not a choose-your-own-adventure.
+
+WHEN TO REQUEST A ROLL (use "dice_request" in your response):
+- Combat: ALWAYS. Every attack, dodge, spell cast, or defensive action
+- Exploration: Searching for traps, picking locks, climbing, sneaking, tracking
+- Social: Persuasion, deception, intimidation, gathering information from NPCs
+- Perception: Noticing hidden things, hearing approaching danger, reading body language
+- Survival: Navigating, foraging, resisting environmental hazards, endurance checks
+- Magic/Special abilities: Casting spells, using special powers, ritual attempts
+- ANY risky or uncertain action: If the outcome is not guaranteed, REQUEST A ROLL
+
+HOW TO REQUEST A ROLL:
+Include "dice_request" in your response:
+{
+  "dice_request": {
+    "reason": "Brief description of what the roll is for",
+    "formula": "1d20+3",
+    "type": "attack" | "skill" | "save" | "perception" | "social" | "exploration",
+    "difficulty": 12,
+    "stat": "combat",
+    "on_success": "What happens on success",
+    "on_failure": "What happens on failure"
+  }
+}
+
+When requesting a roll: narrate the SETUP but NOT the outcome. End the narration at the moment of tension.
+Example: "You draw your sword and charge at the orc. It snarls and raises its shield..."
+Then the player rolls, and you narrate the RESULT in the next turn.
+
+INTERPRETING A SUBMITTED ROLL:
+${diceRoll ? `The player just rolled: ${diceRoll.formula} = ${diceRoll.result} (dice: ${diceRoll.rolls.join(', ')}). Narrate the OUTCOME based on this result.` : 'No dice roll submitted - if the action requires one, REQUEST IT with dice_request.'}
+
+RULE: On average, request a dice roll every 2-3 turns. Combat = EVERY turn. Never let 4+ turns pass without a roll unless the player is just talking.
+=== END DICE SYSTEM ===` : `=== SISTEMA DE TIRADA DE DADOS ===
+CRÍTICO: ¡DEBES pedir tiradas de dados frecuentemente! Esto es un RPG de mesa, no un "elige tu propia aventura".
+
+CUÁNDO PEDIR UNA TIRADA (usa "dice_request" en tu respuesta):
+- Combate: SIEMPRE. Cada ataque, esquive, hechizo o acción defensiva
+- Exploración: Buscar trampas, forzar cerraduras, escalar, sigilo, rastreo
+- Social: Persuasión, engaño, intimidación, obtener información de NPCs
+- Percepción: Notar cosas ocultas, escuchar peligro, leer lenguaje corporal
+- Supervivencia: Navegar, forrajear, resistir peligros ambientales, resistencia
+- Magia/Habilidades especiales: Lanzar hechizos, usar poderes, rituales
+- CUALQUIER acción arriesgada: Si el resultado no está garantizado, PIDE UNA TIRADA
+
+CÓMO PEDIR UNA TIRADA:
+Incluí "dice_request" en tu respuesta:
+{
+  "dice_request": {
+    "reason": "Breve descripción de para qué es la tirada",
+    "formula": "1d20+3",
+    "type": "attack" | "skill" | "save" | "perception" | "social" | "exploration",
+    "difficulty": 12,
+    "stat": "combat",
+    "on_success": "Qué pasa en éxito",
+    "on_failure": "Qué pasa en fracaso"
+  }
+}
+
+Al pedir una tirada: narrá la PREPARACIÓN pero NO el resultado. Terminá la narración en el momento de tensión.
+Ejemplo: "Desenvainás tu espada y cargás contra el orco. Gruñe y levanta su escudo..."
+El jugador tira, y narrás el RESULTADO en el siguiente turno.
+
+INTERPRETANDO UNA TIRADA ENVIADA:
+${diceRoll ? `El jugador acaba de tirar: ${diceRoll.formula} = ${diceRoll.result} (dados: ${diceRoll.rolls.join(', ')}). Narrá el RESULTADO basándote en esta tirada.` : 'Sin tirada de dados enviada - si la acción requiere una, PEDILA con dice_request.'}
+
+REGLA: En promedio, pedí una tirada cada 2-3 turnos. Combate = CADA turno. Nunca dejes pasar 4+ turnos sin tirada a menos que el jugador solo esté hablando.
+=== FIN SISTEMA DE DADOS ===`}
+
 ${labels.important}:
 - ${labels.jsonOnly}
 - ${labels.narrationLanguage}
 - ${labels.unconscious}
 - ${labels.coherence}
-- ${diceRoll ? `${labels.diceInterpret} (${diceRoll.result}): 1-5 ${labels.failure}, 6-10 ${labels.partialSuccess}, 11-15 ${labels.success}, 16-20 ${labels.criticalSuccess}` : labels.noDice}
 
 ${isEnglish ? 'ADAPTIVE RESPONSE LENGTH' : 'LONGITUD DE RESPUESTA ADAPTATIVA'}:
 - ${isEnglish ? 'If the player writes 1-2 sentences: respond with 1-2 SHORT paragraphs (max 4 sentences total)' : 'Si el jugador escribe 1-2 oraciones: responde con 1-2 párrafos CORTOS (máx 4 oraciones total)'}
@@ -954,6 +1024,16 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
         level: 'rumored' | 'discovered'
         source: string  // "NPC dialogue", "found map", "overheard", "explored"
       }>
+      // Dice roll request from DM
+      dice_request?: {
+        reason: string
+        formula: string
+        type: 'attack' | 'skill' | 'save' | 'perception' | 'social' | 'exploration'
+        difficulty?: number
+        stat?: string
+        on_success?: string
+        on_failure?: string
+      } | null
       // Dynamic location creation by DM
       create_location?: {
         id: string
@@ -1410,6 +1490,8 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
       sceneChange: dmResponse.scene_change || dmResponse.location_id || null,
       // Combat trigger
       combat_trigger: dmResponse.combat_trigger || null,
+      // Dice roll request from DM
+      diceRequest: dmResponse.dice_request || null,
     })
   } catch (error) {
     console.error('Error processing turn:', error)

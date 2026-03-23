@@ -143,6 +143,16 @@ export default function GameSession({
   const [error, setError] = useState<string | null>(null)
   const [showDiceRoller, setShowDiceRoller] = useState(false)
   const [lastDiceRoll, setLastDiceRoll] = useState<{ formula: string; result: number; rolls: number[] } | null>(null)
+  // DM-prompted dice roll request
+  const [pendingDiceRequest, setPendingDiceRequest] = useState<{
+    reason: string
+    formula: string
+    type: string
+    difficulty?: number
+    stat?: string
+    on_success?: string
+    on_failure?: string
+  } | null>(null)
   // Scroll helpers for quick navigation
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId)
@@ -393,8 +403,20 @@ export default function GameSession({
     suggestedActions.some(a => a.startsWith('Elegir:'))
 
   const handleDiceRoll = (result: { total: number; rolls: number[]; formula: string }) => {
-    setLastDiceRoll({ formula: result.formula, result: result.total, rolls: result.rolls })
+    const rollData = { formula: result.formula, result: result.total, rolls: result.rolls }
+    setLastDiceRoll(rollData)
     setShowDiceRoller(false)
+
+    // Si hay un dice request pendiente del DM, auto-enviar el resultado
+    if (pendingDiceRequest) {
+      const rollDescription = pendingDiceRequest.reason || 'Tirada de dados'
+      setPendingDiceRequest(null)
+      // Pequeño delay para que el jugador vea el resultado
+      setTimeout(() => {
+        setLastDiceRoll(rollData) // Asegurar que se envía con la acción
+        handleSubmit(`[Tirada: ${result.formula} = ${result.total}] ${rollDescription}`, 'do')
+      }, 800)
+    }
   }
 
   const handleSubmit = async (action: string, actionType: 'do' | 'talk' = 'talk') => {
@@ -485,6 +507,14 @@ export default function GameSession({
       // Check for combat trigger from DM
       if (data.combat_trigger) {
         initiateCombat(data.combat_trigger as CombatTrigger)
+      }
+
+      // Handle DM dice request — show prompted dice roller
+      if (data.diceRequest) {
+        setPendingDiceRequest(data.diceRequest)
+        setShowDiceRoller(true)
+      } else {
+        setPendingDiceRequest(null)
       }
 
       // === IMMERSION SYSTEM ===
@@ -901,12 +931,54 @@ export default function GameSession({
               <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4">
                 <div className="relative max-w-md w-full">
                   <button
-                    onClick={() => setShowDiceRoller(false)}
+                    onClick={() => {
+                      setShowDiceRoller(false)
+                      if (!pendingDiceRequest) setPendingDiceRequest(null)
+                    }}
                     className="absolute -top-2 -right-2 z-10 w-8 h-8 bg-blood rounded-full flex items-center justify-center text-parchment hover:bg-blood/80"
                   >
                     ✕
                   </button>
-                  <DiceRoller onRoll={handleDiceRoll} />
+                  {/* DM dice request context */}
+                  {pendingDiceRequest && (
+                    <div className="mb-3 p-3 rounded-lg bg-gold/10 border border-gold/30 text-center">
+                      <p className="font-heading text-gold text-sm uppercase tracking-wide mb-1">
+                        🎲 ¡El DM pide una tirada!
+                      </p>
+                      <p className="font-body text-parchment text-sm">
+                        {pendingDiceRequest.reason}
+                      </p>
+                      <p className="font-mono text-gold-bright text-lg mt-1">
+                        {pendingDiceRequest.formula}
+                      </p>
+                      {pendingDiceRequest.difficulty && (
+                        <p className="font-ui text-parchment/60 text-xs mt-1">
+                          Dificultad: {pendingDiceRequest.difficulty}
+                        </p>
+                      )}
+                    </div>
+                  )}
+                  <DiceRoller
+                    onRoll={handleDiceRoll}
+                    defaultFormula={pendingDiceRequest?.formula}
+                  />
+                </div>
+              </div>
+            )}
+
+            {/* Prompted dice request banner - shown when DM requests a roll */}
+            {pendingDiceRequest && !showDiceRoller && (
+              <div
+                className="glass-panel-dark rounded-lg p-3 border border-gold animate-pulse cursor-pointer hover:bg-gold/10 transition-all"
+                onClick={() => setShowDiceRoller(true)}
+              >
+                <div className="flex items-center gap-3">
+                  <div className="text-2xl">🎲</div>
+                  <div className="flex-1">
+                    <p className="font-heading text-gold text-sm">¡Tirada requerida!</p>
+                    <p className="font-body text-parchment/80 text-xs">{pendingDiceRequest.reason}</p>
+                  </div>
+                  <div className="font-mono text-gold-bright text-lg">{pendingDiceRequest.formula}</div>
                 </div>
               </div>
             )}
