@@ -1,9 +1,9 @@
 /**
  * API Route: /api/voice/stream
- * Streaming TTS con Deepgram Aura-2 - 90ms latencia, voces en español
+ * Streaming TTS con Fish Audio S2-Pro (primary) + Deepgram Aura-2 (fallback)
  *
- * Usa DEEPGRAM_API_KEY - voces Aura-2 en español nativo
- * El audio empieza a reproducirse mientras se genera (streaming)
+ * Fish Audio: voces ultra naturales en español, modelo S2-Pro
+ * Deepgram: fallback rápido si Fish Audio falla
  */
 
 import { NextRequest } from 'next/server'
@@ -12,117 +12,81 @@ import { Lore } from '@prisma/client'
 import { getVoiceConfig } from '@/lib/tts'
 
 /**
- * Voces de Fish Audio (ultra naturales)
- * IMPORTANTE: Actualizar estos IDs con voces reales de https://fish.audio/voice-library/
- *
- * Recomendaciones por lore:
- * - LOTR: Buscar "epic narrator", "fantasy", "wise old man", "deep male"
- * - ZOMBIES: Buscar "dark", "tense", "survival", "horror"
- * - ISEKAI: Buscar "anime", "energetic", "japanese narrator"
- * - VIKINGOS: Buscar "nordic", "deep male", "bard", "epic"
+ * Voces REALES de Fish Audio para narración RPG en español
+ * IDs obtenidos de https://fish.audio/voice-library/
  */
 const FISH_AUDIO_VOICES: Record<string, string> = {
-  // Narradores épicos - TODO: Reemplazar con IDs reales de Fish Audio
-  narrator_grave: 'placeholder_epic_narrator_es',
-  narrator_deep: 'placeholder_deep_narrator_es',
-  narrator_wise: 'placeholder_wise_narrator_es',
-  skald_epic: 'placeholder_skald_es',
-  nordic_bard: 'placeholder_nordic_es',
+  // NARRADORES - Voz masculina profunda, dramática
+  narrator_grave: '79c16ea0ead2460c9934a4af53cd07ab',
+  narrator_deep: '79c16ea0ead2460c9934a4af53cd07ab',
+  narrator_epic: '79c16ea0ead2460c9934a4af53cd07ab',
+  narrator_wise: '79c16ea0ead2460c9934a4af53cd07ab',
+  skald_epic: '79c16ea0ead2460c9934a4af53cd07ab',
+  nordic_bard: '79c16ea0ead2460c9934a4af53cd07ab',
+  whisper_dread: '79c16ea0ead2460c9934a4af53cd07ab',
+  whisper_tense: '79c16ea0ead2460c9934a4af53cd07ab',
+  whisper_survival: '79c16ea0ead2460c9934a4af53cd07ab',
+  whisper_dark: '79c16ea0ead2460c9934a4af53cd07ab',
+  tension_survival: '79c16ea0ead2460c9934a4af53cd07ab',
+  synth_narrator: '79c16ea0ead2460c9934a4af53cd07ab',
 
-  // Horror/Supervivencia
-  whisper_tense: 'placeholder_tense_es',
-  whisper_survival: 'placeholder_survival_es',
-  whisper_dark: 'placeholder_dark_es',
-  tension_survival: 'placeholder_tension_es',
+  // Isekai/Anime - Voz masculina joven, conversacional
+  anime_energetic: '44cc9923b0b443e8a1a7887fed528c17',
+  anime_narrator: '44cc9923b0b443e8a1a7887fed528c17',
 
-  // Anime/Isekai
-  anime_energetic: 'placeholder_anime_energetic_es',
-  anime_narrator: 'placeholder_anime_narrator_es',
+  // NPCs MASCULINOS
+  npc_male_1: '79c16ea0ead2460c9934a4af53cd07ab',
+  npc_male_2: '44cc9923b0b443e8a1a7887fed528c17',
+  npc_male_3: '44cc9923b0b443e8a1a7887fed528c17',
+  npc_male_deep: '79c16ea0ead2460c9934a4af53cd07ab',
+  npc_male_young: '44cc9923b0b443e8a1a7887fed528c17',
 
-  // NPCs masculinos
-  npc_male_1: 'placeholder_male_deep_es',
-  npc_male_2: 'placeholder_male_medium_es',
-  npc_male_3: 'placeholder_male_young_es',
-  npc_male_deep: 'placeholder_male_deep_es',
-  npc_male_young: 'placeholder_male_young_es',
+  // NPCs FEMENINOS - Isabella (cálida, profesional)
+  npc_female_1: 'd3638485d6ca468ea93e03ba5e43c50e',
+  npc_female_2: 'd3638485d6ca468ea93e03ba5e43c50e',
+  npc_female_wise: 'd3638485d6ca468ea93e03ba5e43c50e',
 
-  // NPCs femeninos
-  npc_female_1: 'placeholder_female_wise_es',
-  npc_female_2: 'placeholder_female_medium_es',
-  npc_female_3: 'placeholder_female_young_es',
-  npc_female_wise: 'placeholder_female_wise_es',
-  npc_female_young: 'placeholder_female_young_es',
+  // NPCs FEMENINOS - Chica española (joven, energética)
+  npc_female_3: '70faac8dfb43436eb1193d6cce3b0a54',
+  npc_female_young: '70faac8dfb43436eb1193d6cce3b0a54',
 
-  // Neutral
-  npc_neutral_1: 'placeholder_neutral_es',
+  // NEUTRAL
+  npc_neutral_1: '44cc9923b0b443e8a1a7887fed528c17',
 
-  // Defaults
-  default_es: 'placeholder_default_es',
-  default_en: 'placeholder_default_en',
+  // DEFAULTS
+  default_es: '79c16ea0ead2460c9934a4af53cd07ab',
+  default_en: '79c16ea0ead2460c9934a4af53cd07ab',
 }
 
 /**
- * Voces de Deepgram Aura-2 en ESPAÑOL
- * Voces nativas en español con pronunciación natural
- * Documentación: https://developers.deepgram.com/docs/tts-models
- *
- * Voces disponibles en español:
- * - aura-2-nestor-es: Masculina profunda, ideal para narradores épicos
- * - aura-2-aurora-es: Femenina expresiva, ideal para NPCs femeninos
- * - aura-2-dario-es: Masculina energética, ideal para narradores dinámicos
+ * Voces de Deepgram Aura-2 en español (FALLBACK)
  */
 const DEEPGRAM_VOICES: Record<string, string> = {
-  // ============================================
-  // NARRADORES - Voces profundas y épicas
-  // ============================================
-
-  // Narrador principal - VOZ MÁS PROFUNDA
-  narrator_grave: 'aura-2-valerio-es',    // Deep, Knowledgeable (LOTR, general)
-  narrator_deep: 'aura-2-valerio-es',     // Voz profunda principal
-  narrator_epic: 'aura-2-valerio-es',     // Voz épica (Star Wars)
-
-  // Vikingos y Lovecraft - Barítono ominoso
-  skald_epic: 'aura-2-sirio-es',          // Baritone, Calm (vikingos)
-  nordic_bard: 'aura-2-sirio-es',         // Bardo nórdico
-  whisper_dread: 'aura-2-sirio-es',       // Voz ominosa (Lovecraft)
-
-  // Zombies - Tensa, supervivencia
-  whisper_tense: 'aura-2-celeste-es',     // Clear, Energetic (zombies)
-  whisper_survival: 'aura-2-celeste-es',  // Supervivencia
-
-  // Cyberpunk - Tech, expresivo
-  synth_narrator: 'aura-2-aquila-es',     // Expressive, Confident (cyberpunk)
-
-  // Isekai - Energético, anime
-  anime_energetic: 'aura-2-luciano-es',   // Charismatic, Energetic (isekai)
-  anime_narrator: 'aura-2-luciano-es',    // Narrador anime
-
-  // ============================================
-  // NPCs MASCULINOS - Variedad de voces
-  // ============================================
-  npc_male_1: 'aura-2-nestor-es',         // Calm, Professional - sabio, mentor
-  npc_male_2: 'aura-2-alvaro-es',         // Clear, Knowledgeable - comerciante
-  npc_male_3: 'aura-2-luciano-es',        // Energetic, Cheerful - joven, aventurero
-  npc_male_deep: 'aura-2-javier-es',      // Approachable, Professional
-  npc_male_young: 'aura-2-aquila-es',     // Expressive, Casual
-
-  // ============================================
-  // NPCs FEMENINOS - Variedad de voces
-  // ============================================
-  npc_female_1: 'aura-2-diana-es',        // Professional, Confident - líder, sabia
-  npc_female_2: 'aura-2-selena-es',       // Friendly, Casual - amigable
-  npc_female_3: 'aura-2-gloria-es',       // Expressive, Natural - joven
-  npc_female_wise: 'aura-2-silvia-es',    // Warm, Clear - anciana sabia
-  npc_female_young: 'aura-2-carina-es',   // Energetic, Raspy - aventurera
-
-  // ============================================
-  // NEUTRAL
-  // ============================================
-  npc_neutral_1: 'aura-2-aquila-es',      // Expresivo, casual
-
-  // ============================================
-  // DEFAULTS - Voz profunda por defecto
-  // ============================================
+  narrator_grave: 'aura-2-valerio-es',
+  narrator_deep: 'aura-2-valerio-es',
+  narrator_epic: 'aura-2-valerio-es',
+  narrator_wise: 'aura-2-valerio-es',
+  skald_epic: 'aura-2-sirio-es',
+  nordic_bard: 'aura-2-sirio-es',
+  whisper_dread: 'aura-2-sirio-es',
+  whisper_tense: 'aura-2-celeste-es',
+  whisper_survival: 'aura-2-celeste-es',
+  whisper_dark: 'aura-2-sirio-es',
+  tension_survival: 'aura-2-celeste-es',
+  synth_narrator: 'aura-2-aquila-es',
+  anime_energetic: 'aura-2-luciano-es',
+  anime_narrator: 'aura-2-luciano-es',
+  npc_male_1: 'aura-2-nestor-es',
+  npc_male_2: 'aura-2-alvaro-es',
+  npc_male_3: 'aura-2-luciano-es',
+  npc_male_deep: 'aura-2-javier-es',
+  npc_male_young: 'aura-2-aquila-es',
+  npc_female_1: 'aura-2-diana-es',
+  npc_female_2: 'aura-2-selena-es',
+  npc_female_3: 'aura-2-gloria-es',
+  npc_female_wise: 'aura-2-silvia-es',
+  npc_female_young: 'aura-2-carina-es',
+  npc_neutral_1: 'aura-2-aquila-es',
   default_es: 'aura-2-valerio-es',
   default_en: 'aura-2-valerio-es',
 }
@@ -131,66 +95,43 @@ interface VoiceRequest {
   text: string
   lore: Lore
   locale: 'es' | 'en'
-  voice?: string  // Voz específica (para NPCs)
-  speed?: number  // 0.5 - 2.0
+  voice?: string
+  speed?: number
 }
 
 /**
- * Genera audio con Fish Audio (voces ultra naturales)
- * Si no hay reference_id configurado, usa voz por defecto del modelo
+ * Genera audio con Fish Audio S2-Pro (voces ultra naturales)
  */
 async function generateWithFishAudio(
   text: string,
   voiceKey: string,
-  locale: string,
-  speed?: number
+  _locale: string,
 ): Promise<Response> {
   const apiKey = process.env.FISH_AUDIO_API_KEY!
-  const referenceId = FISH_AUDIO_VOICES[voiceKey]
-
-  const prosody = speed && speed !== 1.0 ? { speed } : undefined
-
-  // Construir body - solo incluir reference_id si es un ID válido (no placeholder)
-  const body: Record<string, unknown> = {
-    text,
-    format: 'mp3',
-    mp3_bitrate: 128,
-    latency: 'low',
-    temperature: 0.7,
-    top_p: 0.7,
-    normalize: true,
-  }
-
-  // Solo agregar reference_id si no es un placeholder
-  if (referenceId && !referenceId.startsWith('placeholder_')) {
-    body.reference_id = referenceId
-  }
-
-  if (prosody) {
-    body.prosody = prosody
-  }
+  const referenceId = FISH_AUDIO_VOICES[voiceKey] || FISH_AUDIO_VOICES.default_es
 
   const response = await fetch('https://api.fish.audio/v1/tts', {
     method: 'POST',
     headers: {
       'Authorization': `Bearer ${apiKey}`,
       'Content-Type': 'application/json',
-      'model': 's1', // Modelo más natural
+      'model': 's2-pro',
     },
-    body: JSON.stringify(body),
+    body: JSON.stringify({
+      text,
+      reference_id: referenceId,
+      format: 'mp3',
+      mp3_bitrate: 128,
+      latency: 'low',
+      normalize: true,
+    }),
   })
 
   return response
 }
 
 /**
- * Genera audio con Deepgram Aura (~90ms latencia)
- * Usa voces en español nativo optimizadas para baja latencia
- *
- * Parámetros de optimización:
- * - encoding=mp3: Formato comprimido para streaming rápido
- * - sample_rate=24000: Sample rate óptimo para voz (menor = más rápido)
- * - bit_rate=48000: Bitrate bajo para velocidad (suficiente para voz clara)
+ * Genera audio con Deepgram Aura-2 (fallback rápido, ~90ms)
  */
 async function generateWithDeepgram(
   text: string,
@@ -200,7 +141,6 @@ async function generateWithDeepgram(
   const apiKey = process.env.DEEPGRAM_API_KEY!
   const model = DEEPGRAM_VOICES[voiceKey] || DEEPGRAM_VOICES.default_es
 
-  // Parámetros simples - Deepgram Aura-2 no soporta sample_rate ni bit_rate
   const params = new URLSearchParams({
     model,
     encoding: 'mp3',
@@ -222,7 +162,6 @@ export async function POST(request: NextRequest) {
   const startTime = Date.now()
 
   try {
-    // Verificar autenticación
     const authStart = Date.now()
     const { userId } = await auth()
     console.log(`[Voice] Auth took: ${Date.now() - authStart}ms`)
@@ -234,21 +173,19 @@ export async function POST(request: NextRequest) {
       })
     }
 
-    // Verificar que Deepgram está configurado
+    const fishKey = process.env.FISH_AUDIO_API_KEY
     const deepgramKey = process.env.DEEPGRAM_API_KEY
 
-    if (!deepgramKey) {
-      return new Response(JSON.stringify({ error: 'DEEPGRAM_API_KEY not configured' }), {
+    if (!fishKey && !deepgramKey) {
+      return new Response(JSON.stringify({ error: 'No TTS provider configured' }), {
         status: 503,
         headers: { 'Content-Type': 'application/json' }
       })
     }
 
-    // Parsear body
     const body = await request.json() as VoiceRequest
-    const { text, lore, locale, voice, speed } = body
+    const { text, lore, locale, voice } = body
 
-    // Validaciones
     if (!text || typeof text !== 'string' || text.length > 5000) {
       return new Response(JSON.stringify({ error: 'Invalid text (max 5000 chars)' }), {
         status: 400,
@@ -256,7 +193,6 @@ export async function POST(request: NextRequest) {
       })
     }
 
-    // Determinar voz a usar
     let voiceKey: string
     if (voice) {
       voiceKey = voice
@@ -268,18 +204,54 @@ export async function POST(request: NextRequest) {
     let ttsResponse: Response
     let provider: string
 
-    // Usar Deepgram directamente (Fish Audio no tiene créditos)
-    if (deepgramKey) {
-      console.log(`[Voice] Using Deepgram, text length: ${text.length} chars, voice: ${voiceKey}`)
+    // Primary: Fish Audio S2-Pro (voces ultra naturales)
+    if (fishKey) {
+      console.log(`[Voice] Trying Fish Audio S2-Pro, text: ${text.length} chars, voice: ${voiceKey}`)
       const ttsStart = Date.now()
-      provider = 'deepgram'
-      ttsResponse = await generateWithDeepgram(text, voiceKey, locale)
-      console.log(`[Voice] Deepgram API took: ${Date.now() - ttsStart}ms`)
+
+      try {
+        ttsResponse = await generateWithFishAudio(text, voiceKey, locale)
+        provider = 'fishaudio'
+        console.log(`[Voice] Fish Audio took: ${Date.now() - ttsStart}ms`)
+
+        if (!ttsResponse.ok) {
+          const errorText = await ttsResponse.text()
+          console.warn(`[Voice] Fish Audio failed (${ttsResponse.status}): ${errorText}`)
+
+          // Fallback a Deepgram si Fish Audio falla
+          if (deepgramKey) {
+            console.log('[Voice] Falling back to Deepgram')
+            ttsResponse = await generateWithDeepgram(text, voiceKey, locale)
+            provider = 'deepgram'
+          } else {
+            return new Response(JSON.stringify({ error: 'TTS generation failed' }), {
+              status: ttsResponse.status,
+              headers: { 'Content-Type': 'application/json' }
+            })
+          }
+        }
+      } catch (fishError) {
+        console.warn('[Voice] Fish Audio error:', fishError)
+
+        // Fallback a Deepgram
+        if (deepgramKey) {
+          console.log('[Voice] Falling back to Deepgram after Fish Audio error')
+          ttsResponse = await generateWithDeepgram(text, voiceKey, locale)
+          provider = 'deepgram'
+        } else {
+          throw fishError
+        }
+      }
     }
-    // No hay Deepgram configurado
-    else {
-      console.error('[Voice] DEEPGRAM_API_KEY not configured')
-      return new Response(JSON.stringify({ error: 'DEEPGRAM_API_KEY not configured' }), {
+    // Fallback: Deepgram Aura-2 directamente
+    else if (deepgramKey) {
+      console.log(`[Voice] Using Deepgram (no Fish Audio key), text: ${text.length} chars, voice: ${voiceKey}`)
+      const ttsStart = Date.now()
+      ttsResponse = await generateWithDeepgram(text, voiceKey, locale)
+      provider = 'deepgram'
+      console.log(`[Voice] Deepgram took: ${Date.now() - ttsStart}ms`)
+    } else {
+      return new Response(JSON.stringify({ error: 'No TTS provider available' }), {
         status: 503,
         headers: { 'Content-Type': 'application/json' }
       })
@@ -287,16 +259,15 @@ export async function POST(request: NextRequest) {
 
     if (!ttsResponse.ok) {
       const errorText = await ttsResponse.text()
-      console.error(`[Voice Stream] ${provider} error:`, ttsResponse.status, errorText)
+      console.error(`[Voice] ${provider} error:`, ttsResponse.status, errorText)
       return new Response(JSON.stringify({ error: 'TTS generation failed' }), {
         status: ttsResponse.status,
         headers: { 'Content-Type': 'application/json' }
       })
     }
 
-    console.log(`[Voice] Total time: ${Date.now() - startTime}ms`)
+    console.log(`[Voice] Total time: ${Date.now() - startTime}ms, provider: ${provider}`)
 
-    // Stream la respuesta directamente al cliente
     return new Response(ttsResponse.body, {
       status: 200,
       headers: {

@@ -1,10 +1,9 @@
 /**
  * Fish Audio TTS Provider
- * - Voces ultra naturales con FishAudio-S1
- * - 70% más barato que ElevenLabs ($15/M UTF-8 bytes)
- * - Streaming HTTP con baja latencia
- * - Soporte para español e inglés
- * - 2M+ voces en la librería
+ * - Voces ultra naturales con S2-Pro
+ * - Streaming HTTP con baja latencia (~150ms)
+ * - Soporte nativo para español
+ * - Emotion tags para control de prosodia
  *
  * Documentación: https://docs.fish.audio/api-reference/endpoint/openapi-v1/text-to-speech
  */
@@ -12,39 +11,73 @@
 import { TTSProvider, TTSOptions, TTSResult, Voice, TTSError, estimateDuration } from '../types'
 
 /**
- * IDs de voces de Fish Audio para cada tipo de narrador
- * Nota: Los reference_id se obtienen de la librería de Fish Audio
- * https://fish.audio/voice-library/
- *
- * Para obtener voces específicas de fantasía, buscar en:
- * - https://fish.audio/voice-library/fantasy/
- * - https://fish.audio/voice-library/gaming/
- * - https://fish.audio/voice-library/dark/
+ * IDs de voces REALES de Fish Audio para narración RPG en español
+ * Obtenidos de https://fish.audio/voice-library/
  */
 const FISH_AUDIO_VOICES: Record<string, string> = {
-  // Narradores épicos para fantasía (LOTR, Vikingos)
-  // Wriothesley - "mature, authoritative male voice with a formal tone, deep and smooth"
-  narrator_epic: '5a5d5e4b8f054c0395e0c7e8e1b1a1a1', // Placeholder - actualizar con ID real
-  narrator_deep: '3c3d3e4b8f054c0395e0c7e8e1b1a2a2', // Placeholder
-  narrator_wise: '2b2c2d4b8f054c0395e0c7e8e1b1a3a3', // Placeholder
+  // ============================================
+  // NARRADORES - Voces profundas y dramáticas
+  // ============================================
 
-  // Horror/Supervivencia (Zombies)
-  whisper_dark: '4d4e4f4b8f054c0395e0c7e8e1b1a4a4', // Placeholder
-  tension_survival: '5e5f5g4b8f054c0395e0c7e8e1b1a5a5', // Placeholder
+  // Narrador principal - voz masculina profunda, dramática, formal
+  // https://fish.audio/m/79c16ea0ead2460c9934a4af53cd07ab/
+  narrator_grave: '79c16ea0ead2460c9934a4af53cd07ab',
+  narrator_deep: '79c16ea0ead2460c9934a4af53cd07ab',
+  narrator_epic: '79c16ea0ead2460c9934a4af53cd07ab',
+  narrator_wise: '79c16ea0ead2460c9934a4af53cd07ab',
 
-  // Anime/Isekai
-  anime_narrator: '6f6g6h4b8f054c0395e0c7e8e1b1a6a6', // Placeholder
-  anime_energetic: '7g7h7i4b8f054c0395e0c7e8e1b1a7a7', // Placeholder
+  // Vikingos/Lovecraft - misma voz profunda (épica)
+  skald_epic: '79c16ea0ead2460c9934a4af53cd07ab',
+  nordic_bard: '79c16ea0ead2460c9934a4af53cd07ab',
+  whisper_dread: '79c16ea0ead2460c9934a4af53cd07ab',
 
-  // NPCs variados
-  npc_male_deep: '8h8i8j4b8f054c0395e0c7e8e1b1a8a8',
-  npc_male_young: '9i9j9k4b8f054c0395e0c7e8e1b1a9a9',
-  npc_female_wise: 'ajakal4b8f054c0395e0c7e8e1b1aaaa',
-  npc_female_young: 'bkblbm4b8f054c0395e0c7e8e1b1abab',
+  // Zombies/Horror - voz tensa
+  whisper_tense: '79c16ea0ead2460c9934a4af53cd07ab',
+  whisper_survival: '79c16ea0ead2460c9934a4af53cd07ab',
+  whisper_dark: '79c16ea0ead2460c9934a4af53cd07ab',
+  tension_survival: '79c16ea0ead2460c9934a4af53cd07ab',
 
-  // Fallbacks
-  default_es: 'narrator_epic',
-  default_en: 'narrator_deep',
+  // Cyberpunk
+  synth_narrator: '79c16ea0ead2460c9934a4af53cd07ab',
+
+  // Isekai/Anime - voz masculina joven, conversacional
+  // https://fish.audio/m/44cc9923b0b443e8a1a7887fed528c17/
+  anime_energetic: '44cc9923b0b443e8a1a7887fed528c17',
+  anime_narrator: '44cc9923b0b443e8a1a7887fed528c17',
+
+  // ============================================
+  // NPCs MASCULINOS
+  // ============================================
+  npc_male_1: '79c16ea0ead2460c9934a4af53cd07ab',   // Profundo, sabio
+  npc_male_2: '44cc9923b0b443e8a1a7887fed528c17',   // Joven, conversacional
+  npc_male_3: '44cc9923b0b443e8a1a7887fed528c17',   // Joven, energético
+  npc_male_deep: '79c16ea0ead2460c9934a4af53cd07ab',
+  npc_male_young: '44cc9923b0b443e8a1a7887fed528c17',
+
+  // ============================================
+  // NPCs FEMENINOS
+  // ============================================
+  // Isabella - voz femenina cálida, profesional, narrativa
+  // https://fish.audio/m/d3638485d6ca468ea93e03ba5e43c50e/
+  npc_female_1: 'd3638485d6ca468ea93e03ba5e43c50e',
+  npc_female_2: 'd3638485d6ca468ea93e03ba5e43c50e',
+  npc_female_wise: 'd3638485d6ca468ea93e03ba5e43c50e',
+
+  // Chica española - voz femenina joven, energética, brillante
+  // https://fish.audio/m/70faac8dfb43436eb1193d6cce3b0a54/
+  npc_female_3: '70faac8dfb43436eb1193d6cce3b0a54',
+  npc_female_young: '70faac8dfb43436eb1193d6cce3b0a54',
+
+  // ============================================
+  // NEUTRAL
+  // ============================================
+  npc_neutral_1: '44cc9923b0b443e8a1a7887fed528c17',
+
+  // ============================================
+  // DEFAULTS
+  // ============================================
+  default_es: '79c16ea0ead2460c9934a4af53cd07ab',
+  default_en: '79c16ea0ead2460c9934a4af53cd07ab',
 }
 
 export class FishAudioProvider implements TTSProvider {
@@ -70,44 +103,31 @@ export class FishAudioProvider implements TTSProvider {
     }
 
     try {
-      // Seleccionar modelo de voz
       const voiceKey = options.voice as keyof typeof FISH_AUDIO_VOICES
-      const referenceId = FISH_AUDIO_VOICES[voiceKey] || FISH_AUDIO_VOICES.narrator_epic
+      const referenceId = FISH_AUDIO_VOICES[voiceKey] || FISH_AUDIO_VOICES.default_es
 
-      console.log('[FishAudioProvider] Generating speech')
-      console.log('[FishAudioProvider] Voice:', options.voice, '-> referenceId:', referenceId)
-      console.log('[FishAudioProvider] Text length:', text.length)
-      console.log('[FishAudioProvider] Language:', options.language)
+      console.log('[FishAudio] Generating speech, voice:', options.voice, '-> ref:', referenceId, ', text:', text.length, 'chars')
 
-      // Configurar prosody según velocidad solicitada
-      const prosody = options.speed ? {
-        speed: options.speed
-      } : undefined
-
-      // Llamar a Fish Audio API
       const response = await fetch(this.baseUrl, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${this.apiKey}`,
           'Content-Type': 'application/json',
-          'model': 's1', // FishAudio-S1 para máxima naturalidad
+          'model': 's2-pro',
         },
         body: JSON.stringify({
-          text: text,
+          text,
           reference_id: referenceId,
           format: 'mp3',
           mp3_bitrate: 128,
-          latency: 'balanced', // Balance entre velocidad y calidad
-          temperature: 0.7, // Expresividad moderada
-          top_p: 0.7,
+          latency: 'balanced',
           normalize: true,
-          ...(prosody && { prosody }),
         }),
       })
 
       if (!response.ok) {
         const errorText = await response.text()
-        console.error('[FishAudioProvider] API Error:', response.status, errorText)
+        console.error('[FishAudio] API Error:', response.status, errorText)
 
         if (response.status === 401) {
           throw new TTSError('Invalid Fish Audio API key', this.name, 'PROVIDER_UNAVAILABLE')
@@ -115,20 +135,14 @@ export class FishAudioProvider implements TTSProvider {
         if (response.status === 402) {
           throw new TTSError('Fish Audio payment required', this.name, 'PROVIDER_UNAVAILABLE')
         }
-        if (response.status === 422) {
-          throw new TTSError(`Fish Audio validation error: ${errorText}`, this.name, 'INVALID_OPTIONS')
-        }
         throw new TTSError(`Fish Audio API error: ${response.status}`, this.name, 'GENERATION_FAILED')
       }
 
-      // Fish Audio devuelve audio en chunks (streaming)
       const audioBuffer = await response.arrayBuffer()
-
-      // Convertir a base64 data URL para reproducir en el navegador
       const base64Audio = Buffer.from(audioBuffer).toString('base64')
       const audioUrl = `data:audio/mp3;base64,${base64Audio}`
 
-      console.log('[FishAudioProvider] Audio generated successfully, size:', audioBuffer.byteLength)
+      console.log('[FishAudio] Audio generated, size:', audioBuffer.byteLength)
 
       return {
         audioUrl,
@@ -140,7 +154,7 @@ export class FishAudioProvider implements TTSProvider {
       if (error instanceof TTSError) throw error
 
       const errorMessage = error instanceof Error ? error.message : 'Unknown error'
-      console.error('[FishAudioProvider] Error:', errorMessage)
+      console.error('[FishAudio] Error:', errorMessage)
 
       throw new TTSError(
         `Failed to generate speech: ${errorMessage}`,
@@ -152,7 +166,6 @@ export class FishAudioProvider implements TTSProvider {
 
   /**
    * Stream de audio para latencia ultra-baja
-   * Retorna un ReadableStream que puede ser consumido directamente
    */
   async generateSpeechStream(text: string, options: TTSOptions): Promise<Response> {
     if (!this.isAvailable()) {
@@ -164,26 +177,22 @@ export class FishAudioProvider implements TTSProvider {
     }
 
     const voiceKey = options.voice as keyof typeof FISH_AUDIO_VOICES
-    const referenceId = FISH_AUDIO_VOICES[voiceKey] || FISH_AUDIO_VOICES.narrator_epic
-
-    const prosody = options.speed ? { speed: options.speed } : undefined
+    const referenceId = FISH_AUDIO_VOICES[voiceKey] || FISH_AUDIO_VOICES.default_es
 
     const response = await fetch(this.baseUrl, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${this.apiKey}`,
         'Content-Type': 'application/json',
-        'model': 's1',
+        'model': 's2-pro',
       },
       body: JSON.stringify({
         text,
         reference_id: referenceId,
         format: 'mp3',
         mp3_bitrate: 128,
-        latency: 'low', // Priorizar baja latencia para streaming
-        temperature: 0.7,
+        latency: 'low',
         normalize: true,
-        ...(prosody && { prosody }),
       }),
     })
 
@@ -197,24 +206,10 @@ export class FishAudioProvider implements TTSProvider {
 
   async getVoices(): Promise<Voice[]> {
     return [
-      // Narradores épicos
-      { id: 'narrator_epic', name: 'Epic Narrator', language: 'es', gender: 'male', description: 'Voz épica para fantasía y aventura' },
-      { id: 'narrator_deep', name: 'Deep Narrator', language: 'es', gender: 'male', description: 'Voz profunda y sabia' },
-      { id: 'narrator_wise', name: 'Wise Narrator', language: 'es', gender: 'male', description: 'Voz de sabio anciano' },
-
-      // Horror/Supervivencia
-      { id: 'whisper_dark', name: 'Dark Whisper', language: 'es', gender: 'male', description: 'Susurro oscuro para horror' },
-      { id: 'tension_survival', name: 'Survival Tension', language: 'es', gender: 'female', description: 'Voz tensa de supervivencia' },
-
-      // Anime
-      { id: 'anime_narrator', name: 'Anime Narrator', language: 'es', gender: 'neutral', description: 'Narrador estilo anime' },
-      { id: 'anime_energetic', name: 'Energetic Anime', language: 'es', gender: 'female', description: 'Voz energética de anime' },
-
-      // NPCs
-      { id: 'npc_male_deep', name: 'Deep Male NPC', language: 'es', gender: 'male', description: 'NPC masculino grave' },
-      { id: 'npc_male_young', name: 'Young Male NPC', language: 'es', gender: 'male', description: 'NPC masculino joven' },
-      { id: 'npc_female_wise', name: 'Wise Female NPC', language: 'es', gender: 'female', description: 'NPC femenina sabia' },
-      { id: 'npc_female_young', name: 'Young Female NPC', language: 'es', gender: 'female', description: 'NPC femenina joven' },
+      { id: 'narrator_grave', name: 'Narrador Épico', language: 'es', gender: 'male', description: 'Voz profunda y dramática para narración' },
+      { id: 'anime_energetic', name: 'Narrador Joven', language: 'es', gender: 'male', description: 'Voz joven conversacional' },
+      { id: 'npc_female_1', name: 'Isabella', language: 'es', gender: 'female', description: 'Voz femenina cálida y profesional' },
+      { id: 'npc_female_young', name: 'Chica Española', language: 'es', gender: 'female', description: 'Voz femenina joven y energética' },
     ]
   }
 }
