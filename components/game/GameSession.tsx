@@ -21,7 +21,7 @@ import { Lore } from '@prisma/client'
 // Immersion system
 import { TypewriterText } from '@/components/ui/TypewriterText'
 import { SceneTransition, useSceneTransition } from '@/components/ui/SceneTransition'
-import { SceneImage } from '@/components/game/SceneImage'
+// SceneImage ahora se renderiza dentro de SceneView (integrada en el mapa)
 import { type UIMood, getUIMood, getMoodConfig } from '@/lib/game/ui-mood'
 // Combat system
 import { TacticalCombatPanel } from '@/components/game/TacticalCombatPanel'
@@ -1066,24 +1066,9 @@ export default function GameSession({
                 setTimeout(() => setError(null), 3000)
               }}
               locale={locale as 'es' | 'en'}
+              sceneImageUrl={sceneImageUrl}
+              isSceneImageLoading={isImageLoading}
             />
-
-            {/* Imagen de escena - debajo del mapa */}
-            {(sceneImageUrl || isImageLoading) && (
-              <div className={`rounded-lg overflow-hidden border ${moodConfig.borderClass} transition-all duration-500`}>
-                <SceneImage
-                  imageUrl={sceneImageUrl}
-                  isLoading={isImageLoading}
-                  lore={lore as LoreType}
-                  error={imageError}
-                  onRetry={async () => {
-                    setImageError(null)
-                  }}
-                  aspectRatio="16:9"
-                  showFullscreenButton={true}
-                />
-              </div>
-            )}
 
             {/* Quests Section */}
             <div id="quests-section" className="glass-panel-dark rounded-lg p-4 border border-gold-dim/20 scroll-mt-4">
