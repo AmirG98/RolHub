@@ -11,26 +11,46 @@ import { TTSProvider, TTSOptions, TTSResult, Voice, TTSError, estimateDuration }
 
 // Voces en español de Deepgram Aura-2
 // Voces bilingües (ES/EN): aquila, carina, diana, javier, selena
+// Voz más profunda: aura-2-valerio-es (Deep, Knowledgeable)
+// Voz barítono: aura-2-sirio-es (Calm, Baritone)
 const DEEPGRAM_VOICES = {
-  // Voces masculinas para narración épica
-  narrator_grave: 'aura-2-nestor-es',      // Voz grave masculina
-  skald_epic: 'aura-2-luciano-es',         // Voz épica
-  narrator_deep: 'aura-2-javier-es',       // Bilingüe, profunda
+  // ============================================
+  // NARRADORES - Voces profundas y épicas
+  // ============================================
+  narrator_grave: 'aura-2-valerio-es',    // Deep, Knowledgeable (principal)
+  narrator_deep: 'aura-2-valerio-es',     // Voz profunda
+  narrator_epic: 'aura-2-valerio-es',     // Voz épica
 
-  // Voces femeninas/neutras para tensión
-  whisper_tense: 'aura-2-celeste-es',      // Tensa, susurrante
-  whisper_survival: 'aura-2-diana-es',     // Bilingüe, supervivencia
+  // Vikingos y Lovecraft - Barítono
+  skald_epic: 'aura-2-sirio-es',          // Baritone (vikingos)
+  nordic_bard: 'aura-2-sirio-es',         // Bardo nórdico
+  whisper_dread: 'aura-2-sirio-es',       // Ominoso (Lovecraft)
 
-  // Voces energéticas para anime/isekai
-  anime_energetic: 'aura-2-carina-es',     // Bilingüe, energética
-  anime_narrator: 'aura-2-aquila-es',      // Bilingüe
+  // Zombies - Tensa
+  whisper_tense: 'aura-2-celeste-es',     // Tensa (zombies)
+  whisper_survival: 'aura-2-celeste-es',  // Supervivencia
 
-  // Voces adicionales
-  nordic_bard: 'aura-2-alvaro-es',         // Para vikingos
+  // Cyberpunk - Expresivo
+  synth_narrator: 'aura-2-aquila-es',     // Cyberpunk
 
-  // Fallback
-  default_es: 'aura-2-sirio-es',
-  default_en: 'aura-2-javier-es',          // Bilingüe
+  // Isekai - Energético
+  anime_energetic: 'aura-2-luciano-es',   // Energético
+  anime_narrator: 'aura-2-luciano-es',    // Anime
+
+  // ============================================
+  // NPCs - Variedad de voces
+  // ============================================
+  npc_male_1: 'aura-2-nestor-es',         // Sabio
+  npc_male_2: 'aura-2-alvaro-es',         // Comerciante
+  npc_male_3: 'aura-2-luciano-es',        // Joven
+  npc_female_1: 'aura-2-diana-es',        // Líder
+  npc_female_2: 'aura-2-selena-es',       // Amigable
+  npc_female_3: 'aura-2-gloria-es',       // Joven
+  npc_neutral_1: 'aura-2-aquila-es',      // Neutral
+
+  // Fallback - Voz profunda
+  default_es: 'aura-2-valerio-es',
+  default_en: 'aura-2-javier-es',         // Bilingüe
 }
 
 // Modelo del voice - para seleccionar el mejor según caso de uso
@@ -129,19 +149,26 @@ export class DeepgramProvider implements TTSProvider {
 
   async getVoices(): Promise<Voice[]> {
     return [
-      // Español
-      { id: 'narrator_grave', name: 'Néstor (Grave)', language: 'es', gender: 'male', description: 'Voz grave para fantasía épica' },
-      { id: 'skald_epic', name: 'Luciano (Épico)', language: 'es', gender: 'male', description: 'Voz épica de skald' },
-      { id: 'narrator_deep', name: 'Javier (Profundo)', language: 'es', gender: 'male', description: 'Voz profunda, bilingüe ES/EN' },
-      { id: 'whisper_tense', name: 'Celeste (Tensa)', language: 'es', gender: 'female', description: 'Voz tensa para horror' },
-      { id: 'whisper_survival', name: 'Diana (Supervivencia)', language: 'es', gender: 'female', description: 'Bilingüe ES/EN' },
-      { id: 'anime_energetic', name: 'Carina (Energética)', language: 'es', gender: 'female', description: 'Estilo anime, bilingüe' },
-      { id: 'anime_narrator', name: 'Aquila (Narrador)', language: 'es', gender: 'neutral', description: 'Narrador anime, bilingüe' },
-      { id: 'nordic_bard', name: 'Álvaro (Bardo)', language: 'es', gender: 'male', description: 'Voz de bardo nórdico' },
+      // Español - Narradores
+      { id: 'narrator_grave', name: 'Valerio (Profundo)', language: 'es', gender: 'male', description: 'Voz profunda y sabia - narrador principal' },
+      { id: 'narrator_deep', name: 'Valerio (Épico)', language: 'es', gender: 'male', description: 'Voz profunda para fantasía épica' },
+      { id: 'skald_epic', name: 'Sirio (Barítono)', language: 'es', gender: 'male', description: 'Voz barítono para vikingos' },
+      { id: 'nordic_bard', name: 'Sirio (Bardo)', language: 'es', gender: 'male', description: 'Bardo nórdico, ominoso' },
+      { id: 'whisper_dread', name: 'Sirio (Horror)', language: 'es', gender: 'male', description: 'Voz ominosa para Lovecraft' },
+      { id: 'whisper_tense', name: 'Celeste (Tensa)', language: 'es', gender: 'female', description: 'Voz tensa para zombies' },
+      { id: 'synth_narrator', name: 'Aquila (Cyberpunk)', language: 'es', gender: 'neutral', description: 'Voz expresiva para cyberpunk' },
+      { id: 'anime_energetic', name: 'Luciano (Anime)', language: 'es', gender: 'male', description: 'Voz energética para isekai' },
+      // Español - NPCs
+      { id: 'npc_male_1', name: 'Néstor (Sabio)', language: 'es', gender: 'male', description: 'NPC masculino - mentor, sabio' },
+      { id: 'npc_male_2', name: 'Álvaro (Comerciante)', language: 'es', gender: 'male', description: 'NPC masculino - comerciante' },
+      { id: 'npc_male_3', name: 'Luciano (Joven)', language: 'es', gender: 'male', description: 'NPC masculino - joven aventurero' },
+      { id: 'npc_female_1', name: 'Diana (Líder)', language: 'es', gender: 'female', description: 'NPC femenino - líder, confiada' },
+      { id: 'npc_female_2', name: 'Selena (Amigable)', language: 'es', gender: 'female', description: 'NPC femenino - amigable, casual' },
+      { id: 'npc_female_3', name: 'Gloria (Expresiva)', language: 'es', gender: 'female', description: 'NPC femenino - joven, natural' },
       // Inglés (usando voces bilingües)
       { id: 'narrator_deep', name: 'Javier (Deep)', language: 'en', gender: 'male', description: 'Deep narrator voice' },
-      { id: 'whisper_survival', name: 'Diana (Survival)', language: 'en', gender: 'female', description: 'Tense survival voice' },
-      { id: 'anime_narrator', name: 'Aquila (Anime)', language: 'en', gender: 'neutral', description: 'Anime narrator style' },
+      { id: 'npc_female_1', name: 'Diana (Leader)', language: 'en', gender: 'female', description: 'Confident female NPC' },
+      { id: 'synth_narrator', name: 'Aquila (Narrator)', language: 'en', gender: 'neutral', description: 'Expressive narrator' },
     ]
   }
 }

@@ -72,35 +72,59 @@ const FISH_AUDIO_VOICES: Record<string, string> = {
  * - aura-2-dario-es: Masculina energética, ideal para narradores dinámicos
  */
 const DEEPGRAM_VOICES: Record<string, string> = {
-  // Voces de narrador - ESPAÑOL nativo
-  narrator_grave: 'aura-2-nestor-es',     // Voz masculina profunda (LOTR)
-  skald_epic: 'aura-2-nestor-es',         // Voz masculina épica (vikingos)
-  narrator_deep: 'aura-2-nestor-es',      // Voz masculina profunda
-  narrator_epic: 'aura-2-nestor-es',      // Voz épica (Star Wars)
-  whisper_tense: 'aura-2-aurora-es',      // Voz femenina tensa (zombies)
-  whisper_survival: 'aura-2-aurora-es',   // Voz femenina (supervivencia)
-  whisper_dread: 'aura-2-aurora-es',      // Voz ominosa (Lovecraft)
-  synth_narrator: 'aura-2-dario-es',      // Voz sintética (Cyberpunk)
-  anime_energetic: 'aura-2-dario-es',     // Voz masculina energética (isekai)
-  anime_narrator: 'aura-2-dario-es',      // Voz masculina expresiva
-  nordic_bard: 'aura-2-nestor-es',        // Voz masculina épica
+  // ============================================
+  // NARRADORES - Voces profundas y épicas
+  // ============================================
 
-  // NPCs masculinos
-  npc_male_1: 'aura-2-nestor-es',         // Profunda
-  npc_male_2: 'aura-2-dario-es',          // Energética
-  npc_male_3: 'aura-2-dario-es',          // Joven
+  // Narrador principal - VOZ MÁS PROFUNDA
+  narrator_grave: 'aura-2-valerio-es',    // Deep, Knowledgeable (LOTR, general)
+  narrator_deep: 'aura-2-valerio-es',     // Voz profunda principal
+  narrator_epic: 'aura-2-valerio-es',     // Voz épica (Star Wars)
 
-  // NPCs femeninos
-  npc_female_1: 'aura-2-aurora-es',       // Sabia
-  npc_female_2: 'aura-2-aurora-es',       // Media
-  npc_female_3: 'aura-2-aurora-es',       // Joven
+  // Vikingos y Lovecraft - Barítono ominoso
+  skald_epic: 'aura-2-sirio-es',          // Baritone, Calm (vikingos)
+  nordic_bard: 'aura-2-sirio-es',         // Bardo nórdico
+  whisper_dread: 'aura-2-sirio-es',       // Voz ominosa (Lovecraft)
 
-  // Neutral
-  npc_neutral_1: 'aura-2-dario-es',
+  // Zombies - Tensa, supervivencia
+  whisper_tense: 'aura-2-celeste-es',     // Clear, Energetic (zombies)
+  whisper_survival: 'aura-2-celeste-es',  // Supervivencia
 
-  // Defaults - SIEMPRE español
-  default_es: 'aura-2-nestor-es',
-  default_en: 'aura-2-nestor-es',         // También español para consistencia
+  // Cyberpunk - Tech, expresivo
+  synth_narrator: 'aura-2-aquila-es',     // Expressive, Confident (cyberpunk)
+
+  // Isekai - Energético, anime
+  anime_energetic: 'aura-2-luciano-es',   // Charismatic, Energetic (isekai)
+  anime_narrator: 'aura-2-luciano-es',    // Narrador anime
+
+  // ============================================
+  // NPCs MASCULINOS - Variedad de voces
+  // ============================================
+  npc_male_1: 'aura-2-nestor-es',         // Calm, Professional - sabio, mentor
+  npc_male_2: 'aura-2-alvaro-es',         // Clear, Knowledgeable - comerciante
+  npc_male_3: 'aura-2-luciano-es',        // Energetic, Cheerful - joven, aventurero
+  npc_male_deep: 'aura-2-javier-es',      // Approachable, Professional
+  npc_male_young: 'aura-2-aquila-es',     // Expressive, Casual
+
+  // ============================================
+  // NPCs FEMENINOS - Variedad de voces
+  // ============================================
+  npc_female_1: 'aura-2-diana-es',        // Professional, Confident - líder, sabia
+  npc_female_2: 'aura-2-selena-es',       // Friendly, Casual - amigable
+  npc_female_3: 'aura-2-gloria-es',       // Expressive, Natural - joven
+  npc_female_wise: 'aura-2-silvia-es',    // Warm, Clear - anciana sabia
+  npc_female_young: 'aura-2-carina-es',   // Energetic, Raspy - aventurera
+
+  // ============================================
+  // NEUTRAL
+  // ============================================
+  npc_neutral_1: 'aura-2-aquila-es',      // Expresivo, casual
+
+  // ============================================
+  // DEFAULTS - Voz profunda por defecto
+  // ============================================
+  default_es: 'aura-2-valerio-es',
+  default_en: 'aura-2-valerio-es',
 }
 
 interface VoiceRequest {
