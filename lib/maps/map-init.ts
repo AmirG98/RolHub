@@ -149,9 +149,13 @@ export function migrateWorldStateMapState(
   worldState: any,
   lore: Lore
 ): MapState {
-  // Si ya tiene map_state, devolverlo
+  // Si ya tiene map_state, asegurar que tiene dynamicLocations
   if (worldState.map_state) {
-    return worldState.map_state as MapState
+    const state = worldState.map_state as MapState
+    if (!state.dynamicLocations) {
+      state.dynamicLocations = []
+    }
+    return state
   }
 
   // Crear estado inicial

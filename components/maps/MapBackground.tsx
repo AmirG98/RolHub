@@ -1,9 +1,10 @@
 'use client'
 
 import React, { useEffect, useRef } from 'react'
-import { Rect, Circle, Line, Group } from 'react-konva'
+import { Rect, Circle, Line, Group, Text } from 'react-konva'
 import Konva from 'konva'
 import { type Lore, getMapConfig } from '@/lib/maps/map-config'
+import { getTerrainRegions, scaleTerrainRegions, type TerrainRegion } from '@/lib/maps/terrain-regions'
 
 interface MapBackgroundProps {
   lore: Lore
@@ -416,4 +417,67 @@ function getWavePoints(width: number, y: number): number[] {
     points.push(y + Math.sin(x / 30) * 10)
   }
   return points
+}
+
+// ===== CAPA DE TERRENO =====
+// Polígonos semitransparentes que dan contexto geográfico al mapa
+
+interface TerrainLayerProps {
+  lore: Lore
+  width: number
+  height: number
+}
+
+export function TerrainLayer({ lore, width, height }: TerrainLayerProps) {
+  const rawRegions = getTerrainRegions(lore)
+  if (rawRegions.length === 0) return null
+
+  const regions = scaleTerrainRegions(rawRegions, width, height)
+  const config = getMapConfig(lore)
+
+  return (
+    <Group>
+      {regions.map((region) => (
+        <React.Fragment key={region.id}>
+          {region.isPath ? (
+            // Ríos, rutas, caminos — líneas abiertas
+            <Line
+              points={region.points}
+              stroke={region.color}
+              strokeWidth={region.strokeWidth || 3}
+              opacity={region.opacity}
+              lineCap="round"
+              lineJoin="round"
+              tension={0.4}
+            />
+          ) : (
+            // Regiones — polígonos cerrados con fill
+            <Line
+              points={region.points}
+              closed
+              fill={region.color}
+              opacity={region.opacity}
+              stroke={region.color}
+              strokeWidth={1}
+            />
+          )}
+          {/* Label de región */}
+          {region.labelPosition && (
+            <Text
+              x={region.labelPosition.x}
+              y={region.labelPosition.y}
+              text={region.name}
+              fontSize={12}
+              fontFamily={config.titleFontFamily || config.fontFamily}
+              fontStyle="italic"
+              fill={region.color}
+              opacity={region.isPath ? 0.2 : 0.25}
+              align="center"
+              offsetX={region.name.length * 3}
+            />
+          )}
+        </React.Fragment>
+      ))}
+    </Group>
+  )
 }

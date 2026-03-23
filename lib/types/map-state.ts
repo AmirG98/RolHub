@@ -58,6 +58,21 @@ export interface MapState {
   // Imagen del mapa generada con IA (opcional)
   mapImageUrl?: string
   mapImageGeneratedAt?: string
+
+  // Ubicaciones creadas dinámicamente por el DM durante la narrativa
+  dynamicLocations?: DynamicMapLocation[]
+}
+
+// Ubicación creada dinámicamente por el DM
+export interface DynamicMapLocation {
+  id: string
+  name: string
+  description: string
+  type: 'city' | 'dungeon' | 'wilderness' | 'landmark' | 'danger' | 'safe' | 'mystery'
+  dangerLevel: number
+  coordinates: { x: number; y: number }
+  connections: string[]
+  createdAtTurn?: number
 }
 
 // Miembro del party con estado actualizado

@@ -7,10 +7,11 @@ import { type Lore, getMapConfig, type MapLocation } from '@/lib/maps/map-config
 import { type QuestMarker as QuestMarkerType } from '@/lib/types/quest'
 import { type MapLocationWithStatus } from '@/lib/types/map-state'
 import { MapControls } from './MapControls'
-import { MapBackground } from './MapBackground'
+import { MapBackground, TerrainLayer } from './MapBackground'
 import { MapMarker } from './MapMarker'
 import { MapPaths } from './MapPaths'
 import { FogOfWar } from './FogOfWar'
+import { normalizeLegacyCoordinates, toCanvasCoords } from '@/lib/maps/position-calculator'
 
 interface MapContainerProps {
   lore: Lore
@@ -50,6 +51,20 @@ export function MapContainer({
   const [dimensions, setDimensions] = useState({ width, height })
 
   const config = getMapConfig(lore)
+
+  // Normalizar coordenadas legacy a sistema 0-1000 y luego escalar al canvas
+  const scaledLocations = useMemo(() => {
+    const normalized = normalizeLegacyCoordinates([...locations])
+    return normalized.map(loc => ({
+      ...loc,
+      coordinates: toCanvasCoords(
+        loc.coordinates.x,
+        loc.coordinates.y,
+        dimensions.width,
+        dimensions.height
+      ),
+    }))
+  }, [locations, dimensions.width, dimensions.height])
 
   // Crear mapa de quest markers por locationId para acceso rápido
   const questMarkersMap = useMemo(() => {
@@ -130,12 +145,16 @@ export function MapContainer({
     setPosition({ x: centerX, y: centerY })
   }, [dimensions, scale])
 
-  // Click en locación
-  const handleLocationClick = useCallback((location: MapLocation) => {
-    if (location.discovered || !showFog) {
-      onLocationClick?.(location)
+  // Click en locación — devuelve la locación original (no escalada) al callback
+  const handleLocationClick = useCallback((scaledLoc: MapLocation) => {
+    if (scaledLoc.discovered || !showFog) {
+      // Buscar la locación original por ID para devolver coords sin escalar
+      const original = locations.find(l => l.id === scaledLoc.id)
+      if (original) {
+        onLocationClick?.(original)
+      }
     }
-  }, [onLocationClick, showFog])
+  }, [onLocationClick, showFog, locations])
 
   // Hover en locación
   const handleLocationHover = useCallback((location: MapLocation | null) => {
@@ -157,7 +176,7 @@ export function MapContainer({
   }, [])
 
   // Locaciones descubiertas (para paths)
-  const discoveredLocations = locations.filter(l => l.discovered || !showFog)
+  const discoveredLocations = scaledLocations.filter(l => l.discovered || !showFog)
 
   return (
     <div className={`relative overflow-hidden rounded-lg ${className}`}>
@@ -194,6 +213,15 @@ export function MapContainer({
           />
         </Layer>
 
+        {/* Capa de terreno - regiones geográficas */}
+        <Layer>
+          <TerrainLayer
+            lore={lore}
+            width={dimensions.width}
+            height={dimensions.height}
+          />
+        </Layer>
+
         {/* Capa de caminos entre locaciones */}
         <Layer>
           <MapPaths
@@ -206,7 +234,7 @@ export function MapContainer({
         {showFog && (
           <Layer>
             <FogOfWar
-              locations={locations}
+              locations={scaledLocations}
               lore={lore}
               width={dimensions.width * 2}
               height={dimensions.height * 2}
@@ -217,7 +245,7 @@ export function MapContainer({
         {/* Capa de marcadores - ordenados para jerarquía visual */}
         <Layer>
           {/* Primero renderizar ubicaciones normales */}
-          {locations
+          {scaledLocations
             .filter(l => l.id !== currentLocationId)
             .map((location) => {
               const knowledgeLevel = 'knowledgeLevel' in location
@@ -241,7 +269,7 @@ export function MapContainer({
               )
             })}
           {/* Ubicación actual al final (encima de todas) */}
-          {currentLocationId && locations
+          {currentLocationId && scaledLocations
             .filter(l => l.id === currentLocationId)
             .map((location) => {
               const knowledgeLevel = 'knowledgeLevel' in location
@@ -307,7 +335,7 @@ export function MapContainer({
             fontFamily: config.fontFamily,
           }}
         >
-          📍 {locations.find(l => l.id === currentLocationId)?.name || 'Ubicación actual'}
+          📍 {scaledLocations.find(l => l.id === currentLocationId)?.name || 'Ubicación actual'}
         </div>
       )}
     </div>

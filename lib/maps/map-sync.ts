@@ -101,6 +101,26 @@ export function deriveMapState(
     }))
   }
 
+  // Mergear ubicaciones dinámicas creadas por el DM
+  const dynamicLocations = state.dynamicLocations || []
+  for (const dynLoc of dynamicLocations) {
+    // Solo agregar si no existe ya con el mismo ID
+    if (!locations.some(l => l.id === dynLoc.id)) {
+      locations.push({
+        id: dynLoc.id,
+        name: dynLoc.name,
+        description: dynLoc.description,
+        type: dynLoc.type,
+        dangerLevel: dynLoc.dangerLevel,
+        coordinates: dynLoc.coordinates,
+        connections: dynLoc.connections,
+        icon: '',
+        discovered: state.discoveredLocationIds.includes(dynLoc.id),
+        visited: state.visitedLocationIds.includes(dynLoc.id),
+      })
+    }
+  }
+
   // Convertir a MapLocationWithStatus con knowledge level
   const locationsWithStatus: MapLocationWithStatus[] = locations.map((loc) => ({
     ...loc,

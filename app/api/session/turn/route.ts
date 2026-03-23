@@ -11,7 +11,8 @@ import {
 } from '@/lib/engines'
 import { getExampleMapData } from '@/lib/maps/lore-map-data'
 import { type Lore as LoreType } from '@/lib/maps/map-config'
-import { type NavigationLockReason, type LocationKnowledgeLevel } from '@/lib/types/map-state'
+import { type NavigationLockReason, type LocationKnowledgeLevel, type DynamicMapLocation } from '@/lib/types/map-state'
+import { calculateRelativePosition, normalizeLegacyCoordinates } from '@/lib/maps/position-calculator'
 import { type Quest, type QuestUpdate } from '@/lib/types/quest'
 import { upgradeKnowledge, onLocationArrival } from '@/lib/maps/location-knowledge'
 
@@ -478,6 +479,28 @@ EXAMPLE - Player travels to another location:
   "mood_hint": "exploration",
   "suggested_actions": ["Seek Lord Elrond", "Explore the elven terraces", "Rest by the waterfalls"]
 }
+
+CREATING NEW LOCATIONS DYNAMICALLY:
+When the narrative introduces a place that does NOT exist in the location list above,
+you can create it dynamically using "create_location" in your response.
+The new location will appear on the player's map automatically.
+Position it relative to an existing location using direction and distance.
+
+"create_location": {
+  "id": "hidden-cave",
+  "name": "Hidden Cave",
+  "description": "A cave behind a waterfall",
+  "type": "dungeon",
+  "dangerLevel": 3,
+  "nearLocationId": "rivendel",
+  "direction": "north",
+  "distance": "close",
+  "connectTo": ["rivendel"]
+}
+
+Valid directions: north, south, east, west, northeast, northwest, southeast, southwest
+Valid distances: close, medium, far
+Valid types: city, dungeon, wilderness, landmark, danger, safe, mystery
 === END LOCATION SYSTEM ===
 ` : `
 === SISTEMA DE UBICACIÓN (DESCUBRIMIENTO NARRATIVO) ===
@@ -539,6 +562,28 @@ EJEMPLO - Jugador viaja a otra ubicación:
   "mood_hint": "exploration",
   "suggested_actions": ["Buscar al Señor Elrond", "Explorar las terrazas élficas", "Descansar junto a las cascadas"]
 }
+
+CREACIÓN DINÁMICA DE UBICACIONES:
+Cuando la narrativa introduce un lugar que NO existe en la lista de ubicaciones anterior,
+puedes crearlo dinámicamente usando "create_location" en tu respuesta.
+La nueva ubicación aparecerá automáticamente en el mapa del jugador.
+Posiciónala respecto a una ubicación existente usando dirección y distancia.
+
+"create_location": {
+  "id": "cueva-oculta",
+  "name": "Cueva Oculta",
+  "description": "Una cueva detrás de una cascada",
+  "type": "dungeon",
+  "dangerLevel": 3,
+  "nearLocationId": "rivendel",
+  "direction": "north",
+  "distance": "close",
+  "connectTo": ["rivendel"]
+}
+
+Direcciones válidas: north, south, east, west, northeast, northwest, southeast, southwest
+Distancias válidas: close, medium, far
+Tipos válidos: city, dungeon, wilderness, landmark, danger, safe, mystery
 === FIN SISTEMA DE UBICACIÓN ===
 `
 
@@ -909,6 +954,18 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
         level: 'rumored' | 'discovered'
         source: string  // "NPC dialogue", "found map", "overheard", "explored"
       }>
+      // Dynamic location creation by DM
+      create_location?: {
+        id: string
+        name: string
+        description: string
+        type: 'city' | 'dungeon' | 'wilderness' | 'landmark' | 'danger' | 'safe' | 'mystery'
+        dangerLevel: number
+        nearLocationId: string
+        direction: 'north' | 'south' | 'east' | 'west' | 'northeast' | 'northwest' | 'southeast' | 'southwest'
+        distance: 'close' | 'medium' | 'far'
+        connectTo: string[]
+      }
       // Image generation fields
       generate_image?: boolean
       image_prompt?: string
@@ -1020,6 +1077,81 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
             }
           }
         }
+      }
+    }
+
+    // Handle dynamic location creation
+    if (dmResponse.create_location) {
+      const cl = dmResponse.create_location
+      // Buscar coordenadas del ancla
+      const anchorLocation = mapLocations.find(l => l.id === cl.nearLocationId)
+      if (anchorLocation) {
+        // Normalizar coordenadas del ancla al sistema 0-1000 antes de calcular posición relativa
+        const normalizedAnchor = normalizeLegacyCoordinates([{ coordinates: { ...anchorLocation.coordinates } }])[0]
+        const coords = calculateRelativePosition(
+          normalizedAnchor.coordinates,
+          cl.direction,
+          cl.distance
+        )
+
+        const newDynamic: DynamicMapLocation = {
+          id: cl.id,
+          name: cl.name,
+          description: cl.description,
+          type: cl.type,
+          dangerLevel: cl.dangerLevel,
+          coordinates: coords,
+          connections: cl.connectTo || [],
+          createdAtTurn: session.turns.length,
+        }
+
+        // Inicializar map_state si no existe
+        if (!worldStateUpdates.map_state) {
+          worldStateUpdates.map_state = { ...(worldState.map_state || {}) }
+        }
+
+        // Agregar a dynamicLocations
+        const existingDynamic = worldStateUpdates.map_state.dynamicLocations || worldState.map_state?.dynamicLocations || []
+        worldStateUpdates.map_state.dynamicLocations = [...existingDynamic, newDynamic]
+
+        // Agregar a discoveredLocationIds
+        const currentDiscovered = worldStateUpdates.map_state.discoveredLocationIds || worldState.map_state?.discoveredLocationIds || []
+        if (!currentDiscovered.includes(cl.id)) {
+          worldStateUpdates.map_state.discoveredLocationIds = [...currentDiscovered, cl.id]
+        }
+
+        // Agregar knowledge level 'discovered'
+        const currentKnowledge = worldStateUpdates.map_state.locationKnowledge || worldState.map_state?.locationKnowledge || {}
+        worldStateUpdates.map_state.locationKnowledge = {
+          ...currentKnowledge,
+          [cl.id]: 'discovered' as LocationKnowledgeLevel,
+        }
+
+        // Actualizar conexiones bidireccionales en mapLocations para este turno
+        for (const connectId of cl.connectTo) {
+          const connectedLoc = mapLocations.find(l => l.id === connectId)
+          if (connectedLoc && !connectedLoc.connections.includes(cl.id)) {
+            connectedLoc.connections.push(cl.id)
+          }
+        }
+
+        // Agregar la nueva locación a mapLocations para que la validación de viaje funcione
+        mapLocations.push({
+          id: cl.id,
+          name: cl.name,
+          description: cl.description,
+          type: cl.type,
+          dangerLevel: cl.dangerLevel,
+          coordinates: coords,
+          connections: cl.connectTo || [],
+          icon: '',
+          discovered: true,
+          visited: false,
+        })
+
+        console.log(`[Turn] Created dynamic location: ${cl.id} (${cl.name}) near ${cl.nearLocationId}`)
+      } else {
+        console.warn(`[Turn] create_location: anchor ${cl.nearLocationId} not found, skipping`)
       }
     }
 
