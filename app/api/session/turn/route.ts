@@ -144,6 +144,21 @@ export async function POST(req: NextRequest) {
     const lastImageTurnIndex = [...session.turns].reverse().findIndex(t => t.imageUrl)
     const turnsSinceLastImage = lastImageTurnIndex === -1 ? session.turns.length : lastImageTurnIndex
 
+    // Detectar estancamiento narrativo
+    const recentTurns = session.turns.slice(-6)
+    const recentUserActions = recentTurns.filter(t => t.role === 'USER').map(t => t.content.toLowerCase())
+    const hasRepetition = recentUserActions.length >= 2 &&
+      recentUserActions.some((a, i) => i > 0 && (
+        a === recentUserActions[i - 1] ||
+        a.includes(recentUserActions[i - 1]) ||
+        recentUserActions[i - 1].includes(a)
+      ))
+    const recentSceneChanges = recentTurns.filter(t => t.role === 'DM' && t.content.length > 50)
+    const isStagnant = (recentUserActions.length >= 3 && !hasRepetition && recentSceneChanges.length >= 3) ||
+      hasRepetition ||
+      session.turns.length > 8 && worldState.act === 1
+    const turnsSinceSceneChange = recentTurns.filter(t => t.role === 'DM').length
+
     // Agregar el turno actual del jugador con contexto de tipo de acción
     // actionType: 'do' = acción física, 'talk' = diálogo
     const actionContext = actionType === 'do'
@@ -984,8 +999,8 @@ ${isEnglish ? 'ANTI-REDUNDANCY RULES' : 'REGLAS ANTI-REDUNDANCIA'}:
   ? 'If the player input is nonsensical, gibberish, or completely off-topic, redirect them narratively without breaking the fourth wall. Present 3 clear action options to get them back on track.'
   : 'Si el input del jugador es sin sentido, incoherente o completamente fuera de tema, redirigilo narrativamente sin romper la cuarta pared. Presenta 3 opciones claras de acción para reencauzarlo.'}
 - ${isEnglish
-  ? 'Advance the plot even when the player stalls. After 2 turns of inaction or repetition, introduce a world event: an NPC approaches, weather changes, a sound is heard, or a quest-related development occurs.'
-  : 'Avanza la trama incluso cuando el jugador se estanca. Después de 2 turnos de inacción o repetición, introduce un evento del mundo: un NPC se acerca, el clima cambia, se escucha un sonido o ocurre un desarrollo relacionado a una quest.'}
+  ? `ANTI-STAGNATION (CRITICAL): The world is ALIVE and MOVES ON ITS OWN. ${isStagnant ? '⚠️ STAGNATION DETECTED — YOU MUST introduce an external event THIS TURN: an NPC interrupts, danger approaches, something unexpected happens, a quest develops, the environment changes dramatically. DO NOT wait for the player to drive the plot.' : 'If the player seems passive or stuck, introduce world events proactively: NPCs approach with news, weather worsens, enemies scout the area, a messenger arrives, something catches fire, a scream is heard.'} Never let 3+ turns pass without SOMETHING happening in the world independent of the player's actions.`
+  : `ANTI-ESTANCAMIENTO (CRÍTICO): El mundo está VIVO y SE MUEVE POR SU CUENTA. ${isStagnant ? '⚠️ ESTANCAMIENTO DETECTADO — DEBÉS introducir un evento externo ESTE TURNO: un NPC interrumpe, el peligro se acerca, algo inesperado pasa, una quest avanza, el ambiente cambia drásticamente. NO esperes a que el jugador mueva la trama.' : 'Si el jugador parece pasivo o trabado, introducí eventos del mundo proactivamente: NPCs se acercan con noticias, el clima empeora, enemigos merodean, llega un mensajero, algo se prende fuego, se escucha un grito.'} Nunca dejes pasar 3+ turnos sin que ALGO pase en el mundo independientemente de las acciones del jugador.`}
 
 ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
 - ${isEnglish
