@@ -363,13 +363,20 @@ export default function GameSession({
     }
   }, [character?.avatarUrl, sessionId])
 
-  // Load initial missions from first turn if available
+  // Load initial missions from first turn + auto-play voice for latest DM turn
   useEffect(() => {
     if (initialTurns.length > 0) {
       const firstTurn = initialTurns[0]
       // Check if diceRolls contains suggested_actions (missions)
       if (firstTurn.diceRolls?.suggested_actions && Array.isArray(firstTurn.diceRolls.suggested_actions)) {
         setSuggestedActions(firstTurn.diceRolls.suggested_actions)
+      }
+
+      // Auto-play voice for the latest DM turn when session loads
+      const lastDMTurn = [...initialTurns].reverse().find(t => t.role === 'DM')
+      if (lastDMTurn && initialTurns.length <= 2) {
+        // Only auto-play on fresh sessions (1-2 turns = just the intro)
+        setLatestDMTurnId(lastDMTurn.id)
       }
     }
   }, [initialTurns])

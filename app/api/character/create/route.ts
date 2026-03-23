@@ -358,26 +358,8 @@ export async function POST(req: NextRequest) {
       let suggestedActions: string[] = []
 
       if (openingScene) {
-        // Construir intro inmersiva con contexto espacial
-        introContent = `Bienvenido a ${loreData.name}, ${charName}.\n\n`
-        introContent += openingScene.description + '\n\n'
-
-        // Direcciones visibles - mostrar qué lugares puede ver el jugador
-        if (openingScene.visible_directions?.length > 0) {
-          introContent += 'Desde aquí, varios caminos se abren ante ti:\n'
-          openingScene.visible_directions.forEach((dir: { direction: string; landmark: string }) => {
-            introContent += `• Al ${dir.direction}, ${dir.landmark}\n`
-          })
-          introContent += '\n'
-        }
-
-        // Rumores ambientales - hooks de misiones integrados narrativamente
-        if (openingScene.ambient_rumors?.length > 0) {
-          introContent += 'Los rumores corren por el lugar: '
-          introContent += openingScene.ambient_rumors.join('; ') + '.\n\n'
-        }
-
-        // Pregunta de cierre
+        // Intro concisa e inmersiva — solo descripción + pregunta
+        introContent = openingScene.description + '\n\n'
         introContent += openingScene.closing_prompt || '¿Qué deseas hacer?'
 
         // Acciones sugeridas basadas en direcciones y rumores
