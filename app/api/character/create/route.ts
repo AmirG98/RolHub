@@ -64,29 +64,8 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    // Buscar el usuario por clerkId (con retry para pool timeouts)
-    let user = await withRetry(() => prisma.user.findUnique({
-      where: { clerkId: userId },
-    }))
-
-    if (!user) {
-      // Generar email único usando timestamp para evitar conflictos
-      const uniqueEmail = `user_${userId}_${Date.now()}@placeholder.local`
-
-      user = await prisma.user.create({
-        data: {
-          clerkId: userId,
-          username: `Usuario_${userId.slice(-6)}`,
-          email: uniqueEmail,
-          tutorialLevel,
-        },
-      })
-    } else if (user.tutorialLevel !== tutorialLevel) {
-      user = await prisma.user.update({
-        where: { id: user.id },
-        data: { tutorialLevel },
-      })
-    }
+    // User se busca/crea dentro de la transacción para minimizar conexiones
+    let user: any = null
 
     // Cargar datos del lore según el seleccionado
     const loreDataMap: Record<Lore, any> = {
@@ -268,22 +247,25 @@ export async function POST(req: NextRequest) {
       quests: [] as unknown[],
     }
 
-    // Generar código de invitación si es multiplayer
+    // Generar código de invitación si es multiplayer (sin query a DB — colisión es improbable con 6 chars alfanuméricos)
     let inviteCode: string | null = null
     if (isMultiplayer) {
-      // Generar código único (reintentar si ya existe)
-      let codeIsUnique = false
-      while (!codeIsUnique) {
-        inviteCode = generateInviteCode()
-        const existing = await prisma.campaign.findUnique({
-          where: { inviteCode },
-        })
-        if (!existing) codeIsUnique = true
-      }
+      inviteCode = generateInviteCode()
     }
 
-    // Crear Campaign, Character y Session en una transacción (con retry para pool timeouts)
+    // TODO en UNA SOLA transacción para minimizar conexiones de DB
     const result = await withRetry(() => prisma.$transaction(async (tx) => {
+      // 0. Buscar o crear usuario
+      user = await tx.user.findUnique({ where: { clerkId: userId } })
+      if (!user) {
+        const uniqueEmail = `user_${userId}_${Date.now()}@placeholder.local`
+        user = await tx.user.create({
+          data: { clerkId: userId, username: `Usuario_${userId.slice(-6)}`, email: uniqueEmail, tutorialLevel },
+        })
+      } else if (user.tutorialLevel !== tutorialLevel) {
+        user = await tx.user.update({ where: { id: user.id }, data: { tutorialLevel } })
+      }
+
       // 1. Crear la campaña
       const campaign = await tx.campaign.create({
         data: {
@@ -395,7 +377,7 @@ export async function POST(req: NextRequest) {
       })
 
       return { campaign, character, session, firstTurnId: firstTurn.id, introContent }
-    }), 2, 1500)
+    }, { timeout: 8000 }), 1, 2000)
 
     // === RETORNAR INMEDIATAMENTE — no bloquear el request ===
     // Las imágenes (retrato + escena) se generan en BACKGROUND

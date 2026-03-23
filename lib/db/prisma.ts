@@ -23,10 +23,9 @@ function getDatasourceUrl(): string {
     }
     // En serverless cada instancia solo necesita 1 conexión
     parsed.searchParams.set('connection_limit', '1')
-    // Esperar hasta 15s por una conexión del pool antes de fallar
-    parsed.searchParams.set('pool_timeout', '15')
-    // Timeout de conexión inicial
-    parsed.searchParams.set('connect_timeout', '10')
+    // Fallar rápido — Vercel Hobby tiene 10s timeout
+    parsed.searchParams.set('pool_timeout', '5')
+    parsed.searchParams.set('connect_timeout', '5')
 
     return parsed.toString()
   } catch {
