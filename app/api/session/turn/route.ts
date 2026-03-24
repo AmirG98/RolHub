@@ -140,20 +140,43 @@ export async function POST(req: NextRequest) {
       content: turn.content,
     }))
 
-    // Detectar estancamiento narrativo
-    const recentTurns = session.turns.slice(-6)
-    const recentUserActions = recentTurns.filter(t => t.role === 'USER').map(t => t.content.toLowerCase())
+    // === DETECCIÓN DE ESTANCAMIENTO Y ANTI-REPETICIÓN ===
+    const allTurns = session.turns
+    const totalTurns = allTurns.length
+    const recentUserActions = allTurns.slice(-8).filter(t => t.role === 'USER').map(t => t.content.toLowerCase().trim())
+
+    // Acciones pasivas (esperar, mirar, no hacer nada)
+    const passiveWords = ['espero', 'esperar', 'descanso', 'descansar', 'miro', 'observo', 'no hago nada', 'me quedo', 'wait', 'rest', 'look around', 'do nothing', 'stay']
+    const passiveCount = recentUserActions.filter(a => passiveWords.some(w => a.includes(w))).length
+
+    // Repetición: acciones muy similares consecutivas (>60% palabras en común)
+    const wordSimilarity = (a: string, b: string): number => {
+      const wordsA = new Set(a.split(/\s+/))
+      const wordsB = new Set(b.split(/\s+/))
+      const intersection = [...wordsA].filter(w => wordsB.has(w)).length
+      return intersection / Math.max(wordsA.size, wordsB.size, 1)
+    }
     const hasRepetition = recentUserActions.length >= 2 &&
-      recentUserActions.some((a, i) => i > 0 && (
-        a === recentUserActions[i - 1] ||
-        a.includes(recentUserActions[i - 1]) ||
-        recentUserActions[i - 1].includes(a)
-      ))
-    const recentSceneChanges = recentTurns.filter(t => t.role === 'DM' && t.content.length > 50)
-    const isStagnant = (recentUserActions.length >= 3 && !hasRepetition && recentSceneChanges.length >= 3) ||
-      hasRepetition ||
-      session.turns.length > 8 && worldState.act === 1
-    const turnsSinceSceneChange = recentTurns.filter(t => t.role === 'DM').length
+      recentUserActions.some((a, i) => i > 0 && (a === recentUserActions[i - 1] || wordSimilarity(a, recentUserActions[i - 1]) > 0.6))
+
+    // Turnos en la ubicación actual
+    const currentScene = worldState.current_scene || ''
+    const turnsInCurrentLocation = allTurns.slice(-12).filter(t => t.role === 'DM').length
+
+    // Quests ignoradas (activas pero no mencionadas en últimos turnos)
+    const activeQuests = worldState.active_quests || []
+    const recentDMText = allTurns.slice(-6).filter(t => t.role === 'DM').map(t => t.content.toLowerCase()).join(' ')
+    const ignoredQuests = activeQuests.filter((q: string) => !recentDMText.includes(q.toLowerCase().substring(0, 10)))
+
+    // Estancamiento: acciones pasivas, repetición, o Acto 1 demasiado largo
+    const isStagnant = hasRepetition || passiveCount >= 2 || (totalTurns > 12 && worldState.act === 1)
+    const needsWorldEvent = passiveCount >= 3 || turnsInCurrentLocation >= 6 || ignoredQuests.length >= 2
+
+    // Resumen de lo que pasó antes (fuera de la ventana de 6 turnos)
+    const olderDMNarrations = allTurns.slice(0, -6).filter(t => t.role === 'DM' && t.content.length > 30)
+    const storySoFar = olderDMNarrations.length > 0
+      ? olderDMNarrations.map(t => t.content.split(/[.!?]/)[0]).slice(-5).join('. ') + '.'
+      : ''
 
     // Agregar el turno actual del jugador con contexto de tipo de acción
     // actionType: 'do' = acción física, 'talk' = diálogo
@@ -979,22 +1002,53 @@ INCORRECTO (se leerá como narrador):
 Ejemplo:
 "El bosque se cierra a tu alrededor. Gandalf: «No temas, joven hobbit... el camino aún está por delante.» Sus palabras resuenan con antigua sabiduría."`}
 
-${isEnglish ? 'ANTI-REDUNDANCY RULES' : 'REGLAS ANTI-REDUNDANCIA'}:
-- ${isEnglish
-  ? 'NEVER repeat a scene description you already gave. If the player stays in the same location, describe new details, NPC reactions, or time passing — not the same scenery.'
-  : 'NUNCA repitas una descripción de escena que ya diste. Si el jugador sigue en el mismo lugar, describe nuevos detalles, reacciones de NPCs o paso del tiempo — no el mismo escenario.'}
-- ${isEnglish
-  ? 'If the player repeats the same action, vary your response significantly: show different consequences, NPC reactions, or escalating outcomes. The third time they repeat something, have the world react (NPC gets annoyed, guard becomes suspicious, enemy adapts).'
-  : 'Si el jugador repite la misma acción, varía tu respuesta significativamente: muestra consecuencias diferentes, reacciones de NPCs o resultados que escalen. A la tercera repetición, haz que el mundo reaccione (NPC se irrita, guardia sospecha, enemigo se adapta).'}
-- ${isEnglish
-  ? 'NEVER suggest the same actions you suggested in the previous turn. Always offer fresh options that advance the plot.'
-  : 'NUNCA sugieras las mismas acciones que sugeriste en el turno anterior. Siempre ofrece opciones frescas que avancen la trama.'}
-- ${isEnglish
-  ? 'If the player input is nonsensical, gibberish, or completely off-topic, redirect them narratively without breaking the fourth wall. Present 3 clear action options to get them back on track.'
-  : 'Si el input del jugador es sin sentido, incoherente o completamente fuera de tema, redirigilo narrativamente sin romper la cuarta pared. Presenta 3 opciones claras de acción para reencauzarlo.'}
-- ${isEnglish
-  ? `ANTI-STAGNATION (CRITICAL): The world is ALIVE and MOVES ON ITS OWN. ${isStagnant ? '⚠️ STAGNATION DETECTED — YOU MUST introduce an external event THIS TURN: an NPC interrupts, danger approaches, something unexpected happens, a quest develops, the environment changes dramatically. DO NOT wait for the player to drive the plot.' : 'If the player seems passive or stuck, introduce world events proactively: NPCs approach with news, weather worsens, enemies scout the area, a messenger arrives, something catches fire, a scream is heard.'} Never let 3+ turns pass without SOMETHING happening in the world independent of the player's actions.`
-  : `ANTI-ESTANCAMIENTO (CRÍTICO): El mundo está VIVO y SE MUEVE POR SU CUENTA. ${isStagnant ? '⚠️ ESTANCAMIENTO DETECTADO — DEBÉS introducir un evento externo ESTE TURNO: un NPC interrumpe, el peligro se acerca, algo inesperado pasa, una quest avanza, el ambiente cambia drásticamente. NO esperes a que el jugador mueva la trama.' : 'Si el jugador parece pasivo o trabado, introducí eventos del mundo proactivamente: NPCs se acercan con noticias, el clima empeora, enemigos merodean, llega un mensajero, algo se prende fuego, se escucha un grito.'} Nunca dejes pasar 3+ turnos sin que ALGO pase en el mundo independientemente de las acciones del jugador.`}
+${isEnglish ? `=== NARRATIVE PACING & ANTI-REPETITION ===
+CURRENT STATUS:
+- Turn ${totalTurns} of this session
+- Turns in "${currentScene}": ${turnsInCurrentLocation}
+- Passive actions detected: ${passiveCount}
+${isStagnant ? '⚠️ STAGNATION DETECTED' : ''}
+${needsWorldEvent ? '🌍 WORLD EVENT NEEDED THIS TURN' : ''}
+${ignoredQuests.length > 0 ? `- Forgotten quests: ${ignoredQuests.join(', ')}` : ''}
+
+${storySoFar ? `STORY SO FAR (do NOT repeat these scenes/descriptions):
+${storySoFar}` : ''}
+
+RULES:
+1. NEVER repeat a scene description. If same location, describe NEW details, NPC reactions, or time passing.
+2. If the player repeats actions, ESCALATE consequences. 3rd time → world reacts (NPC annoyed, guard suspicious, enemy adapts).
+3. NEVER suggest the same actions twice. Always offer fresh options.
+4. If nonsensical input, redirect narratively with 3 clear options.
+5. THE WORLD IS ALIVE: ${isStagnant || needsWorldEvent
+  ? 'INTRODUCE AN EXTERNAL EVENT NOW: NPC interrupts, danger approaches, weather changes, a quest develops, something unexpected happens. DO NOT wait for the player.'
+  : 'Proactively introduce world events: NPCs approach, weather shifts, sounds heard, time passes. Never let 3+ turns be only player-driven.'}
+6. ${turnsInCurrentLocation >= 4 ? `Player has been in "${currentScene}" for ${turnsInCurrentLocation} turns. Consider: move the plot forward, introduce a reason to leave, or have something arrive.` : 'Keep the current scene engaging with new details.'}
+7. ${ignoredQuests.length > 0 ? `Weave these forgotten quests back in: ${ignoredQuests.join(', ')}` : 'All quests are being addressed.'}
+8. Advance time naturally: morning→afternoon→evening→night. Don't stay frozen in the same moment.
+=== END PACING ===` : `=== RITMO NARRATIVO Y ANTI-REPETICIÓN ===
+ESTADO ACTUAL:
+- Turno ${totalTurns} de esta sesión
+- Turnos en "${currentScene}": ${turnsInCurrentLocation}
+- Acciones pasivas detectadas: ${passiveCount}
+${isStagnant ? '⚠️ ESTANCAMIENTO DETECTADO' : ''}
+${needsWorldEvent ? '🌍 EVENTO DEL MUNDO NECESARIO ESTE TURNO' : ''}
+${ignoredQuests.length > 0 ? `- Quests olvidadas: ${ignoredQuests.join(', ')}` : ''}
+
+${storySoFar ? `HISTORIA HASTA AHORA (NO repitas estas escenas/descripciones):
+${storySoFar}` : ''}
+
+REGLAS:
+1. NUNCA repitas una descripción de escena. En el mismo lugar, describí NUEVOS detalles, reacciones de NPCs o paso del tiempo.
+2. Si el jugador repite acciones, ESCALÁ consecuencias. 3ra vez → el mundo reacciona (NPC se irrita, guardia sospecha, enemigo se adapta).
+3. NUNCA sugieras las mismas acciones dos veces. Siempre opciones frescas.
+4. Si el input es incoherente, redirigí narrativamente con 3 opciones claras.
+5. EL MUNDO ESTÁ VIVO: ${isStagnant || needsWorldEvent
+  ? 'INTRODUCÍ UN EVENTO EXTERNO AHORA: un NPC interrumpe, el peligro se acerca, el clima cambia, una quest avanza, algo inesperado pasa. NO esperes al jugador.'
+  : 'Introducí eventos del mundo proactivamente: NPCs se acercan, el clima cambia, se escuchan sonidos, el tiempo pasa. Nunca dejes pasar 3+ turnos sin eventos del mundo.'}
+6. ${turnsInCurrentLocation >= 4 ? `El jugador lleva ${turnsInCurrentLocation} turnos en "${currentScene}". Considerá: avanzar la trama, dar razón para irse, o que algo llegue.` : 'Mantené la escena actual interesante con nuevos detalles.'}
+7. ${ignoredQuests.length > 0 ? `Entretejé estas quests olvidadas: ${ignoredQuests.join(', ')}` : 'Todas las quests están siendo atendidas.'}
+8. Avanzá el tiempo naturalmente: mañana→tarde→noche→amanecer. No te quedes congelado en el mismo momento.
+=== FIN RITMO ===`}
 
 ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
 - ${isEnglish
