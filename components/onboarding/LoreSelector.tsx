@@ -47,31 +47,51 @@ export function LoreSelector({ onSelect }: LoreSelectorProps) {
           {t.onboarding.chooseLore.subtitle}
         </p>
 
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 mb-6 md:mb-8">
-          {lores.map((lore) => (
+        {/* Lores disponibles */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 mb-8 md:mb-10 max-w-3xl mx-auto">
+          {lores.filter(l => l.available).map((lore) => (
             <button
               key={lore.id}
-              onClick={() => lore.available && setSelectedLore(lore.id)}
-              disabled={!lore.available}
-              className={`glass-panel p-3 md:p-6 rounded-lg transition-all duration-300 hover:scale-105 text-left group ${
-                selectedLore === lore.id && 'glow-effect ring-2 ring-gold'
-              } ${!lore.available && 'opacity-50 cursor-not-allowed'}`}
+              onClick={() => setSelectedLore(lore.id)}
+              className={`glass-panel p-4 md:p-6 rounded-lg transition-all duration-300 hover:scale-105 text-left group ${
+                selectedLore === lore.id ? 'glow-effect ring-2 ring-gold' : ''
+              }`}
             >
               <div className="text-3xl md:text-5xl mb-2 md:mb-3 group-hover:scale-110 transition-transform">
                 {lore.icon}
               </div>
-              <h3 className="font-heading text-sm md:text-xl text-parchment mb-1 md:mb-2 line-clamp-1">
+              <h3 className="font-heading text-base md:text-xl text-parchment mb-1 md:mb-2">
                 {lore.name}
               </h3>
-              <p className="font-ui text-xs md:text-sm mb-1 md:mb-2 line-clamp-2" style={{ color: lore.color }}>
+              <p className="font-ui text-xs md:text-sm mb-1 md:mb-2" style={{ color: lore.color }}>
                 {lore.tagline}
               </p>
-              <p className="font-body text-xs text-parchment/80 hidden md:block">
+              <p className="font-body text-xs text-parchment/80">
                 {lore.description}
               </p>
             </button>
           ))}
         </div>
+
+        {/* Lores próximamente */}
+        {lores.some(l => !l.available) && (
+          <div className="mb-6 md:mb-8">
+            <p className="font-heading text-sm text-parchment/40 text-center mb-3 uppercase tracking-wider">
+              Disponibles próximamente
+            </p>
+            <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 md:gap-3 max-w-3xl mx-auto">
+              {lores.filter(l => !l.available).map((lore) => (
+                <div
+                  key={lore.id}
+                  className="glass-panel p-2 md:p-3 rounded-lg opacity-30 text-center"
+                >
+                  <div className="text-xl md:text-2xl mb-1">{lore.icon}</div>
+                  <p className="font-heading text-xs text-parchment/60 line-clamp-1">{lore.name}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Botón de continuar - fixed en mobile */}
         <div className="text-center sticky bottom-4 md:relative md:bottom-auto space-y-3">
