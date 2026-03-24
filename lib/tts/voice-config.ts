@@ -438,6 +438,7 @@ export function parseTextForVoices(
 
   let lastIndex = 0
   let match
+  let lastKnownSpeaker = '' // Trackear último NPC que habló
 
   // Helper para dividir texto largo en chunks
   const splitLongText = (txt: string): string[] => {
@@ -473,7 +474,9 @@ export function parseTextForVoices(
     const dialogueText = match[2] || match[3] || match[4] || match[5]
 
     if (dialogueText && dialogueText.trim()) {
-      const speakerKey = speaker || 'default_npc'
+      // Si no hay speaker explícito, usar el último NPC que habló (mismo diálogo continúa)
+      const speakerKey = speaker || lastKnownSpeaker || 'default_npc'
+      if (speaker) lastKnownSpeaker = speaker
       // Usar voz cacheada si existe, sino calcular y cachear
       let npcVoice: string
       if (npcVoiceCache && npcVoiceCache[speakerKey]) {
