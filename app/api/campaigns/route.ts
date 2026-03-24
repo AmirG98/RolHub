@@ -18,8 +18,14 @@ export async function GET() {
       return NextResponse.json({ campaigns: [] })
     }
 
+    // Buscar campañas donde el usuario es dueño O participante
     const campaigns = await prisma.campaign.findMany({
-      where: { userId: user.id },
+      where: {
+        OR: [
+          { userId: user.id },
+          { participants: { some: { userId: user.id } } },
+        ],
+      },
       include: {
         sessions: {
           select: {
