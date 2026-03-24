@@ -168,11 +168,15 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
   const [characterDescription, setCharacterDescription] = useState('')
   const [draconicAncestry, setDraconicAncestry] = useState<string | null>(null)
 
-  // Generar descripcion aleatoria
+  // Generar descripcion aleatoria consistente con raza y clase
   const handleGenerateDescription = useCallback(() => {
-    const description = generateRandomDescription((lore as any) || 'LOTR')
+    const description = generateRandomDescription(
+      (lore as any) || 'LOTR',
+      selectedSubraceId || selectedRaceId || undefined,
+      selectedClassId || undefined
+    )
     setCharacterDescription(description)
-  }, [lore])
+  }, [lore, selectedRaceId, selectedSubraceId, selectedClassId])
 
   const classes = useMemo(() => getClasses(), [])
   const races = useMemo(() => getRaces(), [])

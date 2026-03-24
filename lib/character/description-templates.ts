@@ -267,18 +267,150 @@ const TEMPLATES: Record<Lore, DescriptionTemplate> = {
   },
 }
 
+// Complexiones físicas por raza D&D 5e — sobreescriben las del lore
+const RACE_BUILDS: Record<string, string[]> = {
+  human: [
+    'De complexion atletica y equilibrada',
+    'De estatura media, con porte decidido',
+    'Fuerte y adaptable, como todo humano',
+  ],
+  elf: [
+    'Esbelto y de gracia sobrenatural',
+    'Alto y delgado, con porte elegante y etéreo',
+    'De movimientos fluidos como el agua',
+  ],
+  'high-elf': [
+    'Alto y de porte aristocratico, con gracia elfica',
+    'Esbelto y elegante, con un aura de sabiduria antigua',
+  ],
+  'wood-elf': [
+    'Agil y fibroso, curtido por los bosques',
+    'De complexion atletica y piel bronceada por el sol del bosque',
+  ],
+  dwarf: [
+    'Bajo y macizo como la roca de la montaña',
+    'Robusto y compacto, con brazos gruesos de herrero',
+    'De poca estatura pero de fuerza inmensa',
+  ],
+  'hill-dwarf': [
+    'Bajo y robusto, con una resistencia inquebrantable',
+  ],
+  'mountain-dwarf': [
+    'Compacto como la piedra, con musculos de acero',
+  ],
+  halfling: [
+    'Pequeño y agil, apenas llega a la cintura de un humano',
+    'De estatura diminuta pero con una energia desbordante',
+    'Menudo y de pies grandes, con una sonrisa picara',
+  ],
+  gnome: [
+    'Pequeño y vivaz, apenas tres pies de alto',
+    'Diminuto pero lleno de energia, con ojos curiosos y brillantes',
+    'De estatura minuscula pero con una presencia sorprendente',
+    'Compacto y nervioso, siempre en movimiento',
+  ],
+  'rock-gnome': [
+    'Pequeño y de manos habiles, siempre toqueteando algun invento',
+  ],
+  'forest-gnome': [
+    'Diminuto y silencioso, en armonia con la naturaleza',
+  ],
+  dragonborn: [
+    'Alto e imponente, con escamas que brillan bajo la luz',
+    'De complexion poderosa, con rasgos dracónicos intimidantes',
+    'Musculoso y cubierto de escamas, con mandibula pronunciada',
+  ],
+  'half-elf': [
+    'De complexion grácil pero con la solidez humana',
+    'Con la elegancia elfica y la determinacion humana en su porte',
+  ],
+  'half-orc': [
+    'Alto y musculoso, con mandibula prominente y colmillos asomando',
+    'Imponente y fuerte, de piel verdosa y mirada fiera',
+    'De complexion brutal, con cicatrices de innumerables peleas',
+  ],
+  tiefling: [
+    'De porte orgulloso, con cuernos curvados y cola sinuosa',
+    'Esbelto y de aspecto infernal, con ojos sin pupilas',
+    'De belleza inquietante, con piel de tono carmesí',
+  ],
+}
+
+// Actitudes por clase D&D 5e — complementan las del lore
+const CLASS_ATTITUDES: Record<string, string[]> = {
+  barbarian: [
+    'Emana una furia contenida, lista para estallar',
+    'Se mueve con la ferocidad de una bestia al acecho',
+  ],
+  bard: [
+    'Gesticula al hablar como si cada palabra fuera una cancion',
+    'Siempre tiene una sonrisa y una historia que contar',
+  ],
+  cleric: [
+    'Irradia una serenidad que conforta a quienes le rodean',
+    'Reza en silencio, sus labios siempre moviéndose en oracion',
+  ],
+  druid: [
+    'Huele a tierra mojada y hojas frescas',
+    'Observa la naturaleza con reverencia casi religiosa',
+  ],
+  fighter: [
+    'Se mantiene erguido con disciplina militar',
+    'Evalua cada habitacion buscando ventajas tacticas',
+  ],
+  monk: [
+    'Se mueve con una economia de movimiento sobrenatural',
+    'Transmite una paz interior que contrasta con su fuerza',
+  ],
+  paladin: [
+    'Camina con la rectitud de quien sirve a un juramento sagrado',
+    'Su presencia inspira coraje en los aliados y temor en los enemigos',
+  ],
+  ranger: [
+    'Siempre alerta, leyendo las seniales del entorno',
+    'Se mueve en silencio, como una sombra entre los arboles',
+  ],
+  rogue: [
+    'Sus ojos danzan entre las sombras buscando oportunidades',
+    'Se mueve con sigilo, sus manos nunca lejos de sus bolsillos',
+  ],
+  sorcerer: [
+    'Un poder arcano vibra bajo su piel, a veces visible como chispas',
+    'Sus ojos brillan con magia innata cuando se concentra',
+  ],
+  warlock: [
+    'Lleva el peso de un pacto oscuro en su mirada',
+    'Susurra a algo que nadie mas puede ver ni oir',
+  ],
+  wizard: [
+    'Entrecierra los ojos analizando todo con mente analitica',
+    'Siempre tiene un libro o pergamino entre las manos',
+  ],
+}
+
 /**
- * Genera una descripcion aleatoria basada en el lore
+ * Genera una descripcion aleatoria basada en el lore, raza y clase
  */
-export function generateRandomDescription(lore: Lore): string {
+export function generateRandomDescription(
+  lore: Lore,
+  raceId?: string,
+  classId?: string
+): string {
   const template = TEMPLATES[lore] || TEMPLATES.CUSTOM
+  const pick = <T>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)]
 
-  const build = template.builds[Math.floor(Math.random() * template.builds.length)]
-  const feature = template.features[Math.floor(Math.random() * template.features.length)]
-  const attitude = template.attitudes[Math.floor(Math.random() * template.attitudes.length)]
-  const accessory = template.accessories[Math.floor(Math.random() * template.accessories.length)]
+  // Complexion: usar la de la raza si existe, sino la del lore
+  const raceBuilds = raceId ? (RACE_BUILDS[raceId] || RACE_BUILDS[raceId.split('-')[0]]) : null
+  const build = raceBuilds ? pick(raceBuilds) : pick(template.builds)
 
-  // Combinar en una descripcion coherente
+  const feature = pick(template.features)
+
+  // Actitud: usar la de la clase si existe, sino la del lore
+  const classAttitudes = classId ? CLASS_ATTITUDES[classId] : null
+  const attitude = classAttitudes ? pick(classAttitudes) : pick(template.attitudes)
+
+  const accessory = pick(template.accessories)
+
   return `${build}, con ${feature}. ${attitude}. ${accessory}.`
 }
 
