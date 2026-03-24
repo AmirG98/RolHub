@@ -1177,18 +1177,24 @@ export default function GameSession({
                 Misiones
               </h3>
               <div className="space-y-2 max-h-[250px] overflow-y-auto">
-                {(worldState.active_quests || []).map((quest: string, i: number) => (
-                  <div key={i} className="flex items-start gap-2 p-2 bg-gold/10 rounded border border-gold/20">
-                    <div className="w-2 h-2 bg-gold rounded-full mt-1.5 flex-shrink-0" />
-                    <span className="font-body text-parchment text-sm">{quest}</span>
-                  </div>
-                ))}
-                {(worldState.completed_quests || []).map((quest: string, i: number) => (
-                  <div key={`completed-${i}`} className="flex items-start gap-2 p-2 bg-emerald/10 rounded border border-emerald/20">
-                    <div className="w-2 h-2 bg-emerald rounded-full mt-1.5 flex-shrink-0" />
-                    <span className="font-body text-parchment/60 text-sm line-through">{quest}</span>
-                  </div>
-                ))}
+                {(worldState.active_quests || []).map((quest: any, i: number) => {
+                  const questText = typeof quest === 'string' ? quest : (quest?.title || JSON.stringify(quest))
+                  return (
+                    <div key={i} className="flex items-start gap-2 p-2 bg-gold/10 rounded border border-gold/20">
+                      <div className="w-2 h-2 bg-gold rounded-full mt-1.5 flex-shrink-0" />
+                      <span className="font-body text-parchment text-sm">{questText}</span>
+                    </div>
+                  )
+                })}
+                {(worldState.completed_quests || []).map((quest: any, i: number) => {
+                  const questText = typeof quest === 'string' ? quest : (quest?.title || JSON.stringify(quest))
+                  return (
+                    <div key={`completed-${i}`} className="flex items-start gap-2 p-2 bg-emerald/10 rounded border border-emerald/20">
+                      <div className="w-2 h-2 bg-emerald rounded-full mt-1.5 flex-shrink-0" />
+                      <span className="font-body text-parchment/60 text-sm line-through">{questText}</span>
+                    </div>
+                  )
+                })}
                 {(worldState.active_quests || []).length === 0 && (worldState.completed_quests || []).length === 0 && (
                   <p className="text-parchment/50 italic text-center py-2">Sin misiones activas</p>
                 )}

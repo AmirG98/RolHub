@@ -1258,9 +1258,13 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
     }
 
     if (dmResponse.new_quest) {
+      // Asegurar que new_quest sea un string (Claude puede enviar un objeto)
+      const questName = typeof dmResponse.new_quest === 'object' && dmResponse.new_quest !== null
+        ? (dmResponse.new_quest as any).title || JSON.stringify(dmResponse.new_quest)
+        : String(dmResponse.new_quest)
       worldStateUpdates.active_quests = [
         ...(worldState.active_quests || []),
-        dmResponse.new_quest
+        questName
       ]
     }
 
