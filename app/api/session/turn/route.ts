@@ -29,8 +29,26 @@ interface DiceRoll {
 
 export async function POST(req: NextRequest) {
   try {
-    const { userId } = await auth()
-    if (!userId) {
+    // Auth: Clerk O cookie de guest
+    const { userId: clerkUserId } = await auth()
+    let authUserId: string | null = null
+
+    if (clerkUserId) {
+      const user = await prisma.user.findUnique({ where: { clerkId: clerkUserId }, select: { id: true } })
+      authUserId = user?.id || null
+    }
+
+    if (!authUserId) {
+      // Intentar cookie de guest
+      const { cookies } = await import('next/headers')
+      const cookieStore = await cookies()
+      const guestUserId = cookieStore.get('guest_user_id')?.value
+      if (guestUserId) {
+        authUserId = guestUserId
+      }
+    }
+
+    if (!authUserId) {
       return NextResponse.json({ error: 'No autorizado' }, { status: 401 })
     }
 
@@ -83,18 +101,9 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Sesion no encontrada' }, { status: 404 })
     }
 
-    // Get the user
-    const user = await prisma.user.findUnique({
-      where: { clerkId: userId },
-    })
-
-    if (!user) {
-      return NextResponse.json({ error: 'Usuario no encontrado' }, { status: 404 })
-    }
-
     // Check access: user must be session owner OR a campaign participant
-    const isOwner = session.userId === user.id
-    const participant = session.campaign.participants.find(p => p.userId === user.id)
+    const isOwner = session.userId === authUserId
+    const participant = session.campaign.participants.find(p => p.userId === authUserId)
 
     if (!isOwner && !participant) {
       return NextResponse.json({ error: 'No autorizado' }, { status: 403 })
@@ -105,11 +114,11 @@ export async function POST(req: NextRequest) {
     // For single player: use the first character
     const isMultiplayer = session.campaign.isMultiplayer
     let actingCharacter = session.campaign.characters[0]
-    let actingPlayer = user.username
+    let actingPlayer = participant?.user?.username || actingCharacter?.name || 'Jugador'
 
     if (isMultiplayer && participant?.character) {
       actingCharacter = participant.character
-      actingPlayer = participant.user?.username || user.username
+      actingPlayer = participant.user?.username || actingPlayer
     } else if (characterId) {
       const specifiedChar = session.campaign.characters.find(c => c.id === characterId)
       if (specifiedChar) actingCharacter = specifiedChar

@@ -30,8 +30,14 @@ export default clerkMiddleware(async (auth, request) => {
     return NextResponse.next()
   }
 
-  // Si no está autenticado, redirigir a login
+  // Si no está autenticado con Clerk, verificar cookie de guest
   if (!userId) {
+    const guestCookie = request.cookies.get('guest_user_id')?.value
+    // Permitir acceso a /play/* y /api/session/turn si tiene cookie guest
+    if (guestCookie && (pathname.startsWith('/play/') || pathname.startsWith('/api/session/turn') || pathname.startsWith('/api/voice') || pathname.startsWith('/api/images'))) {
+      return NextResponse.next()
+    }
+
     const signInUrl = new URL('/login', request.url)
     signInUrl.searchParams.set('redirect_url', pathname)
     return NextResponse.redirect(signInUrl)

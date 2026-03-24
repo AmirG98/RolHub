@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation'
 import { auth } from '@clerk/nextjs/server'
+import { cookies } from 'next/headers'
 import { prisma } from '@/lib/db/prisma'
 import GameSession from '@/components/game/GameSession'
 import { ErrorBoundary } from '@/components/ui/ErrorBoundary'
@@ -14,9 +15,26 @@ interface PlayPageProps {
 
 export default async function PlayPage({ params }: PlayPageProps) {
   const { sessionId } = await params
-  const { userId } = await auth()
+  const { userId: clerkUserId } = await auth()
 
-  if (!userId) {
+  // Permitir acceso: Clerk auth O cookie de guest
+  let dbUserId: string | null = null
+
+  if (clerkUserId) {
+    const user = await prisma.user.findUnique({ where: { clerkId: clerkUserId } })
+    dbUserId = user?.id || null
+  }
+
+  if (!dbUserId) {
+    // Intentar cookie de guest
+    const cookieStore = await cookies()
+    const guestUserId = cookieStore.get('guest_user_id')?.value
+    if (guestUserId) {
+      dbUserId = guestUserId
+    }
+  }
+
+  if (!dbUserId) {
     redirect('/login')
   }
 
@@ -73,22 +91,19 @@ export default async function PlayPage({ params }: PlayPageProps) {
     )
   }
 
-  // Verificar que el usuario tiene acceso a esta sesión
-  const user = await prisma.user.findUnique({ where: { clerkId: userId } })
-  if (!user) {
-    redirect('/')
-  }
-
-  // Check if user is a participant in multiplayer campaigns or the owner
-  const isOwner = session.userId === user.id
-  const isParticipant = session.campaign.participants.some(p => p.userId === user.id)
+  // Verificar acceso — usuario autenticado o guest
+  const isOwner = session.userId === dbUserId
+  const isParticipant = session.campaign.participants.some(p => p.userId === dbUserId)
 
   if (!isOwner && !isParticipant) {
     redirect('/')
   }
 
+  // Detectar si es guest
+  const isGuest = !clerkUserId
+
   // Get current user's character in this campaign
-  const currentParticipant = session.campaign.participants.find(p => p.userId === user.id)
+  const currentParticipant = session.campaign.participants.find(p => p.userId === dbUserId)
   const character = currentParticipant?.character || session.campaign.characters[0] || null
 
   // Obtener worldState con fallbacks robustos
@@ -179,7 +194,7 @@ export default async function PlayPage({ params }: PlayPageProps) {
         worldState={worldState}
         isMultiplayer={session.campaign.isMultiplayer}
         initialParticipants={serializedParticipants}
-        currentUserId={user.id}
+        currentUserId={dbUserId}
         inviteCode={session.campaign.inviteCode}
         dmMode={(session.campaign as any).dmMode || 'AI'}
       />
