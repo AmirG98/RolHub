@@ -1123,12 +1123,23 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
   : 'Al introducir un NPC nuevo, siempre usa pronombres o descriptores de género claros (él/ella, la mujer/el hombre, la anciana/el anciano). Esto es crítico para que el sistema de voz asigne el género de voz correcto.'}
 `
 
-    const response = await anthropic.messages.create({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 1500,
-      system: systemPrompt,
-      messages: conversationHistory as any,
-    })
+    console.log(`[DM] System prompt length: ${systemPrompt.length} chars, conversation: ${conversationHistory.length} messages`)
+
+    let response
+    try {
+      response = await anthropic.messages.create({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1500,
+        system: systemPrompt,
+        messages: conversationHistory as any,
+      })
+    } catch (apiError: any) {
+      console.error('[DM] Anthropic API error:', apiError?.message || apiError)
+      return NextResponse.json(
+        { error: 'Error al generar la narración', details: apiError?.message || 'API error' },
+        { status: 502 }
+      )
+    }
 
     const rawResponse = response.content[0].type === 'text' ? response.content[0].text : ''
 

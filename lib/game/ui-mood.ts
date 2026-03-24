@@ -143,7 +143,7 @@ export const MOOD_CONFIGS: Record<UIMood, MoodConfig> = {
  * Hook para obtener la configuración del mood actual
  */
 export function getMoodConfig(mood: UIMood): MoodConfig {
-  return MOOD_CONFIGS[mood]
+  return MOOD_CONFIGS[mood] || MOOD_CONFIGS.exploration
 }
 
 /**
