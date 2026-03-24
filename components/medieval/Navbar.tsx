@@ -69,6 +69,10 @@ export function Navbar() {
               </>
             ) : (
               <div className="flex items-center gap-2 lg:gap-4">
+                <Link href="/play-guest" className="font-heading text-sm lg:text-base text-gold hover:text-gold-bright transition relative group">
+                  ⚔️ Jugar
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gold group-hover:w-full transition-all"></span>
+                </Link>
                 <LanguageToggle />
                 <Link href="/login">
                   <RunicButton variant="secondary" className="text-sm px-3 py-1.5 lg:px-4 lg:py-2">{t.nav.login}</RunicButton>
@@ -136,11 +140,14 @@ export function Navbar() {
                 </>
               ) : (
                 <div className="flex flex-col gap-3 pt-2 border-t border-gold/20">
+                  <Link href="/play-guest" onClick={() => setIsMenuOpen(false)}>
+                    <RunicButton variant="primary" className="w-full">⚔️ Jugar sin Cuenta</RunicButton>
+                  </Link>
                   <Link href="/login" onClick={() => setIsMenuOpen(false)}>
                     <RunicButton variant="secondary" className="w-full">{t.nav.login}</RunicButton>
                   </Link>
                   <Link href="/register" onClick={() => setIsMenuOpen(false)}>
-                    <RunicButton variant="primary" className="w-full">{t.nav.register}</RunicButton>
+                    <RunicButton variant="secondary" className="w-full">{t.nav.register}</RunicButton>
                   </Link>
                 </div>
               )}
