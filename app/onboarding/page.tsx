@@ -7,6 +7,7 @@ import { LoreSelector } from '@/components/onboarding/LoreSelector'
 import { ModeSelector } from '@/components/onboarding/ModeSelector'
 import { ArchetypeSelector, CharacterCreationData } from '@/components/onboarding/ArchetypeSelector'
 import { DnD5eCharacterCreator } from '@/components/onboarding/DnD5eCharacterCreator'
+import { DnDModeSelector } from '@/components/onboarding/DnDModeSelector'
 import { Lore, GameMode, GameEngine, TutorialLevel, Archetype } from '@/lib/types/lore'
 
 // Importar todos los lores
@@ -42,6 +43,7 @@ export default function OnboardingPage() {
   const [tutorialLevel, setTutorialLevel] = useState<TutorialLevel | null>(null)
   const [isMultiplayer, setIsMultiplayer] = useState<boolean>(false)
   const [selectedArchetype, setSelectedArchetype] = useState<Archetype | null>(null)
+  const [dndCreationMode, setDndCreationMode] = useState<'simple' | 'advanced' | null>(null)
   const [loading, setLoading] = useState(false)
   const [loadingPhase, setLoadingPhase] = useState<'creating' | 'portrait' | 'finalizing'>('creating')
   const [error, setError] = useState<string | null>(null)
@@ -304,12 +306,31 @@ export default function OnboardingPage() {
         />
       )}
 
-      {/* Paso 3: Seleccion de Arquetipo o Creador D&D 5e */}
-      {step === 3 && selectedLore && (
-        engine === 'DND_5E' ? (
+      {/* Paso 3: Selector de modo D&D (si aplica) o Arquetipo */}
+      {step === 3 && selectedLore && selectedLore === 'DND_CLASSIC' && !dndCreationMode && (
+        <DnDModeSelector
+          onSelect={(mode) => {
+            setDndCreationMode(mode)
+            if (mode === 'advanced') {
+              setEngine('DND_5E' as GameEngine)
+            }
+          }}
+          onBack={() => setStep(2)}
+        />
+      )}
+
+      {step === 3 && selectedLore && (selectedLore !== 'DND_CLASSIC' || dndCreationMode) && (
+        engine === 'DND_5E' || dndCreationMode === 'advanced' ? (
           <DnD5eCharacterCreator
             onComplete={handleDnD5eCharacterCreate}
-            onBack={() => setStep(2)}
+            onBack={() => {
+              if (selectedLore === 'DND_CLASSIC') {
+                setDndCreationMode(null)
+                setEngine('STORY_MODE' as GameEngine)
+              } else {
+                setStep(2)
+              }
+            }}
             lore={selectedLore}
           />
         ) : (
@@ -318,7 +339,13 @@ export default function OnboardingPage() {
             loreName={getLoreName()}
             lore={selectedLore}
             onSelect={handleCreateCharacter}
-            onBack={() => setStep(2)}
+            onBack={() => {
+              if (selectedLore === 'DND_CLASSIC') {
+                setDndCreationMode(null)
+              } else {
+                setStep(2)
+              }
+            }}
           />
         )
       )}
