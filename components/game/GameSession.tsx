@@ -187,6 +187,8 @@ export default function GameSession({
 
   // Track the latest DM turn ID for auto-playing voice
   const [latestDMTurnId, setLatestDMTurnId] = useState<string | null>(null)
+  // Cache de voces asignadas a NPCs — persiste durante toda la sesión
+  const npcVoiceCacheRef = useRef<Record<string, string>>({})
   const scrollRef = useRef<HTMLDivElement>(null)
 
   // Immersion system state
@@ -854,6 +856,7 @@ export default function GameSession({
                                 text={turn.content}
                                 lore={lore as Lore}
                                 locale={locale as 'es' | 'en'}
+                                npcVoiceCache={npcVoiceCacheRef.current}
                               />
                             ) : (
                               // Manual play for older turns

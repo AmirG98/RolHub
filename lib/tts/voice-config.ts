@@ -405,7 +405,8 @@ export function splitIntoSentences(text: string, maxChunkSize: number = 120): st
 export function parseTextForVoices(
   text: string,
   narratorVoice: string,
-  locale: 'es' | 'en'
+  locale: 'es' | 'en',
+  npcVoiceCache?: Record<string, string>
 ): VoiceSegment[] {
   // PASO 1: Limpiar markdown y mejorar prosody ANTES de parsear
   const cleanedText = addNaturalPauses(cleanTextForTTS(text))
@@ -472,9 +473,17 @@ export function parseTextForVoices(
     const dialogueText = match[2] || match[3] || match[4] || match[5]
 
     if (dialogueText && dialogueText.trim()) {
-      const npcVoice = speaker
-        ? getNPCVoice(speaker, locale)
-        : getNPCVoice('default_npc', locale)
+      const speakerKey = speaker || 'default_npc'
+      // Usar voz cacheada si existe, sino calcular y cachear
+      let npcVoice: string
+      if (npcVoiceCache && npcVoiceCache[speakerKey]) {
+        npcVoice = npcVoiceCache[speakerKey]
+      } else {
+        npcVoice = getNPCVoice(speakerKey, locale)
+        if (npcVoiceCache) {
+          npcVoiceCache[speakerKey] = npcVoice
+        }
+      }
 
       // Dividir diálogo largo en chunks
       const chunks = splitLongText(dialogueText.trim())

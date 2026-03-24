@@ -178,6 +178,10 @@ export async function POST(req: NextRequest) {
       ? olderDMNarrations.map(t => t.content.split(/[.!?]/)[0]).slice(-5).join('. ') + '.'
       : ''
 
+    // Última narración del DM (para evitar repetir la misma escena)
+    const lastDMTurn = [...allTurns].reverse().find(t => t.role === 'DM')
+    const lastDMNarration = lastDMTurn?.content?.substring(0, 250) || ''
+
     // Agregar el turno actual del jugador con contexto de tipo de acción
     // actionType: 'do' = acción física, 'talk' = diálogo
     const actionContext = actionType === 'do'
@@ -1014,6 +1018,9 @@ ${ignoredQuests.length > 0 ? `- Forgotten quests: ${ignoredQuests.join(', ')}` :
 ${storySoFar ? `STORY SO FAR (do NOT repeat these scenes/descriptions):
 ${storySoFar}` : ''}
 
+${lastDMNarration ? `YOUR LAST NARRATION (CONTINUE from here, do NOT re-describe this scene):
+"${lastDMNarration}..."` : ''}
+
 RULES:
 1. NEVER repeat a scene description. If same location, describe NEW details, NPC reactions, or time passing.
 2. If the player repeats actions, ESCALATE consequences. 3rd time → world reacts (NPC annoyed, guard suspicious, enemy adapts).
@@ -1036,6 +1043,9 @@ ${ignoredQuests.length > 0 ? `- Quests olvidadas: ${ignoredQuests.join(', ')}` :
 
 ${storySoFar ? `HISTORIA HASTA AHORA (NO repitas estas escenas/descripciones):
 ${storySoFar}` : ''}
+
+${lastDMNarration ? `TU ÚLTIMA NARRACIÓN (CONTINUÁ desde acá, NO re-describas esta escena):
+"${lastDMNarration}..."` : ''}
 
 REGLAS:
 1. NUNCA repitas una descripción de escena. En el mismo lugar, describí NUEVOS detalles, reacciones de NPCs o paso del tiempo.
