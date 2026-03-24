@@ -172,11 +172,24 @@ export async function POST(req: NextRequest) {
     const isStagnant = hasRepetition || passiveCount >= 2 || (totalTurns > 12 && worldState.act === 1)
     const needsWorldEvent = passiveCount >= 3 || turnsInCurrentLocation >= 6 || ignoredQuests.length >= 2
 
-    // Resumen de lo que pasó antes (fuera de la ventana de 6 turnos)
+    // Resumen acumulativo de TODA la sesión (fuera de la ventana de 6 turnos)
+    // Toma la primera oración significativa de cada narración del DM, distribuido uniformemente
     const olderDMNarrations = allTurns.slice(0, -6).filter(t => t.role === 'DM' && t.content.length > 30)
-    const storySoFar = olderDMNarrations.length > 0
-      ? olderDMNarrations.map(t => t.content.split(/[.!?]/)[0]).slice(-5).join('. ') + '.'
-      : ''
+    let storySoFar = ''
+    if (olderDMNarrations.length > 0) {
+      // Tomar hasta 8 puntos distribuidos uniformemente por toda la sesión
+      const maxPoints = 8
+      const step = Math.max(1, Math.floor(olderDMNarrations.length / maxPoints))
+      const summaryPoints: string[] = []
+      for (let i = 0; i < olderDMNarrations.length; i += step) {
+        const firstSentence = olderDMNarrations[i].content.split(/[.!?]/)[0]?.trim()
+        if (firstSentence && firstSentence.length > 10) {
+          summaryPoints.push(firstSentence)
+        }
+        if (summaryPoints.length >= maxPoints) break
+      }
+      storySoFar = summaryPoints.join('. ') + '.'
+    }
 
     // Última narración del DM (para evitar repetir la misma escena)
     const lastDMTurn = [...allTurns].reverse().find(t => t.role === 'DM')
@@ -830,6 +843,11 @@ ${isMultiplayer ? `- ${labels.type}: ${labels.multiplayer} (${partyMembers.lengt
 - ${labels.currentScene}: ${worldState.current_scene}
 - ${labels.time}: ${worldState.time_in_world}
 - ${labels.weather}: ${worldState.weather}
+${Object.keys(worldState.npc_states || {}).length > 0 ? `- ${isEnglish ? 'NPC States' : 'Estado de NPCs'}: ${Object.entries(worldState.npc_states || {}).map(([name, state]) => `${name}: ${state}`).join(', ')}` : ''}
+${(worldState.completed_quests || []).length > 0 ? `- ${isEnglish ? 'Completed Quests' : 'Quests Completadas'}: ${(worldState.completed_quests || []).join(', ')}` : ''}
+${(worldState.narrative_anchors_hit || []).length > 0 ? `- ${isEnglish ? 'Story Milestones Reached' : 'Hitos Narrativos Alcanzados'}: ${(worldState.narrative_anchors_hit || []).join(', ')}` : ''}
+${Object.keys(worldState.faction_relations || {}).length > 0 ? `- ${isEnglish ? 'Faction Relations' : 'Relaciones con Facciones'}: ${Object.entries(worldState.faction_relations || {}).map(([f, r]) => `${f}: ${r}`).join(', ')}` : ''}
+${Object.keys(worldState.world_flags || {}).length > 0 ? `- ${isEnglish ? 'World Decisions' : 'Decisiones del Mundo'}: ${Object.entries(worldState.world_flags || {}).map(([f, v]) => `${f}: ${v}`).join(', ')}` : ''}
 
 ${labels.actingCharacter}:
 - ${labels.name}: ${character.name}
@@ -861,6 +879,8 @@ ${isEnglish ? 'You must ALWAYS respond in JSON format with this exact structure'
   "lock_reason": null,
   "suggested_actions": ["${isEnglish ? 'action 1' : 'acción 1'}", "${isEnglish ? 'action 2' : 'acción 2'}", "${isEnglish ? 'action 3' : 'acción 3'}"],
   "dice_request": null,
+  "npc_update": null,
+  "world_flag": null,
   "generate_image": false,
   "image_prompt": null,
   "mood_hint": null${isMultiplayer ? `,
@@ -880,6 +900,16 @@ ${labels.mechanicRules}:
 ${isMultiplayer ? `6. ${labels.rule6} ${character.name}
 7. ${labels.rule7}
 8. ${labels.rule8}` : ''}
+
+${isEnglish
+  ? `WORLD MEMORY (update these to track the story):
+- "npc_update": {"name": "NPC Name", "status": "alive/dead/fled/ally/enemy/missing"} — when an NPC's status changes
+- "world_flag": {"flag": "description_of_decision", "value": true} — when the player makes an important choice or something irreversible happens
+Use these to build the world's memory. NPCs you've introduced, decisions made, and consequences should persist.`
+  : `MEMORIA DEL MUNDO (actualizá estos para rastrear la historia):
+- "npc_update": {"name": "Nombre NPC", "status": "vivo/muerto/huyó/aliado/enemigo/desaparecido"} — cuando cambia el estado de un NPC
+- "world_flag": {"flag": "descripcion_de_la_decision", "value": true} — cuando el jugador toma una decisión importante o pasa algo irreversible
+Usá estos para construir la memoria del mundo. Los NPCs introducidos, decisiones tomadas y consecuencias deben persistir.`}
 
 ${labels.narrativeTone}:
 ${narrativeTone}
@@ -1133,6 +1163,10 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
         on_success?: string
         on_failure?: string
       } | null
+      // NPC state update (when NPC status changes)
+      npc_update?: { name: string; status: string } | null
+      // World flag (track important decisions/events)
+      world_flag?: { flag: string; value: boolean } | null
       // Dynamic location creation by DM
       create_location?: {
         id: string
@@ -1386,6 +1420,26 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
       }
       worldStateUpdates.map_state.navigationLocked = dmResponse.navigation_locked
       worldStateUpdates.map_state.lockReason = dmResponse.lock_reason || 'none'
+    }
+
+    // Update NPC state (e.g., NPC killed, fled, joined party)
+    if (dmResponse.npc_update && dmResponse.npc_update.name) {
+      const currentNPCStates = worldStateUpdates.npc_states || worldState.npc_states || {}
+      worldStateUpdates.npc_states = {
+        ...currentNPCStates,
+        [dmResponse.npc_update.name]: dmResponse.npc_update.status,
+      }
+      console.log(`[NPC] Updated: ${dmResponse.npc_update.name} → ${dmResponse.npc_update.status}`)
+    }
+
+    // Update world flags (track important player decisions)
+    if (dmResponse.world_flag && dmResponse.world_flag.flag) {
+      const currentFlags = worldStateUpdates.world_flags || worldState.world_flags || {}
+      worldStateUpdates.world_flags = {
+        ...currentFlags,
+        [dmResponse.world_flag.flag]: dmResponse.world_flag.value,
+      }
+      console.log(`[WorldFlag] Set: ${dmResponse.world_flag.flag} = ${dmResponse.world_flag.value}`)
     }
 
     // Handle quest creation
