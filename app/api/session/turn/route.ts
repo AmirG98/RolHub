@@ -195,6 +195,14 @@ export async function POST(req: NextRequest) {
     const lastDMTurn = [...allTurns].reverse().find(t => t.role === 'DM')
     const lastDMNarration = lastDMTurn?.content?.substring(0, 250) || ''
 
+    // Extraer inicios de frases usadas recientemente para prohibir repetición literal
+    const recentDMContent = allTurns.slice(-8).filter(t => t.role === 'DM').map(t => t.content)
+    const usedPhraseStarts = recentDMContent
+      .flatMap(c => c.split(/[.!?]/).filter(s => s.trim().length > 20))
+      .map(s => s.trim().split(/\s+/).slice(0, 7).join(' '))
+      .filter((phrase, i, arr) => arr.indexOf(phrase) === i) // dedup
+      .slice(-12)
+
     // Agregar el turno actual del jugador con contexto de tipo de acción
     // actionType: 'do' = acción física, 'talk' = diálogo
     const actionContext = actionType === 'do'
@@ -1051,8 +1059,11 @@ ${storySoFar}` : ''}
 ${lastDMNarration ? `YOUR LAST NARRATION (CONTINUE from here, do NOT re-describe this scene):
 "${lastDMNarration}..."` : ''}
 
+${usedPhraseStarts.length > 0 ? `PHRASES ALREADY USED IN RECENT TURNS (do NOT start any sentence with these — use completely fresh vocabulary):
+${usedPhraseStarts.map(p => `- "${p}..."`).join('\n')}` : ''}
+
 RULES:
-1. NEVER repeat a scene description. If same location, describe NEW details, NPC reactions, or time passing.
+1. NEVER repeat a scene description OR reuse the same phrases/sentence openings from previous turns. Use completely different words each time.
 2. If the player repeats actions, ESCALATE consequences. 3rd time → world reacts (NPC annoyed, guard suspicious, enemy adapts).
 3. NEVER suggest the same actions twice. Always offer fresh options.
 4. If nonsensical input, redirect narratively with 3 clear options.
@@ -1077,8 +1088,11 @@ ${storySoFar}` : ''}
 ${lastDMNarration ? `TU ÚLTIMA NARRACIÓN (CONTINUÁ desde acá, NO re-describas esta escena):
 "${lastDMNarration}..."` : ''}
 
+${usedPhraseStarts.length > 0 ? `FRASES YA USADAS EN TURNOS RECIENTES (NO empieces ninguna oración con estas — usá vocabulario completamente fresco):
+${usedPhraseStarts.map(p => `- "${p}..."`).join('\n')}` : ''}
+
 REGLAS:
-1. NUNCA repitas una descripción de escena. En el mismo lugar, describí NUEVOS detalles, reacciones de NPCs o paso del tiempo.
+1. NUNCA repitas una descripción de escena NI reutilices las mismas frases/aperturas de turnos anteriores. Usá palabras completamente diferentes cada vez.
 2. Si el jugador repite acciones, ESCALÁ consecuencias. 3ra vez → el mundo reacciona (NPC se irrita, guardia sospecha, enemigo se adapta).
 3. NUNCA sugieras las mismas acciones dos veces. Siempre opciones frescas.
 4. Si el input es incoherente, redirigí narrativamente con 3 opciones claras.
