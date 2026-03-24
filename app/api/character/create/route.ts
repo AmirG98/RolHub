@@ -379,12 +379,17 @@ export async function POST(req: NextRequest) {
       return { campaign, character, session, firstTurnId: firstTurn.id, introContent }
     }, { timeout: 8000 }), 1, 2000)
 
-    // Generar retrato con timeout de 7s — si llega, lo incluimos en la response
-    // Si no llega a tiempo, retornamos sin él (el jugador puede verlo después)
+    // Generar retrato + imagen de escena EN PARALELO con timeout de 8s
     const characterId = result.character.id
     let avatarUrl: string | null = null
+    let initialSceneImageUrl: string | null = null
+
+    // Obtener datos de opening scene para la imagen
+    const openingScenesForImage = (loreData as any).opening_scenes || (loreData.opening_scene ? [loreData.opening_scene] : [])
+    const openingSceneForImage = openingScenesForImage.length > 0 ? openingScenesForImage[0] : null
 
     try {
+      // Lanzar ambas generaciones en paralelo
       const portraitPromise = generateCharacterPortrait({
         name: charName,
         archetype: charArchetype,
@@ -397,33 +402,64 @@ export async function POST(req: NextRequest) {
           classId: dnd5eStats.classId as string | undefined,
           draconicAncestry: dnd5eStats.draconicAncestry as string | undefined,
         }),
-      })
+      }).then(r => r.isGenerated && r.url ? r.url : null)
+        .catch(() => null)
 
-      // Race: retrato vs timeout de 7s
-      const timeoutPromise = new Promise<null>((resolve) => setTimeout(() => resolve(null), 7000))
-      const portraitResult = await Promise.race([portraitPromise, timeoutPromise])
+      const scenePromise = (openingSceneForImage && process.env.NEXT_PUBLIC_ENABLE_IMAGES === 'true')
+        ? handleCachedSceneImageRequest({
+            prompt: openingSceneForImage.description || `Escena inicial de ${loreData.name}`,
+            lore: lore,
+            locationId: openingSceneForImage.location_id || 'opening',
+            mood: 'exploration',
+            locationName: openingSceneForImage.location_name || loreData.name,
+            quality: 'standard',
+          }).then(r => r.success && r.url ? r.url : null)
+            .catch(() => null)
+        : Promise.resolve(null)
 
-      if (portraitResult && 'isGenerated' in portraitResult && portraitResult.isGenerated && portraitResult.url) {
-        avatarUrl = portraitResult.url
-        await prisma.character.update({
-          where: { id: characterId },
-          data: { avatarUrl },
-        })
-        console.log(`[Portrait] Generated in time for character ${characterId}`)
+      // Esperar ambas con timeout de 8s
+      const timeoutPromise = new Promise<'timeout'>((resolve) => setTimeout(() => resolve('timeout'), 8000))
+      const raceResult = await Promise.race([
+        Promise.all([portraitPromise, scenePromise]),
+        timeoutPromise,
+      ])
+
+      if (raceResult !== 'timeout') {
+        const [portrait, scene] = raceResult
+        avatarUrl = portrait
+        initialSceneImageUrl = scene
+
+        // Guardar retrato en personaje
+        if (avatarUrl) {
+          await prisma.character.update({
+            where: { id: characterId },
+            data: { avatarUrl },
+          }).catch(err => console.warn('[Portrait] Failed to save:', err))
+          console.log(`[Portrait] Saved for character ${characterId}`)
+        }
+
+        // Guardar imagen de escena en el primer turn
+        if (initialSceneImageUrl) {
+          await prisma.turn.update({
+            where: { id: result.firstTurnId },
+            data: { imageUrl: initialSceneImageUrl },
+          }).catch(err => console.warn('[Scene] Failed to save:', err))
+          console.log('[InitialScene] Saved to turn')
+        }
       } else {
-        console.log('[Portrait] Timed out or no image — continuing without portrait')
+        console.log('[Images] Timed out after 8s — continuing without images')
       }
     } catch (err) {
-      console.warn('[Portrait] Generation failed:', err)
+      console.warn('[Images] Generation failed:', err)
     }
 
-    // Retornar — el jugador entra al juego
     return NextResponse.json({
       success: true,
       sessionId: result.session.id,
       campaignId: result.campaign.id,
       characterId: result.character.id,
       avatarUrl,
+      initialSceneImageUrl,
       inviteCode: inviteCode,
       isMultiplayer: isMultiplayer || false,
     })

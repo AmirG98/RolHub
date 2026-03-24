@@ -66,11 +66,14 @@ export default function OnboardingPage() {
     setError(null)
 
     try {
-      // Timeout de seguridad: si tarda más de 30s, mostrar error
+      // Cambiar a fase de retrato después de 1.5s
+      setTimeout(() => setLoadingPhase('portrait'), 1500)
+
+      // Timeout de seguridad: si tarda más de 20s, mostrar error
       const timeoutId = setTimeout(() => {
         setLoading(false)
         setError('La creación está tardando demasiado. Intenta de nuevo.')
-      }, 30000)
+      }, 20000)
 
       const response = await fetch('/api/character/create', {
         method: 'POST',
@@ -143,10 +146,12 @@ export default function OnboardingPage() {
     setError(null)
 
     try {
+      setTimeout(() => setLoadingPhase('portrait'), 1500)
+
       const timeoutId = setTimeout(() => {
         setLoading(false)
         setError('La creación está tardando demasiado. Intenta de nuevo.')
-      }, 30000)
+      }, 20000)
 
       const response = await fetch('/api/character/create', {
         method: 'POST',
@@ -214,14 +219,14 @@ export default function OnboardingPage() {
   if (loading) {
     const loadingMessages = {
       creating: {
-        icon: '⚔️',
+        icon: '📜',
         title: 'Creando tu personaje...',
-        subtitle: `Preparando tu aventura en ${getLoreName()}`,
+        subtitle: `Inscribiendo tu destino en ${getLoreName()}`,
       },
       portrait: {
-        icon: '⚔️',
-        title: 'Creando tu personaje...',
-        subtitle: 'Casi listo...',
+        icon: '🎨',
+        title: 'Generando tu retrato...',
+        subtitle: 'Un artista mágico dibuja tu semblante',
       },
       finalizing: {
         icon: '✨',
