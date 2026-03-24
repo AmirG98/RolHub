@@ -383,6 +383,7 @@ export async function POST(req: NextRequest) {
     let avatarUrl: string | null = null
 
     try {
+      console.log(`[Portrait] ENV CHECK: NEXT_PUBLIC_ENABLE_IMAGES="${process.env.NEXT_PUBLIC_ENABLE_IMAGES}", FAL_KEY=${process.env.FAL_KEY ? 'SET(' + process.env.FAL_KEY.substring(0, 8) + '...)' : 'MISSING'}`)
       console.log(`[Portrait] Starting for "${charName}" (archetype=${charArchetype}, lore=${lore}, isDnD5e=${isDnD5eCharacter})`)
 
       const portraitResult = await generateCharacterPortrait({

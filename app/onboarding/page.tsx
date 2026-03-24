@@ -181,6 +181,8 @@ export default function OnboardingPage() {
         throw new Error(data.details || data.error || 'Error creando personaje')
       }
 
+      console.log('[Onboarding] API response:', { sessionId: data.sessionId, avatarUrl: data.avatarUrl, initialSceneImageUrl: data.initialSceneImageUrl })
+
       if (data.sessionId) {
         if (isMultiplayer && data.campaignId) {
           router.push(`/lobby/${data.campaignId}`)
