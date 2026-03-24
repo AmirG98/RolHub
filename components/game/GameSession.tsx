@@ -187,8 +187,10 @@ export default function GameSession({
 
   // Track the latest DM turn ID for auto-playing voice
   const [latestDMTurnId, setLatestDMTurnId] = useState<string | null>(null)
-  // Cache de voces asignadas a NPCs — persiste durante toda la sesión
-  const npcVoiceCacheRef = useRef<Record<string, string>>({})
+  // Cache de voces asignadas a NPCs — inicializado desde worldState
+  const npcVoiceCacheRef = useRef<Record<string, string>>(
+    (initialWorldState as any)?.npc_voice_assignments || {}
+  )
   const scrollRef = useRef<HTMLDivElement>(null)
 
   // Immersion system state
@@ -375,6 +377,21 @@ export default function GameSession({
     }
   }, [character?.avatarUrl, sessionId])
 
+  // Cargar NPC voice cache desde localStorage si worldState no tiene
+  useEffect(() => {
+    if (Object.keys(npcVoiceCacheRef.current).length === 0) {
+      try {
+        const stored = localStorage.getItem(`npc_voices_${sessionId}`)
+        if (stored) {
+          const parsed = JSON.parse(stored)
+          if (parsed && typeof parsed === 'object') {
+            npcVoiceCacheRef.current = parsed
+          }
+        }
+      } catch { /* ignore */ }
+    }
+  }, [sessionId])
+
   // Load initial missions from first turn + auto-play voice for latest DM turn
   useEffect(() => {
     if (initialTurns.length > 0) {
@@ -499,6 +516,14 @@ export default function GameSession({
             ...data.worldStateUpdates.party,
           },
         }))
+      }
+
+      // Persistir NPC voice assignments en localStorage para sobrevivir recargas
+      const currentVoiceCache = npcVoiceCacheRef.current
+      if (Object.keys(currentVoiceCache).length > 0) {
+        try {
+          localStorage.setItem(`npc_voices_${sessionId}`, JSON.stringify(currentVoiceCache))
+        } catch { /* ignore */ }
       }
 
       // Actualizar acciones sugeridas si vienen
