@@ -421,7 +421,7 @@ export async function POST(req: NextRequest) {
     const openingScenesForImage = (loreData as any).opening_scenes || (loreData.opening_scene ? [loreData.opening_scene] : [])
     const openingSceneForImage = openingScenesForImage.length > 0 ? openingScenesForImage[0] : null
 
-    if (openingSceneForImage && process.env.NEXT_PUBLIC_ENABLE_IMAGES === 'true') {
+    if (openingSceneForImage && process.env.FAL_KEY) {
       try {
         console.log('[InitialScene] Generating opening scene image...')
         const sceneResult = await handleCachedSceneImageRequest({

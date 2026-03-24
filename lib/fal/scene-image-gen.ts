@@ -112,19 +112,11 @@ export async function generateSceneImage(
   options: SceneImageOptions
 ): Promise<SceneImageResult> {
   const FAL_KEY = process.env.FAL_KEY
-  const ENABLE_IMAGES = process.env.NEXT_PUBLIC_ENABLE_IMAGES === 'true'
 
-  // Si las imágenes están deshabilitadas, retornar vacío
-  if (!ENABLE_IMAGES) {
-    return {
-      url: '',
-      prompt: options.prompt,
-      isGenerated: false,
-    }
-  }
-
+  // Solo depender de FAL_KEY — NEXT_PUBLIC_ENABLE_IMAGES puede no estar
+  // disponible en runtime del servidor en Vercel
   if (!FAL_KEY) {
-    console.warn('FAL_KEY not configured - image generation disabled')
+    console.warn('[Scene] SKIPPED: FAL_KEY not configured')
     return {
       url: '',
       prompt: options.prompt,

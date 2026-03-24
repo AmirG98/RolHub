@@ -279,27 +279,19 @@ export async function generateCharacterPortrait(
   options: CharacterPortraitOptions
 ): Promise<CharacterPortraitResult> {
   const FAL_KEY = process.env.FAL_KEY
-  const ENABLE_IMAGES = process.env.NEXT_PUBLIC_ENABLE_IMAGES
 
-  console.log(`[Portrait] Config: ENABLE_IMAGES="${ENABLE_IMAGES}", FAL_KEY=${FAL_KEY ? 'SET' : 'MISSING'}`)
-
-  if (ENABLE_IMAGES !== 'true') {
-    console.log(`[Portrait] SKIPPED: NEXT_PUBLIC_ENABLE_IMAGES is "${ENABLE_IMAGES}" (expected "true")`)
-    return {
-      url: '',
-      prompt: options.archetype,
-      isGenerated: false,
-    }
-  }
-
+  // Solo depender de FAL_KEY — NEXT_PUBLIC_ENABLE_IMAGES puede no estar
+  // disponible en runtime del servidor en Vercel (se inyecta solo en build time)
   if (!FAL_KEY) {
-    console.error('[Portrait] SKIPPED: FAL_KEY not configured')
+    console.warn('[Portrait] SKIPPED: FAL_KEY not configured')
     return {
       url: '',
       prompt: options.archetype,
       isGenerated: false,
     }
   }
+
+  console.log(`[Portrait] Starting generation with FAL_KEY=${FAL_KEY.substring(0, 8)}...`)
 
   const startTime = Date.now()
   const fullPrompt = buildPortraitPrompt(options)
