@@ -19,11 +19,11 @@ const loreData: Array<{
 }> = [
   { id: 'LOTR', icon: '🏰', color: '#C9A84C', available: true },
   { id: 'ZOMBIES', icon: '☠️', color: '#8B1A1A', available: true },
-  { id: 'ISEKAI', icon: '⭐', color: '#FFD93D', available: true },
-  { id: 'VIKINGOS', icon: '⚔️', color: '#C9A84C', available: true },
-  { id: 'STAR_WARS', icon: '🚀', color: '#FFE81F', available: true },
-  { id: 'CYBERPUNK', icon: '🏙️', color: '#39FF14', available: true },
-  { id: 'LOVECRAFT_HORROR', icon: '👁️', color: '#1A3A2A', available: true },
+  { id: 'ISEKAI', icon: '⭐', color: '#FFD93D', available: false },
+  { id: 'VIKINGOS', icon: '⚔️', color: '#C9A84C', available: false },
+  { id: 'STAR_WARS', icon: '🚀', color: '#FFE81F', available: false },
+  { id: 'CYBERPUNK', icon: '🏙️', color: '#39FF14', available: false },
+  { id: 'LOVECRAFT_HORROR', icon: '👁️', color: '#1A3A2A', available: false },
 ]
 
 export function LoreSelector({ onSelect }: LoreSelectorProps) {

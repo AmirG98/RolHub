@@ -11,15 +11,10 @@ import { useLanguage } from '@/lib/i18n'
 import GuestGameSession from './GuestGameSession'
 import { Play, Scroll, Swords, Map, MessageCircle, ChevronRight } from 'lucide-react'
 
-// Todos los lores disponibles
+// Lores disponibles
 const GUEST_LORES = [
-  { id: 'LOTR', name: 'Tierras Medias', nameEn: 'Middle Earth', emoji: '🧙', description: 'Fantasía épica tolkieniana' },
-  { id: 'ZOMBIES', name: 'Apocalipsis Zombie', nameEn: 'Zombie Apocalypse', emoji: '🧟', description: 'Supervivencia y horror' },
-  { id: 'VIKINGOS', name: 'Vikingos', nameEn: 'Vikings', emoji: '⚔️', description: 'Épica nórdica' },
-  { id: 'STAR_WARS', name: 'Star Wars', nameEn: 'Star Wars', emoji: '🚀', description: 'Aventura espacial' },
-  { id: 'CYBERPUNK', name: 'Cyberpunk', nameEn: 'Cyberpunk', emoji: '🤖', description: 'Futuro distópico' },
-  { id: 'ISEKAI', name: 'Isekai', nameEn: 'Isekai', emoji: '✨', description: 'Mundo de fantasía anime' },
-  { id: 'LOVECRAFT_HORROR', name: 'Horror Cósmico', nameEn: 'Cosmic Horror', emoji: '🐙', description: 'Terror lovecraftiano' },
+  { id: 'LOTR', name: 'Tierras Medias', nameEn: 'Middle Earth', emoji: '🏰', description: 'Fantasía épica tolkieniana' },
+  { id: 'ZOMBIES', name: 'Apocalipsis Zombie', nameEn: 'Zombie Apocalypse', emoji: '☠️', description: 'Supervivencia y horror' },
 ]
 
 // Arquetipos simplificados para guest
@@ -33,31 +28,6 @@ const GUEST_ARCHETYPES: Record<string, { id: string; name: string; nameEn: strin
     { id: 'survivor', name: 'Superviviente', nameEn: 'Survivor', stats: { combat: 3, exploration: 3, social: 2, lore: 1 } },
     { id: 'medic', name: 'Médico', nameEn: 'Medic', stats: { combat: 1, exploration: 2, social: 3, lore: 4 } },
     { id: 'soldier', name: 'Soldado', nameEn: 'Soldier', stats: { combat: 4, exploration: 2, social: 2, lore: 1 } },
-  ],
-  VIKINGOS: [
-    { id: 'berserker', name: 'Berserker', nameEn: 'Berserker', stats: { combat: 5, exploration: 2, social: 1, lore: 1 } },
-    { id: 'skald', name: 'Skald', nameEn: 'Skald', stats: { combat: 2, exploration: 2, social: 4, lore: 3 } },
-    { id: 'explorer', name: 'Explorador', nameEn: 'Explorer', stats: { combat: 2, exploration: 4, social: 2, lore: 2 } },
-  ],
-  STAR_WARS: [
-    { id: 'jedi', name: 'Jedi', nameEn: 'Jedi', stats: { combat: 3, exploration: 2, social: 3, lore: 3 } },
-    { id: 'smuggler', name: 'Contrabandista', nameEn: 'Smuggler', stats: { combat: 3, exploration: 3, social: 3, lore: 1 } },
-    { id: 'bounty_hunter', name: 'Cazarrecompensas', nameEn: 'Bounty Hunter', stats: { combat: 4, exploration: 3, social: 1, lore: 1 } },
-  ],
-  CYBERPUNK: [
-    { id: 'netrunner', name: 'Netrunner', nameEn: 'Netrunner', stats: { combat: 1, exploration: 3, social: 2, lore: 4 } },
-    { id: 'solo', name: 'Solo', nameEn: 'Solo', stats: { combat: 5, exploration: 2, social: 1, lore: 1 } },
-    { id: 'fixer', name: 'Fixer', nameEn: 'Fixer', stats: { combat: 2, exploration: 2, social: 4, lore: 2 } },
-  ],
-  ISEKAI: [
-    { id: 'hero', name: 'Héroe Invocado', nameEn: 'Summoned Hero', stats: { combat: 3, exploration: 3, social: 2, lore: 2 } },
-    { id: 'mage', name: 'Mago Reencarnado', nameEn: 'Reborn Mage', stats: { combat: 1, exploration: 2, social: 3, lore: 4 } },
-    { id: 'warrior', name: 'Guerrero', nameEn: 'Warrior', stats: { combat: 4, exploration: 2, social: 2, lore: 1 } },
-  ],
-  LOVECRAFT_HORROR: [
-    { id: 'investigator', name: 'Investigador', nameEn: 'Investigator', stats: { combat: 1, exploration: 3, social: 2, lore: 4 } },
-    { id: 'occultist', name: 'Ocultista', nameEn: 'Occultist', stats: { combat: 2, exploration: 2, social: 2, lore: 4 } },
-    { id: 'detective', name: 'Detective', nameEn: 'Detective', stats: { combat: 2, exploration: 3, social: 3, lore: 2 } },
   ],
 }
 

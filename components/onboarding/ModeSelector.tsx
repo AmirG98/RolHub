@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { GameMode, GameEngine, TutorialLevel } from '@/lib/types/lore'
 import { ParchmentPanel } from '@/components/medieval/ParchmentPanel'
 import { RunicButton } from '@/components/medieval/RunicButton'
-import { useTranslations } from '@/lib/i18n'
+import { useTranslations, useLanguage } from '@/lib/i18n'
 import { Clock, Calendar, Book, Dices, Sword, Users, HelpCircle } from 'lucide-react'
 import Link from 'next/link'
 
@@ -21,6 +21,7 @@ interface ModeSelectorProps {
 
 export function ModeSelector({ onSelect, onBack }: ModeSelectorProps) {
   const t = useTranslations()
+  const { locale } = useLanguage()
   const [selectedMode, setSelectedMode] = useState<GameMode | null>(null)
   const [selectedEngine, setSelectedEngine] = useState<GameEngine | null>(null)
   const [selectedTutorial, setSelectedTutorial] = useState<TutorialLevel | null>(null)
@@ -94,29 +95,15 @@ export function ModeSelector({ onSelect, onBack }: ModeSelectorProps) {
   const tutorialLevels = [
     {
       id: 'NOVICE' as TutorialLevel,
-      name: t.onboarding.experience.novice,
-      description: t.onboarding.experience.noviceDesc,
+      name: locale === 'en' ? 'Beginner' : 'Novato',
+      description: locale === 'en' ? 'First time playing a tabletop RPG' : 'Primera vez jugando un RPG de mesa',
       icon: '🌱',
       color: '#39FF14',
     },
     {
-      id: 'CASUAL' as TutorialLevel,
-      name: t.onboarding.experience.casual,
-      description: t.onboarding.experience.casualDesc,
-      icon: '🎮',
-      color: '#00D9FF',
-    },
-    {
-      id: 'EXPERIENCED' as TutorialLevel,
-      name: t.onboarding.experience.experienced,
-      description: t.onboarding.experience.experiencedDesc,
-      icon: '🎲',
-      color: '#FFD93D',
-    },
-    {
       id: 'VETERAN' as TutorialLevel,
-      name: t.onboarding.experience.veteran,
-      description: t.onboarding.experience.veteranDesc,
+      name: locale === 'en' ? 'I know D&D' : 'Sé jugar D&D',
+      description: locale === 'en' ? 'I have experience with tabletop RPGs' : 'Tengo experiencia con RPGs de mesa',
       icon: '⚔️',
       color: '#B026FF',
     },
