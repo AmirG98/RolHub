@@ -69,7 +69,7 @@ export interface LoreVoiceConfig {
 /**
  * Tipo para el mapeo de voces por lore
  */
-export type LoreVoicesMap = Record<Lore, LoreVoiceConfig>
+export type LoreVoicesMap = Record<string, LoreVoiceConfig>
 
 /**
  * Error específico de TTS

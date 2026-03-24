@@ -17,9 +17,10 @@ import vikingosData from '@/data/lores/vikingos.json'
 import starwarsData from '@/data/lores/starwars.json'
 import cyberpunkData from '@/data/lores/cyberpunk.json'
 import lovecraftData from '@/data/lores/lovecraft.json'
+import dndClassicData from '@/data/lores/dnd-classic.json'
 
 // Mapeo de lore a datos
-const LORE_DATA: Record<Lore, any> = {
+const LORE_DATA: Record<string, any> = {
   LOTR: lotrData,
   ZOMBIES: zombiesData,
   ISEKAI: isekaiData,
@@ -27,7 +28,8 @@ const LORE_DATA: Record<Lore, any> = {
   STAR_WARS: starwarsData,
   CYBERPUNK: cyberpunkData,
   LOVECRAFT_HORROR: lovecraftData,
-  CUSTOM: lotrData, // Fallback
+  DND_CLASSIC: dndClassicData,
+  CUSTOM: lotrData,
 }
 
 export default function OnboardingPage() {

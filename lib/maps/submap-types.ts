@@ -130,7 +130,7 @@ export interface SubmapTheme {
 }
 
 // Temas por lore
-export const SUBMAP_THEMES: Record<Lore, SubmapTheme> = {
+export const SUBMAP_THEMES: Record<string, SubmapTheme> = {
   LOTR: {
     nodeNames: {
       street: ['Calle del Rey', 'Sendero de los Hobbits', 'Camino Élfico', 'Vía de los Enanos'],

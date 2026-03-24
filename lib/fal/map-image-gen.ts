@@ -4,7 +4,7 @@
 import { type Lore } from '@/lib/maps/map-config'
 
 // Estilos de arte para mapas por lore
-const LORE_MAP_STYLES: Record<Lore, string> = {
+const LORE_MAP_STYLES: Record<string, string> = {
   LOTR: 'hand-drawn fantasy parchment map, Tolkien illustrated style, sepia ink, medieval cartography, mountains drawn in profile, forests as clusters of trees, rivers in blue ink, aged paper texture, compass rose, ornate borders, no text or labels',
 
   ZOMBIES: 'tactical urban survival map, satellite view aerial photography, marked danger zones in red, evacuation routes, post-apocalyptic city grid, desaturated colors, emergency grid overlay, military style markings, no text',
@@ -23,7 +23,7 @@ const LORE_MAP_STYLES: Record<Lore, string> = {
 }
 
 // Estilos de arte para imágenes de llegada a ubicación
-const LORE_SCENE_STYLES: Record<Lore, string> = {
+const LORE_SCENE_STYLES: Record<string, string> = {
   LOTR: 'fantasy oil painting, Tolkien illustrated style, dramatic lighting, epic landscape, detailed environment, atmospheric perspective, golden hour lighting',
 
   ZOMBIES: 'dark photography style, desaturated cinematic, gritty realism, urban decay, post-apocalyptic atmosphere, dramatic shadows, survival horror mood',
@@ -155,7 +155,7 @@ export async function generateLocationImage(options: LocationImageOptions): Prom
 }
 
 // Imágenes de fallback por si falla la generación
-export const FALLBACK_MAP_IMAGES: Partial<Record<Lore, string>> = {
+export const FALLBACK_MAP_IMAGES: Partial<Record<string, string>> = {
   // Se pueden agregar URLs de imágenes estáticas por defecto
 }
 

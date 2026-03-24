@@ -18,7 +18,7 @@ import {
 } from '@/lib/cache/asset-cache'
 
 // Estilos de arte por lore (para escenas de juego)
-const LORE_SCENE_STYLES: Record<Lore, string> = {
+const LORE_SCENE_STYLES: Record<string, string> = {
   LOTR: 'fantasy oil painting, Tolkien illustrated style, dramatic lighting, epic atmosphere, detailed medieval fantasy, golden hour or moonlit',
 
   ZOMBIES: 'dark cinematic photography, desaturated horror film aesthetic, gritty realism, urban decay, survival horror lighting, dramatic shadows',

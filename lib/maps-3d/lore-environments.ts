@@ -53,7 +53,7 @@ export interface LoreEnvironment {
   }
 }
 
-export const LORE_ENVIRONMENTS: Record<Lore, LoreEnvironment> = {
+export const LORE_ENVIRONMENTS: Record<string, LoreEnvironment> = {
   LOTR: {
     skybox: 'sunset',
     backgroundColor: '#1a2f1a',

@@ -18,7 +18,7 @@ const LOCATION_ICONS: Record<string, string> = {
 }
 
 // Descripciones cortas por tipo y lore
-const SHORT_AMBIANCE: Record<string, Record<Lore, string>> = {
+const SHORT_AMBIANCE: Record<string, Record<string, string>> = {
   city: {
     LOTR: 'Voces y comercio llenan el aire',
     ZOMBIES: 'Silencio inquietante entre edificios',

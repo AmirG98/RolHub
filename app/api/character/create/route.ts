@@ -24,6 +24,7 @@ import vikingosData from '@/data/lores/vikingos.json'
 import starwarsData from '@/data/lores/starwars.json'
 import cyberpunkData from '@/data/lores/cyberpunk.json'
 import lovecraftData from '@/data/lores/lovecraft.json'
+import dndClassicData from '@/data/lores/dnd-classic.json'
 
 export async function POST(req: NextRequest) {
   try {
@@ -68,7 +69,7 @@ export async function POST(req: NextRequest) {
     let user: any = null
 
     // Cargar datos del lore según el seleccionado
-    const loreDataMap: Record<Lore, any> = {
+    const loreDataMap: Record<string, any> = {
       LOTR: lotrData,
       ZOMBIES: zombiesData,
       ISEKAI: isekaiData,
@@ -76,6 +77,7 @@ export async function POST(req: NextRequest) {
       STAR_WARS: starwarsData,
       CYBERPUNK: cyberpunkData,
       LOVECRAFT_HORROR: lovecraftData,
+      DND_CLASSIC: dndClassicData,
       CUSTOM: lotrData, // Fallback
     }
 

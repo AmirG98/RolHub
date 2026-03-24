@@ -43,6 +43,10 @@ const LORE_STARTING_CONFIG: Record<
     starting: 'biblioteca',
     discoveredNames: ['Tu Oficina', 'Arkham', 'Universidad Miskatonic', 'Biblioteca Orne', 'Cementerio de Arkham', 'Puerto de Arkham', 'Manicomio de Arkham'],
   },
+  DND_CLASSIC: {
+    starting: 'waterdeep',
+    discoveredNames: ['Waterdeep', 'Undermountain', "Baldur's Gate", 'Phandalin'],
+  },
   CUSTOM: {
     starting: 'start',
     discoveredNames: [],

@@ -153,7 +153,7 @@ export class SeededRandom {
 }
 
 // Contenido temático por lore
-const LORE_CONTENT: Record<Lore, {
+const LORE_CONTENT: Record<string, {
   enemies: string[]
   treasures: string[]
   traps: string[]

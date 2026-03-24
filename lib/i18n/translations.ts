@@ -244,6 +244,11 @@ export const translations = {
         tagline: 'Hay cosas que la humanidad no debe saber',
         description: 'Años 1920. Investigaciones prohibidas y locura ancestral',
       },
+      DND_CLASSIC: {
+        name: 'Reinos Olvidados',
+        tagline: 'La Costa de la Espada te espera, aventurero',
+        description: 'Gremios, dungeons, dragones y magia en Faerûn',
+      },
     },
 
     // Archetype selector
@@ -517,6 +522,11 @@ export const translations = {
         name: 'Cosmic Horrors',
         tagline: 'There are things humanity should not know',
         description: '1920s. Forbidden investigations and ancestral madness',
+      },
+      DND_CLASSIC: {
+        name: 'Forgotten Realms',
+        tagline: 'The Sword Coast awaits you, adventurer',
+        description: 'Guilds, dungeons, dragons and magic in Faerûn',
       },
     },
 

@@ -178,7 +178,7 @@ export function createDefaultMapState(lore: Lore): MapState {
  * Obtiene las locaciones iniciales por lore
  */
 export function getStartingLocationIds(lore: Lore): { starting: string; discovered: string[] } {
-  const STARTING_LOCATIONS: Record<Lore, { starting: string; discovered: string[] }> = {
+  const STARTING_LOCATIONS: Record<string, { starting: string; discovered: string[] }> = {
     LOTR: {
       starting: 'comarca',
       discovered: ['comarca', 'bree', 'rivendel'],
@@ -206,6 +206,10 @@ export function getStartingLocationIds(lore: Lore): { starting: string; discover
     LOVECRAFT_HORROR: {
       starting: 'tu-oficina',
       discovered: ['tu-oficina', 'arkham', 'universidad', 'biblioteca', 'cementerio', 'puerto', 'manicomio'],
+    },
+    DND_CLASSIC: {
+      starting: 'waterdeep',
+      discovered: ['waterdeep', 'undermountain', 'baldurs-gate', 'phandalin'],
     },
     CUSTOM: {
       starting: 'start',

@@ -662,8 +662,57 @@ const LOVECRAFT_REGIONS: TerrainRegion[] = [
   },
 ]
 
+// ===== DND CLASSIC (Costa de la Espada) =====
+const DND_CLASSIC_REGIONS: TerrainRegion[] = [
+  {
+    id: 'sword-coast',
+    name: 'Costa de la Espada',
+    type: 'water',
+    points: [0, 200, 150, 150, 200, 300, 180, 500, 100, 600, 0, 550],
+    color: TERRAIN_COLORS.water,
+    opacity: 0.18,
+    labelPosition: { x: 80, y: 380 },
+  },
+  {
+    id: 'sword-mountains',
+    name: 'Montañas de la Espada',
+    type: 'mountains',
+    points: [450, 150, 600, 100, 650, 250, 600, 350, 500, 300, 430, 220],
+    color: TERRAIN_COLORS.mountains,
+    opacity: 0.15,
+    labelPosition: { x: 530, y: 220 },
+  },
+  {
+    id: 'neverwinter-wood',
+    name: 'Bosque de Neverwinter',
+    type: 'forest',
+    points: [380, 50, 550, 30, 580, 150, 500, 200, 400, 170],
+    color: TERRAIN_COLORS.forest,
+    opacity: 0.18,
+    labelPosition: { x: 470, y: 110 },
+  },
+  {
+    id: 'icewind-tundra',
+    name: 'Tundra Helada',
+    type: 'ice',
+    points: [400, 0, 700, 0, 680, 80, 550, 100, 420, 60],
+    color: '#B8D4E3',
+    opacity: 0.15,
+    labelPosition: { x: 550, y: 40 },
+  },
+  {
+    id: 'trade-way',
+    name: 'Camino del Comercio',
+    type: 'plains',
+    points: [250, 250, 400, 280, 380, 400, 300, 500, 200, 480, 220, 350],
+    color: '#7B8A3E',
+    opacity: 0.1,
+    labelPosition: { x: 310, y: 380 },
+  },
+]
+
 // Mapa de regiones por lore
-const LORE_TERRAIN: Record<Lore, TerrainRegion[]> = {
+const LORE_TERRAIN: Record<string, TerrainRegion[]> = {
   LOTR: LOTR_REGIONS,
   ZOMBIES: ZOMBIES_REGIONS,
   ISEKAI: ISEKAI_REGIONS,
@@ -671,6 +720,7 @@ const LORE_TERRAIN: Record<Lore, TerrainRegion[]> = {
   STAR_WARS: STAR_WARS_REGIONS,
   CYBERPUNK: CYBERPUNK_REGIONS,
   LOVECRAFT_HORROR: LOVECRAFT_REGIONS,
+  DND_CLASSIC: DND_CLASSIC_REGIONS,
   CUSTOM: [],
 }
 

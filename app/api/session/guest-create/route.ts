@@ -15,6 +15,7 @@ import vikingosData from '@/data/lores/vikingos.json'
 import starwarsData from '@/data/lores/starwars.json'
 import cyberpunkData from '@/data/lores/cyberpunk.json'
 import lovecraftData from '@/data/lores/lovecraft.json'
+import dndClassicData from '@/data/lores/dnd-classic.json'
 
 /**
  * Crea una sesión de juego para un guest (sin Clerk auth)
@@ -36,10 +37,10 @@ export async function POST(req: NextRequest) {
     }
 
     // Datos del lore
-    const loreDataMap: Record<Lore, any> = {
+    const loreDataMap: Record<string, any> = {
       LOTR: lotrData, ZOMBIES: zombiesData, ISEKAI: isekaiData,
       VIKINGOS: vikingosData, STAR_WARS: starwarsData, CYBERPUNK: cyberpunkData,
-      LOVECRAFT_HORROR: lovecraftData, CUSTOM: lotrData,
+      LOVECRAFT_HORROR: lovecraftData, DND_CLASSIC: dndClassicData, CUSTOM: lotrData,
     }
     const loreData = loreDataMap[lore] || lotrData
 

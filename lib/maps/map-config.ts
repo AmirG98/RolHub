@@ -62,7 +62,7 @@ export interface LoreMapConfig {
   markerSize: number
 }
 
-export const LORE_MAP_CONFIGS: Record<Lore, LoreMapConfig> = {
+export const LORE_MAP_CONFIGS: Record<string, LoreMapConfig> = {
   LOTR: {
     backgroundColor: '#F4E8C1',
     primaryColor: '#8B6914',
@@ -307,6 +307,38 @@ export const LORE_MAP_CONFIGS: Record<Lore, LoreMapConfig> = {
     },
     markerStyle: 'gothic',
     markerSize: 28,
+  },
+
+  // D&D Forgotten Realms — pergamino medieval con toque aventurero
+  DND_CLASSIC: {
+    backgroundColor: '#1A1408',
+    primaryColor: '#C9A84C',
+    secondaryColor: '#2C2416',
+    accentColor: '#D4A44C',
+    dangerColor: '#8B1A1A',
+    safeColor: '#1A3A2A',
+    textColor: '#F4E8C1',
+    fogColor: '#0D0A05',
+    fogOpacity: 0.75,
+    glowColor: '#F5C842',
+    pathColor: '#8B6914',
+    pathStyle: 'solid',
+    fontFamily: 'EB Garamond, serif',
+    titleFontFamily: 'Cinzel Decorative, serif',
+    backgroundPattern: 'parchment',
+    hasAmbientAnimation: true,
+    ambientAnimationType: 'flicker',
+    icons: {
+      city: '🏰',
+      dungeon: '⚔️',
+      wilderness: '🌲',
+      landmark: '📜',
+      danger: '💀',
+      safe: '🏠',
+      mystery: '✨',
+    },
+    markerStyle: 'medieval',
+    markerSize: 32,
   },
 
   // Config genérico para CUSTOM

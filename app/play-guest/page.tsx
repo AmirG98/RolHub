@@ -15,6 +15,7 @@ import { Play, Scroll, Swords, Map, MessageCircle, ChevronRight } from 'lucide-r
 const GUEST_LORES = [
   { id: 'LOTR', name: 'Tierras Medias', nameEn: 'Middle Earth', emoji: '🏰', description: 'Fantasía épica tolkieniana' },
   { id: 'ZOMBIES', name: 'Apocalipsis Zombie', nameEn: 'Zombie Apocalypse', emoji: '☠️', description: 'Supervivencia y horror' },
+  { id: 'DND_CLASSIC', name: 'Reinos Olvidados', nameEn: 'Forgotten Realms', emoji: '⚔️', description: 'D&D clásico en Faerûn' },
 ]
 
 // Arquetipos simplificados para guest
@@ -28,6 +29,11 @@ const GUEST_ARCHETYPES: Record<string, { id: string; name: string; nameEn: strin
     { id: 'survivor', name: 'Superviviente', nameEn: 'Survivor', stats: { combat: 3, exploration: 3, social: 2, lore: 1 } },
     { id: 'medic', name: 'Médico', nameEn: 'Medic', stats: { combat: 1, exploration: 2, social: 3, lore: 4 } },
     { id: 'soldier', name: 'Soldado', nameEn: 'Soldier', stats: { combat: 4, exploration: 2, social: 2, lore: 1 } },
+  ],
+  DND_CLASSIC: [
+    { id: 'guild-adventurer', name: 'Aventurero de Gremio', nameEn: 'Guild Adventurer', stats: { combat: 4, exploration: 3, social: 2, lore: 1 } },
+    { id: 'academy-mage', name: 'Mago de la Academia', nameEn: 'Academy Mage', stats: { combat: 1, exploration: 2, social: 3, lore: 4 } },
+    { id: 'street-rogue', name: 'Pícaro Callejero', nameEn: 'Street Rogue', stats: { combat: 3, exploration: 4, social: 3, lore: 1 } },
   ],
 }
 

@@ -12,7 +12,7 @@ interface DescriptionTemplate {
   accessories: string[]  // accesorios/detalles
 }
 
-const TEMPLATES: Record<Lore, DescriptionTemplate> = {
+const TEMPLATES: Record<string, DescriptionTemplate> = {
   LOTR: {
     builds: [
       'De complexion atletica y paso firme',

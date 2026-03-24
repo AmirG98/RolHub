@@ -110,6 +110,18 @@ const LOVECRAFT_HORROR_COORDINATES: Record<string, { x: number; y: number; conne
   'Manicomio': { x: 350, y: 450, connections: ['Arkham'] },
 }
 
+// Coordenadas para DND_CLASSIC (Costa de la Espada, Faerûn)
+const DND_CLASSIC_COORDINATES: Record<string, { x: number; y: number; connections: string[] }> = {
+  'Waterdeep': { x: 400, y: 300, connections: ['Undermountain', 'Baldur\'s Gate', 'Neverwinter', 'Phandalin'] },
+  'Undermountain': { x: 420, y: 350, connections: ['Waterdeep'] },
+  'Baldur\'s Gate': { x: 200, y: 450, connections: ['Waterdeep', 'Candlekeep', 'Phandalin'] },
+  'Neverwinter': { x: 350, y: 150, connections: ['Waterdeep', 'Bosque de Neverwinter', 'Icewind Dale'] },
+  'Bosque de Neverwinter': { x: 450, y: 100, connections: ['Neverwinter'] },
+  'Icewind Dale': { x: 500, y: 50, connections: ['Neverwinter'] },
+  'Phandalin': { x: 300, y: 350, connections: ['Waterdeep', 'Baldur\'s Gate'] },
+  'Candlekeep': { x: 100, y: 500, connections: ['Baldur\'s Gate'] },
+}
+
 // Coordenadas para CUSTOM (genérico)
 const CUSTOM_COORDINATES: Record<string, { x: number; y: number; connections: string[] }> = {
   'Ciudad Principal': { x: 400, y: 300, connections: ['Bosque', 'Montaña', 'Puerto'] },
@@ -121,7 +133,7 @@ const CUSTOM_COORDINATES: Record<string, { x: number; y: number; connections: st
 }
 
 // Mapa de coordenadas por lore
-const LORE_COORDINATES: Record<Lore, Record<string, { x: number; y: number; connections: string[] }>> = {
+const LORE_COORDINATES: Record<string, Record<string, { x: number; y: number; connections: string[] }>> = {
   LOTR: LOTR_COORDINATES,
   ZOMBIES: ZOMBIES_COORDINATES,
   ISEKAI: ISEKAI_COORDINATES,
@@ -129,6 +141,7 @@ const LORE_COORDINATES: Record<Lore, Record<string, { x: number; y: number; conn
   STAR_WARS: STAR_WARS_COORDINATES,
   CYBERPUNK: CYBERPUNK_COORDINATES,
   LOVECRAFT_HORROR: LOVECRAFT_HORROR_COORDINATES,
+  DND_CLASSIC: DND_CLASSIC_COORDINATES,
   CUSTOM: CUSTOM_COORDINATES,
 }
 
@@ -215,7 +228,7 @@ function generateFallbackCoordinates(index: number, total: number): { x: number;
 
 // Datos de mapa de ejemplo para cada lore (para usar cuando no hay datos de campaña)
 export function getExampleMapData(lore: Lore): MapLocation[] {
-  const exampleData: Record<Lore, MapLocation[]> = {
+  const exampleData: Record<string, MapLocation[]> = {
     LOTR: [
       { id: 'comarca', name: 'La Comarca', description: 'Tierra pacífica de los hobbits', type: 'safe', dangerLevel: 1, coordinates: { x: 150, y: 200 }, connections: ['bree', 'rivendel'], icon: '', discovered: true, visited: true },
       { id: 'bree', name: 'Bree', description: 'Cruce de caminos con la Posada del Pony Pisador', type: 'city', dangerLevel: 2, coordinates: { x: 220, y: 200 }, connections: ['comarca', 'rivendel'], icon: '', discovered: true, visited: false },
@@ -294,6 +307,16 @@ export function getExampleMapData(lore: Lore): MapLocation[] {
       { id: 'innsmouth', name: 'Innsmouth', description: 'La gente aquí... no parece normal', type: 'danger', dangerLevel: 4, coordinates: { x: 100, y: 400 }, connections: ['puerto'], icon: '', discovered: false, visited: false },
       { id: 'manicomio', name: 'Manicomio de Arkham', description: '¿Están locos... o han visto demasiado?', type: 'mystery', dangerLevel: 3, coordinates: { x: 350, y: 450 }, connections: ['arkham'], icon: '', discovered: true, visited: false },
       { id: 'templo', name: 'Templo Sumergido', description: 'Ph\'nglui mglw\'nafh...', type: 'danger', dangerLevel: 5, coordinates: { x: 700, y: 350 }, connections: ['cripta'], icon: '', discovered: false, visited: false },
+    ],
+    DND_CLASSIC: [
+      { id: 'waterdeep', name: 'Waterdeep', description: 'La Ciudad de los Esplendores, puerto y metrópolis', type: 'city', dangerLevel: 2, coordinates: { x: 400, y: 300 }, connections: ['undermountain', 'baldurs-gate', 'neverwinter', 'phandalin'], icon: '', discovered: true, visited: true },
+      { id: 'undermountain', name: 'Undermountain', description: 'El megadungeon bajo Waterdeep', type: 'dungeon', dangerLevel: 5, coordinates: { x: 420, y: 350 }, connections: ['waterdeep'], icon: '', discovered: true, visited: false },
+      { id: 'baldurs-gate', name: "Baldur's Gate", description: 'Ciudad portuaria de comercio y crimen', type: 'city', dangerLevel: 3, coordinates: { x: 200, y: 450 }, connections: ['waterdeep', 'candlekeep', 'phandalin'], icon: '', discovered: true, visited: false },
+      { id: 'neverwinter', name: 'Neverwinter', description: 'La Joya del Norte en reconstrucción', type: 'city', dangerLevel: 3, coordinates: { x: 350, y: 150 }, connections: ['waterdeep', 'bosque-neverwinter', 'icewind-dale'], icon: '', discovered: false, visited: false },
+      { id: 'bosque-neverwinter', name: 'Bosque de Neverwinter', description: 'Bosque misterioso con ruinas élficas', type: 'wilderness', dangerLevel: 3, coordinates: { x: 450, y: 100 }, connections: ['neverwinter'], icon: '', discovered: false, visited: false },
+      { id: 'icewind-dale', name: 'Icewind Dale', description: 'Tundra helada del extremo norte', type: 'danger', dangerLevel: 4, coordinates: { x: 500, y: 50 }, connections: ['neverwinter'], icon: '', discovered: false, visited: false },
+      { id: 'phandalin', name: 'Phandalin', description: 'Pequeño asentamiento minero con secretos', type: 'safe', dangerLevel: 2, coordinates: { x: 300, y: 350 }, connections: ['waterdeep', 'baldurs-gate'], icon: '', discovered: true, visited: false },
+      { id: 'candlekeep', name: 'Candlekeep', description: 'Biblioteca-fortaleza del conocimiento', type: 'landmark', dangerLevel: 1, coordinates: { x: 100, y: 500 }, connections: ['baldurs-gate'], icon: '', discovered: false, visited: false },
     ],
     CUSTOM: [
       { id: 'ciudad-principal', name: 'Ciudad Principal', description: 'El centro de la civilización', type: 'city', dangerLevel: 1, coordinates: { x: 400, y: 300 }, connections: ['bosque', 'montana'], icon: '', discovered: true, visited: true },

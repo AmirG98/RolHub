@@ -13,7 +13,7 @@ interface SubmapBackgroundProps {
 }
 
 // Colores de fondo por tipo de submapa y lore
-const BACKGROUND_COLORS: Record<SubmapType, Record<Lore, { bg: string; pattern: string }>> = {
+const BACKGROUND_COLORS: Record<SubmapType, Record<string, { bg: string; pattern: string }>> = {
   city: {
     LOTR: { bg: '#2C2416', pattern: '#3D3220' },
     ZOMBIES: { bg: '#1a1a1a', pattern: '#252525' },

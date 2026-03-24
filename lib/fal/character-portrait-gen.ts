@@ -13,7 +13,7 @@ import {
 } from '@/lib/cache/asset-cache'
 
 // Estilos de arte para retratos por lore
-const LORE_PORTRAIT_STYLES: Record<Lore, string> = {
+const LORE_PORTRAIT_STYLES: Record<string, string> = {
   LOTR: 'fantasy portrait painting, Tolkien illustration style, medieval fantasy, oil painting, detailed face, dramatic lighting, heroic pose, epic atmosphere',
 
   ZOMBIES: 'survival horror portrait, gritty realism, post-apocalyptic, weathered face, desaturated colors, cinematic lighting, determined expression',

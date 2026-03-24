@@ -14,7 +14,7 @@ interface PlayerTokenProps {
 }
 
 // Colores del token según el lore
-const PLAYER_COLORS: Record<Lore, { primary: string; secondary: string; glow: string }> = {
+const PLAYER_COLORS: Record<string, { primary: string; secondary: string; glow: string }> = {
   LOTR: { primary: '#FFD700', secondary: '#8B6914', glow: '#F5C842' },
   ZOMBIES: { primary: '#32CD32', secondary: '#228B22', glow: '#00FF00' },
   ISEKAI: { primary: '#FF69B4', secondary: '#FF1493', glow: '#FFB6C1' },

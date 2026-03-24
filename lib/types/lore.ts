@@ -106,7 +106,7 @@ export interface InitialMission {
   tags?: string[]
 }
 
-export type Lore = 'LOTR' | 'ZOMBIES' | 'ISEKAI' | 'VIKINGOS' | 'STAR_WARS' | 'CYBERPUNK' | 'LOVECRAFT_HORROR' | 'CUSTOM'
+export type Lore = 'LOTR' | 'ZOMBIES' | 'ISEKAI' | 'VIKINGOS' | 'STAR_WARS' | 'CYBERPUNK' | 'LOVECRAFT_HORROR' | 'DND_CLASSIC' | 'CUSTOM'
 export type GameEngine = 'STORY_MODE' | 'PBTA' | 'YEAR_ZERO' | 'DND_5E'
 export type GameMode = 'ONE_SHOT' | 'CAMPAIGN'
 export type TutorialLevel = 'NOVICE' | 'CASUAL' | 'EXPERIENCED' | 'VETERAN'
