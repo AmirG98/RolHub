@@ -383,8 +383,7 @@ export async function POST(req: NextRequest) {
     let avatarUrl: string | null = null
 
     try {
-      console.log(`[Portrait] Starting generation for ${charName}...`)
-      const startTime = Date.now()
+      console.log(`[Portrait] Starting for "${charName}" (archetype=${charArchetype}, lore=${lore}, isDnD5e=${isDnD5eCharacter})`)
 
       const portraitResult = await generateCharacterPortrait({
         name: charName,
@@ -400,7 +399,7 @@ export async function POST(req: NextRequest) {
         }),
       })
 
-      console.log(`[Portrait] Generation completed in ${Date.now() - startTime}ms`)
+      console.log(`[Portrait] Result: isGenerated=${portraitResult.isGenerated}, hasUrl=${!!portraitResult.url}, url=${portraitResult.url?.substring(0, 60) || 'EMPTY'}`)
 
       if (portraitResult.isGenerated && portraitResult.url) {
         avatarUrl = portraitResult.url

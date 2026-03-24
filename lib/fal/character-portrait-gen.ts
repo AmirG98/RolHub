@@ -279,9 +279,12 @@ export async function generateCharacterPortrait(
   options: CharacterPortraitOptions
 ): Promise<CharacterPortraitResult> {
   const FAL_KEY = process.env.FAL_KEY
-  const ENABLE_IMAGES = process.env.NEXT_PUBLIC_ENABLE_IMAGES === 'true'
+  const ENABLE_IMAGES = process.env.NEXT_PUBLIC_ENABLE_IMAGES
 
-  if (!ENABLE_IMAGES) {
+  console.log(`[Portrait] Config: ENABLE_IMAGES="${ENABLE_IMAGES}", FAL_KEY=${FAL_KEY ? 'SET' : 'MISSING'}`)
+
+  if (ENABLE_IMAGES !== 'true') {
+    console.log(`[Portrait] SKIPPED: NEXT_PUBLIC_ENABLE_IMAGES is "${ENABLE_IMAGES}" (expected "true")`)
     return {
       url: '',
       prompt: options.archetype,
@@ -290,7 +293,7 @@ export async function generateCharacterPortrait(
   }
 
   if (!FAL_KEY) {
-    console.warn('FAL_KEY not configured - portrait generation disabled')
+    console.error('[Portrait] SKIPPED: FAL_KEY not configured')
     return {
       url: '',
       prompt: options.archetype,
@@ -300,6 +303,7 @@ export async function generateCharacterPortrait(
 
   const startTime = Date.now()
   const fullPrompt = buildPortraitPrompt(options)
+  console.log(`[Portrait] Prompt: ${fullPrompt.substring(0, 120)}...`)
 
   // Config según calidad
   const qualityConfig = {
@@ -330,17 +334,23 @@ export async function generateCharacterPortrait(
       }),
     })
 
+    console.log(`[Portrait] Fal.ai response: status=${response.status}`)
+
     if (!response.ok) {
       const errorText = await response.text()
-      throw new Error(`Fal.ai API error: ${errorText}`)
+      console.error(`[Portrait] Fal.ai ERROR: ${response.status} — ${errorText}`)
+      throw new Error(`Fal.ai API error (${response.status}): ${errorText}`)
     }
 
     const result = await response.json()
     const imageUrl = result.images?.[0]?.url || result.image?.url
 
     if (!imageUrl) {
+      console.error('[Portrait] Fal.ai returned OK but no image URL in response:', JSON.stringify(result).substring(0, 200))
       throw new Error('No image URL in response')
     }
+
+    console.log(`[Portrait] SUCCESS: ${imageUrl.substring(0, 80)} (${Date.now() - startTime}ms)`)
 
     return {
       url: imageUrl,
@@ -349,7 +359,7 @@ export async function generateCharacterPortrait(
       generationTime: Date.now() - startTime,
     }
   } catch (error) {
-    console.error('Character portrait generation failed:', error)
+    console.error('[Portrait] FAILED:', (error as Error).message || error)
     return {
       url: '',
       prompt: fullPrompt,
