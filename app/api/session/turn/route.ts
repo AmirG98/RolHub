@@ -200,8 +200,31 @@ export async function POST(req: NextRequest) {
     const usedPhraseStarts = recentDMContent
       .flatMap(c => c.split(/[.!?]/).filter(s => s.trim().length > 20))
       .map(s => s.trim().split(/\s+/).slice(0, 7).join(' '))
-      .filter((phrase, i, arr) => arr.indexOf(phrase) === i) // dedup
+      .filter((phrase, i, arr) => arr.indexOf(phrase) === i)
       .slice(-12)
+
+    // Extraer CONCEPTOS/DETALLES ya descritos para no repetirlos
+    const allRecentDMText = recentDMContent.join(' ').toLowerCase()
+    const describedDetails: string[] = []
+    const detailPatterns = [
+      /botas?\b[^.]{5,30}/g, /guantes?\b[^.]{5,30}/g, /capa\b[^.]{5,30}/g,
+      /respiraci[oó]n\b[^.]{5,30}/g, /ojos?\b[^.]{5,30}/g, /manos?\b[^.]{5,30}/g,
+      /espada\b[^.]{5,30}/g, /capucha\b[^.]{5,30}/g, /p[aá]lid[oa]\b[^.]{5,20}/g,
+      /bebida\b[^.]{5,30}/g, /sombra\b[^.]{5,30}/g, /barro\b[^.]{5,30}/g,
+    ]
+    for (const pattern of detailPatterns) {
+      const matches = allRecentDMText.match(pattern)
+      if (matches && matches.length >= 2) {
+        describedDetails.push(matches[0].trim().substring(0, 40))
+      }
+    }
+
+    // Detectar si el jugador está repitiendo la misma acción conceptual
+    const lastThreeUserActions = allTurns.slice(-6).filter(t => t.role === 'USER').map(t => t.content.toLowerCase())
+    const observationWords = ['observ', 'mir', 'examin', 'fij', 'watch', 'look', 'study', 'inspect']
+    const isRepeatedObservation = lastThreeUserActions.filter(a =>
+      observationWords.some(w => a.includes(w))
+    ).length >= 2
 
     // Agregar el turno actual del jugador con contexto de tipo de acción
     // actionType: 'do' = acción física, 'talk' = diálogo
@@ -1059,11 +1082,16 @@ ${storySoFar}` : ''}
 ${lastDMNarration ? `YOUR LAST NARRATION (CONTINUE from here, do NOT re-describe this scene):
 "${lastDMNarration}..."` : ''}
 
-${usedPhraseStarts.length > 0 ? `PHRASES ALREADY USED IN RECENT TURNS (do NOT start any sentence with these — use completely fresh vocabulary):
-${usedPhraseStarts.map(p => `- "${p}..."`).join('\n')}` : ''}
+${usedPhraseStarts.length > 0 ? `PHRASES ALREADY USED (do NOT start sentences with these):
+${usedPhraseStarts.slice(-8).map(p => `- "${p}..."`).join('\n')}` : ''}
+
+${describedDetails.length > 0 ? `DETAILS ALREADY DESCRIBED (do NOT mention these again — they are established facts, move the story forward):
+${describedDetails.map(d => `- ${d}`).join('\n')}` : ''}
+
+${isRepeatedObservation ? `⚠️ PLAYER IS REPEATING OBSERVATION — DO NOT describe more physical details! The player has already observed this target multiple times. INSTEAD: make the NPC/target REACT, make something HAPPEN, introduce a NEW element, or FORCE a confrontation. The story MUST advance.` : ''}
 
 RULES:
-1. NEVER repeat a scene description OR reuse the same phrases/sentence openings from previous turns. Use completely different words each time.
+1. NEVER repeat a description, phrase, or concept from previous turns. Every detail must be NEW information that advances the plot.
 2. If the player repeats actions, ESCALATE consequences. 3rd time → world reacts (NPC annoyed, guard suspicious, enemy adapts).
 3. NEVER suggest the same actions twice. Always offer fresh options.
 4. If nonsensical input, redirect narratively with 3 clear options.
@@ -1088,11 +1116,16 @@ ${storySoFar}` : ''}
 ${lastDMNarration ? `TU ÚLTIMA NARRACIÓN (CONTINUÁ desde acá, NO re-describas esta escena):
 "${lastDMNarration}..."` : ''}
 
-${usedPhraseStarts.length > 0 ? `FRASES YA USADAS EN TURNOS RECIENTES (NO empieces ninguna oración con estas — usá vocabulario completamente fresco):
-${usedPhraseStarts.map(p => `- "${p}..."`).join('\n')}` : ''}
+${usedPhraseStarts.length > 0 ? `FRASES YA USADAS (NO empieces oraciones con estas):
+${usedPhraseStarts.slice(-8).map(p => `- "${p}..."`).join('\n')}` : ''}
+
+${describedDetails.length > 0 ? `DETALLES YA DESCRITOS (NO los menciones de nuevo — son hechos establecidos, avanzá la historia):
+${describedDetails.map(d => `- ${d}`).join('\n')}` : ''}
+
+${isRepeatedObservation ? `⚠️ JUGADOR REPITE OBSERVACIÓN — ¡NO describas más detalles físicos! El jugador ya observó este objetivo varias veces. EN CAMBIO: hacé que el NPC/objetivo REACCIONE, que algo PASE, introducí un NUEVO elemento, o FORZÁ una confrontación. La historia DEBE avanzar.` : ''}
 
 REGLAS:
-1. NUNCA repitas una descripción de escena NI reutilices las mismas frases/aperturas de turnos anteriores. Usá palabras completamente diferentes cada vez.
+1. NUNCA repitas una descripción, frase o concepto de turnos anteriores. Cada detalle debe ser información NUEVA que avance la trama.
 2. Si el jugador repite acciones, ESCALÁ consecuencias. 3ra vez → el mundo reacciona (NPC se irrita, guardia sospecha, enemigo se adapta).
 3. NUNCA sugieras las mismas acciones dos veces. Siempre opciones frescas.
 4. Si el input es incoherente, redirigí narrativamente con 3 opciones claras.
