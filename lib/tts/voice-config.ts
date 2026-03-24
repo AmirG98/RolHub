@@ -192,6 +192,27 @@ export const NPC_VOICES = {
  * Obtiene una voz de NPC consistente basada en el nombre
  * El mismo nombre siempre retorna la misma voz
  */
+/**
+ * Normaliza el nombre de un NPC para consistencia de voz
+ * "Panadera Marta" → "Marta", "Mercader Aldric" → "Aldric"
+ * "Marta la Panadera" → "Marta", "El viejo Gandalf" → "Gandalf"
+ */
+function normalizeNPCName(name: string): string {
+  if (!name) return 'default_npc'
+  // Eliminar artículos y títulos comunes
+  const cleaned = name.replace(/^(el|la|los|las|un|una|unos|unas|the|a|an)\s+/i, '').trim()
+  // Buscar palabras con mayúscula inicial (nombres propios)
+  const words = cleaned.split(/\s+/)
+  const properNouns = words.filter(w => /^[A-ZÁÉÍÓÚÑ]/.test(w) && !['El', 'La', 'Los', 'Las', 'Del', 'De', 'Un', 'Una'].includes(w))
+  // Preferir la última palabra con mayúscula (generalmente el nombre propio)
+  // "Panadera Marta" → Marta, "Mercader Aldric" → Aldric
+  if (properNouns.length > 0) {
+    return properNouns[properNouns.length - 1]
+  }
+  // Fallback: primera palabra
+  return words[0] || name
+}
+
 export function getNPCVoice(npcName: string, locale: 'es' | 'en', gender?: 'male' | 'female' | 'neutral'): string {
   // Hash simple del nombre para consistencia
   let hash = 0
@@ -474,9 +495,10 @@ export function parseTextForVoices(
     const dialogueText = match[2] || match[3] || match[4] || match[5]
 
     if (dialogueText && dialogueText.trim()) {
-      // Si no hay speaker explícito, usar el último NPC que habló (mismo diálogo continúa)
-      const speakerKey = speaker || lastKnownSpeaker || 'default_npc'
-      if (speaker) lastKnownSpeaker = speaker
+      // Normalizar nombre: "Panadera Marta" y "Marta" → mismo key "Marta"
+      const normalizedSpeaker = speaker ? normalizeNPCName(speaker) : null
+      const speakerKey = normalizedSpeaker || lastKnownSpeaker || 'default_npc'
+      if (normalizedSpeaker) lastKnownSpeaker = normalizedSpeaker
       // Usar voz cacheada si existe, sino calcular y cachear
       let npcVoice: string
       if (npcVoiceCache && npcVoiceCache[speakerKey]) {
