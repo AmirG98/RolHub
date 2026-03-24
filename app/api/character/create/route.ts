@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@clerk/nextjs/server'
-import { prisma, withRetry } from '@/lib/db/prisma'
+import { prisma } from '@/lib/db/prisma'
 import { Lore, GameMode, GameEngine, TutorialLevel, Prisma } from '@prisma/client'
 import { createCampaignMapState } from '@/lib/maps/map-init'
 import { getExampleMapData } from '@/lib/maps/lore-map-data'
@@ -253,8 +253,8 @@ export async function POST(req: NextRequest) {
       inviteCode = generateInviteCode()
     }
 
-    // TODO en UNA SOLA transacción para minimizar conexiones de DB
-    const result = await withRetry(() => prisma.$transaction(async (tx) => {
+    // Crear todo en una transacción — sin timeout, sin retry (patrón original que funciona)
+    const result = await prisma.$transaction(async (tx) => {
       // 0. Buscar o crear usuario
       user = await tx.user.findUnique({ where: { clerkId: userId } })
       if (!user) {
@@ -377,20 +377,16 @@ export async function POST(req: NextRequest) {
       })
 
       return { campaign, character, session, firstTurnId: firstTurn.id, introContent }
-    }, { timeout: 8000 }), 1, 2000)
+    })
 
-    // Generar retrato + imagen de escena EN PARALELO con timeout de 8s
-    const characterId = result.character.id
+    // Generar retrato del personaje SÍNCRONAMENTE (patrón original que funciona)
     let avatarUrl: string | null = null
-    let initialSceneImageUrl: string | null = null
-
-    // Obtener datos de opening scene para la imagen
-    const openingScenesForImage = (loreData as any).opening_scenes || (loreData.opening_scene ? [loreData.opening_scene] : [])
-    const openingSceneForImage = openingScenesForImage.length > 0 ? openingScenesForImage[0] : null
 
     try {
-      // Lanzar ambas generaciones en paralelo
-      const portraitPromise = generateCharacterPortrait({
+      console.log(`[Portrait] Starting generation for ${charName}...`)
+      const startTime = Date.now()
+
+      const portraitResult = await generateCharacterPortrait({
         name: charName,
         archetype: charArchetype,
         lore: lore as unknown as LoreType,
@@ -402,55 +398,53 @@ export async function POST(req: NextRequest) {
           classId: dnd5eStats.classId as string | undefined,
           draconicAncestry: dnd5eStats.draconicAncestry as string | undefined,
         }),
-      }).then(r => r.isGenerated && r.url ? r.url : null)
-        .catch(() => null)
+      })
 
-      const scenePromise = (openingSceneForImage && process.env.NEXT_PUBLIC_ENABLE_IMAGES === 'true')
-        ? handleCachedSceneImageRequest({
-            prompt: openingSceneForImage.description || `Escena inicial de ${loreData.name}`,
-            lore: lore,
-            locationId: openingSceneForImage.location_id || 'opening',
-            mood: 'exploration',
-            locationName: openingSceneForImage.location_name || loreData.name,
-            quality: 'standard',
-          }).then(r => r.success && r.url ? r.url : null)
-            .catch(() => null)
-        : Promise.resolve(null)
+      console.log(`[Portrait] Generation completed in ${Date.now() - startTime}ms`)
 
-      // Esperar ambas con timeout de 8s
-      const timeoutPromise = new Promise<'timeout'>((resolve) => setTimeout(() => resolve('timeout'), 8000))
-      const raceResult = await Promise.race([
-        Promise.all([portraitPromise, scenePromise]),
-        timeoutPromise,
-      ])
+      if (portraitResult.isGenerated && portraitResult.url) {
+        avatarUrl = portraitResult.url
+        await prisma.character.update({
+          where: { id: result.character.id },
+          data: { avatarUrl: portraitResult.url },
+        })
+        console.log(`[Portrait] Saved avatar for character ${result.character.id}`)
+      } else {
+        console.log(`[Portrait] No image generated (isGenerated: ${portraitResult.isGenerated})`)
+      }
+    } catch (err) {
+      console.error('[Portrait] Generation failed:', err)
+    }
 
-      if (raceResult !== 'timeout') {
-        const [portrait, scene] = raceResult
-        avatarUrl = portrait
-        initialSceneImageUrl = scene
+    // Generar imagen de escena inicial (cacheada por lore + locationId)
+    let initialSceneImageUrl: string | null = null
+    const openingScenesForImage = (loreData as any).opening_scenes || (loreData.opening_scene ? [loreData.opening_scene] : [])
+    const openingSceneForImage = openingScenesForImage.length > 0 ? openingScenesForImage[0] : null
 
-        // Guardar retrato en personaje
-        if (avatarUrl) {
-          await prisma.character.update({
-            where: { id: characterId },
-            data: { avatarUrl },
-          }).catch(err => console.warn('[Portrait] Failed to save:', err))
-          console.log(`[Portrait] Saved for character ${characterId}`)
-        }
+    if (openingSceneForImage && process.env.NEXT_PUBLIC_ENABLE_IMAGES === 'true') {
+      try {
+        console.log('[InitialScene] Generating opening scene image...')
+        const sceneResult = await handleCachedSceneImageRequest({
+          prompt: openingSceneForImage.description || `Escena inicial de ${loreData.name}`,
+          lore: lore,
+          locationId: openingSceneForImage.location_id || 'opening',
+          mood: 'exploration',
+          locationName: openingSceneForImage.location_name || loreData.name,
+          quality: 'standard',
+        })
+        if (sceneResult.success && sceneResult.url) {
+          initialSceneImageUrl = sceneResult.url
+          console.log('[InitialScene] Image generated:', sceneResult.url?.substring(0, 80))
 
-        // Guardar imagen de escena en el primer turn
-        if (initialSceneImageUrl) {
+          // Guardar en el primer turn
           await prisma.turn.update({
             where: { id: result.firstTurnId },
             data: { imageUrl: initialSceneImageUrl },
-          }).catch(err => console.warn('[Scene] Failed to save:', err))
-          console.log('[InitialScene] Saved to turn')
+          })
         }
-      } else {
-        console.log('[Images] Timed out after 8s — continuing without images')
+      } catch (sceneErr) {
+        console.error('[InitialScene] Failed to generate:', sceneErr)
       }
-    } catch (err) {
-      console.warn('[Images] Generation failed:', err)
     }
 
     return NextResponse.json({
