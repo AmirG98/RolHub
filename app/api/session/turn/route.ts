@@ -195,36 +195,28 @@ export async function POST(req: NextRequest) {
     const lastDMTurn = [...allTurns].reverse().find(t => t.role === 'DM')
     const lastDMNarration = lastDMTurn?.content?.substring(0, 250) || ''
 
-    // Extraer inicios de frases usadas recientemente para prohibir repetición literal
-    const recentDMContent = allTurns.slice(-8).filter(t => t.role === 'DM').map(t => t.content)
-    const usedPhraseStarts = recentDMContent
-      .flatMap(c => c.split(/[.!?]/).filter(s => s.trim().length > 20))
-      .map(s => s.trim().split(/\s+/).slice(0, 7).join(' '))
-      .filter((phrase, i, arr) => arr.indexOf(phrase) === i)
-      .slice(-12)
+    // Anti-repetición: extraer frases y conceptos ya usados (envuelto en try-catch por seguridad)
+    let usedPhraseStarts: string[] = []
+    let describedDetails: string[] = []
+    let isRepeatedObservation = false
 
-    // Extraer CONCEPTOS/DETALLES ya descritos para no repetirlos
-    const allRecentDMText = recentDMContent.join(' ').toLowerCase()
-    const describedDetails: string[] = []
-    const detailPatterns = [
-      /botas?\b[^.]{5,30}/g, /guantes?\b[^.]{5,30}/g, /capa\b[^.]{5,30}/g,
-      /respiraci[oó]n\b[^.]{5,30}/g, /ojos?\b[^.]{5,30}/g, /manos?\b[^.]{5,30}/g,
-      /espada\b[^.]{5,30}/g, /capucha\b[^.]{5,30}/g, /p[aá]lid[oa]\b[^.]{5,20}/g,
-      /bebida\b[^.]{5,30}/g, /sombra\b[^.]{5,30}/g, /barro\b[^.]{5,30}/g,
-    ]
-    for (const pattern of detailPatterns) {
-      const matches = allRecentDMText.match(pattern)
-      if (matches && matches.length >= 2) {
-        describedDetails.push(matches[0].trim().substring(0, 40))
-      }
+    try {
+      const recentDMContent = allTurns.slice(-6).filter(t => t.role === 'DM').map(t => t.content || '')
+
+      // Frases ya usadas (primeras 7 palabras de cada oración)
+      usedPhraseStarts = recentDMContent
+        .flatMap(c => c.split(/[.!?]/).filter(s => s.trim().length > 20))
+        .map(s => s.trim().split(/\s+/).slice(0, 6).join(' '))
+        .filter((p, i, arr) => arr.indexOf(p) === i)
+        .slice(-6)
+
+      // Detectar observación repetida del jugador
+      const recentUserContent = allTurns.slice(-6).filter(t => t.role === 'USER').map(t => (t.content || '').toLowerCase())
+      const obsWords = ['observ', 'mir', 'examin', 'fij', 'watch', 'look', 'study']
+      isRepeatedObservation = recentUserContent.filter(a => obsWords.some(w => a.includes(w))).length >= 2
+    } catch {
+      // Si falla la extracción, continuar sin anti-repetición
     }
-
-    // Detectar si el jugador está repitiendo la misma acción conceptual
-    const lastThreeUserActions = allTurns.slice(-6).filter(t => t.role === 'USER').map(t => t.content.toLowerCase())
-    const observationWords = ['observ', 'mir', 'examin', 'fij', 'watch', 'look', 'study', 'inspect']
-    const isRepeatedObservation = lastThreeUserActions.filter(a =>
-      observationWords.some(w => a.includes(w))
-    ).length >= 2
 
     // Agregar el turno actual del jugador con contexto de tipo de acción
     // actionType: 'do' = acción física, 'talk' = diálogo
@@ -1082,16 +1074,10 @@ ${storySoFar}` : ''}
 ${lastDMNarration ? `YOUR LAST NARRATION (CONTINUE from here, do NOT re-describe this scene):
 "${lastDMNarration}..."` : ''}
 
-${usedPhraseStarts.length > 0 ? `PHRASES ALREADY USED (do NOT start sentences with these):
-${usedPhraseStarts.slice(-8).map(p => `- "${p}..."`).join('\n')}` : ''}
-
-${describedDetails.length > 0 ? `DETAILS ALREADY DESCRIBED (do NOT mention these again — they are established facts, move the story forward):
-${describedDetails.map(d => `- ${d}`).join('\n')}` : ''}
-
-${isRepeatedObservation ? `⚠️ PLAYER IS REPEATING OBSERVATION — DO NOT describe more physical details! The player has already observed this target multiple times. INSTEAD: make the NPC/target REACT, make something HAPPEN, introduce a NEW element, or FORCE a confrontation. The story MUST advance.` : ''}
+${isRepeatedObservation ? `⚠️ PLAYER KEEPS OBSERVING — STOP describing physical details. Make the target REACT or something HAPPEN. Force the story forward.` : ''}
 
 RULES:
-1. NEVER repeat a description, phrase, or concept from previous turns. Every detail must be NEW information that advances the plot.
+1. NEVER reuse phrases or descriptions from your previous turns. Each turn must have completely fresh vocabulary and NEW plot developments.
 2. If the player repeats actions, ESCALATE consequences. 3rd time → world reacts (NPC annoyed, guard suspicious, enemy adapts).
 3. NEVER suggest the same actions twice. Always offer fresh options.
 4. If nonsensical input, redirect narratively with 3 clear options.
@@ -1116,16 +1102,10 @@ ${storySoFar}` : ''}
 ${lastDMNarration ? `TU ÚLTIMA NARRACIÓN (CONTINUÁ desde acá, NO re-describas esta escena):
 "${lastDMNarration}..."` : ''}
 
-${usedPhraseStarts.length > 0 ? `FRASES YA USADAS (NO empieces oraciones con estas):
-${usedPhraseStarts.slice(-8).map(p => `- "${p}..."`).join('\n')}` : ''}
-
-${describedDetails.length > 0 ? `DETALLES YA DESCRITOS (NO los menciones de nuevo — son hechos establecidos, avanzá la historia):
-${describedDetails.map(d => `- ${d}`).join('\n')}` : ''}
-
-${isRepeatedObservation ? `⚠️ JUGADOR REPITE OBSERVACIÓN — ¡NO describas más detalles físicos! El jugador ya observó este objetivo varias veces. EN CAMBIO: hacé que el NPC/objetivo REACCIONE, que algo PASE, introducí un NUEVO elemento, o FORZÁ una confrontación. La historia DEBE avanzar.` : ''}
+${isRepeatedObservation ? `⚠️ JUGADOR SIGUE OBSERVANDO — DEJÁ de describir detalles físicos. Hacé que el objetivo REACCIONE o que algo PASE. Forzá el avance de la historia.` : ''}
 
 REGLAS:
-1. NUNCA repitas una descripción, frase o concepto de turnos anteriores. Cada detalle debe ser información NUEVA que avance la trama.
+1. NUNCA reutilices frases o descripciones de tus turnos anteriores. Cada turno debe tener vocabulario fresco y NUEVOS desarrollos de la trama.
 2. Si el jugador repite acciones, ESCALÁ consecuencias. 3ra vez → el mundo reacciona (NPC se irrita, guardia sospecha, enemigo se adapta).
 3. NUNCA sugieras las mismas acciones dos veces. Siempre opciones frescas.
 4. Si el input es incoherente, redirigí narrativamente con 3 opciones claras.
