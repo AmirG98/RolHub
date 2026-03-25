@@ -188,10 +188,7 @@ export default function GameSession({
 
   // Track the latest DM turn ID for auto-playing voice
   const [latestDMTurnId, setLatestDMTurnId] = useState<string | null>(null)
-  // Cache de voces asignadas a NPCs — inicializado desde worldState
-  const npcVoiceCacheRef = useRef<Record<string, string>>(
-    (initialWorldState as any)?.npc_voice_assignments || {}
-  )
+  // Voces de NPC simplificadas — sin cache, solo detección de género determinística
   const scrollRef = useRef<HTMLDivElement>(null)
 
   // Immersion system state
@@ -202,11 +199,12 @@ export default function GameSession({
   const [typewriterTurnId, setTypewriterTurnId] = useState<string | null>(null) // Track which turn is animating
   const { isTransitioning, triggerTransition, transitionProps } = useSceneTransition({ type: 'fade', duration: 600 })
 
-  // Sonido ambiental — se reproduce en loop a bajo volumen según el mood
+  // Sonido ambiental — se reproduce en loop a bajo volumen según mood y escena
   const { setAmbientVolume } = useAmbientSound({
     lore: lore as string,
     mood: uiMood,
-    enabled: isVoiceEnabled, // Solo si la voz está habilitada
+    scene: worldState.current_scene || '',
+    enabled: isVoiceEnabled,
     volume: 0.18,
   })
   const isImagesEnabled = process.env.NEXT_PUBLIC_ENABLE_IMAGES === 'true'
@@ -386,21 +384,6 @@ export default function GameSession({
     }
   }, [character?.avatarUrl, sessionId])
 
-  // Cargar NPC voice cache desde localStorage si worldState no tiene
-  useEffect(() => {
-    if (Object.keys(npcVoiceCacheRef.current).length === 0) {
-      try {
-        const stored = localStorage.getItem(`npc_voices_${sessionId}`)
-        if (stored) {
-          const parsed = JSON.parse(stored)
-          if (parsed && typeof parsed === 'object') {
-            npcVoiceCacheRef.current = parsed
-          }
-        }
-      } catch { /* ignore */ }
-    }
-  }, [sessionId])
-
   // Load initial missions from first turn + auto-play voice for latest DM turn
   useEffect(() => {
     if (initialTurns.length > 0) {
@@ -527,13 +510,7 @@ export default function GameSession({
         }))
       }
 
-      // Persistir NPC voice assignments en localStorage para sobrevivir recargas
-      const currentVoiceCache = npcVoiceCacheRef.current
-      if (Object.keys(currentVoiceCache).length > 0) {
-        try {
-          localStorage.setItem(`npc_voices_${sessionId}`, JSON.stringify(currentVoiceCache))
-        } catch { /* ignore */ }
-      }
+      // Voces de NPC: no necesita cache — getNPCVoice es determinístico por género
 
       // Actualizar acciones sugeridas si vienen
       if (data.suggestedActions && data.suggestedActions.length > 0) {
@@ -890,7 +867,6 @@ export default function GameSession({
                                 text={turn.content}
                                 lore={lore as Lore}
                                 locale={locale as 'es' | 'en'}
-                                npcVoiceCache={npcVoiceCacheRef.current}
                               />
                             ) : (
                               // Manual play for older turns

@@ -51,13 +51,64 @@ export const DEFAULT_AMBIENT_PROMPTS: Record<string, string> = {
   ambient: 'gentle background ambience, neutral atmospheric sounds',
 }
 
+// Prompts por tipo de escena (detectado del nombre de la escena actual)
+const SCENE_TYPE_PROMPTS: Record<string, string> = {
+  tavern: 'cozy medieval tavern ambience, mugs clinking, people chatting softly, fire crackling, wooden creaks, warm atmosphere',
+  inn: 'medieval inn ambience, distant laughter, fire crackling, wind outside, warm indoor sounds',
+  forest: 'forest ambience, birds chirping, leaves rustling, gentle wind, distant stream, nature sounds',
+  dungeon: 'dark dungeon ambience, dripping water echoes, distant chains rattling, torch flickering, stone corridors',
+  city: 'medieval city ambience, market bustle, distant blacksmith, people walking, cart wheels on cobblestone',
+  mountain: 'mountain wind ambience, howling gusts, distant eagle cry, rocks tumbling, high altitude atmosphere',
+  sea: 'ocean port ambience, waves crashing, seagulls, creaking ship wood, distant sailor voices',
+  cave: 'deep cave ambience, water drops echoing, bats fluttering, underground wind, mineral resonance',
+  library: 'quiet library ambience, pages turning, quill writing, soft footsteps, ancient book dust atmosphere',
+  camp: 'campfire ambience, fire crackling, crickets chirping, gentle night wind, outdoor camping sounds',
+}
+
+// Palabras clave para detectar tipo de escena del nombre
+const SCENE_KEYWORDS: Record<string, string[]> = {
+  tavern: ['taberna', 'posada', 'pony', 'tavern', 'inn', 'bar', 'cantina', 'afterlife'],
+  inn: ['hospedaje', 'hostal', 'albergue'],
+  forest: ['bosque', 'forest', 'arboleda', 'selva', 'grove', 'wood'],
+  dungeon: ['dungeon', 'mazmorra', 'cripta', 'undermountain', 'criptas', 'subterráneo'],
+  city: ['ciudad', 'city', 'waterdeep', 'baldur', 'neverwinter', 'bree', 'mercado', 'plaza'],
+  mountain: ['montaña', 'mountain', 'pico', 'cumbre', 'icewind', 'colina'],
+  sea: ['puerto', 'port', 'costa', 'mar', 'océano', 'muelle', 'dock', 'barco'],
+  cave: ['cueva', 'cave', 'caverna', 'gruta', 'mina'],
+  library: ['biblioteca', 'library', 'candlekeep', 'archivo', 'academia'],
+  camp: ['campamento', 'camp', 'refugio', 'base'],
+}
+
 /**
- * Obtiene el prompt de sonido ambiental para una combinación lore × mood
+ * Detecta el tipo de escena basándose en el nombre
  */
-export function getAmbientPrompt(lore: string, mood: string): string {
+function detectSceneType(sceneName: string): string | null {
+  if (!sceneName) return null
+  const lower = sceneName.toLowerCase()
+  for (const [type, keywords] of Object.entries(SCENE_KEYWORDS)) {
+    if (keywords.some(kw => lower.includes(kw))) return type
+  }
+  return null
+}
+
+/**
+ * Obtiene el prompt de sonido ambiental — prioriza escena específica sobre mood genérico
+ */
+export function getAmbientPrompt(lore: string, mood: string, scene?: string): string {
+  // Prioridad 1: prompt por tipo de escena (más específico, más inmersivo)
+  if (scene) {
+    const sceneType = detectSceneType(scene)
+    if (sceneType && SCENE_TYPE_PROMPTS[sceneType]) {
+      return SCENE_TYPE_PROMPTS[sceneType]
+    }
+  }
+
+  // Prioridad 2: prompt por lore × mood
   const lorePrompts = AMBIENT_PROMPTS[lore]
   if (lorePrompts && lorePrompts[mood]) {
     return lorePrompts[mood]
   }
+
+  // Fallback: mood genérico
   return DEFAULT_AMBIENT_PROMPTS[mood] || DEFAULT_AMBIENT_PROMPTS.ambient
 }

@@ -214,74 +214,59 @@ function normalizeNPCName(name: string): string {
 }
 
 export function getNPCVoice(npcName: string, locale: 'es' | 'en', gender?: 'male' | 'female' | 'neutral'): string {
-  // Hash simple del nombre para consistencia
-  let hash = 0
-  for (let i = 0; i < npcName.length; i++) {
-    hash = ((hash << 5) - hash) + npcName.charCodeAt(i)
-    hash = hash & hash
-  }
-  hash = Math.abs(hash)
+  // Simplificado: solo 2 voces (masculina y femenina)
+  // Sin hash, sin cache, sin normalización — determinístico por género
+  const isFemale = detectNPCGender(npcName, gender)
+  return isFemale ? NPC_VOICES[locale].female[0] : NPC_VOICES[locale].male[0]
+}
 
-  let detectedGender: 'male' | 'female' | 'neutral'
+/**
+ * Detecta si un NPC es femenino basándose en el nombre
+ * Determinístico: mismo nombre siempre da el mismo resultado
+ */
+function detectNPCGender(npcName: string, explicitGender?: 'male' | 'female' | 'neutral'): boolean {
+  if (explicitGender === 'female') return true
+  if (explicitGender === 'male') return false
 
-  if (gender) {
-    // Si se proporciona género explícito, usarlo directamente
-    detectedGender = gender
-  } else {
-    const firstName = npcName.toLowerCase().split(' ')[0] || ''
-    const lastName = npcName.toLowerCase().split(' ').pop() || ''
+  // Normalizar: tomar la última palabra con mayúscula (nombre propio)
+  const words = npcName.split(/\s+/)
+  const properNouns = words.filter(w => /^[A-ZÁÉÍÓÚÑ]/.test(w))
+  const name = (properNouns.length > 0 ? properNouns[properNouns.length - 1] : words[0] || '').toLowerCase()
 
-    // Nombres femeninos conocidos en fantasía/RPG (fallback directo)
-    const knownFemaleNames = [
-      'rosie', 'arwen', 'galadriel', 'eowyn', 'luthien', 'rose', 'daisy', 'mary', 'lucy',
-      'alice', 'elise', 'sophie', 'chloe', 'claire', 'diane', 'eve', 'grace', 'hope',
-      'jade', 'june', 'kate', 'mae', 'rue', 'jane', 'anne', 'marie', 'louise',
-      'freya', 'sigrid', 'astrid', 'ingrid', 'gudrun', 'brynhild', 'sif',
-      'leia', 'padme', 'ahsoka', 'rey', 'jyn',
-      'yennefer', 'triss', 'ciri', 'gertrude', 'beatrice', 'isolde',
-    ]
-    const knownMaleNames = [
-      'gandalf', 'aragorn', 'legolas', 'gimli', 'frodo', 'sam', 'bilbo', 'boromir',
-      'luke', 'han', 'obi', 'anakin', 'finn', 'poe',
-      'geralt', 'vesemir', 'dandelion', 'regis',
-      'thor', 'odin', 'loki', 'ragnar', 'bjorn', 'ivar', 'floki',
-    ]
+  // Nombres femeninos conocidos
+  const knownFemale = [
+    'rosie', 'arwen', 'galadriel', 'eowyn', 'luthien', 'rose', 'daisy', 'mary', 'lucy',
+    'alice', 'elise', 'sophie', 'chloe', 'claire', 'diane', 'eve', 'grace', 'hope',
+    'jade', 'june', 'kate', 'mae', 'jane', 'anne', 'marie', 'louise', 'marta',
+    'freya', 'sigrid', 'astrid', 'ingrid', 'gudrun', 'brynhild', 'sif',
+    'leia', 'padme', 'ahsoka', 'rey', 'jyn',
+    'yennefer', 'triss', 'ciri', 'gertrude', 'beatrice', 'isolde', 'laeral',
+  ]
+  if (knownFemale.includes(name)) return true
 
-    if (knownFemaleNames.includes(firstName)) {
-      detectedGender = 'female'
-    } else if (knownMaleNames.includes(firstName)) {
-      detectedGender = 'male'
-    } else {
-      // Terminaciones masculinas que sobreescriben
-      const maleOverrides = ['aldo', 'ardo', 'ondo', 'undo', 'ulf', 'alf', 'orn', 'mund', 'vald', 'brand', 'heim', 'rik', 'gar', 'mar', 'nar', 'thor', 'dur', 'grim', 'bjorn']
-      const isMaleOverride = maleOverrides.some(ind => firstName.endsWith(ind) || lastName.endsWith(ind))
+  // Nombres masculinos conocidos
+  const knownMale = [
+    'gandalf', 'aragorn', 'legolas', 'gimli', 'frodo', 'sam', 'bilbo', 'boromir',
+    'luke', 'han', 'obi', 'anakin', 'finn', 'poe',
+    'geralt', 'vesemir', 'dandelion', 'regis',
+    'thor', 'odin', 'loki', 'ragnar', 'bjorn', 'ivar', 'floki',
+    'elminster', 'drizzt', 'durnan', 'halaster', 'aldric',
+  ]
+  if (knownMale.includes(name)) return false
 
-      if (isMaleOverride) {
-        detectedGender = 'male'
-      } else {
-        // Terminaciones femeninas comunes: español + inglés + fantasía
-        const femaleIndicators = [
-          'a', 'ella', 'ina', 'ara', 'isa', 'ia', 'iel', 'wen', 'lyn', 'beth', 'ith',
-          'ie', 'y', 'ne', 'le', 'ette', 'ine', 'ice', 'ise', 'ene', 'ese',
-          'rid', 'hild', 'run', 'dis', 'borg',
-        ]
-        // Excluir nombres cortos que terminan en patrones ambiguos
-        const maleExceptions = ['sha', 'ka', 'ra', 'da', 'ry', 'dy', 'ny', 'ty', 'ly']
-        const isFemale = femaleIndicators.some(ind => firstName.endsWith(ind)) &&
-          !maleExceptions.some(exc => firstName.endsWith(exc) && firstName.length <= 4)
-        detectedGender = isFemale ? 'female' : 'male'
-      }
-    }
-  }
+  // Terminaciones masculinas (alta confianza)
+  const maleEndings = ['alf', 'orn', 'mund', 'rik', 'gar', 'thor', 'dur', 'grim']
+  if (maleEndings.some(e => name.endsWith(e))) return false
 
-  const voices = detectedGender === 'neutral'
-    ? NPC_VOICES[locale].neutral
-    : detectedGender === 'female'
-      ? NPC_VOICES[locale].female
-      : NPC_VOICES[locale].male
-  const index = hash % voices.length
+  // Terminaciones femeninas (alta confianza)
+  const femaleEndings = ['ella', 'ina', 'ara', 'isa', 'ia', 'iel', 'wen', 'lyn', 'beth', 'ette']
+  if (femaleEndings.some(e => name.endsWith(e))) return true
 
-  return voices[index]
+  // Terminación en 'a' = femenino (español/italiano)
+  if (name.endsWith('a') && name.length > 3) return true
+
+  // Default: masculino
+  return false
 }
 
 /**
@@ -426,8 +411,7 @@ export function splitIntoSentences(text: string, maxChunkSize: number = 120): st
 export function parseTextForVoices(
   text: string,
   narratorVoice: string,
-  locale: 'es' | 'en',
-  npcVoiceCache?: Record<string, string>
+  locale: 'es' | 'en'
 ): VoiceSegment[] {
   // PASO 1: Limpiar markdown y mejorar prosody ANTES de parsear
   const cleanedText = addNaturalPauses(cleanTextForTTS(text))
@@ -495,20 +479,11 @@ export function parseTextForVoices(
     const dialogueText = match[2] || match[3] || match[4] || match[5]
 
     if (dialogueText && dialogueText.trim()) {
-      // Normalizar nombre: "Panadera Marta" y "Marta" → mismo key "Marta"
-      const normalizedSpeaker = speaker ? normalizeNPCName(speaker) : null
-      const speakerKey = normalizedSpeaker || lastKnownSpeaker || 'default_npc'
-      if (normalizedSpeaker) lastKnownSpeaker = normalizedSpeaker
-      // Usar voz cacheada si existe, sino calcular y cachear
-      let npcVoice: string
-      if (npcVoiceCache && npcVoiceCache[speakerKey]) {
-        npcVoice = npcVoiceCache[speakerKey]
-      } else {
-        npcVoice = getNPCVoice(speakerKey, locale)
-        if (npcVoiceCache) {
-          npcVoiceCache[speakerKey] = npcVoice
-        }
-      }
+      // Determinar speaker: si no hay nombre, usar el último conocido
+      const currentSpeaker = speaker || lastKnownSpeaker || 'default_npc'
+      if (speaker) lastKnownSpeaker = speaker
+      // Voz determinística por género — sin cache, sin hash
+      const npcVoice = getNPCVoice(currentSpeaker, locale)
 
       // Dividir diálogo largo en chunks
       const chunks = splitLongText(dialogueText.trim())

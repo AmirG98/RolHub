@@ -6,6 +6,7 @@ import { Howl } from 'howler'
 interface UseAmbientSoundOptions {
   lore: string
   mood: string
+  scene?: string           // Current scene name (e.g., "Posada del Pony Pisador")
   enabled?: boolean
   volume?: number          // 0-1, default 0.20
   fadeInMs?: number        // Fade in duration, default 2000
@@ -23,6 +24,7 @@ interface UseAmbientSoundOptions {
 export function useAmbientSound({
   lore,
   mood,
+  scene = '',
   enabled = true,
   volume = 0.20,
   fadeInMs = 2000,
@@ -47,7 +49,7 @@ export function useAmbientSound({
       const response = await fetch('/api/sfx/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ lore: loreName, mood: moodName }),
+        body: JSON.stringify({ lore: loreName, mood: moodName, scene }),
       })
 
       if (!response.ok) {
@@ -101,7 +103,7 @@ export function useAmbientSound({
     }
   }, [volume, fadeInMs, fadeOutMs])
 
-  // Reaccionar a cambios de mood/lore
+  // Reaccionar a cambios de mood/lore/scene
   useEffect(() => {
     if (!enabled || !lore || !mood) {
       // Parar si está deshabilitado

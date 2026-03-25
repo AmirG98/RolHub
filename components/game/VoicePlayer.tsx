@@ -317,10 +317,8 @@ export function VoicePlayerAuto({
   locale,
   onPlayStateChange,
   className = '',
-  npcVoiceCache,
 }: Omit<VoicePlayerProps, 'autoPlay' | 'useStreaming'> & {
   onPlayStateChange?: (isPlaying: boolean) => void
-  npcVoiceCache?: Record<string, string>
 }) {
   const [isPlaying, setIsPlaying] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -472,7 +470,7 @@ export function VoicePlayerAuto({
     const narratorVoice = narratorConfig.voice
     const cleanedText = cleanTextForTTS(text)
 
-    const segments = parseTextForVoices(cleanedText, narratorVoice, locale, npcVoiceCache)
+    const segments = parseTextForVoices(cleanedText, narratorVoice, locale)
     segmentsRef.current = segments
     setTotalSegments(segments.length)
 

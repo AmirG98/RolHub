@@ -10,7 +10,7 @@ import { getAmbientPrompt } from '@/lib/audio/ambient-prompts'
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
-    const { lore, mood } = body as { lore: string; mood: string }
+    const { lore, mood, scene } = body as { lore: string; mood: string; scene?: string }
 
     if (!lore || !mood) {
       return NextResponse.json({ error: 'Missing lore or mood' }, { status: 400 })
@@ -21,8 +21,9 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'SFX generation not configured' }, { status: 503 })
     }
 
-    // Clave de cache: sfx:LORE:mood
-    const cacheKey = `sfx:${lore}:${mood}`
+    // Clave de cache: incluye escena si detecta un tipo específico
+    const sceneType = scene ? scene.toLowerCase().replace(/[^a-z]/g, '').substring(0, 20) : ''
+    const cacheKey = sceneType ? `sfx:${lore}:${mood}:${sceneType}` : `sfx:${lore}:${mood}`
 
     // Buscar en cache primero
     try {
@@ -37,8 +38,8 @@ export async function POST(req: NextRequest) {
 
     console.log(`[SFX] Cache MISS: ${cacheKey}, generating...`)
 
-    // Obtener prompt para esta combinación
-    const prompt = getAmbientPrompt(lore, mood)
+    // Obtener prompt para esta combinación (prioriza escena específica)
+    const prompt = getAmbientPrompt(lore, mood, scene)
 
     // Generar con Fal.ai CassetteAI
     const startTime = Date.now()
