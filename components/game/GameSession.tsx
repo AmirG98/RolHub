@@ -22,6 +22,7 @@ import { Lore } from '@prisma/client'
 import { TypewriterText } from '@/components/ui/TypewriterText'
 import { SceneTransition, useSceneTransition } from '@/components/ui/SceneTransition'
 import { SceneImage } from '@/components/game/SceneImage'
+import { useAmbientSound } from '@/hooks/useAmbientSound'
 import { type UIMood, getUIMood, getMoodConfig } from '@/lib/game/ui-mood'
 // Combat system
 import { TacticalCombatPanel } from '@/components/game/TacticalCombatPanel'
@@ -200,6 +201,14 @@ export default function GameSession({
   const [imageError, setImageError] = useState<string | null>(null)
   const [typewriterTurnId, setTypewriterTurnId] = useState<string | null>(null) // Track which turn is animating
   const { isTransitioning, triggerTransition, transitionProps } = useSceneTransition({ type: 'fade', duration: 600 })
+
+  // Sonido ambiental — se reproduce en loop a bajo volumen según el mood
+  const { setAmbientVolume } = useAmbientSound({
+    lore: lore as string,
+    mood: uiMood,
+    enabled: isVoiceEnabled, // Solo si la voz está habilitada
+    volume: 0.18,
+  })
   const isImagesEnabled = process.env.NEXT_PUBLIC_ENABLE_IMAGES === 'true'
 
   // DM Orb state - derived from other states

@@ -34,7 +34,7 @@ export default clerkMiddleware(async (auth, request) => {
   if (!userId) {
     const guestCookie = request.cookies.get('guest_user_id')?.value
     // Permitir acceso a /play/* y /api/session/turn si tiene cookie guest
-    if (guestCookie && (pathname.startsWith('/play/') || pathname.startsWith('/api/session/turn') || pathname.startsWith('/api/voice') || pathname.startsWith('/api/images'))) {
+    if (guestCookie && (pathname.startsWith('/play/') || pathname.startsWith('/api/session/turn') || pathname.startsWith('/api/voice') || pathname.startsWith('/api/images') || pathname.startsWith('/api/sfx'))) {
       return NextResponse.next()
     }
 
