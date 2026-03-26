@@ -204,25 +204,38 @@ export async function POST(req: NextRequest) {
     const lastDMTurn = [...allTurns].reverse().find(t => t.role === 'DM')
     const lastDMNarration = lastDMTurn?.content?.substring(0, 250) || ''
 
-    // Anti-repetición: extraer frases y conceptos ya usados (envuelto en try-catch por seguridad)
-    let usedPhraseStarts: string[] = []
-    let describedDetails: string[] = []
+    // Anti-repetición: detectar loops narrativos
     let isRepeatedObservation = false
+    let isNPCLoop = false
+    let loopingNPCName = ''
 
     try {
       const recentDMContent = allTurns.slice(-6).filter(t => t.role === 'DM').map(t => t.content || '')
-
-      // Frases ya usadas (primeras 7 palabras de cada oración)
-      usedPhraseStarts = recentDMContent
-        .flatMap(c => c.split(/[.!?]/).filter(s => s.trim().length > 20))
-        .map(s => s.trim().split(/\s+/).slice(0, 6).join(' '))
-        .filter((p, i, arr) => arr.indexOf(p) === i)
-        .slice(-6)
+      const recentUserContent = allTurns.slice(-6).filter(t => t.role === 'USER').map(t => (t.content || '').toLowerCase())
 
       // Detectar observación repetida del jugador
-      const recentUserContent = allTurns.slice(-6).filter(t => t.role === 'USER').map(t => (t.content || '').toLowerCase())
       const obsWords = ['observ', 'mir', 'examin', 'fij', 'watch', 'look', 'study']
       isRepeatedObservation = recentUserContent.filter(a => obsWords.some(w => a.includes(w))).length >= 2
+
+      // Detectar NPC loop: si el mismo NPC aparece en 3+ narraciones consecutivas
+      // hablando/haciendo lo mismo (misma interacción estancada)
+      if (recentDMContent.length >= 3) {
+        // Extraer nombres de NPCs mencionados (palabras con mayúscula seguidas de ":")
+        const npcMentions = recentDMContent.map(c => {
+          const match = c.match(/([A-ZÁÉÍÓÚ][a-záéíóúñ]+(?:\s+[a-záéíóúñ]+)?)\s*[:«]/)?.[1]
+          return match || ''
+        }).filter(Boolean)
+
+        // Si el mismo NPC aparece en 3+ turnos seguidos, hay loop
+        if (npcMentions.length >= 3) {
+          const lastNPC = npcMentions[npcMentions.length - 1]
+          const sameNPCCount = npcMentions.filter(n => n === lastNPC).length
+          if (sameNPCCount >= 3) {
+            isNPCLoop = true
+            loopingNPCName = lastNPC
+          }
+        }
+      }
     } catch {
       // Si falla la extracción, continuar sin anti-repetición
     }
@@ -1084,18 +1097,26 @@ ${lastDMNarration ? `YOUR LAST NARRATION (CONTINUE from here, do NOT re-describe
 "${lastDMNarration}..."` : ''}
 
 ${isRepeatedObservation ? `⚠️ PLAYER KEEPS OBSERVING — STOP describing physical details. Make the target REACT or something HAPPEN. Force the story forward.` : ''}
+${isNPCLoop ? `⚠️ NPC INTERACTION LOOP DETECTED with "${loopingNPCName}" — This NPC has dominated the last 3+ turns. You MUST either: (1) have this NPC leave/finish the conversation, (2) introduce a NEW character or event that interrupts, (3) move the scene to a different location, or (4) have something urgent happen that demands attention. The player needs VARIETY, not the same NPC interaction over and over.` : ''}
+
+QUEST RULES:
+- Active quests: ${(worldState.active_quests || []).join(', ') || 'none'}
+- Completed: ${(worldState.completed_quests || []).join(', ') || 'none'}
+- DO NOT create quests with the same name or concept as existing ones above. Each quest must be UNIQUE.
+- DO NOT keep the player stuck talking to the same NPC. After 2-3 exchanges, move the conversation forward or end it.
 
 RULES:
-1. NEVER reuse phrases or descriptions from your previous turns. Each turn must have completely fresh vocabulary and NEW plot developments.
+1. NEVER reuse phrases, descriptions, or NARRATIVE BEATS from previous turns. If something already happened (NPC introduced themselves, gave info, offered a quest, warned the player), it happened — MOVE FORWARD. Don't repeat the same interaction.
 2. If the player repeats actions, ESCALATE consequences. 3rd time → world reacts (NPC annoyed, guard suspicious, enemy adapts).
-3. NEVER suggest the same actions twice. Always offer fresh options.
+3. NEVER suggest the same actions twice. Always offer fresh options that advance the plot BEYOND what already happened.
 4. If nonsensical input, redirect narratively with 3 clear options.
-5. THE WORLD IS ALIVE: ${isStagnant || needsWorldEvent
+5. NEVER re-introduce an NPC who's already been introduced. Don't re-describe their appearance, re-state their name, or have them repeat information they already gave. Build on what's established.
+6. THE WORLD IS ALIVE: ${isStagnant || needsWorldEvent
   ? 'INTRODUCE AN EXTERNAL EVENT NOW: NPC interrupts, danger approaches, weather changes, a quest develops, something unexpected happens. DO NOT wait for the player.'
   : 'Proactively introduce world events: NPCs approach, weather shifts, sounds heard, time passes. Never let 3+ turns be only player-driven.'}
-6. ${turnsInCurrentLocation >= 4 ? `Player has been in "${currentScene}" for ${turnsInCurrentLocation} turns. Consider: move the plot forward, introduce a reason to leave, or have something arrive.` : 'Keep the current scene engaging with new details.'}
-7. ${ignoredQuests.length > 0 ? `Weave these forgotten quests back in: ${ignoredQuests.join(', ')}` : 'All quests are being addressed.'}
-8. Advance time naturally: morning→afternoon→evening→night. Don't stay frozen in the same moment.
+7. ${turnsInCurrentLocation >= 4 ? `Player has been in "${currentScene}" for ${turnsInCurrentLocation} turns. Consider: move the plot forward, introduce a reason to leave, or have something arrive.` : 'Keep the current scene engaging with new details.'}
+8. ${ignoredQuests.length > 0 ? `Weave these forgotten quests back in: ${ignoredQuests.join(', ')}` : 'All quests are being addressed.'}
+9. Advance time naturally: morning→afternoon→evening→night. Don't stay frozen in the same moment.
 === END PACING ===` : `=== RITMO NARRATIVO Y ANTI-REPETICIÓN ===
 ESTADO ACTUAL:
 - Turno ${totalTurns} de esta sesión
@@ -1112,17 +1133,25 @@ ${lastDMNarration ? `TU ÚLTIMA NARRACIÓN (CONTINUÁ desde acá, NO re-describa
 "${lastDMNarration}..."` : ''}
 
 ${isRepeatedObservation ? `⚠️ JUGADOR SIGUE OBSERVANDO — DEJÁ de describir detalles físicos. Hacé que el objetivo REACCIONE o que algo PASE. Forzá el avance de la historia.` : ''}
+${isNPCLoop ? `⚠️ LOOP DE NPC DETECTADO con "${loopingNPCName}" — Este NPC dominó los últimos 3+ turnos. DEBÉS: (1) hacer que este NPC se vaya o termine la conversación, (2) introducir un NUEVO personaje o evento que interrumpa, (3) mover la escena a otro lugar, o (4) hacer que pase algo urgente. El jugador necesita VARIEDAD, no la misma interacción una y otra vez.` : ''}
+
+REGLAS DE QUESTS:
+- Quests activas: ${(worldState.active_quests || []).join(', ') || 'ninguna'}
+- Completadas: ${(worldState.completed_quests || []).join(', ') || 'ninguna'}
+- NO crees quests con el mismo nombre o concepto que las de arriba. Cada quest debe ser ÚNICA.
+- NO mantengas al jugador trabado hablando con el mismo NPC. Después de 2-3 intercambios, avanzá la conversación o terminala.
 
 REGLAS:
-1. NUNCA reutilices frases o descripciones de tus turnos anteriores. Cada turno debe tener vocabulario fresco y NUEVOS desarrollos de la trama.
+1. NUNCA reutilices frases, descripciones, o MOMENTOS NARRATIVOS de turnos anteriores. Si algo ya pasó (NPC se presentó, dio información, ofreció quest, advirtió al jugador), ya pasó — AVANZÁ. No repitas la misma interacción.
 2. Si el jugador repite acciones, ESCALÁ consecuencias. 3ra vez → el mundo reacciona (NPC se irrita, guardia sospecha, enemigo se adapta).
-3. NUNCA sugieras las mismas acciones dos veces. Siempre opciones frescas.
+3. NUNCA sugieras las mismas acciones dos veces. Siempre opciones que avancen la trama MÁS ALLÁ de lo que ya pasó.
 4. Si el input es incoherente, redirigí narrativamente con 3 opciones claras.
-5. EL MUNDO ESTÁ VIVO: ${isStagnant || needsWorldEvent
+5. NUNCA re-introduzcas un NPC que ya fue presentado. No re-describas su apariencia, no repitas su nombre como si fuera nuevo, ni hagas que repita información que ya dio. Construí sobre lo establecido.
+6. EL MUNDO ESTÁ VIVO: ${isStagnant || needsWorldEvent
   ? 'INTRODUCÍ UN EVENTO EXTERNO AHORA: un NPC interrumpe, el peligro se acerca, el clima cambia, una quest avanza, algo inesperado pasa. NO esperes al jugador.'
   : 'Introducí eventos del mundo proactivamente: NPCs se acercan, el clima cambia, se escuchan sonidos, el tiempo pasa. Nunca dejes pasar 3+ turnos sin eventos del mundo.'}
-6. ${turnsInCurrentLocation >= 4 ? `El jugador lleva ${turnsInCurrentLocation} turnos en "${currentScene}". Considerá: avanzar la trama, dar razón para irse, o que algo llegue.` : 'Mantené la escena actual interesante con nuevos detalles.'}
-7. ${ignoredQuests.length > 0 ? `Entretejé estas quests olvidadas: ${ignoredQuests.join(', ')}` : 'Todas las quests están siendo atendidas.'}
+7. ${turnsInCurrentLocation >= 4 ? `El jugador lleva ${turnsInCurrentLocation} turnos en "${currentScene}". Considerá: avanzar la trama, dar razón para irse, o que algo llegue.` : 'Mantené la escena actual interesante con nuevos detalles.'}
+8. ${ignoredQuests.length > 0 ? `Entretejé estas quests olvidadas: ${ignoredQuests.join(', ')}` : 'Todas las quests están siendo atendidas.'}
 8. Avanzá el tiempo naturalmente: mañana→tarde→noche→amanecer. No te quedes congelado en el mismo momento.
 === FIN RITMO ===`}
 
@@ -1305,14 +1334,23 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
     }
 
     if (dmResponse.new_quest) {
-      // Asegurar que new_quest sea un string (Claude puede enviar un objeto)
+      // Asegurar que new_quest sea un string
       const questName = typeof dmResponse.new_quest === 'object' && dmResponse.new_quest !== null
         ? (dmResponse.new_quest as any).title || JSON.stringify(dmResponse.new_quest)
         : String(dmResponse.new_quest)
-      worldStateUpdates.active_quests = [
-        ...(worldState.active_quests || []),
-        questName
-      ]
+
+      // Prevenir quests duplicadas
+      const currentQuests = worldState.active_quests || []
+      const completedQuests = worldState.completed_quests || []
+      const allKnownQuests = [...currentQuests, ...completedQuests].map((q: string) => (typeof q === 'string' ? q : '').toLowerCase())
+      const isDuplicate = allKnownQuests.some(q => q === questName.toLowerCase() || q.includes(questName.toLowerCase().substring(0, 15)))
+
+      if (!isDuplicate) {
+        worldStateUpdates.active_quests = [...currentQuests, questName]
+        console.log(`[Quest] New quest added: "${questName}"`)
+      } else {
+        console.log(`[Quest] Duplicate quest rejected: "${questName}"`)
+      }
     }
 
     // Update scene
