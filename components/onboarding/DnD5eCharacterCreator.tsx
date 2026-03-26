@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo, useCallback } from 'react'
+import { useState, useMemo, useCallback, useEffect } from 'react'
 import { RunicButton } from '@/components/medieval/RunicButton'
 import {
   Sword, Shield, BookOpen, Wand2, Heart, Zap, Flame, Snowflake,
@@ -325,6 +325,23 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
     }
   }
 
+  // Auto-apply recommended scores when entering abilities step
+  useEffect(() => {
+    if (currentStep === 'abilities' && selectedClassId) {
+      applyRecommendedScores()
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentStep, selectedClassId])
+
+  // Auto-skip equipment step (read-only, just show briefly)
+  useEffect(() => {
+    if (currentStep === 'equipment') {
+      const timer = setTimeout(() => goNext(), 1200)
+      return () => clearTimeout(timer)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentStep])
+
   const handleComplete = () => {
     if (!selectedRaceId || !selectedClassId) return
 
@@ -417,6 +434,10 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
                       setSelectedRaceId(race.id)
                       setSelectedSubraceId(null)
                       setDraconicAncestry(null)
+                      // Auto-advance si no tiene subraces
+                      if (!race.subraces || race.subraces.length === 0) {
+                        setTimeout(() => goNext(), 400)
+                      }
                     }}
                   >
                     <div className="flex items-center gap-3">
@@ -447,7 +468,13 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
                             ? 'border-gold bg-gold/10'
                             : 'border-gold-dim/30 hover:border-gold/50'
                         }`}
-                        onClick={() => setSelectedSubraceId(subrace.id)}
+                        onClick={() => {
+                          setSelectedSubraceId(subrace.id)
+                          // Auto-advance si no es dragonborn (que necesita ancestry)
+                          if (selectedRaceId !== 'dragonborn') {
+                            setTimeout(() => goNext(), 400)
+                          }
+                        }}
                       >
                         <h4 className="font-heading text-sm text-gold">{subrace.name}</h4>
                         <p className="text-xs text-parchment/80">{subrace.description}</p>
@@ -470,7 +497,10 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
                             ? 'border border-gold bg-gold/10'
                             : 'border border-gold-dim/30 hover:border-gold/50'
                         }`}
-                        onClick={() => setDraconicAncestry(ancestry.dragon)}
+                        onClick={() => {
+                          setDraconicAncestry(ancestry.dragon)
+                          setTimeout(() => goNext(), 400)
+                        }}
                       >
                         <div className="font-heading text-sm text-gold">{ancestry.dragon}</div>
                         <div className="text-xs text-parchment/80">{ancestry.damageType}</div>
@@ -533,6 +563,7 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
                     onClick={() => {
                       setSelectedClassId(cls.id)
                       setSelectedSubclassId(null)
+                      setTimeout(() => goNext(), 400)
                     }}
                   >
                     <div className="flex flex-col items-center text-center gap-2">
@@ -741,13 +772,13 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
                     }`}
                     onClick={() => {
                       setSelectedLevel(option.level)
-                      // Resetear subclase si el nuevo nivel no la soporta
                       if (availableSubclasses.length > 0) {
                         const subclassLevel = availableSubclasses[0]?.subclassLevel || 99
                         if (option.level < subclassLevel) {
                           setSelectedSubclassId(null)
                         }
                       }
+                      setTimeout(() => goNext(), 400)
                     }}
                   >
                     <div className="flex items-center justify-between">
@@ -791,7 +822,10 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
                       className={`glass-panel rounded-lg p-5 cursor-pointer transition-all hover:scale-[1.02] ${
                         selectedSubclassId === sc.id ? 'glow-effect ring-2 ring-gold-bright' : ''
                       }`}
-                      onClick={() => setSelectedSubclassId(sc.id)}
+                      onClick={() => {
+                        setSelectedSubclassId(sc.id)
+                        setTimeout(() => goNext(), 400)
+                      }}
                     >
                       <div className="flex items-start gap-4">
                         <div className="text-gold-bright mt-1">
