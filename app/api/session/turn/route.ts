@@ -204,14 +204,23 @@ export async function POST(req: NextRequest) {
     const lastDMTurn = [...allTurns].reverse().find(t => t.role === 'DM')
     const lastDMNarration = lastDMTurn?.content?.substring(0, 250) || ''
 
-    // Anti-repetición: detectar loops narrativos
+    // Anti-repetición: detectar loops narrativos y extraer eventos ya ocurridos
     let isRepeatedObservation = false
     let isNPCLoop = false
     let loopingNPCName = ''
+    let alreadyHappenedEvents: string[] = []
 
     try {
       const recentDMContent = allTurns.slice(-6).filter(t => t.role === 'DM').map(t => t.content || '')
       const recentUserContent = allTurns.slice(-6).filter(t => t.role === 'USER').map(t => (t.content || '').toLowerCase())
+
+      // Extraer RESÚMENES de lo que ya pasó en cada turno reciente del DM
+      // En vez de frases literales, condensar el BEAT narrativo de cada turno
+      alreadyHappenedEvents = recentDMContent.map(content => {
+        // Tomar las primeras 2 oraciones como resumen del beat
+        const sentences = content.split(/[.!?]/).filter(s => s.trim().length > 10)
+        return sentences.slice(0, 2).map(s => s.trim().substring(0, 50)).join('. ')
+      }).filter(s => s.length > 10)
 
       // Detectar observación repetida del jugador
       const obsWords = ['observ', 'mir', 'examin', 'fij', 'watch', 'look', 'study']
@@ -1099,6 +1108,10 @@ ${lastDMNarration ? `YOUR LAST NARRATION (CONTINUE from here, do NOT re-describe
 ${isRepeatedObservation ? `⚠️ PLAYER KEEPS OBSERVING — STOP describing physical details. Make the target REACT or something HAPPEN. Force the story forward.` : ''}
 ${isNPCLoop ? `⚠️ NPC INTERACTION LOOP DETECTED with "${loopingNPCName}" — This NPC has dominated the last 3+ turns. You MUST either: (1) have this NPC leave/finish the conversation, (2) introduce a NEW character or event that interrupts, (3) move the scene to a different location, or (4) have something urgent happen that demands attention. The player needs VARIETY, not the same NPC interaction over and over.` : ''}
 
+${alreadyHappenedEvents.length > 0 ? `🚫 NARRATIVE BEATS ALREADY COMPLETED — these things ALREADY HAPPENED in previous turns. Do NOT re-narrate them, re-describe them, or show them happening again, EVEN WITH DIFFERENT WORDS:
+${alreadyHappenedEvents.map(e => `- ${e}`).join('\n')}
+The player already experienced these moments. Your job is to CONTINUE THE STORY FROM WHERE IT LEFT OFF. If a map was shown, it was shown — don't show it again. If an NPC burst in, they're already here — don't have them burst in again. If information was given, it's known — don't repeat it. ALWAYS move forward, never backward.` : ''}
+
 QUEST RULES:
 - Active quests: ${(worldState.active_quests || []).join(', ') || 'none'}
 - Completed: ${(worldState.completed_quests || []).join(', ') || 'none'}
@@ -1134,6 +1147,10 @@ ${lastDMNarration ? `TU ÚLTIMA NARRACIÓN (CONTINUÁ desde acá, NO re-describa
 
 ${isRepeatedObservation ? `⚠️ JUGADOR SIGUE OBSERVANDO — DEJÁ de describir detalles físicos. Hacé que el objetivo REACCIONE o que algo PASE. Forzá el avance de la historia.` : ''}
 ${isNPCLoop ? `⚠️ LOOP DE NPC DETECTADO con "${loopingNPCName}" — Este NPC dominó los últimos 3+ turnos. DEBÉS: (1) hacer que este NPC se vaya o termine la conversación, (2) introducir un NUEVO personaje o evento que interrumpa, (3) mover la escena a otro lugar, o (4) hacer que pase algo urgente. El jugador necesita VARIEDAD, no la misma interacción una y otra vez.` : ''}
+
+${alreadyHappenedEvents.length > 0 ? `🚫 MOMENTOS NARRATIVOS YA COMPLETADOS — estas cosas YA PASARON en turnos anteriores. NO las re-narres, re-describas, ni muestres ocurriendo de nuevo, INCLUSO CON PALABRAS DIFERENTES:
+${alreadyHappenedEvents.map(e => `- ${e}`).join('\n')}
+El jugador ya vivió estos momentos. Tu trabajo es CONTINUAR LA HISTORIA DESDE DONDE QUEDÓ. Si un mapa se mostró, ya se mostró — no lo muestres de nuevo. Si un NPC irrumpió, ya está aquí — no lo hagas irrumpir otra vez. Si se dio información, ya se sabe — no la repitas. SIEMPRE avanzar, nunca retroceder.` : ''}
 
 REGLAS DE QUESTS:
 - Quests activas: ${(worldState.active_quests || []).join(', ') || 'ninguna'}

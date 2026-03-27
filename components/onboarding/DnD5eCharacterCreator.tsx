@@ -130,6 +130,20 @@ const ITEM_TRANSLATIONS: Record<string, { name: string; icon: React.ReactNode; c
   'scholar_pack': { name: 'Equipo de erudito', icon: <Backpack className="h-4 w-4" />, category: 'gear' },
   'diplomat_pack': { name: 'Equipo de diplomático', icon: <Backpack className="h-4 w-4" />, category: 'gear' },
   'burglar_pack': { name: 'Equipo de ladrón', icon: <Backpack className="h-4 w-4" />, category: 'gear' },
+  // Pack name variants (JSON uses both singular and plural forms)
+  'explorers_pack': { name: 'Equipo de explorador', icon: <Backpack className="h-4 w-4" />, category: 'gear' },
+  'dungeoneers_pack': { name: 'Equipo de aventurero', icon: <Backpack className="h-4 w-4" />, category: 'gear' },
+  'entertainers_pack': { name: 'Equipo de artista', icon: <Backpack className="h-4 w-4" />, category: 'gear' },
+  'priests_pack': { name: 'Equipo de sacerdote', icon: <Backpack className="h-4 w-4" />, category: 'gear' },
+  'scholars_pack': { name: 'Equipo de erudito', icon: <Backpack className="h-4 w-4" />, category: 'gear' },
+  'diplomats_pack': { name: 'Equipo de diplomático', icon: <Backpack className="h-4 w-4" />, category: 'gear' },
+  'burglars_pack': { name: 'Equipo de ladrón', icon: <Backpack className="h-4 w-4" />, category: 'gear' },
+  // Ammo variants
+  'bolts_20': { name: '20 Virotes', icon: <Crosshair className="h-4 w-4" />, category: 'weapon' },
+  'arrows_20': { name: '20 Flechas', icon: <Crosshair className="h-4 w-4" />, category: 'weapon' },
+  // Other items
+  'dart': { name: 'Dardo', icon: <Crosshair className="h-4 w-4" />, category: 'weapon' },
+  'wooden_shield': { name: 'Escudo de madera', icon: <Shield className="h-4 w-4" />, category: 'armor' },
   // Generic weapon categories — resolved to specific defaults
   'simple_weapon': { name: 'Arma simple (a elegir)', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
   'simple_melee_weapon': { name: 'Arma simple cuerpo a cuerpo', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
@@ -963,17 +977,27 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
                                     : 'border border-gold-dim/20 hover:border-gold/50'
                                 }`}
                               >
-                                <div className="flex items-center gap-2">
-                                  {(option.items || []).map((item: string, i: number) => {
-                                    const info = getItemInfo(item)
-                                    return (
-                                      <div key={i} className="flex items-center gap-1">
-                                        <span className="text-gold">{info.icon}</span>
-                                        <span className="text-sm font-body text-parchment">{info.name}</span>
-                                        {i < option.items.length - 1 && <span className="text-parchment/40 mx-1">+</span>}
-                                      </div>
-                                    )
-                                  })}
+                                <div className="flex items-center gap-2 flex-wrap">
+                                  {(() => {
+                                    // Agrupar items repetidos: ["javelin","javelin","javelin"] → [{name:"Jabalina", count:3}]
+                                    const itemCounts: Record<string, number> = {}
+                                    ;(option.items || []).forEach((item: string) => {
+                                      itemCounts[item] = (itemCounts[item] || 0) + 1
+                                    })
+                                    const grouped = Object.entries(itemCounts)
+                                    return grouped.map(([item, count], i) => {
+                                      const info = getItemInfo(item)
+                                      return (
+                                        <div key={i} className="flex items-center gap-1">
+                                          <span className="text-gold">{info.icon}</span>
+                                          <span className="text-sm font-body text-parchment">
+                                            {info.name}{count > 1 ? ` x${count}` : ''}
+                                          </span>
+                                          {i < grouped.length - 1 && <span className="text-parchment/40 mx-1">+</span>}
+                                        </div>
+                                      )
+                                    })
+                                  })()}
                                 </div>
                               </button>
                             )
