@@ -262,15 +262,8 @@ export async function POST(req: NextRequest) {
       // Si falla la extracción, continuar sin anti-repetición
     }
 
-    // Agregar el turno actual del jugador con contexto de tipo de acción
-    // actionType: 'do' = acción física, 'talk' = diálogo
-    const actionContext = actionType === 'do'
-      ? (isEnglish
-          ? `[PHYSICAL ACTION - The player performs an action: "${action}"]`
-          : `[ACCIÓN FÍSICA - El jugador realiza una acción: "${action}"]`)
-      : (isEnglish
-          ? `[DIALOGUE - The player says: "${action}"]`
-          : `[DIÁLOGO - El jugador dice: "${action}"]`)
+    // Enviar la acción del jugador directamente, sin prefijo de tipo
+    const actionContext = action
 
     // Construir instrucción anti-repetición concisa para inyectar en el mensaje del usuario
     // (Claude presta más atención al último mensaje que al system prompt)
@@ -1083,11 +1076,6 @@ ${isEnglish ? 'ADAPTIVE RESPONSE LENGTH' : 'LONGITUD DE RESPUESTA ADAPTATIVA'}:
 - ${isEnglish ? 'If the player writes 3-4 sentences: respond with 2-3 medium paragraphs' : 'Si el jugador escribe 3-4 oraciones: responde con 2-3 párrafos medianos'}
 - ${isEnglish ? 'If the player writes a detailed paragraph: you can elaborate more' : 'Si el jugador escribe un párrafo detallado: puedes elaborar más'}
 - ${isEnglish ? 'PRIORITIZE action and dialogue over lengthy descriptions' : 'PRIORIZA acción y diálogo sobre descripciones largas'}
-
-${isEnglish ? 'ACTION TYPE INTERPRETATION' : 'INTERPRETACIÓN DEL TIPO DE ACCIÓN'}:
-- ${isEnglish ? '[PHYSICAL ACTION] = The player is DOING something physical (attack, explore, move, examine, etc.). Narrate what happens as they perform this action.' : '[ACCIÓN FÍSICA] = El jugador está HACIENDO algo físico (atacar, explorar, moverse, examinar, etc.). Narra lo que sucede mientras realiza esta acción.'}
-- ${isEnglish ? '[DIALOGUE] = The player is SPEAKING. Focus on the dialogue exchange, NPC reactions, and conversational flow.' : '[DIÁLOGO] = El jugador está HABLANDO. Enfócate en el intercambio de diálogo, reacciones de NPCs y el flujo de la conversación.'}
-- ${isEnglish ? 'Keep the pace dynamic - less is more' : 'Mantén el ritmo dinámico - menos es más'}
 
 ${isEnglish ? 'VOICE FORMAT FOR NPCs' : 'FORMATO DE VOZ PARA NPCs'}:
 ${isEnglish
