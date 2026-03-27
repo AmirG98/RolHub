@@ -65,10 +65,24 @@ model Session {
   user             User            @relation(fields: [userId], references: [id])
   summary          String?
   partyCheckLog    Json[]
-  turns            Turn[]
-  combatEncounters CombatEncounter[]
-  startedAt        DateTime        @default(now())
-  endedAt          DateTime?
+  turns                Turn[]
+  combatEncounters     CombatEncounter[]
+  summaryCheckpoints   SummaryCheckpoint[]
+  startedAt            DateTime        @default(now())
+  endedAt              DateTime?
+}
+
+model SummaryCheckpoint {
+  id         String   @id @default(cuid())
+  sessionId  String
+  session    Session  @relation(fields: [sessionId], references: [id])
+  turnIndex  Int
+  turnCount  Int
+  summary    String
+  keyFacts   Json     @default("{}")
+  createdAt  DateTime @default(now())
+
+  @@index([sessionId, turnIndex])
 }
 
 model Turn {

@@ -15,6 +15,8 @@ import { type NavigationLockReason, type LocationKnowledgeLevel, type DynamicMap
 import { calculateRelativePosition, normalizeLegacyCoordinates } from '@/lib/maps/position-calculator'
 import { type Quest, type QuestUpdate } from '@/lib/types/quest'
 import { upgradeKnowledge, onLocationArrival } from '@/lib/maps/location-knowledge'
+import { buildContextPayload } from '@/lib/claude/context-manager'
+import { generateSummaryCheckpoint } from '@/lib/claude/session-summarizer'
 
 // Inicializar Claude
 const anthropic = new Anthropic({
@@ -92,7 +94,9 @@ export async function POST(req: NextRequest) {
         },
         turns: {
           orderBy: { createdAt: 'asc' },
-          take: 10, // Ultimos 10 turnos para contexto
+        },
+        summaryCheckpoints: {
+          orderBy: { turnIndex: 'asc' },
         },
       },
     })
@@ -139,147 +143,39 @@ export async function POST(req: NextRequest) {
       },
     })
 
-    // 2. Preparar contexto para Claude
+    // 2. Preparar contexto para Claude — Sistema de 3 capas
     const worldState = session.campaign.worldState as any
     const character = actingCharacter
 
-    // Construir historial de conversación — TODOS los turnos DM se condensan
-    // Claude NO debe ver su propia prosa anterior para no copiarla
-    // Solo necesita saber QUÉ PASÓ, no CÓMO lo escribió
-    const recentTurnsForHistory = session.turns.slice(-8)
-
-    const conversationHistory = recentTurnsForHistory.map((turn) => {
-      // Turnos del usuario: siempre completos
-      if (turn.role === 'USER') {
-        return { role: 'user' as const, content: turn.content }
-      }
-
-      // TODOS los turnos DM: condensar a resumen factual
-      // Extraer los hechos clave sin la prosa (qué pasó, quién dijo qué)
-      const content = turn.content || ''
-      const sentences = content.split(/[.!?»"]/).filter(s => s.trim().length > 12)
-      const facts = sentences.slice(0, 3).map(s => s.trim().substring(0, 80)).join('. ')
-      return { role: 'assistant' as const, content: `[Ya narrado: ${facts}.]` }
+    // Construir contexto con el Context Manager (3 capas: summaries + middle + recent completo)
+    const contextPayload = buildContextPayload({
+      turns: session.turns,
+      checkpoints: (session as any).summaryCheckpoints || [],
+      worldState,
+      playerAction: action,
+      locale: locale as 'es' | 'en',
     })
 
-    // === DETECCIÓN DE ESTANCAMIENTO Y ANTI-REPETICIÓN ===
+    const conversationHistory = contextPayload.conversationHistory
+    const { stagnationData } = contextPayload
+
+    // Variables de compatibilidad para el system prompt
     const allTurns = session.turns
-    const totalTurns = allTurns.length
-    const recentUserActions = allTurns.slice(-8).filter(t => t.role === 'USER').map(t => t.content.toLowerCase().trim())
-
-    // Acciones pasivas (esperar, mirar, no hacer nada)
-    const passiveWords = ['espero', 'esperar', 'descanso', 'descansar', 'miro', 'observo', 'no hago nada', 'me quedo', 'wait', 'rest', 'look around', 'do nothing', 'stay']
-    const passiveCount = recentUserActions.filter(a => passiveWords.some(w => a.includes(w))).length
-
-    // Repetición: acciones muy similares consecutivas (>60% palabras en común)
-    const wordSimilarity = (a: string, b: string): number => {
-      const wordsA = new Set(a.split(/\s+/))
-      const wordsB = new Set(b.split(/\s+/))
-      const intersection = [...wordsA].filter(w => wordsB.has(w)).length
-      return intersection / Math.max(wordsA.size, wordsB.size, 1)
-    }
-    const hasRepetition = recentUserActions.length >= 2 &&
-      recentUserActions.some((a, i) => i > 0 && (a === recentUserActions[i - 1] || wordSimilarity(a, recentUserActions[i - 1]) > 0.6))
-
-    // Turnos en la ubicación actual
+    const totalTurns = stagnationData.totalTurns
+    const passiveCount = stagnationData.passiveCount
+    const isStagnant = stagnationData.isStagnant
+    const needsWorldEvent = stagnationData.needsWorldEvent
+    const turnsInCurrentLocation = stagnationData.turnsInCurrentLocation
+    const ignoredQuests = stagnationData.ignoredQuests
+    const isRepeatedObservation = stagnationData.isRepeatedObservation
+    const isNPCLoop = stagnationData.isNPCLoop
+    const loopingNPCName = stagnationData.loopingNPCName
     const currentScene = worldState.current_scene || ''
-    const turnsInCurrentLocation = allTurns.slice(-12).filter(t => t.role === 'DM').length
 
-    // Quests ignoradas (activas pero no mencionadas en últimos turnos)
-    const activeQuests = worldState.active_quests || []
-    const recentDMText = allTurns.slice(-6).filter(t => t.role === 'DM').map(t => t.content.toLowerCase()).join(' ')
-    const ignoredQuests = activeQuests.filter((q: string) => !recentDMText.includes(q.toLowerCase().substring(0, 10)))
-
-    // Estancamiento: acciones pasivas, repetición, o Acto 1 demasiado largo
-    const isStagnant = hasRepetition || passiveCount >= 2 || (totalTurns > 12 && worldState.act === 1)
-    const needsWorldEvent = passiveCount >= 3 || turnsInCurrentLocation >= 6 || ignoredQuests.length >= 2
-
-    // Resumen acumulativo de TODA la sesión (fuera de la ventana de 6 turnos)
-    // Toma la primera oración significativa de cada narración del DM, distribuido uniformemente
-    const olderDMNarrations = allTurns.slice(0, -6).filter(t => t.role === 'DM' && t.content.length > 30)
-    let storySoFar = ''
-    if (olderDMNarrations.length > 0) {
-      // Tomar hasta 8 puntos distribuidos uniformemente por toda la sesión
-      const maxPoints = 8
-      const step = Math.max(1, Math.floor(olderDMNarrations.length / maxPoints))
-      const summaryPoints: string[] = []
-      for (let i = 0; i < olderDMNarrations.length; i += step) {
-        const firstSentence = olderDMNarrations[i].content.split(/[.!?]/)[0]?.trim()
-        if (firstSentence && firstSentence.length > 10) {
-          summaryPoints.push(firstSentence)
-        }
-        if (summaryPoints.length >= maxPoints) break
-      }
-      storySoFar = summaryPoints.join('. ') + '.'
-    }
-
-    // Última narración del DM (para evitar repetir la misma escena)
+    // storySoFar y middleContext van en el system prompt
+    const storySoFar = contextPayload.storySoFar
     const lastDMTurn = [...allTurns].reverse().find(t => t.role === 'DM')
     const lastDMNarration = lastDMTurn?.content?.substring(0, 250) || ''
-
-    // Anti-repetición: detectar loops narrativos y extraer eventos ya ocurridos
-    let isRepeatedObservation = false
-    let isNPCLoop = false
-    let loopingNPCName = ''
-    let alreadyHappenedEvents: string[] = []
-
-    try {
-      const recentDMContent = allTurns.slice(-6).filter(t => t.role === 'DM').map(t => t.content || '')
-      const recentUserContent = allTurns.slice(-6).filter(t => t.role === 'USER').map(t => (t.content || '').toLowerCase())
-
-      // Extraer RESÚMENES de lo que ya pasó en cada turno reciente del DM
-      // En vez de frases literales, condensar el BEAT narrativo de cada turno
-      alreadyHappenedEvents = recentDMContent.map(content => {
-        // Tomar las primeras 2 oraciones como resumen del beat
-        const sentences = content.split(/[.!?]/).filter(s => s.trim().length > 10)
-        return sentences.slice(0, 2).map(s => s.trim().substring(0, 50)).join('. ')
-      }).filter(s => s.length > 10)
-
-      // Detectar observación repetida del jugador
-      const obsWords = ['observ', 'mir', 'examin', 'fij', 'watch', 'look', 'study']
-      isRepeatedObservation = recentUserContent.filter(a => obsWords.some(w => a.includes(w))).length >= 2
-
-      // Detectar NPC loop: si el mismo NPC aparece en 3+ narraciones consecutivas
-      // hablando/haciendo lo mismo (misma interacción estancada)
-      if (recentDMContent.length >= 3) {
-        // Extraer nombres de NPCs mencionados (palabras con mayúscula seguidas de ":")
-        const npcMentions = recentDMContent.map(c => {
-          const match = c.match(/([A-ZÁÉÍÓÚ][a-záéíóúñ]+(?:\s+[a-záéíóúñ]+)?)\s*[:«]/)?.[1]
-          return match || ''
-        }).filter(Boolean)
-
-        // Si el mismo NPC aparece en 3+ turnos seguidos, hay loop
-        if (npcMentions.length >= 3) {
-          const lastNPC = npcMentions[npcMentions.length - 1]
-          const sameNPCCount = npcMentions.filter(n => n === lastNPC).length
-          if (sameNPCCount >= 3) {
-            isNPCLoop = true
-            loopingNPCName = lastNPC
-          }
-        }
-      }
-    } catch {
-      // Si falla la extracción, continuar sin anti-repetición
-    }
-
-    // Enviar la acción del jugador directamente, sin prefijo de tipo
-    const actionContext = action
-
-    // Construir instrucción anti-repetición concisa para inyectar en el mensaje del usuario
-    // (Claude presta más atención al último mensaje que al system prompt)
-    let antiRepeatDirective = ''
-    if (alreadyHappenedEvents.length > 0) {
-      const isES = !isEnglish
-      const eventsList = alreadyHappenedEvents.slice(-4).map(e => `• ${e}`).join('\n')
-      antiRepeatDirective = isES
-        ? `\n\n[SISTEMA: Lo siguiente YA PASÓ — NO lo narres de nuevo con ninguna palabra: \n${eventsList}\nAVANZÁ la historia. Narrá qué pasa DESPUÉS, no lo que ya pasó.]`
-        : `\n\n[SYSTEM: The following ALREADY HAPPENED — do NOT narrate it again in any words:\n${eventsList}\nADVANCE the story. Narrate what happens NEXT, not what already happened.]`
-    }
-
-    conversationHistory.push({
-      role: 'user',
-      content: actionContext + antiRepeatDirective,
-    })
 
     // Obtener el HP actual
     const currentHP = worldState.party?.[character.name]?.hp || `${(character.stats as any)?.hp || 20}/${(character.stats as any)?.maxHp || 20}`
@@ -1102,76 +998,88 @@ INCORRECTO (se leerá como narrador):
 Ejemplo:
 "El bosque se cierra a tu alrededor. Gandalf: «No temas, joven hobbit... el camino aún está por delante.» Sus palabras resuenan con antigua sabiduría."`}
 
-${isEnglish ? `=== NARRATIVE PACING & ANTI-REPETITION ===
+${contextPayload.storySoFar ? (isEnglish
+  ? `=== SESSION MEMORY ===
+STORY SO FAR (narrative summaries of previous segments):
+${contextPayload.storySoFar}
+=== END SESSION MEMORY ===`
+  : `=== MEMORIA DE SESIÓN ===
+HISTORIA HASTA AHORA (resúmenes narrativos de segmentos anteriores):
+${contextPayload.storySoFar}
+=== FIN MEMORIA DE SESIÓN ===`) : ''}
+
+${contextPayload.middleContext ? (isEnglish
+  ? `=== EARLIER THIS SESSION ===
+${contextPayload.middleContext}
+=== END EARLIER ===`
+  : `=== ANTES EN ESTA SESIÓN ===
+${contextPayload.middleContext}
+=== FIN ANTES ===`) : ''}
+
+${isEnglish ? `=== NARRATIVE CONTINUITY & PACING ===
 CURRENT STATUS:
 - Turn ${totalTurns} of this session
 - Turns in "${currentScene}": ${turnsInCurrentLocation}
-- Passive actions detected: ${passiveCount}
-${isStagnant ? '⚠️ STAGNATION DETECTED' : ''}
+${isStagnant ? '⚠️ STAGNATION DETECTED — introduce something new' : ''}
 ${needsWorldEvent ? '🌍 WORLD EVENT NEEDED THIS TURN' : ''}
-${ignoredQuests.length > 0 ? `- Forgotten quests: ${ignoredQuests.join(', ')}` : ''}
+${ignoredQuests.length > 0 ? `- Forgotten quests to weave back in: ${ignoredQuests.join(', ')}` : ''}
 
-${storySoFar ? `STORY SO FAR (do NOT repeat these scenes/descriptions):
-${storySoFar}` : ''}
+CONTINUITY — You have full access to your recent narration in the conversation above. Use it to:
+1. REFERENCE past events naturally ("The wound from the ambush still ached...")
+2. BUILD ON established details (maintain visual/environmental coherence)
+3. ADVANCE callbacks and foreshadowing you planted earlier
+4. Maintain your narrative voice consistently across turns
 
-${lastDMNarration ? `YOUR LAST NARRATION (CONTINUE from here, do NOT re-describe this scene):
-"${lastDMNarration}..."` : ''}
+DO NOT:
+- Re-narrate scenes that already happened (the player was there)
+- Re-introduce characters already present in the scene
+- Repeat physical descriptions of the current location
+- Begin your response by summarizing what just happened
 
-${isRepeatedObservation ? `⚠️ PLAYER KEEPS OBSERVING — STOP describing physical details. Make the target REACT or something HAPPEN. Force the story forward.` : ''}
-${isNPCLoop ? `⚠️ NPC INTERACTION LOOP DETECTED with "${loopingNPCName}" — This NPC has dominated the last 3+ turns. You MUST either: (1) have this NPC leave/finish the conversation, (2) introduce a NEW character or event that interrupts, (3) move the scene to a different location, or (4) have something urgent happen that demands attention. The player needs VARIETY, not the same NPC interaction over and over.` : ''}
+INSTEAD: Start each response with what happens NEXT — a new reaction, event, or consequence.
 
-CORE RULE: NEVER GO BACKWARD. Each turn must advance the story. Never re-narrate, re-describe, or re-introduce anything from previous turns — even with different words.
+${isRepeatedObservation ? `⚠️ PLAYER KEEPS OBSERVING — Make the environment REACT or something HAPPEN instead of describing more details.` : ''}
+${isNPCLoop ? `⚠️ "${loopingNPCName}" has been central for 6+ turns. Consider wrapping this conversation up naturally or introducing something happening in the background.` : ''}
 
-${isNPCLoop ? `⚠️ "${loopingNPCName}" has been talking for 3+ turns. End this interaction or interrupt it NOW.` : ''}
-
-RULES:
-1. Each response must contain NEW information, NEW events, or NEW developments. If something was said/done/shown before, it's done — move on.
-2. Never re-describe an NPC's appearance or re-introduce them. They're already here.
-3. ${(worldState.active_quests || []).length > 0 ? `Active quests: ${(worldState.active_quests || []).join(', ')}. Do NOT create duplicate quests.` : 'No active quests.'}
-4. THE WORLD IS ALIVE: ${isStagnant || needsWorldEvent
-  ? 'INTRODUCE AN EXTERNAL EVENT NOW: NPC interrupts, danger approaches, weather changes, a quest develops, something unexpected happens. DO NOT wait for the player.'
-  : 'Proactively introduce world events: NPCs approach, weather shifts, sounds heard, time passes. Never let 3+ turns be only player-driven.'}
-7. ${turnsInCurrentLocation >= 4 ? `Player has been in "${currentScene}" for ${turnsInCurrentLocation} turns. Consider: move the plot forward, introduce a reason to leave, or have something arrive.` : 'Keep the current scene engaging with new details.'}
-8. ${ignoredQuests.length > 0 ? `Weave these forgotten quests back in: ${ignoredQuests.join(', ')}` : 'All quests are being addressed.'}
-9. Advance time naturally: morning→afternoon→evening→night. Don't stay frozen in the same moment.
-=== END PACING ===` : `=== RITMO NARRATIVO Y ANTI-REPETICIÓN ===
+WORLD IS ALIVE: ${isStagnant || needsWorldEvent
+  ? 'INTRODUCE AN EXTERNAL EVENT NOW: NPC interrupts, danger approaches, weather changes, a quest develops. DO NOT wait for the player.'
+  : 'Proactively introduce world events: NPCs approach, weather shifts, sounds heard, time passes.'}
+${turnsInCurrentLocation >= 4 ? `Player has been in "${currentScene}" for ${turnsInCurrentLocation} turns. Consider moving the plot forward.` : ''}
+${(worldState.active_quests || []).length > 0 ? `Active quests: ${(worldState.active_quests || []).join(', ')}. Do NOT create duplicates.` : ''}
+Advance time naturally: morning→afternoon→evening→night.
+=== END PACING ===` : `=== CONTINUIDAD NARRATIVA Y RITMO ===
 ESTADO ACTUAL:
 - Turno ${totalTurns} de esta sesión
 - Turnos en "${currentScene}": ${turnsInCurrentLocation}
-- Acciones pasivas detectadas: ${passiveCount}
-${isStagnant ? '⚠️ ESTANCAMIENTO DETECTADO' : ''}
+${isStagnant ? '⚠️ ESTANCAMIENTO DETECTADO — introducí algo nuevo' : ''}
 ${needsWorldEvent ? '🌍 EVENTO DEL MUNDO NECESARIO ESTE TURNO' : ''}
-${ignoredQuests.length > 0 ? `- Quests olvidadas: ${ignoredQuests.join(', ')}` : ''}
+${ignoredQuests.length > 0 ? `- Quests olvidadas para reintegrar: ${ignoredQuests.join(', ')}` : ''}
 
-${storySoFar ? `HISTORIA HASTA AHORA (NO repitas estas escenas/descripciones):
-${storySoFar}` : ''}
+CONTINUIDAD — Tenés acceso completo a tu narración reciente en la conversación arriba. Usala para:
+1. REFERENCIAR eventos pasados naturalmente ("La herida de la emboscada aún dolía...")
+2. CONSTRUIR sobre detalles establecidos (mantener coherencia visual/ambiental)
+3. AVANZAR callbacks y foreshadowing que plantaste antes
+4. Mantener tu voz narrativa consistente entre turnos
 
-${lastDMNarration ? `TU ÚLTIMA NARRACIÓN (CONTINUÁ desde acá, NO re-describas esta escena):
-"${lastDMNarration}..."` : ''}
+NO:
+- Re-narres escenas completas que ya pasaron (el jugador estuvo ahí)
+- Re-introduzcas personajes que ya están en la escena
+- Repitas descripciones físicas de la ubicación actual
+- Empieces resumiendo lo que acaba de pasar
 
-${isRepeatedObservation ? `⚠️ JUGADOR SIGUE OBSERVANDO — DEJÁ de describir detalles físicos. Hacé que el objetivo REACCIONE o que algo PASE. Forzá el avance de la historia.` : ''}
-${isNPCLoop ? `⚠️ LOOP DE NPC DETECTADO con "${loopingNPCName}" — Este NPC dominó los últimos 3+ turnos. DEBÉS: (1) hacer que este NPC se vaya o termine la conversación, (2) introducir un NUEVO personaje o evento que interrumpa, (3) mover la escena a otro lugar, o (4) hacer que pase algo urgente. El jugador necesita VARIEDAD, no la misma interacción una y otra vez.` : ''}
+EN CAMBIO: Comenzá cada respuesta con lo que pasa DESPUÉS — una nueva reacción, evento o consecuencia.
 
-REGLA CENTRAL: NUNCA RETROCEDER. Cada turno debe avanzar la historia. Nunca re-narres, re-describas ni re-introduzcas nada de turnos anteriores — ni siquiera con palabras diferentes.
+${isRepeatedObservation ? `⚠️ JUGADOR SIGUE OBSERVANDO — Hacé que el entorno REACCIONE o que algo PASE en vez de describir más detalles.` : ''}
+${isNPCLoop ? `⚠️ "${loopingNPCName}" lleva 6+ turnos siendo central. Considerá cerrar esta conversación naturalmente o introducir algo que pase en el fondo.` : ''}
 
-${isNPCLoop ? `⚠️ "${loopingNPCName}" lleva hablando 3+ turnos. Terminá esta interacción o interrumpila AHORA.` : ''}
-
-REGLAS:
-1. Cada respuesta debe contener información NUEVA, eventos NUEVOS o desarrollos NUEVOS. Si algo se dijo/hizo/mostró antes, ya pasó — seguí adelante.
-2. Nunca re-describas la apariencia de un NPC ni lo re-introduzcas. Ya está ahí.
-3. ${(worldState.active_quests || []).length > 0 ? `Quests activas: ${(worldState.active_quests || []).join(', ')}. NO crees quests duplicadas.` : 'Sin quests activas.'}
-4. EL MUNDO ESTÁ VIVO: ${isStagnant || needsWorldEvent
-  ? 'INTRODUCÍ UN EVENTO EXTERNO AHORA: un NPC interrumpe, el peligro se acerca, el clima cambia, una quest avanza, algo inesperado pasa. NO esperes al jugador.'
-  : 'Introducí eventos del mundo proactivamente: NPCs se acercan, el clima cambia, se escuchan sonidos, el tiempo pasa. Nunca dejes pasar 3+ turnos sin eventos del mundo.'}
-7. ${turnsInCurrentLocation >= 4 ? `El jugador lleva ${turnsInCurrentLocation} turnos en "${currentScene}". Considerá: avanzar la trama, dar razón para irse, o que algo llegue.` : 'Mantené la escena actual interesante con nuevos detalles.'}
-8. ${ignoredQuests.length > 0 ? `Entretejé estas quests olvidadas: ${ignoredQuests.join(', ')}` : 'Todas las quests están siendo atendidas.'}
-8. Avanzá el tiempo naturalmente: mañana→tarde→noche→amanecer. No te quedes congelado en el mismo momento.
+EL MUNDO ESTÁ VIVO: ${isStagnant || needsWorldEvent
+  ? 'INTRODUCÍ UN EVENTO EXTERNO AHORA: un NPC interrumpe, el peligro se acerca, el clima cambia, una quest avanza. NO esperes al jugador.'
+  : 'Introducí eventos del mundo proactivamente: NPCs se acercan, el clima cambia, se escuchan sonidos, el tiempo pasa.'}
+${turnsInCurrentLocation >= 4 ? `El jugador lleva ${turnsInCurrentLocation} turnos en "${currentScene}". Considerá mover la trama hacia adelante.` : ''}
+${(worldState.active_quests || []).length > 0 ? `Quests activas: ${(worldState.active_quests || []).join(', ')}. NO crees duplicadas.` : ''}
+Avanzá el tiempo naturalmente: mañana→tarde→noche→amanecer.
 === FIN RITMO ===`}
 
-${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
-- ${isEnglish
-  ? 'When introducing a new NPC, always use gendered pronouns or descriptors clearly (he/she, the woman/the man, the old lady/the old man). This is critical for the voice system to assign the correct voice gender.'
-  : 'Al introducir un NPC nuevo, siempre usa pronombres o descriptores de género claros (él/ella, la mujer/el hombre, la anciana/el anciano). Esto es crítico para que el sistema de voz asigne el género de voz correcto.'}
 `
 
     console.log(`[DM] System prompt length: ${systemPrompt.length} chars, conversation: ${conversationHistory.length} messages`)
@@ -1179,7 +1087,7 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
     let response
     try {
       response = await anthropic.messages.create({
-        model: 'claude-opus-4-20250514',
+        model: 'claude-sonnet-4-20250514',
         max_tokens: 1500,
         system: systemPrompt,
         messages: conversationHistory as any,
@@ -1730,7 +1638,23 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
       },
     })
 
-    // 5. Retornar exito con world state updates
+    // 5. Disparar summarización en background si es necesario (no bloquea al jugador)
+    if (contextPayload.shouldTriggerSummary) {
+      const startIdx = contextPayload.lastCheckpointTurnIndex
+      const turnsToSummarize = session.turns.slice(startIdx, startIdx + contextPayload.turnsSinceLastCheckpoint)
+      if (turnsToSummarize.length > 0) {
+        generateSummaryCheckpoint(
+          sessionId,
+          turnsToSummarize.map(t => ({ role: t.role, content: t.content })),
+          startIdx,
+          worldState,
+          session.campaign.lore,
+          locale as 'es' | 'en'
+        ).catch(err => console.error('[Summary] Background checkpoint failed:', err))
+      }
+    }
+
+    // 6. Retornar exito con world state updates
     return NextResponse.json({
       success: true,
       narration: fullNarration,
