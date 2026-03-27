@@ -143,32 +143,23 @@ export async function POST(req: NextRequest) {
     const worldState = session.campaign.worldState as any
     const character = actingCharacter
 
-    // Construir historial de conversación — condensar narraciones DM anteriores
-    // Solo el ÚLTIMO turno del DM se envía completo; los anteriores se resumen
-    // Esto evita que Claude copie/repita texto de narraciones previas
-    const recentTurnsForHistory = session.turns.slice(-6)
-    const lastDMIndex = (() => {
-      for (let i = recentTurnsForHistory.length - 1; i >= 0; i--) {
-        if (recentTurnsForHistory[i].role === 'DM') return i
-      }
-      return -1
-    })()
+    // Construir historial de conversación — TODOS los turnos DM se condensan
+    // Claude NO debe ver su propia prosa anterior para no copiarla
+    // Solo necesita saber QUÉ PASÓ, no CÓMO lo escribió
+    const recentTurnsForHistory = session.turns.slice(-8)
 
-    const conversationHistory = recentTurnsForHistory.map((turn, index) => {
+    const conversationHistory = recentTurnsForHistory.map((turn) => {
       // Turnos del usuario: siempre completos
       if (turn.role === 'USER') {
         return { role: 'user' as const, content: turn.content }
       }
 
-      // Último turno del DM: completo (continuidad inmediata)
-      if (index === lastDMIndex) {
-        return { role: 'assistant' as const, content: turn.content }
-      }
-
-      // Turnos DM anteriores: resumir en 1-2 oraciones (evita que Claude copie el texto)
-      const sentences = turn.content.split(/[.!?]/).filter(s => s.trim().length > 10)
-      const summary = sentences.slice(0, 2).map(s => s.trim()).join('. ')
-      return { role: 'assistant' as const, content: `[Lo que narraste antes: ${summary}.]` }
+      // TODOS los turnos DM: condensar a resumen factual
+      // Extraer los hechos clave sin la prosa (qué pasó, quién dijo qué)
+      const content = turn.content || ''
+      const sentences = content.split(/[.!?»"]/).filter(s => s.trim().length > 12)
+      const facts = sentences.slice(0, 3).map(s => s.trim().substring(0, 80)).join('. ')
+      return { role: 'assistant' as const, content: `[Ya narrado: ${facts}.]` }
     })
 
     // === DETECCIÓN DE ESTANCAMIENTO Y ANTI-REPETICIÓN ===
