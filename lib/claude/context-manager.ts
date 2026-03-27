@@ -51,8 +51,9 @@ interface StagnationData {
   loopingNPCName: string
 }
 
-const RECENT_WINDOW_SIZE = 6
+const RECENT_WINDOW_SIZE = 8
 const SUMMARY_TRIGGER_INTERVAL = 8
+const MAX_MIDDLE_TURNS = 10
 const NPC_LOOP_SOFT_THRESHOLD = 6
 const NPC_LOOP_HARD_THRESHOLD = 8
 
@@ -118,25 +119,25 @@ function buildStorySoFar(
     return checkpoints.map(cp => cp.summary).join('\n\n')
   }
 
-  // Fallback: extracción mejorada de primeras oraciones (para sesiones sin checkpoints)
-  // Solo para turnos fuera de la ventana reciente
+  // Fallback: extracción mejorada para sesiones sin checkpoints
+  // Toma turnos fuera de la middle zone y la ventana reciente
   const olderDMTurns = turns
-    .slice(0, -RECENT_WINDOW_SIZE)
+    .slice(0, -(RECENT_WINDOW_SIZE + MAX_MIDDLE_TURNS))
     .filter(t => t.role === 'DM' && t.content.length > 30)
 
   if (olderDMTurns.length === 0) return ''
 
-  // Tomar hasta 10 puntos distribuidos uniformemente, con oraciones más largas
-  const maxPoints = 10
+  // Tomar hasta 15 puntos distribuidos uniformemente, con oraciones más largas
+  const maxPoints = 15
   const step = Math.max(1, Math.floor(olderDMTurns.length / maxPoints))
   const points: string[] = []
 
   for (let i = 0; i < olderDMTurns.length; i += step) {
-    // Tomar las primeras 2 oraciones completas (no truncar a 80 chars)
+    // Tomar las primeras 2 oraciones completas con más espacio (300 chars)
     const sentences = olderDMTurns[i].content
       .split(/(?<=[.!?»"])\s+/)
       .filter(s => s.trim().length > 15)
-    const summary = sentences.slice(0, 2).join(' ').substring(0, 200)
+    const summary = sentences.slice(0, 2).join(' ').substring(0, 300)
     if (summary.length > 20) {
       points.push(summary)
     }
@@ -147,25 +148,27 @@ function buildStorySoFar(
 }
 
 // --- Capa 2: Middle zone con condensación ligera ---
+// Limitada a MAX_MIDDLE_TURNS más recientes para controlar el tamaño del contexto
 function buildMiddleContext(middleTurns: Turn[], locale: 'es' | 'en'): string {
   if (middleTurns.length === 0) return ''
+
+  // Solo tomar los más recientes (justo antes de la ventana reciente)
+  const turnsToProcess = middleTurns.slice(-MAX_MIDDLE_TURNS)
 
   const isES = locale === 'es'
   const condensed: string[] = []
 
-  for (const turn of middleTurns) {
+  for (const turn of turnsToProcess) {
     if (turn.role === 'USER') {
-      // Turnos del jugador: completos pero marcados
       const prefix = isES ? 'Jugador' : 'Player'
       condensed.push(`${prefix}: ${turn.content}`)
-    } else {
-      // Turnos del DM: primeras 2-3 oraciones completas (sin truncar)
+    } else if (turn.role === 'DM') {
+      // DM turns: primeras 3 oraciones completas
       const sentences = turn.content
         .split(/(?<=[.!?»"])\s+/)
         .filter(s => s.trim().length > 10)
       const summary = sentences.slice(0, 3).join(' ').substring(0, 300)
-      const prefix = isES ? 'DM' : 'DM'
-      condensed.push(`${prefix}: ${summary}`)
+      condensed.push(`DM: ${summary}`)
     }
   }
 

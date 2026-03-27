@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@clerk/nextjs/server'
-import { prisma } from '@/lib/db/prisma'
+import { prisma, withRetry } from '@/lib/db/prisma'
 import Anthropic from '@anthropic-ai/sdk'
 import {
   getEngineConfig,
@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
     let authUserId: string | null = null
 
     if (clerkUserId) {
-      const user = await prisma.user.findUnique({ where: { clerkId: clerkUserId }, select: { id: true } })
+      const user = await withRetry(() => prisma.user.findUnique({ where: { clerkId: clerkUserId }, select: { id: true } }))
       authUserId = user?.id || null
     }
 
@@ -79,7 +79,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Obtener la sesion con todos los datos necesarios
-    const session = await prisma.session.findUnique({
+    const session = await withRetry(() => prisma.session.findUnique({
       where: { id: sessionId },
       include: {
         campaign: {
@@ -97,13 +97,13 @@ export async function POST(req: NextRequest) {
         },
         turns: {
           orderBy: { createdAt: 'asc' },
-          take: 50, // Limitar para no saturar conexiones DB — suficiente para contexto rico
+          take: 50,
         },
         summaryCheckpoints: {
           orderBy: { turnIndex: 'asc' },
         },
       },
-    })
+    }))
 
     if (!session) {
       return NextResponse.json({ error: 'Sesion no encontrada' }, { status: 404 })
@@ -133,7 +133,7 @@ export async function POST(req: NextRequest) {
     }
 
     // 1. Guardar el turno del jugador con info de multiplayer
-    const playerTurn = await prisma.turn.create({
+    const playerTurn = await withRetry(() => prisma.turn.create({
       data: {
         sessionId: session.id,
         role: 'USER',
@@ -145,7 +145,7 @@ export async function POST(req: NextRequest) {
         characterName: actingCharacter?.name,
         playerName: actingPlayer,
       },
-    })
+    }))
 
     // 2. Preparar contexto para Claude — Sistema de 3 capas
     const worldState = session.campaign.worldState as any
@@ -1621,10 +1621,10 @@ Avanzá el tiempo naturalmente: mañana→tarde→noche→amanecer.
           : worldState.map_state,
       }
 
-      await prisma.campaign.update({
+      await withRetry(() => prisma.campaign.update({
         where: { id: session.campaignId },
         data: { worldState: newWorldState },
-      })
+      }))
     }
 
     // Build the full narration with HP change notification
@@ -1638,33 +1638,19 @@ Avanzá el tiempo naturalmente: mañana→tarde→noche→amanecer.
     }
 
     // 4. Guardar el turno del DM
-    await prisma.turn.create({
+    await withRetry(() => prisma.turn.create({
       data: {
         sessionId: session.id,
         role: 'DM',
         content: fullNarration,
         worldStatePatch: Object.keys(worldStateUpdates).length > 0 ? worldStateUpdates : undefined,
       },
-    })
+    }))
 
-    // 5. Disparar summarización en background si es necesario (no bloquea al jugador)
-    // Usar setTimeout para que corra DESPUÉS de que la response se envíe y libere la conexión DB
-    if (contextPayload.shouldTriggerSummary) {
-      const startIdx = contextPayload.lastCheckpointTurnIndex
-      const turnsToSummarize = session.turns.slice(startIdx, startIdx + contextPayload.turnsSinceLastCheckpoint)
-      if (turnsToSummarize.length > 0) {
-        setTimeout(() => {
-          generateSummaryCheckpoint(
-            sessionId,
-            turnsToSummarize.map(t => ({ role: t.role, content: t.content })),
-            startIdx,
-            worldState,
-            session.campaign.lore,
-            locale as 'es' | 'en'
-          ).catch(err => console.error('[Summary] Background checkpoint failed:', err))
-        }, 2000) // Esperar 2s para que la conexión principal se libere
-      }
-    }
+    // 5. Background summarization DESHABILITADA temporalmente
+    // La conexión extra al DB saturaba el pool de Supabase (MaxClientsInSessionMode)
+    // TODO: Re-habilitar cuando se migre a transaction mode (puerto 6543) o se suba el pool size
+    // if (contextPayload.shouldTriggerSummary) { ... }
 
     // 6. Retornar exito con world state updates
     return NextResponse.json({

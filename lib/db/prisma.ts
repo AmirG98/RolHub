@@ -15,6 +15,10 @@ function buildUrl(): string | undefined {
     if (!parsed.searchParams.has('connection_limit')) {
       parsed.searchParams.set('connection_limit', '1')
     }
+    // pgbouncer=true desactiva prepared statements — necesario para Supabase pooler
+    if (!parsed.searchParams.has('pgbouncer')) {
+      parsed.searchParams.set('pgbouncer', 'true')
+    }
     return parsed.toString()
   } catch {
     return url
