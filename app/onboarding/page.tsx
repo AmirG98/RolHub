@@ -320,7 +320,7 @@ export default function OnboardingPage() {
       )}
 
       {step === 3 && selectedLore && (selectedLore !== 'DND_CLASSIC' || dndCreationMode) && (
-        engine === 'DND_5E' || dndCreationMode === 'advanced' ? (
+        selectedLore === 'DND_CLASSIC' && (engine === 'DND_5E' || dndCreationMode === 'advanced') ? (
           <DnD5eCharacterCreator
             onComplete={handleDnD5eCharacterCreate}
             onBack={() => {

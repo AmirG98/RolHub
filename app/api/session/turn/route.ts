@@ -260,6 +260,7 @@ export async function POST(req: NextRequest) {
       rule6: 'In MULTIPLAYER: respond to the action but mention other characters if relevant',
       rule7: 'HP/item changes for the acting character go in hp_change/new_item',
       rule8: 'HP changes for OTHER characters go in other_party_effects',
+      rule9: 'INVENTORY TRACKING (CRITICAL): When the player RECEIVES an item (loot, gift, purchase, finds), ALWAYS include "new_item" with the item name. When the player GIVES AWAY, LOSES, USES UP or CONSUMES an item, ALWAYS include "remove_item" with the EXACT item name from their inventory. Check the current inventory before narrating item use.',
       narrativeTone: 'NARRATIVE TONE',
       important: 'IMPORTANT',
       jsonOnly: 'Respond ONLY with JSON, no additional text',
@@ -321,6 +322,7 @@ export async function POST(req: NextRequest) {
       rule6: 'En MULTIJUGADOR: responde a la acción pero menciona a los otros personajes si es relevante',
       rule7: 'Los cambios de HP/items del personaje que actúa van en hp_change/new_item',
       rule8: 'Los cambios de HP de OTROS personajes van en other_party_effects',
+      rule9: 'TRACKING DE INVENTARIO (CRÍTICO): Cuando el jugador RECIBE un objeto (loot, regalo, compra, encuentra), SIEMPRE incluir "new_item" con el nombre del objeto. Cuando el jugador ENTREGA, PIERDE, USA o CONSUME un objeto, SIEMPRE incluir "remove_item" con el nombre EXACTO del objeto de su inventario. Revisá el inventario actual antes de narrar uso de objetos.',
       narrativeTone: 'TONO NARRATIVO',
       important: 'IMPORTANTE',
       jsonOnly: 'Responde SOLO con el JSON, sin texto adicional',
@@ -870,9 +872,10 @@ ${labels.mechanicRules}:
 3. ${labels.rule3}
 4. ${labels.rule4}
 5. ${labels.rule5}
-${isMultiplayer ? `6. ${labels.rule6} ${character.name}
-7. ${labels.rule7}
-8. ${labels.rule8}` : ''}
+6. ${labels.rule9}
+${isMultiplayer ? `7. ${labels.rule6} ${character.name}
+8. ${labels.rule7}
+9. ${labels.rule8}` : ''}
 
 ${isEnglish
   ? `WORLD MEMORY (update these to track the story):
