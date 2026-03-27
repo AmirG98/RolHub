@@ -79,10 +79,15 @@ export function buildContextPayload(input: ContextInput): ContextPayload {
   const conversationHistory = buildRecentWindow(recentWindow)
 
   // Agregar acción del jugador como último mensaje
-  conversationHistory.push({
-    role: 'user',
-    content: playerAction,
-  })
+  // Si el último mensaje ya es 'user', mergear para evitar mensajes consecutivos del mismo rol
+  if (conversationHistory.length > 0 && conversationHistory[conversationHistory.length - 1].role === 'user') {
+    conversationHistory[conversationHistory.length - 1].content += '\n\n' + playerAction
+  } else {
+    conversationHistory.push({
+      role: 'user',
+      content: playerAction,
+    })
+  }
 
   // --- Señal de summarización ---
   const turnsSinceLastCheckpoint = turns.length - lastCheckpointTurnIndex
@@ -171,19 +176,31 @@ function buildMiddleContext(middleTurns: Turn[], locale: 'es' | 'en'): string {
 function buildRecentWindow(
   recentTurns: Turn[]
 ): Array<{ role: 'user' | 'assistant'; content: string }> {
-  const messages = recentTurns.map(turn => ({
+  // Solo incluir turnos USER y DM (ignorar SYSTEM)
+  const filtered = recentTurns.filter(t => t.role === 'USER' || t.role === 'DM')
+
+  const messages = filtered.map(turn => ({
     role: turn.role === 'USER' ? 'user' as const : 'assistant' as const,
     content: turn.content,
   }))
 
   // Claude API requiere que el primer mensaje sea 'user'
-  // Si empieza con assistant (narración inicial del DM), removerlo
-  // y ponerlo como contexto del system prompt no se pierde — ya está en storySoFar/middleContext
   while (messages.length > 0 && messages[0].role === 'assistant') {
     messages.shift()
   }
 
-  return messages
+  // Claude API no permite mensajes consecutivos del mismo rol
+  // Mergear mensajes consecutivos del mismo rol
+  const merged: Array<{ role: 'user' | 'assistant'; content: string }> = []
+  for (const msg of messages) {
+    if (merged.length > 0 && merged[merged.length - 1].role === msg.role) {
+      merged[merged.length - 1].content += '\n\n' + msg.content
+    } else {
+      merged.push({ ...msg })
+    }
+  }
+
+  return merged
 }
 
 // --- Detección de estancamiento (versión relajada) ---
