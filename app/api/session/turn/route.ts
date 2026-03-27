@@ -97,6 +97,7 @@ export async function POST(req: NextRequest) {
         },
         turns: {
           orderBy: { createdAt: 'asc' },
+          take: 50, // Limitar para no saturar conexiones DB — suficiente para contexto rico
         },
         summaryCheckpoints: {
           orderBy: { turnIndex: 'asc' },
@@ -1644,18 +1645,21 @@ Avanzá el tiempo naturalmente: mañana→tarde→noche→amanecer.
     })
 
     // 5. Disparar summarización en background si es necesario (no bloquea al jugador)
+    // Usar setTimeout para que corra DESPUÉS de que la response se envíe y libere la conexión DB
     if (contextPayload.shouldTriggerSummary) {
       const startIdx = contextPayload.lastCheckpointTurnIndex
       const turnsToSummarize = session.turns.slice(startIdx, startIdx + contextPayload.turnsSinceLastCheckpoint)
       if (turnsToSummarize.length > 0) {
-        generateSummaryCheckpoint(
-          sessionId,
-          turnsToSummarize.map(t => ({ role: t.role, content: t.content })),
-          startIdx,
-          worldState,
-          session.campaign.lore,
-          locale as 'es' | 'en'
-        ).catch(err => console.error('[Summary] Background checkpoint failed:', err))
+        setTimeout(() => {
+          generateSummaryCheckpoint(
+            sessionId,
+            turnsToSummarize.map(t => ({ role: t.role, content: t.content })),
+            startIdx,
+            worldState,
+            session.campaign.lore,
+            locale as 'es' | 'en'
+          ).catch(err => console.error('[Summary] Background checkpoint failed:', err))
+        }, 2000) // Esperar 2s para que la conexión principal se libere
       }
     }
 
