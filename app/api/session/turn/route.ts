@@ -259,9 +259,20 @@ export async function POST(req: NextRequest) {
           ? `[DIALOGUE - The player says: "${action}"]`
           : `[DIÁLOGO - El jugador dice: "${action}"]`)
 
+    // Construir instrucción anti-repetición concisa para inyectar en el mensaje del usuario
+    // (Claude presta más atención al último mensaje que al system prompt)
+    let antiRepeatDirective = ''
+    if (alreadyHappenedEvents.length > 0) {
+      const isES = !isEnglish
+      const eventsList = alreadyHappenedEvents.slice(-4).map(e => `• ${e}`).join('\n')
+      antiRepeatDirective = isES
+        ? `\n\n[SISTEMA: Lo siguiente YA PASÓ — NO lo narres de nuevo con ninguna palabra: \n${eventsList}\nAVANZÁ la historia. Narrá qué pasa DESPUÉS, no lo que ya pasó.]`
+        : `\n\n[SYSTEM: The following ALREADY HAPPENED — do NOT narrate it again in any words:\n${eventsList}\nADVANCE the story. Narrate what happens NEXT, not what already happened.]`
+    }
+
     conversationHistory.push({
       role: 'user',
-      content: actionContext,
+      content: actionContext + antiRepeatDirective,
     })
 
     // Obtener el HP actual
@@ -1108,23 +1119,15 @@ ${lastDMNarration ? `YOUR LAST NARRATION (CONTINUE from here, do NOT re-describe
 ${isRepeatedObservation ? `⚠️ PLAYER KEEPS OBSERVING — STOP describing physical details. Make the target REACT or something HAPPEN. Force the story forward.` : ''}
 ${isNPCLoop ? `⚠️ NPC INTERACTION LOOP DETECTED with "${loopingNPCName}" — This NPC has dominated the last 3+ turns. You MUST either: (1) have this NPC leave/finish the conversation, (2) introduce a NEW character or event that interrupts, (3) move the scene to a different location, or (4) have something urgent happen that demands attention. The player needs VARIETY, not the same NPC interaction over and over.` : ''}
 
-${alreadyHappenedEvents.length > 0 ? `🚫 NARRATIVE BEATS ALREADY COMPLETED — these things ALREADY HAPPENED in previous turns. Do NOT re-narrate them, re-describe them, or show them happening again, EVEN WITH DIFFERENT WORDS:
-${alreadyHappenedEvents.map(e => `- ${e}`).join('\n')}
-The player already experienced these moments. Your job is to CONTINUE THE STORY FROM WHERE IT LEFT OFF. If a map was shown, it was shown — don't show it again. If an NPC burst in, they're already here — don't have them burst in again. If information was given, it's known — don't repeat it. ALWAYS move forward, never backward.` : ''}
+CORE RULE: NEVER GO BACKWARD. Each turn must advance the story. Never re-narrate, re-describe, or re-introduce anything from previous turns — even with different words.
 
-QUEST RULES:
-- Active quests: ${(worldState.active_quests || []).join(', ') || 'none'}
-- Completed: ${(worldState.completed_quests || []).join(', ') || 'none'}
-- DO NOT create quests with the same name or concept as existing ones above. Each quest must be UNIQUE.
-- DO NOT keep the player stuck talking to the same NPC. After 2-3 exchanges, move the conversation forward or end it.
+${isNPCLoop ? `⚠️ "${loopingNPCName}" has been talking for 3+ turns. End this interaction or interrupt it NOW.` : ''}
 
 RULES:
-1. NEVER reuse phrases, descriptions, or NARRATIVE BEATS from previous turns. If something already happened (NPC introduced themselves, gave info, offered a quest, warned the player), it happened — MOVE FORWARD. Don't repeat the same interaction.
-2. If the player repeats actions, ESCALATE consequences. 3rd time → world reacts (NPC annoyed, guard suspicious, enemy adapts).
-3. NEVER suggest the same actions twice. Always offer fresh options that advance the plot BEYOND what already happened.
-4. If nonsensical input, redirect narratively with 3 clear options.
-5. NEVER re-introduce an NPC who's already been introduced. Don't re-describe their appearance, re-state their name, or have them repeat information they already gave. Build on what's established.
-6. THE WORLD IS ALIVE: ${isStagnant || needsWorldEvent
+1. Each response must contain NEW information, NEW events, or NEW developments. If something was said/done/shown before, it's done — move on.
+2. Never re-describe an NPC's appearance or re-introduce them. They're already here.
+3. ${(worldState.active_quests || []).length > 0 ? `Active quests: ${(worldState.active_quests || []).join(', ')}. Do NOT create duplicate quests.` : 'No active quests.'}
+4. THE WORLD IS ALIVE: ${isStagnant || needsWorldEvent
   ? 'INTRODUCE AN EXTERNAL EVENT NOW: NPC interrupts, danger approaches, weather changes, a quest develops, something unexpected happens. DO NOT wait for the player.'
   : 'Proactively introduce world events: NPCs approach, weather shifts, sounds heard, time passes. Never let 3+ turns be only player-driven.'}
 7. ${turnsInCurrentLocation >= 4 ? `Player has been in "${currentScene}" for ${turnsInCurrentLocation} turns. Consider: move the plot forward, introduce a reason to leave, or have something arrive.` : 'Keep the current scene engaging with new details.'}
@@ -1148,23 +1151,15 @@ ${lastDMNarration ? `TU ÚLTIMA NARRACIÓN (CONTINUÁ desde acá, NO re-describa
 ${isRepeatedObservation ? `⚠️ JUGADOR SIGUE OBSERVANDO — DEJÁ de describir detalles físicos. Hacé que el objetivo REACCIONE o que algo PASE. Forzá el avance de la historia.` : ''}
 ${isNPCLoop ? `⚠️ LOOP DE NPC DETECTADO con "${loopingNPCName}" — Este NPC dominó los últimos 3+ turnos. DEBÉS: (1) hacer que este NPC se vaya o termine la conversación, (2) introducir un NUEVO personaje o evento que interrumpa, (3) mover la escena a otro lugar, o (4) hacer que pase algo urgente. El jugador necesita VARIEDAD, no la misma interacción una y otra vez.` : ''}
 
-${alreadyHappenedEvents.length > 0 ? `🚫 MOMENTOS NARRATIVOS YA COMPLETADOS — estas cosas YA PASARON en turnos anteriores. NO las re-narres, re-describas, ni muestres ocurriendo de nuevo, INCLUSO CON PALABRAS DIFERENTES:
-${alreadyHappenedEvents.map(e => `- ${e}`).join('\n')}
-El jugador ya vivió estos momentos. Tu trabajo es CONTINUAR LA HISTORIA DESDE DONDE QUEDÓ. Si un mapa se mostró, ya se mostró — no lo muestres de nuevo. Si un NPC irrumpió, ya está aquí — no lo hagas irrumpir otra vez. Si se dio información, ya se sabe — no la repitas. SIEMPRE avanzar, nunca retroceder.` : ''}
+REGLA CENTRAL: NUNCA RETROCEDER. Cada turno debe avanzar la historia. Nunca re-narres, re-describas ni re-introduzcas nada de turnos anteriores — ni siquiera con palabras diferentes.
 
-REGLAS DE QUESTS:
-- Quests activas: ${(worldState.active_quests || []).join(', ') || 'ninguna'}
-- Completadas: ${(worldState.completed_quests || []).join(', ') || 'ninguna'}
-- NO crees quests con el mismo nombre o concepto que las de arriba. Cada quest debe ser ÚNICA.
-- NO mantengas al jugador trabado hablando con el mismo NPC. Después de 2-3 intercambios, avanzá la conversación o terminala.
+${isNPCLoop ? `⚠️ "${loopingNPCName}" lleva hablando 3+ turnos. Terminá esta interacción o interrumpila AHORA.` : ''}
 
 REGLAS:
-1. NUNCA reutilices frases, descripciones, o MOMENTOS NARRATIVOS de turnos anteriores. Si algo ya pasó (NPC se presentó, dio información, ofreció quest, advirtió al jugador), ya pasó — AVANZÁ. No repitas la misma interacción.
-2. Si el jugador repite acciones, ESCALÁ consecuencias. 3ra vez → el mundo reacciona (NPC se irrita, guardia sospecha, enemigo se adapta).
-3. NUNCA sugieras las mismas acciones dos veces. Siempre opciones que avancen la trama MÁS ALLÁ de lo que ya pasó.
-4. Si el input es incoherente, redirigí narrativamente con 3 opciones claras.
-5. NUNCA re-introduzcas un NPC que ya fue presentado. No re-describas su apariencia, no repitas su nombre como si fuera nuevo, ni hagas que repita información que ya dio. Construí sobre lo establecido.
-6. EL MUNDO ESTÁ VIVO: ${isStagnant || needsWorldEvent
+1. Cada respuesta debe contener información NUEVA, eventos NUEVOS o desarrollos NUEVOS. Si algo se dijo/hizo/mostró antes, ya pasó — seguí adelante.
+2. Nunca re-describas la apariencia de un NPC ni lo re-introduzcas. Ya está ahí.
+3. ${(worldState.active_quests || []).length > 0 ? `Quests activas: ${(worldState.active_quests || []).join(', ')}. NO crees quests duplicadas.` : 'Sin quests activas.'}
+4. EL MUNDO ESTÁ VIVO: ${isStagnant || needsWorldEvent
   ? 'INTRODUCÍ UN EVENTO EXTERNO AHORA: un NPC interrumpe, el peligro se acerca, el clima cambia, una quest avanza, algo inesperado pasa. NO esperes al jugador.'
   : 'Introducí eventos del mundo proactivamente: NPCs se acercan, el clima cambia, se escuchan sonidos, el tiempo pasa. Nunca dejes pasar 3+ turnos sin eventos del mundo.'}
 7. ${turnsInCurrentLocation >= 4 ? `El jugador lleva ${turnsInCurrentLocation} turnos en "${currentScene}". Considerá: avanzar la trama, dar razón para irse, o que algo llegue.` : 'Mantené la escena actual interesante con nuevos detalles.'}
