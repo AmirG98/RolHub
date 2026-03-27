@@ -29,6 +29,9 @@ interface DiceRoll {
   rolls: number[]
 }
 
+// Vercel serverless timeout (segundos) — Claude puede tardar en responder
+export const maxDuration = 60
+
 export async function POST(req: NextRequest) {
   try {
     // Auth: Clerk O cookie de guest
@@ -148,6 +151,7 @@ export async function POST(req: NextRequest) {
     const character = actingCharacter
 
     // Construir contexto con el Context Manager (3 capas: summaries + middle + recent completo)
+    console.log(`[DM] Building context: ${session.turns.length} turns, ${((session as any).summaryCheckpoints || []).length} checkpoints`)
     const contextPayload = buildContextPayload({
       turns: session.turns,
       checkpoints: (session as any).summaryCheckpoints || [],
@@ -155,6 +159,7 @@ export async function POST(req: NextRequest) {
       playerAction: action,
       locale: locale as 'es' | 'en',
     })
+    console.log(`[DM] Context built: ${contextPayload.conversationHistory.length} messages, storySoFar=${contextPayload.storySoFar.length} chars, shouldSummarize=${contextPayload.shouldTriggerSummary}`)
 
     const conversationHistory = contextPayload.conversationHistory
     const { stagnationData } = contextPayload
@@ -1674,10 +1679,12 @@ Avanzá el tiempo naturalmente: mañana→tarde→noche→amanecer.
     })
   } catch (error) {
     console.error('Error processing turn:', error)
+    console.error('Error stack:', (error as Error).stack)
     return NextResponse.json(
       {
         error: 'Error al procesar el turno',
         details: (error as Error).message,
+        stack: process.env.NODE_ENV === 'development' ? (error as Error).stack : undefined,
       },
       { status: 500 }
     )
