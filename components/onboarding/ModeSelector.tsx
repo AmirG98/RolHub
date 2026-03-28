@@ -263,7 +263,20 @@ export function ModeSelector({ onSelect, onBack }: ModeSelectorProps) {
                 className={`glass-panel rounded-lg p-3 md:p-4 cursor-pointer transition-all duration-300 hover:scale-105 text-left ${
                   selectedTutorial === level.id ? 'glow-effect ring-2 ring-gold-bright' : ''
                 }`}
-                onClick={() => { setSelectedTutorial(level.id); scrollTo(buttonsRef) }}
+                onClick={() => {
+                  setSelectedTutorial(level.id)
+                  // Si ya están todas las opciones seleccionadas, avanzar automáticamente
+                  if (selectedMode && selectedEngine && isMultiplayer !== null) {
+                    setTimeout(() => onSelect({
+                      mode: selectedMode,
+                      engine: selectedEngine,
+                      tutorialLevel: level.id,
+                      isMultiplayer: isMultiplayer,
+                    }), 500)
+                  } else {
+                    scrollTo(buttonsRef)
+                  }
+                }}
               >
                 <div className="text-2xl md:text-4xl mb-1 md:mb-2">{level.icon}</div>
                 <h3 className="font-heading text-sm md:text-lg text-parchment mb-0.5 md:mb-1">{level.name}</h3>
