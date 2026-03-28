@@ -1039,16 +1039,7 @@ CONTINUITY — You have full access to your recent narration in the conversation
 3. ADVANCE callbacks and foreshadowing you planted earlier
 4. Maintain your narrative voice consistently across turns
 
-CRITICAL — ZERO REDUNDANCY RULE:
-Read your previous assistant messages carefully. If you already narrated an action being completed (player took an item, NPC said something, a scene was described), that action is DONE. DO NOT narrate it again — not with different words, not as a recap, not as a "you take the X" moment. It already happened. The player SAW it. Move forward.
-
-SPECIFICALLY FORBIDDEN:
-- Re-narrating the player picking up/receiving items that were already given in a previous turn
-- Re-describing NPC reactions or dialogue that already occurred
-- Repeating physical gestures, movements, or actions from prior turns
-- Starting with a recap of what the player just did — they know, they did it
-
-INSTEAD: Start each response with what happens NEXT — a new reaction, event, or direct response to the player's CURRENT message only.
+ZERO REDUNDANCY: If an action was narrated in a previous turn (item received, NPC spoke, gesture made), it is DONE. Never re-narrate it. Start your response with what happens NEXT — only respond to the player's current action.
 
 ${isRepeatedObservation ? `⚠️ PLAYER KEEPS OBSERVING — Make the environment REACT or something HAPPEN instead of describing more details.` : ''}
 ${isNPCLoop ? `⚠️ "${loopingNPCName}" has been central for 6+ turns. Consider wrapping this conversation up naturally or introducing something happening in the background.` : ''}
@@ -1073,16 +1064,7 @@ CONTINUIDAD — Tenés acceso completo a tu narración reciente en la conversaci
 3. AVANZAR callbacks y foreshadowing que plantaste antes
 4. Mantener tu voz narrativa consistente entre turnos
 
-CRÍTICO — REGLA DE CERO REDUNDANCIA:
-Leé tus mensajes anteriores de assistant con atención. Si ya narraste una acción completándose (el jugador tomó un objeto, un NPC dijo algo, una escena se describió), esa acción ESTÁ HECHA. NO la narres de nuevo — ni con palabras diferentes, ni como recapitulación, ni como momento de "tomás las X". Ya pasó. El jugador lo VIO. Avanzá.
-
-ESPECÍFICAMENTE PROHIBIDO:
-- Re-narrar al jugador recibiendo/tomando objetos que ya fueron entregados en un turno anterior
-- Re-describir reacciones o diálogos de NPCs que ya ocurrieron
-- Repetir gestos físicos, movimientos o acciones de turnos previos
-- Empezar con un resumen de lo que el jugador acaba de hacer — ya lo sabe, lo hizo él
-
-EN CAMBIO: Comenzá cada respuesta con lo que pasa DESPUÉS — una nueva reacción, evento o respuesta directa al mensaje ACTUAL del jugador solamente.
+CERO REDUNDANCIA: Si una acción fue narrada en un turno anterior (objeto recibido, NPC habló, gesto hecho), ESTÁ HECHA. Nunca la re-narres. Comenzá tu respuesta con lo que pasa DESPUÉS — solo respondé a la acción actual del jugador.
 
 ${isRepeatedObservation ? `⚠️ JUGADOR SIGUE OBSERVANDO — Hacé que el entorno REACCIONE o que algo PASE en vez de describir más detalles.` : ''}
 ${isNPCLoop ? `⚠️ "${loopingNPCName}" lleva 6+ turnos siendo central. Considerá cerrar esta conversación naturalmente o introducir algo que pase en el fondo.` : ''}

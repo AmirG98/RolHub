@@ -79,14 +79,25 @@ export function buildContextPayload(input: ContextInput): ContextPayload {
   // --- Capa 3: Recent window (turnos completos SIN MODIFICAR) ---
   const conversationHistory = buildRecentWindow(recentWindow)
 
+  // --- Anti-redundancia: extraer acciones ya completadas de turnos recientes del DM ---
+  const completedActions = extractCompletedActions(turns, locale)
+  let enrichedPlayerAction = playerAction
+  if (completedActions.length > 0) {
+    const isES = locale === 'es'
+    const actionsList = completedActions.map(a => `• ${a}`).join('\n')
+    enrichedPlayerAction = playerAction + (isES
+      ? `\n\n[SISTEMA: Estas acciones YA OCURRIERON en turnos anteriores — NO las narres de nuevo:\n${actionsList}\nRESPONDÉ SOLO a lo que el jugador pide AHORA. Todo lo de arriba ya pasó y el jugador ya lo vio.]`
+      : `\n\n[SYSTEM: These actions ALREADY HAPPENED in previous turns — do NOT narrate them again:\n${actionsList}\nRESPOND ONLY to what the player asks NOW. Everything above already happened and the player already saw it.]`)
+  }
+
   // Agregar acción del jugador como último mensaje
   // Si el último mensaje ya es 'user', mergear para evitar mensajes consecutivos del mismo rol
   if (conversationHistory.length > 0 && conversationHistory[conversationHistory.length - 1].role === 'user') {
-    conversationHistory[conversationHistory.length - 1].content += '\n\n' + playerAction
+    conversationHistory[conversationHistory.length - 1].content += '\n\n' + enrichedPlayerAction
   } else {
     conversationHistory.push({
       role: 'user',
-      content: playerAction,
+      content: enrichedPlayerAction,
     })
   }
 
@@ -302,4 +313,51 @@ function detectStagnation(
     isNPCLoop,
     loopingNPCName,
   }
+}
+
+// --- Extraer acciones completadas de turnos recientes del DM ---
+// Busca frases que describen acciones resueltas para evitar que Claude las re-narre
+function extractCompletedActions(turns: Turn[], locale: 'es' | 'en'): string[] {
+  // Tomar los últimos 6 turnos del DM (excluir el más reciente ya que es lo que acaba de pasar)
+  const dmTurns = turns
+    .filter(t => t.role === 'DM')
+    .slice(-6)
+
+  if (dmTurns.length < 2) return [] // Necesitamos al menos 2 turnos del DM para detectar repetición
+
+  const actions: string[] = []
+
+  // Patrones de acciones completadas en español
+  const esPatterns = [
+    /(?:Tomas?|Tomás|Recibes?|Recibís|Guardas?|Guardás|Aseguras?|Asegurás|Aceptas?|Aceptás|Recoges?|Recogés|Agarras?|Agarrás)\s+[^.!?]{5,60}[.!?]/gi,
+    /(?:Te\s+(?:inclinas?|inclín[aá]s|vuelves|volv[eé]s|diriges|dirigís|acercas|acercás))\s+[^.!?]{5,60}[.!?]/gi,
+    /(?:te\s+(?:entrega|da|ofrece|extiende|devuelve))\s+[^.!?]{5,60}[.!?]/gi,
+  ]
+
+  // Patrones en inglés
+  const enPatterns = [
+    /(?:You\s+(?:take|receive|grab|accept|pick up|secure|stow))\s+[^.!?]{5,60}[.!?]/gi,
+    /(?:You\s+(?:bow|turn|head|approach|lean))\s+[^.!?]{5,60}[.!?]/gi,
+    /(?:(?:hands?|gives?|offers?|extends?|passes?)\s+(?:you|to you))\s+[^.!?]{5,60}[.!?]/gi,
+  ]
+
+  const patterns = locale === 'es' ? esPatterns : enPatterns
+
+  for (const turn of dmTurns) {
+    for (const pattern of patterns) {
+      const matches = turn.content.match(pattern)
+      if (matches) {
+        for (const match of matches) {
+          const cleaned = match.trim().substring(0, 80)
+          // Evitar duplicados
+          if (!actions.some(a => a.toLowerCase() === cleaned.toLowerCase())) {
+            actions.push(cleaned)
+          }
+        }
+      }
+    }
+  }
+
+  // Limitar a las 5 más recientes
+  return actions.slice(-5)
 }
