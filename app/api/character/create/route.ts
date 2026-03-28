@@ -255,131 +255,124 @@ export async function POST(req: NextRequest) {
       inviteCode = generateInviteCode()
     }
 
-    // Crear todo en una transacción — sin timeout, sin retry (patrón original que funciona)
-    const result = await prisma.$transaction(async (tx) => {
-      // 0. Buscar o crear usuario
-      user = await tx.user.findUnique({ where: { clerkId: userId } })
-      if (!user) {
-        const uniqueEmail = `user_${userId}_${Date.now()}@placeholder.local`
-        user = await tx.user.create({
-          data: { clerkId: userId, username: `Usuario_${userId.slice(-6)}`, email: uniqueEmail, tutorialLevel },
-        })
-      } else if (user.tutorialLevel !== tutorialLevel) {
-        user = await tx.user.update({ where: { id: user.id }, data: { tutorialLevel } })
-      }
-
-      // 1. Crear la campaña
-      const campaign = await tx.campaign.create({
-        data: {
-          userId: user.id,
-          name: mode === 'ONE_SHOT'
-            ? `Aventura en ${loreData.name}`
-            : `Campaña en ${loreData.name}`,
-          lore,
-          engine,
-          mode,
-          worldState: initialWorldState as Prisma.InputJsonValue,
-          isMultiplayer: isMultiplayer || false,
-          inviteCode: inviteCode,
-        },
+    // Crear todo secuencialmente (transaction mode no soporta $transaction interactivas)
+    // 0. Buscar o crear usuario
+    user = await prisma.user.findUnique({ where: { clerkId: userId } })
+    if (!user) {
+      const uniqueEmail = `user_${userId}_${Date.now()}@placeholder.local`
+      user = await prisma.user.create({
+        data: { clerkId: userId, username: `Usuario_${userId.slice(-6)}`, email: uniqueEmail, tutorialLevel },
       })
+    } else if (user.tutorialLevel !== tutorialLevel) {
+      user = await prisma.user.update({ where: { id: user.id }, data: { tutorialLevel } })
+    }
 
-      // Actualizar el campaign_id en el world state
-      const updatedWorldState = {
-        ...initialWorldState,
-        campaign_id: campaign.id,
-      }
-
-      await tx.campaign.update({
-        where: { id: campaign.id },
-        data: { worldState: updatedWorldState as Prisma.InputJsonValue },
-      })
-
-      // 2. Crear el personaje
-      const character = await tx.character.create({
-        data: {
-          userId: user.id,
-          campaignId: campaign.id,
-          name: charName,
-          lore,
-          archetype: charArchetype,
-          level: charLevel,
-          experience: 0,
-          stats: charStats,
-          inventory: charInventory,
-          conditions: [],
-          activeEffects: [],
-          backstory: isDnD5eCharacter
-            ? `${charStats.raceName} ${charStats.className} nivel ${charLevel}`
-            : loreData.archetypes.find((a: any) => a.id === archetypeId)?.description || '',
-        },
-      })
-
-      // 2.5. Crear CampaignParticipant para el owner (siempre, no solo multiplayer)
-      await tx.campaignParticipant.create({
-        data: {
-          campaignId: campaign.id,
-          userId: user.id,
-          characterId: character.id,
-          role: 'OWNER',
-          isOnline: true,
-        },
-      })
-
-      // 3. Crear la primera sesión
-      const session = await tx.session.create({
-        data: {
-          campaignId: campaign.id,
-          userId: user.id,
-          summary: null,
-          partyCheckLog: [],
-        },
-      })
-
-      // 4. Crear el primer turn del sistema con contexto espacial inmersivo
-      // Soportar opening_scenes (array de variantes) o opening_scene (legacy singular)
-      const openingScenes = (loreData as any).opening_scenes || (loreData.opening_scene ? [loreData.opening_scene] : [])
-      const openingScene = openingScenes.length > 0
-        ? openingScenes[Math.floor(Math.random() * openingScenes.length)]
-        : null
-      let introContent = ''
-      let suggestedActions: string[] = []
-
-      if (openingScene) {
-        // Intro concisa e inmersiva — solo descripción + pregunta
-        introContent = openingScene.description + '\n\n'
-        introContent += openingScene.closing_prompt || '¿Qué deseas hacer?'
-
-        // Acciones sugeridas basadas en direcciones y rumores
-        if (openingScene.visible_directions?.length > 0) {
-          openingScene.visible_directions.slice(0, 3).forEach((dir: { direction: string; landmark: string }) => {
-            suggestedActions.push(`Ir al ${dir.direction}`)
-          })
-        }
-        suggestedActions.push('Hablar con alguien cercano')
-        suggestedActions.push('Explorar el lugar actual')
-
-      } else {
-        // Fallback al sistema anterior si no hay opening_scene
-        const narrativeHook = mode === 'ONE_SHOT'
-          ? (loreData.one_shot_hooks?.[0]?.hook || loreData.narrative_skeleton?.act_1?.description || 'Tu aventura comienza...')
-          : (loreData.narrative_skeleton?.act_1?.description || 'Tu aventura comienza...')
-
-        introContent = `Bienvenido a ${loreData.name}, ${charName}.\n\n${narrativeHook}`
-      }
-
-      const firstTurn = await tx.turn.create({
-        data: {
-          sessionId: session.id,
-          role: 'DM',
-          content: introContent,
-          diceRolls: suggestedActions.length > 0 ? { suggested_actions: suggestedActions } : undefined,
-          createdAt: new Date(),
-        },
-      })
-
-      return { campaign, character, session, firstTurnId: firstTurn.id, introContent }
+    // 1. Crear la campaña
+    const campaign = await prisma.campaign.create({
+      data: {
+        userId: user.id,
+        name: mode === 'ONE_SHOT'
+          ? `Aventura en ${loreData.name}`
+          : `Campaña en ${loreData.name}`,
+        lore,
+        engine,
+        mode,
+        worldState: initialWorldState as Prisma.InputJsonValue,
+        isMultiplayer: isMultiplayer || false,
+        inviteCode: inviteCode,
+      },
     })
+
+    // Actualizar el campaign_id en el world state
+    const updatedWorldState = {
+      ...initialWorldState,
+      campaign_id: campaign.id,
+    }
+
+    await prisma.campaign.update({
+      where: { id: campaign.id },
+      data: { worldState: updatedWorldState as Prisma.InputJsonValue },
+    })
+
+    // 2. Crear el personaje
+    const character = await prisma.character.create({
+      data: {
+        userId: user.id,
+        campaignId: campaign.id,
+        name: charName,
+        lore,
+        archetype: charArchetype,
+        level: charLevel,
+        experience: 0,
+        stats: charStats,
+        inventory: charInventory,
+        conditions: [],
+        activeEffects: [],
+        backstory: isDnD5eCharacter
+          ? `${charStats.raceName} ${charStats.className} nivel ${charLevel}`
+          : loreData.archetypes.find((a: any) => a.id === archetypeId)?.description || '',
+      },
+    })
+
+    // 2.5. Crear CampaignParticipant para el owner
+    await prisma.campaignParticipant.create({
+      data: {
+        campaignId: campaign.id,
+        userId: user.id,
+        characterId: character.id,
+        role: 'OWNER',
+        isOnline: true,
+      },
+    })
+
+    // 3. Crear la primera sesión
+    const session = await prisma.session.create({
+      data: {
+        campaignId: campaign.id,
+        userId: user.id,
+        summary: null,
+        partyCheckLog: [],
+      },
+    })
+
+    // 4. Crear el primer turn del sistema con contexto espacial inmersivo
+    const openingScenes = (loreData as any).opening_scenes || (loreData.opening_scene ? [loreData.opening_scene] : [])
+    const openingScene = openingScenes.length > 0
+      ? openingScenes[Math.floor(Math.random() * openingScenes.length)]
+      : null
+    let introContent = ''
+    let suggestedActions: string[] = []
+
+    if (openingScene) {
+      introContent = openingScene.description + '\n\n'
+      introContent += openingScene.closing_prompt || '¿Qué deseas hacer?'
+
+      if (openingScene.visible_directions?.length > 0) {
+        openingScene.visible_directions.slice(0, 3).forEach((dir: { direction: string; landmark: string }) => {
+          suggestedActions.push(`Ir al ${dir.direction}`)
+        })
+      }
+      suggestedActions.push('Hablar con alguien cercano')
+      suggestedActions.push('Explorar el lugar actual')
+    } else {
+      const narrativeHook = mode === 'ONE_SHOT'
+        ? (loreData.one_shot_hooks?.[0]?.hook || loreData.narrative_skeleton?.act_1?.description || 'Tu aventura comienza...')
+        : (loreData.narrative_skeleton?.act_1?.description || 'Tu aventura comienza...')
+
+      introContent = `Bienvenido a ${loreData.name}, ${charName}.\n\n${narrativeHook}`
+    }
+
+    const firstTurn = await prisma.turn.create({
+      data: {
+        sessionId: session.id,
+        role: 'DM',
+        content: introContent,
+        diceRolls: suggestedActions.length > 0 ? { suggested_actions: suggestedActions } : undefined,
+        createdAt: new Date(),
+      },
+    })
+
+    const result = { campaign, character, session, firstTurnId: firstTurn.id, introContent }
 
     // Generar retrato del personaje SÍNCRONAMENTE (patrón original que funciona)
     let avatarUrl: string | null = null

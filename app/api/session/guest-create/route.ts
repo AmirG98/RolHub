@@ -103,66 +103,58 @@ export async function POST(req: NextRequest) {
       introContent = `Bienvenido a ${loreData.name}, ${characterName}.\n\nTu aventura comienza...`
     }
 
-    // Crear todo en una transacción
-    const result = await prisma.$transaction(async (tx) => {
-      // Crear usuario guest
-      const user = await tx.user.create({
-        data: {
-          clerkId: guestId,
-          username: characterName,
-          email: `${guestId}@guest.rolhub.com`,
-          tutorialLevel: 'NOVICE' as TutorialLevel,
-        },
-      })
-
-      // Crear campaña
-      const campaign = await tx.campaign.create({
-        data: {
-          userId: user.id,
-          name: `Aventura en ${loreData.name}`,
-          lore, engine, mode,
-          worldState: initialWorldState as unknown as Prisma.InputJsonValue,
-          worldMap: {} as Prisma.InputJsonValue,
-          isMultiplayer: false,
-        },
-      })
-
-      // Crear personaje
-      const character = await tx.character.create({
-        data: {
-          userId: user.id, campaignId: campaign.id,
-          name: characterName, lore, archetype: charArchetype,
-          level: 1, experience: 0,
-          stats: { ...charStats, hp: maxHP, maxHp: maxHP } as Prisma.InputJsonValue,
-          inventory: charInventory as Prisma.InputJsonValue,
-          backstory: characterDescription || '',
-        },
-      })
-
-      // Crear participant
-      await tx.campaignParticipant.create({
-        data: {
-          campaignId: campaign.id, userId: user.id,
-          characterId: character.id, role: 'OWNER',
-        },
-      })
-
-      // Crear sesión
-      const session = await tx.session.create({
-        data: { campaignId: campaign.id, userId: user.id, summary: null, partyCheckLog: [] },
-      })
-
-      // Crear primer turno
-      const firstTurn = await tx.turn.create({
-        data: {
-          sessionId: session.id, role: 'DM', content: introContent,
-          diceRolls: suggestedActions.length > 0 ? { suggested_actions: suggestedActions } : undefined,
-          createdAt: new Date(),
-        },
-      })
-
-      return { campaign, character, session, firstTurnId: firstTurn.id, userId: user.id }
+    // Crear todo secuencialmente (transaction mode no soporta $transaction interactivas)
+    const user = await prisma.user.create({
+      data: {
+        clerkId: guestId,
+        username: characterName,
+        email: `${guestId}@guest.rolhub.com`,
+        tutorialLevel: 'NOVICE' as TutorialLevel,
+      },
     })
+
+    const campaign = await prisma.campaign.create({
+      data: {
+        userId: user.id,
+        name: `Aventura en ${loreData.name}`,
+        lore, engine, mode,
+        worldState: initialWorldState as unknown as Prisma.InputJsonValue,
+        worldMap: {} as Prisma.InputJsonValue,
+        isMultiplayer: false,
+      },
+    })
+
+    const character = await prisma.character.create({
+      data: {
+        userId: user.id, campaignId: campaign.id,
+        name: characterName, lore, archetype: charArchetype,
+        level: 1, experience: 0,
+        stats: { ...charStats, hp: maxHP, maxHp: maxHP } as Prisma.InputJsonValue,
+        inventory: charInventory as Prisma.InputJsonValue,
+        backstory: characterDescription || '',
+      },
+    })
+
+    await prisma.campaignParticipant.create({
+      data: {
+        campaignId: campaign.id, userId: user.id,
+        characterId: character.id, role: 'OWNER',
+      },
+    })
+
+    const session = await prisma.session.create({
+      data: { campaignId: campaign.id, userId: user.id, summary: null, partyCheckLog: [] },
+    })
+
+    const firstTurn = await prisma.turn.create({
+      data: {
+        sessionId: session.id, role: 'DM', content: introContent,
+        diceRolls: suggestedActions.length > 0 ? { suggested_actions: suggestedActions } : undefined,
+        createdAt: new Date(),
+      },
+    })
+
+    const result = { campaign, character, session, firstTurnId: firstTurn.id, userId: user.id }
 
     // Generar retrato (síncrono, como el flow normal)
     let avatarUrl: string | null = null

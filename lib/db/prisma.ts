@@ -4,20 +4,15 @@ const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined
 }
 
-// Usar la DATABASE_URL tal como viene de Supabase (session mode, puerto 5432)
-// NO cambiar al puerto 6543 — transaction mode NO soporta Prisma interactive transactions
-// Solo limitar conexiones para serverless
+// Transaction pooler (puerto 6543) + pgbouncer=true ya viene en la DATABASE_URL
+// connection_limit=5 permite queries paralelas dentro de un mismo proceso serverless
 function buildUrl(): string | undefined {
   const url = process.env.DATABASE_URL
   if (!url) return undefined
   try {
     const parsed = new URL(url)
     if (!parsed.searchParams.has('connection_limit')) {
-      parsed.searchParams.set('connection_limit', '1')
-    }
-    // pgbouncer=true desactiva prepared statements — necesario para Supabase pooler
-    if (!parsed.searchParams.has('pgbouncer')) {
-      parsed.searchParams.set('pgbouncer', 'true')
+      parsed.searchParams.set('connection_limit', '5')
     }
     return parsed.toString()
   } catch {
@@ -50,9 +45,11 @@ export async function withRetry<T>(
       lastError = error
       const isPoolError = error?.message?.includes('pool') ||
         error?.message?.includes('connection') ||
-        error?.message?.includes('timeout')
+        error?.message?.includes('timeout') ||
+        error?.message?.includes('MaxClients') ||
+        error?.message?.includes('FATAL')
       if (!isPoolError || attempt === maxRetries) throw error
-      console.warn(`[DB] Pool timeout, retrying (${attempt + 1}/${maxRetries})...`)
+      console.warn(`[DB] Connection error, retrying (${attempt + 1}/${maxRetries})...`)
       await new Promise(r => setTimeout(r, delayMs * (attempt + 1)))
     }
   }
