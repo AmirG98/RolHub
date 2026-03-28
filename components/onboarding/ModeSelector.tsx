@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { GameMode, GameEngine, TutorialLevel } from '@/lib/types/lore'
 import { ParchmentPanel } from '@/components/medieval/ParchmentPanel'
 import { RunicButton } from '@/components/medieval/RunicButton'
@@ -26,6 +26,18 @@ export function ModeSelector({ onSelect, onBack }: ModeSelectorProps) {
   const [selectedEngine, setSelectedEngine] = useState<GameEngine | null>(null)
   const [selectedTutorial, setSelectedTutorial] = useState<TutorialLevel | null>(null)
   const [isMultiplayer, setIsMultiplayer] = useState<boolean | null>(null)
+
+  // Refs para auto-scroll entre secciones
+  const durationRef = useRef<HTMLDivElement>(null)
+  const engineRef = useRef<HTMLDivElement>(null)
+  const experienceRef = useRef<HTMLDivElement>(null)
+  const buttonsRef = useRef<HTMLDivElement>(null)
+
+  const scrollTo = (ref: React.RefObject<HTMLDivElement | null>) => {
+    setTimeout(() => {
+      ref.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }, 300)
+  }
 
   const canContinue = selectedMode && selectedEngine && selectedTutorial && isMultiplayer !== null
 
@@ -126,7 +138,7 @@ export function ModeSelector({ onSelect, onBack }: ModeSelectorProps) {
               className={`glass-panel rounded-lg p-4 md:p-6 cursor-pointer transition-all duration-300 hover:scale-105 text-center ${
                 isMultiplayer === false ? 'glow-effect ring-2 ring-gold-bright' : ''
               }`}
-              onClick={() => setIsMultiplayer(false)}
+              onClick={() => { setIsMultiplayer(false); scrollTo(durationRef) }}
             >
               <div className="text-4xl md:text-6xl mb-2 md:mb-3">🧙</div>
               <h3 className="font-heading text-lg md:text-2xl text-parchment mb-1 md:mb-2">{t.onboarding.chooseMode.solo}</h3>
@@ -142,7 +154,7 @@ export function ModeSelector({ onSelect, onBack }: ModeSelectorProps) {
               className={`glass-panel rounded-lg p-4 md:p-6 cursor-pointer transition-all duration-300 hover:scale-105 text-center ${
                 isMultiplayer === true ? 'glow-effect ring-2 ring-gold-bright' : ''
               }`}
-              onClick={() => setIsMultiplayer(true)}
+              onClick={() => { setIsMultiplayer(true); scrollTo(durationRef) }}
             >
               <div className="text-4xl md:text-6xl mb-2 md:mb-3">👥</div>
               <h3 className="font-heading text-lg md:text-2xl text-parchment mb-1 md:mb-2">{t.onboarding.chooseMode.withFriends}</h3>
@@ -157,7 +169,7 @@ export function ModeSelector({ onSelect, onBack }: ModeSelectorProps) {
         </div>
 
         {/* Paso 1: Modo de juego */}
-        <div>
+        <div ref={durationRef}>
           <h2 className="font-title text-2xl md:text-4xl text-gold-bright text-center mb-2 md:mb-4">
             {t.onboarding.duration.title}
           </h2>
@@ -172,7 +184,7 @@ export function ModeSelector({ onSelect, onBack }: ModeSelectorProps) {
                 className={`glass-panel rounded-lg p-3 md:p-6 cursor-pointer transition-all duration-300 hover:scale-105 text-left ${
                   selectedMode === mode.id ? 'glow-effect ring-2 ring-gold-bright' : ''
                 }`}
-                onClick={() => setSelectedMode(mode.id)}
+                onClick={() => { setSelectedMode(mode.id); scrollTo(engineRef) }}
               >
                 <div className="text-3xl md:text-5xl mb-2 md:mb-3">{mode.icon}</div>
                 <h3 className="font-heading text-base md:text-2xl text-parchment mb-1 md:mb-2">{mode.name}</h3>
@@ -186,7 +198,7 @@ export function ModeSelector({ onSelect, onBack }: ModeSelectorProps) {
         </div>
 
         {/* Paso 2: Motor de reglas */}
-        <div>
+        <div ref={engineRef}>
           <h2 className="font-title text-2xl md:text-4xl text-gold-bright text-center mb-2 md:mb-4">
             {t.onboarding.engine.title}
           </h2>
@@ -205,7 +217,7 @@ export function ModeSelector({ onSelect, onBack }: ModeSelectorProps) {
                 } ${
                   selectedEngine === engine.id && !engine.comingSoon ? 'glow-effect ring-2 ring-gold-bright' : ''
                 }`}
-                onClick={() => !engine.comingSoon && setSelectedEngine(engine.id)}
+                onClick={() => { if (!engine.comingSoon) { setSelectedEngine(engine.id); scrollTo(experienceRef) } }}
                 disabled={engine.comingSoon}
               >
                 {engine.recommended && (
@@ -230,7 +242,7 @@ export function ModeSelector({ onSelect, onBack }: ModeSelectorProps) {
         </div>
 
         {/* Paso 3: Nivel de experiencia */}
-        <div>
+        <div ref={experienceRef}>
           <h2 className="font-title text-2xl md:text-4xl text-gold-bright text-center mb-2 md:mb-4">
             {t.onboarding.experience.title}
           </h2>
@@ -251,7 +263,7 @@ export function ModeSelector({ onSelect, onBack }: ModeSelectorProps) {
                 className={`glass-panel rounded-lg p-3 md:p-4 cursor-pointer transition-all duration-300 hover:scale-105 text-left ${
                   selectedTutorial === level.id ? 'glow-effect ring-2 ring-gold-bright' : ''
                 }`}
-                onClick={() => setSelectedTutorial(level.id)}
+                onClick={() => { setSelectedTutorial(level.id); scrollTo(buttonsRef) }}
               >
                 <div className="text-2xl md:text-4xl mb-1 md:mb-2">{level.icon}</div>
                 <h3 className="font-heading text-sm md:text-lg text-parchment mb-0.5 md:mb-1">{level.name}</h3>
@@ -262,7 +274,7 @@ export function ModeSelector({ onSelect, onBack }: ModeSelectorProps) {
         </div>
 
         {/* Botones de navegación - fixed en mobile */}
-        <div className="fixed bottom-0 left-0 right-0 md:relative bg-shadow/95 md:bg-transparent p-4 md:p-0 border-t border-gold/20 md:border-0 flex justify-between items-center md:pt-6 z-40">
+        <div ref={buttonsRef} className="fixed bottom-0 left-0 right-0 md:relative bg-shadow/95 md:bg-transparent p-4 md:p-0 border-t border-gold/20 md:border-0 flex justify-between items-center md:pt-6 z-40">
           <RunicButton variant="secondary" onClick={onBack} className="text-sm md:text-base px-4 md:px-6">
             {t.onboarding.buttons.back}
           </RunicButton>
