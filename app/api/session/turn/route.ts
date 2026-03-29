@@ -449,172 +449,24 @@ ${diceInterpretation}
       }).join('\n')
     }
 
+    // Solo incluir ubicaciones descubiertas (no todas) para reducir tokens
+    const discoveredLocs = mapLocations.filter(l => {
+      const level = locationKnowledge[l.id] || 'unknown'
+      return level !== 'unknown'
+    })
+    const locationList = discoveredLocs.map(l => {
+      const level = locationKnowledge[l.id] || 'unknown'
+      return `${l.id}: ${l.name} [${level}]`
+    }).join(', ')
+
     const locationContextSection = isEnglish ? `
-=== LOCATION SYSTEM (NARRATIVE DISCOVERY) ===
-Current Location ID: ${currentLocationId || 'unknown'}
-Current Location: ${currentMapLocation?.name || worldState.current_scene}
-Navigation Status: ${navigationLocked ? 'LOCKED' : 'FREE'}
-${mapState?.lockReason ? `Lock Reason: ${mapState.lockReason}` : ''}
-
-ALL WORLD LOCATIONS (with knowledge levels):
-${buildLocationList(mapLocations, locationKnowledge)}
-
-KNOWLEDGE LEVELS:
-- "unknown": Player has never heard of this place
-- "rumored": Player heard about it (name shown with "?" on map, CANNOT travel)
-- "discovered": Player knows how to get there (CAN travel)
-- "visited": Player has been there
-- "explored": Player investigated thoroughly
-- "mastered": Player knows all secrets
-
-NARRATIVE DISCOVERY RULES:
-1. The player can ONLY travel to locations with knowledge level >= "discovered"
-2. To REVEAL new locations, use "discover_locations" in your response
-3. Use level "rumored" when they HEAR about a place (NPC mentions it, rumor, etc.)
-4. Use level "discovered" when they LEARN HOW to get there (map found, directions given, etc.)
-5. The narrative MUST justify the discovery: NPC tells them, they find a map, overhear conversation, etc.
-6. When player arrives at a new location, include "location_id" with the ID
-7. Use "navigation_locked": true during combat, important dialogue, or crucial decisions
-
-EXAMPLE - Revealing a location through narrative:
-{
-  "narration": "The old merchant leans closer and whispers: 'There's an ancient temple hidden in the northern mountains... I've heard strange lights there at night.'",
-  "discover_locations": [
-    { "locationId": "ancient-temple", "level": "rumored", "source": "NPC dialogue" }
-  ]
-}
-
-EXAMPLE - Upgrading to discovered (can now travel):
-{
-  "narration": "The merchant hands you a weathered map. 'Here, this shows the path through the mountains to the temple.'",
-  "discover_locations": [
-    { "locationId": "ancient-temple", "level": "discovered", "source": "found map" }
-  ]
-}
-
-CRITICAL RULE - TRAVEL BETWEEN LOCATIONS:
-When the player says they travel to another location (e.g. "I travel to Rivendell", "I head to Bree", "I go to the city"):
-1. ALWAYS include "location_id" with the exact destination location ID
-2. ALWAYS include "scene_change" with the name of the new place
-3. Narrate the journey immersively (landscapes, road dangers, arrival)
-4. Upon arrival, describe the new location
-
-EXAMPLE - Player travels to another location:
-{
-  "narration": "You set off eastward, leaving behind the green fields of the Shire. The path winds through increasingly dense hills and forests. After hours of walking, the Valley of Rivendell opens before you: crystal waterfalls, elven terraces among ancient trees, and an ancient peace fills the air.",
-  "location_id": "rivendel",
-  "scene_change": "Rivendell",
-  "generate_image": true,
-  "image_prompt": "Elven valley with crystal waterfalls, terraces among ancient trees, elegant elven architecture, golden sunset light filtering through foliage, a hobbit traveler arriving at the valley",
-  "mood_hint": "exploration",
-  "suggested_actions": ["Seek Lord Elrond", "Explore the elven terraces", "Rest by the waterfalls"]
-}
-
-CREATING NEW LOCATIONS DYNAMICALLY:
-When the narrative introduces a place that does NOT exist in the location list above,
-you can create it dynamically using "create_location" in your response.
-The new location will appear on the player's map automatically.
-Position it relative to an existing location using direction and distance.
-
-"create_location": {
-  "id": "hidden-cave",
-  "name": "Hidden Cave",
-  "description": "A cave behind a waterfall",
-  "type": "dungeon",
-  "dangerLevel": 3,
-  "nearLocationId": "rivendel",
-  "direction": "north",
-  "distance": "close",
-  "connectTo": ["rivendel"]
-}
-
-Valid directions: north, south, east, west, northeast, northwest, southeast, southwest
-Valid distances: close, medium, far
-Valid types: city, dungeon, wilderness, landmark, danger, safe, mystery
-=== END LOCATION SYSTEM ===
+LOCATION: ${currentMapLocation?.name || worldState.current_scene} (ID: ${currentLocationId || 'unknown'})${navigationLocked ? ' [NAVIGATION LOCKED]' : ''}
+Known locations: ${locationList || 'none'}
+Travel: use "location_id" + "scene_change" when player travels. Use "discover_locations" to reveal new places (rumored/discovered). Use "create_location" for new dynamic locations.
 ` : `
-=== SISTEMA DE UBICACIÓN (DESCUBRIMIENTO NARRATIVO) ===
-ID de Ubicación Actual: ${currentLocationId || 'desconocido'}
-Ubicación Actual: ${currentMapLocation?.name || worldState.current_scene}
-Estado de Navegación: ${navigationLocked ? 'BLOQUEADA' : 'LIBRE'}
-${mapState?.lockReason ? `Razón del Bloqueo: ${mapState.lockReason}` : ''}
-
-TODAS LAS UBICACIONES DEL MUNDO (con niveles de conocimiento):
-${buildLocationList(mapLocations, locationKnowledge)}
-
-NIVELES DE CONOCIMIENTO:
-- "unknown": El jugador nunca ha oído de este lugar
-- "rumored": El jugador escuchó hablar de él (nombre con "?" en mapa, NO PUEDE viajar)
-- "discovered": El jugador sabe cómo llegar (PUEDE viajar)
-- "visited": El jugador ha estado ahí
-- "explored": El jugador investigó a fondo
-- "mastered": El jugador conoce todos los secretos
-
-REGLAS DE DESCUBRIMIENTO NARRATIVO:
-1. El jugador SOLO puede viajar a ubicaciones con nivel de conocimiento >= "discovered"
-2. Para REVELAR nuevas ubicaciones, usa "discover_locations" en tu respuesta
-3. Usa nivel "rumored" cuando ESCUCHEN sobre un lugar (NPC lo menciona, rumor, etc.)
-4. Usa nivel "discovered" cuando APRENDAN CÓMO llegar (encuentran mapa, les dan indicaciones, etc.)
-5. La narrativa DEBE justificar el descubrimiento: NPC les cuenta, encuentran mapa, escuchan conversación, etc.
-6. Cuando el jugador llegue a una nueva ubicación, incluye "location_id" con el ID
-7. Usa "navigation_locked": true durante combate, diálogo importante o decisiones cruciales
-
-EJEMPLO - Revelando una ubicación mediante narrativa:
-{
-  "narration": "El viejo mercader se acerca y susurra: 'Hay un templo antiguo oculto en las montañas del norte... He oído de luces extrañas ahí por las noches.'",
-  "discover_locations": [
-    { "locationId": "templo-antiguo", "level": "rumored", "source": "NPC dialogue" }
-  ]
-}
-
-EJEMPLO - Mejorando a discovered (ahora pueden viajar):
-{
-  "narration": "El mercader te entrega un mapa desgastado. 'Aquí, esto muestra el camino a través de las montañas hasta el templo.'",
-  "discover_locations": [
-    { "locationId": "templo-antiguo", "level": "discovered", "source": "found map" }
-  ]
-}
-
-REGLA CRÍTICA - VIAJE ENTRE UBICACIONES:
-Cuando el jugador dice que viaja a otra ubicación (ej: "Viajo hacia Rivendel", "Me dirijo a Bree", "Voy a la ciudad"):
-1. SIEMPRE incluir "location_id" con el ID exacto de la ubicación de destino
-2. SIEMPRE incluir "scene_change" con el nombre del nuevo lugar
-3. Narra el viaje de forma inmersiva (paisajes, peligros del camino, llegada)
-4. Al llegar, describe la nueva ubicación
-
-EJEMPLO - Jugador viaja a otra ubicación:
-{
-  "narration": "Emprendes el camino hacia el este, dejando atrás los verdes campos de la Comarca. El sendero serpentea entre colinas y bosques cada vez más densos. Tras horas de marcha, el Valle de Rivendel se abre ante ti: cascadas de cristal, terrazas élficas entre los árboles, y una paz antigua que invade el aire.",
-  "location_id": "rivendel",
-  "scene_change": "Rivendel",
-  "generate_image": true,
-  "image_prompt": "Valle élfico con cascadas cristalinas, terrazas entre árboles ancestrales, arquitectura élfica elegante, luz dorada del atardecer filtrándose entre el follaje, un viajero hobbit llegando al valle",
-  "mood_hint": "exploration",
-  "suggested_actions": ["Buscar al Señor Elrond", "Explorar las terrazas élficas", "Descansar junto a las cascadas"]
-}
-
-CREACIÓN DINÁMICA DE UBICACIONES:
-Cuando la narrativa introduce un lugar que NO existe en la lista de ubicaciones anterior,
-puedes crearlo dinámicamente usando "create_location" en tu respuesta.
-La nueva ubicación aparecerá automáticamente en el mapa del jugador.
-Posiciónala respecto a una ubicación existente usando dirección y distancia.
-
-"create_location": {
-  "id": "cueva-oculta",
-  "name": "Cueva Oculta",
-  "description": "Una cueva detrás de una cascada",
-  "type": "dungeon",
-  "dangerLevel": 3,
-  "nearLocationId": "rivendel",
-  "direction": "north",
-  "distance": "close",
-  "connectTo": ["rivendel"]
-}
-
-Direcciones válidas: north, south, east, west, northeast, northwest, southeast, southwest
-Distancias válidas: close, medium, far
-Tipos válidos: city, dungeon, wilderness, landmark, danger, safe, mystery
-=== FIN SISTEMA DE UBICACIÓN ===
+UBICACIÓN: ${currentMapLocation?.name || worldState.current_scene} (ID: ${currentLocationId || 'unknown'})${navigationLocked ? ' [NAVEGACIÓN BLOQUEADA]' : ''}
+Lugares conocidos: ${locationList || 'ninguno'}
+Viaje: usar "location_id" + "scene_change" al viajar. Usar "discover_locations" para revelar lugares (rumored/discovered). Usar "create_location" para lugares nuevos dinámicos.
 `
 
     // Build quest context section
@@ -622,185 +474,25 @@ Tipos válidos: city, dungeon, wilderness, landmark, danger, safe, mystery
     const activeQuestsData = quests.filter(q => q.status === 'active')
 
     const questContextSection = isEnglish ? `
-=== QUEST AND DISCOVERY SYSTEM ===
-Active Quests: ${activeQuestsData.length}
-${activeQuestsData.map(q => `- "${q.title}" (${q.priority}): ${q.description.slice(0, 80)}...
-  ${q.objectives.filter(o => !o.completed).map(o => `  → Pending: ${o.description}`).join('\n')}`).join('\n') || '- No active quests'}
+QUESTS: ${activeQuestsData.map(q => `"${q.title}" (${q.priority})`).join(', ') || 'None'}
+${(currentMapLocation as any)?.plot_hooks?.slice(0, 2).map((h: string) => `Hook: ${h}`).join('. ') || ''}
+Use "quest_create", "quest_complete_objective", "secret_reveal", "knowledge_upgrade" when relevant.
 
-Plot Hooks Available (at current location):
-${(currentMapLocation as any)?.plot_hooks?.slice(0, 3).map((h: string) => `- ${h}`).join('\n') || '- None available'}
+IMAGES: Set "generate_image":true + "image_prompt" (first-person POV, player NOT visible) only when scene changes visually (new location, mood shift, dramatic event). NOT for dialogue.
+"mood_hint": "exploration"|"combat"|"dialogue"|"dramatic"
 
-QUEST RULES:
-1. You can CREATE new quests when the player discovers something important or talks to an NPC
-2. You can COMPLETE objectives when the player accomplishes them
-3. You can REVEAL location secrets when appropriate
-4. You can UPGRADE knowledge level when player learns about new places:
-   - "rumored": player hears about a place
-   - "discovered": player knows basic info
-   - "visited": player has been there
-   - "explored": player has investigated thoroughly
-   - "mastered": player knows all secrets
-
-Include in your response when relevant:
-- "quest_create": { title, description, priority: "main"|"side", targetLocationId?, objectives: [{description, locationId?}] }
-- "quest_complete_objective": { questId, objectiveId }
-- "secret_reveal": { locationId, secretId, content }
-- "knowledge_upgrade": { locationId, newLevel }
-=== END QUEST SYSTEM ===
-
-=== IMAGE GENERATION SYSTEM ===
-Generate images ONLY when the visual scene changes meaningfully.
-
-WHEN to generate images (set "generate_image": true):
-- Player arrives at a NEW location (ALWAYS)
-- The mood shifts dramatically (peaceful → combat, safe → danger, calm → storm)
-- Entering/exiting a building, going underground, crossing a threshold
-- A visually dramatic event (explosion, magical phenomenon, dramatic reveal)
-
-WHEN NOT to generate images:
-- Dialogue or conversation (even with new NPCs)
-- Actions within the same scene that don't change the visual environment
-- Consecutive turns in the same location with the same mood
-- Combat turns after the initial combat image
-
-PERSPECTIVE RULE (CRITICAL):
-ALWAYS describe the scene from FIRST PERSON POV — what the player character SEES in front of them.
-The player character is the CAMERA. They are NEVER visible in the image.
-Describe the environment, NPCs facing the viewer, objects ahead, the path forward.
-
-CONSISTENCY RULE:
-Maintain visual consistency across images in the same scene: same lighting, same color palette, same architectural style. If the previous image was a warm firelit tavern, the next one in that tavern must feel the same unless something changed (fire goes out, fight breaks out).
-
-Include in your response when appropriate:
-- "generate_image": true
-- "image_prompt": "First-person POV description in 2-3 sentences. Describe what the player SEES ahead: the environment, lighting, atmosphere, any NPCs or creatures FACING the viewer, objects in the foreground. The player character is NOT visible. Example: 'Looking down a misty forest path at dawn, golden light filtering through ancient oaks. A single goblin crouches behind a mossy boulder ahead, its yellow eyes gleaming. The dirt trail splits into two directions.'"
-
-Also include mood hints for UI styling:
-- "mood_hint": "exploration" (calm, exploring) | "combat" (tense, dangerous) | "dialogue" (intimate, conversation) | "dramatic" (epic, revelatory)
-=== END IMAGE SYSTEM ===
-
-=== COMBAT TRIGGER SYSTEM ===
-When combat begins (enemies attack, player starts fight, ambush, etc), you can trigger tactical combat.
-
-WHEN to trigger combat:
-- Player attacks an enemy or enemies attack the player
-- An ambush or surprise encounter occurs
-- A hostile creature blocks the path
-- A tense situation escalates to violence
-
-WHEN NOT to trigger combat:
-- Just seeing enemies in the distance
-- Negotiation or diplomacy attempts
-- Non-combat challenges (puzzles, traps that don't involve creatures)
-
-Include in your response when combat starts:
-- "combat_trigger": {
-    "enemies": [
-      {"name": "Goblin", "type": "goblin", "count": 3, "hp": 7, "ac": 12},
-      {"name": "Hobgoblin Captain", "type": "hobgoblin", "hp": 22, "ac": 15}
-    ],
-    "terrain": "dungeon" | "forest" | "castle" | "cavern" | "arena" | "street",
-    "ambush": true/false,
-    "ambushedBy": "enemies" | "players" (who surprised whom),
-    "difficulty": "easy" | "medium" | "hard" | "deadly",
-    "description": "Brief description of the combat scenario"
-  }
-
-IMPORTANT:
-- When you trigger combat, also set "navigation_locked": true, "lock_reason": "combat"
-- Keep the narration focused on the moment before combat begins
-- Let the tactical system handle the actual combat
-=== END COMBAT SYSTEM ===
+COMBAT: Use "combat_trigger" with enemies array when combat starts. Set "navigation_locked":true + "lock_reason":"combat".
+=== END SYSTEMS ===
 ` : `
-=== SISTEMA DE QUESTS Y DESCUBRIMIENTO ===
-Quests Activas: ${activeQuestsData.length}
-${activeQuestsData.map(q => `- "${q.title}" (${q.priority}): ${q.description.slice(0, 80)}...
-  ${q.objectives.filter(o => !o.completed).map(o => `  → Pendiente: ${o.description}`).join('\n')}`).join('\n') || '- Sin quests activas'}
+QUESTS: ${activeQuestsData.map(q => `"${q.title}" (${q.priority})`).join(', ') || 'Ninguna'}
+${(currentMapLocation as any)?.plot_hooks?.slice(0, 2).map((h: string) => `Hook: ${h}`).join('. ') || ''}
+Usar "quest_create", "quest_complete_objective", "secret_reveal", "knowledge_upgrade" cuando sea relevante.
 
-Plot Hooks Disponibles (en ubicación actual):
-${(currentMapLocation as any)?.plot_hooks?.slice(0, 3).map((h: string) => `- ${h}`).join('\n') || '- Ninguno disponible'}
+IMÁGENES: Poner "generate_image":true + "image_prompt" (POV primera persona, jugador NO visible) solo cuando la escena cambie visualmente (nueva ubicación, cambio de ánimo, evento dramático). NO para diálogos.
+"mood_hint": "exploration"|"combat"|"dialogue"|"dramatic"
 
-REGLAS DE QUESTS:
-1. Puedes CREAR nuevas quests cuando el jugador descubre algo importante o habla con un NPC
-2. Puedes COMPLETAR objetivos cuando el jugador los logra
-3. Puedes REVELAR secretos de locaciones cuando sea apropiado
-4. Puedes MEJORAR nivel de conocimiento cuando el jugador aprende de nuevos lugares:
-   - "rumored": jugador escuchó hablar del lugar
-   - "discovered": jugador conoce info básica
-   - "visited": jugador ha estado ahí
-   - "explored": jugador ha investigado a fondo
-   - "mastered": jugador conoce todos los secretos
-
-Incluir en tu respuesta cuando sea relevante:
-- "quest_create": { title, description, priority: "main"|"side", targetLocationId?, objectives: [{description, locationId?}] }
-- "quest_complete_objective": { questId, objectiveId }
-- "secret_reveal": { locationId, secretId, content }
-- "knowledge_upgrade": { locationId, newLevel }
-=== FIN SISTEMA DE QUESTS ===
-
-=== SISTEMA DE IMÁGENES ===
-Generá imágenes SOLO cuando la escena visual cambie significativamente.
-
-CUÁNDO generar imágenes (poner "generate_image": true):
-- El jugador llega a una NUEVA ubicación (SIEMPRE)
-- El ánimo cambia drásticamente (pacífico → combate, seguro → peligro, calma → tormenta)
-- Entrar/salir de un edificio, ir bajo tierra, cruzar un umbral
-- Un evento visualmente dramático (explosión, fenómeno mágico, revelación dramática)
-
-CUÁNDO NO generar imágenes:
-- Diálogo o conversación (incluso con NPCs nuevos)
-- Acciones dentro de la misma escena que no cambian el entorno visual
-- Turnos consecutivos en la misma ubicación con el mismo ánimo
-- Turnos de combate después de la imagen inicial de combate
-
-REGLA DE PERSPECTIVA (CRÍTICO):
-SIEMPRE describí la escena desde PRIMERA PERSONA (POV) — lo que el personaje jugador VE frente a él.
-El personaje jugador es la CÁMARA. NUNCA es visible en la imagen.
-Describí el entorno, NPCs de frente al espectador, objetos adelante, el camino a seguir.
-
-REGLA DE CONSISTENCIA:
-Mantené consistencia visual entre imágenes de la misma escena: misma iluminación, misma paleta de colores, mismo estilo arquitectónico. Si la imagen anterior era una taberna cálida con fuego, la siguiente en esa taberna debe sentirse igual a menos que algo haya cambiado (el fuego se apagó, empezó una pelea).
-
-Incluir en tu respuesta cuando sea apropiado:
-- "generate_image": true
-- "image_prompt": "Descripción en primera persona (POV) en 2-3 oraciones. Describí lo que el jugador VE adelante: el entorno, iluminación, atmósfera, NPCs o criaturas DE FRENTE al espectador, objetos en primer plano. El personaje jugador NO es visible. Ejemplo: 'Mirando por un sendero brumoso del bosque al amanecer, luz dorada filtrándose entre robles ancestrales. Un goblin solitario se agazapa detrás de un peñasco cubierto de musgo adelante, sus ojos amarillos brillando. El camino de tierra se bifurca en dos direcciones.'"
-
-También incluí hints de mood para estilización de UI:
-- "mood_hint": "exploration" (calmo) | "combat" (tenso) | "dialogue" (íntimo) | "dramatic" (épico)
-=== FIN SISTEMA DE IMÁGENES ===
-
-=== SISTEMA DE COMBATE TÁCTICO ===
-Cuando comienza un combate (enemigos atacan, jugador inicia pelea, emboscada, etc), puedes activar combate táctico.
-
-CUÁNDO activar combate:
-- El jugador ataca a un enemigo o enemigos atacan al jugador
-- Ocurre una emboscada o encuentro sorpresa
-- Una criatura hostil bloquea el camino
-- Una situación tensa escala a violencia
-
-CUÁNDO NO activar combate:
-- Solo ver enemigos a lo lejos
-- Intentos de negociación o diplomacia
-- Desafíos sin combate (puzzles, trampas sin criaturas)
-
-Incluir en tu respuesta cuando comience combate:
-- "combat_trigger": {
-    "enemies": [
-      {"name": "Goblin", "type": "goblin", "count": 3, "hp": 7, "ac": 12},
-      {"name": "Capitán Hobgoblin", "type": "hobgoblin", "hp": 22, "ac": 15}
-    ],
-    "terrain": "dungeon" | "forest" | "castle" | "cavern" | "arena" | "street",
-    "ambush": true/false,
-    "ambushedBy": "enemies" | "players" (quién sorprendió a quién),
-    "difficulty": "easy" | "medium" | "hard" | "deadly",
-    "description": "Breve descripción del escenario de combate"
-  }
-
-IMPORTANTE:
-- Al activar combate, también establece "navigation_locked": true, "lock_reason": "combat"
-- Mantén la narración enfocada en el momento antes del combate
-- Deja que el sistema táctico maneje el combate real
-=== FIN SISTEMA DE COMBATE ===
+COMBATE: Usar "combat_trigger" con array de enemies cuando empiece combate. Poner "navigation_locked":true + "lock_reason":"combat".
+=== FIN SISTEMAS ===
 `
 
     const systemPrompt = `${labels.dmRole}${isMultiplayer ? ` ${labels.multiplayer}` : ''}. ${isEnglish ? 'Your role is to create an immersive and exciting experience.' : 'Tu rol es crear una experiencia inmersiva y emocionante.'}
@@ -992,14 +684,22 @@ Avanzá el tiempo naturalmente: mañana→tarde→noche→amanecer.
 
     console.log(`[DM] System prompt length: ${systemPrompt.length} chars, conversation: ${conversationHistory.length} messages`)
 
-    let response
+    // Usar streaming para evitar timeout de Vercel — acumular respuesta completa server-side
+    let rawResponse = ''
     try {
-      response = await anthropic.messages.create({
+      const stream = anthropic.messages.stream({
         model: 'claude-sonnet-4-20250514',
         max_tokens: 1500,
         system: systemPrompt,
         messages: conversationHistory as any,
       })
+
+      // Acumular todos los chunks del stream
+      for await (const event of stream) {
+        if (event.type === 'content_block_delta' && event.delta.type === 'text_delta') {
+          rawResponse += event.delta.text
+        }
+      }
     } catch (apiError: any) {
       console.error('[DM] Anthropic API error:', apiError?.message || apiError)
       return NextResponse.json(
@@ -1007,8 +707,6 @@ Avanzá el tiempo naturalmente: mañana→tarde→noche→amanecer.
         { status: 502 }
       )
     }
-
-    const rawResponse = response.content[0].type === 'text' ? response.content[0].text : ''
 
     // Parse JSON response from DM
     let dmResponse: {
@@ -1504,6 +1202,7 @@ Avanzá el tiempo naturalmente: mañana→tarde→noche→amanecer.
     }
 
     // Update campaign world state if there are updates
+    let campaignUpdatePromise: Promise<unknown> | null = null
     if (Object.keys(worldStateUpdates).length > 0) {
       const newWorldState = {
         ...worldState,
@@ -1520,31 +1219,30 @@ Avanzá el tiempo naturalmente: mañana→tarde→noche→amanecer.
           : worldState.map_state,
       }
 
-      await withRetry(() => prisma.campaign.update({
+      campaignUpdatePromise = withRetry(() => prisma.campaign.update({
         where: { id: session.campaignId },
         data: { worldState: newWorldState },
       }))
     }
 
-    // Build the full narration with HP change notification
-    let fullNarration = dmResponse.narration
-    if (dmResponse.hp_change && dmResponse.hp_change !== 0) {
-      const changeText = dmResponse.hp_change > 0
-        ? `+${dmResponse.hp_change} HP`
-        : `${dmResponse.hp_change} HP`
-      const reason = dmResponse.hp_reason ? ` (${dmResponse.hp_reason})` : ''
-      fullNarration += `\n\n[${changeText}${reason}]`
-    }
+    // Build narration with HP change
+    const fullNarration = dmResponse.narration + (dmResponse.hp_change && dmResponse.hp_change !== 0
+      ? `\n\n[${dmResponse.hp_change > 0 ? '+' : ''}${dmResponse.hp_change} HP${dmResponse.hp_reason ? ` (${dmResponse.hp_reason})` : ''}]`
+      : '')
 
-    // 4. Guardar el turno del DM
-    await withRetry(() => prisma.turn.create({
-      data: {
-        sessionId: session.id,
-        role: 'DM',
-        content: fullNarration,
-        worldStatePatch: Object.keys(worldStateUpdates).length > 0 ? worldStateUpdates : undefined,
-      },
-    }))
+    // 4. DB writes en paralelo para reducir latencia
+    const dbWrites: Promise<unknown>[] = [
+      withRetry(() => prisma.turn.create({
+        data: {
+          sessionId: session.id,
+          role: 'DM',
+          content: fullNarration,
+          worldStatePatch: Object.keys(worldStateUpdates).length > 0 ? worldStateUpdates : undefined,
+        },
+      })),
+    ]
+    if (campaignUpdatePromise) dbWrites.push(campaignUpdatePromise)
+    await Promise.all(dbWrites)
 
     // 5. Background summarization DESHABILITADA temporalmente
     // La conexión extra al DB saturaba el pool de Supabase (MaxClientsInSessionMode)
