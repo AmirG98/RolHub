@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { prisma } from '@/lib/db/prisma'
+import { prisma, withRetry } from '@/lib/db/prisma'
 import { Lore, GameMode, GameEngine, TutorialLevel, Prisma } from '@prisma/client'
 import { createCampaignMapState } from '@/lib/maps/map-init'
 import { getExampleMapData } from '@/lib/maps/lore-map-data'
@@ -22,6 +22,8 @@ import dndClassicData from '@/data/lores/dnd-classic.json'
  * Crea un usuario temporal en la DB y guarda el ID en cookie
  * Redirige a /play/{sessionId} — misma experiencia que con cuenta
  */
+export const maxDuration = 60
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
@@ -103,17 +105,17 @@ export async function POST(req: NextRequest) {
       introContent = `Bienvenido a ${loreData.name}, ${characterName}.\n\nTu aventura comienza...`
     }
 
-    // Crear todo secuencialmente (transaction mode no soporta $transaction interactivas)
-    const user = await prisma.user.create({
+    // Crear todo secuencialmente con retry (transaction pooler puede tardar)
+    const user = await withRetry(() => prisma.user.create({
       data: {
         clerkId: guestId,
         username: characterName,
         email: `${guestId}@guest.rolhub.com`,
         tutorialLevel: 'NOVICE' as TutorialLevel,
       },
-    })
+    }))
 
-    const campaign = await prisma.campaign.create({
+    const campaign = await withRetry(() => prisma.campaign.create({
       data: {
         userId: user.id,
         name: `Aventura en ${loreData.name}`,
@@ -122,9 +124,9 @@ export async function POST(req: NextRequest) {
         worldMap: {} as Prisma.InputJsonValue,
         isMultiplayer: false,
       },
-    })
+    }))
 
-    const character = await prisma.character.create({
+    const character = await withRetry(() => prisma.character.create({
       data: {
         userId: user.id, campaignId: campaign.id,
         name: characterName, lore, archetype: charArchetype,
@@ -133,26 +135,26 @@ export async function POST(req: NextRequest) {
         inventory: charInventory as Prisma.InputJsonValue,
         backstory: characterDescription || '',
       },
-    })
+    }))
 
-    await prisma.campaignParticipant.create({
+    await withRetry(() => prisma.campaignParticipant.create({
       data: {
         campaignId: campaign.id, userId: user.id,
         characterId: character.id, role: 'OWNER',
       },
-    })
+    }))
 
-    const session = await prisma.session.create({
+    const session = await withRetry(() => prisma.session.create({
       data: { campaignId: campaign.id, userId: user.id, summary: null, partyCheckLog: [] },
-    })
+    }))
 
-    const firstTurn = await prisma.turn.create({
+    const firstTurn = await withRetry(() => prisma.turn.create({
       data: {
         sessionId: session.id, role: 'DM', content: introContent,
         diceRolls: suggestedActions.length > 0 ? { suggested_actions: suggestedActions } : undefined,
         createdAt: new Date(),
       },
-    })
+    }))
 
     const result = { campaign, character, session, firstTurnId: firstTurn.id, userId: user.id }
 

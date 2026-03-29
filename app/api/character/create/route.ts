@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@clerk/nextjs/server'
-import { prisma } from '@/lib/db/prisma'
+import { prisma, withRetry } from '@/lib/db/prisma'
 import { Lore, GameMode, GameEngine, TutorialLevel, Prisma } from '@prisma/client'
 import { createCampaignMapState } from '@/lib/maps/map-init'
 import { getExampleMapData } from '@/lib/maps/lore-map-data'
@@ -25,6 +25,8 @@ import starwarsData from '@/data/lores/starwars.json'
 import cyberpunkData from '@/data/lores/cyberpunk.json'
 import lovecraftData from '@/data/lores/lovecraft.json'
 import dndClassicData from '@/data/lores/dnd-classic.json'
+
+export const maxDuration = 60
 
 export async function POST(req: NextRequest) {
   try {
@@ -255,20 +257,20 @@ export async function POST(req: NextRequest) {
       inviteCode = generateInviteCode()
     }
 
-    // Crear todo secuencialmente (transaction mode no soporta $transaction interactivas)
+    // Crear todo secuencialmente con retry (transaction pooler puede tardar en dar conexión)
     // 0. Buscar o crear usuario
-    user = await prisma.user.findUnique({ where: { clerkId: userId } })
+    user = await withRetry(() => prisma.user.findUnique({ where: { clerkId: userId } }))
     if (!user) {
       const uniqueEmail = `user_${userId}_${Date.now()}@placeholder.local`
-      user = await prisma.user.create({
+      user = await withRetry(() => prisma.user.create({
         data: { clerkId: userId, username: `Usuario_${userId.slice(-6)}`, email: uniqueEmail, tutorialLevel },
-      })
+      }))
     } else if (user.tutorialLevel !== tutorialLevel) {
-      user = await prisma.user.update({ where: { id: user.id }, data: { tutorialLevel } })
+      user = await withRetry(() => prisma.user.update({ where: { id: user.id }, data: { tutorialLevel } }))
     }
 
     // 1. Crear la campaña
-    const campaign = await prisma.campaign.create({
+    const campaign = await withRetry(() => prisma.campaign.create({
       data: {
         userId: user.id,
         name: mode === 'ONE_SHOT'
@@ -281,7 +283,7 @@ export async function POST(req: NextRequest) {
         isMultiplayer: isMultiplayer || false,
         inviteCode: inviteCode,
       },
-    })
+    }))
 
     // Actualizar el campaign_id en el world state
     const updatedWorldState = {
@@ -289,13 +291,13 @@ export async function POST(req: NextRequest) {
       campaign_id: campaign.id,
     }
 
-    await prisma.campaign.update({
+    await withRetry(() => prisma.campaign.update({
       where: { id: campaign.id },
       data: { worldState: updatedWorldState as Prisma.InputJsonValue },
-    })
+    }))
 
     // 2. Crear el personaje
-    const character = await prisma.character.create({
+    const character = await withRetry(() => prisma.character.create({
       data: {
         userId: user.id,
         campaignId: campaign.id,
@@ -312,10 +314,10 @@ export async function POST(req: NextRequest) {
           ? `${charStats.raceName} ${charStats.className} nivel ${charLevel}`
           : loreData.archetypes.find((a: any) => a.id === archetypeId)?.description || '',
       },
-    })
+    }))
 
     // 2.5. Crear CampaignParticipant para el owner
-    await prisma.campaignParticipant.create({
+    await withRetry(() => prisma.campaignParticipant.create({
       data: {
         campaignId: campaign.id,
         userId: user.id,
@@ -323,17 +325,17 @@ export async function POST(req: NextRequest) {
         role: 'OWNER',
         isOnline: true,
       },
-    })
+    }))
 
     // 3. Crear la primera sesión
-    const session = await prisma.session.create({
+    const session = await withRetry(() => prisma.session.create({
       data: {
         campaignId: campaign.id,
         userId: user.id,
         summary: null,
         partyCheckLog: [],
       },
-    })
+    }))
 
     // 4. Crear el primer turn del sistema con contexto espacial inmersivo
     const openingScenes = (loreData as any).opening_scenes || (loreData.opening_scene ? [loreData.opening_scene] : [])
@@ -362,7 +364,7 @@ export async function POST(req: NextRequest) {
       introContent = `Bienvenido a ${loreData.name}, ${charName}.\n\n${narrativeHook}`
     }
 
-    const firstTurn = await prisma.turn.create({
+    const firstTurn = await withRetry(() => prisma.turn.create({
       data: {
         sessionId: session.id,
         role: 'DM',
@@ -370,7 +372,7 @@ export async function POST(req: NextRequest) {
         diceRolls: suggestedActions.length > 0 ? { suggested_actions: suggestedActions } : undefined,
         createdAt: new Date(),
       },
-    })
+    }))
 
     const result = { campaign, character, session, firstTurnId: firstTurn.id, introContent }
 
