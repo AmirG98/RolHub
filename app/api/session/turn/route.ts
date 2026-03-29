@@ -684,29 +684,31 @@ Avanzá el tiempo naturalmente: mañana→tarde→noche→amanecer.
 
     console.log(`[DM] System prompt length: ${systemPrompt.length} chars, conversation: ${conversationHistory.length} messages`)
 
-    // Usar streaming para evitar timeout de Vercel — acumular respuesta completa server-side
-    let rawResponse = ''
-    try {
-      const stream = anthropic.messages.stream({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1500,
-        system: systemPrompt,
-        messages: conversationHistory as any,
-      })
+    // STREAMING RESPONSE — enviar heartbeats al cliente mientras Claude procesa
+    // Esto mantiene la conexión HTTP activa y evita el timeout de Vercel
+    const encoder = new TextEncoder()
+    const readableStream = new ReadableStream({
+      async start(controller) {
+        // Heartbeat cada 5s para mantener la conexión viva
+        const heartbeat = setInterval(() => {
+          try { controller.enqueue(encoder.encode('\n')) } catch { /* stream closed */ }
+        }, 5000)
 
-      // Acumular todos los chunks del stream
-      for await (const event of stream) {
-        if (event.type === 'content_block_delta' && event.delta.type === 'text_delta') {
-          rawResponse += event.delta.text
-        }
-      }
-    } catch (apiError: any) {
-      console.error('[DM] Anthropic API error:', apiError?.message || apiError)
-      return NextResponse.json(
-        { error: 'Error al generar la narración', details: apiError?.message || 'API error' },
-        { status: 502 }
-      )
-    }
+        try {
+          // Llamar a Claude con streaming server-side
+          let rawResponse = ''
+          const stream = anthropic.messages.stream({
+            model: 'claude-sonnet-4-20250514',
+            max_tokens: 1500,
+            system: systemPrompt,
+            messages: conversationHistory as any,
+          })
+
+          for await (const event of stream) {
+            if (event.type === 'content_block_delta' && event.delta.type === 'text_delta') {
+              rawResponse += event.delta.text
+            }
+          }
 
     // Parse JSON response from DM
     let dmResponse: {
@@ -1244,37 +1246,49 @@ Avanzá el tiempo naturalmente: mañana→tarde→noche→amanecer.
     if (campaignUpdatePromise) dbWrites.push(campaignUpdatePromise)
     await Promise.all(dbWrites)
 
-    // 5. Background summarization DESHABILITADA temporalmente
-    // La conexión extra al DB saturaba el pool de Supabase (MaxClientsInSessionMode)
-    // TODO: Re-habilitar cuando se migre a transaction mode (puerto 6543) o se suba el pool size
-    // if (contextPayload.shouldTriggerSummary) { ... }
-
-    // 6. Retornar exito con world state updates
-    return NextResponse.json({
+    // 5. Enviar resultado final al cliente como JSON
+    const finalResponse = JSON.stringify({
       success: true,
       narration: fullNarration,
       worldStateUpdates: Object.keys(worldStateUpdates).length > 0 ? worldStateUpdates : undefined,
       suggestedActions: dmResponse.suggested_actions,
-      // Image generation
       generateImage: dmResponse.generate_image || false,
       imagePrompt: dmResponse.image_prompt || null,
-      // UI mood
       moodHint: dmResponse.mood_hint || null,
-      // Scene change info for transitions
       sceneChange: dmResponse.scene_change || dmResponse.location_id || null,
-      // Combat trigger
       combat_trigger: dmResponse.combat_trigger || null,
-      // Dice roll request from DM
       diceRequest: dmResponse.dice_request || null,
     })
+    controller.enqueue(encoder.encode(finalResponse))
+
+        } catch (streamError: any) {
+          console.error('Error in streaming turn:', streamError)
+          const errorResponse = JSON.stringify({
+            error: 'Error al procesar el turno',
+            details: streamError?.message || 'Unknown error',
+          })
+          controller.enqueue(encoder.encode(errorResponse))
+        } finally {
+          clearInterval(heartbeat)
+          controller.close()
+        }
+      },
+    })
+
+    return new Response(readableStream, {
+      headers: {
+        'Content-Type': 'text/plain; charset=utf-8',
+        'Transfer-Encoding': 'chunked',
+        'Cache-Control': 'no-cache',
+      },
+    })
+
   } catch (error) {
     console.error('Error processing turn:', error)
-    console.error('Error stack:', (error as Error).stack)
     return NextResponse.json(
       {
         error: 'Error al procesar el turno',
         details: (error as Error).message,
-        stack: process.env.NODE_ENV === 'development' ? (error as Error).stack : undefined,
       },
       { status: 500 }
     )
