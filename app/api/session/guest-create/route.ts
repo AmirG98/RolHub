@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { prisma, withRetry } from '@/lib/db/prisma'
+import { prisma } from '@/lib/db/prisma'
 import { Lore, GameMode, GameEngine, TutorialLevel, Prisma } from '@prisma/client'
 import { createCampaignMapState } from '@/lib/maps/map-init'
 import { getExampleMapData } from '@/lib/maps/lore-map-data'
@@ -22,8 +22,6 @@ import dndClassicData from '@/data/lores/dnd-classic.json'
  * Crea un usuario temporal en la DB y guarda el ID en cookie
  * Redirige a /play/{sessionId} — misma experiencia que con cuenta
  */
-export const maxDuration = 60
-
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
@@ -105,58 +103,66 @@ export async function POST(req: NextRequest) {
       introContent = `Bienvenido a ${loreData.name}, ${characterName}.\n\nTu aventura comienza...`
     }
 
-    // Crear todo secuencialmente con retry (transaction pooler puede tardar)
-    const user = await withRetry(() => prisma.user.create({
-      data: {
-        clerkId: guestId,
-        username: characterName,
-        email: `${guestId}@guest.rolhub.com`,
-        tutorialLevel: 'NOVICE' as TutorialLevel,
-      },
-    }))
+    // Crear todo en una transacción
+    const result = await prisma.$transaction(async (tx) => {
+      // Crear usuario guest
+      const user = await tx.user.create({
+        data: {
+          clerkId: guestId,
+          username: characterName,
+          email: `${guestId}@guest.rolhub.com`,
+          tutorialLevel: 'NOVICE' as TutorialLevel,
+        },
+      })
 
-    const campaign = await withRetry(() => prisma.campaign.create({
-      data: {
-        userId: user.id,
-        name: `Aventura en ${loreData.name}`,
-        lore, engine, mode,
-        worldState: initialWorldState as unknown as Prisma.InputJsonValue,
-        worldMap: {} as Prisma.InputJsonValue,
-        isMultiplayer: false,
-      },
-    }))
+      // Crear campaña
+      const campaign = await tx.campaign.create({
+        data: {
+          userId: user.id,
+          name: `Aventura en ${loreData.name}`,
+          lore, engine, mode,
+          worldState: initialWorldState as unknown as Prisma.InputJsonValue,
+          worldMap: {} as Prisma.InputJsonValue,
+          isMultiplayer: false,
+        },
+      })
 
-    const character = await withRetry(() => prisma.character.create({
-      data: {
-        userId: user.id, campaignId: campaign.id,
-        name: characterName, lore, archetype: charArchetype,
-        level: 1, experience: 0,
-        stats: { ...charStats, hp: maxHP, maxHp: maxHP } as Prisma.InputJsonValue,
-        inventory: charInventory as Prisma.InputJsonValue,
-        backstory: characterDescription || '',
-      },
-    }))
+      // Crear personaje
+      const character = await tx.character.create({
+        data: {
+          userId: user.id, campaignId: campaign.id,
+          name: characterName, lore, archetype: charArchetype,
+          level: 1, experience: 0,
+          stats: { ...charStats, hp: maxHP, maxHp: maxHP } as Prisma.InputJsonValue,
+          inventory: charInventory as Prisma.InputJsonValue,
+          backstory: characterDescription || '',
+        },
+      })
 
-    await withRetry(() => prisma.campaignParticipant.create({
-      data: {
-        campaignId: campaign.id, userId: user.id,
-        characterId: character.id, role: 'OWNER',
-      },
-    }))
+      // Crear participant
+      await tx.campaignParticipant.create({
+        data: {
+          campaignId: campaign.id, userId: user.id,
+          characterId: character.id, role: 'OWNER',
+        },
+      })
 
-    const session = await withRetry(() => prisma.session.create({
-      data: { campaignId: campaign.id, userId: user.id, summary: null, partyCheckLog: [] },
-    }))
+      // Crear sesión
+      const session = await tx.session.create({
+        data: { campaignId: campaign.id, userId: user.id, summary: null, partyCheckLog: [] },
+      })
 
-    const firstTurn = await withRetry(() => prisma.turn.create({
-      data: {
-        sessionId: session.id, role: 'DM', content: introContent,
-        diceRolls: suggestedActions.length > 0 ? { suggested_actions: suggestedActions } : undefined,
-        createdAt: new Date(),
-      },
-    }))
+      // Crear primer turno
+      const firstTurn = await tx.turn.create({
+        data: {
+          sessionId: session.id, role: 'DM', content: introContent,
+          diceRolls: suggestedActions.length > 0 ? { suggested_actions: suggestedActions } : undefined,
+          createdAt: new Date(),
+        },
+      })
 
-    const result = { campaign, character, session, firstTurnId: firstTurn.id, userId: user.id }
+      return { campaign, character, session, firstTurnId: firstTurn.id, userId: user.id }
+    })
 
     // Generar retrato (síncrono, como el flow normal)
     let avatarUrl: string | null = null

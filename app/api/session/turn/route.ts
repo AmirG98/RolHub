@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@clerk/nextjs/server'
-import { prisma, withRetry } from '@/lib/db/prisma'
+import { prisma } from '@/lib/db/prisma'
 import Anthropic from '@anthropic-ai/sdk'
 import {
   getEngineConfig,
@@ -15,8 +15,6 @@ import { type NavigationLockReason, type LocationKnowledgeLevel, type DynamicMap
 import { calculateRelativePosition, normalizeLegacyCoordinates } from '@/lib/maps/position-calculator'
 import { type Quest, type QuestUpdate } from '@/lib/types/quest'
 import { upgradeKnowledge, onLocationArrival } from '@/lib/maps/location-knowledge'
-import { buildContextPayload } from '@/lib/claude/context-manager'
-import { generateSummaryCheckpoint } from '@/lib/claude/session-summarizer'
 
 // Inicializar Claude
 const anthropic = new Anthropic({
@@ -29,7 +27,7 @@ interface DiceRoll {
   rolls: number[]
 }
 
-// Vercel Pro permite hasta 300s — 120s es suficiente para Claude + DB
+// Vercel Pro permite hasta 300s — 120s da margen para Claude + DB
 export const maxDuration = 120
 
 export async function POST(req: NextRequest) {
@@ -39,7 +37,7 @@ export async function POST(req: NextRequest) {
     let authUserId: string | null = null
 
     if (clerkUserId) {
-      const user = await withRetry(() => prisma.user.findUnique({ where: { clerkId: clerkUserId }, select: { id: true } }))
+      const user = await prisma.user.findUnique({ where: { clerkId: clerkUserId }, select: { id: true } })
       authUserId = user?.id || null
     }
 
@@ -79,7 +77,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Obtener la sesion con todos los datos necesarios
-    const session = await withRetry(() => prisma.session.findUnique({
+    const session = await prisma.session.findUnique({
       where: { id: sessionId },
       include: {
         campaign: {
@@ -97,13 +95,10 @@ export async function POST(req: NextRequest) {
         },
         turns: {
           orderBy: { createdAt: 'asc' },
-          take: 50,
-        },
-        summaryCheckpoints: {
-          orderBy: { turnIndex: 'asc' },
+          take: 10, // Ultimos 10 turnos para contexto
         },
       },
-    }))
+    })
 
     if (!session) {
       return NextResponse.json({ error: 'Sesion no encontrada' }, { status: 404 })
@@ -133,7 +128,7 @@ export async function POST(req: NextRequest) {
     }
 
     // 1. Guardar el turno del jugador con info de multiplayer
-    const playerTurn = await withRetry(() => prisma.turn.create({
+    const playerTurn = await prisma.turn.create({
       data: {
         sessionId: session.id,
         role: 'USER',
@@ -145,43 +140,149 @@ export async function POST(req: NextRequest) {
         characterName: actingCharacter?.name,
         playerName: actingPlayer,
       },
-    }))
+    })
 
-    // 2. Preparar contexto para Claude — Sistema de 3 capas
+    // 2. Preparar contexto para Claude
     const worldState = session.campaign.worldState as any
     const character = actingCharacter
 
-    // Construir contexto con el Context Manager (3 capas: summaries + middle + recent completo)
-    console.log(`[DM] Building context: ${session.turns.length} turns, ${((session as any).summaryCheckpoints || []).length} checkpoints`)
-    const contextPayload = buildContextPayload({
-      turns: session.turns,
-      checkpoints: (session as any).summaryCheckpoints || [],
-      worldState,
-      playerAction: action,
-      locale: locale as 'es' | 'en',
+    // Construir historial de conversación — TODOS los turnos DM se condensan
+    // Claude NO debe ver su propia prosa anterior para no copiarla
+    // Solo necesita saber QUÉ PASÓ, no CÓMO lo escribió
+    const recentTurnsForHistory = session.turns.slice(-8)
+
+    const conversationHistory = recentTurnsForHistory.map((turn) => {
+      // Turnos del usuario: siempre completos
+      if (turn.role === 'USER') {
+        return { role: 'user' as const, content: turn.content }
+      }
+
+      // TODOS los turnos DM: condensar a resumen factual
+      // Extraer los hechos clave sin la prosa (qué pasó, quién dijo qué)
+      const content = turn.content || ''
+      const sentences = content.split(/[.!?»"]/).filter(s => s.trim().length > 12)
+      const facts = sentences.slice(0, 3).map(s => s.trim().substring(0, 80)).join('. ')
+      return { role: 'assistant' as const, content: `[Ya narrado: ${facts}.]` }
     })
-    console.log(`[DM] Context built: ${contextPayload.conversationHistory.length} messages, storySoFar=${contextPayload.storySoFar.length} chars, shouldSummarize=${contextPayload.shouldTriggerSummary}`)
 
-    const conversationHistory = contextPayload.conversationHistory
-    const { stagnationData } = contextPayload
-
-    // Variables de compatibilidad para el system prompt
+    // === DETECCIÓN DE ESTANCAMIENTO Y ANTI-REPETICIÓN ===
     const allTurns = session.turns
-    const totalTurns = stagnationData.totalTurns
-    const passiveCount = stagnationData.passiveCount
-    const isStagnant = stagnationData.isStagnant
-    const needsWorldEvent = stagnationData.needsWorldEvent
-    const turnsInCurrentLocation = stagnationData.turnsInCurrentLocation
-    const ignoredQuests = stagnationData.ignoredQuests
-    const isRepeatedObservation = stagnationData.isRepeatedObservation
-    const isNPCLoop = stagnationData.isNPCLoop
-    const loopingNPCName = stagnationData.loopingNPCName
-    const currentScene = worldState.current_scene || ''
+    const totalTurns = allTurns.length
+    const recentUserActions = allTurns.slice(-8).filter(t => t.role === 'USER').map(t => t.content.toLowerCase().trim())
 
-    // storySoFar y middleContext van en el system prompt
-    const storySoFar = contextPayload.storySoFar
+    // Acciones pasivas (esperar, mirar, no hacer nada)
+    const passiveWords = ['espero', 'esperar', 'descanso', 'descansar', 'miro', 'observo', 'no hago nada', 'me quedo', 'wait', 'rest', 'look around', 'do nothing', 'stay']
+    const passiveCount = recentUserActions.filter(a => passiveWords.some(w => a.includes(w))).length
+
+    // Repetición: acciones muy similares consecutivas (>60% palabras en común)
+    const wordSimilarity = (a: string, b: string): number => {
+      const wordsA = new Set(a.split(/\s+/))
+      const wordsB = new Set(b.split(/\s+/))
+      const intersection = [...wordsA].filter(w => wordsB.has(w)).length
+      return intersection / Math.max(wordsA.size, wordsB.size, 1)
+    }
+    const hasRepetition = recentUserActions.length >= 2 &&
+      recentUserActions.some((a, i) => i > 0 && (a === recentUserActions[i - 1] || wordSimilarity(a, recentUserActions[i - 1]) > 0.6))
+
+    // Turnos en la ubicación actual
+    const currentScene = worldState.current_scene || ''
+    const turnsInCurrentLocation = allTurns.slice(-12).filter(t => t.role === 'DM').length
+
+    // Quests ignoradas (activas pero no mencionadas en últimos turnos)
+    const activeQuests = worldState.active_quests || []
+    const recentDMText = allTurns.slice(-6).filter(t => t.role === 'DM').map(t => t.content.toLowerCase()).join(' ')
+    const ignoredQuests = activeQuests.filter((q: string) => !recentDMText.includes(q.toLowerCase().substring(0, 10)))
+
+    // Estancamiento: acciones pasivas, repetición, o Acto 1 demasiado largo
+    const isStagnant = hasRepetition || passiveCount >= 2 || (totalTurns > 12 && worldState.act === 1)
+    const needsWorldEvent = passiveCount >= 3 || turnsInCurrentLocation >= 6 || ignoredQuests.length >= 2
+
+    // Resumen acumulativo de TODA la sesión (fuera de la ventana de 6 turnos)
+    // Toma la primera oración significativa de cada narración del DM, distribuido uniformemente
+    const olderDMNarrations = allTurns.slice(0, -6).filter(t => t.role === 'DM' && t.content.length > 30)
+    let storySoFar = ''
+    if (olderDMNarrations.length > 0) {
+      // Tomar hasta 8 puntos distribuidos uniformemente por toda la sesión
+      const maxPoints = 8
+      const step = Math.max(1, Math.floor(olderDMNarrations.length / maxPoints))
+      const summaryPoints: string[] = []
+      for (let i = 0; i < olderDMNarrations.length; i += step) {
+        const firstSentence = olderDMNarrations[i].content.split(/[.!?]/)[0]?.trim()
+        if (firstSentence && firstSentence.length > 10) {
+          summaryPoints.push(firstSentence)
+        }
+        if (summaryPoints.length >= maxPoints) break
+      }
+      storySoFar = summaryPoints.join('. ') + '.'
+    }
+
+    // Última narración del DM (para evitar repetir la misma escena)
     const lastDMTurn = [...allTurns].reverse().find(t => t.role === 'DM')
     const lastDMNarration = lastDMTurn?.content?.substring(0, 250) || ''
+
+    // Anti-repetición: detectar loops narrativos y extraer eventos ya ocurridos
+    let isRepeatedObservation = false
+    let isNPCLoop = false
+    let loopingNPCName = ''
+    let alreadyHappenedEvents: string[] = []
+
+    try {
+      const recentDMContent = allTurns.slice(-6).filter(t => t.role === 'DM').map(t => t.content || '')
+      const recentUserContent = allTurns.slice(-6).filter(t => t.role === 'USER').map(t => (t.content || '').toLowerCase())
+
+      // Extraer RESÚMENES de lo que ya pasó en cada turno reciente del DM
+      // En vez de frases literales, condensar el BEAT narrativo de cada turno
+      alreadyHappenedEvents = recentDMContent.map(content => {
+        // Tomar las primeras 2 oraciones como resumen del beat
+        const sentences = content.split(/[.!?]/).filter(s => s.trim().length > 10)
+        return sentences.slice(0, 2).map(s => s.trim().substring(0, 50)).join('. ')
+      }).filter(s => s.length > 10)
+
+      // Detectar observación repetida del jugador
+      const obsWords = ['observ', 'mir', 'examin', 'fij', 'watch', 'look', 'study']
+      isRepeatedObservation = recentUserContent.filter(a => obsWords.some(w => a.includes(w))).length >= 2
+
+      // Detectar NPC loop: si el mismo NPC aparece en 3+ narraciones consecutivas
+      // hablando/haciendo lo mismo (misma interacción estancada)
+      if (recentDMContent.length >= 3) {
+        // Extraer nombres de NPCs mencionados (palabras con mayúscula seguidas de ":")
+        const npcMentions = recentDMContent.map(c => {
+          const match = c.match(/([A-ZÁÉÍÓÚ][a-záéíóúñ]+(?:\s+[a-záéíóúñ]+)?)\s*[:«]/)?.[1]
+          return match || ''
+        }).filter(Boolean)
+
+        // Si el mismo NPC aparece en 3+ turnos seguidos, hay loop
+        if (npcMentions.length >= 3) {
+          const lastNPC = npcMentions[npcMentions.length - 1]
+          const sameNPCCount = npcMentions.filter(n => n === lastNPC).length
+          if (sameNPCCount >= 3) {
+            isNPCLoop = true
+            loopingNPCName = lastNPC
+          }
+        }
+      }
+    } catch {
+      // Si falla la extracción, continuar sin anti-repetición
+    }
+
+    // Enviar la acción del jugador directamente, sin prefijo de tipo
+    const actionContext = action
+
+    // Construir instrucción anti-repetición concisa para inyectar en el mensaje del usuario
+    // (Claude presta más atención al último mensaje que al system prompt)
+    let antiRepeatDirective = ''
+    if (alreadyHappenedEvents.length > 0) {
+      const isES = !isEnglish
+      const eventsList = alreadyHappenedEvents.slice(-4).map(e => `• ${e}`).join('\n')
+      antiRepeatDirective = isES
+        ? `\n\n[SISTEMA: Lo siguiente YA PASÓ — NO lo narres de nuevo con ninguna palabra: \n${eventsList}\nAVANZÁ la historia. Narrá qué pasa DESPUÉS, no lo que ya pasó.]`
+        : `\n\n[SYSTEM: The following ALREADY HAPPENED — do NOT narrate it again in any words:\n${eventsList}\nADVANCE the story. Narrate what happens NEXT, not what already happened.]`
+    }
+
+    conversationHistory.push({
+      role: 'user',
+      content: actionContext + antiRepeatDirective,
+    })
 
     // Obtener el HP actual
     const currentHP = worldState.party?.[character.name]?.hp || `${(character.stats as any)?.hp || 20}/${(character.stats as any)?.maxHp || 20}`
@@ -260,7 +361,6 @@ export async function POST(req: NextRequest) {
       rule6: 'In MULTIPLAYER: respond to the action but mention other characters if relevant',
       rule7: 'HP/item changes for the acting character go in hp_change/new_item',
       rule8: 'HP changes for OTHER characters go in other_party_effects',
-      rule9: 'INVENTORY TRACKING (CRITICAL): When the player RECEIVES an item (loot, gift, purchase, finds), ALWAYS include "new_item" with the item name. When the player GIVES AWAY, LOSES, USES UP or CONSUMES an item, ALWAYS include "remove_item" with the EXACT item name from their inventory. Check the current inventory before narrating item use.',
       narrativeTone: 'NARRATIVE TONE',
       important: 'IMPORTANT',
       jsonOnly: 'Respond ONLY with JSON, no additional text',
@@ -322,7 +422,6 @@ export async function POST(req: NextRequest) {
       rule6: 'En MULTIJUGADOR: responde a la acción pero menciona a los otros personajes si es relevante',
       rule7: 'Los cambios de HP/items del personaje que actúa van en hp_change/new_item',
       rule8: 'Los cambios de HP de OTROS personajes van en other_party_effects',
-      rule9: 'TRACKING DE INVENTARIO (CRÍTICO): Cuando el jugador RECIBE un objeto (loot, regalo, compra, encuentra), SIEMPRE incluir "new_item" con el nombre del objeto. Cuando el jugador ENTREGA, PIERDE, USA o CONSUME un objeto, SIEMPRE incluir "remove_item" con el nombre EXACTO del objeto de su inventario. Revisá el inventario actual antes de narrar uso de objetos.',
       narrativeTone: 'TONO NARRATIVO',
       important: 'IMPORTANTE',
       jsonOnly: 'Responde SOLO con el JSON, sin texto adicional',
@@ -449,24 +548,172 @@ ${diceInterpretation}
       }).join('\n')
     }
 
-    // Solo incluir ubicaciones descubiertas (no todas) para reducir tokens
-    const discoveredLocs = mapLocations.filter(l => {
-      const level = locationKnowledge[l.id] || 'unknown'
-      return level !== 'unknown'
-    })
-    const locationList = discoveredLocs.map(l => {
-      const level = locationKnowledge[l.id] || 'unknown'
-      return `${l.id}: ${l.name} [${level}]`
-    }).join(', ')
-
     const locationContextSection = isEnglish ? `
-LOCATION: ${currentMapLocation?.name || worldState.current_scene} (ID: ${currentLocationId || 'unknown'})${navigationLocked ? ' [NAVIGATION LOCKED]' : ''}
-Known locations: ${locationList || 'none'}
-Travel: use "location_id" + "scene_change" when player travels. Use "discover_locations" to reveal new places (rumored/discovered). Use "create_location" for new dynamic locations.
+=== LOCATION SYSTEM (NARRATIVE DISCOVERY) ===
+Current Location ID: ${currentLocationId || 'unknown'}
+Current Location: ${currentMapLocation?.name || worldState.current_scene}
+Navigation Status: ${navigationLocked ? 'LOCKED' : 'FREE'}
+${mapState?.lockReason ? `Lock Reason: ${mapState.lockReason}` : ''}
+
+ALL WORLD LOCATIONS (with knowledge levels):
+${buildLocationList(mapLocations, locationKnowledge)}
+
+KNOWLEDGE LEVELS:
+- "unknown": Player has never heard of this place
+- "rumored": Player heard about it (name shown with "?" on map, CANNOT travel)
+- "discovered": Player knows how to get there (CAN travel)
+- "visited": Player has been there
+- "explored": Player investigated thoroughly
+- "mastered": Player knows all secrets
+
+NARRATIVE DISCOVERY RULES:
+1. The player can ONLY travel to locations with knowledge level >= "discovered"
+2. To REVEAL new locations, use "discover_locations" in your response
+3. Use level "rumored" when they HEAR about a place (NPC mentions it, rumor, etc.)
+4. Use level "discovered" when they LEARN HOW to get there (map found, directions given, etc.)
+5. The narrative MUST justify the discovery: NPC tells them, they find a map, overhear conversation, etc.
+6. When player arrives at a new location, include "location_id" with the ID
+7. Use "navigation_locked": true during combat, important dialogue, or crucial decisions
+
+EXAMPLE - Revealing a location through narrative:
+{
+  "narration": "The old merchant leans closer and whispers: 'There's an ancient temple hidden in the northern mountains... I've heard strange lights there at night.'",
+  "discover_locations": [
+    { "locationId": "ancient-temple", "level": "rumored", "source": "NPC dialogue" }
+  ]
+}
+
+EXAMPLE - Upgrading to discovered (can now travel):
+{
+  "narration": "The merchant hands you a weathered map. 'Here, this shows the path through the mountains to the temple.'",
+  "discover_locations": [
+    { "locationId": "ancient-temple", "level": "discovered", "source": "found map" }
+  ]
+}
+
+CRITICAL RULE - TRAVEL BETWEEN LOCATIONS:
+When the player says they travel to another location (e.g. "I travel to Rivendell", "I head to Bree", "I go to the city"):
+1. ALWAYS include "location_id" with the exact destination location ID
+2. ALWAYS include "scene_change" with the name of the new place
+3. Narrate the journey immersively (landscapes, road dangers, arrival)
+4. Upon arrival, describe the new location
+
+EXAMPLE - Player travels to another location:
+{
+  "narration": "You set off eastward, leaving behind the green fields of the Shire. The path winds through increasingly dense hills and forests. After hours of walking, the Valley of Rivendell opens before you: crystal waterfalls, elven terraces among ancient trees, and an ancient peace fills the air.",
+  "location_id": "rivendel",
+  "scene_change": "Rivendell",
+  "generate_image": true,
+  "image_prompt": "Elven valley with crystal waterfalls, terraces among ancient trees, elegant elven architecture, golden sunset light filtering through foliage, a hobbit traveler arriving at the valley",
+  "mood_hint": "exploration",
+  "suggested_actions": ["Seek Lord Elrond", "Explore the elven terraces", "Rest by the waterfalls"]
+}
+
+CREATING NEW LOCATIONS DYNAMICALLY:
+When the narrative introduces a place that does NOT exist in the location list above,
+you can create it dynamically using "create_location" in your response.
+The new location will appear on the player's map automatically.
+Position it relative to an existing location using direction and distance.
+
+"create_location": {
+  "id": "hidden-cave",
+  "name": "Hidden Cave",
+  "description": "A cave behind a waterfall",
+  "type": "dungeon",
+  "dangerLevel": 3,
+  "nearLocationId": "rivendel",
+  "direction": "north",
+  "distance": "close",
+  "connectTo": ["rivendel"]
+}
+
+Valid directions: north, south, east, west, northeast, northwest, southeast, southwest
+Valid distances: close, medium, far
+Valid types: city, dungeon, wilderness, landmark, danger, safe, mystery
+=== END LOCATION SYSTEM ===
 ` : `
-UBICACIÓN: ${currentMapLocation?.name || worldState.current_scene} (ID: ${currentLocationId || 'unknown'})${navigationLocked ? ' [NAVEGACIÓN BLOQUEADA]' : ''}
-Lugares conocidos: ${locationList || 'ninguno'}
-Viaje: usar "location_id" + "scene_change" al viajar. Usar "discover_locations" para revelar lugares (rumored/discovered). Usar "create_location" para lugares nuevos dinámicos.
+=== SISTEMA DE UBICACIÓN (DESCUBRIMIENTO NARRATIVO) ===
+ID de Ubicación Actual: ${currentLocationId || 'desconocido'}
+Ubicación Actual: ${currentMapLocation?.name || worldState.current_scene}
+Estado de Navegación: ${navigationLocked ? 'BLOQUEADA' : 'LIBRE'}
+${mapState?.lockReason ? `Razón del Bloqueo: ${mapState.lockReason}` : ''}
+
+TODAS LAS UBICACIONES DEL MUNDO (con niveles de conocimiento):
+${buildLocationList(mapLocations, locationKnowledge)}
+
+NIVELES DE CONOCIMIENTO:
+- "unknown": El jugador nunca ha oído de este lugar
+- "rumored": El jugador escuchó hablar de él (nombre con "?" en mapa, NO PUEDE viajar)
+- "discovered": El jugador sabe cómo llegar (PUEDE viajar)
+- "visited": El jugador ha estado ahí
+- "explored": El jugador investigó a fondo
+- "mastered": El jugador conoce todos los secretos
+
+REGLAS DE DESCUBRIMIENTO NARRATIVO:
+1. El jugador SOLO puede viajar a ubicaciones con nivel de conocimiento >= "discovered"
+2. Para REVELAR nuevas ubicaciones, usa "discover_locations" en tu respuesta
+3. Usa nivel "rumored" cuando ESCUCHEN sobre un lugar (NPC lo menciona, rumor, etc.)
+4. Usa nivel "discovered" cuando APRENDAN CÓMO llegar (encuentran mapa, les dan indicaciones, etc.)
+5. La narrativa DEBE justificar el descubrimiento: NPC les cuenta, encuentran mapa, escuchan conversación, etc.
+6. Cuando el jugador llegue a una nueva ubicación, incluye "location_id" con el ID
+7. Usa "navigation_locked": true durante combate, diálogo importante o decisiones cruciales
+
+EJEMPLO - Revelando una ubicación mediante narrativa:
+{
+  "narration": "El viejo mercader se acerca y susurra: 'Hay un templo antiguo oculto en las montañas del norte... He oído de luces extrañas ahí por las noches.'",
+  "discover_locations": [
+    { "locationId": "templo-antiguo", "level": "rumored", "source": "NPC dialogue" }
+  ]
+}
+
+EJEMPLO - Mejorando a discovered (ahora pueden viajar):
+{
+  "narration": "El mercader te entrega un mapa desgastado. 'Aquí, esto muestra el camino a través de las montañas hasta el templo.'",
+  "discover_locations": [
+    { "locationId": "templo-antiguo", "level": "discovered", "source": "found map" }
+  ]
+}
+
+REGLA CRÍTICA - VIAJE ENTRE UBICACIONES:
+Cuando el jugador dice que viaja a otra ubicación (ej: "Viajo hacia Rivendel", "Me dirijo a Bree", "Voy a la ciudad"):
+1. SIEMPRE incluir "location_id" con el ID exacto de la ubicación de destino
+2. SIEMPRE incluir "scene_change" con el nombre del nuevo lugar
+3. Narra el viaje de forma inmersiva (paisajes, peligros del camino, llegada)
+4. Al llegar, describe la nueva ubicación
+
+EJEMPLO - Jugador viaja a otra ubicación:
+{
+  "narration": "Emprendes el camino hacia el este, dejando atrás los verdes campos de la Comarca. El sendero serpentea entre colinas y bosques cada vez más densos. Tras horas de marcha, el Valle de Rivendel se abre ante ti: cascadas de cristal, terrazas élficas entre los árboles, y una paz antigua que invade el aire.",
+  "location_id": "rivendel",
+  "scene_change": "Rivendel",
+  "generate_image": true,
+  "image_prompt": "Valle élfico con cascadas cristalinas, terrazas entre árboles ancestrales, arquitectura élfica elegante, luz dorada del atardecer filtrándose entre el follaje, un viajero hobbit llegando al valle",
+  "mood_hint": "exploration",
+  "suggested_actions": ["Buscar al Señor Elrond", "Explorar las terrazas élficas", "Descansar junto a las cascadas"]
+}
+
+CREACIÓN DINÁMICA DE UBICACIONES:
+Cuando la narrativa introduce un lugar que NO existe en la lista de ubicaciones anterior,
+puedes crearlo dinámicamente usando "create_location" en tu respuesta.
+La nueva ubicación aparecerá automáticamente en el mapa del jugador.
+Posiciónala respecto a una ubicación existente usando dirección y distancia.
+
+"create_location": {
+  "id": "cueva-oculta",
+  "name": "Cueva Oculta",
+  "description": "Una cueva detrás de una cascada",
+  "type": "dungeon",
+  "dangerLevel": 3,
+  "nearLocationId": "rivendel",
+  "direction": "north",
+  "distance": "close",
+  "connectTo": ["rivendel"]
+}
+
+Direcciones válidas: north, south, east, west, northeast, northwest, southeast, southwest
+Distancias válidas: close, medium, far
+Tipos válidos: city, dungeon, wilderness, landmark, danger, safe, mystery
+=== FIN SISTEMA DE UBICACIÓN ===
 `
 
     // Build quest context section
@@ -474,25 +721,185 @@ Viaje: usar "location_id" + "scene_change" al viajar. Usar "discover_locations" 
     const activeQuestsData = quests.filter(q => q.status === 'active')
 
     const questContextSection = isEnglish ? `
-QUESTS: ${activeQuestsData.map(q => `"${q.title}" (${q.priority})`).join(', ') || 'None'}
-${(currentMapLocation as any)?.plot_hooks?.slice(0, 2).map((h: string) => `Hook: ${h}`).join('. ') || ''}
-Use "quest_create", "quest_complete_objective", "secret_reveal", "knowledge_upgrade" when relevant.
+=== QUEST AND DISCOVERY SYSTEM ===
+Active Quests: ${activeQuestsData.length}
+${activeQuestsData.map(q => `- "${q.title}" (${q.priority}): ${q.description.slice(0, 80)}...
+  ${q.objectives.filter(o => !o.completed).map(o => `  → Pending: ${o.description}`).join('\n')}`).join('\n') || '- No active quests'}
 
-IMAGES: Set "generate_image":true + "image_prompt" (first-person POV, player NOT visible) only when scene changes visually (new location, mood shift, dramatic event). NOT for dialogue.
-"mood_hint": "exploration"|"combat"|"dialogue"|"dramatic"
+Plot Hooks Available (at current location):
+${(currentMapLocation as any)?.plot_hooks?.slice(0, 3).map((h: string) => `- ${h}`).join('\n') || '- None available'}
 
-COMBAT: Use "combat_trigger" with enemies array when combat starts. Set "navigation_locked":true + "lock_reason":"combat".
-=== END SYSTEMS ===
+QUEST RULES:
+1. You can CREATE new quests when the player discovers something important or talks to an NPC
+2. You can COMPLETE objectives when the player accomplishes them
+3. You can REVEAL location secrets when appropriate
+4. You can UPGRADE knowledge level when player learns about new places:
+   - "rumored": player hears about a place
+   - "discovered": player knows basic info
+   - "visited": player has been there
+   - "explored": player has investigated thoroughly
+   - "mastered": player knows all secrets
+
+Include in your response when relevant:
+- "quest_create": { title, description, priority: "main"|"side", targetLocationId?, objectives: [{description, locationId?}] }
+- "quest_complete_objective": { questId, objectiveId }
+- "secret_reveal": { locationId, secretId, content }
+- "knowledge_upgrade": { locationId, newLevel }
+=== END QUEST SYSTEM ===
+
+=== IMAGE GENERATION SYSTEM ===
+Generate images ONLY when the visual scene changes meaningfully.
+
+WHEN to generate images (set "generate_image": true):
+- Player arrives at a NEW location (ALWAYS)
+- The mood shifts dramatically (peaceful → combat, safe → danger, calm → storm)
+- Entering/exiting a building, going underground, crossing a threshold
+- A visually dramatic event (explosion, magical phenomenon, dramatic reveal)
+
+WHEN NOT to generate images:
+- Dialogue or conversation (even with new NPCs)
+- Actions within the same scene that don't change the visual environment
+- Consecutive turns in the same location with the same mood
+- Combat turns after the initial combat image
+
+PERSPECTIVE RULE (CRITICAL):
+ALWAYS describe the scene from FIRST PERSON POV — what the player character SEES in front of them.
+The player character is the CAMERA. They are NEVER visible in the image.
+Describe the environment, NPCs facing the viewer, objects ahead, the path forward.
+
+CONSISTENCY RULE:
+Maintain visual consistency across images in the same scene: same lighting, same color palette, same architectural style. If the previous image was a warm firelit tavern, the next one in that tavern must feel the same unless something changed (fire goes out, fight breaks out).
+
+Include in your response when appropriate:
+- "generate_image": true
+- "image_prompt": "First-person POV description in 2-3 sentences. Describe what the player SEES ahead: the environment, lighting, atmosphere, any NPCs or creatures FACING the viewer, objects in the foreground. The player character is NOT visible. Example: 'Looking down a misty forest path at dawn, golden light filtering through ancient oaks. A single goblin crouches behind a mossy boulder ahead, its yellow eyes gleaming. The dirt trail splits into two directions.'"
+
+Also include mood hints for UI styling:
+- "mood_hint": "exploration" (calm, exploring) | "combat" (tense, dangerous) | "dialogue" (intimate, conversation) | "dramatic" (epic, revelatory)
+=== END IMAGE SYSTEM ===
+
+=== COMBAT TRIGGER SYSTEM ===
+When combat begins (enemies attack, player starts fight, ambush, etc), you can trigger tactical combat.
+
+WHEN to trigger combat:
+- Player attacks an enemy or enemies attack the player
+- An ambush or surprise encounter occurs
+- A hostile creature blocks the path
+- A tense situation escalates to violence
+
+WHEN NOT to trigger combat:
+- Just seeing enemies in the distance
+- Negotiation or diplomacy attempts
+- Non-combat challenges (puzzles, traps that don't involve creatures)
+
+Include in your response when combat starts:
+- "combat_trigger": {
+    "enemies": [
+      {"name": "Goblin", "type": "goblin", "count": 3, "hp": 7, "ac": 12},
+      {"name": "Hobgoblin Captain", "type": "hobgoblin", "hp": 22, "ac": 15}
+    ],
+    "terrain": "dungeon" | "forest" | "castle" | "cavern" | "arena" | "street",
+    "ambush": true/false,
+    "ambushedBy": "enemies" | "players" (who surprised whom),
+    "difficulty": "easy" | "medium" | "hard" | "deadly",
+    "description": "Brief description of the combat scenario"
+  }
+
+IMPORTANT:
+- When you trigger combat, also set "navigation_locked": true, "lock_reason": "combat"
+- Keep the narration focused on the moment before combat begins
+- Let the tactical system handle the actual combat
+=== END COMBAT SYSTEM ===
 ` : `
-QUESTS: ${activeQuestsData.map(q => `"${q.title}" (${q.priority})`).join(', ') || 'Ninguna'}
-${(currentMapLocation as any)?.plot_hooks?.slice(0, 2).map((h: string) => `Hook: ${h}`).join('. ') || ''}
-Usar "quest_create", "quest_complete_objective", "secret_reveal", "knowledge_upgrade" cuando sea relevante.
+=== SISTEMA DE QUESTS Y DESCUBRIMIENTO ===
+Quests Activas: ${activeQuestsData.length}
+${activeQuestsData.map(q => `- "${q.title}" (${q.priority}): ${q.description.slice(0, 80)}...
+  ${q.objectives.filter(o => !o.completed).map(o => `  → Pendiente: ${o.description}`).join('\n')}`).join('\n') || '- Sin quests activas'}
 
-IMÁGENES: Poner "generate_image":true + "image_prompt" (POV primera persona, jugador NO visible) solo cuando la escena cambie visualmente (nueva ubicación, cambio de ánimo, evento dramático). NO para diálogos.
-"mood_hint": "exploration"|"combat"|"dialogue"|"dramatic"
+Plot Hooks Disponibles (en ubicación actual):
+${(currentMapLocation as any)?.plot_hooks?.slice(0, 3).map((h: string) => `- ${h}`).join('\n') || '- Ninguno disponible'}
 
-COMBATE: Usar "combat_trigger" con array de enemies cuando empiece combate. Poner "navigation_locked":true + "lock_reason":"combat".
-=== FIN SISTEMAS ===
+REGLAS DE QUESTS:
+1. Puedes CREAR nuevas quests cuando el jugador descubre algo importante o habla con un NPC
+2. Puedes COMPLETAR objetivos cuando el jugador los logra
+3. Puedes REVELAR secretos de locaciones cuando sea apropiado
+4. Puedes MEJORAR nivel de conocimiento cuando el jugador aprende de nuevos lugares:
+   - "rumored": jugador escuchó hablar del lugar
+   - "discovered": jugador conoce info básica
+   - "visited": jugador ha estado ahí
+   - "explored": jugador ha investigado a fondo
+   - "mastered": jugador conoce todos los secretos
+
+Incluir en tu respuesta cuando sea relevante:
+- "quest_create": { title, description, priority: "main"|"side", targetLocationId?, objectives: [{description, locationId?}] }
+- "quest_complete_objective": { questId, objectiveId }
+- "secret_reveal": { locationId, secretId, content }
+- "knowledge_upgrade": { locationId, newLevel }
+=== FIN SISTEMA DE QUESTS ===
+
+=== SISTEMA DE IMÁGENES ===
+Generá imágenes SOLO cuando la escena visual cambie significativamente.
+
+CUÁNDO generar imágenes (poner "generate_image": true):
+- El jugador llega a una NUEVA ubicación (SIEMPRE)
+- El ánimo cambia drásticamente (pacífico → combate, seguro → peligro, calma → tormenta)
+- Entrar/salir de un edificio, ir bajo tierra, cruzar un umbral
+- Un evento visualmente dramático (explosión, fenómeno mágico, revelación dramática)
+
+CUÁNDO NO generar imágenes:
+- Diálogo o conversación (incluso con NPCs nuevos)
+- Acciones dentro de la misma escena que no cambian el entorno visual
+- Turnos consecutivos en la misma ubicación con el mismo ánimo
+- Turnos de combate después de la imagen inicial de combate
+
+REGLA DE PERSPECTIVA (CRÍTICO):
+SIEMPRE describí la escena desde PRIMERA PERSONA (POV) — lo que el personaje jugador VE frente a él.
+El personaje jugador es la CÁMARA. NUNCA es visible en la imagen.
+Describí el entorno, NPCs de frente al espectador, objetos adelante, el camino a seguir.
+
+REGLA DE CONSISTENCIA:
+Mantené consistencia visual entre imágenes de la misma escena: misma iluminación, misma paleta de colores, mismo estilo arquitectónico. Si la imagen anterior era una taberna cálida con fuego, la siguiente en esa taberna debe sentirse igual a menos que algo haya cambiado (el fuego se apagó, empezó una pelea).
+
+Incluir en tu respuesta cuando sea apropiado:
+- "generate_image": true
+- "image_prompt": "Descripción en primera persona (POV) en 2-3 oraciones. Describí lo que el jugador VE adelante: el entorno, iluminación, atmósfera, NPCs o criaturas DE FRENTE al espectador, objetos en primer plano. El personaje jugador NO es visible. Ejemplo: 'Mirando por un sendero brumoso del bosque al amanecer, luz dorada filtrándose entre robles ancestrales. Un goblin solitario se agazapa detrás de un peñasco cubierto de musgo adelante, sus ojos amarillos brillando. El camino de tierra se bifurca en dos direcciones.'"
+
+También incluí hints de mood para estilización de UI:
+- "mood_hint": "exploration" (calmo) | "combat" (tenso) | "dialogue" (íntimo) | "dramatic" (épico)
+=== FIN SISTEMA DE IMÁGENES ===
+
+=== SISTEMA DE COMBATE TÁCTICO ===
+Cuando comienza un combate (enemigos atacan, jugador inicia pelea, emboscada, etc), puedes activar combate táctico.
+
+CUÁNDO activar combate:
+- El jugador ataca a un enemigo o enemigos atacan al jugador
+- Ocurre una emboscada o encuentro sorpresa
+- Una criatura hostil bloquea el camino
+- Una situación tensa escala a violencia
+
+CUÁNDO NO activar combate:
+- Solo ver enemigos a lo lejos
+- Intentos de negociación o diplomacia
+- Desafíos sin combate (puzzles, trampas sin criaturas)
+
+Incluir en tu respuesta cuando comience combate:
+- "combat_trigger": {
+    "enemies": [
+      {"name": "Goblin", "type": "goblin", "count": 3, "hp": 7, "ac": 12},
+      {"name": "Capitán Hobgoblin", "type": "hobgoblin", "hp": 22, "ac": 15}
+    ],
+    "terrain": "dungeon" | "forest" | "castle" | "cavern" | "arena" | "street",
+    "ambush": true/false,
+    "ambushedBy": "enemies" | "players" (quién sorprendió a quién),
+    "difficulty": "easy" | "medium" | "hard" | "deadly",
+    "description": "Breve descripción del escenario de combate"
+  }
+
+IMPORTANTE:
+- Al activar combate, también establece "navigation_locked": true, "lock_reason": "combat"
+- Mantén la narración enfocada en el momento antes del combate
+- Deja que el sistema táctico maneje el combate real
+=== FIN SISTEMA DE COMBATE ===
 `
 
     const systemPrompt = `${labels.dmRole}${isMultiplayer ? ` ${labels.multiplayer}` : ''}. ${isEnglish ? 'Your role is to create an immersive and exciting experience.' : 'Tu rol es crear una experiencia inmersiva y emocionante.'}
@@ -564,10 +971,9 @@ ${labels.mechanicRules}:
 3. ${labels.rule3}
 4. ${labels.rule4}
 5. ${labels.rule5}
-6. ${labels.rule9}
-${isMultiplayer ? `7. ${labels.rule6} ${character.name}
-8. ${labels.rule7}
-9. ${labels.rule8}` : ''}
+${isMultiplayer ? `6. ${labels.rule6} ${character.name}
+7. ${labels.rule7}
+8. ${labels.rule8}` : ''}
 
 ${isEnglish
   ? `WORLD MEMORY (update these to track the story):
@@ -582,15 +988,85 @@ Usá estos para construir la memoria del mundo. Los NPCs introducidos, decisione
 ${labels.narrativeTone}:
 ${narrativeTone}
 
-${isEnglish ? `=== DICE SYSTEM ===
-Request dice rolls for any risky/uncertain action (combat, stealth, persuasion, perception, magic). Only skip for pure dialogue.
-${diceRoll ? `ROLL RESULT: ${diceRoll.formula} = ${diceRoll.result} (${diceRoll.rolls.join(', ')}). Narrate the OUTCOME.` : 'Use "dice_request": {"reason":"...", "formula":"1d20+3", "type":"skill", "difficulty":12, "stat":"combat", "on_success":"...", "on_failure":"..."}'}
-When requesting: narrate the SETUP, stop at the moment of tension. Player rolls, then you narrate the result next turn.
-=== END DICE ===` : `=== DADOS ===
-Pedí tiradas para cualquier acción riesgosa/incierta (combate, sigilo, persuasión, percepción, magia). Solo saltear en diálogo puro.
-${diceRoll ? `RESULTADO: ${diceRoll.formula} = ${diceRoll.result} (${diceRoll.rolls.join(', ')}). Narrá el RESULTADO.` : 'Usá "dice_request": {"reason":"...", "formula":"1d20+3", "type":"skill", "difficulty":12, "stat":"combat", "on_success":"...", "on_failure":"..."}'}
-Al pedir tirada: narrá la PREPARACIÓN, pará en el momento de tensión. El jugador tira, después narrás el resultado.
-=== FIN DADOS ===`}
+${isEnglish ? `=== DICE ROLLING SYSTEM ===
+CRITICAL: You MUST request dice rolls frequently! This is a tabletop RPG, not a choose-your-own-adventure.
+
+WHEN TO REQUEST A ROLL (use "dice_request" in your response):
+- Combat: ALWAYS. Every attack, dodge, spell cast, or defensive action
+- Exploration: Searching for traps, picking locks, climbing, sneaking, tracking
+- Social: Persuasion, deception, intimidation, gathering information from NPCs
+- Perception: Noticing hidden things, hearing approaching danger, reading body language
+- Survival: Navigating, foraging, resisting environmental hazards, endurance checks
+- Magic/Special abilities: Casting spells, using special powers, ritual attempts
+- ANY risky or uncertain action: If the outcome is not guaranteed, REQUEST A ROLL
+
+HOW TO REQUEST A ROLL:
+Include "dice_request" in your response:
+{
+  "dice_request": {
+    "reason": "Brief description of what the roll is for",
+    "formula": "1d20+3",
+    "type": "attack" | "skill" | "save" | "perception" | "social" | "exploration",
+    "difficulty": 12,
+    "stat": "combat",
+    "on_success": "What happens on success",
+    "on_failure": "What happens on failure"
+  }
+}
+
+When requesting a roll: narrate the SETUP but NOT the outcome. End the narration at the moment of tension.
+Example: "You draw your sword and charge at the orc. It snarls and raises its shield..."
+Then the player rolls, and you narrate the RESULT in the next turn.
+
+INTERPRETING A SUBMITTED ROLL:
+${diceRoll ? `The player just rolled: ${diceRoll.formula} = ${diceRoll.result} (dice: ${diceRoll.rolls.join(', ')}). Narrate the OUTCOME based on this result.` : 'No dice roll submitted - if the action requires one, REQUEST IT with dice_request.'}
+
+RULES:
+- ANY action requiring skill = ALWAYS request a roll. No exceptions.
+- Combat = EVERY turn requires a roll (attack, dodge, cast spell).
+- Only pure dialogue/conversation turns skip dice. Everything else needs a roll.
+- If the player says "I try to...", "I attempt...", "I attack...", "I sneak...", "I search...", "I convince..." → REQUEST A ROLL.
+- NEVER auto-succeed or auto-fail a skill action without a dice roll.
+=== END DICE SYSTEM ===` : `=== SISTEMA DE TIRADA DE DADOS ===
+CRÍTICO: ¡DEBES pedir tiradas de dados frecuentemente! Esto es un RPG de mesa, no un "elige tu propia aventura".
+
+CUÁNDO PEDIR UNA TIRADA (usa "dice_request" en tu respuesta):
+- Combate: SIEMPRE. Cada ataque, esquive, hechizo o acción defensiva
+- Exploración: Buscar trampas, forzar cerraduras, escalar, sigilo, rastreo
+- Social: Persuasión, engaño, intimidación, obtener información de NPCs
+- Percepción: Notar cosas ocultas, escuchar peligro, leer lenguaje corporal
+- Supervivencia: Navegar, forrajear, resistir peligros ambientales, resistencia
+- Magia/Habilidades especiales: Lanzar hechizos, usar poderes, rituales
+- CUALQUIER acción arriesgada: Si el resultado no está garantizado, PIDE UNA TIRADA
+
+CÓMO PEDIR UNA TIRADA:
+Incluí "dice_request" en tu respuesta:
+{
+  "dice_request": {
+    "reason": "Breve descripción de para qué es la tirada",
+    "formula": "1d20+3",
+    "type": "attack" | "skill" | "save" | "perception" | "social" | "exploration",
+    "difficulty": 12,
+    "stat": "combat",
+    "on_success": "Qué pasa en éxito",
+    "on_failure": "Qué pasa en fracaso"
+  }
+}
+
+Al pedir una tirada: narrá la PREPARACIÓN pero NO el resultado. Terminá la narración en el momento de tensión.
+Ejemplo: "Desenvainás tu espada y cargás contra el orco. Gruñe y levanta su escudo..."
+El jugador tira, y narrás el RESULTADO en el siguiente turno.
+
+INTERPRETANDO UNA TIRADA ENVIADA:
+${diceRoll ? `El jugador acaba de tirar: ${diceRoll.formula} = ${diceRoll.result} (dados: ${diceRoll.rolls.join(', ')}). Narrá el RESULTADO basándote en esta tirada.` : 'Sin tirada de dados enviada - si la acción requiere una, PEDILA con dice_request.'}
+
+REGLAS:
+- CUALQUIER acción que requiera habilidad = SIEMPRE pedí tirada. Sin excepciones.
+- Combate = CADA turno requiere tirada (atacar, esquivar, lanzar hechizo).
+- Solo los turnos de pura conversación/diálogo se saltan dados. Todo lo demás necesita tirada.
+- Si el jugador dice "intento...", "ataco...", "me escabullo...", "busco...", "convenzo..." → PEDÍ TIRADA.
+- NUNCA auto-éxito o auto-fallo en una acción de habilidad sin tirada de dados.
+=== FIN SISTEMA DE DADOS ===`}
 
 ${labels.important}:
 - ${labels.jsonOnly}
@@ -598,107 +1074,119 @@ ${labels.important}:
 - ${labels.unconscious}
 - ${labels.coherence}
 
+${isEnglish ? 'ADAPTIVE RESPONSE LENGTH' : 'LONGITUD DE RESPUESTA ADAPTATIVA'}:
+- ${isEnglish ? 'If the player writes 1-2 sentences: respond with 1-2 SHORT paragraphs (max 4 sentences total)' : 'Si el jugador escribe 1-2 oraciones: responde con 1-2 párrafos CORTOS (máx 4 oraciones total)'}
+- ${isEnglish ? 'If the player writes 3-4 sentences: respond with 2-3 medium paragraphs' : 'Si el jugador escribe 3-4 oraciones: responde con 2-3 párrafos medianos'}
+- ${isEnglish ? 'If the player writes a detailed paragraph: you can elaborate more' : 'Si el jugador escribe un párrafo detallado: puedes elaborar más'}
+- ${isEnglish ? 'PRIORITIZE action and dialogue over lengthy descriptions' : 'PRIORIZA acción y diálogo sobre descripciones largas'}
+
+${isEnglish ? 'VOICE FORMAT FOR NPCs' : 'FORMATO DE VOZ PARA NPCs'}:
 ${isEnglish
-  ? 'RESPONSE LENGTH: Match the player\'s input length. Short input = short response (1-2 paragraphs). Prioritize action and dialogue over descriptions.'
-  : 'LONGITUD: Adaptá al input del jugador. Input corto = respuesta corta (1-2 párrafos). Priorizá acción y diálogo sobre descripciones.'}
+  ? `CRITICAL: For NPCs to have distinct voices, ALWAYS format dialogue like this:
+- NPCName: "What the NPC says here"
+- "What the NPC says", said NPCName.
+- —What the NPC says —replied NPCName.
 
-${isEnglish
-  ? 'NPC DIALOGUE: Always use quotes — NPCName: "dialogue" or «dialogue», said NPCName.'
-  : 'DIÁLOGOS NPC: Siempre usar comillas — NombreNPC: "diálogo" o «diálogo», dijo NombreNPC.'}
+WRONG (will be read as narrator):
+- NPCName says something (no quotes)
+- The NPC speaks without clear format
 
-${contextPayload.storySoFar ? (isEnglish
-  ? `=== SESSION MEMORY ===
-STORY SO FAR (narrative summaries of previous segments):
-${contextPayload.storySoFar}
-=== END SESSION MEMORY ===`
-  : `=== MEMORIA DE SESIÓN ===
-HISTORIA HASTA AHORA (resúmenes narrativos de segmentos anteriores):
-${contextPayload.storySoFar}
-=== FIN MEMORIA DE SESIÓN ===`) : ''}
+Example:
+"The forest closes around you. Gandalf: «Fear not, young hobbit... the path still lies ahead.» His words resonate with ancient wisdom."`
+  : `CRÍTICO: Para que los NPCs tengan voces distintas, SIEMPRE formatea diálogos así:
+- NombreNPC: "Lo que dice el NPC aquí"
+- «Lo que dice el NPC», dijo NombreNPC.
+- —Lo que dice el NPC —respondió NombreNPC.
 
-${contextPayload.middleContext ? (isEnglish
-  ? `=== EARLIER THIS SESSION ===
-${contextPayload.middleContext}
-=== END EARLIER ===`
-  : `=== ANTES EN ESTA SESIÓN ===
-${contextPayload.middleContext}
-=== FIN ANTES ===`) : ''}
+INCORRECTO (se leerá como narrador):
+- NombreNPC dice algo importante (sin comillas)
+- El NPC habla sin formato claro
 
-${isEnglish ? `=== NARRATIVE CONTINUITY & PACING ===
+Ejemplo:
+"El bosque se cierra a tu alrededor. Gandalf: «No temas, joven hobbit... el camino aún está por delante.» Sus palabras resuenan con antigua sabiduría."`}
+
+${isEnglish ? `=== NARRATIVE PACING & ANTI-REPETITION ===
 CURRENT STATUS:
 - Turn ${totalTurns} of this session
 - Turns in "${currentScene}": ${turnsInCurrentLocation}
-${isStagnant ? '⚠️ STAGNATION DETECTED — introduce something new' : ''}
+- Passive actions detected: ${passiveCount}
+${isStagnant ? '⚠️ STAGNATION DETECTED' : ''}
 ${needsWorldEvent ? '🌍 WORLD EVENT NEEDED THIS TURN' : ''}
-${ignoredQuests.length > 0 ? `- Forgotten quests to weave back in: ${ignoredQuests.join(', ')}` : ''}
+${ignoredQuests.length > 0 ? `- Forgotten quests: ${ignoredQuests.join(', ')}` : ''}
 
-SCENE ANCHOR (MANDATORY): The player is currently in "${currentScene}" during "${worldState.time_in_world || 'unknown time'}", weather: "${worldState.weather || 'unknown'}". Your response MUST take place in this exact location, at this time, with this weather. Do NOT teleport the player to a different place or time unless they explicitly travel there.
+${storySoFar ? `STORY SO FAR (do NOT repeat these scenes/descriptions):
+${storySoFar}` : ''}
 
-CONTINUITY — You have full access to your recent narration in the conversation above. Use it to:
-1. CONTINUE the current scene exactly where it left off (same location, same NPCs present, same conditions)
-2. REFERENCE past events naturally ("The wound from the ambush still ached...")
-3. BUILD ON established details (maintain visual/environmental coherence)
-4. ADVANCE callbacks and foreshadowing you planted earlier
+${lastDMNarration ? `YOUR LAST NARRATION (CONTINUE from here, do NOT re-describe this scene):
+"${lastDMNarration}..."` : ''}
 
-ZERO REDUNDANCY: If an action was narrated in a previous turn (item received, NPC spoke, gesture made), it is DONE. Never re-narrate it. Start your response with what happens NEXT — only respond to the player's current action.
+${isRepeatedObservation ? `⚠️ PLAYER KEEPS OBSERVING — STOP describing physical details. Make the target REACT or something HAPPEN. Force the story forward.` : ''}
+${isNPCLoop ? `⚠️ NPC INTERACTION LOOP DETECTED with "${loopingNPCName}" — This NPC has dominated the last 3+ turns. You MUST either: (1) have this NPC leave/finish the conversation, (2) introduce a NEW character or event that interrupts, (3) move the scene to a different location, or (4) have something urgent happen that demands attention. The player needs VARIETY, not the same NPC interaction over and over.` : ''}
 
-${isRepeatedObservation ? `⚠️ PLAYER KEEPS OBSERVING — Make the environment REACT or something HAPPEN instead of describing more details.` : ''}
-${isNPCLoop ? `⚠️ "${loopingNPCName}" has been central for 6+ turns. Consider wrapping this conversation up naturally or introducing something happening in the background.` : ''}
+CORE RULE: NEVER GO BACKWARD. Each turn must advance the story. Never re-narrate, re-describe, or re-introduce anything from previous turns — even with different words.
 
-WORLD IS ALIVE: ${isStagnant || needsWorldEvent
-  ? 'INTRODUCE AN EXTERNAL EVENT NOW: NPC interrupts, danger approaches, weather changes, a quest develops. DO NOT wait for the player.'
-  : 'Proactively introduce world events: NPCs approach, weather shifts, sounds heard, time passes.'}
-${turnsInCurrentLocation >= 4 ? `Player has been in "${currentScene}" for ${turnsInCurrentLocation} turns. Consider moving the plot forward.` : ''}
-${(worldState.active_quests || []).length > 0 ? `Active quests: ${(worldState.active_quests || []).join(', ')}. Do NOT create duplicates.` : ''}
-Advance time naturally: morning→afternoon→evening→night.
-=== END PACING ===` : `=== CONTINUIDAD NARRATIVA Y RITMO ===
+${isNPCLoop ? `⚠️ "${loopingNPCName}" has been talking for 3+ turns. End this interaction or interrupt it NOW.` : ''}
+
+RULES:
+1. Each response must contain NEW information, NEW events, or NEW developments. If something was said/done/shown before, it's done — move on.
+2. Never re-describe an NPC's appearance or re-introduce them. They're already here.
+3. ${(worldState.active_quests || []).length > 0 ? `Active quests: ${(worldState.active_quests || []).join(', ')}. Do NOT create duplicate quests.` : 'No active quests.'}
+4. THE WORLD IS ALIVE: ${isStagnant || needsWorldEvent
+  ? 'INTRODUCE AN EXTERNAL EVENT NOW: NPC interrupts, danger approaches, weather changes, a quest develops, something unexpected happens. DO NOT wait for the player.'
+  : 'Proactively introduce world events: NPCs approach, weather shifts, sounds heard, time passes. Never let 3+ turns be only player-driven.'}
+7. ${turnsInCurrentLocation >= 4 ? `Player has been in "${currentScene}" for ${turnsInCurrentLocation} turns. Consider: move the plot forward, introduce a reason to leave, or have something arrive.` : 'Keep the current scene engaging with new details.'}
+8. ${ignoredQuests.length > 0 ? `Weave these forgotten quests back in: ${ignoredQuests.join(', ')}` : 'All quests are being addressed.'}
+9. Advance time naturally: morning→afternoon→evening→night. Don't stay frozen in the same moment.
+=== END PACING ===` : `=== RITMO NARRATIVO Y ANTI-REPETICIÓN ===
 ESTADO ACTUAL:
 - Turno ${totalTurns} de esta sesión
 - Turnos en "${currentScene}": ${turnsInCurrentLocation}
-${isStagnant ? '⚠️ ESTANCAMIENTO DETECTADO — introducí algo nuevo' : ''}
+- Acciones pasivas detectadas: ${passiveCount}
+${isStagnant ? '⚠️ ESTANCAMIENTO DETECTADO' : ''}
 ${needsWorldEvent ? '🌍 EVENTO DEL MUNDO NECESARIO ESTE TURNO' : ''}
-${ignoredQuests.length > 0 ? `- Quests olvidadas para reintegrar: ${ignoredQuests.join(', ')}` : ''}
+${ignoredQuests.length > 0 ? `- Quests olvidadas: ${ignoredQuests.join(', ')}` : ''}
 
-ANCLA DE ESCENA (OBLIGATORIO): El jugador está actualmente en "${currentScene}" durante "${worldState.time_in_world || 'momento desconocido'}", clima: "${worldState.weather || 'desconocido'}". Tu respuesta DEBE transcurrir en esta ubicación exacta, en este momento, con este clima. NO teletransportes al jugador a otro lugar u hora a menos que explícitamente viaje.
+${storySoFar ? `HISTORIA HASTA AHORA (NO repitas estas escenas/descripciones):
+${storySoFar}` : ''}
 
-CONTINUIDAD — Tenés acceso completo a tu narración reciente en la conversación arriba. Usala para:
-1. CONTINUAR la escena actual exactamente donde quedó (misma ubicación, mismos NPCs presentes, mismas condiciones)
-2. REFERENCIAR eventos pasados naturalmente ("La herida de la emboscada aún dolía...")
-3. CONSTRUIR sobre detalles establecidos (mantener coherencia visual/ambiental)
-4. AVANZAR callbacks y foreshadowing que plantaste antes
+${lastDMNarration ? `TU ÚLTIMA NARRACIÓN (CONTINUÁ desde acá, NO re-describas esta escena):
+"${lastDMNarration}..."` : ''}
 
-CERO REDUNDANCIA: Si una acción fue narrada en un turno anterior (objeto recibido, NPC habló, gesto hecho), ESTÁ HECHA. Nunca la re-narres. Comenzá tu respuesta con lo que pasa DESPUÉS — solo respondé a la acción actual del jugador.
+${isRepeatedObservation ? `⚠️ JUGADOR SIGUE OBSERVANDO — DEJÁ de describir detalles físicos. Hacé que el objetivo REACCIONE o que algo PASE. Forzá el avance de la historia.` : ''}
+${isNPCLoop ? `⚠️ LOOP DE NPC DETECTADO con "${loopingNPCName}" — Este NPC dominó los últimos 3+ turnos. DEBÉS: (1) hacer que este NPC se vaya o termine la conversación, (2) introducir un NUEVO personaje o evento que interrumpa, (3) mover la escena a otro lugar, o (4) hacer que pase algo urgente. El jugador necesita VARIEDAD, no la misma interacción una y otra vez.` : ''}
 
-${isRepeatedObservation ? `⚠️ JUGADOR SIGUE OBSERVANDO — Hacé que el entorno REACCIONE o que algo PASE en vez de describir más detalles.` : ''}
-${isNPCLoop ? `⚠️ "${loopingNPCName}" lleva 6+ turnos siendo central. Considerá cerrar esta conversación naturalmente o introducir algo que pase en el fondo.` : ''}
+REGLA CENTRAL: NUNCA RETROCEDER. Cada turno debe avanzar la historia. Nunca re-narres, re-describas ni re-introduzcas nada de turnos anteriores — ni siquiera con palabras diferentes.
 
-EL MUNDO ESTÁ VIVO: ${isStagnant || needsWorldEvent
-  ? 'INTRODUCÍ UN EVENTO EXTERNO AHORA: un NPC interrumpe, el peligro se acerca, el clima cambia, una quest avanza. NO esperes al jugador.'
-  : 'Introducí eventos del mundo proactivamente: NPCs se acercan, el clima cambia, se escuchan sonidos, el tiempo pasa.'}
-${turnsInCurrentLocation >= 4 ? `El jugador lleva ${turnsInCurrentLocation} turnos en "${currentScene}". Considerá mover la trama hacia adelante.` : ''}
-${(worldState.active_quests || []).length > 0 ? `Quests activas: ${(worldState.active_quests || []).join(', ')}. NO crees duplicadas.` : ''}
-Avanzá el tiempo naturalmente: mañana→tarde→noche→amanecer.
+${isNPCLoop ? `⚠️ "${loopingNPCName}" lleva hablando 3+ turnos. Terminá esta interacción o interrumpila AHORA.` : ''}
+
+REGLAS:
+1. Cada respuesta debe contener información NUEVA, eventos NUEVOS o desarrollos NUEVOS. Si algo se dijo/hizo/mostró antes, ya pasó — seguí adelante.
+2. Nunca re-describas la apariencia de un NPC ni lo re-introduzcas. Ya está ahí.
+3. ${(worldState.active_quests || []).length > 0 ? `Quests activas: ${(worldState.active_quests || []).join(', ')}. NO crees quests duplicadas.` : 'Sin quests activas.'}
+4. EL MUNDO ESTÁ VIVO: ${isStagnant || needsWorldEvent
+  ? 'INTRODUCÍ UN EVENTO EXTERNO AHORA: un NPC interrumpe, el peligro se acerca, el clima cambia, una quest avanza, algo inesperado pasa. NO esperes al jugador.'
+  : 'Introducí eventos del mundo proactivamente: NPCs se acercan, el clima cambia, se escuchan sonidos, el tiempo pasa. Nunca dejes pasar 3+ turnos sin eventos del mundo.'}
+7. ${turnsInCurrentLocation >= 4 ? `El jugador lleva ${turnsInCurrentLocation} turnos en "${currentScene}". Considerá: avanzar la trama, dar razón para irse, o que algo llegue.` : 'Mantené la escena actual interesante con nuevos detalles.'}
+8. ${ignoredQuests.length > 0 ? `Entretejé estas quests olvidadas: ${ignoredQuests.join(', ')}` : 'Todas las quests están siendo atendidas.'}
+8. Avanzá el tiempo naturalmente: mañana→tarde→noche→amanecer. No te quedes congelado en el mismo momento.
 === FIN RITMO ===`}
 
+${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
+- ${isEnglish
+  ? 'When introducing a new NPC, always use gendered pronouns or descriptors clearly (he/she, the woman/the man, the old lady/the old man). This is critical for the voice system to assign the correct voice gender.'
+  : 'Al introducir un NPC nuevo, siempre usa pronombres o descriptores de género claros (él/ella, la mujer/el hombre, la anciana/el anciano). Esto es crítico para que el sistema de voz asigne el género de voz correcto.'}
 `
 
     console.log(`[DM] System prompt length: ${systemPrompt.length} chars, conversation: ${conversationHistory.length} messages`)
 
-    // Llamar a Claude — streaming server-side para eficiencia, acumular respuesta completa
-    let rawResponse = ''
+    let response
     try {
-      const stream = anthropic.messages.stream({
-        model: 'claude-sonnet-4-20250514',
+      response = await anthropic.messages.create({
+        model: 'claude-opus-4-20250514',
         max_tokens: 1500,
         system: systemPrompt,
         messages: conversationHistory as any,
       })
-
-      for await (const event of stream) {
-        if (event.type === 'content_block_delta' && event.delta.type === 'text_delta') {
-          rawResponse += event.delta.text
-        }
-      }
     } catch (apiError: any) {
       console.error('[DM] Anthropic API error:', apiError?.message || apiError)
       return NextResponse.json(
@@ -706,6 +1194,8 @@ Avanzá el tiempo naturalmente: mañana→tarde→noche→amanecer.
         { status: 502 }
       )
     }
+
+    const rawResponse = response.content[0].type === 'text' ? response.content[0].text : ''
 
     // Parse JSON response from DM
     let dmResponse: {
@@ -1201,7 +1691,6 @@ Avanzá el tiempo naturalmente: mañana→tarde→noche→amanecer.
     }
 
     // Update campaign world state if there are updates
-    let campaignUpdatePromise: Promise<unknown> | null = null
     if (Object.keys(worldStateUpdates).length > 0) {
       const newWorldState = {
         ...worldState,
@@ -1218,45 +1707,50 @@ Avanzá el tiempo naturalmente: mañana→tarde→noche→amanecer.
           : worldState.map_state,
       }
 
-      campaignUpdatePromise = withRetry(() => prisma.campaign.update({
+      await prisma.campaign.update({
         where: { id: session.campaignId },
         data: { worldState: newWorldState },
-      }))
+      })
     }
 
-    // Build narration with HP change
-    const fullNarration = dmResponse.narration + (dmResponse.hp_change && dmResponse.hp_change !== 0
-      ? `\n\n[${dmResponse.hp_change > 0 ? '+' : ''}${dmResponse.hp_change} HP${dmResponse.hp_reason ? ` (${dmResponse.hp_reason})` : ''}]`
-      : '')
+    // Build the full narration with HP change notification
+    let fullNarration = dmResponse.narration
+    if (dmResponse.hp_change && dmResponse.hp_change !== 0) {
+      const changeText = dmResponse.hp_change > 0
+        ? `+${dmResponse.hp_change} HP`
+        : `${dmResponse.hp_change} HP`
+      const reason = dmResponse.hp_reason ? ` (${dmResponse.hp_reason})` : ''
+      fullNarration += `\n\n[${changeText}${reason}]`
+    }
 
-    // 4. DB writes en paralelo para reducir latencia
-    const dbWrites: Promise<unknown>[] = [
-      withRetry(() => prisma.turn.create({
-        data: {
-          sessionId: session.id,
-          role: 'DM',
-          content: fullNarration,
-          worldStatePatch: Object.keys(worldStateUpdates).length > 0 ? worldStateUpdates : undefined,
-        },
-      })),
-    ]
-    if (campaignUpdatePromise) dbWrites.push(campaignUpdatePromise)
-    await Promise.all(dbWrites)
+    // 4. Guardar el turno del DM
+    await prisma.turn.create({
+      data: {
+        sessionId: session.id,
+        role: 'DM',
+        content: fullNarration,
+        worldStatePatch: Object.keys(worldStateUpdates).length > 0 ? worldStateUpdates : undefined,
+      },
+    })
 
-    // 5. Retornar respuesta al cliente
+    // 5. Retornar exito con world state updates
     return NextResponse.json({
       success: true,
       narration: fullNarration,
       worldStateUpdates: Object.keys(worldStateUpdates).length > 0 ? worldStateUpdates : undefined,
       suggestedActions: dmResponse.suggested_actions,
+      // Image generation
       generateImage: dmResponse.generate_image || false,
       imagePrompt: dmResponse.image_prompt || null,
+      // UI mood
       moodHint: dmResponse.mood_hint || null,
+      // Scene change info for transitions
       sceneChange: dmResponse.scene_change || dmResponse.location_id || null,
+      // Combat trigger
       combat_trigger: dmResponse.combat_trigger || null,
+      // Dice roll request from DM
       diceRequest: dmResponse.dice_request || null,
     })
-
   } catch (error) {
     console.error('Error processing turn:', error)
     return NextResponse.json(
