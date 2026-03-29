@@ -890,85 +890,15 @@ Usá estos para construir la memoria del mundo. Los NPCs introducidos, decisione
 ${labels.narrativeTone}:
 ${narrativeTone}
 
-${isEnglish ? `=== DICE ROLLING SYSTEM ===
-CRITICAL: You MUST request dice rolls frequently! This is a tabletop RPG, not a choose-your-own-adventure.
-
-WHEN TO REQUEST A ROLL (use "dice_request" in your response):
-- Combat: ALWAYS. Every attack, dodge, spell cast, or defensive action
-- Exploration: Searching for traps, picking locks, climbing, sneaking, tracking
-- Social: Persuasion, deception, intimidation, gathering information from NPCs
-- Perception: Noticing hidden things, hearing approaching danger, reading body language
-- Survival: Navigating, foraging, resisting environmental hazards, endurance checks
-- Magic/Special abilities: Casting spells, using special powers, ritual attempts
-- ANY risky or uncertain action: If the outcome is not guaranteed, REQUEST A ROLL
-
-HOW TO REQUEST A ROLL:
-Include "dice_request" in your response:
-{
-  "dice_request": {
-    "reason": "Brief description of what the roll is for",
-    "formula": "1d20+3",
-    "type": "attack" | "skill" | "save" | "perception" | "social" | "exploration",
-    "difficulty": 12,
-    "stat": "combat",
-    "on_success": "What happens on success",
-    "on_failure": "What happens on failure"
-  }
-}
-
-When requesting a roll: narrate the SETUP but NOT the outcome. End the narration at the moment of tension.
-Example: "You draw your sword and charge at the orc. It snarls and raises its shield..."
-Then the player rolls, and you narrate the RESULT in the next turn.
-
-INTERPRETING A SUBMITTED ROLL:
-${diceRoll ? `The player just rolled: ${diceRoll.formula} = ${diceRoll.result} (dice: ${diceRoll.rolls.join(', ')}). Narrate the OUTCOME based on this result.` : 'No dice roll submitted - if the action requires one, REQUEST IT with dice_request.'}
-
-RULES:
-- ANY action requiring skill = ALWAYS request a roll. No exceptions.
-- Combat = EVERY turn requires a roll (attack, dodge, cast spell).
-- Only pure dialogue/conversation turns skip dice. Everything else needs a roll.
-- If the player says "I try to...", "I attempt...", "I attack...", "I sneak...", "I search...", "I convince..." → REQUEST A ROLL.
-- NEVER auto-succeed or auto-fail a skill action without a dice roll.
-=== END DICE SYSTEM ===` : `=== SISTEMA DE TIRADA DE DADOS ===
-CRÍTICO: ¡DEBES pedir tiradas de dados frecuentemente! Esto es un RPG de mesa, no un "elige tu propia aventura".
-
-CUÁNDO PEDIR UNA TIRADA (usa "dice_request" en tu respuesta):
-- Combate: SIEMPRE. Cada ataque, esquive, hechizo o acción defensiva
-- Exploración: Buscar trampas, forzar cerraduras, escalar, sigilo, rastreo
-- Social: Persuasión, engaño, intimidación, obtener información de NPCs
-- Percepción: Notar cosas ocultas, escuchar peligro, leer lenguaje corporal
-- Supervivencia: Navegar, forrajear, resistir peligros ambientales, resistencia
-- Magia/Habilidades especiales: Lanzar hechizos, usar poderes, rituales
-- CUALQUIER acción arriesgada: Si el resultado no está garantizado, PIDE UNA TIRADA
-
-CÓMO PEDIR UNA TIRADA:
-Incluí "dice_request" en tu respuesta:
-{
-  "dice_request": {
-    "reason": "Breve descripción de para qué es la tirada",
-    "formula": "1d20+3",
-    "type": "attack" | "skill" | "save" | "perception" | "social" | "exploration",
-    "difficulty": 12,
-    "stat": "combat",
-    "on_success": "Qué pasa en éxito",
-    "on_failure": "Qué pasa en fracaso"
-  }
-}
-
-Al pedir una tirada: narrá la PREPARACIÓN pero NO el resultado. Terminá la narración en el momento de tensión.
-Ejemplo: "Desenvainás tu espada y cargás contra el orco. Gruñe y levanta su escudo..."
-El jugador tira, y narrás el RESULTADO en el siguiente turno.
-
-INTERPRETANDO UNA TIRADA ENVIADA:
-${diceRoll ? `El jugador acaba de tirar: ${diceRoll.formula} = ${diceRoll.result} (dados: ${diceRoll.rolls.join(', ')}). Narrá el RESULTADO basándote en esta tirada.` : 'Sin tirada de dados enviada - si la acción requiere una, PEDILA con dice_request.'}
-
-REGLAS:
-- CUALQUIER acción que requiera habilidad = SIEMPRE pedí tirada. Sin excepciones.
-- Combate = CADA turno requiere tirada (atacar, esquivar, lanzar hechizo).
-- Solo los turnos de pura conversación/diálogo se saltan dados. Todo lo demás necesita tirada.
-- Si el jugador dice "intento...", "ataco...", "me escabullo...", "busco...", "convenzo..." → PEDÍ TIRADA.
-- NUNCA auto-éxito o auto-fallo en una acción de habilidad sin tirada de dados.
-=== FIN SISTEMA DE DADOS ===`}
+${isEnglish ? `=== DICE SYSTEM ===
+Request dice rolls for any risky/uncertain action (combat, stealth, persuasion, perception, magic). Only skip for pure dialogue.
+${diceRoll ? `ROLL RESULT: ${diceRoll.formula} = ${diceRoll.result} (${diceRoll.rolls.join(', ')}). Narrate the OUTCOME.` : 'Use "dice_request": {"reason":"...", "formula":"1d20+3", "type":"skill", "difficulty":12, "stat":"combat", "on_success":"...", "on_failure":"..."}'}
+When requesting: narrate the SETUP, stop at the moment of tension. Player rolls, then you narrate the result next turn.
+=== END DICE ===` : `=== DADOS ===
+Pedí tiradas para cualquier acción riesgosa/incierta (combate, sigilo, persuasión, percepción, magia). Solo saltear en diálogo puro.
+${diceRoll ? `RESULTADO: ${diceRoll.formula} = ${diceRoll.result} (${diceRoll.rolls.join(', ')}). Narrá el RESULTADO.` : 'Usá "dice_request": {"reason":"...", "formula":"1d20+3", "type":"skill", "difficulty":12, "stat":"combat", "on_success":"...", "on_failure":"..."}'}
+Al pedir tirada: narrá la PREPARACIÓN, pará en el momento de tensión. El jugador tira, después narrás el resultado.
+=== FIN DADOS ===`}
 
 ${labels.important}:
 - ${labels.jsonOnly}
@@ -976,36 +906,13 @@ ${labels.important}:
 - ${labels.unconscious}
 - ${labels.coherence}
 
-${isEnglish ? 'ADAPTIVE RESPONSE LENGTH' : 'LONGITUD DE RESPUESTA ADAPTATIVA'}:
-- ${isEnglish ? 'If the player writes 1-2 sentences: respond with 1-2 SHORT paragraphs (max 4 sentences total)' : 'Si el jugador escribe 1-2 oraciones: responde con 1-2 párrafos CORTOS (máx 4 oraciones total)'}
-- ${isEnglish ? 'If the player writes 3-4 sentences: respond with 2-3 medium paragraphs' : 'Si el jugador escribe 3-4 oraciones: responde con 2-3 párrafos medianos'}
-- ${isEnglish ? 'If the player writes a detailed paragraph: you can elaborate more' : 'Si el jugador escribe un párrafo detallado: puedes elaborar más'}
-- ${isEnglish ? 'PRIORITIZE action and dialogue over lengthy descriptions' : 'PRIORIZA acción y diálogo sobre descripciones largas'}
-
-${isEnglish ? 'VOICE FORMAT FOR NPCs' : 'FORMATO DE VOZ PARA NPCs'}:
 ${isEnglish
-  ? `CRITICAL: For NPCs to have distinct voices, ALWAYS format dialogue like this:
-- NPCName: "What the NPC says here"
-- "What the NPC says", said NPCName.
-- —What the NPC says —replied NPCName.
+  ? 'RESPONSE LENGTH: Match the player\'s input length. Short input = short response (1-2 paragraphs). Prioritize action and dialogue over descriptions.'
+  : 'LONGITUD: Adaptá al input del jugador. Input corto = respuesta corta (1-2 párrafos). Priorizá acción y diálogo sobre descripciones.'}
 
-WRONG (will be read as narrator):
-- NPCName says something (no quotes)
-- The NPC speaks without clear format
-
-Example:
-"The forest closes around you. Gandalf: «Fear not, young hobbit... the path still lies ahead.» His words resonate with ancient wisdom."`
-  : `CRÍTICO: Para que los NPCs tengan voces distintas, SIEMPRE formatea diálogos así:
-- NombreNPC: "Lo que dice el NPC aquí"
-- «Lo que dice el NPC», dijo NombreNPC.
-- —Lo que dice el NPC —respondió NombreNPC.
-
-INCORRECTO (se leerá como narrador):
-- NombreNPC dice algo importante (sin comillas)
-- El NPC habla sin formato claro
-
-Ejemplo:
-"El bosque se cierra a tu alrededor. Gandalf: «No temas, joven hobbit... el camino aún está por delante.» Sus palabras resuenan con antigua sabiduría."`}
+${isEnglish
+  ? 'NPC DIALOGUE: Always use quotes — NPCName: "dialogue" or «dialogue», said NPCName.'
+  : 'DIÁLOGOS NPC: Siempre usar comillas — NombreNPC: "diálogo" o «diálogo», dijo NombreNPC.'}
 
 ${contextPayload.storySoFar ? (isEnglish
   ? `=== SESSION MEMORY ===
