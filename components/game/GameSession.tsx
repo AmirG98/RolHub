@@ -470,27 +470,9 @@ export default function GameSession({
         }),
       })
 
-      // Leer streaming response — heartbeats (\n) seguidos del JSON final
-      const reader = response.body?.getReader()
-      if (!reader) throw new Error('No response body')
-      const decoder = new TextDecoder()
-      let fullText = ''
-      while (true) {
-        const { done, value } = await reader.read()
-        if (done) break
-        fullText += decoder.decode(value, { stream: true })
-      }
+      const data = await response.json()
 
-      // Extraer el JSON del stream (ignorar heartbeats/newlines)
-      const jsonStr = fullText.trim()
-      if (!jsonStr) throw new Error('Empty response')
-      // Encontrar el último JSON válido en el stream
-      const lastBrace = jsonStr.lastIndexOf('}')
-      const firstBrace = jsonStr.indexOf('{')
-      if (firstBrace === -1 || lastBrace === -1) throw new Error('No JSON in response')
-      const data = JSON.parse(jsonStr.substring(firstBrace, lastBrace + 1))
-
-      if (data.error) {
+      if (!response.ok) {
         throw new Error(data.error || 'Error al enviar la acción')
       }
 

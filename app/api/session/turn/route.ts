@@ -29,8 +29,8 @@ interface DiceRoll {
   rolls: number[]
 }
 
-// Vercel serverless timeout (segundos) — Claude puede tardar en responder
-export const maxDuration = 60
+// Vercel Pro permite hasta 300s — 120s es suficiente para Claude + DB
+export const maxDuration = 120
 
 export async function POST(req: NextRequest) {
   try {
@@ -684,31 +684,28 @@ Avanzá el tiempo naturalmente: mañana→tarde→noche→amanecer.
 
     console.log(`[DM] System prompt length: ${systemPrompt.length} chars, conversation: ${conversationHistory.length} messages`)
 
-    // STREAMING RESPONSE — enviar heartbeats al cliente mientras Claude procesa
-    // Esto mantiene la conexión HTTP activa y evita el timeout de Vercel
-    const encoder = new TextEncoder()
-    const readableStream = new ReadableStream({
-      async start(controller) {
-        // Heartbeat cada 5s para mantener la conexión viva
-        const heartbeat = setInterval(() => {
-          try { controller.enqueue(encoder.encode('\n')) } catch { /* stream closed */ }
-        }, 5000)
+    // Llamar a Claude — streaming server-side para eficiencia, acumular respuesta completa
+    let rawResponse = ''
+    try {
+      const stream = anthropic.messages.stream({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1500,
+        system: systemPrompt,
+        messages: conversationHistory as any,
+      })
 
-        try {
-          // Llamar a Claude con streaming server-side
-          let rawResponse = ''
-          const stream = anthropic.messages.stream({
-            model: 'claude-sonnet-4-20250514',
-            max_tokens: 1500,
-            system: systemPrompt,
-            messages: conversationHistory as any,
-          })
-
-          for await (const event of stream) {
-            if (event.type === 'content_block_delta' && event.delta.type === 'text_delta') {
-              rawResponse += event.delta.text
-            }
-          }
+      for await (const event of stream) {
+        if (event.type === 'content_block_delta' && event.delta.type === 'text_delta') {
+          rawResponse += event.delta.text
+        }
+      }
+    } catch (apiError: any) {
+      console.error('[DM] Anthropic API error:', apiError?.message || apiError)
+      return NextResponse.json(
+        { error: 'Error al generar la narración', details: apiError?.message || 'API error' },
+        { status: 502 }
+      )
+    }
 
     // Parse JSON response from DM
     let dmResponse: {
@@ -1246,8 +1243,8 @@ Avanzá el tiempo naturalmente: mañana→tarde→noche→amanecer.
     if (campaignUpdatePromise) dbWrites.push(campaignUpdatePromise)
     await Promise.all(dbWrites)
 
-    // 5. Enviar resultado final al cliente como JSON
-    const finalResponse = JSON.stringify({
+    // 5. Retornar respuesta al cliente
+    return NextResponse.json({
       success: true,
       narration: fullNarration,
       worldStateUpdates: Object.keys(worldStateUpdates).length > 0 ? worldStateUpdates : undefined,
@@ -1258,29 +1255,6 @@ Avanzá el tiempo naturalmente: mañana→tarde→noche→amanecer.
       sceneChange: dmResponse.scene_change || dmResponse.location_id || null,
       combat_trigger: dmResponse.combat_trigger || null,
       diceRequest: dmResponse.dice_request || null,
-    })
-    controller.enqueue(encoder.encode(finalResponse))
-
-        } catch (streamError: any) {
-          console.error('Error in streaming turn:', streamError)
-          const errorResponse = JSON.stringify({
-            error: 'Error al procesar el turno',
-            details: streamError?.message || 'Unknown error',
-          })
-          controller.enqueue(encoder.encode(errorResponse))
-        } finally {
-          clearInterval(heartbeat)
-          controller.close()
-        }
-      },
-    })
-
-    return new Response(readableStream, {
-      headers: {
-        'Content-Type': 'text/plain; charset=utf-8',
-        'Transfer-Encoding': 'chunked',
-        'Cache-Control': 'no-cache',
-      },
     })
 
   } catch (error) {
