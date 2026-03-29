@@ -1033,11 +1033,13 @@ ${isStagnant ? '⚠️ STAGNATION DETECTED — introduce something new' : ''}
 ${needsWorldEvent ? '🌍 WORLD EVENT NEEDED THIS TURN' : ''}
 ${ignoredQuests.length > 0 ? `- Forgotten quests to weave back in: ${ignoredQuests.join(', ')}` : ''}
 
+SCENE ANCHOR (MANDATORY): The player is currently in "${currentScene}" during "${worldState.time_in_world || 'unknown time'}", weather: "${worldState.weather || 'unknown'}". Your response MUST take place in this exact location, at this time, with this weather. Do NOT teleport the player to a different place or time unless they explicitly travel there.
+
 CONTINUITY — You have full access to your recent narration in the conversation above. Use it to:
-1. REFERENCE past events naturally ("The wound from the ambush still ached...")
-2. BUILD ON established details (maintain visual/environmental coherence)
-3. ADVANCE callbacks and foreshadowing you planted earlier
-4. Maintain your narrative voice consistently across turns
+1. CONTINUE the current scene exactly where it left off (same location, same NPCs present, same conditions)
+2. REFERENCE past events naturally ("The wound from the ambush still ached...")
+3. BUILD ON established details (maintain visual/environmental coherence)
+4. ADVANCE callbacks and foreshadowing you planted earlier
 
 ZERO REDUNDANCY: If an action was narrated in a previous turn (item received, NPC spoke, gesture made), it is DONE. Never re-narrate it. Start your response with what happens NEXT — only respond to the player's current action.
 
@@ -1058,11 +1060,13 @@ ${isStagnant ? '⚠️ ESTANCAMIENTO DETECTADO — introducí algo nuevo' : ''}
 ${needsWorldEvent ? '🌍 EVENTO DEL MUNDO NECESARIO ESTE TURNO' : ''}
 ${ignoredQuests.length > 0 ? `- Quests olvidadas para reintegrar: ${ignoredQuests.join(', ')}` : ''}
 
+ANCLA DE ESCENA (OBLIGATORIO): El jugador está actualmente en "${currentScene}" durante "${worldState.time_in_world || 'momento desconocido'}", clima: "${worldState.weather || 'desconocido'}". Tu respuesta DEBE transcurrir en esta ubicación exacta, en este momento, con este clima. NO teletransportes al jugador a otro lugar u hora a menos que explícitamente viaje.
+
 CONTINUIDAD — Tenés acceso completo a tu narración reciente en la conversación arriba. Usala para:
-1. REFERENCIAR eventos pasados naturalmente ("La herida de la emboscada aún dolía...")
-2. CONSTRUIR sobre detalles establecidos (mantener coherencia visual/ambiental)
-3. AVANZAR callbacks y foreshadowing que plantaste antes
-4. Mantener tu voz narrativa consistente entre turnos
+1. CONTINUAR la escena actual exactamente donde quedó (misma ubicación, mismos NPCs presentes, mismas condiciones)
+2. REFERENCIAR eventos pasados naturalmente ("La herida de la emboscada aún dolía...")
+3. CONSTRUIR sobre detalles establecidos (mantener coherencia visual/ambiental)
+4. AVANZAR callbacks y foreshadowing que plantaste antes
 
 CERO REDUNDANCIA: Si una acción fue narrada en un turno anterior (objeto recibido, NPC habló, gesto hecho), ESTÁ HECHA. Nunca la re-narres. Comenzá tu respuesta con lo que pasa DESPUÉS — solo respondé a la acción actual del jugador.
 

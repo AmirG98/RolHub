@@ -375,16 +375,28 @@ export function VoicePlayerAuto({
         generationCompleteRef.current = true
       }
 
-      // Si es el primero y no hemos empezado a reproducir, empezar inmediatamente
-      if (index === 0 && !hasStartedPlayingRef.current) {
+      // Esperar a que TODOS los segmentos estén generados antes de reproducir
+      // Esto evita audio parcial cuando algunos segmentos fallan
+      if (allGenerated && !hasStartedPlayingRef.current) {
         hasStartedPlayingRef.current = true
         setIsLoading(false)
         playSegment(0)
       }
     } catch (err) {
       console.error(`[VoicePlayerAuto] Error generating segment ${index}:`, err)
-      // Marcar como "generado" con null para evitar loops infinitos
-      // El playSegment lo saltará via timeout
+      // Marcar como fallido con URL vacía — playSegment lo saltará
+      audioQueueRef.current[index] = { url: '', speaker: segment.speaker }
+
+      // Verificar si todos están listos (incluyendo fallidos) para empezar reproducción
+      const allDone = audioQueueRef.current.every(s => s !== null)
+      if (allDone) {
+        generationCompleteRef.current = true
+        if (!hasStartedPlayingRef.current) {
+          hasStartedPlayingRef.current = true
+          setIsLoading(false)
+          playSegment(0)
+        }
+      }
     }
   }
 
@@ -398,7 +410,7 @@ export function VoicePlayerAuto({
     const segment = audioQueueRef.current[index]
     const MAX_WAIT_MS = 5000 // Máximo tiempo de espera por segmento (Fish Audio puede tardar 2-3s)
 
-    if (segment) {
+    if (segment && segment.url) {
       currentIndexRef.current = index
       setCurrentSegment(index + 1)
       setCurrentSpeaker(segment.speaker || null)
@@ -421,6 +433,10 @@ export function VoicePlayerAuto({
         console.warn('[VoicePlayerAuto] Play error:', err)
         tryPlayNext(index + 1)
       }
+    } else if (segment && !segment.url) {
+      // Segmento fallido (URL vacía) — saltar al siguiente
+      console.warn(`[VoicePlayerAuto] Segment ${index} failed, skipping`)
+      tryPlayNext(index + 1)
     } else if (!generationCompleteRef.current) {
       // Audio aún no está listo
       const startTime = waitStartTime || Date.now()
