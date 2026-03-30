@@ -1,9 +1,9 @@
 {
   "id": "LOTR",
-  "name": { "es": "Tierra Media", "en": "Middle-earth" },
-  "tagline": { "es": "Un mundo de magia antigua, pueblos nobles y la lucha eterna contra la oscuridad", "en": "A world of ancient magic, noble peoples, and the eternal struggle against darkness" },
+  "name": "Tierra Media",
+  "tagline": "Un mundo de magia antigua, pueblos nobles y la lucha eterna contra la oscuridad",
   "tone": ["épico", "heroico", "melancólico", "esperanzador"],
-  "world_summary": { "es": "La Tierra Media es un vasto continente donde humanos, elfos, enanos y hobbits conviven bajo la amenaza constante de fuerzas oscuras. Es una era de magia decadente, donde los grandes poderes del pasado se desvanecen lentamente. Los elfos parten hacia el oeste, los enanos se refugian en sus montañas, y los humanos heredan un mundo que apenas comprenden. Antiguas fortalezas yacen en ruinas, bosques inmortales guardan secretos olvidados, y en las sombras, sirvientes del mal conspiran para sumir al mundo en tinieblas eternas. Es un tiempo donde pequeños actos de valentía pueden cambiar el destino de naciones enteras.", "en": "Middle-earth is a vast continent where humans, elves, dwarves, and hobbits coexist under the constant threat of dark forces. It is an age of fading magic, where the great powers of the past slowly wane. The elves depart for the West, the dwarves retreat into their mountains, and humans inherit a world they barely understand. Ancient strongholds lie in ruins, ageless forests guard forgotten secrets, and in the shadows, servants of evil conspire to plunge the world into eternal darkness. It is a time when small acts of courage can change the fate of entire nations." },
+  "world_summary": "La Tierra Media es un vasto continente donde humanos, elfos, enanos y hobbits conviven bajo la amenaza constante de fuerzas oscuras. Es una era de magia decadente, donde los grandes poderes del pasado se desvanecen lentamente. Los elfos parten hacia el oeste, los enanos se refugian en sus montañas, y los humanos heredan un mundo que apenas comprenden. Antiguas fortalezas yacen en ruinas, bosques inmortales guardan secretos olvidados, y en las sombras, sirvientes del mal conspiran para sumir al mundo en tinieblas eternas. Es un tiempo donde pequeños actos de valentía pueden cambiar el destino de naciones enteras.",
 
   "detailed_history": {
     "ages": [
@@ -349,10 +349,10 @@
   "archetypes": [
     {
       "id": "ranger",
-      "name": { "es": "Montaraz", "en": "Ranger" },
-      "description": { "es": "Explorador y guerrero que protege las fronteras salvajes", "en": "Explorer and warrior who guards the wild frontiers" },
-      "simple_description": { "es": "Conoces los bosques y caminos secretos. Eres hábil con la espada y el arco. Proteges a los inocentes desde las sombras.", "en": "You know the forests and hidden paths. You are skilled with sword and bow. You protect the innocent from the shadows." },
-      "detailed_background": { "es": "Los Montaraces son los últimos Dúnedain del Norte, herederos del reino perdido de Arnor. Vagan por las tierras salvajes como cazadores y guardianes, vestidos de gris y verde para fundirse con los bosques. La gente común los ve como vagabundos peligrosos, sin saber que estos guerreros errantes son todo lo que se interpone entre ellos y los horrores de la noche. Cada Montaraz lleva la carga de su linaje: sangre de reyes, pero sin reino que gobernar.", "en": "The Rangers are the last Dunedain of the North, heirs to the lost kingdom of Arnor. They wander the wilderness as hunters and wardens, clad in grey and green to blend with the forests. Common folk see them as dangerous vagabonds, never knowing that these wandering warriors are all that stands between them and the horrors of the night. Every Ranger bears the burden of their lineage: the blood of kings, but no kingdom to rule." },
+      "name": "Montaraz",
+      "description": "Explorador y guerrero que protege las fronteras salvajes",
+      "simple_description": "Conoces los bosques y caminos secretos. Eres hábil con la espada y el arco. Proteges a los inocentes desde las sombras.",
+      "detailed_background": "Los Montaraces son los últimos Dúnedain del Norte, herederos del reino perdido de Arnor. Vagan por las tierras salvajes como cazadores y guardianes, vestidos de gris y verde para fundirse con los bosques. La gente común los ve como vagabundos peligrosos, sin saber que estos guerreros errantes son todo lo que se interpone entre ellos y los horrores de la noche. Cada Montaraz lleva la carga de su linaje: sangre de reyes, pero sin reino que gobernar.",
       "starting_stats": {
         "hp": 20,
         "maxHp": 20,
@@ -362,31 +362,31 @@
         "lore": 2
       },
       "starting_inventory": [
-        { "es": "Espada larga forjada en el oeste", "en": "Long sword forged in the West" },
-        { "es": "Arco largo de tejo y 20 flechas", "en": "Yew longbow and 20 arrows" },
-        { "es": "Capa élfica que oculta del enemigo", "en": "Elven cloak that conceals from enemies" },
-        { "es": "Pipa de fumar y hierba del sur", "en": "Smoking pipe and Southlinch leaf" },
-        { "es": "Mapa de las Tierras Salvajes", "en": "Map of the Wild Lands" },
-        { "es": "Hierbas medicinales (athelas)", "en": "Healing herbs (athelas)" },
-        { "es": "Saco de dormir de lana", "en": "Wool sleeping bag" },
-        { "es": "Raciones de viaje (3 días)", "en": "Travel rations (3 days)" },
-        { "es": "Odre de agua", "en": "Waterskin" },
-        { "es": "Cuerda de cáñamo (15m)", "en": "Hemp rope (15m)" },
-        { "es": "Pedernal y acero", "en": "Flint and steel" }
+        "Espada larga forjada en el oeste",
+        "Arco largo de tejo y 20 flechas",
+        "Capa élfica que oculta del enemigo",
+        "Pipa de fumar y hierba del sur",
+        "Mapa de las Tierras Salvajes",
+        "Hierbas medicinales (athelas)",
+        "Saco de dormir de lana",
+        "Raciones de viaje (3 días)",
+        "Odre de agua",
+        "Cuerda de cáñamo (15m)",
+        "Pedernal y acero"
       ],
-      "special_ability": { "es": "Rastreador Experto: Siempre sabes qué criaturas han pasado por un lugar, cuándo, y hacia dónde fueron", "en": "Expert Tracker: You always know what creatures have passed through an area, when, and where they went" },
+      "special_ability": "Rastreador Experto: Siempre sabes qué criaturas han pasado por un lugar, cuándo, y hacia dónde fueron",
       "advancement_paths": [
-        { "es": "Capitán de los Dúnedain - lidera a otros montaraces", "en": "Captain of the Dunedain - lead other Rangers" },
-        { "es": "Portador de la Espada Quebrada - heredero de Isildur", "en": "Bearer of the Broken Sword - heir of Isildur" },
-        { "es": "Amigo de los Elfos - aprender magia élfica menor", "en": "Elf-friend - learn minor Elven magic" }
+        "Capitán de los Dúnedain - lidera a otros montaraces",
+        "Portador de la Espada Quebrada - heredero de Isildur",
+        "Amigo de los Elfos - aprender magia élfica menor"
       ]
     },
     {
       "id": "scholar",
-      "name": { "es": "Erudito", "en": "Scholar" },
-      "description": { "es": "Sabio que estudia la historia antigua y las lenguas olvidadas", "en": "Sage who studies ancient history and forgotten languages" },
-      "simple_description": { "es": "Has dedicado tu vida al estudio de textos antiguos. Conoces historias y leyendas que otros han olvidado. Tu sabiduría puede revelar secretos cruciales.", "en": "You have devoted your life to studying ancient texts. You know histories and legends that others have forgotten. Your wisdom can reveal crucial secrets." },
-      "detailed_background": { "es": "En Rivendel, Minas Tirith o las bibliotecas de los enanos, siempre hay quienes dedican sus vidas al conocimiento. Has pasado años descifrando pergaminos amarillentos, aprendiendo lenguas muertas y memorizando genealogías de reyes olvidados. Donde otros ven ruinas, tú ves historia. Donde otros ven símbolos, tú lees advertencias. El conocimiento es poder, y en una era donde mucho se ha olvidado, tu memoria puede ser la diferencia entre el triunfo y la catástrofe.", "en": "In Rivendell, Minas Tirith, or the libraries of the dwarves, there are always those who devote their lives to knowledge. You have spent years deciphering yellowed scrolls, learning dead languages, and memorizing genealogies of forgotten kings. Where others see ruins, you see history. Where others see symbols, you read warnings. Knowledge is power, and in an age where much has been forgotten, your memory may be the difference between triumph and catastrophe." },
+      "name": "Erudito",
+      "description": "Sabio que estudia la historia antigua y las lenguas olvidadas",
+      "simple_description": "Has dedicado tu vida al estudio de textos antiguos. Conoces historias y leyendas que otros han olvidado. Tu sabiduría puede revelar secretos cruciales.",
+      "detailed_background": "En Rivendel, Minas Tirith o las bibliotecas de los enanos, siempre hay quienes dedican sus vidas al conocimiento. Has pasado años descifrando pergaminos amarillentos, aprendiendo lenguas muertas y memorizando genealogías de reyes olvidados. Donde otros ven ruinas, tú ves historia. Donde otros ven símbolos, tú lees advertencias. El conocimiento es poder, y en una era donde mucho se ha olvidado, tu memoria puede ser la diferencia entre el triunfo y la catástrofe.",
       "starting_stats": {
         "hp": 14,
         "maxHp": 14,
@@ -396,31 +396,31 @@
         "lore": 5
       },
       "starting_inventory": [
-        { "es": "Bastón de madera con inscripciones", "en": "Wooden staff with inscriptions" },
-        { "es": "Libro de crónicas antiguas", "en": "Book of ancient chronicles" },
-        { "es": "Kit de escritura con tinta especial", "en": "Writing kit with special ink" },
-        { "es": "Lupa de cristal enano", "en": "Dwarven crystal magnifying glass" },
-        { "es": "Pergaminos en quenya y sindarin", "en": "Scrolls in Quenya and Sindarin" },
-        { "es": "Mapas de ruinas conocidas", "en": "Maps of known ruins" },
-        { "es": "Saco de dormir de lana", "en": "Wool sleeping bag" },
-        { "es": "Raciones de viaje (3 días)", "en": "Travel rations (3 days)" },
-        { "es": "Odre de agua", "en": "Waterskin" },
-        { "es": "Antorchas (2)", "en": "Torches (2)" },
-        { "es": "Bolsa de cuero con 15 monedas de plata", "en": "Leather pouch with 15 silver coins" }
+        "Bastón de madera con inscripciones",
+        "Libro de crónicas antiguas",
+        "Kit de escritura con tinta especial",
+        "Lupa de cristal enano",
+        "Pergaminos en quenya y sindarin",
+        "Mapas de ruinas conocidas",
+        "Saco de dormir de lana",
+        "Raciones de viaje (3 días)",
+        "Odre de agua",
+        "Antorchas (2)",
+        "Bolsa de cuero con 15 monedas de plata"
       ],
-      "special_ability": { "es": "Conocimiento Antiguo: Puedes leer cualquier lengua antigua y recordar leyendas relevantes sobre lugares, objetos y criaturas", "en": "Ancient Knowledge: You can read any ancient language and recall relevant legends about places, objects, and creatures" },
+      "special_ability": "Conocimiento Antiguo: Puedes leer cualquier lengua antigua y recordar leyendas relevantes sobre lugares, objetos y criaturas",
       "advancement_paths": [
-        { "es": "Aprendiz de Mago - los Istari te han notado", "en": "Wizard's Apprentice - the Istari have taken notice of you" },
-        { "es": "Maestro de Lenguas - comunicarte con cualquier pueblo", "en": "Master of Tongues - communicate with any people" },
-        { "es": "Guardián de Secretos - conocimientos prohibidos", "en": "Keeper of Secrets - forbidden knowledge" }
+        "Aprendiz de Mago - los Istari te han notado",
+        "Maestro de Lenguas - comunicarte con cualquier pueblo",
+        "Guardián de Secretos - conocimientos prohibidos"
       ]
     },
     {
       "id": "warrior",
-      "name": { "es": "Guerrero", "en": "Warrior" },
-      "description": { "es": "Combatiente valiente entrenado en las artes de la guerra", "en": "Brave fighter trained in the arts of war" },
-      "simple_description": { "es": "Has sido entrenado en el combate desde joven. Tu valor en batalla es legendario. Defiendes a los débiles con tu acero.", "en": "You have been trained in combat since youth. Your valor in battle is legendary. You defend the weak with your steel." },
-      "detailed_background": { "es": "Ya sea un soldado de Gondor, un jinete de Rohan o un guardia enano, has dedicado tu vida al arte de la guerra. Has visto batallas y sobrevivido. Conoces el peso de la responsabilidad de proteger a los débiles. Tu espada ha probado sangre de orco, y tu escudo lleva las marcas de cien combates. En tiempos de paz serías un simple guardia o mercenario, pero los tiempos de paz han terminado.", "en": "Whether a soldier of Gondor, a rider of Rohan, or a dwarven guard, you have dedicated your life to the art of war. You have seen battles and survived. You know the weight of responsibility in protecting the weak. Your sword has tasted orc blood, and your shield bears the marks of a hundred fights. In times of peace you would be a simple guard or sellsword, but the times of peace are over." },
+      "name": "Guerrero",
+      "description": "Combatiente valiente entrenado en las artes de la guerra",
+      "simple_description": "Has sido entrenado en el combate desde joven. Tu valor en batalla es legendario. Defiendes a los débiles con tu acero.",
+      "detailed_background": "Ya sea un soldado de Gondor, un jinete de Rohan o un guardia enano, has dedicado tu vida al arte de la guerra. Has visto batallas y sobrevivido. Conoces el peso de la responsabilidad de proteger a los débiles. Tu espada ha probado sangre de orco, y tu escudo lleva las marcas de cien combates. En tiempos de paz serías un simple guardia o mercenario, pero los tiempos de paz han terminado.",
       "starting_stats": {
         "hp": 25,
         "maxHp": 25,
@@ -430,32 +430,32 @@
         "lore": 1
       },
       "starting_inventory": [
-        { "es": "Espada ancha de acero gondoriano", "en": "Broad sword of Gondorian steel" },
-        { "es": "Escudo con emblema de tu casa", "en": "Shield bearing your house emblem" },
-        { "es": "Armadura de mallas reforzada", "en": "Reinforced chainmail armour" },
-        { "es": "Cuerno de guerra", "en": "War horn" },
-        { "es": "Estandarte de tu unidad", "en": "Banner of your unit" },
-        { "es": "Saco de dormir de lana", "en": "Wool sleeping bag" },
-        { "es": "Raciones de viaje (3 días)", "en": "Travel rations (3 days)" },
-        { "es": "Odre de agua", "en": "Waterskin" },
-        { "es": "Cuerda de cáñamo (15m)", "en": "Hemp rope (15m)" },
-        { "es": "Antorchas (2)", "en": "Torches (2)" },
-        { "es": "Pedernal y acero", "en": "Flint and steel" },
-        { "es": "Bolsa de cuero con 15 monedas de plata", "en": "Leather pouch with 15 silver coins" }
+        "Espada ancha de acero gondoriano",
+        "Escudo con emblema de tu casa",
+        "Armadura de mallas reforzada",
+        "Cuerno de guerra",
+        "Estandarte de tu unidad",
+        "Saco de dormir de lana",
+        "Raciones de viaje (3 días)",
+        "Odre de agua",
+        "Cuerda de cáñamo (15m)",
+        "Antorchas (2)",
+        "Pedernal y acero",
+        "Bolsa de cuero con 15 monedas de plata"
       ],
-      "special_ability": { "es": "Protector: Puedes interponerte para recibir daño en lugar de un aliado, reduciendo el daño a la mitad", "en": "Protector: You can interpose yourself to take damage in place of an ally, reducing the damage by half" },
+      "special_ability": "Protector: Puedes interponerte para recibir daño en lugar de un aliado, reduciendo el daño a la mitad",
       "advancement_paths": [
-        { "es": "Capitán de Gondor - liderar tropas en batalla", "en": "Captain of Gondor - lead troops in battle" },
-        { "es": "Mariscal de la Marca - dominio de la caballería", "en": "Marshal of the Mark - mastery of cavalry" },
-        { "es": "Guardia de la Ciudadela - élite de los defensores", "en": "Guard of the Citadel - elite among defenders" }
+        "Capitán de Gondor - liderar tropas en batalla",
+        "Mariscal de la Marca - dominio de la caballería",
+        "Guardia de la Ciudadela - élite de los defensores"
       ]
     },
     {
       "id": "hobbit",
-      "name": { "es": "Hobbit Aventurero", "en": "Adventurous Hobbit" },
-      "description": { "es": "Pequeño pero valiente, con una resistencia sorprendente al mal", "en": "Small but brave, with a surprising resistance to evil" },
-      "simple_description": { "es": "Eres un hobbit que ha dejado la comodidad de la Comarca. Pequeño y subestimado, pero posees una fuerza interior que los grandes no comprenden.", "en": "You are a hobbit who has left the comfort of the Shire. Small and underestimated, yet you possess an inner strength that the Big Folk cannot comprehend." },
-      "detailed_background": { "es": "La mayoría de los hobbits nunca pasan del Puente de Brandy. Pero algo te llamó: historias de Bilbo, sueños de tierras lejanas, o simplemente un deseo de ver montañas. Los Grandes te subestiman, y eso es tu ventaja. Donde un guerrero es obvio, tú pasas desapercibido. Donde la sombra corrompe a los poderosos, tu simple corazón hobbit resiste. Algunos destinados para la grandeza no la buscaron.", "en": "Most hobbits never venture past Brandywine Bridge. But something called to you: tales of Bilbo, dreams of distant lands, or simply a desire to see mountains. The Big Folk underestimate you, and that is your advantage. Where a warrior is obvious, you pass unnoticed. Where the Shadow corrupts the powerful, your simple hobbit heart endures. Some who are destined for greatness never sought it." },
+      "name": "Hobbit Aventurero",
+      "description": "Pequeño pero valiente, con una resistencia sorprendente al mal",
+      "simple_description": "Eres un hobbit que ha dejado la comodidad de la Comarca. Pequeño y subestimado, pero posees una fuerza interior que los grandes no comprenden.",
+      "detailed_background": "La mayoría de los hobbits nunca pasan del Puente de Brandy. Pero algo te llamó: historias de Bilbo, sueños de tierras lejanas, o simplemente un deseo de ver montañas. Los Grandes te subestiman, y eso es tu ventaja. Donde un guerrero es obvio, tú pasas desapercibido. Donde la sombra corrompe a los poderosos, tu simple corazón hobbit resiste. Algunos destinados para la grandeza no la buscaron.",
       "starting_stats": {
         "hp": 12,
         "maxHp": 12,
@@ -467,31 +467,31 @@
         "corruption_resistance": 5
       },
       "starting_inventory": [
-        { "es": "Daga corta (espada para un hobbit)", "en": "Short dagger (a sword for a hobbit)" },
-        { "es": "Capa de viaje de la Comarca", "en": "Travelling cloak from the Shire" },
-        { "es": "Pipa y hierba para pipa", "en": "Pipe and pipe-weed" },
-        { "es": "Raciones hobbits (abundantes)", "en": "Hobbit rations (plentiful)" },
-        { "es": "Cuerda élfica", "en": "Elven rope" },
-        { "es": "Pañuelo bordado (importante)", "en": "Embroidered handkerchief (important)" },
-        { "es": "Saco de dormir de lana", "en": "Wool sleeping bag" },
-        { "es": "Odre de agua", "en": "Waterskin" },
-        { "es": "Pedernal y acero", "en": "Flint and steel" },
-        { "es": "Bolsa de cuero con 15 monedas de plata", "en": "Leather pouch with 15 silver coins" },
-        { "es": "Hierbas curativas básicas", "en": "Basic healing herbs" }
+        "Daga corta (espada para un hobbit)",
+        "Capa de viaje de la Comarca",
+        "Pipa y hierba para pipa",
+        "Raciones hobbits (abundantes)",
+        "Cuerda élfica",
+        "Pañuelo bordado (importante)",
+        "Saco de dormir de lana",
+        "Odre de agua",
+        "Pedernal y acero",
+        "Bolsa de cuero con 15 monedas de plata",
+        "Hierbas curativas básicas"
       ],
-      "special_ability": { "es": "Corazón Inquebrantable: Tienes resistencia natural a la corrupción y el miedo mágico. Los anillos de poder tienen menos efecto sobre ti", "en": "Unbreakable Heart: You have a natural resistance to corruption and magical fear. Rings of power have less effect upon you" },
+      "special_ability": "Corazón Inquebrantable: Tienes resistencia natural a la corrupción y el miedo mágico. Los anillos de poder tienen menos efecto sobre ti",
       "advancement_paths": [
-        { "es": "Portador del Anillo - un destino terrible", "en": "Ring-bearer - a terrible fate" },
-        { "es": "Ladrón Experto - sigilo y astucia", "en": "Expert Burglar - stealth and cunning" },
-        { "es": "Héroe Improbable - coraje que inspira a otros", "en": "Unlikely Hero - courage that inspires others" }
+        "Portador del Anillo - un destino terrible",
+        "Ladrón Experto - sigilo y astucia",
+        "Héroe Improbable - coraje que inspira a otros"
       ]
     },
     {
       "id": "elf",
-      "name": { "es": "Elfo Errante", "en": "Wandering Elf" },
-      "description": { "es": "Inmortal que ha elegido caminar entre los mortales antes de partir al oeste", "en": "An immortal who has chosen to walk among mortals before departing into the West" },
-      "simple_description": { "es": "Has vivido siglos y visto reinos nacer y morir. Pronto partirás al oeste, pero antes, tienes una última tarea en la Tierra Media.", "en": "You have lived for centuries and seen kingdoms rise and fall. Soon you will depart into the West, but first, you have one last task in Middle-earth." },
-      "detailed_background": { "es": "Has visto las estrellas cuando eran jóvenes. Recuerdas la luz de los Árboles en el oeste. Has amado y perdido más veces de las que puedes contar. La mayoría de tu pueblo parte hacia Valinor, cansados de un mundo que ya no les pertenece. Pero tú te quedas. Hay algo que debes hacer, alguien a quien proteger, o simplemente no estás listo para abandonar estas tierras que has conocido durante eras.", "en": "You saw the stars when they were young. You remember the light of the Trees in the West. You have loved and lost more times than you can count. Most of your kin depart for Valinor, weary of a world that no longer belongs to them. But you remain. There is something you must do, someone to protect, or perhaps you are simply not ready to forsake these lands you have known through the ages." },
+      "name": "Elfo Errante",
+      "description": "Inmortal que ha elegido caminar entre los mortales antes de partir al oeste",
+      "simple_description": "Has vivido siglos y visto reinos nacer y morir. Pronto partirás al oeste, pero antes, tienes una última tarea en la Tierra Media.",
+      "detailed_background": "Has visto las estrellas cuando eran jóvenes. Recuerdas la luz de los Árboles en el oeste. Has amado y perdido más veces de las que puedes contar. La mayoría de tu pueblo parte hacia Valinor, cansados de un mundo que ya no les pertenece. Pero tú te quedas. Hay algo que debes hacer, alguien a quien proteger, o simplemente no estás listo para abandonar estas tierras que has conocido durante eras.",
       "starting_stats": {
         "hp": 16,
         "maxHp": 16,
@@ -501,30 +501,30 @@
         "lore": 4
       },
       "starting_inventory": [
-        { "es": "Arco élfico de Lothlórien", "en": "Elven bow of Lothlorien" },
-        { "es": "Espada larga forjada en la Primera Edad", "en": "Long sword forged in the First Age" },
-        { "es": "Capa élfica que oculta y protege", "en": "Elven cloak that conceals and protects" },
-        { "es": "Pan de viaje (lembas)", "en": "Waybread (lembas)" },
-        { "es": "Cuerda élfica", "en": "Elven rope" },
-        { "es": "Fial con luz de estrella", "en": "Phial filled with starlight" },
-        { "es": "Odre de agua élfico", "en": "Elven waterskin" },
-        { "es": "Hierbas curativas básicas", "en": "Basic healing herbs" },
-        { "es": "Saco de dormir de seda élfica", "en": "Elven silk sleeping bag" },
-        { "es": "Bolsa de cuero con 15 monedas de plata", "en": "Leather pouch with 15 silver coins" }
+        "Arco élfico de Lothlórien",
+        "Espada larga forjada en la Primera Edad",
+        "Capa élfica que oculta y protege",
+        "Pan de viaje (lembas)",
+        "Cuerda élfica",
+        "Fial con luz de estrella",
+        "Odre de agua élfico",
+        "Hierbas curativas básicas",
+        "Saco de dormir de seda élfica",
+        "Bolsa de cuero con 15 monedas de plata"
       ],
-      "special_ability": { "es": "Vista de las Estrellas: Ves en la oscuridad como de día, detectas magia y corrupción, y puedes comunicarte con animales del bosque", "en": "Sight of the Stars: You see in darkness as in daylight, detect magic and corruption, and can communicate with woodland creatures" },
+      "special_ability": "Vista de las Estrellas: Ves en la oscuridad como de día, detectas magia y corrupción, y puedes comunicarte con animales del bosque",
       "advancement_paths": [
-        { "es": "Señor Élfico - despertar poderes antiguos", "en": "Elven Lord - awaken ancient powers" },
-        { "es": "Guardián del Bosque - protector de la naturaleza", "en": "Guardian of the Forest - protector of nature" },
-        { "es": "Embajador de los Pueblos - unir a las razas", "en": "Ambassador of the Peoples - unite the races" }
+        "Señor Élfico - despertar poderes antiguos",
+        "Guardián del Bosque - protector de la naturaleza",
+        "Embajador de los Pueblos - unir a las razas"
       ]
     },
     {
       "id": "dwarf",
-      "name": { "es": "Enano de las Montañas", "en": "Mountain Dwarf" },
-      "description": { "es": "Guerrero y artesano de las profundidades, leal y obstinado", "en": "Warrior and craftsman of the deep places, loyal and stubborn" },
-      "simple_description": { "es": "Vienes de los salones bajo la montaña. Eres terco, leal y formidable en batalla. Tu hacha ha probado sangre de orco.", "en": "You come from the halls beneath the mountain. You are stubborn, loyal, and formidable in battle. Your axe has tasted orc blood." },
-      "detailed_background": { "es": "Los enanos fueron creados para resistir. Resistir el tiempo, resistir la oscuridad, resistir el enemigo. Has trabajado en las forjas desde que tus manos pudieron sostener un martillo. Has marchado a la guerra cuando tu rey lo ordenó. Pero el mundo sobre la tierra te llama ahora. Quizás buscas riqueza, o venganza contra los orcos, o simplemente la gloria que cantarán en los salones de tus ancestros.", "en": "The dwarves were made to endure. To endure time, to endure darkness, to endure the enemy. You have worked the forges since your hands could hold a hammer. You have marched to war when your king commanded. But the world above calls to you now. Perhaps you seek riches, or vengeance against the orcs, or simply the glory that will be sung in the halls of your ancestors." },
+      "name": "Enano de las Montañas",
+      "description": "Guerrero y artesano de las profundidades, leal y obstinado",
+      "simple_description": "Vienes de los salones bajo la montaña. Eres terco, leal y formidable en batalla. Tu hacha ha probado sangre de orco.",
+      "detailed_background": "Los enanos fueron creados para resistir. Resistir el tiempo, resistir la oscuridad, resistir el enemigo. Has trabajado en las forjas desde que tus manos pudieron sostener un martillo. Has marchado a la guerra cuando tu rey lo ordenó. Pero el mundo sobre la tierra te llama ahora. Quizás buscas riqueza, o venganza contra los orcos, o simplemente la gloria que cantarán en los salones de tus ancestros.",
       "starting_stats": {
         "hp": 22,
         "maxHp": 22,
@@ -535,24 +535,24 @@
         "crafting": 4
       },
       "starting_inventory": [
-        { "es": "Hacha de guerra enana", "en": "Dwarven battle axe" },
-        { "es": "Armadura de placas enana", "en": "Dwarven plate armour" },
-        { "es": "Casco con runas de protección", "en": "Helm with runes of protection" },
-        { "es": "Kit de herramientas de forja", "en": "Smithing tool kit" },
-        { "es": "Cerveza enana (varios barriles pequeños)", "en": "Dwarven ale (several small casks)" },
-        { "es": "Mapa de túneles conocidos", "en": "Map of known tunnels" },
-        { "es": "Saco de dormir de lana gruesa", "en": "Thick wool sleeping bag" },
-        { "es": "Raciones de viaje (3 días)", "en": "Travel rations (3 days)" },
-        { "es": "Odre de agua", "en": "Waterskin" },
-        { "es": "Cuerda de cáñamo (15m)", "en": "Hemp rope (15m)" },
-        { "es": "Pedernal y acero", "en": "Flint and steel" },
-        { "es": "Bolsa de cuero con 15 monedas de plata", "en": "Leather pouch with 15 silver coins" }
+        "Hacha de guerra enana",
+        "Armadura de placas enana",
+        "Casco con runas de protección",
+        "Kit de herramientas de forja",
+        "Cerveza enana (varios barriles pequeños)",
+        "Mapa de túneles conocidos",
+        "Saco de dormir de lana gruesa",
+        "Raciones de viaje (3 días)",
+        "Odre de agua",
+        "Cuerda de cáñamo (15m)",
+        "Pedernal y acero",
+        "Bolsa de cuero con 15 monedas de plata"
       ],
-      "special_ability": { "es": "Hijo de la Piedra: Nunca te pierdes bajo tierra, resistes magia de forma natural, y detectas trampas y pasajes secretos en la roca", "en": "Son of Stone: You never lose your way underground, you resist magic naturally, and you detect traps and secret passages in rock" },
+      "special_ability": "Hijo de la Piedra: Nunca te pierdes bajo tierra, resistes magia de forma natural, y detectas trampas y pasajes secretos en la roca",
       "advancement_paths": [
-        { "es": "Señor de la Guerra - comandar legiones enanas", "en": "War Lord - command dwarven legions" },
-        { "es": "Maestro Forjador - crear artefactos legendarios", "en": "Master Smith - forge legendary artefacts" },
-        { "es": "Buscador de Tesoros - encontrar riquezas perdidas", "en": "Treasure Hunter - find lost riches" }
+        "Señor de la Guerra - comandar legiones enanas",
+        "Maestro Forjador - crear artefactos legendarios",
+        "Buscador de Tesoros - encontrar riquezas perdidas"
       ]
     }
   ],
@@ -1021,7 +1021,7 @@
       "id": "default",
       "location_id": "bree-inn",
       "location_name": "La Posada del Pony Pisador, Bree",
-      "description": { "es": "Te encuentras en la Posada del Pony Pisador, el corazón de Bree. El fuego crepita suavemente en la gran chimenea de piedra mientras los últimos rayos del atardecer se filtran por las ventanas empañadas. El aroma a estofado de cordero y cerveza de cebada llena el aire. A tu alrededor, viajeros de todas las razas comparten historias en voz baja: hobbits de la Comarca, enanos camino a las Montañas Azules, y uno que otro Montaraz de mirada penetrante.", "en": "You find yourself at The Prancing Pony Inn, the heart of Bree. The fire crackles softly in the great stone hearth as the last rays of dusk filter through the fogged windows. The aroma of lamb stew and barley beer fills the air. Around you, travellers of all races share stories in hushed tones: hobbits from the Shire, dwarves bound for the Blue Mountains, and the odd keen-eyed Ranger." },
+      "description": "Te encuentras en la Posada del Pony Pisador, el corazón de Bree. El fuego crepita suavemente en la gran chimenea de piedra mientras los últimos rayos del atardecer se filtran por las ventanas empañadas. El aroma a estofado de cordero y cerveza de cebada llena el aire. A tu alrededor, viajeros de todas las razas comparten historias en voz baja: hobbits de la Comarca, enanos camino a las Montañas Azules, y uno que otro Montaraz de mirada penetrante.",
       "visible_directions": [
         { "direction": "norte", "landmark": "el Camino Verde serpentea hacia las Colinas de los Vientos, donde dicen que aún quedan ruinas de la antigua Arnor" },
         { "direction": "este", "landmark": "los siniestros Túmulos de los Reyes se recortan contra el horizonte crepuscular, evitados por los lugareños" },
@@ -1034,13 +1034,13 @@
         "un erudito de Rivendel ofrece buena paga por cierta reliquia perdida",
         "los caminos se han vuelto más peligrosos últimamente, y no solo por los lobos"
       ],
-      "closing_prompt": { "es": "La noche se cierne sobre Bree. ¿Qué deseas hacer?", "en": "Night descends upon Bree. What do you wish to do?" }
+      "closing_prompt": "La noche se cierne sobre Bree. ¿Qué deseas hacer?"
     },
     {
       "id": "rainy_evening",
       "location_id": "bree-inn",
       "location_name": "La Posada del Pony Pisador, Bree",
-      "description": { "es": "La lluvia golpea sin piedad los postigos de la Posada del Pony Pisador, y cada ráfaga de viento trae consigo el olor a barro y hojas empapadas. Adentro, la chimenea lucha contra la humedad que se cuela por cada rendija. Los pocos viajeros que lograron llegar antes de la tormenta se apiñan cerca del fuego, con las capas chorreando charcos sobre el suelo de madera. Un relámpago ilumina la sala y por un instante ves la silueta de un jinete encapuchado detenido frente a la puerta, inmóvil bajo el diluvio.", "en": "Rain hammers mercilessly against the shutters of The Prancing Pony, and every gust of wind carries the smell of mud and soaked leaves. Inside, the hearth struggles against the damp that seeps through every crack. The few travellers who arrived before the storm huddle near the fire, their cloaks dripping puddles onto the wooden floor. A flash of lightning illuminates the room and for an instant you glimpse the silhouette of a hooded rider standing before the door, motionless in the downpour." },
+      "description": "La lluvia golpea sin piedad los postigos de la Posada del Pony Pisador, y cada ráfaga de viento trae consigo el olor a barro y hojas empapadas. Adentro, la chimenea lucha contra la humedad que se cuela por cada rendija. Los pocos viajeros que lograron llegar antes de la tormenta se apiñan cerca del fuego, con las capas chorreando charcos sobre el suelo de madera. Un relámpago ilumina la sala y por un instante ves la silueta de un jinete encapuchado detenido frente a la puerta, inmóvil bajo el diluvio.",
       "visible_directions": [
         { "direction": "norte", "landmark": "el Camino Verde serpentea hacia las Colinas de los Vientos, donde dicen que aún quedan ruinas de la antigua Arnor" },
         { "direction": "este", "landmark": "los siniestros Túmulos de los Reyes se recortan contra el horizonte crepuscular, evitados por los lugareños" },
@@ -1053,13 +1053,13 @@
         "un erudito de Rivendel ofrece buena paga por cierta reliquia perdida",
         "los caminos se han vuelto más peligrosos últimamente, y no solo por los lobos"
       ],
-      "closing_prompt": { "es": "La tormenta ruge afuera y la noche será larga. ¿Qué deseas hacer?", "en": "The storm rages outside and the night will be long. What do you wish to do?" }
+      "closing_prompt": "La tormenta ruge afuera y la noche será larga. ¿Qué deseas hacer?"
     },
     {
       "id": "market_day",
       "location_id": "bree-inn",
       "location_name": "La Posada del Pony Pisador, Bree",
-      "description": { "es": "Es día de mercado en Bree y la Posada del Pony Pisador rebosa de vida. El sol de mediodía entra a raudales por las ventanas abiertas, trayendo el bullicio de comerciantes que pregonan sus mercancías en la plaza. Dentro, las mesas están repletas de mercaderes enanos desplegando gemas sobre paños de terciopelo, hobbits regateando por semillas de la Comarca y un bardo elfo que afina su laúd en la esquina. El aroma de empanadas recién horneadas compite con el de la hierba para pipa del Cuaderno Sur que fuma un viejo Montaraz junto a la barra.", "en": "It is market day in Bree and The Prancing Pony overflows with life. The midday sun streams through the open windows, carrying the bustle of merchants hawking their wares in the square. Inside, tables are crowded with dwarven traders laying out gems on velvet cloths, hobbits haggling over Shire seeds, and an elven bard tuning his lute in the corner. The aroma of freshly baked pies vies with the scent of Southfarthing pipe-weed smoked by an old Ranger at the bar." },
+      "description": "Es día de mercado en Bree y la Posada del Pony Pisador rebosa de vida. El sol de mediodía entra a raudales por las ventanas abiertas, trayendo el bullicio de comerciantes que pregonan sus mercancías en la plaza. Dentro, las mesas están repletas de mercaderes enanos desplegando gemas sobre paños de terciopelo, hobbits regateando por semillas de la Comarca y un bardo elfo que afina su laúd en la esquina. El aroma de empanadas recién horneadas compite con el de la hierba para pipa del Cuaderno Sur que fuma un viejo Montaraz junto a la barra.",
       "visible_directions": [
         { "direction": "norte", "landmark": "el Camino Verde serpentea hacia las Colinas de los Vientos, donde dicen que aún quedan ruinas de la antigua Arnor" },
         { "direction": "este", "landmark": "los siniestros Túmulos de los Reyes se recortan contra el horizonte crepuscular, evitados por los lugareños" },
@@ -1072,7 +1072,7 @@
         "un erudito de Rivendel ofrece buena paga por cierta reliquia perdida",
         "los caminos se han vuelto más peligrosos últimamente, y no solo por los lobos"
       ],
-      "closing_prompt": { "es": "El mercado de Bree bulle de actividad y oportunidades. ¿Qué deseas hacer?", "en": "The Bree market bustles with activity and opportunity. What do you wish to do?" }
+      "closing_prompt": "El mercado de Bree bulle de actividad y oportunidades. ¿Qué deseas hacer?"
     }
   ],
 
