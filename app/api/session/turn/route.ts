@@ -354,7 +354,7 @@ export async function POST(req: NextRequest) {
       partyEffects: 'For effects on OTHER party members (not the one acting), use other_party_effects',
       mechanicRules: 'MECHANIC RULES',
       rule1: 'If there is combat and the player fails (low roll or bad decision), use negative hp_change (-1 to -5 depending on severity)',
-      rule2: 'If the player does something heroic or has a good combat roll, they can gain an item',
+      rule2: 'INVENTORY: When player RECEIVES an item (loot, gift, purchase, found), ALWAYS use new_item. When they GIVE AWAY, LOSE, USE UP, or CONSUME an item, ALWAYS use remove_item with the EXACT name from their inventory. Check inventory before narrating item changes.',
       rule3: 'If the player completes an objective, mark quest_completed',
       rule4: 'When the location changes significantly, use scene_change',
       rule5: 'suggested_actions must have 3 options that make sense with the situation',
@@ -415,7 +415,7 @@ export async function POST(req: NextRequest) {
       partyEffects: 'Para efectos en OTROS miembros del grupo (no el que actúa), usa other_party_effects',
       mechanicRules: 'REGLAS DE MECANICAS',
       rule1: 'Si hay combate y el jugador falla (tirada baja o mala decisión), usa hp_change negativo (-1 a -5 según gravedad)',
-      rule2: 'Si el jugador hace algo heroico o tiene buena tirada en combate, puede ganar un item',
+      rule2: 'INVENTARIO: Cuando el jugador RECIBE un objeto (loot, regalo, compra, encuentra), SIEMPRE usar new_item. Cuando ENTREGA, PIERDE, USA o CONSUME un objeto, SIEMPRE usar remove_item con el nombre EXACTO de su inventario. Revisá la lista de inventario antes de narrar cambios de objetos.',
       rule3: 'Si el jugador resuelve un objetivo, marca quest_completed',
       rule4: 'Cuando cambie la ubicación significativamente, usa scene_change',
       rule5: 'suggested_actions debe tener 3 opciones que tengan sentido con la situación',
@@ -1335,7 +1335,7 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
         worldStateUpdates.party[character.name] = { ...worldState.party?.[character.name] }
       }
       const currentInventory = worldStateUpdates.party[character.name].inventory || inventory
-      worldStateUpdates.party[character.name].inventory = currentInventory.filter((i: string) => i !== dmResponse.remove_item)
+      worldStateUpdates.party[character.name].inventory = currentInventory.filter((i: string) => i.toLowerCase() !== dmResponse.remove_item!.toLowerCase())
     }
 
     // Update quests

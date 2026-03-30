@@ -413,119 +413,19 @@ export function parseTextForVoices(
   narratorVoice: string,
   locale: 'es' | 'en'
 ): VoiceSegment[] {
-  // PASO 1: Limpiar markdown y mejorar prosody ANTES de parsear
+  // Solo voz del narrador — sin voces individuales de NPCs
   const cleanedText = addNaturalPauses(cleanTextForTTS(text))
+  const MAX_CHUNK = 120
 
-  const segments: VoiceSegment[] = []
-  const MAX_CHUNK = 120 // Máximo 120 caracteres por chunk para baja latencia
+  const chunks = cleanedText.length <= MAX_CHUNK
+    ? [cleanedText]
+    : splitIntoSentences(cleanedText, MAX_CHUNK)
 
-  // Regex EXPANDIDA para detectar más patrones de diálogo
-  // Patrón 1: NombreNPC [verbo]: "texto" o NombreNPC: "texto"
-  // Patrón 2: "texto" o «texto» (sin nombre)
-  // Patrón 3: —texto (guión largo)
-  // Patrón 4: "texto", dijo/exclamó NombreNPC (invertido)
-  const dialoguePattern = new RegExp(
-    // Patrón 1: Nombre [verbo]: "texto" - captura nombre en grupo 1, texto en grupo 2
-    '(?:([A-ZÁÉÍÓÚ][a-záéíóúñ]+(?:\\s+[A-ZÁÉÍÓÚ][a-záéíóúñ]+)?)' +
-    '(?:\\s+(?:dijo|exclamó|preguntó|murmuró|susurró|gritó|respondió|añadió|continuó))?\\s*:\\s*)' +
-    '["«]([^"»]+)["»]' +
-    '|' +
-    // Patrón 2: Solo comillas sin nombre - texto en grupo 3
-    '(?<!\\w\\s*)["«]([^"»]+)["»]' +
-    '|' +
-    // Patrón 3: Guión largo - texto en grupo 4
-    '(?:—\\s*)([^—\\n.!?]+[.!?]?)' +
-    '|' +
-    // Patrón 4: "texto", dijo Nombre - texto en grupo 5, nombre en grupo 6
-    '["«]([^"»]+)["»](?:,?\\s*(?:dijo|exclamó|preguntó|murmuró|susurró|gritó|respondió)\\s+([A-ZÁÉÍÓÚ][a-záéíóúñ]+))',
-    'g'
-  )
-
-  let lastIndex = 0
-  let match
-  let lastKnownSpeaker = '' // Trackear último NPC que habló
-
-  // Helper para dividir texto largo en chunks
-  const splitLongText = (txt: string): string[] => {
-    if (txt.length <= MAX_CHUNK) return [txt]
-    return splitIntoSentences(txt, MAX_CHUNK)
-  }
-
-  while ((match = dialoguePattern.exec(cleanedText)) !== null) {
-    // Agregar narración antes del diálogo
-    if (match.index > lastIndex) {
-      const narrationText = cleanedText.slice(lastIndex, match.index).trim()
-      if (narrationText) {
-        // Dividir narración larga en chunks
-        const chunks = splitLongText(narrationText)
-        for (const chunk of chunks) {
-          segments.push({
-            type: 'narration',
-            text: chunk,
-            voice: narratorVoice
-          })
-        }
-      }
-    }
-
-    // Determinar el contenido del diálogo y el hablante según el patrón que hizo match
-    // match[1] = nombre en patrón 1 (Nombre: "texto")
-    // match[2] = texto en patrón 1
-    // match[3] = texto en patrón 2 (solo comillas)
-    // match[4] = texto en patrón 3 (guión largo)
-    // match[5] = texto en patrón 4 (invertido)
-    // match[6] = nombre en patrón 4 (invertido)
-    const speaker = match[1] || match[6] || undefined
-    const dialogueText = match[2] || match[3] || match[4] || match[5]
-
-    if (dialogueText && dialogueText.trim()) {
-      // Determinar speaker: si no hay nombre, usar el último conocido
-      const currentSpeaker = speaker || lastKnownSpeaker || 'default_npc'
-      if (speaker) lastKnownSpeaker = speaker
-      // Voz determinística por género — sin cache, sin hash
-      const npcVoice = getNPCVoice(currentSpeaker, locale)
-
-      // Dividir diálogo largo en chunks
-      const chunks = splitLongText(dialogueText.trim())
-      for (const chunk of chunks) {
-        segments.push({
-          type: 'dialogue',
-          text: chunk,
-          voice: npcVoice,
-          speaker
-        })
-      }
-    }
-
-    lastIndex = match.index + match[0].length
-  }
-
-  // Agregar cualquier narración restante
-  if (lastIndex < cleanedText.length) {
-    const remainingText = cleanedText.slice(lastIndex).trim()
-    if (remainingText) {
-      const chunks = splitLongText(remainingText)
-      for (const chunk of chunks) {
-        segments.push({
-          type: 'narration',
-          text: chunk,
-          voice: narratorVoice
-        })
-      }
-    }
-  }
-
-  // Si no se encontraron diálogos, dividir todo como narración
-  if (segments.length === 0) {
-    const chunks = splitLongText(cleanedText)
-    for (const chunk of chunks) {
-      segments.push({
-        type: 'narration',
-        text: chunk,
-        voice: narratorVoice
-      })
-    }
-  }
-
-  return segments
+  return chunks
+    .filter(chunk => chunk.trim().length > 0)
+    .map(chunk => ({
+      type: 'narration' as const,
+      text: chunk,
+      voice: narratorVoice,
+    }))
 }
