@@ -223,7 +223,9 @@ export default function OnboardingPage() {
   // Obtener el nombre del lore para mostrar
   const getLoreName = (): string => {
     if (!selectedLore) return ''
-    return LORE_DATA[selectedLore]?.name || selectedLore
+    const name = LORE_DATA[selectedLore]?.name
+    if (!name) return selectedLore
+    return typeof name === 'string' ? name : name[locale as 'es' | 'en'] || name.es || selectedLore
   }
 
   if (loading) {

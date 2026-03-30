@@ -433,11 +433,11 @@ export async function POST(req: NextRequest) {
       try {
         console.log('[InitialScene] Generating opening scene image...')
         const sceneResult = await handleCachedSceneImageRequest({
-          prompt: openingSceneForImage.description || `Escena inicial de ${loreData.name}`,
+          prompt: getLocalized(openingSceneForImage.description, locale) || `Escena inicial de ${getLocalized(loreData.name, locale)}`,
           lore: lore,
           locationId: openingSceneForImage.location_id || 'opening',
           mood: 'exploration',
-          locationName: openingSceneForImage.location_name || loreData.name,
+          locationName: openingSceneForImage.location_name || getLocalized(loreData.name, locale),
           quality: 'standard',
         })
         if (sceneResult.success && sceneResult.url) {

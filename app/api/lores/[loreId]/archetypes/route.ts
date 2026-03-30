@@ -40,7 +40,7 @@ export async function GET(
 
     return NextResponse.json({
       archetypes: loreData.archetypes || [],
-      loreName: loreData.name,
+      loreName: typeof loreData.name === 'string' ? loreData.name : loreData.name?.es || loreData.name,
     })
   } catch (error) {
     console.error('Error fetching archetypes:', error)

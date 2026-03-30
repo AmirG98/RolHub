@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/db/prisma'
+import { getLocalized } from '@/lib/i18n/localize'
 import { Lore, GameMode, GameEngine, TutorialLevel, Prisma } from '@prisma/client'
 import { createCampaignMapState } from '@/lib/maps/map-init'
 import { getExampleMapData } from '@/lib/maps/lore-map-data'
@@ -100,7 +101,7 @@ export async function POST(req: NextRequest) {
       suggestedActions.push('Hablar con alguien cercano')
       suggestedActions.push('Explorar el lugar actual')
     } else {
-      introContent = `Bienvenido a ${loreData.name}, ${characterName}.\n\nTu aventura comienza...`
+      introContent = `Bienvenido a ${getLocalized(loreData.name, 'es')}, ${characterName}.\n\nTu aventura comienza...`
     }
 
     // Crear todo en una transacción
@@ -119,7 +120,7 @@ export async function POST(req: NextRequest) {
       const campaign = await tx.campaign.create({
         data: {
           userId: user.id,
-          name: `Aventura en ${loreData.name}`,
+          name: `Aventura en ${getLocalized(loreData.name, 'es')}`,
           lore, engine, mode,
           worldState: initialWorldState as unknown as Prisma.InputJsonValue,
           worldMap: {} as Prisma.InputJsonValue,
@@ -189,9 +190,9 @@ export async function POST(req: NextRequest) {
     if (openingSceneForImage && process.env.FAL_KEY) {
       try {
         const sceneResult = await handleCachedSceneImageRequest({
-          prompt: openingSceneForImage.description || `Escena inicial de ${loreData.name}`,
+          prompt: openingSceneForImage.description || `Escena inicial de ${getLocalized(loreData.name, 'es')}`,
           lore, locationId: openingSceneForImage.location_id || 'opening',
-          mood: 'exploration', locationName: openingSceneForImage.location_name || loreData.name,
+          mood: 'exploration', locationName: openingSceneForImage.location_name || getLocalized(loreData.name, 'es'),
           quality: 'standard',
         })
         if (sceneResult.success && sceneResult.url) {
