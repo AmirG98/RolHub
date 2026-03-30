@@ -4,7 +4,8 @@ import { useState, useCallback } from 'react'
 import { Archetype, Lore } from '@/lib/types/lore'
 import { RunicButton } from '@/components/medieval/RunicButton'
 import { Sword, BookOpen, Shield, Zap, Heart, Eye, Target, Sparkles, Skull, Star, HelpCircle, Dices, User } from 'lucide-react'
-import { useTranslations } from '@/lib/i18n'
+import { useTranslations, useLanguage } from '@/lib/i18n'
+import { getLocalized, getLocalizedArray } from '@/lib/i18n/localize'
 import Link from 'next/link'
 import { generateRandomDescription } from '@/lib/character/description-templates'
 
@@ -76,6 +77,7 @@ const getArchetypeIcon = (id: string): React.ReactNode => {
 
 export function ArchetypeSelector({ archetypes, loreName, lore, onSelect, onBack }: ArchetypeSelectorProps) {
   const t = useTranslations()
+  const { locale } = useLanguage()
   const [selectedArchetype, setSelectedArchetype] = useState<Archetype | null>(null)
   const [characterName, setCharacterName] = useState('')
   const [characterDescription, setCharacterDescription] = useState('')
@@ -200,11 +202,11 @@ export function ArchetypeSelector({ archetypes, loreName, lore, onSelect, onBack
 
                 <div className="flex-1 sm:flex-none sm:w-full">
                   {/* Nombre */}
-                  <h3 className="font-heading text-lg md:text-2xl text-gold mb-1 sm:mb-0">{archetype.name}</h3>
+                  <h3 className="font-heading text-lg md:text-2xl text-gold mb-1 sm:mb-0">{getLocalized(archetype.name, locale as 'es' | 'en')}</h3>
 
                   {/* Descripcion simple */}
                   <p className="font-body text-parchment/80 text-xs md:text-sm leading-relaxed line-clamp-3 sm:line-clamp-none sm:mt-2">
-                    {archetype.simple_description || archetype.description}
+                    {getLocalized(archetype.simple_description, locale as 'es' | 'en') || getLocalized(archetype.description, locale as 'es' | 'en')}
                   </p>
 
                   {/* Stats visuales - solo desktop */}
@@ -235,7 +237,7 @@ export function ArchetypeSelector({ archetypes, loreName, lore, onSelect, onBack
                   {archetype.special_ability && (
                     <div className="hidden sm:block w-full pt-2">
                       <p className="text-xs font-ui text-emerald font-semibold line-clamp-2">
-                        {archetype.special_ability}
+                        {getLocalized(archetype.special_ability, locale as 'es' | 'en')}
                       </p>
                     </div>
                   )}
@@ -360,7 +362,7 @@ export function ArchetypeSelector({ archetypes, loreName, lore, onSelect, onBack
               <>
                 <h3 className="font-heading text-base md:text-xl text-gold mb-3 md:mb-4">{t.archetypeSelector.startingEquipment}</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-1.5 md:gap-2">
-                  {groupInventoryItems(selectedArchetype.starting_inventory).map((item, index) => (
+                  {groupInventoryItems(getLocalizedArray(selectedArchetype.starting_inventory, locale as 'es' | 'en')).map((item, index) => (
                     <div key={index} className="flex items-center space-x-2 font-body text-parchment/80 text-xs md:text-sm">
                       <span className="text-gold-dim">•</span>
                       <span>{item}</span>

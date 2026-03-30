@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@clerk/nextjs/server'
 import { prisma } from '@/lib/db/prisma'
+import { getLocalized, getLocalizedArray } from '@/lib/i18n/localize'
 import { Lore, GameMode, GameEngine, TutorialLevel, Prisma } from '@prisma/client'
 import { createCampaignMapState } from '@/lib/maps/map-init'
 import { getExampleMapData } from '@/lib/maps/lore-map-data'
@@ -38,7 +39,7 @@ export async function POST(req: NextRequest) {
     const body = await req.json()
     const {
       lore, mode, engine, tutorialLevel, archetypeId, characterName, characterDescription, isMultiplayer,
-      isDnD5eCharacter, dnd5eStats, dnd5eInventory, dnd5eLevel, dnd5eSubclass
+      isDnD5eCharacter, dnd5eStats, dnd5eInventory, dnd5eLevel, dnd5eSubclass, locale: rawLocale
     } = body as {
       lore: Lore
       mode: GameMode
@@ -55,7 +56,10 @@ export async function POST(req: NextRequest) {
       dnd5eLevel?: number
       dnd5eSubclass?: { id: string; name: string }
       customStats?: { combat: number; exploration: number; social: number; lore: number }
+      locale?: 'es' | 'en'
     }
+
+    const locale: 'es' | 'en' = rawLocale === 'en' ? 'en' : 'es'
 
     // Validar campos requeridos
     if (!lore || !mode || !engine || !tutorialLevel || !archetypeId) {
@@ -180,7 +184,7 @@ export async function POST(req: NextRequest) {
       } else {
         charStats = archetypeData.starting_stats
       }
-      charInventory = archetypeData.starting_inventory as string[]
+      charInventory = getLocalizedArray(archetypeData.starting_inventory, locale)
       charLevel = 1
     }
 
@@ -273,8 +277,8 @@ export async function POST(req: NextRequest) {
         data: {
           userId: user.id,
           name: mode === 'ONE_SHOT'
-            ? `Aventura en ${loreData.name}`
-            : `Campaña en ${loreData.name}`,
+            ? `${locale === 'en' ? 'Adventure in' : 'Aventura en'} ${getLocalized(loreData.name, locale)}`
+            : `${locale === 'en' ? 'Campaign in' : 'Campaña en'} ${getLocalized(loreData.name, locale)}`,
           lore,
           engine,
           mode,
@@ -347,8 +351,8 @@ export async function POST(req: NextRequest) {
 
       if (openingScene) {
         // Intro concisa e inmersiva — solo descripción + pregunta
-        introContent = openingScene.description + '\n\n'
-        introContent += openingScene.closing_prompt || '¿Qué deseas hacer?'
+        introContent = getLocalized(openingScene.description, locale) + '\n\n'
+        introContent += getLocalized(openingScene.closing_prompt, locale) || (locale === 'en' ? 'What do you do?' : '¿Qué deseas hacer?')
 
         // Acciones sugeridas basadas en direcciones y rumores
         if (openingScene.visible_directions?.length > 0) {
@@ -365,7 +369,9 @@ export async function POST(req: NextRequest) {
           ? (loreData.one_shot_hooks?.[0]?.hook || loreData.narrative_skeleton?.act_1?.description || 'Tu aventura comienza...')
           : (loreData.narrative_skeleton?.act_1?.description || 'Tu aventura comienza...')
 
-        introContent = `Bienvenido a ${loreData.name}, ${charName}.\n\n${narrativeHook}`
+        introContent = locale === 'en'
+          ? `Welcome to ${getLocalized(loreData.name, locale)}, ${charName}.\n\n${narrativeHook}`
+          : `Bienvenido a ${getLocalized(loreData.name, locale)}, ${charName}.\n\n${narrativeHook}`
       }
 
       const firstTurn = await tx.turn.create({

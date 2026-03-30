@@ -9,6 +9,7 @@ import { ArchetypeSelector, CharacterCreationData } from '@/components/onboardin
 import { DnD5eCharacterCreator } from '@/components/onboarding/DnD5eCharacterCreator'
 import { DnDModeSelector } from '@/components/onboarding/DnDModeSelector'
 import { Lore, GameMode, GameEngine, TutorialLevel, Archetype } from '@/lib/types/lore'
+import { useLanguage } from '@/lib/i18n'
 
 // Importar todos los lores
 import lotrData from '@/data/lores/lotr.json'
@@ -36,6 +37,7 @@ const LORE_DATA: Record<string, any> = {
 export default function OnboardingPage() {
   const router = useRouter()
   const { user } = useUser()
+  const { locale } = useLanguage()
   const [step, setStep] = useState(1)
   const [selectedLore, setSelectedLore] = useState<Lore | null>(null)
   const [gameMode, setGameMode] = useState<GameMode | null>(null)
@@ -92,6 +94,7 @@ export default function OnboardingPage() {
           characterDescription,
           isMultiplayer,
           customStats,
+          locale,
         }),
       })
 
