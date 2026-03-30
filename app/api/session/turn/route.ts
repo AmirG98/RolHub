@@ -1021,9 +1021,10 @@ Include "dice_request" in your response:
   }
 }
 
-When requesting a roll: narrate the SETUP but NOT the outcome. End the narration at the moment of tension.
-Example: "You draw your sword and charge at the orc. It snarls and raises its shield..."
-Then the player rolls, and you narrate the RESULT in the next turn.
+CRITICAL RULE FOR DICE REQUESTS:
+When you include "dice_request" in your response, your narration MUST STOP at the moment of tension. DO NOT narrate what happens — the dice haven't been rolled yet. Your narration should be SHORT (2-3 sentences max) describing ONLY the setup.
+GOOD: "You creep toward the shadow, holding your breath..."
+BAD: "You creep toward the shadow. You notice it's a Nazgul and it turns toward you..." (this resolves the action before the roll)
 
 INTERPRETING A SUBMITTED ROLL:
 ${diceRoll ? `The player just rolled: ${diceRoll.formula} = ${diceRoll.result} (dice: ${diceRoll.rolls.join(', ')}). Narrate the OUTCOME based on this result.` : 'No dice roll submitted - if the action requires one, REQUEST IT with dice_request.'}
@@ -1060,9 +1061,10 @@ Incluí "dice_request" en tu respuesta:
   }
 }
 
-Al pedir una tirada: narrá la PREPARACIÓN pero NO el resultado. Terminá la narración en el momento de tensión.
-Ejemplo: "Desenvainás tu espada y cargás contra el orco. Gruñe y levanta su escudo..."
-El jugador tira, y narrás el RESULTADO en el siguiente turno.
+REGLA CRÍTICA PARA TIRADAS:
+Cuando incluís "dice_request" en tu respuesta, la narración DEBE PARAR en el momento de tensión. NO narres lo que pasa — los dados no se tiraron todavía. Tu narración debe ser CORTA (2-3 oraciones máx) describiendo SOLO la preparación.
+BIEN: "Te acercás sigilosamente a la sombra, conteniendo la respiración..."
+MAL: "Te acercás a la sombra. Notás que es un Nazgûl y se gira hacia vos..." (esto resuelve la acción antes de la tirada)
 
 INTERPRETANDO UNA TIRADA ENVIADA:
 ${diceRoll ? `El jugador acaba de tirar: ${diceRoll.formula} = ${diceRoll.result} (dados: ${diceRoll.rolls.join(', ')}). Narrá el RESULTADO basándote en esta tirada.` : 'Sin tirada de dados enviada - si la acción requiere una, PEDILA con dice_request.'}
