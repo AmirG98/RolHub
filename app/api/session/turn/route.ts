@@ -911,6 +911,18 @@ IMPORTANTE:
 
     const systemPrompt = `${labels.dmRole}${isMultiplayer ? ` ${labels.multiplayer}` : ''}. ${isEnglish ? 'Your role is to create an immersive and exciting experience.' : 'Tu rol es crear una experiencia inmersiva y emocionante.'}
 
+${isEnglish
+  ? `CURRENT SCENE STATE (you MUST respect this):
+📍 Location: ${worldState.current_scene || 'Unknown'}
+🕐 Time: ${worldState.time_in_world || 'Unknown'}
+🌤️ Weather: ${worldState.weather || 'Unknown'}
+Your narration MUST take place HERE, at this TIME, with this WEATHER. Do not change these unless using scene_change/time update.`
+  : `ESTADO ACTUAL DE LA ESCENA (DEBÉS respetar esto):
+📍 Ubicación: ${worldState.current_scene || 'Desconocida'}
+🕐 Hora: ${worldState.time_in_world || 'Desconocida'}
+🌤️ Clima: ${worldState.weather || 'Desconocido'}
+Tu narración DEBE transcurrir AQUÍ, en este MOMENTO, con este CLIMA. No cambies esto a menos que uses scene_change/actualización de hora.`}
+
 ${engineRulesSection}
 ${locationContextSection}
 ${questContextSection}

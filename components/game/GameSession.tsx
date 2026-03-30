@@ -801,6 +801,27 @@ export default function GameSession({
           {/* Panel izquierdo - Narración (8/12) */}
           <div className="lg:col-span-8 space-y-3 md:space-y-4">
 
+            {/* Location/Time/Weather banner */}
+            {worldState && (
+              <div className="flex flex-wrap items-center gap-2 md:gap-4 px-3 py-2 rounded-lg bg-shadow/60 border border-gold-dim/30 font-ui text-xs md:text-sm text-parchment/80">
+                {worldState.current_scene && (
+                  <span className="flex items-center gap-1">
+                    <span className="text-gold">📍</span> {worldState.current_scene}
+                  </span>
+                )}
+                {worldState.time_in_world && (
+                  <span className="flex items-center gap-1">
+                    <span className="text-gold">🕐</span> {worldState.time_in_world}
+                  </span>
+                )}
+                {worldState.weather && (
+                  <span className="flex items-center gap-1">
+                    <span className="text-gold">🌤️</span> {worldState.weather}
+                  </span>
+                )}
+              </div>
+            )}
+
             {/* NarratorPanel inline */}
             <div id="narrator-section" className="scroll-mt-4">
             <OrnateFrame variant="gold">
