@@ -95,7 +95,7 @@ export async function POST(req: NextRequest) {
         },
         turns: {
           orderBy: { createdAt: 'asc' },
-          take: 10, // Ultimos 10 turnos para contexto
+          take: 20, // Más historial para coherencia narrativa
         },
       },
     })
@@ -146,10 +146,12 @@ export async function POST(req: NextRequest) {
     const worldState = session.campaign.worldState as any
     const character = actingCharacter
 
-    // Construir historial de conversación — TODOS los turnos DM se condensan
-    // Claude NO debe ver su propia prosa anterior para no copiarla
-    // Solo necesita saber QUÉ PASÓ, no CÓMO lo escribió
-    const recentTurnsForHistory = session.turns.slice(-8)
+    // Construir historial de conversación — híbrido: recientes completos + viejos condensados
+    // Los últimos 4 turnos DM van COMPLETOS para que Claude mantenga coherencia
+    // Los más viejos se condensan para ahorrar tokens
+    const recentTurnsForHistory = session.turns.slice(-12)
+    let dmTurnCount = 0
+    const totalDMTurns = recentTurnsForHistory.filter(t => t.role === 'DM').length
 
     const conversationHistory = recentTurnsForHistory.map((turn) => {
       // Turnos del usuario: siempre completos
@@ -157,12 +159,17 @@ export async function POST(req: NextRequest) {
         return { role: 'user' as const, content: turn.content }
       }
 
-      // TODOS los turnos DM: condensar a resumen factual
-      // Extraer los hechos clave sin la prosa (qué pasó, quién dijo qué)
+      dmTurnCount++
+      // Últimos 4 turnos DM: COMPLETOS para mantener coherencia narrativa
+      if (dmTurnCount > totalDMTurns - 4) {
+        return { role: 'assistant' as const, content: turn.content }
+      }
+
+      // Turnos DM más viejos: condensar a hechos clave
       const content = turn.content || ''
       const sentences = content.split(/[.!?»"]/).filter(s => s.trim().length > 12)
       const facts = sentences.slice(0, 3).map(s => s.trim().substring(0, 80)).join('. ')
-      return { role: 'assistant' as const, content: `[Ya narrado: ${facts}.]` }
+      return { role: 'assistant' as const, content: `[Resumen: ${facts}.]` }
     })
 
     // === DETECCIÓN DE ESTANCAMIENTO Y ANTI-REPETICIÓN ===
