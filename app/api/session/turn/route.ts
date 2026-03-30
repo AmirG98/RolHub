@@ -16,6 +16,21 @@ import { calculateRelativePosition, normalizeLegacyCoordinates } from '@/lib/map
 import { type Quest, type QuestUpdate } from '@/lib/types/quest'
 import { upgradeKnowledge, onLocationArrival } from '@/lib/maps/location-knowledge'
 
+// Lore data para sub-locaciones
+import lotrData from '@/data/lores/lotr.json'
+import zombiesData from '@/data/lores/zombies.json'
+import isekaiData from '@/data/lores/isekai.json'
+import vikingosData from '@/data/lores/vikingos.json'
+import starwarsData from '@/data/lores/starwars.json'
+import cyberpunkData from '@/data/lores/cyberpunk.json'
+import lovecraftData from '@/data/lores/lovecraft.json'
+import dndClassicData from '@/data/lores/dnd-classic.json'
+
+const LORE_JSON_DATA: Record<string, any> = {
+  LOTR: lotrData, ZOMBIES: zombiesData, ISEKAI: isekaiData, VIKINGOS: vikingosData,
+  STAR_WARS: starwarsData, CYBERPUNK: cyberpunkData, LOVECRAFT_HORROR: lovecraftData, DND_CLASSIC: dndClassicData,
+}
+
 // Inicializar Claude
 const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
@@ -913,23 +928,36 @@ IMPORTANTE:
 
 ${(() => {
   const npcList = Object.entries(worldState.npc_states || {}).map(([name, status]) => `${name} (${status})`).join(', ')
+  // Buscar sub-locaciones de la ubicación actual
+  const loreLookup = LORE_JSON_DATA[session.campaign.lore] || {}
+  const currentLocationData = loreLookup.locations?.find((l: any) =>
+    worldState.current_scene?.toLowerCase().includes(l.name?.toLowerCase()) ||
+    l.name?.toLowerCase().includes(worldState.current_scene?.toLowerCase()?.split(',')[0])
+  )
+  const subLocs = currentLocationData?.sub_locations || []
+  const subLocList = subLocs.map((sl: any) => `- ${sl.name} (${sl.type}): ${sl.description}`).join('\n')
+
   return isEnglish
   ? `CURRENT SCENE STATE (you MUST respect this):
 📍 Location: ${worldState.current_scene || 'Unknown'}
 🕐 Time: ${worldState.time_in_world || 'Unknown'}
 🌤️ Weather: ${worldState.weather || 'Unknown'}
 👥 Known NPCs: ${npcList || 'None yet'}
+🎒 Inventory: ${inventory.join(', ') || 'Empty'}
+${subLocList ? `🏘️ Places within this location:\n${subLocList}\nUse scene_change to move between these places.` : ''}
 Your narration MUST take place HERE, at this TIME, with this WEATHER.
-NPCs you have named MUST keep the SAME name in every turn — check the list above. NEVER rename an NPC.
-When time passes (travel, rest, waiting), use "npc_update" or "world_flag" to track changes.`
+NPCs MUST keep the SAME name in every turn. NEVER rename an NPC.
+INVENTORY: If items change hands, ALWAYS use new_item/remove_item.`
   : `ESTADO ACTUAL DE LA ESCENA (DEBÉS respetar esto):
 📍 Ubicación: ${worldState.current_scene || 'Desconocida'}
 🕐 Hora: ${worldState.time_in_world || 'Desconocida'}
 🌤️ Clima: ${worldState.weather || 'Desconocido'}
 👥 NPCs conocidos: ${npcList || 'Ninguno aún'}
+🎒 Inventario: ${inventory.join(', ') || 'Vacío'}
+${subLocList ? `🏘️ Lugares dentro de esta ubicación:\n${subLocList}\nUsá scene_change para moverte entre estos lugares.` : ''}
 Tu narración DEBE transcurrir AQUÍ, en este MOMENTO, con este CLIMA.
-Los NPCs que nombraste DEBEN mantener el MISMO nombre en cada turno — revisá la lista de arriba. NUNCA renombres un NPC.
-Cuando pase tiempo (viaje, descanso, espera), usá "npc_update" o "world_flag" para registrar cambios.`
+Los NPCs DEBEN mantener el MISMO nombre en cada turno. NUNCA renombres un NPC.
+INVENTARIO: Si cambian objetos de mano, SIEMPRE usá new_item/remove_item.`
 })()}
 
 ${engineRulesSection}

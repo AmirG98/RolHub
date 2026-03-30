@@ -114,6 +114,44 @@
         "Dicen que Bilbo Bolsón tiene tesoros de su aventura con los enanos",
         "El Bosque Viejo se ha vuelto más peligroso últimamente",
         "Se han visto figuras encapuchadas preguntando por cierto hobbit"
+      ],
+      "sub_locations": [
+        {"id": "hobbiton-plaza", "name": "Plaza de Hobbiton", "type": "plaza", "description": "Centro de la vida hobbit, con el árbol festivo y bancas de piedra"},
+        {"id": "dragon-verde", "name": "Posada del Dragón Verde", "type": "tavern", "description": "La mejor cerveza de la Comarca, punto de reunión de hobbits chismosos"},
+        {"id": "bolson-cerrado", "name": "Bolsón Cerrado", "type": "residence", "description": "La famosa cueva-hogar de los Bolsón, en la cima de la colina"},
+        {"id": "mercado-hobbiton", "name": "Mercado de Hobbiton", "type": "market", "description": "Frutas, verduras, semillas y pipas de los mejores granjeros hobbits"},
+        {"id": "molino-sandyman", "name": "Molino de Sandyman", "type": "workshop", "description": "El viejo molino junto al río, donde Ted Sandyman muele el grano"}
+      ]
+    },
+    {
+      "name": "Bree",
+      "description": "Ciudad de hombres y hobbits en el cruce de caminos del norte",
+      "type": "ciudad",
+      "danger_level": 1,
+      "detailed_description": "Bree es la ciudad más grande entre la Comarca y Rivendel. Aquí conviven hombres y hobbits en relativa armonía. Es un punto de encuentro para viajeros, comerciantes y extraños de todas las razas. Los caminos del norte y del este se cruzan aquí.",
+      "notable_npcs": ["Cebadilla Mantecona", "Guardias de Bree"],
+      "available_services": ["Posada del Pony Pisador", "Mercado", "Herrería", "Establo"],
+      "plot_hooks": [
+        "Extraños encapuchados preguntan por hobbits llamados 'Bolsón'",
+        "Mercaderes necesitan escolta para caravanas al este",
+        "Los guardias reportan avistamientos de lobos en los caminos"
+      ],
+      "secrets": [
+        {"id": "bree-secret-1", "content": "Los Montaraces vigilan Bree en secreto, protegiendo a los viajeros inocentes", "reveal_condition": "npc_talk"},
+        {"id": "bree-secret-2", "content": "Hay túneles antiguos bajo la posada que conectan con las afueras de la ciudad", "reveal_condition": "investigate"}
+      ],
+      "rumors": [
+        "Un Montaraz llamado Trancos ha sido visto últimamente por la posada",
+        "Las caravanas del este están siendo atacadas por lobos inusualmente grandes",
+        "El posadero dice que los negocios van mal desde que empezaron los rumores"
+      ],
+      "sub_locations": [
+        {"id": "pony-pisador", "name": "Posada del Pony Pisador", "type": "tavern", "description": "La posada más famosa de Bree, regentada por Cebadilla Mantecona. Fuego cálido, cerveza de cebada y estofado de cordero"},
+        {"id": "mercado-bree", "name": "Mercado de Bree", "type": "market", "description": "Plaza central donde comerciantes de todas las razas intercambian mercancías. Enanos con gemas, hobbits con pipas, hombres con armas"},
+        {"id": "porton-sur", "name": "Portón Sur", "type": "gate", "description": "La puerta principal hacia el Camino Verde y las tierras del sur"},
+        {"id": "porton-este", "name": "Portón Este", "type": "gate", "description": "Salida hacia el Camino del Este, Rivendel y las tierras lejanas"},
+        {"id": "herreria-bree", "name": "Herrería de Bree", "type": "workshop", "description": "Forja donde se reparan armas y herramientas. El herrero es un hombre corpulento y silencioso"},
+        {"id": "establo-bree", "name": "Establos de Bree", "type": "stable", "description": "Donde los viajeros guardan sus monturas. Ponys de la Comarca y caballos del norte"}
       ]
     },
     {
@@ -162,6 +200,13 @@
         "Elrond puede ver fragmentos del futuro en sueños",
         "Un hobbit llegó hace años con una historia increíble sobre un dragón",
         "Los hijos de Elrond cazan orcos sin descanso, buscando venganza por su madre"
+      ],
+      "sub_locations": [
+        {"id": "casa-elrond", "name": "Casa de Elrond", "type": "palace", "description": "Salones de piedra blanca con cascadas, donde el Señor de Rivendel recibe a sus huéspedes"},
+        {"id": "biblioteca-rivendel", "name": "Gran Biblioteca", "type": "library", "description": "La mayor colección de conocimiento de la Tierra Media. Pergaminos en todas las lenguas"},
+        {"id": "forja-elfos", "name": "Forja Élfica", "type": "workshop", "description": "Donde los herreros élficos crean armas y armaduras de incomparable belleza"},
+        {"id": "jardines-rivendel", "name": "Jardines de Rivendel", "type": "garden", "description": "Terrazas con flores eternas sobre las cascadas. Lugar de meditación y sanación"},
+        {"id": "salon-fuego", "name": "Salón del Fuego", "type": "hall", "description": "Donde los elfos cantan y cuentan historias por las noches. Aquí se celebran los consejos"}
       ]
     },
     {
@@ -176,6 +221,13 @@
         "Los vigías reportan movimientos en Mordor - se necesitan exploradores",
         "Denethor busca un artefacto perdido que podría restaurar la esperanza",
         "Osgiliath ha sido atacada - se necesitan refuerzos urgentes"
+      ],
+      "sub_locations": [
+        {"id": "ciudadela", "name": "La Ciudadela (Nivel 7)", "type": "palace", "description": "La cima de Minas Tirith. La Torre de Ecthelion, el Trono del Senescal y el Árbol Blanco muerto"},
+        {"id": "casas-curacion", "name": "Casas de Curación (Nivel 6)", "type": "hospital", "description": "Donde los heridos son atendidos con hierbas y artes antiguas de sanación"},
+        {"id": "archivos", "name": "Archivos de Minas Tirith (Nivel 5)", "type": "library", "description": "Registros de miles de años de historia de Gondor. Mapas, genealogías, crónicas"},
+        {"id": "mercado-siete-niveles", "name": "Mercado de los Niveles (Nivel 3)", "type": "market", "description": "Comerciantes de todo Gondor venden armas, armaduras, provisiones y lujos"},
+        {"id": "puerta-grande", "name": "Gran Puerta (Nivel 1)", "type": "gate", "description": "La entrada principal de Minas Tirith, con puertas de hierro y acero. Guardias de la Torre Blanca"}
       ]
     },
     {
