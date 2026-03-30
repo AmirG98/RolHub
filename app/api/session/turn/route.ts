@@ -161,7 +161,7 @@ export async function POST(req: NextRequest) {
 
       dmTurnCount++
       // Últimos 4 turnos DM: COMPLETOS para mantener coherencia narrativa
-      if (dmTurnCount > totalDMTurns - 4) {
+      if (dmTurnCount > totalDMTurns - 6) {
         return { role: 'assistant' as const, content: turn.content }
       }
 
@@ -1035,7 +1035,15 @@ RULES:
 - Only pure dialogue/conversation turns skip dice. Everything else needs a roll.
 - If the player says "I try to...", "I attempt...", "I attack...", "I sneak...", "I search...", "I convince..." → REQUEST A ROLL.
 - NEVER auto-succeed or auto-fail a skill action without a dice roll.
-=== END DICE SYSTEM ===` : `=== SISTEMA DE TIRADA DE DADOS ===
+=== END DICE SYSTEM ===
+
+=== NARRATIVE PROGRESSION (CRITICAL) ===
+The story MUST ALWAYS move forward. NEVER repeat a scene you already narrated.
+- If the player tries to move to another place, ALWAYS use "scene_change" and describe the NEW location. DO NOT re-narrate the departure.
+- If an NPC already introduced themselves, DO NOT have them introduce themselves again.
+- If an event already happened (door opened, item given, escape made), it is DONE. Start from the NEW situation.
+- Read your previous messages: if you already narrated something, the player already experienced it.
+=== END PROGRESSION ===` : `=== SISTEMA DE TIRADA DE DADOS ===
 CRÍTICO: ¡DEBES pedir tiradas de dados frecuentemente! Esto es un RPG de mesa, no un "elige tu propia aventura".
 
 CUÁNDO PEDIR UNA TIRADA (usa "dice_request" en tu respuesta):
@@ -1075,7 +1083,15 @@ REGLAS:
 - Solo los turnos de pura conversación/diálogo se saltan dados. Todo lo demás necesita tirada.
 - Si el jugador dice "intento...", "ataco...", "me escabullo...", "busco...", "convenzo..." → PEDÍ TIRADA.
 - NUNCA auto-éxito o auto-fallo en una acción de habilidad sin tirada de dados.
-=== FIN SISTEMA DE DADOS ===`}
+=== FIN SISTEMA DE DADOS ===
+
+=== PROGRESIÓN NARRATIVA (CRÍTICO) ===
+La historia SIEMPRE debe avanzar. NUNCA repitas una escena que ya narraste.
+- Si el jugador intenta moverse a otro lugar, SIEMPRE usá "scene_change" y describí la NUEVA ubicación. NO re-narres la partida.
+- Si un NPC ya se presentó, NO lo hagas presentarse de nuevo.
+- Si un evento ya pasó (puerta abierta, objeto entregado, escape hecho), ESTÁ HECHO. Empezá desde la NUEVA situación.
+- Leé tus mensajes anteriores: si ya narraste algo, el jugador ya lo vivió.
+=== FIN PROGRESIÓN ===`}
 
 ${labels.important}:
 - ${labels.jsonOnly}
