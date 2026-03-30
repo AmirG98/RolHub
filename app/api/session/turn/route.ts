@@ -911,17 +911,26 @@ IMPORTANTE:
 
     const systemPrompt = `${labels.dmRole}${isMultiplayer ? ` ${labels.multiplayer}` : ''}. ${isEnglish ? 'Your role is to create an immersive and exciting experience.' : 'Tu rol es crear una experiencia inmersiva y emocionante.'}
 
-${isEnglish
+${(() => {
+  const npcList = Object.entries(worldState.npc_states || {}).map(([name, status]) => `${name} (${status})`).join(', ')
+  return isEnglish
   ? `CURRENT SCENE STATE (you MUST respect this):
 📍 Location: ${worldState.current_scene || 'Unknown'}
 🕐 Time: ${worldState.time_in_world || 'Unknown'}
 🌤️ Weather: ${worldState.weather || 'Unknown'}
-Your narration MUST take place HERE, at this TIME, with this WEATHER. Do not change these unless using scene_change/time update.`
+👥 Known NPCs: ${npcList || 'None yet'}
+Your narration MUST take place HERE, at this TIME, with this WEATHER.
+NPCs you have named MUST keep the SAME name in every turn — check the list above. NEVER rename an NPC.
+When time passes (travel, rest, waiting), use "npc_update" or "world_flag" to track changes.`
   : `ESTADO ACTUAL DE LA ESCENA (DEBÉS respetar esto):
 📍 Ubicación: ${worldState.current_scene || 'Desconocida'}
 🕐 Hora: ${worldState.time_in_world || 'Desconocida'}
 🌤️ Clima: ${worldState.weather || 'Desconocido'}
-Tu narración DEBE transcurrir AQUÍ, en este MOMENTO, con este CLIMA. No cambies esto a menos que uses scene_change/actualización de hora.`}
+👥 NPCs conocidos: ${npcList || 'Ninguno aún'}
+Tu narración DEBE transcurrir AQUÍ, en este MOMENTO, con este CLIMA.
+Los NPCs que nombraste DEBEN mantener el MISMO nombre en cada turno — revisá la lista de arriba. NUNCA renombres un NPC.
+Cuando pase tiempo (viaje, descanso, espera), usá "npc_update" o "world_flag" para registrar cambios.`
+})()}
 
 ${engineRulesSection}
 ${locationContextSection}
@@ -1055,6 +1064,8 @@ The story MUST ALWAYS move forward. NEVER repeat a scene you already narrated.
 - If an NPC already introduced themselves, DO NOT have them introduce themselves again.
 - If an event already happened (door opened, item given, escape made), it is DONE. Start from the NEW situation.
 - Read your previous messages: if you already narrated something, the player already experienced it.
+- NPCs MUST keep the same name across ALL turns. If you named someone "Aldric" in turn 5, they are ALWAYS "Aldric".
+- When time passes significantly, reflect it: "morning" → "afternoon" → "evening" → "night". Use scene_change if needed.
 === END PROGRESSION ===` : `=== SISTEMA DE TIRADA DE DADOS ===
 CRÍTICO: ¡DEBES pedir tiradas de dados frecuentemente! Esto es un RPG de mesa, no un "elige tu propia aventura".
 
@@ -1103,6 +1114,8 @@ La historia SIEMPRE debe avanzar. NUNCA repitas una escena que ya narraste.
 - Si un NPC ya se presentó, NO lo hagas presentarse de nuevo.
 - Si un evento ya pasó (puerta abierta, objeto entregado, escape hecho), ESTÁ HECHO. Empezá desde la NUEVA situación.
 - Leé tus mensajes anteriores: si ya narraste algo, el jugador ya lo vivió.
+- Los NPCs DEBEN mantener el mismo nombre en TODOS los turnos. Si nombraste a alguien "Aldric" en el turno 5, SIEMPRE es "Aldric".
+- Cuando pase tiempo significativo, reflejalo: "mañana" → "tarde" → "noche" → "amanecer". Usá scene_change si es necesario.
 === FIN PROGRESIÓN ===`}
 
 ${labels.important}:
