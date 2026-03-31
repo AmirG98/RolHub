@@ -11,7 +11,20 @@ import { useMapSync } from '@/hooks/useMapSync'
 import { cn } from '@/lib/utils'
 import { QuestPanelCompact, CurrentQuestWidget } from './QuestPanel'
 import { SceneView } from '@/components/maps/SceneView'
-// SubLocationList ahora integrado en SceneView
+// Lore data para sub-locaciones
+import lotrData from '@/data/lores/lotr.json'
+import zombiesData from '@/data/lores/zombies.json'
+import isekaiData from '@/data/lores/isekai.json'
+import vikingosData from '@/data/lores/vikingos.json'
+import starwarsData from '@/data/lores/starwars.json'
+import cyberpunkData from '@/data/lores/cyberpunk.json'
+import lovecraftData from '@/data/lores/lovecraft.json'
+import dndClassicData from '@/data/lores/dnd-classic.json'
+
+const LORE_SUB_DATA: Record<string, any> = {
+  LOTR: lotrData, ZOMBIES: zombiesData, ISEKAI: isekaiData, VIKINGOS: vikingosData,
+  STAR_WARS: starwarsData, CYBERPUNK: cyberpunkData, LOVECRAFT_HORROR: lovecraftData, DND_CLASSIC: dndClassicData,
+}
 
 // Importar MapContainer dinámicamente para evitar SSR issues con Konva
 const MapContainer = dynamic(
@@ -185,17 +198,7 @@ export function GameMapPanel({
           isNavigationLocked={isLocked}
           lockReason={LOCK_MESSAGES[lockReason]}
           subLocations={(() => {
-            const LORE_DATA: Record<string, any> = {
-              LOTR: require('@/data/lores/lotr.json'),
-              ZOMBIES: require('@/data/lores/zombies.json'),
-              ISEKAI: require('@/data/lores/isekai.json'),
-              VIKINGOS: require('@/data/lores/vikingos.json'),
-              STAR_WARS: require('@/data/lores/starwars.json'),
-              CYBERPUNK: require('@/data/lores/cyberpunk.json'),
-              LOVECRAFT_HORROR: require('@/data/lores/lovecraft.json'),
-              DND_CLASSIC: require('@/data/lores/dnd-classic.json'),
-            }
-            const loreLoc = LORE_DATA[lore]?.locations?.find((l: any) =>
+            const loreLoc = LORE_SUB_DATA[lore]?.locations?.find((l: any) =>
               worldState?.current_scene?.toLowerCase()?.includes(l.name?.toLowerCase())
             )
             return loreLoc?.sub_locations || []
