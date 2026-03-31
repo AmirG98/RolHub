@@ -211,6 +211,13 @@ export function GameMapPanel({
             return loreLoc?.sub_locations || []
           })()}
           currentSubLocationId={worldState?.current_sub_location || null}
+          travelTimes={(() => {
+            const loreLoc = LORE_SUB_DATA[lore]?.locations?.find((l: any) =>
+              worldState?.current_scene?.toLowerCase()?.includes(l.name?.toLowerCase())
+            )
+            return loreLoc?.travel_times || {}
+          })()}
+          inventory={worldState?.party?.[Object.keys(worldState?.party || {})[0]]?.inventory || []}
           className="h-full"
         />
 

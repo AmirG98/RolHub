@@ -104,6 +104,13 @@ const SUB_TYPE_ICONS: Record<string, string> = {
   plaza: '🏘️', residence: '🏠', temple: '⛪', prison: '🔒',
 }
 
+interface TravelInfo {
+  destination: string
+  travelTime: string
+  rationsNeeded: number
+  hasEnoughRations: boolean
+}
+
 interface SceneViewProps {
   location: MapLocationWithStatus | null
   lore: Lore
@@ -117,6 +124,8 @@ interface SceneViewProps {
   lockReason?: string
   subLocations?: SubLocation[]
   currentSubLocationId?: string | null
+  travelTimes?: Record<string, string>
+  inventory?: string[]
   className?: string
 }
 
@@ -247,9 +256,47 @@ export function SceneView({
   lockReason = '',
   subLocations = [],
   currentSubLocationId = null,
+  travelTimes = {},
+  inventory = [],
   className = '',
 }: SceneViewProps) {
   const config = getMapConfig(lore)
+  const [confirmTravel, setConfirmTravel] = useState<TravelInfo | null>(null)
+  const [confirmDestId, setConfirmDestId] = useState<string | null>(null)
+
+  // Calcular días de viaje a partir del texto de travel_time
+  const parseDays = (timeStr: string): number => {
+    const match = timeStr.match(/(\d+)\s*(?:día|day|días|days)/i)
+    if (match) return parseInt(match[1])
+    // Si dice horas, es menos de 1 día
+    const hoursMatch = timeStr.match(/(\d+)\s*(?:hora|hour)/i)
+    if (hoursMatch) return 1
+    // Si dice minutos, 0 días
+    if (/minut/i.test(timeStr)) return 0
+    return 1
+  }
+
+  // Contar raciones en inventario
+  const countRations = (): number => {
+    const rationItem = inventory.find(item => /raci[oó]n|ration|provisiones|supplies/i.test(item))
+    if (!rationItem) return 0
+    const numMatch = rationItem.match(/(\d+)/)
+    return numMatch ? parseInt(numMatch[1]) : 1
+  }
+
+  const handleTravelClick = (destId: string, destName: string) => {
+    const timeStr = travelTimes[destName] || ''
+    const days = parseDays(timeStr)
+    const rations = countRations()
+
+    setConfirmDestId(destId)
+    setConfirmTravel({
+      destination: destName,
+      travelTime: timeStr || '???',
+      rationsNeeded: days,
+      hasEnoughRations: rations >= days || days === 0,
+    })
+  }
 
   if (!location) {
     return (
@@ -335,34 +382,74 @@ export function SceneView({
                 const destDanger = dest.dangerLevel || 1
                 const canTravel = !isNavigationLocked && dest.discovered
 
+                const isConfirming = confirmDestId === dest.id
+                const travelTime = travelTimes[dest.name] || ''
+
                 return (
-                  <button
-                    key={dest.id}
-                    onClick={() => canTravel && onTravel(dest.id)}
-                    disabled={!canTravel}
-                    className={cn(
-                      'flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-left transition-all',
-                      'border',
-                      canTravel
-                        ? 'border-gold-dim/30 hover:border-gold bg-shadow/30 hover:bg-shadow-mid cursor-pointer'
-                        : 'border-gold-dim/10 bg-shadow/10 cursor-not-allowed opacity-50'
+                  <div key={dest.id} className="space-y-1">
+                    <button
+                      onClick={() => canTravel && handleTravelClick(dest.id, dest.name)}
+                      disabled={!canTravel}
+                      className={cn(
+                        'w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-left transition-all',
+                        'border',
+                        isConfirming
+                          ? 'border-gold/50 bg-gold/10'
+                          : canTravel
+                            ? 'border-gold-dim/30 hover:border-gold bg-shadow/30 hover:bg-shadow-mid cursor-pointer'
+                            : 'border-gold-dim/10 bg-shadow/10 cursor-not-allowed opacity-50'
+                      )}
+                    >
+                      <span className="text-base flex-shrink-0">{destIcon}</span>
+                      <div className="flex-1 min-w-0">
+                        <p className="font-heading text-sm text-parchment truncate drop-shadow-md">{dest.name}</p>
+                        {travelTime && <p className="text-[9px] text-parchment/40">{travelTime}</p>}
+                      </div>
+                      <div className="flex items-center gap-1.5 flex-shrink-0">
+                        <span className={cn('text-xs', destDanger >= 4 ? 'text-red-400' : destDanger >= 2 ? 'text-gold' : 'text-emerald')}>
+                          {'⚔️'.repeat(Math.min(destDanger, 2))}
+                        </span>
+                        {canTravel && <ChevronRight className="w-3.5 h-3.5 text-gold drop-shadow-md" />}
+                        {!dest.discovered && <span className="text-xs text-parchment/30">???</span>}
+                      </div>
+                    </button>
+
+                    {/* Diálogo de confirmación de viaje */}
+                    {isConfirming && confirmTravel && (
+                      <div className="mx-1 p-2.5 rounded-lg border border-gold/30 bg-shadow-mid/90 space-y-2">
+                        <p className="text-[11px] font-heading text-gold">
+                          ¿Viajar a {confirmTravel.destination}?
+                        </p>
+                        <div className="text-[10px] text-parchment/70 space-y-0.5">
+                          <p>🕐 Duración: <span className="text-parchment">{confirmTravel.travelTime}</span></p>
+                          {confirmTravel.rationsNeeded > 0 && (
+                            <p>🍞 Raciones necesarias: <span className={confirmTravel.hasEnoughRations ? 'text-emerald' : 'text-red-400'}>{confirmTravel.rationsNeeded} día{confirmTravel.rationsNeeded !== 1 ? 's' : ''}</span></p>
+                          )}
+                          {!confirmTravel.hasEnoughRations && confirmTravel.rationsNeeded > 0 && (
+                            <p className="text-red-400/80">⚠️ Sin suficientes raciones — sufrirás hambre</p>
+                          )}
+                        </div>
+                        <div className="flex gap-2">
+                          <button
+                            onClick={() => {
+                              setConfirmTravel(null)
+                              setConfirmDestId(null)
+                              onTravel(dest.id)
+                            }}
+                            className="flex-1 px-2 py-1.5 rounded text-[11px] font-heading bg-gold/20 hover:bg-gold/30 text-gold border border-gold/30 transition-all"
+                          >
+                            Partir
+                          </button>
+                          <button
+                            onClick={() => { setConfirmTravel(null); setConfirmDestId(null) }}
+                            className="px-2 py-1.5 rounded text-[11px] font-heading text-parchment/50 hover:text-parchment/80 transition-all"
+                          >
+                            Cancelar
+                          </button>
+                        </div>
+                      </div>
                     )}
-                  >
-                    <span className="text-base flex-shrink-0">{destIcon}</span>
-                    <div className="flex-1 min-w-0">
-                      <p className="font-heading text-sm text-parchment truncate drop-shadow-md">{dest.name}</p>
-                    </div>
-                    <div className="flex items-center gap-1.5 flex-shrink-0">
-                      <span className={cn(
-                        'text-xs',
-                        destDanger >= 4 ? 'text-red-400' : destDanger >= 2 ? 'text-gold' : 'text-emerald'
-                      )}>
-                        {'⚔️'.repeat(Math.min(destDanger, 2))}
-                      </span>
-                      {canTravel && <ChevronRight className="w-3.5 h-3.5 text-gold drop-shadow-md" />}
-                      {!dest.discovered && <span className="text-xs text-parchment/30">???</span>}
-                    </div>
-                  </button>
+                  </div>
                 )
               })}
             </div>
