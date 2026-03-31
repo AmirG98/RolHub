@@ -937,9 +937,14 @@ ${(() => {
   const subLocs = currentLocationData?.sub_locations || []
   const subLocList = subLocs.map((sl: any) => `- ${sl.name} (${sl.type}): ${sl.description}`).join('\n')
 
+  const justArrived = turnsInCurrentLocation <= 1
+  const locationStatus = isEnglish
+    ? (justArrived ? '(just arrived — describe surroundings)' : `(here for ${turnsInCurrentLocation} turns — DO NOT re-describe arrival or journey. Continue from where you left off)`)
+    : (justArrived ? '(recién llegó — describí los alrededores)' : `(lleva ${turnsInCurrentLocation} turnos aquí — NO re-describas la llegada ni el viaje. Continuá desde donde dejaste)`)
+
   return isEnglish
   ? `CURRENT SCENE STATE (you MUST respect this):
-📍 Location: ${worldState.current_scene || 'Unknown'}
+📍 Location: ${worldState.current_scene || 'Unknown'} ${locationStatus}
 🕐 Time: ${worldState.time_in_world || 'Unknown'}
 🌤️ Weather: ${worldState.weather || 'Unknown'}
 👥 Known NPCs: ${npcList || 'None yet'}
@@ -949,7 +954,7 @@ Your narration MUST take place HERE, at this TIME, with this WEATHER.
 NPCs MUST keep the SAME name in every turn. NEVER rename an NPC.
 INVENTORY: If items change hands, ALWAYS use new_item/remove_item.`
   : `ESTADO ACTUAL DE LA ESCENA (DEBÉS respetar esto):
-📍 Ubicación: ${worldState.current_scene || 'Desconocida'}
+📍 Ubicación: ${worldState.current_scene || 'Desconocida'} ${locationStatus}
 🕐 Hora: ${worldState.time_in_world || 'Desconocida'}
 🌤️ Clima: ${worldState.weather || 'Desconocido'}
 👥 NPCs conocidos: ${npcList || 'Ninguno aún'}
