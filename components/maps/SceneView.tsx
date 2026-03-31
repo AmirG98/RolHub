@@ -276,12 +276,17 @@ export function SceneView({
     return 1
   }
 
-  // Contar raciones en inventario
+  // Contar raciones en inventario (formato: "3 raciones de viaje")
   const countRations = (): number => {
-    const rationItem = inventory.find(item => /raci[oó]n|ration|provisiones|supplies/i.test(item))
+    const rationItem = inventory.find(item => /raci[oó]n|ration|provisiones|supplies|MRE/i.test(item))
     if (!rationItem) return 0
-    const numMatch = rationItem.match(/(\d+)/)
-    return numMatch ? parseInt(numMatch[1]) : 1
+    // Buscar número al inicio: "3 raciones de viaje" → 3
+    const startNum = rationItem.match(/^(\d+)\s/)
+    if (startNum) return parseInt(startNum[1])
+    // Buscar número en paréntesis: "Raciones (3 días)" → 3
+    const parenNum = rationItem.match(/\((\d+)/)
+    if (parenNum) return parseInt(parenNum[1])
+    return 1
   }
 
   const handleTravelClick = (destId: string, destName: string) => {
