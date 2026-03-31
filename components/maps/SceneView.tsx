@@ -91,6 +91,19 @@ const SHORT_AMBIANCE: Record<string, Record<string, string>> = {
   },
 }
 
+interface SubLocation {
+  id: string
+  name: string
+  type: string
+  description: string
+}
+
+const SUB_TYPE_ICONS: Record<string, string> = {
+  tavern: '🍺', market: '🏪', gate: '🚪', workshop: '⚒️', stable: '🐴',
+  palace: '🏰', library: '📚', garden: '🌿', hall: '🏛️', hospital: '🏥',
+  plaza: '🏘️', residence: '🏠', temple: '⛪', prison: '🔒',
+}
+
 interface SceneViewProps {
   location: MapLocationWithStatus | null
   lore: Lore
@@ -98,9 +111,12 @@ interface SceneViewProps {
   onTravel: (locationId: string) => void
   onExploreInterior?: () => void
   onShowWorldMap: () => void
+  onSubLocationClick?: (subLocationName: string) => void
   canExploreInterior?: boolean
   isNavigationLocked?: boolean
   lockReason?: string
+  subLocations?: SubLocation[]
+  currentSubLocationId?: string | null
   className?: string
 }
 
@@ -111,9 +127,12 @@ export function SceneView({
   onTravel,
   onExploreInterior,
   onShowWorldMap,
+  onSubLocationClick,
   canExploreInterior = false,
   isNavigationLocked = false,
   lockReason = '',
+  subLocations = [],
+  currentSubLocationId = null,
   className = '',
 }: SceneViewProps) {
   const config = getMapConfig(lore)
@@ -235,6 +254,40 @@ export function SceneView({
             </div>
           )}
         </div>
+
+        {/* Sub-locaciones dentro de la ciudad */}
+        {subLocations.length > 0 && (
+          <div className="px-3 py-2 border-t border-gold-dim/20">
+            <p className="text-[10px] font-heading text-gold-dim uppercase tracking-wider mb-1.5 flex items-center gap-1">
+              <span>🏘️</span> En este lugar
+            </p>
+            <div className="space-y-0.5">
+              {subLocations.map((sl) => {
+                const isActive = sl.id === currentSubLocationId
+                return (
+                  <button
+                    key={sl.id}
+                    onClick={() => onSubLocationClick?.(sl.name)}
+                    disabled={isActive || isNavigationLocked}
+                    className={cn(
+                      'w-full flex items-center gap-2 px-2 py-1.5 rounded text-left transition-all text-xs',
+                      isActive
+                        ? 'bg-gold/20 border border-gold-dim/50 text-gold-bright cursor-default'
+                        : isNavigationLocked
+                          ? 'text-parchment/30 cursor-not-allowed'
+                          : 'text-parchment/70 hover:text-parchment hover:bg-shadow-mid/50 cursor-pointer'
+                    )}
+                  >
+                    <span className="flex-shrink-0">{SUB_TYPE_ICONS[sl.type] || '📍'}</span>
+                    <span className="flex-1 font-heading text-[11px] truncate">{sl.name}</span>
+                    {isActive && <span className="text-[9px] text-gold-dim">← aquí</span>}
+                    {!isActive && !isNavigationLocked && <ChevronRight className="w-3 h-3 text-parchment/30" />}
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+        )}
 
         {/* Footer con botones de acción */}
         <div className={cn(

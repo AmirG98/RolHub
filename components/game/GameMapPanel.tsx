@@ -11,7 +11,7 @@ import { useMapSync } from '@/hooks/useMapSync'
 import { cn } from '@/lib/utils'
 import { QuestPanelCompact, CurrentQuestWidget } from './QuestPanel'
 import { SceneView } from '@/components/maps/SceneView'
-import { SubLocationList } from '@/components/maps/SubLocationList'
+// SubLocationList ahora integrado en SceneView
 
 // Importar MapContainer dinámicamente para evitar SSR issues con Konva
 const MapContainer = dynamic(
@@ -177,17 +177,31 @@ export function GameMapPanel({
           onTravel={handleSceneTravel}
           onExploreInterior={handleExploreInterior}
           onShowWorldMap={() => setViewMode('worldMap')}
+          onSubLocationClick={(subLocName) => {
+            // Enviar como acción de viaje al DM
+            onTravelRequest(`Me dirijo a ${subLocName}`, currentLocation?.id || '')
+          }}
           canExploreInterior={currentLocation ? hasSubmapAvailable(currentLocation) : false}
           isNavigationLocked={isLocked}
           lockReason={LOCK_MESSAGES[lockReason]}
+          subLocations={(() => {
+            const LORE_DATA: Record<string, any> = {
+              LOTR: require('@/data/lores/lotr.json'),
+              ZOMBIES: require('@/data/lores/zombies.json'),
+              ISEKAI: require('@/data/lores/isekai.json'),
+              VIKINGOS: require('@/data/lores/vikingos.json'),
+              STAR_WARS: require('@/data/lores/starwars.json'),
+              CYBERPUNK: require('@/data/lores/cyberpunk.json'),
+              LOVECRAFT_HORROR: require('@/data/lores/lovecraft.json'),
+              DND_CLASSIC: require('@/data/lores/dnd-classic.json'),
+            }
+            const loreLoc = LORE_DATA[lore]?.locations?.find((l: any) =>
+              worldState?.current_scene?.toLowerCase()?.includes(l.name?.toLowerCase())
+            )
+            return loreLoc?.sub_locations || []
+          })()}
+          currentSubLocationId={worldState?.current_sub_location || null}
           className="h-full"
-        />
-
-        {/* Sub-locaciones de la ciudad actual */}
-        <SubLocationList
-          lore={lore}
-          currentScene={worldState?.current_scene || ''}
-          locale={locale}
         />
 
         {/* Submapa modal */}

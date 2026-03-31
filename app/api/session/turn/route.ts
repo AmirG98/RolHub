@@ -932,8 +932,14 @@ ${(() => {
   const loreLookup = LORE_JSON_DATA[session.campaign.lore] || {}
   const currentLocationData = loreLookup.locations?.find((l: any) =>
     worldState.current_scene?.toLowerCase().includes(l.name?.toLowerCase()) ||
-    l.name?.toLowerCase().includes(worldState.current_scene?.toLowerCase()?.split(',')[0])
+    l.name?.toLowerCase().includes(worldState.current_scene?.toLowerCase()?.split(',')[0]?.trim())
   )
+  // Sub-locación actual
+  const currentSubLocId = worldState.current_sub_location || null
+  const currentSubLoc = currentLocationData?.sub_locations?.find((sl: any) => sl.id === currentSubLocId)
+  const locationDisplay = currentSubLoc
+    ? `${currentLocationData?.name || worldState.current_scene} > ${currentSubLoc.name}`
+    : worldState.current_scene || (isEnglish ? 'Unknown' : 'Desconocida')
   const subLocs = currentLocationData?.sub_locations || []
   const subLocList = subLocs.map((sl: any) => `- ${sl.name} (${sl.type}): ${sl.description}`).join('\n')
 
@@ -944,7 +950,7 @@ ${(() => {
 
   return isEnglish
   ? `CURRENT SCENE STATE (you MUST respect this):
-📍 Location: ${worldState.current_scene || 'Unknown'} ${locationStatus}
+📍 Location: ${locationDisplay} ${locationStatus}
 🕐 Time: ${worldState.time_in_world || 'Unknown'}
 🌤️ Weather: ${worldState.weather || 'Unknown'}
 👥 Known NPCs: ${npcList || 'None yet'}
@@ -954,7 +960,7 @@ Your narration MUST take place HERE, at this TIME, with this WEATHER.
 NPCs MUST keep the SAME name in every turn. NEVER rename an NPC.
 INVENTORY: If items change hands, ALWAYS use new_item/remove_item.`
   : `ESTADO ACTUAL DE LA ESCENA (DEBÉS respetar esto):
-📍 Ubicación: ${worldState.current_scene || 'Desconocida'} ${locationStatus}
+📍 Ubicación: ${locationDisplay} ${locationStatus}
 🕐 Hora: ${worldState.time_in_world || 'Desconocida'}
 🌤️ Clima: ${worldState.weather || 'Desconocido'}
 👥 NPCs conocidos: ${npcList || 'Ninguno aún'}
@@ -1452,9 +1458,25 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
       }
     }
 
-    // Update scene
+    // Update scene + track sub-location
     if (dmResponse.scene_change) {
       worldStateUpdates.current_scene = dmResponse.scene_change
+
+      // Detectar si el scene_change es una sub-locación de la ciudad actual
+      const currentLoreLoc = LORE_JSON_DATA[session.campaign.lore]?.locations?.find((l: any) =>
+        worldState.current_scene?.toLowerCase().includes(l.name?.toLowerCase()) ||
+        l.name?.toLowerCase().includes(worldState.current_scene?.toLowerCase()?.split(',')[0]?.trim())
+      )
+      const matchedSubLoc = currentLoreLoc?.sub_locations?.find((sl: any) =>
+        dmResponse.scene_change!.toLowerCase().includes(sl.name.toLowerCase()) ||
+        sl.name.toLowerCase().includes(dmResponse.scene_change!.toLowerCase())
+      )
+      if (matchedSubLoc) {
+        worldStateUpdates.current_sub_location = matchedSubLoc.id
+      } else if (dmResponse.location_id && dmResponse.location_id !== worldState.map_state?.currentLocationId) {
+        // Cambio de ciudad → limpiar sub-locación
+        worldStateUpdates.current_sub_location = null
+      }
     }
 
     // Fallback: Si el jugador hizo una acción de viaje pero Claude no seteo location_id,
