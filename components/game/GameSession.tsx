@@ -13,6 +13,7 @@ import { useLanguage, useTranslations } from '@/lib/i18n'
 import { BookOpen, Heart, Scroll, Dices, Users, Wifi, Crown, Swords, MessageSquare } from 'lucide-react'
 import DMPanel from '@/components/game/DMPanel'
 import { GameMapPanel } from '@/components/game/GameMapPanel'
+import { InventoryPanel } from '@/components/game/InventoryPanel'
 import { type Lore as LoreType } from '@/lib/maps/map-config'
 import { VoicePlayerCompact, VoicePlayerAuto } from '@/components/game/VoicePlayer'
 // import { DynamicMusicPlayer, useDynamicMusic } from '@/components/audio/DynamicMusicPlayer' // DISABLED
@@ -1200,6 +1201,15 @@ export default function GameSession({
               }}
               locale={locale as 'es' | 'en'}
             />
+
+            {/* Inventario */}
+            <div className="glass-panel-dark rounded-lg border border-gold-dim/20">
+              <InventoryPanel
+                inventory={worldState.party?.[characterName]?.inventory || character?.inventory || []}
+                characterName={characterName}
+                locale={locale as 'es' | 'en'}
+              />
+            </div>
 
             {/* Quests Section */}
             <div id="quests-section" className="glass-panel-dark rounded-lg p-4 border border-gold-dim/20 scroll-mt-4">

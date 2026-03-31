@@ -11,6 +11,7 @@ import { useMapSync } from '@/hooks/useMapSync'
 import { cn } from '@/lib/utils'
 import { QuestPanelCompact, CurrentQuestWidget } from './QuestPanel'
 import { SceneView } from '@/components/maps/SceneView'
+import { SubLocationList } from '@/components/maps/SubLocationList'
 
 // Importar MapContainer dinámicamente para evitar SSR issues con Konva
 const MapContainer = dynamic(
@@ -180,6 +181,13 @@ export function GameMapPanel({
           isNavigationLocked={isLocked}
           lockReason={LOCK_MESSAGES[lockReason]}
           className="h-full"
+        />
+
+        {/* Sub-locaciones de la ciudad actual */}
+        <SubLocationList
+          lore={lore}
+          currentScene={worldState?.current_scene || ''}
+          locale={locale}
         />
 
         {/* Submapa modal */}
