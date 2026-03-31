@@ -181,6 +181,7 @@ export default function GameSession({
   // Character name with fallback
   const characterName = character?.name || (locale === 'en' ? 'Traveler' : 'Viajero')
 
+  const [prefillAction, setPrefillAction] = useState<string | null>(null)
   const [suggestedActions, setSuggestedActions] = useState<string[]>([
     locale === 'en' ? 'I examine the area for dangers' : 'Examino el área en busca de peligros',
     locale === 'en' ? 'I try to talk to someone nearby' : 'Intento hablar con alguien cercano',
@@ -1036,6 +1037,7 @@ export default function GameSession({
                 onClearDiceRoll={() => setLastDiceRoll(null)}
                 error={error}
                 locale={locale as 'es' | 'en'}
+                prefillAction={prefillAction}
               />
             )}
 
@@ -1192,8 +1194,12 @@ export default function GameSession({
               lore={lore as LoreType}
               worldState={worldState}
               onTravelRequest={(actionText, toLocationId) => {
-                // Travel requests are always physical actions ('do')
+                // City-to-city travel: submit directly
                 handleSubmit(actionText, 'do')
+              }}
+              onPrefillAction={(actionText) => {
+                // Sub-location click: prefill input, let player decide when to send
+                setPrefillAction(actionText)
               }}
               onError={(message) => {
                 setError(message)

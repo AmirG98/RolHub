@@ -56,6 +56,7 @@ interface GameMapPanelProps {
   lore: Lore
   worldState: any
   onTravelRequest: (action: string, toLocationId: string) => void
+  onPrefillAction?: (action: string) => void
   onError?: (message: string) => void
   locale?: 'es' | 'en'
   className?: string
@@ -70,6 +71,7 @@ export function GameMapPanel({
   lore,
   worldState,
   onTravelRequest,
+  onPrefillAction,
   onError,
   locale = 'es',
   className = '',
@@ -191,8 +193,13 @@ export function GameMapPanel({
           onExploreInterior={handleExploreInterior}
           onShowWorldMap={() => setViewMode('worldMap')}
           onSubLocationClick={(subLocName) => {
-            // Enviar como acción de viaje al DM
-            onTravelRequest(`Me dirijo a ${subLocName}`, currentLocation?.id || '')
+            // Pre-llenar el input de acción, no enviar directamente
+            const actionText = locale === 'en' ? `I go to ${subLocName}` : `Me dirijo a ${subLocName}`
+            if (onPrefillAction) {
+              onPrefillAction(actionText)
+            } else {
+              onTravelRequest(actionText, currentLocation?.id || '')
+            }
           }}
           canExploreInterior={currentLocation ? hasSubmapAvailable(currentLocation) : false}
           isNavigationLocked={isLocked}

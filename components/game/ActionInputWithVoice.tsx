@@ -16,6 +16,7 @@ interface ActionInputWithVoiceProps {
   onClearDiceRoll?: () => void
   error?: string | null
   locale?: 'es' | 'en'
+  prefillAction?: string | null
 }
 
 export function ActionInputWithVoice({
@@ -25,9 +26,17 @@ export function ActionInputWithVoice({
   lastDiceRoll,
   onClearDiceRoll,
   error,
-  locale = 'es'
+  locale = 'es',
+  prefillAction,
 }: ActionInputWithVoiceProps) {
   const [action, setAction] = useState('')
+
+  // Pre-llenar el input cuando se recibe una acción desde fuera (ej: click en sub-locación)
+  useEffect(() => {
+    if (prefillAction) {
+      setAction(prefillAction)
+    }
+  }, [prefillAction])
   const [mode, setMode] = useState<ActionType>('auto')
   const [isListening, setIsListening] = useState(false)
   const [voiceError, setVoiceError] = useState<string | null>(null)
