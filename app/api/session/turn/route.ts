@@ -376,7 +376,7 @@ export async function POST(req: NextRequest) {
       partyEffects: 'For effects on OTHER party members (not the one acting), use other_party_effects',
       mechanicRules: 'MECHANIC RULES',
       rule1: 'If there is combat and the player fails (low roll or bad decision), use negative hp_change (-1 to -5 depending on severity)',
-      rule2: 'INVENTORY: When player RECEIVES an item, ALWAYS use new_item. When they LOSE an item, ALWAYS use remove_item with the EXACT name. PARTIAL QUANTITIES (coins, arrows, potions): use BOTH remove_item AND new_item together. Example: player has "15 silver coins" and pays 5 → remove_item: "15 silver coins", new_item: "10 silver coins".',
+      rule2: 'INVENTORY: Use new_item to ADD items (e.g. "3 silver coins", "Elven sword"). Use remove_item to SUBTRACT items (e.g. "2 silver coins" removes 2 from the count). Countable items (coins, rations, arrows) auto-merge. The number at the start IS the quantity.',
       rule3: 'If the player completes an objective, mark quest_completed',
       rule4: 'When the location changes significantly, use scene_change',
       rule5: 'suggested_actions must have 3 options that make sense with the situation',
@@ -437,7 +437,7 @@ export async function POST(req: NextRequest) {
       partyEffects: 'Para efectos en OTROS miembros del grupo (no el que actúa), usa other_party_effects',
       mechanicRules: 'REGLAS DE MECANICAS',
       rule1: 'Si hay combate y el jugador falla (tirada baja o mala decisión), usa hp_change negativo (-1 a -5 según gravedad)',
-      rule2: 'INVENTARIO: Cuando el jugador RECIBE un objeto, SIEMPRE usar new_item. Cuando PIERDE un objeto, SIEMPRE usar remove_item con el nombre EXACTO. CANTIDADES PARCIALES (monedas, flechas, pociones): usar AMBOS remove_item Y new_item juntos. Ejemplo: jugador tiene "15 monedas de plata" y paga 5 → remove_item: "15 monedas de plata", new_item: "10 monedas de plata".',
+      rule2: 'INVENTARIO: Usar new_item para AÑADIR items (ej: "3 monedas de plata", "Espada élfica"). Usar remove_item para RESTAR items (ej: "2 monedas de plata" resta 2 del total). Items contables (monedas, raciones, flechas) se suman/restan automáticamente. El número al inicio ES la cantidad.',
       rule3: 'Si el jugador resuelve un objetivo, marca quest_completed',
       rule4: 'Cuando cambie la ubicación significativamente, usa scene_change',
       rule5: 'suggested_actions debe tener 3 opciones que tengan sentido con la situación',
@@ -1110,7 +1110,7 @@ The story MUST ALWAYS move forward. NEVER repeat a scene you already narrated.
 === TRAVEL RULES ===
 When the player travels between locations:
 1. ADVANCE time_in_world by the realistic travel duration
-2. Use remove_item to consume "Raciones de viaje" (1 per day). If quantity changes, use remove_item + new_item pattern (e.g. "3 days rations" → remove "Raciones de viaje (3 días)", add "Raciones de viaje (1 día)")
+2. Use remove_item to consume rations (e.g. remove_item: "2 raciones de viaje" subtracts 2 from the count automatically)
 3. If player has NO rations, narrate hunger/fatigue and apply -1 HP per day with hp_change
 4. Narrate 2-3 highlights of the journey (landscapes, camps, weather, encounters)
 5. ALWAYS use scene_change + location_id when arriving
@@ -1177,7 +1177,7 @@ La historia SIEMPRE debe avanzar. NUNCA repitas una escena que ya narraste.
 === REGLAS DE VIAJE ===
 Cuando el jugador viaja entre ubicaciones:
 1. AVANZAR time_in_world por la duración realista del viaje
-2. Usar remove_item para consumir "Raciones de viaje" (1 por día). Si cambia la cantidad, usar remove_item + new_item juntos
+2. Usar remove_item para consumir raciones (ej: remove_item: "2 raciones de viaje" resta 2 del total automáticamente)
 3. Si NO tiene raciones, narrar hambre/fatiga y aplicar -1 HP por día con hp_change
 4. Narrar 2-3 momentos del viaje (paisajes, campamentos, clima, encuentros)
 5. SIEMPRE usar scene_change + location_id al llegar
@@ -1442,23 +1442,80 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
       worldStateUpdates.party[character.name].hp = `${newHP}/${maxHPNum}`
     }
 
-    // Update inventory
-    if (dmResponse.new_item) {
+    // Update inventory con normalización de items contables
+    if (dmResponse.new_item || dmResponse.remove_item) {
       if (!worldStateUpdates.party) worldStateUpdates.party = { ...worldState.party }
       if (!worldStateUpdates.party[character.name]) {
         worldStateUpdates.party[character.name] = { ...worldState.party?.[character.name] }
       }
-      const currentInventory = worldStateUpdates.party[character.name].inventory || inventory
-      worldStateUpdates.party[character.name].inventory = [...currentInventory, dmResponse.new_item]
-    }
+      let currentInventory = [...(worldStateUpdates.party[character.name].inventory || inventory)]
 
-    if (dmResponse.remove_item) {
-      if (!worldStateUpdates.party) worldStateUpdates.party = { ...worldState.party }
-      if (!worldStateUpdates.party[character.name]) {
-        worldStateUpdates.party[character.name] = { ...worldState.party?.[character.name] }
+      // Helper: extraer cantidad y nombre base de un item contable
+      const parseCountable = (item: string): { count: number; baseName: string } | null => {
+        const match = item.match(/^(\d+)\s+(.+)$/)
+        if (!match) return null
+        return { count: parseInt(match[1]), baseName: match[2].toLowerCase().trim() }
       }
-      const currentInventory = worldStateUpdates.party[character.name].inventory || inventory
-      worldStateUpdates.party[character.name].inventory = currentInventory.filter((i: string) => i.toLowerCase() !== dmResponse.remove_item!.toLowerCase())
+
+      // Helper: normalizar singular/plural para matching
+      const normalize = (name: string): string => {
+        return name
+          .replace(/raciones/gi, 'ración').replace(/ración/gi, 'ración')
+          .replace(/monedas/gi, 'moneda').replace(/flechas/gi, 'flecha')
+          .replace(/antorchas/gi, 'antorcha').replace(/pociones/gi, 'poción')
+          .replace(/raciones/gi, 'ración')
+          .toLowerCase().trim()
+      }
+
+      // REMOVE: restar cantidad del item contable, o quitar item completo
+      if (dmResponse.remove_item) {
+        const removeInfo = parseCountable(dmResponse.remove_item)
+        if (removeInfo) {
+          // Item contable: buscar y restar cantidad
+          let removed = false
+          currentInventory = currentInventory.map(item => {
+            const itemInfo = parseCountable(item)
+            if (itemInfo && normalize(itemInfo.baseName) === normalize(removeInfo.baseName)) {
+              removed = true
+              const newCount = itemInfo.count - removeInfo.count
+              if (newCount <= 0) return null // Eliminar
+              return `${newCount} ${itemInfo.baseName}`
+            }
+            return item
+          }).filter(Boolean) as string[]
+          // Si no encontró contable, intentar quitar por nombre exacto
+          if (!removed) {
+            currentInventory = currentInventory.filter(i => i.toLowerCase() !== dmResponse.remove_item!.toLowerCase())
+          }
+        } else {
+          // Item no contable: quitar por nombre (case-insensitive)
+          currentInventory = currentInventory.filter(i => i.toLowerCase() !== dmResponse.remove_item!.toLowerCase())
+        }
+      }
+
+      // ADD: sumar cantidad al item contable existente, o agregar nuevo
+      if (dmResponse.new_item) {
+        const addInfo = parseCountable(dmResponse.new_item)
+        if (addInfo) {
+          // Item contable: buscar existente y sumar
+          let merged = false
+          currentInventory = currentInventory.map(item => {
+            const itemInfo = parseCountable(item)
+            if (itemInfo && normalize(itemInfo.baseName) === normalize(addInfo.baseName)) {
+              merged = true
+              return `${itemInfo.count + addInfo.count} ${itemInfo.baseName}`
+            }
+            return item
+          })
+          if (!merged) {
+            currentInventory.push(dmResponse.new_item)
+          }
+        } else {
+          currentInventory.push(dmResponse.new_item)
+        }
+      }
+
+      worldStateUpdates.party[character.name].inventory = currentInventory
     }
 
     // Update quests
