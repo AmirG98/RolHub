@@ -377,7 +377,7 @@ export async function POST(req: NextRequest) {
       mechanicRules: 'MECHANIC RULES',
       rule1: 'If there is combat and the player fails (low roll or bad decision), use negative hp_change (-1 to -5 depending on severity)',
       rule2: 'INVENTORY: Use new_item to ADD items (e.g. "3 silver coins", "Elven sword"). Use remove_item to SUBTRACT items (e.g. "2 silver coins" removes 2 from the count). Countable items (coins, rations, arrows) auto-merge. The number at the start IS the quantity.',
-      rule2b: 'INVENTORY ANTI-DUPLICATION: The inventory shown above is the CURRENT state. Items already there were added in previous turns. NEVER re-send new_item for an item already in the inventory. NEVER re-send remove_item for an item not in the inventory. Only use new_item/remove_item for NEW changes in THIS turn.',
+      rule2b: 'INVENTORY ANTI-DUPLICATION CRITICAL: Only use new_item/remove_item in the SINGLE turn where the transaction is FINALIZED. During negotiation or conversation about items, do NOT send new_item/remove_item — wait until the deal is DONE. If you already sent new_item or remove_item for this transaction in a PREVIOUS turn, do NOT send it again. The inventory shown above is ALREADY UPDATED. Use the EXACT same item name format as shown in the inventory (e.g. if inventory has "raciones de viaje", use "1 raciones de viaje", not "1 ración").',
       rule3: 'If the player completes an objective, mark quest_completed',
       rule4: 'When the location changes significantly, use scene_change',
       rule5: 'suggested_actions must have 3 options that make sense with the situation',
@@ -440,7 +440,7 @@ export async function POST(req: NextRequest) {
       mechanicRules: 'REGLAS DE MECANICAS',
       rule1: 'Si hay combate y el jugador falla (tirada baja o mala decisión), usa hp_change negativo (-1 a -5 según gravedad)',
       rule2: 'INVENTARIO: Usar new_item para AÑADIR items (ej: "3 monedas de plata", "Espada élfica"). Usar remove_item para RESTAR items (ej: "2 monedas de plata" resta 2 del total). Items contables (monedas, raciones, flechas) se suman/restan automáticamente. El número al inicio ES la cantidad.',
-      rule2b: 'ANTI-DUPLICACIÓN DE INVENTARIO: El inventario mostrado arriba es el estado ACTUAL. Los items ya listados fueron agregados en turnos anteriores. NUNCA re-enviar new_item para un item que ya está en el inventario. NUNCA re-enviar remove_item para un item que no está en el inventario. Solo usar new_item/remove_item para cambios NUEVOS de ESTE turno.',
+      rule2b: 'ANTI-DUPLICACIÓN DE INVENTARIO CRÍTICO: Solo usar new_item/remove_item en el ÚNICO turno donde la transacción se CONCRETA. Durante negociación o conversación sobre items, NO enviar new_item/remove_item — esperar hasta que el trato esté CERRADO. Si ya enviaste new_item o remove_item para esta transacción en un turno ANTERIOR, NO volver a enviarlo. El inventario mostrado arriba YA ESTÁ ACTUALIZADO. Usar el MISMO formato de nombre que aparece en el inventario (ej: si dice "raciones de viaje", usar "1 raciones de viaje", no "1 ración").',
       rule3: 'Si el jugador resuelve un objetivo, marca quest_completed',
       rule4: 'Cuando cambie la ubicación significativamente, usa scene_change',
       rule5: 'suggested_actions debe tener 3 opciones que tengan sentido con la situación',
@@ -1478,15 +1478,22 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
           .toLowerCase().trim()
       }
 
+      // Helper: fuzzy match — "ración" matchea con "ración de viaje", etc.
+      const namesMatch = (a: string, b: string): boolean => {
+        const na = normalize(a)
+        const nb = normalize(b)
+        return na === nb || na.includes(nb) || nb.includes(na)
+      }
+
       // REMOVE: restar cantidad del item contable, o quitar item completo
       if (dmResponse.remove_item) {
         const removeInfo = parseCountable(dmResponse.remove_item)
         if (removeInfo) {
-          // Item contable: buscar y restar cantidad
+          // Item contable: buscar y restar cantidad (fuzzy match)
           let removed = false
           currentInventory = currentInventory.map(item => {
             const itemInfo = parseCountable(item)
-            if (itemInfo && normalize(itemInfo.baseName) === normalize(removeInfo.baseName)) {
+            if (itemInfo && namesMatch(itemInfo.baseName, removeInfo.baseName)) {
               removed = true
               const newCount = itemInfo.count - removeInfo.count
               if (newCount <= 0) return null // Eliminar
@@ -1494,13 +1501,21 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
             }
             return item
           }).filter(Boolean) as string[]
-          // Si no encontró contable, intentar quitar por nombre exacto
+          // Si no encontró contable, intentar quitar por nombre fuzzy
           if (!removed) {
-            currentInventory = currentInventory.filter(i => i.toLowerCase() !== dmResponse.remove_item!.toLowerCase())
+            currentInventory = currentInventory.filter(i => {
+              const lower = i.toLowerCase()
+              const removeLower = dmResponse.remove_item!.toLowerCase()
+              return lower !== removeLower && !lower.includes(removeLower) && !removeLower.includes(lower)
+            })
           }
         } else {
-          // Item no contable: quitar por nombre (case-insensitive)
-          currentInventory = currentInventory.filter(i => i.toLowerCase() !== dmResponse.remove_item!.toLowerCase())
+          // Item no contable: quitar por nombre (fuzzy match)
+          currentInventory = currentInventory.filter(i => {
+            const lower = i.toLowerCase()
+            const removeLower = dmResponse.remove_item!.toLowerCase()
+            return lower !== removeLower && !lower.includes(removeLower) && !removeLower.includes(lower)
+          })
         }
       }
 
@@ -1508,11 +1523,11 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
       if (dmResponse.new_item) {
         const addInfo = parseCountable(dmResponse.new_item)
         if (addInfo) {
-          // Item contable: buscar existente y sumar
+          // Item contable: buscar existente y sumar (fuzzy match)
           let merged = false
           currentInventory = currentInventory.map(item => {
             const itemInfo = parseCountable(item)
-            if (itemInfo && normalize(itemInfo.baseName) === normalize(addInfo.baseName)) {
+            if (itemInfo && namesMatch(itemInfo.baseName, addInfo.baseName)) {
               merged = true
               return `${itemInfo.count + addInfo.count} ${itemInfo.baseName}`
             }
@@ -1522,10 +1537,12 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
             currentInventory.push(dmResponse.new_item)
           }
         } else {
-          // Guard anti-duplicación: no agregar si ya existe (case-insensitive)
-          const alreadyExists = currentInventory.some(
-            i => i.toLowerCase() === dmResponse.new_item!.toLowerCase()
-          )
+          // Guard anti-duplicación: no agregar si ya existe (fuzzy match)
+          const alreadyExists = currentInventory.some(i => {
+            const lower = i.toLowerCase()
+            const newLower = dmResponse.new_item!.toLowerCase()
+            return lower === newLower || lower.includes(newLower) || newLower.includes(lower)
+          })
           if (!alreadyExists) {
             currentInventory.push(dmResponse.new_item)
           }
