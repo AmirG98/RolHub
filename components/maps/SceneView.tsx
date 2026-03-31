@@ -145,7 +145,7 @@ function SubLocationsSection({
       </div>
 
       {/* Sub-location cards */}
-      <div className="p-2 space-y-1.5 max-h-[220px] overflow-y-auto">
+      <div className="p-2 space-y-1.5">
         {subLocations.map((sl) => {
           const isActive = sl.id === currentSubLocationId
           const isSelected = selectedId === sl.id && !isActive
@@ -303,11 +303,11 @@ export function SceneView({
           </div>
         </div>
 
+        {/* Contenido scrolleable: viajes + sub-locaciones */}
+        <div className="flex-1 overflow-y-auto">
+
         {/* Destinos de viaje */}
-        <div className={cn(
-          'px-3 py-2',
-          'flex-1 overflow-auto'
-        )}>
+        <div className="px-3 py-2">
           <div className="flex items-center gap-2 mb-2">
             <Compass className="w-3.5 h-3.5 text-gold drop-shadow-md" />
             <span className="text-xs font-heading text-gold uppercase tracking-wide drop-shadow-md">Viajar a</span>
@@ -378,6 +378,8 @@ export function SceneView({
             onSubLocationClick={onSubLocationClick}
           />
         )}
+
+        </div>{/* Cierre del contenido scrolleable */}
 
         {/* Footer con botones de acción */}
         <div className={cn(
