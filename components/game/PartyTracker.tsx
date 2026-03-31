@@ -72,7 +72,7 @@ export default function PartyTracker({ characters, worldState }: PartyTrackerPro
 
             <div className="pt-3 border-t border-gold-dim/30">
               <p className="font-ui text-xs text-gold-dim uppercase tracking-wide mb-2">
-                Estadísticas
+                Estadï¿½sticas
               </p>
               <div className="grid grid-cols-2 gap-2 text-sm">
                 <div>
@@ -80,7 +80,7 @@ export default function PartyTracker({ characters, worldState }: PartyTrackerPro
                   <span className="font-heading text-ink">{character.stats?.combat || 1}</span>
                 </div>
                 <div>
-                  <span className="font-ui text-gold-dim">Exploración:</span>{' '}
+                  <span className="font-ui text-gold-dim">Exploraciï¿½n:</span>{' '}
                   <span className="font-heading text-ink">{character.stats?.exploration || 1}</span>
                 </div>
                 <div>
@@ -114,14 +114,7 @@ export default function PartyTracker({ characters, worldState }: PartyTrackerPro
 
             <div className="pt-3 border-t border-gold-dim/30">
               <p className="font-ui text-xs text-gold-dim uppercase tracking-wide mb-2">Inventario</p>
-              <div className="space-y-1">
-                {(character.inventory as string[]).slice(0, 5).map((item, i) => (
-                  <div key={i} className="flex items-center gap-2 font-body text-stone text-xs">
-                    <span className="text-gold-dim">"</span>
-                    <span>{item}</span>
-                  </div>
-                ))}
-              </div>
+              <p className="font-body text-xs text-stone/70 italic">Referite al panel de Inventario para ver tus objetos en detalle.</p>
             </div>
           </div>
         </ParchmentPanel>

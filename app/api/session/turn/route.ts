@@ -377,9 +377,11 @@ export async function POST(req: NextRequest) {
       mechanicRules: 'MECHANIC RULES',
       rule1: 'If there is combat and the player fails (low roll or bad decision), use negative hp_change (-1 to -5 depending on severity)',
       rule2: 'INVENTORY: Use new_item to ADD items (e.g. "3 silver coins", "Elven sword"). Use remove_item to SUBTRACT items (e.g. "2 silver coins" removes 2 from the count). Countable items (coins, rations, arrows) auto-merge. The number at the start IS the quantity.',
+      rule2b: 'INVENTORY ANTI-DUPLICATION: The inventory shown above is the CURRENT state. Items already there were added in previous turns. NEVER re-send new_item for an item already in the inventory. NEVER re-send remove_item for an item not in the inventory. Only use new_item/remove_item for NEW changes in THIS turn.',
       rule3: 'If the player completes an objective, mark quest_completed',
       rule4: 'When the location changes significantly, use scene_change',
       rule5: 'suggested_actions must have 3 options that make sense with the situation',
+      rule5b: 'TIME & WEATHER: Use time_update to advance the time of day (e.g. "Midday", "Sunset", "Night"). Use weather_update to change weather (e.g. "Heavy rain", "Clear skies"). Update these when time passes naturally, during travel, or when weather changes narratively.',
       rule6: 'In MULTIPLAYER: respond to the action but mention other characters if relevant',
       rule7: 'HP/item changes for the acting character go in hp_change/new_item',
       rule8: 'HP changes for OTHER characters go in other_party_effects',
@@ -438,9 +440,11 @@ export async function POST(req: NextRequest) {
       mechanicRules: 'REGLAS DE MECANICAS',
       rule1: 'Si hay combate y el jugador falla (tirada baja o mala decisión), usa hp_change negativo (-1 a -5 según gravedad)',
       rule2: 'INVENTARIO: Usar new_item para AÑADIR items (ej: "3 monedas de plata", "Espada élfica"). Usar remove_item para RESTAR items (ej: "2 monedas de plata" resta 2 del total). Items contables (monedas, raciones, flechas) se suman/restan automáticamente. El número al inicio ES la cantidad.',
+      rule2b: 'ANTI-DUPLICACIÓN DE INVENTARIO: El inventario mostrado arriba es el estado ACTUAL. Los items ya listados fueron agregados en turnos anteriores. NUNCA re-enviar new_item para un item que ya está en el inventario. NUNCA re-enviar remove_item para un item que no está en el inventario. Solo usar new_item/remove_item para cambios NUEVOS de ESTE turno.',
       rule3: 'Si el jugador resuelve un objetivo, marca quest_completed',
       rule4: 'Cuando cambie la ubicación significativamente, usa scene_change',
       rule5: 'suggested_actions debe tener 3 opciones que tengan sentido con la situación',
+      rule5b: 'TIEMPO Y CLIMA: Usar time_update para avanzar la hora del día (ej: "Mediodía", "Atardecer", "Noche"). Usar weather_update para cambiar el clima (ej: "Lluvia torrencial", "Despejado"). Actualizar cuando pase tiempo naturalmente, durante viajes, o cuando el clima cambie en la narración.',
       rule6: 'En MULTIJUGADOR: responde a la acción pero menciona a los otros personajes si es relevante',
       rule7: 'Los cambios de HP/items del personaje que actúa van en hp_change/new_item',
       rule8: 'Los cambios de HP de OTROS personajes van en other_party_effects',
@@ -1024,7 +1028,9 @@ ${isEnglish ? 'You must ALWAYS respond in JSON format with this exact structure'
   "world_flag": null,
   "generate_image": false,
   "image_prompt": null,
-  "mood_hint": null${isMultiplayer ? `,
+  "mood_hint": null,
+  "time_update": null,
+  "weather_update": null${isMultiplayer ? `,
   "other_party_effects": []` : ''}
 }
 ${isMultiplayer ? `
@@ -1035,12 +1041,14 @@ ${labels.partyEffects}:
 ${labels.mechanicRules}:
 1. ${labels.rule1}
 2. ${labels.rule2}
-3. ${labels.rule3}
-4. ${labels.rule4}
-5. ${labels.rule5}
-${isMultiplayer ? `6. ${labels.rule6} ${character.name}
-7. ${labels.rule7}
-8. ${labels.rule8}` : ''}
+3. ${labels.rule2b}
+4. ${labels.rule3}
+5. ${labels.rule4}
+6. ${labels.rule5}
+7. ${labels.rule5b}
+${isMultiplayer ? `8. ${labels.rule6} ${character.name}
+9. ${labels.rule7}
+10. ${labels.rule8}` : ''}
 
 ${isEnglish
   ? `WORLD MEMORY (update these to track the story):
@@ -1399,6 +1407,9 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
       image_prompt?: string
       // UI mood hint
       mood_hint?: 'exploration' | 'combat' | 'dialogue' | 'dramatic'
+      // Time and weather updates
+      time_update?: string | null
+      weather_update?: string | null
       // Combat trigger
       combat_trigger?: {
         enemies: Array<{
@@ -1511,7 +1522,13 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
             currentInventory.push(dmResponse.new_item)
           }
         } else {
-          currentInventory.push(dmResponse.new_item)
+          // Guard anti-duplicación: no agregar si ya existe (case-insensitive)
+          const alreadyExists = currentInventory.some(
+            i => i.toLowerCase() === dmResponse.new_item!.toLowerCase()
+          )
+          if (!alreadyExists) {
+            currentInventory.push(dmResponse.new_item)
+          }
         }
       }
 
@@ -1547,6 +1564,14 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
       } else {
         console.log(`[Quest] Duplicate quest rejected: "${questName}"`)
       }
+    }
+
+    // Update time of day and weather if DM changed them
+    if (dmResponse.time_update) {
+      worldStateUpdates.time_in_world = dmResponse.time_update
+    }
+    if (dmResponse.weather_update) {
+      worldStateUpdates.weather = dmResponse.weather_update
     }
 
     // Update scene + track sub-location

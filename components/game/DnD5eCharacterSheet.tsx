@@ -304,65 +304,9 @@ function EquipmentSection({
       />
       {isOpen && (
         <div className="p-3 border border-t-0 border-gold-dim/30 rounded-b-lg bg-shadow/30 space-y-3">
-          {/* Barra de carga */}
-          <EncumbranceBar status={encumbrance} />
-
-          {/* Lista de items con peso */}
-          {inventory.length > 0 ? (
-            <ul className="space-y-1 pt-2 border-t border-gold-dim/20">
-              {inventory.map((item, index) => {
-                const weight = getItemWeight(item)
-                return (
-                  <li
-                    key={index}
-                    className="text-sm font-body text-parchment/80 flex items-center justify-between gap-2"
-                  >
-                    <span className="flex items-center gap-2 flex-1 min-w-0">
-                      <Package className="w-3 h-3 text-gold-dim flex-shrink-0" />
-                      <span className="truncate">{item}</span>
-                    </span>
-                    <span className="text-xs font-mono text-parchment/50 flex-shrink-0">
-                      {formatWeight(weight)}
-                    </span>
-                  </li>
-                )
-              })}
-            </ul>
-          ) : (
-            <p className="text-sm text-parchment/50 font-body italic">Sin equipo</p>
-          )}
-
-          {/* Oro */}
-          {gold > 0 && (
-            <div className="pt-2 border-t border-gold-dim/20 flex justify-between items-center">
-              <span className="text-sm font-body text-gold">
-                Oro: {gold} gp
-              </span>
-              <span className="text-xs font-mono text-parchment/50">
-                {formatWeight(gold * 0.02)} {/* 50 monedas = 1 lb */}
-              </span>
-            </div>
-          )}
-
-          {/* Resumen de capacidad */}
-          <div className="pt-2 border-t border-gold-dim/20">
-            <div className="flex items-center gap-2 text-xs font-ui text-parchment/60">
-              <Weight className="w-3 h-3" />
-              <span>Capacidad: STR ({strength}) × 15 = {strength * 15} lb</span>
-            </div>
-            {encumbrance.speedPenalty !== 0 && (
-              <div className="flex items-center gap-2 text-xs font-ui text-orange-400 mt-1">
-                <Footprints className="w-3 h-3" />
-                <span>Velocidad: {encumbrance.speedPenalty} pies</span>
-              </div>
-            )}
-            {encumbrance.hasDisadvantage && (
-              <div className="flex items-center gap-2 text-xs font-ui text-red-400 mt-1">
-                <Target className="w-3 h-3" />
-                <span>Desventaja en checks de STR, DEX y CON</span>
-              </div>
-            )}
-          </div>
+          <p className="text-sm text-parchment/70 font-body italic text-center py-2">
+            Consultá la sección de Inventario para ver y gestionar tus objetos en detalle.
+          </p>
         </div>
       )}
     </div>

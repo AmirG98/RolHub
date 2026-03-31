@@ -37,7 +37,7 @@ export function useAmbientSound({
 
   // Cargar y reproducir ambient sound
   const loadAndPlay = useCallback(async (loreName: string, moodName: string) => {
-    const key = `${loreName}:${moodName}`
+    const key = `${loreName}:${moodName}:${scene}`
 
     // Si ya estamos reproduciendo este ambient, no hacer nada
     if (key === currentKeyRef.current && currentHowlRef.current) return
@@ -101,7 +101,7 @@ export function useAmbientSound({
       console.warn('[AmbientSound] Error:', err)
       setIsLoading(false)
     }
-  }, [volume, fadeInMs, fadeOutMs])
+  }, [volume, fadeInMs, fadeOutMs, scene])
 
   // Reaccionar a cambios de mood/lore/scene
   useEffect(() => {
@@ -121,7 +121,7 @@ export function useAmbientSound({
     }
 
     loadAndPlay(lore, mood)
-  }, [lore, mood, enabled, loadAndPlay, fadeOutMs])
+  }, [lore, mood, scene, enabled, loadAndPlay, fadeOutMs])
 
   // Cleanup al desmontar
   useEffect(() => {
