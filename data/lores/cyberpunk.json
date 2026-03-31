@@ -2,36 +2,215 @@
   "id": "CYBERPUNK",
   "name": "Neón y Cromo",
   "tagline": "Alta tecnología, baja vida en la ciudad del futuro",
-  "tone": ["oscuro", "tech-noir", "rebelde", "distópico"],
+  "tone": [
+    "oscuro",
+    "tech-noir",
+    "rebelde",
+    "distópico"
+  ],
   "world_summary": "2077. Las megacorporaciones controlan todo. La tecnología cibernética permite mejorar tu cuerpo pero te hace perder humanidad. Vivís en los bajos fondos de Night City, una metrópolis vertical donde los ricos están en torres de cristal y vos estás en las calles de neón. Hackers, mercenarios, netrunners y gente desesperada intentan sobrevivir. Las corporaciones tienen ejércitos privados. La ley solo existe para los ricos. Tu cuerpo es tu primera mejora. El dinero lo compra todo, incluso más vida.",
-
   "factions": [
-    {"name": "Arasaka Corp", "description": "Megacorporación japonesa - poder absoluto", "alignment": "Malvado", "influence": 3},
-    {"name": "Los Fijadores", "description": "Intermediarios entre criminales y clientes", "alignment": "Neutral", "influence": 2},
-    {"name": "Netwatch", "description": "Policía del ciberespacio", "alignment": "Neutral", "influence": 1},
-    {"name": "Nomads", "description": "Familias que viven en vehículos fuera de la ciudad", "alignment": "Bueno", "influence": 1},
-    {"name": "Trauma Team", "description": "Paramédicos armados - solo para clientes premium", "alignment": "Neutral", "influence": 1}
+    {
+      "name": "Arasaka Corp",
+      "description": "Megacorporación japonesa - poder absoluto",
+      "alignment": "Malvado",
+      "influence": 3
+    },
+    {
+      "name": "Los Fijadores",
+      "description": "Intermediarios entre criminales y clientes",
+      "alignment": "Neutral",
+      "influence": 2
+    },
+    {
+      "name": "Netwatch",
+      "description": "Policía del ciberespacio",
+      "alignment": "Neutral",
+      "influence": 1
+    },
+    {
+      "name": "Nomads",
+      "description": "Familias que viven en vehículos fuera de la ciudad",
+      "alignment": "Bueno",
+      "influence": 1
+    },
+    {
+      "name": "Trauma Team",
+      "description": "Paramédicos armados - solo para clientes premium",
+      "alignment": "Neutral",
+      "influence": 1
+    }
   ],
-
   "locations": [
-    {"name": "Downtown Night City", "description": "Centro con rascacielos y neones", "type": "ciudad", "danger_level": 3},
-    {"name": "Los Bajos Fondos", "description": "Barrios pobres donde vivís", "type": "barrio", "danger_level": 4},
-    {"name": "La Red (Cyberspace)", "description": "Internet neural - peligrosa pero lucrativa", "type": "virtual", "danger_level": 5},
-    {"name": "Club Afterlife", "description": "Bar de mercenarios - donde se hacen los tratos", "type": "bar", "danger_level": 2},
-    {"name": "Torre Arasaka", "description": "Edificio corporativo - fortaleza blindada", "type": "edificio", "danger_level": 5},
-    {"name": "Ripperdoc", "description": "Clínica clandestina de implantes cibernéticos", "type": "clínica", "danger_level": 1},
-    {"name": "Badlands", "description": "Desierto fuera de la ciudad - territorio Nomad", "type": "desierto", "danger_level": 3},
-    {"name": "Mercado Negro", "description": "Tech robada y servicios ilegales", "type": "mercado", "danger_level": 3}
+    {
+      "name": "Downtown Night City",
+      "description": "Centro con rascacielos y neones",
+      "type": "ciudad",
+      "danger_level": 3,
+      "travel_times": {
+        "Los Bajos Fondos": "15 minutos en vehículo, 45 minutos a pie",
+        "Torre Arasaka": "10 minutos en vehículo, 30 minutos a pie",
+        "Club Afterlife": "5 minutos en vehículo, 20 minutos a pie",
+        "Badlands": "40 minutos en vehículo, 4 horas a pie"
+      },
+      "sub_locations": [
+        {
+          "id": "plaza-corporativa",
+          "name": "Plaza Corporativa",
+          "type": "plaza",
+          "description": "Centro neurálgico de rascacielos de cristal con pantallas holográficas gigantes"
+        },
+        {
+          "id": "centro-comercial-neon",
+          "name": "Centro Comercial Neón",
+          "type": "market",
+          "description": "Shopping vertical de 50 pisos con tiendas de implantes, armas y moda tech"
+        },
+        {
+          "id": "hospital-trauma-team",
+          "name": "Hospital de Trauma Team",
+          "type": "hospital",
+          "description": "Centro médico premium donde solo atienden a clientes con seguro corporativo"
+        },
+        {
+          "id": "estacion-ncart",
+          "name": "Estación NCART Central",
+          "type": "gate",
+          "description": "Nodo principal del tren urbano de Night City, siempre atestado de gente"
+        }
+      ]
+    },
+    {
+      "name": "Los Bajos Fondos",
+      "description": "Barrios pobres donde vivís",
+      "type": "barrio",
+      "danger_level": 4,
+      "travel_times": {
+        "Downtown Night City": "15 minutos en vehículo, 45 minutos a pie",
+        "Ripperdoc": "5 minutos a pie",
+        "Club Afterlife": "10 minutos en vehículo, 25 minutos a pie",
+        "Mercado Negro": "10 minutos a pie"
+      },
+      "sub_locations": [
+        {
+          "id": "bloque-megaedificio",
+          "name": "Megaedificio H10",
+          "type": "residence",
+          "description": "Colmena vertical de apartamentos diminutos donde viven miles de personas hacinadas"
+        },
+        {
+          "id": "puesto-comida-callejera",
+          "name": "Puestos de Comida Callejera",
+          "type": "market",
+          "description": "Hilera de vendedores ambulantes con fideos sintéticos y cerveza barata"
+        },
+        {
+          "id": "taller-mecanico",
+          "name": "Taller Mecánico de Vic",
+          "type": "workshop",
+          "description": "Garaje clandestino donde se modifican vehículos y se esconden cargamentos"
+        },
+        {
+          "id": "arena-subterranea",
+          "name": "Arena Subterránea",
+          "type": "arena",
+          "description": "Ring de peleas ilegales donde los Solos apuestan su vida por créditos"
+        }
+      ]
+    },
+    {
+      "name": "La Red (Cyberspace)",
+      "description": "Internet neural - peligrosa pero lucrativa",
+      "type": "virtual",
+      "danger_level": 5,
+      "travel_times": {
+        "Torre Arasaka": "instantáneo (conexión digital)",
+        "Ripperdoc": "requiere desconexión física"
+      }
+    },
+    {
+      "name": "Club Afterlife",
+      "description": "Bar de mercenarios - donde se hacen los tratos",
+      "type": "bar",
+      "danger_level": 2,
+      "travel_times": {
+        "Downtown Night City": "5 minutos en vehículo, 20 minutos a pie",
+        "Los Bajos Fondos": "10 minutos en vehículo, 25 minutos a pie",
+        "Mercado Negro": "15 minutos a pie"
+      }
+    },
+    {
+      "name": "Torre Arasaka",
+      "description": "Edificio corporativo - fortaleza blindada",
+      "type": "edificio",
+      "danger_level": 5,
+      "travel_times": {
+        "Downtown Night City": "10 minutos en vehículo, 30 minutos a pie",
+        "Club Afterlife": "15 minutos en vehículo",
+        "Los Bajos Fondos": "20 minutos en vehículo, 1 hora a pie"
+      }
+    },
+    {
+      "name": "Ripperdoc",
+      "description": "Clínica clandestina de implantes cibernéticos",
+      "type": "clínica",
+      "danger_level": 1,
+      "travel_times": {
+        "Los Bajos Fondos": "5 minutos a pie",
+        "Mercado Negro": "10 minutos a pie",
+        "Club Afterlife": "15 minutos en vehículo"
+      }
+    },
+    {
+      "name": "Badlands",
+      "description": "Desierto fuera de la ciudad - territorio Nomad",
+      "type": "desierto",
+      "danger_level": 3,
+      "travel_times": {
+        "Downtown Night City": "40 minutos en vehículo, 4 horas a pie",
+        "Los Bajos Fondos": "35 minutos en vehículo, 3 horas a pie"
+      }
+    },
+    {
+      "name": "Mercado Negro",
+      "description": "Tech robada y servicios ilegales",
+      "type": "mercado",
+      "danger_level": 3,
+      "travel_times": {
+        "Los Bajos Fondos": "10 minutos a pie",
+        "Ripperdoc": "10 minutos a pie",
+        "Club Afterlife": "15 minutos a pie"
+      }
+    }
   ],
-
   "archetypes": [
     {
       "id": "solo",
       "name": "Solo (Mercenario)",
       "description": "Guerrero cibernético con reflejos mejorados",
       "simple_description": "Tus implantes te hacen más rápido y mortal. Sos músculo de alquiler. Sobrevivís por tu arma y tus reflejos.",
-      "starting_stats": {"hp": 24, "maxHp": 24, "combat": 5, "exploration": 2, "social": 2, "lore": 1},
-      "starting_inventory": ["Pistola inteligente", "Mantis blades (implante)", "Jacket antibalas", "Estimulantes de combate", "Kontrato actual", "Mochila urbana reforzada", "Barras nutricionales (3 días)", "Botella de agua con filtro", "Cuerda sintética (15m)", "Linterna táctica", "Nano-botiquín", "Credstick con 200 eurodólares"],
+      "starting_stats": {
+        "hp": 24,
+        "maxHp": 24,
+        "combat": 5,
+        "exploration": 2,
+        "social": 2,
+        "lore": 1
+      },
+      "starting_inventory": [
+        "Pistola inteligente",
+        "Mantis blades (implante)",
+        "Jacket antibalas",
+        "Estimulantes de combate",
+        "Kontrato actual",
+        "Mochila urbana reforzada",
+        "Barras nutricionales (3 días)",
+        "Botella de agua con filtro",
+        "Cuerda sintética (15m)",
+        "Linterna táctica",
+        "Nano-botiquín",
+        "Credstick con 200 eurodólares"
+      ],
       "special_ability": "Reflejos Mejorados: Actúas primero en combate. Tus ataques cuerpo a cuerpo son críticos frecuentemente"
     },
     {
@@ -39,8 +218,28 @@
       "name": "Netrunner (Hacker)",
       "description": "Pirata informático que ataca desde el ciberespacio",
       "simple_description": "Tu mente se conecta a la Red. Hackeás sistemas, robás data, fríes cerebros. El ciberespacio es tu arma.",
-      "starting_stats": {"hp": 14, "maxHp": 14, "combat": 1, "exploration": 3, "social": 3, "lore": 6},
-      "starting_inventory": ["Cyberdeck militar", "Silla de inmersión", "ICE breakers", "Data robada valiosa", "Firewall personal", "Mochila urbana reforzada", "Barras nutricionales (3 días)", "Botella de agua con filtro", "Linterna táctica", "Nano-botiquín", "Credstick con 200 eurodólares", "Multitool electrónica"],
+      "starting_stats": {
+        "hp": 14,
+        "maxHp": 14,
+        "combat": 1,
+        "exploration": 3,
+        "social": 3,
+        "lore": 6
+      },
+      "starting_inventory": [
+        "Cyberdeck militar",
+        "Silla de inmersión",
+        "ICE breakers",
+        "Data robada valiosa",
+        "Firewall personal",
+        "Mochila urbana reforzada",
+        "Barras nutricionales (3 días)",
+        "Botella de agua con filtro",
+        "Linterna táctica",
+        "Nano-botiquín",
+        "Credstick con 200 eurodólares",
+        "Multitool electrónica"
+      ],
       "special_ability": "Hackear: Podés tomar control de sistemas, drones, implantes enemigos. En combate, dañás directamente la mente"
     },
     {
@@ -48,68 +247,275 @@
       "name": "Fixer (Intermediario)",
       "description": "Conocés gente, conseguís cosas, hacés que sucedan",
       "simple_description": "Tu red de contactos es tu poder. Conocés a todos. Podés conseguir cualquier cosa por el precio correcto.",
-      "starting_stats": {"hp": 16, "maxHp": 16, "combat": 2, "exploration": 3, "social": 6, "lore": 3},
-      "starting_inventory": ["Pistola oculta", "Teléfono encriptado", "Contactos en todas las facciones", "Club nocturno propio", "Deudas que cobrar", "Mochila urbana reforzada", "Barras nutricionales (3 días)", "Botella de agua con filtro", "Cuerda sintética (15m)", "Linterna táctica", "Nano-botiquín", "Credstick con 200 eurodólares"],
+      "starting_stats": {
+        "hp": 16,
+        "maxHp": 16,
+        "combat": 2,
+        "exploration": 3,
+        "social": 6,
+        "lore": 3
+      },
+      "starting_inventory": [
+        "Pistola oculta",
+        "Teléfono encriptado",
+        "Contactos en todas las facciones",
+        "Club nocturno propio",
+        "Deudas que cobrar",
+        "Mochila urbana reforzada",
+        "Barras nutricionales (3 días)",
+        "Botella de agua con filtro",
+        "Cuerda sintética (15m)",
+        "Linterna táctica",
+        "Nano-botiquín",
+        "Credstick con 200 eurodólares"
+      ],
       "special_ability": "Conexiones: Siempre conocés alguien que puede ayudar. Los NPCs te deben favores. Tenés intel privilegiada"
     }
   ],
-
   "voice_id": "áspero_urbano",
-  "npc_voices": {"corp": "frío_profesional", "criminal": "amenazante_rudo", "ai": "sintético_distante", "netrunner": "tech_rápido"},
+  "npc_voices": {
+    "corp": "frío_profesional",
+    "criminal": "amenazante_rudo",
+    "ai": "sintético_distante",
+    "netrunner": "tech_rápido"
+  },
   "music_mood": "drama_tense",
   "art_style": "cyberpunk 2077 aesthetic, neon noir, blade runner style, high-tech low-life, dark urban future",
-
   "roll_tables": {
     "encounters": {
       "formula": "1d20",
       "results": [
-        {"range": [1,4], "result": "Fixer ofreciendo trabajo peligroso pero bien pagado"},
-        {"range": [5,8], "result": "Pandilla local exigiendo 'impuesto de protección'"},
-        {"range": [9,12], "result": "Cops corruptos buscando soborno"},
-        {"range": [13,15], "result": "Netrunner rival intentando hackearte"},
-        {"range": [16,17], "result": "Escuadrón corporativo cazándote"},
-        {"range": [18,19], "result": "IA rebelde en la Red pidiendo ayuda"},
-        {"range": [20,20], "result": "Oferta de implante experimental gratis - demasiado bueno para ser verdad"}
+        {
+          "range": [
+            1,
+            4
+          ],
+          "result": "Fixer ofreciendo trabajo peligroso pero bien pagado"
+        },
+        {
+          "range": [
+            5,
+            8
+          ],
+          "result": "Pandilla local exigiendo 'impuesto de protección'"
+        },
+        {
+          "range": [
+            9,
+            12
+          ],
+          "result": "Cops corruptos buscando soborno"
+        },
+        {
+          "range": [
+            13,
+            15
+          ],
+          "result": "Netrunner rival intentando hackearte"
+        },
+        {
+          "range": [
+            16,
+            17
+          ],
+          "result": "Escuadrón corporativo cazándote"
+        },
+        {
+          "range": [
+            18,
+            19
+          ],
+          "result": "IA rebelde en la Red pidiendo ayuda"
+        },
+        {
+          "range": [
+            20,
+            20
+          ],
+          "result": "Oferta de implante experimental gratis - demasiado bueno para ser verdad"
+        }
       ]
     },
     "loot": {
       "formula": "1d10",
       "results": [
-        {"range": [1,3], "result": "Eddies (créditos) - 2d6 x 100"},
-        {"range": [4,5], "result": "Implante cibernético común"},
-        {"range": [6,7], "result": "Data chip con información valiosa"},
-        {"range": [8,9], "result": "Arma de calidad militar"},
-        {"range": [10,10], "result": "Implante legendario - tech experimental"}
+        {
+          "range": [
+            1,
+            3
+          ],
+          "result": "Eddies (créditos) - 2d6 x 100"
+        },
+        {
+          "range": [
+            4,
+            5
+          ],
+          "result": "Implante cibernético común"
+        },
+        {
+          "range": [
+            6,
+            7
+          ],
+          "result": "Data chip con información valiosa"
+        },
+        {
+          "range": [
+            8,
+            9
+          ],
+          "result": "Arma de calidad militar"
+        },
+        {
+          "range": [
+            10,
+            10
+          ],
+          "result": "Implante legendario - tech experimental"
+        }
       ]
     }
   },
-
   "active_effects_pool": [
-    {"id": "cyberpsicosis", "name": "Cyberpsicosis", "description": "Demasiados implantes - perdiendo humanidad", "type": "critical", "duration": 5, "effects": {"social": -4, "aggression": 3}},
-    {"id": "overclock", "name": "Overclock", "description": "Implantes al máximo - poder temporal", "type": "buff", "duration": 2, "effects": {"combat": 4, "exploration": 2}},
-    {"id": "flatline", "name": "Flatline", "description": "Tu corazón se detuvo - tienes segundos", "type": "critical", "duration": 1, "effects": {"dying": true}},
-    {"id": "jacked_in", "name": "Conectado a la Red", "description": "Tu mente está en el ciberespacio", "type": "buff", "duration": 999, "effects": {"lore": 3, "body_vulnerable": true}}
+    {
+      "id": "cyberpsicosis",
+      "name": "Cyberpsicosis",
+      "description": "Demasiados implantes - perdiendo humanidad",
+      "type": "critical",
+      "duration": 5,
+      "effects": {
+        "social": -4,
+        "aggression": 3
+      }
+    },
+    {
+      "id": "overclock",
+      "name": "Overclock",
+      "description": "Implantes al máximo - poder temporal",
+      "type": "buff",
+      "duration": 2,
+      "effects": {
+        "combat": 4,
+        "exploration": 2
+      }
+    },
+    {
+      "id": "flatline",
+      "name": "Flatline",
+      "description": "Tu corazón se detuvo - tienes segundos",
+      "type": "critical",
+      "duration": 1,
+      "effects": {
+        "dying": true
+      }
+    },
+    {
+      "id": "jacked_in",
+      "name": "Conectado a la Red",
+      "description": "Tu mente está en el ciberespacio",
+      "type": "buff",
+      "duration": 999,
+      "effects": {
+        "lore": 3,
+        "body_vulnerable": true
+      }
+    }
   ],
-
   "narrative_skeleton": {
-    "act_1": {"name": "El Gran Golpe", "description": "Un trabajo fácil... o eso creías", "anchors": ["Fixer te contrata para robo simple", "Algo sale terriblemente mal", "Ahora tenés a toda la ciudad buscándote"], "typical_scenes": ["Club Afterlife", "Los Bajos Fondos"], "mood": "drama_tense"},
-    "act_2": {"name": "Fugitivo", "description": "Esconderse mientras buscás respuestas", "anchors": ["Corporación poderosa te persigue", "Descubrís conspiración mayor", "Tus implantes tienen algo que ellos quieren"], "typical_scenes": ["Ripperdoc", "La Red"], "mood": "horror_ambient"},
-    "act_3": {"name": "Contraataque", "description": "Es hora de devolver el golpe", "anchors": ["Reunís equipo para infiltración", "Ataque a instalación corporativa", "Robo de información devastadora"], "typical_scenes": ["Torre Arasaka", "Downtown"], "mood": "combat_epic"},
-    "act_4": {"name": "Juego Final", "description": "Exposición masiva o guerra total", "anchors": ["Decisión: exponer a la corp o destruirla", "Batalla final en la Torre", "Sacrificio necesario"], "typical_scenes": ["Torre Arasaka", "La Red"], "mood": "combat_epic"},
-    "act_5": {"name": "Leyenda de Night City", "description": "Tu nombre será recordado... si sobrevivís", "anchors": ["Las consecuencias de tus acciones", "Nueva identidad o fama eterna", "Night City nunca cambia"], "typical_scenes": ["Club Afterlife", "Los Bajos Fondos"], "mood": "rest_peaceful"}
+    "act_1": {
+      "name": "El Gran Golpe",
+      "description": "Un trabajo fácil... o eso creías",
+      "anchors": [
+        "Fixer te contrata para robo simple",
+        "Algo sale terriblemente mal",
+        "Ahora tenés a toda la ciudad buscándote"
+      ],
+      "typical_scenes": [
+        "Club Afterlife",
+        "Los Bajos Fondos"
+      ],
+      "mood": "drama_tense"
+    },
+    "act_2": {
+      "name": "Fugitivo",
+      "description": "Esconderse mientras buscás respuestas",
+      "anchors": [
+        "Corporación poderosa te persigue",
+        "Descubrís conspiración mayor",
+        "Tus implantes tienen algo que ellos quieren"
+      ],
+      "typical_scenes": [
+        "Ripperdoc",
+        "La Red"
+      ],
+      "mood": "horror_ambient"
+    },
+    "act_3": {
+      "name": "Contraataque",
+      "description": "Es hora de devolver el golpe",
+      "anchors": [
+        "Reunís equipo para infiltración",
+        "Ataque a instalación corporativa",
+        "Robo de información devastadora"
+      ],
+      "typical_scenes": [
+        "Torre Arasaka",
+        "Downtown"
+      ],
+      "mood": "combat_epic"
+    },
+    "act_4": {
+      "name": "Juego Final",
+      "description": "Exposición masiva o guerra total",
+      "anchors": [
+        "Decisión: exponer a la corp o destruirla",
+        "Batalla final en la Torre",
+        "Sacrificio necesario"
+      ],
+      "typical_scenes": [
+        "Torre Arasaka",
+        "La Red"
+      ],
+      "mood": "combat_epic"
+    },
+    "act_5": {
+      "name": "Leyenda de Night City",
+      "description": "Tu nombre será recordado... si sobrevivís",
+      "anchors": [
+        "Las consecuencias de tus acciones",
+        "Nueva identidad o fama eterna",
+        "Night City nunca cambia"
+      ],
+      "typical_scenes": [
+        "Club Afterlife",
+        "Los Bajos Fondos"
+      ],
+      "mood": "rest_peaceful"
+    }
   },
-
   "one_shot_hook": "Un Fixer te ofrece 50,000 eddies por un trabajo simple: entrar a un edificio corporativo, robar un chip de data, salir. Dos horas máximo. Pero cuando conectás el chip, descubrís que contiene consciencia humana digitalizada... y esa persona sabe algo que hará que Arasaka te quiera muerto. El reloj corre. ¿Qué hacés?",
-
   "opening_scene": {
     "location_id": "afterlife-bar",
     "location_name": "Club Afterlife, Night City",
     "description": "Te encontrás en el Club Afterlife, el bar de mercenarios más famoso de Night City. Las luces de neón tiñen de púrpura y azul los rostros de asesinos, hackers y contrabandistas que beben sintético mientras cierran tratos mortales. La música industrial late como un segundo corazón. El olor a humo de cigarros electrónicos y alcohol barato llena el aire reciclado. En las pantallas, noticias corporativas que nadie mira. Acá es donde se hacen los trabajos que definen carreras... o las terminan.",
     "visible_directions": [
-      { "direction": "fondo del bar", "landmark": "la barra donde Rogue, la Fixer más legendaria de la ciudad, cierra tratos con una mirada fría" },
-      { "direction": "rincón oscuro", "landmark": "las cabinas privadas donde se negocian los trabajos más peligrosos y lucrativos" },
-      { "direction": "salida trasera", "landmark": "un callejón que conecta con los Bajos Fondos, donde todo se vende y nadie pregunta" },
-      { "direction": "ventanas polarizadas", "landmark": "la vista de los rascacielos de Downtown, las torres de Arasaka brillando como una promesa o una amenaza" }
+      {
+        "direction": "fondo del bar",
+        "landmark": "la barra donde Rogue, la Fixer más legendaria de la ciudad, cierra tratos con una mirada fría"
+      },
+      {
+        "direction": "rincón oscuro",
+        "landmark": "las cabinas privadas donde se negocian los trabajos más peligrosos y lucrativos"
+      },
+      {
+        "direction": "salida trasera",
+        "landmark": "un callejón que conecta con los Bajos Fondos, donde todo se vende y nadie pregunta"
+      },
+      {
+        "direction": "ventanas polarizadas",
+        "landmark": "la vista de los rascacielos de Downtown, las torres de Arasaka brillando como una promesa o una amenaza"
+      }
     ],
     "ambient_rumors": [
       "dicen que Arasaka perdió un prototipo de implante neural y paga una fortuna por recuperarlo",
@@ -119,7 +525,6 @@
     ],
     "closing_prompt": "Los créditos escasean y la renta del mes no se paga sola. ¿Qué hacés?"
   },
-
   "opening_scenes": [
     {
       "id": "default",
@@ -127,10 +532,22 @@
       "location_name": "Club Afterlife, Night City",
       "description": "Te encontrás en el Club Afterlife, el bar de mercenarios más famoso de Night City. Las luces de neón tiñen de púrpura y azul los rostros de asesinos, hackers y contrabandistas que beben sintético mientras cierran tratos mortales. La música industrial late como un segundo corazón. El olor a humo de cigarros electrónicos y alcohol barato llena el aire reciclado. En las pantallas, noticias corporativas que nadie mira. Acá es donde se hacen los trabajos que definen carreras... o las terminan.",
       "visible_directions": [
-        { "direction": "fondo del bar", "landmark": "la barra donde Rogue, la Fixer más legendaria de la ciudad, cierra tratos con una mirada fría" },
-        { "direction": "rincón oscuro", "landmark": "las cabinas privadas donde se negocian los trabajos más peligrosos y lucrativos" },
-        { "direction": "salida trasera", "landmark": "un callejón que conecta con los Bajos Fondos, donde todo se vende y nadie pregunta" },
-        { "direction": "ventanas polarizadas", "landmark": "la vista de los rascacielos de Downtown, las torres de Arasaka brillando como una promesa o una amenaza" }
+        {
+          "direction": "fondo del bar",
+          "landmark": "la barra donde Rogue, la Fixer más legendaria de la ciudad, cierra tratos con una mirada fría"
+        },
+        {
+          "direction": "rincón oscuro",
+          "landmark": "las cabinas privadas donde se negocian los trabajos más peligrosos y lucrativos"
+        },
+        {
+          "direction": "salida trasera",
+          "landmark": "un callejón que conecta con los Bajos Fondos, donde todo se vende y nadie pregunta"
+        },
+        {
+          "direction": "ventanas polarizadas",
+          "landmark": "la vista de los rascacielos de Downtown, las torres de Arasaka brillando como una promesa o una amenaza"
+        }
       ],
       "ambient_rumors": [
         "dicen que Arasaka perdió un prototipo de implante neural y paga una fortuna por recuperarlo",
@@ -146,10 +563,22 @@
       "location_name": "Club Afterlife, Night City",
       "description": "Un apagón masivo golpeó Night City hace veinte minutos y el Afterlife funciona con generadores de emergencia. La mitad de los neones están muertos, dejando el bar en una penumbra rojiza que solo interrumpen las brasas de cigarros electrónicos y los implantes ópticos brillando en la oscuridad. Sin las pantallas corporativas, la gente habla más de lo que debería. Los mercenarios se agrupan tensos, susurrando sobre oportunidades: un blackout así no pasa sin que alguien lo haya planeado. Afuera, las sirenas de Trauma Team aúllan sin parar y el caos se huele en el aire reciclado.",
       "visible_directions": [
-        { "direction": "fondo del bar", "landmark": "la barra donde Rogue, la Fixer más legendaria de la ciudad, cierra tratos con una mirada fría" },
-        { "direction": "rincón oscuro", "landmark": "las cabinas privadas donde se negocian los trabajos más peligrosos y lucrativos" },
-        { "direction": "salida trasera", "landmark": "un callejón que conecta con los Bajos Fondos, donde todo se vende y nadie pregunta" },
-        { "direction": "ventanas polarizadas", "landmark": "la vista de los rascacielos de Downtown, las torres de Arasaka brillando como una promesa o una amenaza" }
+        {
+          "direction": "fondo del bar",
+          "landmark": "la barra donde Rogue, la Fixer más legendaria de la ciudad, cierra tratos con una mirada fría"
+        },
+        {
+          "direction": "rincón oscuro",
+          "landmark": "las cabinas privadas donde se negocian los trabajos más peligrosos y lucrativos"
+        },
+        {
+          "direction": "salida trasera",
+          "landmark": "un callejón que conecta con los Bajos Fondos, donde todo se vende y nadie pregunta"
+        },
+        {
+          "direction": "ventanas polarizadas",
+          "landmark": "la vista de los rascacielos de Downtown, las torres de Arasaka brillando como una promesa o una amenaza"
+        }
       ],
       "ambient_rumors": [
         "dicen que Arasaka perdió un prototipo de implante neural y paga una fortuna por recuperarlo",
@@ -165,10 +594,22 @@
       "location_name": "Club Afterlife, Night City",
       "description": "El Afterlife hierve de actividad esta madrugada. Hace una hora, un escuadrón táctico de Arasaka allanó tres bloques de los Bajos Fondos buscando un paquete de data robado, y los mercenarios desplazados por la redada se refugiaron acá. El bar está al doble de su capacidad: cuerpos sudorosos con chrome brillante apretados entre mesas, la música ahogada por conversaciones urgentes. Rogue atiende llamadas sin parar detrás de la barra, repartiendo trabajos de evacuación y contraespionaje. El aire apesta a adrenalina sintética y miedo real. Por las ventanas polarizadas se ven los reflectores de los AVs corporativos barriendo las calles como ojos furiosos.",
       "visible_directions": [
-        { "direction": "fondo del bar", "landmark": "la barra donde Rogue, la Fixer más legendaria de la ciudad, cierra tratos con una mirada fría" },
-        { "direction": "rincón oscuro", "landmark": "las cabinas privadas donde se negocian los trabajos más peligrosos y lucrativos" },
-        { "direction": "salida trasera", "landmark": "un callejón que conecta con los Bajos Fondos, donde todo se vende y nadie pregunta" },
-        { "direction": "ventanas polarizadas", "landmark": "la vista de los rascacielos de Downtown, las torres de Arasaka brillando como una promesa o una amenaza" }
+        {
+          "direction": "fondo del bar",
+          "landmark": "la barra donde Rogue, la Fixer más legendaria de la ciudad, cierra tratos con una mirada fría"
+        },
+        {
+          "direction": "rincón oscuro",
+          "landmark": "las cabinas privadas donde se negocian los trabajos más peligrosos y lucrativos"
+        },
+        {
+          "direction": "salida trasera",
+          "landmark": "un callejón que conecta con los Bajos Fondos, donde todo se vende y nadie pregunta"
+        },
+        {
+          "direction": "ventanas polarizadas",
+          "landmark": "la vista de los rascacielos de Downtown, las torres de Arasaka brillando como una promesa o una amenaza"
+        }
       ],
       "ambient_rumors": [
         "dicen que Arasaka perdió un prototipo de implante neural y paga una fortuna por recuperarlo",
@@ -179,40 +620,46 @@
       "closing_prompt": "Arasaka patea puertas y la ciudad arde. Es la peor noche para estar quieto. ¿Qué hacés?"
     }
   ],
-
   "initial_missions": [
     {
       "id": "data_heist",
       "title": "Robo de Datos",
       "description": "Un Fixer local tiene un trabajo simple: robar un chip de datos de una oficina corporativa de bajo nivel. Entrar, tomar el chip, salir. Paga 10,000 eddies.",
       "difficulty": "easy",
-      "tags": ["stealth", "hacking"]
+      "tags": [
+        "stealth",
+        "hacking"
+      ]
     },
     {
       "id": "security_hack",
       "title": "Sistema de Seguridad",
       "description": "Una banda rival tiene información sobre ti que no debería. Necesitas entrar a su sistema, borrar los datos, y dejarles un mensaje. Sin matanzas... preferiblemente.",
       "difficulty": "medium",
-      "tags": ["hacking", "infiltration"]
+      "tags": [
+        "hacking",
+        "infiltration"
+      ]
     },
     {
       "id": "convoy_assault",
       "title": "Asalto al Convoy",
       "description": "Militech transporta prototipos de implantes por la autopista norte. Un cliente anónimo paga mucho por interceptar ese convoy. Es suicida, pero la paga es de leyenda.",
       "difficulty": "hard",
-      "tags": ["combat", "vehicles", "heist"]
+      "tags": [
+        "combat",
+        "vehicles",
+        "heist"
+      ]
     }
   ],
-
   "engine_notes": {
     "story_mode": "Narrativa noir con tecnología. Cada implante tiene costo emocional. Las corporaciones son invencibles pero podés lastimar las. Tono: desesperanza con chispas de rebeldía.",
     "pbta": "Movimientos como 'Actuar Bajo Fuego' y 'Hackear el Sistema'. Fallos parciales = complicaciones tech, llamar atención corp, implante falla.",
     "year_zero": "Recursos: munición, eddies, implantes, humanidad. Empujar dados = dañar implantes, perder humanidad, hacer ruido.",
     "dnd_5e": "Tech = magia. Netrunners = wizards. Solos = fighters con magic items (implantes). Bajo HP universal. Muerte común."
   },
-
   "tutorial_notes": "Para NOVICE: Explicar que implantes = poder pero pérdida de humanidad. Tutorial en Ripperdoc eligiendo primer implante. Fixer actúa como mentor. Primer trabajo es simple entrega.",
-
   "glossary": {
     "Eddy": "Crédito - moneda de Night City",
     "Implante": "Mejora cibernética del cuerpo",

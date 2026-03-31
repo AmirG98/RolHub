@@ -2,9 +2,13 @@
   "id": "ZOMBIES",
   "name": "Apocalipsis Zombie",
   "tagline": "Sobrevivir un día más en un mundo muerto",
-  "tone": ["desesperado", "tenso", "brutal", "realista"],
+  "tone": [
+    "desesperado",
+    "tenso",
+    "brutal",
+    "realista"
+  ],
   "world_summary": "Hace tres meses, todo colapsó. Una plaga convirtió al 90% de la humanidad en muertos vivientes hambrientos. Las ciudades son tumbas. Los recursos se agotan. Los sobrevivientes son tan peligrosos como los zombies. No hay gobierno, no hay ley, solo la lucha diaria por ver otro amanecer. Cada decisión puede ser la última. Confiar en alguien es un riesgo mortal. El mundo que conocías ya no existe, y lo que queda es una pesadilla sin fin donde la muerte acecha en cada esquina.",
-
   "detailed_history": {
     "timeline": [
       {
@@ -30,7 +34,6 @@
     ],
     "current_situation": "Han pasado tres meses desde el Día Cero. Se estima que menos del 10% de la humanidad sobrevive. Las ciudades están infestadas. Las áreas rurales son más seguras pero tienen menos recursos. Hay rumores de refugios militares que aún resisten, de científicos trabajando en una cura, de islas sin infectados. Pero los rumores también hablan de nuevos tipos de zombies, más rápidos, más fuertes. El invierno se acerca, y nadie sabe cuántos lo sobrevivirán."
   },
-
   "factions": [
     {
       "name": "Los Refugiados",
@@ -38,9 +41,21 @@
       "alignment": "Neutral",
       "influence": 1,
       "detailed_description": "La mayoría de los sobrevivientes son gente común: familias separadas, trabajadores que escaparon de ciudades, personas que tuvieron suerte. Se agrupan en campamentos improvisados, compartiendo recursos y vigilancia. Su mayor fortaleza es el número, su mayor debilidad la falta de entrenamiento y liderazgo. Algunos campamentos tienen reglas justas, otros son dictaduras del más fuerte.",
-      "key_figures": ["Líderes de campamento elegidos", "Médicos y enfermeros sobrevivientes", "Ancianos que dan consejo"],
-      "goals": ["Encontrar un lugar seguro permanente", "Proteger a los niños y débiles", "Mantener algo de humanidad"],
-      "typical_settlements": ["Campamentos en escuelas", "Iglesias fortificadas", "Centros comunitarios"]
+      "key_figures": [
+        "Líderes de campamento elegidos",
+        "Médicos y enfermeros sobrevivientes",
+        "Ancianos que dan consejo"
+      ],
+      "goals": [
+        "Encontrar un lugar seguro permanente",
+        "Proteger a los niños y débiles",
+        "Mantener algo de humanidad"
+      ],
+      "typical_settlements": [
+        "Campamentos en escuelas",
+        "Iglesias fortificadas",
+        "Centros comunitarios"
+      ]
     },
     {
       "name": "Los Saqueadores",
@@ -48,9 +63,21 @@
       "alignment": "Malvado",
       "influence": 2,
       "detailed_description": "El apocalipsis reveló la peor cara de la humanidad. Los Saqueadores son bandas organizadas que sobreviven robando a otros. Algunos eran criminales antes del colapso. Otros son gente común que eligió el camino fácil. Viajan en grupos, atacan campamentos débiles, toman suministros, armas, y a veces personas. Para ellos, los otros sobrevivientes son recursos, no aliados.",
-      "key_figures": ["El Carnicero - líder brutal de la banda más grande", "Negan - un sádico que gobierna con un bate", "Los Lobos - cazadores de campamentos"],
-      "goals": ["Acumular recursos y poder", "Controlar territorios", "Sobrevivir sin importar el costo"],
-      "territories": ["Autopistas principales", "Antiguos centros comerciales", "Almacenes industriales"]
+      "key_figures": [
+        "El Carnicero - líder brutal de la banda más grande",
+        "Negan - un sádico que gobierna con un bate",
+        "Los Lobos - cazadores de campamentos"
+      ],
+      "goals": [
+        "Acumular recursos y poder",
+        "Controlar territorios",
+        "Sobrevivir sin importar el costo"
+      ],
+      "territories": [
+        "Autopistas principales",
+        "Antiguos centros comerciales",
+        "Almacenes industriales"
+      ]
     },
     {
       "name": "El Laboratorio",
@@ -58,9 +85,21 @@
       "alignment": "Neutral",
       "influence": 1,
       "detailed_description": "En algún lugar, un grupo de científicos y médicos continúa trabajando en una cura o vacuna. Tienen un laboratorio funcional, generadores, y equipo. Pero sus métodos son cuestionables. Necesitan sujetos de prueba: infectados recientes, personas sanas para experimentos. Algunos dicen que son la última esperanza. Otros dicen que son monstruos con batas blancas.",
-      "key_figures": ["Dra. Elena Vance - virologa obsesionada", "Dr. Marcus Webb - ético hasta cierto punto", "Los Recolectores - equipos que buscan 'sujetos'"],
-      "goals": ["Encontrar una cura a cualquier costo", "Entender el virus", "Preservar el conocimiento científico"],
-      "rumors": ["Tienen una vacuna pero la guardan para ellos", "Experimentan con niños", "Crearon el virus originalmente"]
+      "key_figures": [
+        "Dra. Elena Vance - virologa obsesionada",
+        "Dr. Marcus Webb - ético hasta cierto punto",
+        "Los Recolectores - equipos que buscan 'sujetos'"
+      ],
+      "goals": [
+        "Encontrar una cura a cualquier costo",
+        "Entender el virus",
+        "Preservar el conocimiento científico"
+      ],
+      "rumors": [
+        "Tienen una vacuna pero la guardan para ellos",
+        "Experimentan con niños",
+        "Crearon el virus originalmente"
+      ]
     },
     {
       "name": "Los Militares",
@@ -68,9 +107,21 @@
       "alignment": "Neutral",
       "influence": 1,
       "detailed_description": "Fragmentos de las fuerzas armadas sobrevivieron el colapso inicial. Mantienen bases fortificadas con disciplina militar estricta. Tienen armas, entrenamiento, y organización. Pero también tienen una visión: restaurar el orden, a cualquier costo. Para ellos, los civiles son recursos o amenazas. La cadena de mando se ha roto; cada base opera independientemente, algunas como refugios, otras como dictaduras.",
-      "key_figures": ["Coronel Harrison - gobierna Base Omega con puño de hierro", "Sargento Martinez - líder justo de un grupo móvil", "El General - nadie sabe si existe o es un mito"],
-      "goals": ["Restaurar alguna forma de gobierno", "Controlar zonas estratégicas", "Desarrollar protocolos de contención"],
-      "assets": ["Vehículos blindados", "Comunicación por radio", "Armamento pesado limitado"]
+      "key_figures": [
+        "Coronel Harrison - gobierna Base Omega con puño de hierro",
+        "Sargento Martinez - líder justo de un grupo móvil",
+        "El General - nadie sabe si existe o es un mito"
+      ],
+      "goals": [
+        "Restaurar alguna forma de gobierno",
+        "Controlar zonas estratégicas",
+        "Desarrollar protocolos de contención"
+      ],
+      "assets": [
+        "Vehículos blindados",
+        "Comunicación por radio",
+        "Armamento pesado limitado"
+      ]
     },
     {
       "name": "Los Susurradores",
@@ -78,9 +129,21 @@
       "alignment": "Malvado",
       "influence": 1,
       "detailed_description": "La locura del apocalipsis creó nuevas religiones. Los Susurradores creen que el virus es un regalo divino, que los muertos vivientes son la nueva humanidad purificada. Se cubren con piel de zombies para caminar entre ellos sin ser atacados. Consideran a los sobrevivientes como impuros que deben 'renacer'. Son pocos pero fanáticos, y sus emboscadas son mortales.",
-      "key_figures": ["Alpha - la líder fundadora, una ex-psicóloga", "Beta - su mano derecha, ex-criminal", "Los Segadores - guerreros de élite"],
-      "goals": ["Destruir los refugios de los 'impuros'", "Expandir su doctrina", "Caminar con los muertos eternamente"],
-      "beliefs": ["Los zombies son santos", "Matar zombies es pecado", "La mordida es bendición"]
+      "key_figures": [
+        "Alpha - la líder fundadora, una ex-psicóloga",
+        "Beta - su mano derecha, ex-criminal",
+        "Los Segadores - guerreros de élite"
+      ],
+      "goals": [
+        "Destruir los refugios de los 'impuros'",
+        "Expandir su doctrina",
+        "Caminar con los muertos eternamente"
+      ],
+      "beliefs": [
+        "Los zombies son santos",
+        "Matar zombies es pecado",
+        "La mordida es bendición"
+      ]
     },
     {
       "name": "Los Comerciantes",
@@ -88,12 +151,23 @@
       "alignment": "Neutral Bueno",
       "influence": 1,
       "detailed_description": "El comercio sobrevivió al apocalipsis. Los Comerciantes son una red informal de supervivientes que viajan entre campamentos intercambiando bienes: comida por munición, medicinas por herramientas, información por refugio. Son respetados por todos porque son útiles para todos. Mantienen una neutralidad estricta: comercian con santos y pecadores por igual. Sus caravanas son relativamente seguras porque atacarlas significa perder acceso a sus servicios.",
-      "key_figures": ["Eugene el Gordo - comerciante más conocido", "Las Hermanas - gemelas que controlan una ruta", "El Herrero - puede arreglar casi cualquier cosa"],
-      "goals": ["Mantener las rutas comerciales abiertas", "Acumular bienes valiosos", "Sobrevivir siendo indispensables"],
-      "services": ["Intercambio de bienes", "Información sobre zonas seguras", "Transporte ocasional"]
+      "key_figures": [
+        "Eugene el Gordo - comerciante más conocido",
+        "Las Hermanas - gemelas que controlan una ruta",
+        "El Herrero - puede arreglar casi cualquier cosa"
+      ],
+      "goals": [
+        "Mantener las rutas comerciales abiertas",
+        "Acumular bienes valiosos",
+        "Sobrevivir siendo indispensables"
+      ],
+      "services": [
+        "Intercambio de bienes",
+        "Información sobre zonas seguras",
+        "Transporte ocasional"
+      ]
     }
   ],
-
   "locations": [
     {
       "name": "Centro Comercial Abandonado",
@@ -101,14 +175,33 @@
       "type": "comercio",
       "danger_level": 3,
       "detailed_description": "El MegaMall era el orgullo de la ciudad: tres pisos de tiendas, cines, restaurantes. Ahora es una tumba. Miles murieron aquí buscando refugio en los primeros días. Las tiendas aún tienen comida enlatada, ropa, herramientas, incluso armas en la tienda de camping. Pero también tienen cientos de zombies vagando entre los pasillos. El estacionamiento subterráneo es particularmente peligroso: oscuro, laberíntico, lleno de ecos.",
-      "notable_npcs": ["Un grupo de saqueadores que controla el ala oeste", "Una familia atrapada en el segundo piso", "El Conserje - un zombi que aún lleva su uniforme"],
-      "available_resources": ["Comida enlatada", "Ropa y equipo", "Herramientas", "Medicamentos básicos"],
+      "notable_npcs": [
+        "Un grupo de saqueadores que controla el ala oeste",
+        "Una familia atrapada en el segundo piso",
+        "El Conserje - un zombi que aún lleva su uniforme"
+      ],
+      "available_resources": [
+        "Comida enlatada",
+        "Ropa y equipo",
+        "Herramientas",
+        "Medicamentos básicos"
+      ],
       "plot_hooks": [
         "Alguien quedó atrapado en la tienda de electrónica con un radio funcional",
         "Hay una farmacia intacta pero sellada en el segundo piso",
         "Los saqueadores tienen rehenes y exigen un precio por su liberación"
       ],
-      "hazards": ["Cientos de zombies en el atrio central", "Vidrios rotos en todas partes", "El estacionamiento subterráneo"]
+      "hazards": [
+        "Cientos de zombies en el atrio central",
+        "Vidrios rotos en todas partes",
+        "El estacionamiento subterráneo"
+      ],
+      "travel_times": {
+        "Hospital General San Lucas": "30 minutos a pie, 10 minutos en vehículo",
+        "Campamento Esperanza": "2 horas a pie, 25 minutos en vehículo",
+        "Estación de Metro Central": "20 minutos a pie",
+        "Autopista del Infierno": "40 minutos a pie, 15 minutos en vehículo"
+      }
     },
     {
       "name": "Hospital General San Lucas",
@@ -116,14 +209,33 @@
       "type": "hospital",
       "danger_level": 4,
       "detailed_description": "El hospital fue el epicentro del brote en esta zona. Los infectados llegaban por cientos. El personal intentó contenerlos hasta que ellos mismos cayeron. Ahora los pasillos están llenos de zombies en batas de pacientes y uniformes de enfermeros. La farmacia está en el sótano, pasando por la morgue. Los quirófanos tienen equipo médico vital. Algunos dicen que los generadores aún funcionan en el subsuelo.",
-      "notable_npcs": ["Dra. Chen - sobreviviente atrapada en pediatría", "El Paciente Cero - un zombie masivo en la morgue", "Enfermero López - infectado pero todavía no ha girado"],
-      "available_resources": ["Antibióticos", "Analgésicos fuertes", "Equipo quirúrgico", "Sangre y plasma (si los refrigeradores funcionan)"],
+      "notable_npcs": [
+        "Dra. Chen - sobreviviente atrapada en pediatría",
+        "El Paciente Cero - un zombie masivo en la morgue",
+        "Enfermero López - infectado pero todavía no ha girado"
+      ],
+      "available_resources": [
+        "Antibióticos",
+        "Analgésicos fuertes",
+        "Equipo quirúrgico",
+        "Sangre y plasma (si los refrigeradores funcionan)"
+      ],
       "plot_hooks": [
         "Un niño necesita insulina - solo hay en este hospital",
         "La Dra. Chen tiene información sobre una posible cura",
         "Los generadores de emergencia podrían alimentar un refugio entero"
       ],
-      "hazards": ["Zombies en batas médicas por todos lados", "La morgue está completamente oscura", "Residuos biológicos peligrosos"]
+      "hazards": [
+        "Zombies en batas médicas por todos lados",
+        "La morgue está completamente oscura",
+        "Residuos biológicos peligrosos"
+      ],
+      "travel_times": {
+        "Centro Comercial Abandonado": "30 minutos a pie, 10 minutos en vehículo",
+        "Zona de Cuarentena Alfa": "15 minutos a pie",
+        "Estación de Metro Central": "25 minutos a pie",
+        "Campamento Esperanza": "2 horas a pie, 30 minutos en vehículo"
+      }
     },
     {
       "name": "Campamento Esperanza",
@@ -131,15 +243,61 @@
       "type": "asentamiento",
       "danger_level": 2,
       "detailed_description": "Un antiguo parque de casas rodantes convertido en refugio. Unas 50 personas viven aquí, protegidos por una cerca improvisada de autos volcados y alambre de púas. Tienen agua de un pozo, un pequeño huerto, y turnos de guardia las 24 horas. El líder es un ex-bombero llamado Marcus. Es un lugar relativamente seguro, pero los recursos siempre son escasos y las tensiones internas son altas.",
-      "notable_npcs": ["Marcus - líder del campamento, ex-bombero", "Abuela Rosa - cuida a los niños, sabe de hierbas medicinales", "Derek - jefe de seguridad, paranoico pero efectivo", "Jenny - adolescente que quiere salir a explorar"],
-      "available_services": ["Refugio temporal", "Intercambio de bienes", "Información sobre la zona", "Curación básica"],
+      "notable_npcs": [
+        "Marcus - líder del campamento, ex-bombero",
+        "Abuela Rosa - cuida a los niños, sabe de hierbas medicinales",
+        "Derek - jefe de seguridad, paranoico pero efectivo",
+        "Jenny - adolescente que quiere salir a explorar"
+      ],
+      "available_services": [
+        "Refugio temporal",
+        "Intercambio de bienes",
+        "Información sobre la zona",
+        "Curación básica"
+      ],
       "plot_hooks": [
         "Alguien está robando comida por las noches",
         "Un grupo de saqueadores ha estado observando el campamento",
         "Jenny ha desaparecido durante una misión de saqueo",
         "Los suministros de agua se están acabando"
       ],
-      "hazards": ["Tensiones internas", "Posible espía de los saqueadores", "Cerca débil en el lado norte"]
+      "hazards": [
+        "Tensiones internas",
+        "Posible espía de los saqueadores",
+        "Cerca débil en el lado norte"
+      ],
+      "travel_times": {
+        "Centro Comercial Abandonado": "2 horas a pie, 25 minutos en vehículo",
+        "Granja Miller": "3 horas a pie, 40 minutos en vehículo",
+        "Autopista del Infierno": "1 hora a pie, 15 minutos en vehículo",
+        "La Prisión Estatal": "4 horas a pie, 50 minutos en vehículo"
+      },
+      "sub_locations": [
+        {
+          "id": "enfermeria-campamento",
+          "name": "Enfermería del Campamento",
+          "type": "hospital",
+          "description": "Caravana adaptada donde Abuela Rosa cura heridos con lo que tiene a mano"
+        },
+        {
+          "id": "puesto-guardia",
+          "name": "Puesto de Guardia Norte",
+          "type": "gate",
+          "description": "Torre improvisada con un vigía permanente que vigila el perímetro"
+        },
+        {
+          "id": "almacen-comunitario",
+          "name": "Almacén Comunitario",
+          "type": "market",
+          "description": "Tienda de campaña donde se guardan y reparten los suministros del grupo"
+        },
+        {
+          "id": "fogata-central",
+          "name": "Fogata Central",
+          "type": "plaza",
+          "description": "Punto de reunión donde Marcus da las noticias y se toman decisiones colectivas"
+        }
+      ]
     },
     {
       "name": "Base Militar Omega",
@@ -147,14 +305,34 @@
       "type": "militar",
       "danger_level": 4,
       "detailed_description": "Una instalación militar secreta a las afueras de la ciudad. Oficialmente era un centro de entrenamiento. Extraoficialmente, había laboratorios en los niveles subterráneos. Los soldados resistieron semanas pero finalmente cayeron. La armería tiene armas y munición. Los laboratorios tienen... otras cosas. Algo se escapó de las jaulas en el nivel -3. Los últimos registros hablan de 'Proyecto Lazarus'.",
-      "notable_npcs": ["Coronel Harrison - zombificado pero aún lleva su uniforme", "Sujeto 7 - algo que ya no es un zombie normal", "Sargento Mills - sobreviviente enloquecido en el búnker"],
-      "available_resources": ["Armas militares", "Munición abundante", "Vehículos blindados", "MREs para meses", "Datos del Proyecto Lazarus"],
+      "notable_npcs": [
+        "Coronel Harrison - zombificado pero aún lleva su uniforme",
+        "Sujeto 7 - algo que ya no es un zombie normal",
+        "Sargento Mills - sobreviviente enloquecido en el búnker"
+      ],
+      "available_resources": [
+        "Armas militares",
+        "Munición abundante",
+        "Vehículos blindados",
+        "MREs para meses",
+        "Datos del Proyecto Lazarus"
+      ],
       "plot_hooks": [
         "Los archivos del Proyecto Lazarus podrían tener información sobre el origen del virus",
         "Hay un búnker sellado con sobrevivientes militares que no abren a nadie",
         "Sujeto 7 ha escapado y está cazando en los alrededores"
       ],
-      "hazards": ["Zombies militares con armadura", "Trampas activas", "Sujeto 7", "Posible contaminación biológica"]
+      "hazards": [
+        "Zombies militares con armadura",
+        "Trampas activas",
+        "Sujeto 7",
+        "Posible contaminación biológica"
+      ],
+      "travel_times": {
+        "Autopista del Infierno": "1 hora a pie, 20 minutos en vehículo",
+        "Campamento Esperanza": "3 horas a pie, 40 minutos en vehículo",
+        "Granja Miller": "2 horas a pie, 30 minutos en vehículo"
+      }
     },
     {
       "name": "Autopista del Infierno",
@@ -162,14 +340,34 @@
       "type": "carretera",
       "danger_level": 3,
       "detailed_description": "La Interestatal 95 fue la ruta de evacuación principal. Millones intentaron escapar. Nadie lo logró. Ahora es un cementerio de metal de 20 kilómetros de largo. Autos, camiones, autobuses, todos detenidos para siempre. Dentro de muchos aún hay cuerpos, ahora zombies atrapados por cinturones de seguridad. Hay recursos escondidos en los vehículos, pero también peligros en cada sombra.",
-      "notable_npcs": ["El Caminante - un hombre que recorre la autopista intercambiando bienes", "La Familia del RV - sobrevivientes que viven en una casa rodante fortificada", "Los Carroñeros - grupo hostil que controla un tramo"],
-      "available_resources": ["Combustible en tanques", "Herramientas en camiones", "Comida en neveras portátiles", "Armas personales"],
+      "notable_npcs": [
+        "El Caminante - un hombre que recorre la autopista intercambiando bienes",
+        "La Familia del RV - sobrevivientes que viven en una casa rodante fortificada",
+        "Los Carroñeros - grupo hostil que controla un tramo"
+      ],
+      "available_resources": [
+        "Combustible en tanques",
+        "Herramientas en camiones",
+        "Comida en neveras portátiles",
+        "Armas personales"
+      ],
       "plot_hooks": [
         "Hay un camión de la Cruz Roja volcado con suministros médicos",
         "Alguien ha estado dejando señales pintadas que guían a una trampa... o a un refugio",
         "Un autobús escolar tiene niños zombificados que algunos no pueden eliminar"
       ],
-      "hazards": ["Zombies atrapados en vehículos", "Emboscadas de saqueadores", "Vidrios y metal cortante", "Trampas"]
+      "hazards": [
+        "Zombies atrapados en vehículos",
+        "Emboscadas de saqueadores",
+        "Vidrios y metal cortante",
+        "Trampas"
+      ],
+      "travel_times": {
+        "Centro Comercial Abandonado": "40 minutos a pie, 15 minutos en vehículo",
+        "Campamento Esperanza": "1 hora a pie, 15 minutos en vehículo",
+        "Base Militar Omega": "1 hora a pie, 20 minutos en vehículo",
+        "Granja Miller": "2 horas a pie, 25 minutos en vehículo"
+      }
     },
     {
       "name": "Granja Miller",
@@ -177,14 +375,33 @@
       "type": "rural",
       "danger_level": 2,
       "detailed_description": "A 30 kilómetros de la ciudad, la Granja Miller parece un paraíso: casa grande, granero, pozo de agua, campos que podrían cultivarse. La familia Miller no sobrevivió, pero su granja sí. El problema es que otros también la quieren. Actualmente está vacía, pero hay señales de que varios grupos la han visitado y probablemente volverán.",
-      "notable_npcs": ["Los fantasmas de los Miller - el granjero se suicidó en el granero", "Un perro salvaje que merodea la propiedad", "Huellas de varios grupos diferentes"],
-      "available_resources": ["Herramientas de granja", "Semillas para plantar", "Animales (gallinas salvajes)", "Agua de pozo"],
+      "notable_npcs": [
+        "Los fantasmas de los Miller - el granjero se suicidó en el granero",
+        "Un perro salvaje que merodea la propiedad",
+        "Huellas de varios grupos diferentes"
+      ],
+      "available_resources": [
+        "Herramientas de granja",
+        "Semillas para plantar",
+        "Animales (gallinas salvajes)",
+        "Agua de pozo"
+      ],
       "plot_hooks": [
         "Establecer la granja como base permanente requeriría defenderla de otros",
         "El granero tiene un sótano secreto con suministros... y el cuerpo del granjero",
         "Un grupo de refugiados está llegando y el lugar no tiene espacio para todos"
       ],
-      "hazards": ["Competencia por el territorio", "El granero es estructuralmente inestable", "Lobos salvajes en los bosques cercanos"]
+      "hazards": [
+        "Competencia por el territorio",
+        "El granero es estructuralmente inestable",
+        "Lobos salvajes en los bosques cercanos"
+      ],
+      "travel_times": {
+        "Campamento Esperanza": "3 horas a pie, 40 minutos en vehículo",
+        "Base Militar Omega": "2 horas a pie, 30 minutos en vehículo",
+        "Autopista del Infierno": "2 horas a pie, 25 minutos en vehículo",
+        "La Prisión Estatal": "4 horas a pie, 1 hora en vehículo"
+      }
     },
     {
       "name": "Estación de Metro Central",
@@ -192,14 +409,34 @@
       "type": "subterráneo",
       "danger_level": 5,
       "detailed_description": "Los túneles del metro fueron refugio para miles en los primeros días. Ahora son catacumbas. La oscuridad es total; las linternas atraen hordas. Los ecos hacen imposible saber de dónde vienen los gemidos. Pero los túneles también conectan toda la ciudad, permitiendo viajes seguros si sabes el camino. Y hay rumores de una comunidad que vive en las profundidades, en una estación sellada.",
-      "notable_npcs": ["Los Topos - comunidad subterránea rumoreada", "El Vagabundo - un hombre ciego que conoce todos los túneles", "Hordas de zombies que no han visto luz en meses"],
-      "available_resources": ["Ruta segura a través de la ciudad", "Estaciones abandonadas con suministros", "Conexión con Los Topos si existen"],
+      "notable_npcs": [
+        "Los Topos - comunidad subterránea rumoreada",
+        "El Vagabundo - un hombre ciego que conoce todos los túneles",
+        "Hordas de zombies que no han visto luz en meses"
+      ],
+      "available_resources": [
+        "Ruta segura a través de la ciudad",
+        "Estaciones abandonadas con suministros",
+        "Conexión con Los Topos si existen"
+      ],
       "plot_hooks": [
         "Atravesar la ciudad por arriba es suicidio - los túneles son la única opción",
         "El Vagabundo puede guiarte pero quiere algo a cambio",
         "Los Topos podrían ser aliados... o caníbales"
       ],
-      "hazards": ["Oscuridad total", "Ecos engañosos", "Inundaciones parciales", "Ratas mutantes", "Zombies especialmente agresivos por la oscuridad"]
+      "hazards": [
+        "Oscuridad total",
+        "Ecos engañosos",
+        "Inundaciones parciales",
+        "Ratas mutantes",
+        "Zombies especialmente agresivos por la oscuridad"
+      ],
+      "travel_times": {
+        "Centro Comercial Abandonado": "20 minutos a pie (por superficie)",
+        "Hospital General San Lucas": "25 minutos a pie (por superficie)",
+        "Zona de Cuarentena Alfa": "15 minutos por túnel",
+        "El Puerto Abandonado": "40 minutos por túnel"
+      }
     },
     {
       "name": "Zona de Cuarentena Alfa",
@@ -207,14 +444,33 @@
       "type": "ciudad",
       "danger_level": 5,
       "detailed_description": "Cuando el brote comenzó, el gobierno cercó diez manzanas del centro como zona de cuarentena. Trajeron a todos los infectados aquí. Intentaron contener el virus. Fracasaron espectacularmente. Ahora es el lugar más peligroso de la ciudad: una concentración de zombies tan densa que se empujan entre sí. Pero en el centro hay un hospital de campaña militar con suministros que nunca fueron evacuados.",
-      "notable_npcs": ["Miles de zombies", "El Alfa - un zombie masivo que parece controlar a otros", "Posibles sobrevivientes militares en el hospital de campaña"],
-      "available_resources": ["Suministros médicos militares masivos", "Armas abandonadas", "Vehículos blindados", "Datos de investigación sobre el virus"],
+      "notable_npcs": [
+        "Miles de zombies",
+        "El Alfa - un zombie masivo que parece controlar a otros",
+        "Posibles sobrevivientes militares en el hospital de campaña"
+      ],
+      "available_resources": [
+        "Suministros médicos militares masivos",
+        "Armas abandonadas",
+        "Vehículos blindados",
+        "Datos de investigación sobre el virus"
+      ],
       "plot_hooks": [
         "Alguien necesita un medicamento específico que solo está aquí",
         "Los datos del hospital de campaña podrían tener información sobre una cura",
         "Un helicóptero militar se estrelló en el techo - podría repararse"
       ],
-      "hazards": ["Concentración extrema de zombies", "Muros y cercas electrificadas (algunas aún funcionan)", "El Alfa", "Francotiradores automáticos que podrían seguir activos"]
+      "hazards": [
+        "Concentración extrema de zombies",
+        "Muros y cercas electrificadas (algunas aún funcionan)",
+        "El Alfa",
+        "Francotiradores automáticos que podrían seguir activos"
+      ],
+      "travel_times": {
+        "Hospital General San Lucas": "15 minutos a pie",
+        "Estación de Metro Central": "15 minutos por túnel",
+        "Centro Comercial Abandonado": "30 minutos a pie"
+      }
     },
     {
       "name": "La Prisión Estatal",
@@ -222,14 +478,57 @@
       "type": "prisión",
       "danger_level": 3,
       "detailed_description": "La Prisión Estatal de Millbrook fue diseñada para mantener a la gente adentro. Irónicamente, ahora es perfecta para mantener a los zombies afuera. Muros de 6 metros, torretas de vigilancia, generadores de respaldo. Un grupo la tomó en las primeras semanas: una mezcla de guardias, presos y civiles. Pero la dinámica de poder es complicada, y hay rumores de que los antiguos presos ahora mandan.",
-      "notable_npcs": ["El Alcaide - un ex-preso que tomó el control", "Guardia Chen - leal al antiguo orden, planea un golpe", "Padre Miguel - capellán que intenta mantener la paz"],
-      "available_services": ["Refugio seguro (a un precio)", "Comercio", "Información"],
+      "notable_npcs": [
+        "El Alcaide - un ex-preso que tomó el control",
+        "Guardia Chen - leal al antiguo orden, planea un golpe",
+        "Padre Miguel - capellán que intenta mantener la paz"
+      ],
+      "available_services": [
+        "Refugio seguro (a un precio)",
+        "Comercio",
+        "Información"
+      ],
       "plot_hooks": [
         "El Alcaide ofrece refugio pero exige 'tributo'",
         "Guardia Chen necesita ayuda externa para su golpe",
         "Un familiar de alguien del grupo está preso aquí"
       ],
-      "hazards": ["Política interna peligrosa", "Trabajos forzados para los 'invitados'", "Un bloque aún tiene zombies encerrados"]
+      "hazards": [
+        "Política interna peligrosa",
+        "Trabajos forzados para los 'invitados'",
+        "Un bloque aún tiene zombies encerrados"
+      ],
+      "travel_times": {
+        "Campamento Esperanza": "4 horas a pie, 50 minutos en vehículo",
+        "Granja Miller": "4 horas a pie, 1 hora en vehículo",
+        "El Puerto Abandonado": "3 horas a pie, 45 minutos en vehículo"
+      },
+      "sub_locations": [
+        {
+          "id": "bloque-celdas-a",
+          "name": "Bloque de Celdas A",
+          "type": "residence",
+          "description": "Celdas reconvertidas en dormitorios para los civiles bajo el mando del Alcaide"
+        },
+        {
+          "id": "patio-prision",
+          "name": "Patio Central",
+          "type": "plaza",
+          "description": "Espacio abierto donde se reúnen los habitantes y se realizan trueques"
+        },
+        {
+          "id": "torreon-vigilancia",
+          "name": "Torreón de Vigilancia",
+          "type": "gate",
+          "description": "Torre elevada con vista a los alrededores y un rifle de francotirador"
+        },
+        {
+          "id": "cocina-prision",
+          "name": "Cocina Industrial",
+          "type": "workshop",
+          "description": "Cocina de la prisión donde se preparan las raciones diarias para todos"
+        }
+      ]
     },
     {
       "name": "El Puerto Abandonado",
@@ -237,17 +536,35 @@
       "type": "industrial",
       "danger_level": 3,
       "detailed_description": "El puerto industrial de la ciudad tiene muelles, almacenes, y varios barcos que nunca zarparon. Un carguero grande, varios pesqueros, un yate de lujo. El escape por mar es tentador: las islas podrían estar libres de infectados. Pero nadie sabe qué hay en los barcos, los almacenes están llenos de contenedores sin abrir, y hay rumores de que un grupo de saqueadores marinos opera desde aquí.",
-      "notable_npcs": ["Capitán Torres - marinero que conoce los barcos pero pide un precio alto", "Los Piratas - grupo que controla los muelles", "El Estibador - zombie gigante que todavía carga cosas"],
-      "available_resources": ["Barcos (si sabes navegarlos)", "Contenedores con suministros aleatorios", "Combustible marino", "Equipo de pesca"],
+      "notable_npcs": [
+        "Capitán Torres - marinero que conoce los barcos pero pide un precio alto",
+        "Los Piratas - grupo que controla los muelles",
+        "El Estibador - zombie gigante que todavía carga cosas"
+      ],
+      "available_resources": [
+        "Barcos (si sabes navegarlos)",
+        "Contenedores con suministros aleatorios",
+        "Combustible marino",
+        "Equipo de pesca"
+      ],
       "plot_hooks": [
         "Escapar por mar requiere un barco funcional y un capitán",
         "Hay un contenedor refrigerado con suministros médicos valiosos",
         "Los Piratas tienen un mapa de islas cercanas - y rumores de una segura"
       ],
-      "hazards": ["Los Piratas", "El Estibador", "Barcos que podrían tener zombies encerrados", "No saber si el destino es seguro"]
+      "hazards": [
+        "Los Piratas",
+        "El Estibador",
+        "Barcos que podrían tener zombies encerrados",
+        "No saber si el destino es seguro"
+      ],
+      "travel_times": {
+        "Estación de Metro Central": "40 minutos por túnel",
+        "Centro Comercial Abandonado": "1 hora a pie, 20 minutos en vehículo",
+        "La Prisión Estatal": "3 horas a pie, 45 minutos en vehículo"
+      }
     }
   ],
-
   "archetypes": [
     {
       "id": "medic",
@@ -466,7 +783,6 @@
       ]
     }
   ],
-
   "notable_npcs": [
     {
       "name": "Marcus",
@@ -547,7 +863,6 @@
       ]
     }
   ],
-
   "zombie_types": [
     {
       "name": "Caminante",
@@ -598,7 +913,6 @@
       "in_groups": "Único. Gracias a cualquier dios que escuche."
     }
   ],
-
   "voice_id": "tenso_urgente",
   "npc_voices": {
     "sobreviviente": "asustado_desesperado",
@@ -610,139 +924,701 @@
   },
   "music_mood": "horror_ambient",
   "art_style": "dark photography, desaturated, gritty cinematic realism, post-apocalyptic, The Last of Us style",
-
   "roll_tables": {
     "encounters": {
       "formula": "1d20",
       "results": [
-        { "range": [1, 2], "result": "Grupo de sobrevivientes amigables - intercambio de suministros o información" },
-        { "range": [3, 4], "result": "Un perro salvaje - podría ser compañero o amenaza" },
-        { "range": [5, 6], "result": "Zombie solitario vagando - fácil de evitar o eliminar silenciosamente" },
-        { "range": [7, 8], "result": "Grupo pequeño de zombies (3-5) bloqueando el camino" },
-        { "range": [9, 10], "result": "Horda mediana (8-12 zombies) en movimiento - mejor esconderse" },
-        { "range": [11, 12], "result": "Saqueadores observando desde lejos - podrían ser hostiles" },
-        { "range": [13, 14], "result": "Saqueadores hostiles exigiendo peaje o suministros" },
-        { "range": [15, 16], "result": "Corredor detecta al grupo - persecución" },
-        { "range": [17, 17], "result": "Aullador en las cercanías - hay que silenciarlo rápido" },
-        { "range": [18, 18], "result": "Trampa de otros sobrevivientes - pozo, alambre, alarma" },
-        { "range": [19, 19], "result": "Un Tanque bloqueando una ruta importante" },
-        { "range": [20, 20], "result": "Horda masiva (20+) - huir es la única opción, y rápido" }
+        {
+          "range": [
+            1,
+            2
+          ],
+          "result": "Grupo de sobrevivientes amigables - intercambio de suministros o información"
+        },
+        {
+          "range": [
+            3,
+            4
+          ],
+          "result": "Un perro salvaje - podría ser compañero o amenaza"
+        },
+        {
+          "range": [
+            5,
+            6
+          ],
+          "result": "Zombie solitario vagando - fácil de evitar o eliminar silenciosamente"
+        },
+        {
+          "range": [
+            7,
+            8
+          ],
+          "result": "Grupo pequeño de zombies (3-5) bloqueando el camino"
+        },
+        {
+          "range": [
+            9,
+            10
+          ],
+          "result": "Horda mediana (8-12 zombies) en movimiento - mejor esconderse"
+        },
+        {
+          "range": [
+            11,
+            12
+          ],
+          "result": "Saqueadores observando desde lejos - podrían ser hostiles"
+        },
+        {
+          "range": [
+            13,
+            14
+          ],
+          "result": "Saqueadores hostiles exigiendo peaje o suministros"
+        },
+        {
+          "range": [
+            15,
+            16
+          ],
+          "result": "Corredor detecta al grupo - persecución"
+        },
+        {
+          "range": [
+            17,
+            17
+          ],
+          "result": "Aullador en las cercanías - hay que silenciarlo rápido"
+        },
+        {
+          "range": [
+            18,
+            18
+          ],
+          "result": "Trampa de otros sobrevivientes - pozo, alambre, alarma"
+        },
+        {
+          "range": [
+            19,
+            19
+          ],
+          "result": "Un Tanque bloqueando una ruta importante"
+        },
+        {
+          "range": [
+            20,
+            20
+          ],
+          "result": "Horda masiva (20+) - huir es la única opción, y rápido"
+        }
       ]
     },
     "weather": {
       "formula": "1d12",
       "results": [
-        { "range": [1, 2], "result": "Día soleado y despejado - buena visibilidad pero te ven venir" },
-        { "range": [3, 4], "result": "Nublado - luz difusa, temperatura agradable" },
-        { "range": [5, 6], "result": "Lluvia ligera - reduce el ruido de pasos, dificulta visión" },
-        { "range": [7, 8], "result": "Lluvia fuerte - excelente cobertura de sonido pero visibilidad muy reducida" },
-        { "range": [9, 9], "result": "Niebla densa - casi imposible ver más allá de 10 metros" },
-        { "range": [10, 10], "result": "Tormenta eléctrica - los zombies están agitados por el ruido, peligroso estar afuera" },
-        { "range": [11, 11], "result": "Viento fuerte - dificulta escuchar acercamientos" },
-        { "range": [12, 12], "result": "Nieve o frío extremo - hipotermia es peligro real, pero los zombies están más lentos" }
+        {
+          "range": [
+            1,
+            2
+          ],
+          "result": "Día soleado y despejado - buena visibilidad pero te ven venir"
+        },
+        {
+          "range": [
+            3,
+            4
+          ],
+          "result": "Nublado - luz difusa, temperatura agradable"
+        },
+        {
+          "range": [
+            5,
+            6
+          ],
+          "result": "Lluvia ligera - reduce el ruido de pasos, dificulta visión"
+        },
+        {
+          "range": [
+            7,
+            8
+          ],
+          "result": "Lluvia fuerte - excelente cobertura de sonido pero visibilidad muy reducida"
+        },
+        {
+          "range": [
+            9,
+            9
+          ],
+          "result": "Niebla densa - casi imposible ver más allá de 10 metros"
+        },
+        {
+          "range": [
+            10,
+            10
+          ],
+          "result": "Tormenta eléctrica - los zombies están agitados por el ruido, peligroso estar afuera"
+        },
+        {
+          "range": [
+            11,
+            11
+          ],
+          "result": "Viento fuerte - dificulta escuchar acercamientos"
+        },
+        {
+          "range": [
+            12,
+            12
+          ],
+          "result": "Nieve o frío extremo - hipotermia es peligro real, pero los zombies están más lentos"
+        }
       ]
     },
     "loot": {
       "formula": "1d20",
       "results": [
-        { "range": [1, 3], "result": "Comida enlatada (2-3 latas variadas)" },
-        { "range": [4, 5], "result": "Agua embotellada (1-2 litros)" },
-        { "range": [6, 7], "result": "Munición (1d6 balas de calibre común)" },
-        { "range": [8, 9], "result": "Vendas y desinfectante básico" },
-        { "range": [10, 11], "result": "Baterías (2-4 unidades)" },
-        { "range": [12, 12], "result": "Botiquín de primeros auxilios completo" },
-        { "range": [13, 13], "result": "Arma improvisada de calidad (bate con clavos, machete)" },
-        { "range": [14, 14], "result": "Linterna funcional con baterías" },
-        { "range": [15, 15], "result": "Ropa de abrigo en buen estado" },
-        { "range": [16, 16], "result": "Herramienta útil (palanca, alicates, cinta americana)" },
-        { "range": [17, 17], "result": "Medicamento específico (antibióticos, analgésicos fuertes)" },
-        { "range": [18, 18], "result": "Walkie-talkie con baterías (sin saber si hay alguien escuchando)" },
-        { "range": [19, 19], "result": "Arma de fuego con algo de munición (pistola, escopeta)" },
-        { "range": [20, 20], "result": "Hallazgo raro: mapa de refugio cercano, combustible, o medicamento vital" }
+        {
+          "range": [
+            1,
+            3
+          ],
+          "result": "Comida enlatada (2-3 latas variadas)"
+        },
+        {
+          "range": [
+            4,
+            5
+          ],
+          "result": "Agua embotellada (1-2 litros)"
+        },
+        {
+          "range": [
+            6,
+            7
+          ],
+          "result": "Munición (1d6 balas de calibre común)"
+        },
+        {
+          "range": [
+            8,
+            9
+          ],
+          "result": "Vendas y desinfectante básico"
+        },
+        {
+          "range": [
+            10,
+            11
+          ],
+          "result": "Baterías (2-4 unidades)"
+        },
+        {
+          "range": [
+            12,
+            12
+          ],
+          "result": "Botiquín de primeros auxilios completo"
+        },
+        {
+          "range": [
+            13,
+            13
+          ],
+          "result": "Arma improvisada de calidad (bate con clavos, machete)"
+        },
+        {
+          "range": [
+            14,
+            14
+          ],
+          "result": "Linterna funcional con baterías"
+        },
+        {
+          "range": [
+            15,
+            15
+          ],
+          "result": "Ropa de abrigo en buen estado"
+        },
+        {
+          "range": [
+            16,
+            16
+          ],
+          "result": "Herramienta útil (palanca, alicates, cinta americana)"
+        },
+        {
+          "range": [
+            17,
+            17
+          ],
+          "result": "Medicamento específico (antibióticos, analgésicos fuertes)"
+        },
+        {
+          "range": [
+            18,
+            18
+          ],
+          "result": "Walkie-talkie con baterías (sin saber si hay alguien escuchando)"
+        },
+        {
+          "range": [
+            19,
+            19
+          ],
+          "result": "Arma de fuego con algo de munición (pistola, escopeta)"
+        },
+        {
+          "range": [
+            20,
+            20
+          ],
+          "result": "Hallazgo raro: mapa de refugio cercano, combustible, o medicamento vital"
+        }
       ]
     },
     "npc_names": {
       "formula": "1d20",
       "results": [
-        { "range": [1, 1], "result": "Marcus el Bombero" },
-        { "range": [2, 2], "result": "Elena la Doctora" },
-        { "range": [3, 3], "result": "David el Mecánico" },
-        { "range": [4, 4], "result": "Sarah la Maestra" },
-        { "range": [5, 5], "result": "Mike el Ex-Policía" },
-        { "range": [6, 6], "result": "Jessica la Enfermera" },
-        { "range": [7, 7], "result": "Chris el Cazador" },
-        { "range": [8, 8], "result": "Amanda la Contadora" },
-        { "range": [9, 9], "result": "Tyler el Adolescente" },
-        { "range": [10, 10], "result": "Rebecca la Abuela" },
-        { "range": [11, 11], "result": "Jason el Soldado" },
-        { "range": [12, 12], "result": "Nicole la Veterinaria" },
-        { "range": [13, 13], "result": "Brandon el Cocinero" },
-        { "range": [14, 14], "result": "Melissa la Periodista" },
-        { "range": [15, 15], "result": "Kevin el Granjero" },
-        { "range": [16, 16], "result": "Rachel la Científica" },
-        { "range": [17, 17], "result": "Tommy el Niño" },
-        { "range": [18, 18], "result": "Lisa la Deportista" },
-        { "range": [19, 19], "result": "Jake el Ladrón" },
-        { "range": [20, 20], "result": "María la Religiosa" }
+        {
+          "range": [
+            1,
+            1
+          ],
+          "result": "Marcus el Bombero"
+        },
+        {
+          "range": [
+            2,
+            2
+          ],
+          "result": "Elena la Doctora"
+        },
+        {
+          "range": [
+            3,
+            3
+          ],
+          "result": "David el Mecánico"
+        },
+        {
+          "range": [
+            4,
+            4
+          ],
+          "result": "Sarah la Maestra"
+        },
+        {
+          "range": [
+            5,
+            5
+          ],
+          "result": "Mike el Ex-Policía"
+        },
+        {
+          "range": [
+            6,
+            6
+          ],
+          "result": "Jessica la Enfermera"
+        },
+        {
+          "range": [
+            7,
+            7
+          ],
+          "result": "Chris el Cazador"
+        },
+        {
+          "range": [
+            8,
+            8
+          ],
+          "result": "Amanda la Contadora"
+        },
+        {
+          "range": [
+            9,
+            9
+          ],
+          "result": "Tyler el Adolescente"
+        },
+        {
+          "range": [
+            10,
+            10
+          ],
+          "result": "Rebecca la Abuela"
+        },
+        {
+          "range": [
+            11,
+            11
+          ],
+          "result": "Jason el Soldado"
+        },
+        {
+          "range": [
+            12,
+            12
+          ],
+          "result": "Nicole la Veterinaria"
+        },
+        {
+          "range": [
+            13,
+            13
+          ],
+          "result": "Brandon el Cocinero"
+        },
+        {
+          "range": [
+            14,
+            14
+          ],
+          "result": "Melissa la Periodista"
+        },
+        {
+          "range": [
+            15,
+            15
+          ],
+          "result": "Kevin el Granjero"
+        },
+        {
+          "range": [
+            16,
+            16
+          ],
+          "result": "Rachel la Científica"
+        },
+        {
+          "range": [
+            17,
+            17
+          ],
+          "result": "Tommy el Niño"
+        },
+        {
+          "range": [
+            18,
+            18
+          ],
+          "result": "Lisa la Deportista"
+        },
+        {
+          "range": [
+            19,
+            19
+          ],
+          "result": "Jake el Ladrón"
+        },
+        {
+          "range": [
+            20,
+            20
+          ],
+          "result": "María la Religiosa"
+        }
       ]
     },
     "events": {
       "formula": "1d20",
       "results": [
-        { "range": [1, 1], "result": "Disparos a lo lejos - alguien está en problemas o causándolos" },
-        { "range": [2, 2], "result": "Mensaje de socorro garabateado en una pared con sangre" },
-        { "range": [3, 3], "result": "Edificio en llamas - zombies atraídos al ruido y luz" },
-        { "range": [4, 4], "result": "Helicóptero militar sobrevuela la zona - ¿rescate o reconocimiento?" },
-        { "range": [5, 5], "result": "Transmisión de radio débil - alguien pide ayuda con coordenadas" },
-        { "range": [6, 6], "result": "Vehículo con las llaves puestas - ¿funciona? ¿es una trampa?" },
-        { "range": [7, 7], "result": "Señales de un refugio cercano - flechas pintadas" },
-        { "range": [8, 8], "result": "Suministro de agua contaminado - alguien está envenenando pozos" },
-        { "range": [9, 9], "result": "Cadáver fresco con suministros - ¿qué lo mató?" },
-        { "range": [10, 10], "result": "Alarma de auto sonando - atrae zombies de toda la zona" },
-        { "range": [11, 11], "result": "Grupo de niños solos pidiendo ayuda" },
-        { "range": [12, 12], "result": "Puente o ruta principal colapsada - hay que buscar alternativa" },
-        { "range": [13, 13], "result": "Zona minada o con trampas - alguien no quiere visitantes" },
-        { "range": [14, 14], "result": "Perros salvajes en jauría - pueden ser más peligrosos que zombies" },
-        { "range": [15, 15], "result": "Un sobreviviente herido que podría estar infectado" },
-        { "range": [16, 16], "result": "Depósito intacto encontrado - pero hay voces adentro" },
-        { "range": [17, 17], "result": "Lluvia de cenizas - algo grande está quemando en la distancia" },
-        { "range": [18, 18], "result": "Grafiti reciente advirtiendo sobre un peligro específico" },
-        { "range": [19, 19], "result": "Un zombie atrapado que parece... diferente" },
-        { "range": [20, 20], "result": "Señal de los Comerciantes - posibilidad de intercambio seguro" }
+        {
+          "range": [
+            1,
+            1
+          ],
+          "result": "Disparos a lo lejos - alguien está en problemas o causándolos"
+        },
+        {
+          "range": [
+            2,
+            2
+          ],
+          "result": "Mensaje de socorro garabateado en una pared con sangre"
+        },
+        {
+          "range": [
+            3,
+            3
+          ],
+          "result": "Edificio en llamas - zombies atraídos al ruido y luz"
+        },
+        {
+          "range": [
+            4,
+            4
+          ],
+          "result": "Helicóptero militar sobrevuela la zona - ¿rescate o reconocimiento?"
+        },
+        {
+          "range": [
+            5,
+            5
+          ],
+          "result": "Transmisión de radio débil - alguien pide ayuda con coordenadas"
+        },
+        {
+          "range": [
+            6,
+            6
+          ],
+          "result": "Vehículo con las llaves puestas - ¿funciona? ¿es una trampa?"
+        },
+        {
+          "range": [
+            7,
+            7
+          ],
+          "result": "Señales de un refugio cercano - flechas pintadas"
+        },
+        {
+          "range": [
+            8,
+            8
+          ],
+          "result": "Suministro de agua contaminado - alguien está envenenando pozos"
+        },
+        {
+          "range": [
+            9,
+            9
+          ],
+          "result": "Cadáver fresco con suministros - ¿qué lo mató?"
+        },
+        {
+          "range": [
+            10,
+            10
+          ],
+          "result": "Alarma de auto sonando - atrae zombies de toda la zona"
+        },
+        {
+          "range": [
+            11,
+            11
+          ],
+          "result": "Grupo de niños solos pidiendo ayuda"
+        },
+        {
+          "range": [
+            12,
+            12
+          ],
+          "result": "Puente o ruta principal colapsada - hay que buscar alternativa"
+        },
+        {
+          "range": [
+            13,
+            13
+          ],
+          "result": "Zona minada o con trampas - alguien no quiere visitantes"
+        },
+        {
+          "range": [
+            14,
+            14
+          ],
+          "result": "Perros salvajes en jauría - pueden ser más peligrosos que zombies"
+        },
+        {
+          "range": [
+            15,
+            15
+          ],
+          "result": "Un sobreviviente herido que podría estar infectado"
+        },
+        {
+          "range": [
+            16,
+            16
+          ],
+          "result": "Depósito intacto encontrado - pero hay voces adentro"
+        },
+        {
+          "range": [
+            17,
+            17
+          ],
+          "result": "Lluvia de cenizas - algo grande está quemando en la distancia"
+        },
+        {
+          "range": [
+            18,
+            18
+          ],
+          "result": "Grafiti reciente advirtiendo sobre un peligro específico"
+        },
+        {
+          "range": [
+            19,
+            19
+          ],
+          "result": "Un zombie atrapado que parece... diferente"
+        },
+        {
+          "range": [
+            20,
+            20
+          ],
+          "result": "Señal de los Comerciantes - posibilidad de intercambio seguro"
+        }
       ]
     },
     "scavenging_locations": {
       "formula": "1d12",
       "results": [
-        { "range": [1, 1], "result": "Casa residencial - comida básica, ropa, posibles armas improvisadas" },
-        { "range": [2, 2], "result": "Tienda de conveniencia - ya saqueada pero quedan cosas escondidas" },
-        { "range": [3, 3], "result": "Farmacia - medicamentos si no fue vaciada, alto riesgo" },
-        { "range": [4, 4], "result": "Ferretería - herramientas, posibles armas improvisadas" },
-        { "range": [5, 5], "result": "Gasolinera - combustible si los tanques no están vacíos" },
-        { "range": [6, 6], "result": "Estación de policía - armas y munición si no fue tomada" },
-        { "range": [7, 7], "result": "Escuela - suministros básicos, posible refugio temporal" },
-        { "range": [8, 8], "result": "Hospital o clínica - medicamentos valiosos, alto peligro" },
-        { "range": [9, 9], "result": "Centro comercial - de todo un poco, infestado de zombies" },
-        { "range": [10, 10], "result": "Almacén industrial - cargamento desconocido en contenedores" },
-        { "range": [11, 11], "result": "Vehículo abandonado - combustible, posibles suministros" },
-        { "range": [12, 12], "result": "Campamento abandonado - lo que dejaron atrás" }
+        {
+          "range": [
+            1,
+            1
+          ],
+          "result": "Casa residencial - comida básica, ropa, posibles armas improvisadas"
+        },
+        {
+          "range": [
+            2,
+            2
+          ],
+          "result": "Tienda de conveniencia - ya saqueada pero quedan cosas escondidas"
+        },
+        {
+          "range": [
+            3,
+            3
+          ],
+          "result": "Farmacia - medicamentos si no fue vaciada, alto riesgo"
+        },
+        {
+          "range": [
+            4,
+            4
+          ],
+          "result": "Ferretería - herramientas, posibles armas improvisadas"
+        },
+        {
+          "range": [
+            5,
+            5
+          ],
+          "result": "Gasolinera - combustible si los tanques no están vacíos"
+        },
+        {
+          "range": [
+            6,
+            6
+          ],
+          "result": "Estación de policía - armas y munición si no fue tomada"
+        },
+        {
+          "range": [
+            7,
+            7
+          ],
+          "result": "Escuela - suministros básicos, posible refugio temporal"
+        },
+        {
+          "range": [
+            8,
+            8
+          ],
+          "result": "Hospital o clínica - medicamentos valiosos, alto peligro"
+        },
+        {
+          "range": [
+            9,
+            9
+          ],
+          "result": "Centro comercial - de todo un poco, infestado de zombies"
+        },
+        {
+          "range": [
+            10,
+            10
+          ],
+          "result": "Almacén industrial - cargamento desconocido en contenedores"
+        },
+        {
+          "range": [
+            11,
+            11
+          ],
+          "result": "Vehículo abandonado - combustible, posibles suministros"
+        },
+        {
+          "range": [
+            12,
+            12
+          ],
+          "result": "Campamento abandonado - lo que dejaron atrás"
+        }
       ]
     },
     "survivor_moods": {
       "formula": "1d8",
       "results": [
-        { "range": [1, 1], "result": "Desesperado - haría cualquier cosa por comida o seguridad" },
-        { "range": [2, 2], "result": "Desconfiado - armado y paranoico, difícil de convencer" },
-        { "range": [3, 3], "result": "Cooperativo - dispuesto a intercambiar o colaborar" },
-        { "range": [4, 4], "result": "Herido - necesita ayuda médica urgente" },
-        { "range": [5, 5], "result": "En shock - apenas funcional, necesita guía" },
-        { "range": [6, 6], "result": "Hostil - ve a todos como amenaza, ataca primero" },
-        { "range": [7, 7], "result": "Informativo - tiene información valiosa sobre la zona" },
-        { "range": [8, 8], "result": "Engañoso - parece amigable pero tiene intenciones ocultas" }
+        {
+          "range": [
+            1,
+            1
+          ],
+          "result": "Desesperado - haría cualquier cosa por comida o seguridad"
+        },
+        {
+          "range": [
+            2,
+            2
+          ],
+          "result": "Desconfiado - armado y paranoico, difícil de convencer"
+        },
+        {
+          "range": [
+            3,
+            3
+          ],
+          "result": "Cooperativo - dispuesto a intercambiar o colaborar"
+        },
+        {
+          "range": [
+            4,
+            4
+          ],
+          "result": "Herido - necesita ayuda médica urgente"
+        },
+        {
+          "range": [
+            5,
+            5
+          ],
+          "result": "En shock - apenas funcional, necesita guía"
+        },
+        {
+          "range": [
+            6,
+            6
+          ],
+          "result": "Hostil - ve a todos como amenaza, ataca primero"
+        },
+        {
+          "range": [
+            7,
+            7
+          ],
+          "result": "Informativo - tiene información valiosa sobre la zona"
+        },
+        {
+          "range": [
+            8,
+            8
+          ],
+          "result": "Engañoso - parece amigable pero tiene intenciones ocultas"
+        }
       ]
     }
   },
-
   "active_effects_pool": [
     {
       "id": "infectado",
@@ -750,7 +1626,10 @@
       "description": "Te mordieron - tenés pocas horas antes de convertirte",
       "type": "critical",
       "duration": 5,
-      "effects": { "hp_per_turn": -3, "combat": -2 },
+      "effects": {
+        "hp_per_turn": -3,
+        "combat": -2
+      },
       "cure": "Amputación inmediata si es en extremidad, o tratamiento experimental del Laboratorio"
     },
     {
@@ -759,7 +1638,11 @@
       "description": "No dormiste en días - apenas podés mantenerte de pie",
       "type": "debuff",
       "duration": 3,
-      "effects": { "combat": -3, "exploration": -2, "social": -1 },
+      "effects": {
+        "combat": -3,
+        "exploration": -2,
+        "social": -1
+      },
       "cure": "8 horas de sueño seguro"
     },
     {
@@ -768,7 +1651,10 @@
       "description": "El miedo te da fuerza sobrehumana temporal",
       "type": "buff",
       "duration": 2,
-      "effects": { "combat": 3, "exploration": 2 },
+      "effects": {
+        "combat": 3,
+        "exploration": 2
+      },
       "aftermath": "Exhausto después de que pasa"
     },
     {
@@ -777,7 +1663,10 @@
       "description": "Perdiste algo o alguien importante - tu voluntad flaquea",
       "type": "debuff",
       "duration": 4,
-      "effects": { "social": -2, "combat": -1 },
+      "effects": {
+        "social": -2,
+        "combat": -1
+      },
       "cure": "Éxito significativo o apoyo de compañeros"
     },
     {
@@ -786,7 +1675,10 @@
       "description": "No has comido en más de 24 horas",
       "type": "debuff",
       "duration": -1,
-      "effects": { "combat": -1, "exploration": -1 },
+      "effects": {
+        "combat": -1,
+        "exploration": -1
+      },
       "cure": "Comer una ración completa"
     },
     {
@@ -795,7 +1687,11 @@
       "description": "Necesitás agua urgentemente",
       "type": "debuff",
       "duration": -1,
-      "effects": { "combat": -2, "exploration": -2, "hp_per_turn": -1 },
+      "effects": {
+        "combat": -2,
+        "exploration": -2,
+        "hp_per_turn": -1
+      },
       "cure": "Beber agua limpia"
     },
     {
@@ -804,7 +1700,11 @@
       "description": "Una herida seria que necesita atención médica",
       "type": "debuff",
       "duration": -1,
-      "effects": { "combat": -2, "exploration": -2, "hp_per_turn": -1 },
+      "effects": {
+        "combat": -2,
+        "exploration": -2,
+        "hp_per_turn": -1
+      },
       "cure": "Tratamiento médico apropiado"
     },
     {
@@ -813,7 +1713,10 @@
       "description": "Te movés sin hacer ruido, atento a cada paso",
       "type": "buff",
       "duration": -1,
-      "effects": { "stealth": 3, "combat": -1 },
+      "effects": {
+        "stealth": 3,
+        "combat": -1
+      },
       "note": "Se pierde si hacés ruido o atacás"
     },
     {
@@ -822,7 +1725,11 @@
       "description": "Llevás equipo militar completo",
       "type": "buff",
       "duration": -1,
-      "effects": { "combat": 3, "exploration": -2, "stealth": -2 },
+      "effects": {
+        "combat": 3,
+        "exploration": -2,
+        "stealth": -2
+      },
       "note": "Mientras tengas munición"
     },
     {
@@ -831,11 +1738,13 @@
       "description": "Has visto demasiado. No confías en nadie.",
       "type": "mixed",
       "duration": 5,
-      "effects": { "social": -3, "awareness": 2 },
+      "effects": {
+        "social": -3,
+        "awareness": 2
+      },
       "cure": "Tiempo con compañeros de confianza"
     }
   ],
-
   "narrative_skeleton": {
     "act_1": {
       "name": "Primer Día del Fin del Mundo",
@@ -845,7 +1754,10 @@
         "Primera confrontación con zombies",
         "Encontrar otros sobrevivientes"
       ],
-      "typical_scenes": ["Campamento de Refugiados", "Autopista Desolada"],
+      "typical_scenes": [
+        "Campamento de Refugiados",
+        "Autopista Desolada"
+      ],
       "mood": "horror_ambient",
       "sample_events": [
         "Todo empieza con una mordida o un grito",
@@ -862,7 +1774,10 @@
         "Conflicto con otros grupos",
         "Búsqueda desesperada de refugio seguro"
       ],
-      "typical_scenes": ["Centro Comercial Abandonado", "Granja Aislada"],
+      "typical_scenes": [
+        "Centro Comercial Abandonado",
+        "Granja Aislada"
+      ],
       "mood": "drama_tense",
       "sample_events": [
         "Hay que elegir a quién salvar",
@@ -879,7 +1794,10 @@
         "Pérdida de un refugio seguro",
         "Descubrimiento de una verdad terrible"
       ],
-      "typical_scenes": ["Base Militar Abandonada", "Hospital en Ruinas"],
+      "typical_scenes": [
+        "Base Militar Abandonada",
+        "Hospital en Ruinas"
+      ],
       "mood": "horror_ambient",
       "sample_events": [
         "Un aliado resulta ser un espía",
@@ -896,7 +1814,10 @@
         "Viaje peligroso atravesando zona muerta",
         "Último sacrificio para que otros sobrevivan"
       ],
-      "typical_scenes": ["Zona de Cuarentena", "Túneles del Metro"],
+      "typical_scenes": [
+        "Zona de Cuarentena",
+        "Túneles del Metro"
+      ],
       "mood": "combat_epic",
       "sample_events": [
         "Un mensaje de radio ofrece esperanza",
@@ -913,7 +1834,10 @@
         "Decisión sobre reconstruir o solo sobrevivir",
         "El precio de la supervivencia"
       ],
-      "typical_scenes": ["Campamento de Refugiados", "Prisión Estatal"],
+      "typical_scenes": [
+        "Campamento de Refugiados",
+        "Prisión Estatal"
+      ],
       "mood": "rest_peaceful",
       "sample_events": [
         "El refugio prometido existe (o no)",
@@ -923,7 +1847,6 @@
       ]
     }
   },
-
   "one_shot_hooks": [
     {
       "title": "El Niño Enfermo",
@@ -974,16 +1897,27 @@
       "difficulty": "Media-Difícil"
     }
   ],
-
   "opening_scene": {
     "location_id": "safe-house",
     "location_name": "Refugio en la Escuela Abandonada",
     "description": "Te encontrás en el segundo piso de una escuela primaria abandonada, convertida en refugio improvisado. Las ventanas están tapiadas con pupitres. Las paredes tienen marcas de conteo de días: 87 desde el Día Cero. El olor a sudor, comida enlatada y miedo es constante. Afuera, el silencio ocasionalmente se rompe con gruñidos distantes. Hay ocho sobrevivientes más contigo. Los suministros se agotan. La tensión es palpable.",
     "visible_directions": [
-      { "direction": "la ventana del tercer piso", "landmark": "se ve el hospital a unas diez cuadras, posible fuente de medicinas pero infestado de caminantes" },
-      { "direction": "el este", "landmark": "el centro comercial abandonado donde dicen que hay comida, pero también saqueadores" },
-      { "direction": "el norte", "landmark": "la zona residencial, casas que podrían tener suministros pero muchas puertas cerradas significan infectados adentro" },
-      { "direction": "el sur", "landmark": "la autopista bloqueada con autos, una trampa mortal pero el único camino fuera de la ciudad" }
+      {
+        "direction": "la ventana del tercer piso",
+        "landmark": "se ve el hospital a unas diez cuadras, posible fuente de medicinas pero infestado de caminantes"
+      },
+      {
+        "direction": "el este",
+        "landmark": "el centro comercial abandonado donde dicen que hay comida, pero también saqueadores"
+      },
+      {
+        "direction": "el norte",
+        "landmark": "la zona residencial, casas que podrían tener suministros pero muchas puertas cerradas significan infectados adentro"
+      },
+      {
+        "direction": "el sur",
+        "landmark": "la autopista bloqueada con autos, una trampa mortal pero el único camino fuera de la ciudad"
+      }
     ],
     "ambient_rumors": [
       "el líder del grupo dice que escuchó una transmisión de radio militar ayer, pero nadie más la oyó",
@@ -993,7 +1927,6 @@
     ],
     "closing_prompt": "El sol comienza a ponerse. Las noches son más peligrosas. ¿Qué hacés?"
   },
-
   "opening_scenes": [
     {
       "id": "default",
@@ -1001,10 +1934,22 @@
       "location_name": "Refugio en la Escuela Abandonada",
       "description": "Te encontrás en el segundo piso de una escuela primaria abandonada, convertida en refugio improvisado. Las ventanas están tapiadas con pupitres. Las paredes tienen marcas de conteo de días: 87 desde el Día Cero. El olor a sudor, comida enlatada y miedo es constante. Afuera, el silencio ocasionalmente se rompe con gruñidos distantes. Hay ocho sobrevivientes más contigo. Los suministros se agotan. La tensión es palpable.",
       "visible_directions": [
-        { "direction": "la ventana del tercer piso", "landmark": "se ve el hospital a unas diez cuadras, posible fuente de medicinas pero infestado de caminantes" },
-        { "direction": "el este", "landmark": "el centro comercial abandonado donde dicen que hay comida, pero también saqueadores" },
-        { "direction": "el norte", "landmark": "la zona residencial, casas que podrían tener suministros pero muchas puertas cerradas significan infectados adentro" },
-        { "direction": "el sur", "landmark": "la autopista bloqueada con autos, una trampa mortal pero el único camino fuera de la ciudad" }
+        {
+          "direction": "la ventana del tercer piso",
+          "landmark": "se ve el hospital a unas diez cuadras, posible fuente de medicinas pero infestado de caminantes"
+        },
+        {
+          "direction": "el este",
+          "landmark": "el centro comercial abandonado donde dicen que hay comida, pero también saqueadores"
+        },
+        {
+          "direction": "el norte",
+          "landmark": "la zona residencial, casas que podrían tener suministros pero muchas puertas cerradas significan infectados adentro"
+        },
+        {
+          "direction": "el sur",
+          "landmark": "la autopista bloqueada con autos, una trampa mortal pero el único camino fuera de la ciudad"
+        }
       ],
       "ambient_rumors": [
         "el líder del grupo dice que escuchó una transmisión de radio militar ayer, pero nadie más la oyó",
@@ -1020,10 +1965,22 @@
       "location_name": "Refugio en la Escuela Abandonada",
       "description": "Son las tres de la madrugada y te toca guardia en el segundo piso de la escuela abandonada. La oscuridad es casi total — solo una vela medio consumida proyecta sombras nerviosas sobre las paredes llenas de marcas de conteo. Los demás duermen, o lo intentan. Desde la calle llega un arrastre lento y constante, como pies descalzos sobre vidrio roto. De pronto, un golpe seco contra la puerta de la planta baja. Luego otro. Alguien — o algo — está probando las barricadas.",
       "visible_directions": [
-        { "direction": "la ventana del tercer piso", "landmark": "se ve el hospital a unas diez cuadras, posible fuente de medicinas pero infestado de caminantes" },
-        { "direction": "el este", "landmark": "el centro comercial abandonado donde dicen que hay comida, pero también saqueadores" },
-        { "direction": "el norte", "landmark": "la zona residencial, casas que podrían tener suministros pero muchas puertas cerradas significan infectados adentro" },
-        { "direction": "el sur", "landmark": "la autopista bloqueada con autos, una trampa mortal pero el único camino fuera de la ciudad" }
+        {
+          "direction": "la ventana del tercer piso",
+          "landmark": "se ve el hospital a unas diez cuadras, posible fuente de medicinas pero infestado de caminantes"
+        },
+        {
+          "direction": "el este",
+          "landmark": "el centro comercial abandonado donde dicen que hay comida, pero también saqueadores"
+        },
+        {
+          "direction": "el norte",
+          "landmark": "la zona residencial, casas que podrían tener suministros pero muchas puertas cerradas significan infectados adentro"
+        },
+        {
+          "direction": "el sur",
+          "landmark": "la autopista bloqueada con autos, una trampa mortal pero el único camino fuera de la ciudad"
+        }
       ],
       "ambient_rumors": [
         "el líder del grupo dice que escuchó una transmisión de radio militar ayer, pero nadie más la oyó",
@@ -1039,10 +1996,22 @@
       "location_name": "Refugio en la Escuela Abandonada",
       "description": "El amanecer entra gris y frío por las rendijas de los pupitres que tapian las ventanas. Es día de expedición. Sobre una mesa de la antigua sala de maestros, el grupo desplegó un mapa dibujado a mano con las zonas ya saqueadas tachadas en rojo. Quedan pocas opciones. La última lata de atún se repartió anoche entre ocho personas. El agua del tanque del techo alcanza para un día más. Dos voluntarios se preparan junto a la puerta trasera, ajustando mochilas vacías y empuñando lo que tienen: un bate, un cuchillo de cocina.",
       "visible_directions": [
-        { "direction": "la ventana del tercer piso", "landmark": "se ve el hospital a unas diez cuadras, posible fuente de medicinas pero infestado de caminantes" },
-        { "direction": "el este", "landmark": "el centro comercial abandonado donde dicen que hay comida, pero también saqueadores" },
-        { "direction": "el norte", "landmark": "la zona residencial, casas que podrían tener suministros pero muchas puertas cerradas significan infectados adentro" },
-        { "direction": "el sur", "landmark": "la autopista bloqueada con autos, una trampa mortal pero el único camino fuera de la ciudad" }
+        {
+          "direction": "la ventana del tercer piso",
+          "landmark": "se ve el hospital a unas diez cuadras, posible fuente de medicinas pero infestado de caminantes"
+        },
+        {
+          "direction": "el este",
+          "landmark": "el centro comercial abandonado donde dicen que hay comida, pero también saqueadores"
+        },
+        {
+          "direction": "el norte",
+          "landmark": "la zona residencial, casas que podrían tener suministros pero muchas puertas cerradas significan infectados adentro"
+        },
+        {
+          "direction": "el sur",
+          "landmark": "la autopista bloqueada con autos, una trampa mortal pero el único camino fuera de la ciudad"
+        }
       ],
       "ambient_rumors": [
         "el líder del grupo dice que escuchó una transmisión de radio militar ayer, pero nadie más la oyó",
@@ -1053,40 +2022,45 @@
       "closing_prompt": "Los suministros se acabaron. Hay que salir hoy o mañana no habrá nada para comer. ¿Qué hacés?"
     }
   ],
-
   "initial_missions": [
     {
       "id": "supply_run",
       "title": "Suministros en el Hospital",
       "description": "El grupo necesita medicinas urgentes. Hay un hospital a tres kilómetros, pero está en zona roja. Entrar rápido, buscar antibióticos, salir antes del anochecer.",
       "difficulty": "easy",
-      "tags": ["exploration", "stealth"]
+      "tags": [
+        "exploration",
+        "stealth"
+      ]
     },
     {
       "id": "rescue_survivors",
       "title": "Señales de Radio",
       "description": "Una señal de radio pide ayuda desde una estación de servicio cercana. Son sobrevivientes atrapados. Podrían unirse al grupo... o ser una trampa.",
       "difficulty": "medium",
-      "tags": ["social", "combat"]
+      "tags": [
+        "social",
+        "combat"
+      ]
     },
     {
       "id": "secure_perimeter",
       "title": "Limpiar el Perímetro",
       "description": "El campamento necesita expandirse. Una zona cercana tiene recursos pero está infestada. Hay que limpiarla antes de que más zombies lleguen.",
       "difficulty": "hard",
-      "tags": ["combat", "strategy"]
+      "tags": [
+        "combat",
+        "strategy"
+      ]
     }
   ],
-
   "engine_notes": {
     "story_mode": "Enfocarse en dilemas morales: ¿salvar a quién? ¿confiar en extraños? ¿cruzar líneas éticas para sobrevivir? Los zombies son amenaza constante pero el verdadero horror son las decisiones imposibles y lo que la supervivencia nos hace.",
     "pbta": "Movimientos como 'Actuar Bajo Presión' y 'Leer una Situación Peligrosa'. Los fallos parciales = ruido atrae zombies, recursos gastados, heridas leves. Los vínculos entre personajes son vitales - perder a alguien tiene consecuencias mecánicas.",
     "year_zero": "PERFECTO para este lore. Recursos: munición (contar cada bala), comida (días sin comer), agua (deshidratación), vendas (infecciones). Empujar dados = hacer ruido, quemar recursos, arriesgar infección. El sistema de estrés refleja el desgaste psicológico.",
     "dnd_5e": "Adaptar a low-magic survival horror. Sin clases mágicas. HP reducido universalmente. Enfocarse en habilidades de supervivencia, medicina, sigilo. Descanso largo requiere refugio seguro (raro). Munición como recurso limitado."
   },
-
   "tutorial_notes": "Para NOVICE: Comenzar en lugar seguro (Campamento Esperanza) con NPCs amigables que expliquen reglas. Primer zombie debe ser solitario y eliminable. Explicar importancia de: 1) Ruido atrae zombies, 2) Recursos son vida, 3) No todo sobreviviente es amigo. NO matar al personaje en primeras horas - darles tiempo de aprender. Primeros combates deben ser ganables con buenas decisiones.",
-
   "glossary": {
     "Caminante": "Zombie estándar. Lento pero implacable en grupo",
     "Corredor": "Zombie reciente que puede correr. Extremadamente peligroso",
@@ -1104,7 +2078,6 @@
     "Día Cero": "El día que empezó todo",
     "Giro/Convertir": "Proceso de transformación en zombie después de muerte o mordida"
   },
-
   "survival_rules": {
     "noise_levels": {
       "silencioso": "Movimiento cuidadoso, armas silenciosas - no atrae zombies",

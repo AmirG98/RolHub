@@ -2,36 +2,243 @@
   "id": "LOVECRAFT_HORROR",
   "name": "Horrores Cósmicos",
   "tagline": "Hay cosas que la humanidad no debe saber",
-  "tone": ["terrorífico", "cósmico", "desesperante", "misterioso"],
+  "tone": [
+    "terrorífico",
+    "cósmico",
+    "desesperante",
+    "misterioso"
+  ],
   "world_summary": "Años 1920. Bajo la superficie de la realidad cotidiana, horrores ancestrales duermen. Dioses de otros planos esperan su momento. Cultos secretos adoran lo incomprensible. Vos sos un investigador que descubrió demasiado. Cada verdad que encontrás erosiona tu cordura. La humanidad es insignificante. Los Grandes Antiguos existen más allá del tiempo y espacio. El conocimiento prohibido te consume. No podés sin ver lo que viste. La locura es una bendición comparada con conocer la verdad del cosmos.",
-
   "factions": [
-    {"name": "Miskatonic University", "description": "Academia que guarda libros prohibidos", "alignment": "Neutral Bueno", "influence": 1},
-    {"name": "Culto de Cthulhu", "description": "Adoradores del que duerme en R'lyeh", "alignment": "Malvado", "influence": 2},
-    {"name": "La Orden de la Estrella de Plata", "description": "Cazadores de lo sobrenatural", "alignment": "Bueno", "influence": 1},
-    {"name": "Los Profundos", "description": "Híbridos pez-humano en costas oscuras", "alignment": "Malvado", "influence": 1},
-    {"name": "Agentes Gubernamentales", "description": "Intentan ocultar la verdad al público", "alignment": "Neutral", "influence": 1}
+    {
+      "name": "Miskatonic University",
+      "description": "Academia que guarda libros prohibidos",
+      "alignment": "Neutral Bueno",
+      "influence": 1
+    },
+    {
+      "name": "Culto de Cthulhu",
+      "description": "Adoradores del que duerme en R'lyeh",
+      "alignment": "Malvado",
+      "influence": 2
+    },
+    {
+      "name": "La Orden de la Estrella de Plata",
+      "description": "Cazadores de lo sobrenatural",
+      "alignment": "Bueno",
+      "influence": 1
+    },
+    {
+      "name": "Los Profundos",
+      "description": "Híbridos pez-humano en costas oscuras",
+      "alignment": "Malvado",
+      "influence": 1
+    },
+    {
+      "name": "Agentes Gubernamentales",
+      "description": "Intentan ocultar la verdad al público",
+      "alignment": "Neutral",
+      "influence": 1
+    }
   ],
-
   "locations": [
-    {"name": "Arkham", "description": "Ciudad aparentemente normal con secretos oscuros", "type": "ciudad", "danger_level": 3},
-    {"name": "Biblioteca Miskatonic", "description": "Contiene el Necronomicón y otros tomos malditos", "type": "biblioteca", "danger_level": 4},
-    {"name": "Innsmouth", "description": "Pueblo costero donde humanos se vuelven peces", "type": "pueblo", "danger_level": 5},
-    {"name": "Cementerio de Arkham", "description": "Donde muertos no descansan", "type": "cementerio", "danger_level": 4},
-    {"name": "Dimensión de los Sueños", "description": "Plano onírico donde habitan pesadillas", "type": "otro_plano", "danger_level": 5},
-    {"name": "Sanatorio", "description": "Psiquiátrico lleno de quienes vieron demasiado", "type": "hospital", "danger_level": 2},
-    {"name": "Mansión Abandonada", "description": "Hogar de experimentos prohibidos", "type": "mansión", "danger_level": 4},
-    {"name": "R'lyeh", "description": "Ciudad sumergida donde duerme Cthulhu", "type": "ciudad_hundida", "danger_level": 6}
+    {
+      "name": "Arkham",
+      "description": "Ciudad aparentemente normal con secretos oscuros",
+      "type": "ciudad",
+      "danger_level": 3,
+      "travel_times": {
+        "Biblioteca Miskatonic": "15 minutos a pie",
+        "Cementerio de Arkham": "30 minutos a pie, 10 minutos en coche",
+        "Innsmouth": "2 horas en coche, 8 horas a pie",
+        "Sanatorio": "20 minutos en coche",
+        "Mansión Abandonada": "45 minutos a pie, 15 minutos en coche"
+      },
+      "sub_locations": [
+        {
+          "id": "universidad-miskatonic",
+          "name": "Campus de la Universidad Miskatonic",
+          "type": "library",
+          "description": "Edificios académicos de ladrillo rojo donde se investigan ciencias prohibidas"
+        },
+        {
+          "id": "comisaria-arkham",
+          "name": "Comisaría de Arkham",
+          "type": "prison",
+          "description": "Estación de policía donde los agentes prefieren no creer en lo sobrenatural"
+        },
+        {
+          "id": "mercado-arkham",
+          "name": "Mercado de Church Street",
+          "type": "market",
+          "description": "Calle comercial con tiendas de antigüedades y una librería de libros raros"
+        },
+        {
+          "id": "taberna-velvet",
+          "name": "Taberna The Velvet",
+          "type": "tavern",
+          "description": "Bar oscuro donde los investigadores comparten rumores sobre fenómenos inexplicables"
+        },
+        {
+          "id": "estacion-tren",
+          "name": "Estación de Tren de Arkham",
+          "type": "gate",
+          "description": "Pequeña estación que conecta con Boston y las ciudades costeras de Nueva Inglaterra"
+        }
+      ]
+    },
+    {
+      "name": "Biblioteca Miskatonic",
+      "description": "Contiene el Necronomicón y otros tomos malditos",
+      "type": "biblioteca",
+      "danger_level": 4,
+      "travel_times": {
+        "Arkham": "15 minutos a pie",
+        "Cementerio de Arkham": "20 minutos a pie",
+        "Sanatorio": "25 minutos en coche"
+      }
+    },
+    {
+      "name": "Innsmouth",
+      "description": "Pueblo costero donde humanos se vuelven peces",
+      "type": "pueblo",
+      "danger_level": 5,
+      "travel_times": {
+        "Arkham": "2 horas en coche, 8 horas a pie",
+        "R'lyeh": "desconocido (por mar, si sobrevivís)",
+        "Cementerio de Arkham": "2 horas en coche"
+      },
+      "sub_locations": [
+        {
+          "id": "hotel-gilman",
+          "name": "Hotel Gilman",
+          "type": "tavern",
+          "description": "Posada decrépita con habitaciones húmedas y huéspedes de aspecto inquietante"
+        },
+        {
+          "id": "templo-orden-dagon",
+          "name": "Templo de la Orden Esotérica de Dagón",
+          "type": "temple",
+          "description": "Iglesia reconvertida donde los Profundos realizan sus ritos oscuros"
+        },
+        {
+          "id": "muelle-innsmouth",
+          "name": "Muelles de Innsmouth",
+          "type": "dock",
+          "description": "Puerto abandonado donde barcas podridas se mecen y figuras emergen del agua de noche"
+        },
+        {
+          "id": "almacen-marsh",
+          "name": "Refinería Marsh",
+          "type": "workshop",
+          "description": "Fábrica en ruinas propiedad de la familia Marsh, llena de oro de origen sospechoso"
+        }
+      ]
+    },
+    {
+      "name": "Cementerio de Arkham",
+      "description": "Donde muertos no descansan",
+      "type": "cementerio",
+      "danger_level": 4,
+      "travel_times": {
+        "Arkham": "30 minutos a pie, 10 minutos en coche",
+        "Biblioteca Miskatonic": "20 minutos a pie",
+        "Mansión Abandonada": "25 minutos a pie"
+      }
+    },
+    {
+      "name": "Dimensión de los Sueños",
+      "description": "Plano onírico donde habitan pesadillas",
+      "type": "otro_plano",
+      "danger_level": 5,
+      "travel_times": {
+        "Arkham": "acceso solo mediante sueños o rituales",
+        "R'lyeh": "las dimensiones se conectan en puntos inestables"
+      }
+    },
+    {
+      "name": "Sanatorio",
+      "description": "Psiquiátrico lleno de quienes vieron demasiado",
+      "type": "hospital",
+      "danger_level": 2,
+      "travel_times": {
+        "Arkham": "20 minutos en coche",
+        "Biblioteca Miskatonic": "25 minutos en coche",
+        "Mansión Abandonada": "30 minutos en coche"
+      },
+      "sub_locations": [
+        {
+          "id": "ala-comun",
+          "name": "Ala de Pacientes Comunes",
+          "type": "hospital",
+          "description": "Salas con camas donde los internados susurran sobre cosas que vieron"
+        },
+        {
+          "id": "ala-restringida",
+          "name": "Ala Restringida",
+          "type": "prison",
+          "description": "Celdas acolchadas para los casos más extremos, con gritos que no cesan de noche"
+        },
+        {
+          "id": "jardin-sanatorio",
+          "name": "Jardín del Sanatorio",
+          "type": "garden",
+          "description": "Patio cercado donde los pacientes caminan en círculos murmurando en lenguas muertas"
+        }
+      ]
+    },
+    {
+      "name": "Mansión Abandonada",
+      "description": "Hogar de experimentos prohibidos",
+      "type": "mansión",
+      "danger_level": 4,
+      "travel_times": {
+        "Arkham": "45 minutos a pie, 15 minutos en coche",
+        "Cementerio de Arkham": "25 minutos a pie",
+        "Sanatorio": "30 minutos en coche"
+      }
+    },
+    {
+      "name": "R'lyeh",
+      "description": "Ciudad sumergida donde duerme Cthulhu",
+      "type": "ciudad_hundida",
+      "danger_level": 6,
+      "travel_times": {
+        "Innsmouth": "semanas por mar, si las coordenadas son correctas",
+        "Dimensión de los Sueños": "las dimensiones se conectan en puntos inestables"
+      }
+    }
   ],
-
   "archetypes": [
     {
       "id": "professor",
       "name": "Profesor",
       "description": "Académico que busca conocimiento peligroso",
       "simple_description": "Tu intelecto es tu arma. Traducís lenguas muertas. Cada libro te acerca más a la verdad... y a la locura.",
-      "starting_stats": {"hp": 12, "maxHp": 12, "combat": 1, "exploration": 3, "social": 3, "lore": 7, "sanity": 60, "maxSanity": 100},
-      "starting_inventory": ["Ejemplar del Necronomicón (peligroso)", "Lupa", "Diario de investigación", "Contactos académicos", "Linterna", "Maletín de cuero", "Provisiones enlatadas (3 días)", "Cantimplora de latón", "Cuerda resistente (15m)", "Cerillas y encendedor", "Botiquín de primeros auxilios", "Billetera con 25 dólares"],
+      "starting_stats": {
+        "hp": 12,
+        "maxHp": 12,
+        "combat": 1,
+        "exploration": 3,
+        "social": 3,
+        "lore": 7,
+        "sanity": 60,
+        "maxSanity": 100
+      },
+      "starting_inventory": [
+        "Ejemplar del Necronomicón (peligroso)",
+        "Lupa",
+        "Diario de investigación",
+        "Contactos académicos",
+        "Linterna",
+        "Maletín de cuero",
+        "Provisiones enlatadas (3 días)",
+        "Cantimplora de latón",
+        "Cuerda resistente (15m)",
+        "Cerillas y encendedor",
+        "Botiquín de primeros auxilios",
+        "Billetera con 25 dólares"
+      ],
       "special_ability": "Erudición Oscura: Podés leer textos prohibidos. Cada lectura te da +1 Lore pero -10 Sanity"
     },
     {
@@ -39,8 +246,30 @@
       "name": "Detective Privado",
       "description": "Investigador que siguió el caso equivocado",
       "simple_description": "Sabés seguir pistas. Tu instinto te mantiene vivo. Has visto cosas que no deberías.",
-      "starting_stats": {"hp": 16, "maxHp": 16, "combat": 3, "exploration": 5, "social": 4, "lore": 2, "sanity": 70, "maxSanity": 100},
-      "starting_inventory": ["Revólver .38", "Insignia de detective", "Notas del caso", "Contacto en la policía", "Cámara", "Maletín de cuero", "Provisiones enlatadas (3 días)", "Cantimplora de latón", "Cuerda resistente (15m)", "Linterna de mano con pilas", "Cerillas y encendedor", "Billetera con 25 dólares"],
+      "starting_stats": {
+        "hp": 16,
+        "maxHp": 16,
+        "combat": 3,
+        "exploration": 5,
+        "social": 4,
+        "lore": 2,
+        "sanity": 70,
+        "maxSanity": 100
+      },
+      "starting_inventory": [
+        "Revólver .38",
+        "Insignia de detective",
+        "Notas del caso",
+        "Contacto en la policía",
+        "Cámara",
+        "Maletín de cuero",
+        "Provisiones enlatadas (3 días)",
+        "Cantimplora de latón",
+        "Cuerda resistente (15m)",
+        "Linterna de mano con pilas",
+        "Cerillas y encendedor",
+        "Billetera con 25 dólares"
+      ],
       "special_ability": "Olfato para el Peligro: Detectás emboscadas y trampas. Primer ataque sorpresa siempre falla contra vos"
     },
     {
@@ -48,79 +277,325 @@
       "name": "Ocultista",
       "description": "Practicante de artes místicas - conocés rituales",
       "simple_description": "Podés realizar rituales antiguos. Entendés símbolos que otros no ven. La magia tiene precio.",
-      "starting_stats": {"hp": 14, "maxHp": 14, "combat": 2, "exploration": 3, "social": 3, "lore": 6, "sanity": 50, "maxSanity": 100},
-      "starting_inventory": ["Grimorio personal", "Velas rituales", "Sangre de cordero", "Amuleto protector", "Tiza para círculos", "Maletín de cuero", "Provisiones enlatadas (3 días)", "Cantimplora de latón", "Cuerda resistente (15m)", "Linterna de mano con pilas", "Botiquín de primeros auxilios", "Billetera con 25 dólares"],
+      "starting_stats": {
+        "hp": 14,
+        "maxHp": 14,
+        "combat": 2,
+        "exploration": 3,
+        "social": 3,
+        "lore": 6,
+        "sanity": 50,
+        "maxSanity": 100
+      },
+      "starting_inventory": [
+        "Grimorio personal",
+        "Velas rituales",
+        "Sangre de cordero",
+        "Amuleto protector",
+        "Tiza para círculos",
+        "Maletín de cuero",
+        "Provisiones enlatadas (3 días)",
+        "Cantimplora de latón",
+        "Cuerda resistente (15m)",
+        "Linterna de mano con pilas",
+        "Botiquín de primeros auxilios",
+        "Billetera con 25 dólares"
+      ],
       "special_ability": "Magia Ritual: Podés lanzar hechizos prohibidos. Cada hechizo cuesta Sanity pero puede salvar vidas"
     }
   ],
-
   "voice_id": "susurrante_inquietante",
-  "npc_voices": {"culto": "fanatico_demente", "criatura": "no_humano_gutural", "victima": "traumatizado_roto", "anciano": "sabio_advertencia"},
+  "npc_voices": {
+    "culto": "fanatico_demente",
+    "criatura": "no_humano_gutural",
+    "victima": "traumatizado_roto",
+    "anciano": "sabio_advertencia"
+  },
   "music_mood": "horror_ambient",
   "art_style": "lovecraftian horror art, dark gothic, cosmic horror, tentacles and madness, 1920s noir aesthetic",
-
   "roll_tables": {
     "encounters": {
       "formula": "1d20",
       "results": [
-        {"range": [1,4], "result": "Ciudadano con comportamiento extraño - está siendo poseído"},
-        {"range": [5,8], "result": "Encuentras símbolo arcano que no reconocés - investigarlo cuesta Sanity"},
-        {"range": [9,12], "result": "Miembro de culto secreto te vigila desde las sombras"},
-        {"range": [13,15], "result": "Criatura no identificada deja rastro de baba"},
-        {"range": [16,17], "result": "Encuentro con Profundo - híbrido pez humanoide"},
-        {"range": [18,19], "result": "Aparición fantasmal te muestra visión del futuro"},
-        {"range": [20,20], "result": "Shoggoth - masa de ojos y tentáculos, casi imparable"}
+        {
+          "range": [
+            1,
+            4
+          ],
+          "result": "Ciudadano con comportamiento extraño - está siendo poseído"
+        },
+        {
+          "range": [
+            5,
+            8
+          ],
+          "result": "Encuentras símbolo arcano que no reconocés - investigarlo cuesta Sanity"
+        },
+        {
+          "range": [
+            9,
+            12
+          ],
+          "result": "Miembro de culto secreto te vigila desde las sombras"
+        },
+        {
+          "range": [
+            13,
+            15
+          ],
+          "result": "Criatura no identificada deja rastro de baba"
+        },
+        {
+          "range": [
+            16,
+            17
+          ],
+          "result": "Encuentro con Profundo - híbrido pez humanoide"
+        },
+        {
+          "range": [
+            18,
+            19
+          ],
+          "result": "Aparición fantasmal te muestra visión del futuro"
+        },
+        {
+          "range": [
+            20,
+            20
+          ],
+          "result": "Shoggoth - masa de ojos y tentáculos, casi imparable"
+        }
       ]
     },
     "sanity_loss": {
       "formula": "1d10",
       "results": [
-        {"range": [1,2], "result": "Visión perturbadora - pierdes 1d4 Sanity"},
-        {"range": [3,4], "result": "Encuentro con lo sobrenatural - pierdes 1d6 Sanity"},
-        {"range": [5,6], "result": "Testimonio de ritual - pierdes 1d8 Sanity"},
-        {"range": [7,8], "result": "Ver criatura de otro plano - pierdes 1d10 Sanity"},
-        {"range": [9,9], "result": "Leer Necronomicón - pierdes 2d6 Sanity pero +3 Lore"},
-        {"range": [10,10], "result": "Encuentro con Gran Antiguo - pierdes 3d10 Sanity o quedás permanentemente loco"}
+        {
+          "range": [
+            1,
+            2
+          ],
+          "result": "Visión perturbadora - pierdes 1d4 Sanity"
+        },
+        {
+          "range": [
+            3,
+            4
+          ],
+          "result": "Encuentro con lo sobrenatural - pierdes 1d6 Sanity"
+        },
+        {
+          "range": [
+            5,
+            6
+          ],
+          "result": "Testimonio de ritual - pierdes 1d8 Sanity"
+        },
+        {
+          "range": [
+            7,
+            8
+          ],
+          "result": "Ver criatura de otro plano - pierdes 1d10 Sanity"
+        },
+        {
+          "range": [
+            9,
+            9
+          ],
+          "result": "Leer Necronomicón - pierdes 2d6 Sanity pero +3 Lore"
+        },
+        {
+          "range": [
+            10,
+            10
+          ],
+          "result": "Encuentro con Gran Antiguo - pierdes 3d10 Sanity o quedás permanentemente loco"
+        }
       ]
     },
     "loot": {
       "formula": "1d10",
       "results": [
-        {"range": [1,3], "result": "Diario de investigador previo - pistas útiles"},
-        {"range": [4,5], "result": "Amuleto protector - +2 vs magia"},
-        {"range": [6,7], "result": "Libro de hechizos menor"},
-        {"range": [8,9], "result": "Artefacto maldito - poder pero corrupción"},
-        {"range": [10,10], "result": "Fragmento del Necronomicón - verdad prohibida"}
+        {
+          "range": [
+            1,
+            3
+          ],
+          "result": "Diario de investigador previo - pistas útiles"
+        },
+        {
+          "range": [
+            4,
+            5
+          ],
+          "result": "Amuleto protector - +2 vs magia"
+        },
+        {
+          "range": [
+            6,
+            7
+          ],
+          "result": "Libro de hechizos menor"
+        },
+        {
+          "range": [
+            8,
+            9
+          ],
+          "result": "Artefacto maldito - poder pero corrupción"
+        },
+        {
+          "range": [
+            10,
+            10
+          ],
+          "result": "Fragmento del Necronomicón - verdad prohibida"
+        }
       ]
     }
   },
-
   "active_effects_pool": [
-    {"id": "locura_temporal", "name": "Locura Temporal", "description": "No podés distinguir realidad de alucinación", "type": "debuff", "duration": 3, "effects": {"all_stats": -2, "hallucinating": true}},
-    {"id": "iluminacion", "name": "Iluminación Cósmica", "description": "Ves la verdad del universo - es aterrador", "type": "special", "duration": 2, "effects": {"lore": 5, "sanity_per_turn": -5}},
-    {"id": "posesion", "name": "Posesión Parcial", "description": "Algo de otro mundo habita en vos", "type": "critical", "duration": 5, "effects": {"combat": 3, "losing_control": true, "sanity_per_turn": -3}},
-    {"id": "bendicion_antigua", "name": "Bendición de Elder Sign", "description": "Símbolo protector te defiende", "type": "buff", "duration": 10, "effects": {"defense_vs_supernatural": 5}}
+    {
+      "id": "locura_temporal",
+      "name": "Locura Temporal",
+      "description": "No podés distinguir realidad de alucinación",
+      "type": "debuff",
+      "duration": 3,
+      "effects": {
+        "all_stats": -2,
+        "hallucinating": true
+      }
+    },
+    {
+      "id": "iluminacion",
+      "name": "Iluminación Cósmica",
+      "description": "Ves la verdad del universo - es aterrador",
+      "type": "special",
+      "duration": 2,
+      "effects": {
+        "lore": 5,
+        "sanity_per_turn": -5
+      }
+    },
+    {
+      "id": "posesion",
+      "name": "Posesión Parcial",
+      "description": "Algo de otro mundo habita en vos",
+      "type": "critical",
+      "duration": 5,
+      "effects": {
+        "combat": 3,
+        "losing_control": true,
+        "sanity_per_turn": -3
+      }
+    },
+    {
+      "id": "bendicion_antigua",
+      "name": "Bendición de Elder Sign",
+      "description": "Símbolo protector te defiende",
+      "type": "buff",
+      "duration": 10,
+      "effects": {
+        "defense_vs_supernatural": 5
+      }
+    }
   ],
-
   "narrative_skeleton": {
-    "act_1": {"name": "La Investigación Inocente", "description": "Un caso simple se vuelve pesadilla", "anchors": ["Caso aparentemente mundano", "Primer encuentro con lo sobrenatural", "Realización: esto es más grande de lo pensado"], "typical_scenes": ["Arkham", "Biblioteca Miskatonic"], "mood": "exploration_calm"},
-    "act_2": {"name": "Desvelando Secretos", "description": "Cada respuesta genera más preguntas", "anchors": ["Descubrimiento de culto activo", "Traducción de textos prohibidos", "Primer ataque de criaturas"], "typical_scenes": ["Mansión Abandonada", "Cementerio"], "mood": "drama_tense"},
-    "act_3": {"name": "Descenso a la Madness", "description": "La cordura se resquebraja", "anchors": ["Visión del plano real de existencia", "Muerte de aliado cercano", "Decisión: seguir o huir"], "typical_scenes": ["Innsmouth", "Dimensión de los Sueños"], "mood": "horror_ambient"},
-    "act_4": {"name": "El Ritual", "description": "Impedir despertar de lo Ancient", "anchors": ["Infiltración en ceremonia del culto", "Batalla contra lo incomprensible", "Sacrificio necesario"], "typical_scenes": ["R'lyeh", "Cementerio"], "mood": "combat_epic"},
-    "act_5": {"name": "Lo Que Queda", "description": "Victoria pírrica - nada vuelve a ser igual", "anchors": ["Amenaza contenida... por ahora", "Sanity permanentemente dañada", "Conocimiento que no puede desaprender se"], "typical_scenes": ["Sanatorio", "Arkham"], "mood": "rest_peaceful"}
+    "act_1": {
+      "name": "La Investigación Inocente",
+      "description": "Un caso simple se vuelve pesadilla",
+      "anchors": [
+        "Caso aparentemente mundano",
+        "Primer encuentro con lo sobrenatural",
+        "Realización: esto es más grande de lo pensado"
+      ],
+      "typical_scenes": [
+        "Arkham",
+        "Biblioteca Miskatonic"
+      ],
+      "mood": "exploration_calm"
+    },
+    "act_2": {
+      "name": "Desvelando Secretos",
+      "description": "Cada respuesta genera más preguntas",
+      "anchors": [
+        "Descubrimiento de culto activo",
+        "Traducción de textos prohibidos",
+        "Primer ataque de criaturas"
+      ],
+      "typical_scenes": [
+        "Mansión Abandonada",
+        "Cementerio"
+      ],
+      "mood": "drama_tense"
+    },
+    "act_3": {
+      "name": "Descenso a la Madness",
+      "description": "La cordura se resquebraja",
+      "anchors": [
+        "Visión del plano real de existencia",
+        "Muerte de aliado cercano",
+        "Decisión: seguir o huir"
+      ],
+      "typical_scenes": [
+        "Innsmouth",
+        "Dimensión de los Sueños"
+      ],
+      "mood": "horror_ambient"
+    },
+    "act_4": {
+      "name": "El Ritual",
+      "description": "Impedir despertar de lo Ancient",
+      "anchors": [
+        "Infiltración en ceremonia del culto",
+        "Batalla contra lo incomprensible",
+        "Sacrificio necesario"
+      ],
+      "typical_scenes": [
+        "R'lyeh",
+        "Cementerio"
+      ],
+      "mood": "combat_epic"
+    },
+    "act_5": {
+      "name": "Lo Que Queda",
+      "description": "Victoria pírrica - nada vuelve a ser igual",
+      "anchors": [
+        "Amenaza contenida... por ahora",
+        "Sanity permanentemente dañada",
+        "Conocimiento que no puede desaprender se"
+      ],
+      "typical_scenes": [
+        "Sanatorio",
+        "Arkham"
+      ],
+      "mood": "rest_peaceful"
+    }
   },
-
   "one_shot_hook": "Herencia te un viejo profesor universitario que murió en circunstancias misteriosas. Entre sus posesiones: un diario con anotaciones frenéticas sobre 'Cthulhu fhtagn' y coordenadas de una isla en el Pacífico. Su última entrada: 'Si estás leyendo esto, ya es demasiado tarde. Las estrellas están alineándose. Ellos despiertan.' Esta noche, tuviste pesadillas con una ciudad imposible y cantos en lenguas muertas. Tu investigación comienza ahora.",
-
   "opening_scene": {
     "location_id": "arkham-library",
     "location_name": "Biblioteca Orne, Universidad Miskatonic",
     "description": "Te encontrás en la Biblioteca Orne de la Universidad Miskatonic, entre estanterías de madera oscura que alcanzan techos imposiblemente altos. La luz de las lámparas de gas crea sombras danzantes sobre tomos antiguos. El silencio es casi absoluto, roto solo por el crujir del edificio y el ocasional susurro de páginas. El olor a papel viejo y cuero es opresivo. En la sección de libros raros, custodiada con llave, dicen que hay volúmenes que no deberían existir. Esta noche, las sombras parecen más densas de lo normal.",
     "visible_directions": [
-      { "direction": "la sección de ocultismo", "landmark": "estantes marcados con símbolos que no reconocés, donde pocos estudiantes se atreven a entrar" },
-      { "direction": "el escritorio del bibliotecario", "landmark": "el Dr. Armitage, un anciano que parece saber más de lo que dice, revisa documentos con nerviosismo" },
-      { "direction": "la ventana empañada", "landmark": "las calles de Arkham bajo la niebla nocturna, donde ocasionalmente pasan siluetas que no parecen del todo humanas" },
-      { "direction": "las escaleras al sótano", "landmark": "los archivos restringidos, donde se guardan los textos que la universidad prefiere olvidar" }
+      {
+        "direction": "la sección de ocultismo",
+        "landmark": "estantes marcados con símbolos que no reconocés, donde pocos estudiantes se atreven a entrar"
+      },
+      {
+        "direction": "el escritorio del bibliotecario",
+        "landmark": "el Dr. Armitage, un anciano que parece saber más de lo que dice, revisa documentos con nerviosismo"
+      },
+      {
+        "direction": "la ventana empañada",
+        "landmark": "las calles de Arkham bajo la niebla nocturna, donde ocasionalmente pasan siluetas que no parecen del todo humanas"
+      },
+      {
+        "direction": "las escaleras al sótano",
+        "landmark": "los archivos restringidos, donde se guardan los textos que la universidad prefiere olvidar"
+      }
     ],
     "ambient_rumors": [
       "tres estudiantes desaparecieron la semana pasada investigando un libro llamado el Necronomicón",
@@ -130,7 +605,6 @@
     ],
     "closing_prompt": "La noche de Nueva Inglaterra se cierne sobre Arkham. Tu cordura es frágil, pero la verdad te llama. ¿Qué hacés?"
   },
-
   "opening_scenes": [
     {
       "id": "default",
@@ -138,10 +612,22 @@
       "location_name": "Biblioteca Orne, Universidad Miskatonic",
       "description": "Te encontrás en la Biblioteca Orne de la Universidad Miskatonic, entre estanterías de madera oscura que alcanzan techos imposiblemente altos. La luz de las lámparas de gas crea sombras danzantes sobre tomos antiguos. El silencio es casi absoluto, roto solo por el crujir del edificio y el ocasional susurro de páginas. El olor a papel viejo y cuero es opresivo. En la sección de libros raros, custodiada con llave, dicen que hay volúmenes que no deberían existir. Esta noche, las sombras parecen más densas de lo normal.",
       "visible_directions": [
-        { "direction": "la sección de ocultismo", "landmark": "estantes marcados con símbolos que no reconocés, donde pocos estudiantes se atreven a entrar" },
-        { "direction": "el escritorio del bibliotecario", "landmark": "el Dr. Armitage, un anciano que parece saber más de lo que dice, revisa documentos con nerviosismo" },
-        { "direction": "la ventana empañada", "landmark": "las calles de Arkham bajo la niebla nocturna, donde ocasionalmente pasan siluetas que no parecen del todo humanas" },
-        { "direction": "las escaleras al sótano", "landmark": "los archivos restringidos, donde se guardan los textos que la universidad prefiere olvidar" }
+        {
+          "direction": "la sección de ocultismo",
+          "landmark": "estantes marcados con símbolos que no reconocés, donde pocos estudiantes se atreven a entrar"
+        },
+        {
+          "direction": "el escritorio del bibliotecario",
+          "landmark": "el Dr. Armitage, un anciano que parece saber más de lo que dice, revisa documentos con nerviosismo"
+        },
+        {
+          "direction": "la ventana empañada",
+          "landmark": "las calles de Arkham bajo la niebla nocturna, donde ocasionalmente pasan siluetas que no parecen del todo humanas"
+        },
+        {
+          "direction": "las escaleras al sótano",
+          "landmark": "los archivos restringidos, donde se guardan los textos que la universidad prefiere olvidar"
+        }
       ],
       "ambient_rumors": [
         "tres estudiantes desaparecieron la semana pasada investigando un libro llamado el Necronomicón",
@@ -157,10 +643,22 @@
       "location_name": "Biblioteca Orne, Universidad Miskatonic",
       "description": "Una tormenta brutal azota Arkham y la lluvia golpea los vitrales de la Biblioteca Orne como dedos desesperados pidiendo entrar. Los relámpagos iluminan las estanterías en flashes blancos que revelan títulos que no recordás haber visto antes. El agua se filtra por una grieta en el techo y gotea sobre un atlas abierto en una página que muestra una isla sin nombre. El Dr. Armitage cerró la biblioteca hace una hora, pero vos te quedaste. Estás solo... o al menos eso creés, porque jurás que escuchaste pasos en el piso de arriba, donde no hay ningún piso.",
       "visible_directions": [
-        { "direction": "la sección de ocultismo", "landmark": "estantes marcados con símbolos que no reconocés, donde pocos estudiantes se atreven a entrar" },
-        { "direction": "el escritorio del bibliotecario", "landmark": "el Dr. Armitage, un anciano que parece saber más de lo que dice, revisa documentos con nerviosismo" },
-        { "direction": "la ventana empañada", "landmark": "las calles de Arkham bajo la niebla nocturna, donde ocasionalmente pasan siluetas que no parecen del todo humanas" },
-        { "direction": "las escaleras al sótano", "landmark": "los archivos restringidos, donde se guardan los textos que la universidad prefiere olvidar" }
+        {
+          "direction": "la sección de ocultismo",
+          "landmark": "estantes marcados con símbolos que no reconocés, donde pocos estudiantes se atreven a entrar"
+        },
+        {
+          "direction": "el escritorio del bibliotecario",
+          "landmark": "el Dr. Armitage, un anciano que parece saber más de lo que dice, revisa documentos con nerviosismo"
+        },
+        {
+          "direction": "la ventana empañada",
+          "landmark": "las calles de Arkham bajo la niebla nocturna, donde ocasionalmente pasan siluetas que no parecen del todo humanas"
+        },
+        {
+          "direction": "las escaleras al sótano",
+          "landmark": "los archivos restringidos, donde se guardan los textos que la universidad prefiere olvidar"
+        }
       ],
       "ambient_rumors": [
         "tres estudiantes desaparecieron la semana pasada investigando un libro llamado el Necronomicón",
@@ -176,10 +674,22 @@
       "location_name": "Biblioteca Orne, Universidad Miskatonic",
       "description": "Es medianoche y alguien dejó un paquete en tu escritorio de la Biblioteca Orne. No tiene remitente, solo tu nombre escrito en una caligrafía arcaica que parece anterior al idioma inglés. Adentro hay un cuaderno de cuero con anotaciones en latín y dibujos de geometrías imposibles que te marean al mirarlos. Las lámparas de gas parpadean con un ritmo que no es aleatorio. El reloj de pared se detuvo a las 3:33. Desde la sección de libros raros llega un olor dulzón y enfermizo, como flores podridas mezcladas con incienso antiguo. El Dr. Armitage no vino hoy y nadie sabe por qué.",
       "visible_directions": [
-        { "direction": "la sección de ocultismo", "landmark": "estantes marcados con símbolos que no reconocés, donde pocos estudiantes se atreven a entrar" },
-        { "direction": "el escritorio del bibliotecario", "landmark": "el Dr. Armitage, un anciano que parece saber más de lo que dice, revisa documentos con nerviosismo" },
-        { "direction": "la ventana empañada", "landmark": "las calles de Arkham bajo la niebla nocturna, donde ocasionalmente pasan siluetas que no parecen del todo humanas" },
-        { "direction": "las escaleras al sótano", "landmark": "los archivos restringidos, donde se guardan los textos que la universidad prefiere olvidar" }
+        {
+          "direction": "la sección de ocultismo",
+          "landmark": "estantes marcados con símbolos que no reconocés, donde pocos estudiantes se atreven a entrar"
+        },
+        {
+          "direction": "el escritorio del bibliotecario",
+          "landmark": "el Dr. Armitage, un anciano que parece saber más de lo que dice, revisa documentos con nerviosismo"
+        },
+        {
+          "direction": "la ventana empañada",
+          "landmark": "las calles de Arkham bajo la niebla nocturna, donde ocasionalmente pasan siluetas que no parecen del todo humanas"
+        },
+        {
+          "direction": "las escaleras al sótano",
+          "landmark": "los archivos restringidos, donde se guardan los textos que la universidad prefiere olvidar"
+        }
       ],
       "ambient_rumors": [
         "tres estudiantes desaparecieron la semana pasada investigando un libro llamado el Necronomicón",
@@ -190,40 +700,46 @@
       "closing_prompt": "Un paquete misterioso, un bibliotecario ausente y un reloj detenido a las 3:33. La curiosidad es un veneno dulce. ¿Qué hacés?"
     }
   ],
-
   "initial_missions": [
     {
       "id": "missing_persons",
       "title": "Las Desapariciones de Arkham",
       "description": "Tres estudiantes de Miskatonic han desaparecido en la última semana. La policía no tiene pistas. Un profesor te pide investigar discretamente.",
       "difficulty": "easy",
-      "tags": ["investigation", "mystery"]
+      "tags": [
+        "investigation",
+        "mystery"
+      ]
     },
     {
       "id": "haunted_mansion",
       "title": "La Mansión Corbitt",
       "description": "Una mansión abandonada en las afueras de Arkham ha estado vacía 40 años. Los vecinos reportan luces y sonidos. El nuevo dueño necesita que investigues antes de mudarse.",
       "difficulty": "medium",
-      "tags": ["exploration", "horror"]
+      "tags": [
+        "exploration",
+        "horror"
+      ]
     },
     {
       "id": "lighthouse_ritual",
       "title": "El Ritual del Faro",
       "description": "Pescadores hablan de cantos extraños en el viejo faro de Innsmouth. La última luna llena, un barco desapareció cerca. Alguien debe investigar antes de la próxima luna.",
       "difficulty": "hard",
-      "tags": ["horror", "cult", "investigation"]
+      "tags": [
+        "horror",
+        "cult",
+        "investigation"
+      ]
     }
   ],
-
   "engine_notes": {
     "story_mode": "Horror psicológico narrativo. Sanity es recurso crítico. Combate es ÚLTIMO recurso. Huir es victoria. Conocer la verdad = perder. Atmosfera > mecánicas.",
     "pbta": "Movimientos como 'Mantener la Cordura' y 'Investigar lo Prohibido'. Fallos = pérdida de Sanity, atención no deseada, verdades terribles reveladas.",
     "year_zero": "Recursos: sanity, munición, aliados vivos, tiempo antes del ritual. Empujar dados = pérdida permanente de Sanity, atraer atención de cultistas.",
     "dnd_5e": "No magic classes tradicionales. Todo spell casting = Sanity cost. HP bajo. Muerte común. Madness mechanics centrales. Long rests no curan Sanity."
   },
-
   "tutorial_notes": "Para NOVICE: Explicar que NO ES juego de combate. Objetivo es sobrevivir con algo de cordura intacta. Primera sesión: investigar desaparición simple. Revelar horror gradualmente. NO mostrar monstruo completo hasta Act 3. Sanity loss explicado desde inicio.",
-
   "glossary": {
     "Sanity": "Cordura mental - cuando llega a 0, locura permanente",
     "Gran Antiguo": "Dioses cósmicos - Cthulhu, Nyarlathotep, etc",
