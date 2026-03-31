@@ -1105,7 +1105,24 @@ The story MUST ALWAYS move forward. NEVER repeat a scene you already narrated.
 - Read your previous messages: if you already narrated something, the player already experienced it.
 - NPCs MUST keep the same name across ALL turns. If you named someone "Aldric" in turn 5, they are ALWAYS "Aldric".
 - When time passes significantly, reflect it: "morning" → "afternoon" → "evening" → "night". Use scene_change if needed.
-=== END PROGRESSION ===` : `=== SISTEMA DE TIRADA DE DADOS ===
+=== END PROGRESSION ===
+
+=== TRAVEL RULES ===
+When the player travels between locations:
+1. ADVANCE time_in_world by the realistic travel duration
+2. Use remove_item to consume "Raciones de viaje" (1 per day). If quantity changes, use remove_item + new_item pattern (e.g. "3 days rations" → remove "Raciones de viaje (3 días)", add "Raciones de viaje (1 día)")
+3. If player has NO rations, narrate hunger/fatigue and apply -1 HP per day with hp_change
+4. Narrate 2-3 highlights of the journey (landscapes, camps, weather, encounters)
+5. ALWAYS use scene_change + location_id when arriving
+${(() => {
+  const loc = LORE_JSON_DATA[session.campaign.lore]?.locations?.find((l: any) =>
+    worldState.current_scene?.toLowerCase()?.includes(l.name?.toLowerCase())
+  )
+  const tt = loc?.travel_times
+  if (!tt) return ''
+  return 'Travel times from current location:\n' + Object.entries(tt).map(([dest, time]) => `- → ${dest}: ${time}`).join('\n')
+})()}
+=== END TRAVEL ===` : `=== SISTEMA DE TIRADA DE DADOS ===
 CRÍTICO: ¡DEBES pedir tiradas de dados frecuentemente! Esto es un RPG de mesa, no un "elige tu propia aventura".
 
 CUÁNDO PEDIR UNA TIRADA (usa "dice_request" en tu respuesta):
@@ -1155,7 +1172,24 @@ La historia SIEMPRE debe avanzar. NUNCA repitas una escena que ya narraste.
 - Leé tus mensajes anteriores: si ya narraste algo, el jugador ya lo vivió.
 - Los NPCs DEBEN mantener el mismo nombre en TODOS los turnos. Si nombraste a alguien "Aldric" en el turno 5, SIEMPRE es "Aldric".
 - Cuando pase tiempo significativo, reflejalo: "mañana" → "tarde" → "noche" → "amanecer". Usá scene_change si es necesario.
-=== FIN PROGRESIÓN ===`}
+=== FIN PROGRESIÓN ===
+
+=== REGLAS DE VIAJE ===
+Cuando el jugador viaja entre ubicaciones:
+1. AVANZAR time_in_world por la duración realista del viaje
+2. Usar remove_item para consumir "Raciones de viaje" (1 por día). Si cambia la cantidad, usar remove_item + new_item juntos
+3. Si NO tiene raciones, narrar hambre/fatiga y aplicar -1 HP por día con hp_change
+4. Narrar 2-3 momentos del viaje (paisajes, campamentos, clima, encuentros)
+5. SIEMPRE usar scene_change + location_id al llegar
+${(() => {
+  const loc = LORE_JSON_DATA[session.campaign.lore]?.locations?.find((l: any) =>
+    worldState.current_scene?.toLowerCase()?.includes(l.name?.toLowerCase())
+  )
+  const tt = loc?.travel_times
+  if (!tt) return ''
+  return 'Tiempos de viaje desde ubicación actual:\n' + Object.entries(tt).map(([dest, time]) => `- → ${dest}: ${time}`).join('\n')
+})()}
+=== FIN VIAJE ===`}
 
 ${labels.important}:
 - ${labels.jsonOnly}

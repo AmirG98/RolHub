@@ -115,6 +115,9 @@
         "El Bosque Viejo se ha vuelto más peligroso últimamente",
         "Se han visto figuras encapuchadas preguntando por cierto hobbit"
       ],
+      "travel_times": {
+        "Bree": "1 día a pie, 4 horas a caballo"
+      },
       "sub_locations": [
         {"id": "hobbiton-plaza", "name": "Plaza de Hobbiton", "type": "plaza", "description": "Centro de la vida hobbit, con el árbol festivo y bancas de piedra"},
         {"id": "dragon-verde", "name": "Posada del Dragón Verde", "type": "tavern", "description": "La mejor cerveza de la Comarca, punto de reunión de hobbits chismosos"},
@@ -145,6 +148,11 @@
         "Las caravanas del este están siendo atacadas por lobos inusualmente grandes",
         "El posadero dice que los negocios van mal desde que empezaron los rumores"
       ],
+      "travel_times": {
+        "La Comarca": "1 día a pie, 4 horas a caballo",
+        "Rivendel": "14 días a pie, 5 días a caballo",
+        "Las Montañas Nubladas": "10 días a pie, 4 días a caballo"
+      },
       "sub_locations": [
         {"id": "pony-pisador", "name": "Posada del Pony Pisador", "type": "tavern", "description": "La posada más famosa de Bree, regentada por Cebadilla Mantecona. Fuego cálido, cerveza de cebada y estofado de cordero"},
         {"id": "mercado-bree", "name": "Mercado de Bree", "type": "market", "description": "Plaza central donde comerciantes de todas las razas intercambian mercancías. Enanos con gemas, hobbits con pipas, hombres con armas"},
@@ -201,6 +209,12 @@
         "Un hobbit llegó hace años con una historia increíble sobre un dragón",
         "Los hijos de Elrond cazan orcos sin descanso, buscando venganza por su madre"
       ],
+      "travel_times": {
+        "Bree": "14 días a pie, 5 días a caballo",
+        "Las Montañas Nubladas": "3 días a pie, 1 día a caballo",
+        "Lothlórien": "7 días a pie, 3 días a caballo",
+        "Moria": "5 días a pie (entrada oeste)"
+      },
       "sub_locations": [
         {"id": "casa-elrond", "name": "Casa de Elrond", "type": "palace", "description": "Salones de piedra blanca con cascadas, donde el Señor de Rivendel recibe a sus huéspedes"},
         {"id": "biblioteca-rivendel", "name": "Gran Biblioteca", "type": "library", "description": "La mayor colección de conocimiento de la Tierra Media. Pergaminos en todas las lenguas"},
@@ -222,6 +236,10 @@
         "Denethor busca un artefacto perdido que podría restaurar la esperanza",
         "Osgiliath ha sido atacada - se necesitan refuerzos urgentes"
       ],
+      "travel_times": {
+        "Rohan": "7 días a pie, 3 días a caballo",
+        "Mordor": "5 días a pie (ruta peligrosa)"
+      },
       "sub_locations": [
         {"id": "ciudadela", "name": "La Ciudadela (Nivel 7)", "type": "palace", "description": "La cima de Minas Tirith. La Torre de Ecthelion, el Trono del Senescal y el Árbol Blanco muerto"},
         {"id": "casas-curacion", "name": "Casas de Curación (Nivel 6)", "type": "hospital", "description": "Donde los heridos son atendidos con hierbas y artes antiguas de sanación"},
