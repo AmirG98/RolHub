@@ -248,32 +248,67 @@ export async function POST(req: NextRequest) {
     let loopingNPCName = ''
     let alreadyHappenedEvents: string[] = []
 
-    try {
-      const recentDMContent = allTurns.slice(-6).filter(t => t.role === 'DM').map(t => t.content || '')
-      const recentUserContent = allTurns.slice(-6).filter(t => t.role === 'USER').map(t => (t.content || '').toLowerCase())
+    // Estado narrativo acumulado — NPCs presentados y acciones completadas
+    let introducedNPCsList: string[] = []
+    let completedActions: string[] = []
 
-      // Extraer RESÚMENES de lo que ya pasó en cada turno reciente del DM
-      // En vez de frases literales, condensar el BEAT narrativo de cada turno
+    try {
+      const recentDMContent = allTurns.slice(-10).filter(t => t.role === 'DM').map(t => t.content || '')
+      const recentUserContent = allTurns.slice(-8).filter(t => t.role === 'USER').map(t => (t.content || '').toLowerCase())
+
+      // Extraer resúmenes de lo que ya pasó — 3 oraciones, 100 chars cada una
       alreadyHappenedEvents = recentDMContent.map(content => {
-        // Tomar las primeras 2 oraciones como resumen del beat
-        const sentences = content.split(/[.!?]/).filter(s => s.trim().length > 10)
-        return sentences.slice(0, 2).map(s => s.trim().substring(0, 50)).join('. ')
+        const sentences = content.split(/[.!?»"]/).filter(s => s.trim().length > 10)
+        return sentences.slice(0, 3).map(s => s.trim().substring(0, 100)).join('. ')
       }).filter(s => s.length > 10)
+
+      // Extraer NPCs ya presentados (mencionados con diálogo)
+      const introducedNPCs = new Set<string>()
+      recentDMContent.forEach(content => {
+        const npcMatches = content.matchAll(/([A-ZÁÉÍÓÚ][a-záéíóúñ]+(?:\s+[A-ZÁÉÍÓÚ]?[a-záéíóúñ]+)*)\s*[:«]/g)
+        for (const m of npcMatches) introducedNPCs.add(m[1])
+      })
+      introducedNPCsList = [...introducedNPCs]
+
+      // Extraer acciones ya completadas (estado, no eventos)
+      const actionPatterns: Array<{ pattern: RegExp; label: (who?: string) => string }> = [
+        { pattern: /abr[eió].*puerta|empuj[aó].*puerta|open.*door|push.*door/i, label: () => 'puerta ya abierta' },
+        { pattern: /empuñ[aó]|agarra.*(?:hacha|espada|arma)|desenvain[aó]|grab.*(?:axe|sword|weapon)|drew?\s/i, label: () => 'armas ya desenvainadas' },
+        { pattern: /cerr[óo].*puerta|clos.*door|lock.*door/i, label: () => 'puerta cerrada con llave' },
+        { pattern: /sub[eió].*escalera|climb.*stair/i, label: () => 'subieron las escaleras' },
+        { pattern: /sal[eió].*posada|left.*inn|exit.*inn/i, label: () => 'salieron de la posada' },
+      ]
+      const seenActions = new Set<string>()
+      recentDMContent.forEach(content => {
+        // NPCs que ya se presentaron
+        const introMatch = content.match(/(?:present[aó]|introduc|soy\s|me llamo|mi nombre es|my name is)\b/i)
+        if (introMatch) {
+          const who = content.match(/([A-ZÁÉÍÓÚ][a-záéíóúñ]+(?:\s+[A-ZÁÉÍÓÚ]?[a-záéíóúñ]+)*)\s*[:«]/)?.[1]
+          if (who) {
+            const action = `${who} ya se presentó`
+            if (!seenActions.has(action)) { seenActions.add(action); completedActions.push(action) }
+          }
+        }
+        // Acciones de estado
+        for (const ap of actionPatterns) {
+          if (ap.pattern.test(content)) {
+            const action = ap.label()
+            if (!seenActions.has(action)) { seenActions.add(action); completedActions.push(action) }
+          }
+        }
+      })
 
       // Detectar observación repetida del jugador
       const obsWords = ['observ', 'mir', 'examin', 'fij', 'watch', 'look', 'study']
       isRepeatedObservation = recentUserContent.filter(a => obsWords.some(w => a.includes(w))).length >= 2
 
       // Detectar NPC loop: si el mismo NPC aparece en 3+ narraciones consecutivas
-      // hablando/haciendo lo mismo (misma interacción estancada)
       if (recentDMContent.length >= 3) {
-        // Extraer nombres de NPCs mencionados (palabras con mayúscula seguidas de ":")
         const npcMentions = recentDMContent.map(c => {
           const match = c.match(/([A-ZÁÉÍÓÚ][a-záéíóúñ]+(?:\s+[a-záéíóúñ]+)?)\s*[:«]/)?.[1]
           return match || ''
         }).filter(Boolean)
 
-        // Si el mismo NPC aparece en 3+ turnos seguidos, hay loop
         if (npcMentions.length >= 3) {
           const lastNPC = npcMentions[npcMentions.length - 1]
           const sameNPCCount = npcMentions.filter(n => n === lastNPC).length
@@ -290,15 +325,39 @@ export async function POST(req: NextRequest) {
     // Enviar la acción del jugador directamente, sin prefijo de tipo
     const actionContext = action
 
-    // Construir instrucción anti-repetición concisa para inyectar en el mensaje del usuario
-    // (Claude presta más atención al último mensaje que al system prompt)
+    // Construir directiva anti-repetición con estado narrativo
     let antiRepeatDirective = ''
-    if (alreadyHappenedEvents.length > 0) {
+    {
       const isES = !isEnglish
-      const eventsList = alreadyHappenedEvents.slice(-4).map(e => `• ${e}`).join('\n')
-      antiRepeatDirective = isES
-        ? `\n\n[SISTEMA: Lo siguiente YA PASÓ — NO lo narres de nuevo con ninguna palabra: \n${eventsList}\nAVANZÁ la historia. Narrá qué pasa DESPUÉS, no lo que ya pasó.]`
-        : `\n\n[SYSTEM: The following ALREADY HAPPENED — do NOT narrate it again in any words:\n${eventsList}\nADVANCE the story. Narrate what happens NEXT, not what already happened.]`
+      const parts: string[] = []
+
+      // NPCs ya presentados
+      if (introducedNPCsList.length > 0) {
+        parts.push(isES
+          ? `NPCs ya presentes y presentados: ${introducedNPCsList.join(', ')}. NO los re-introduzcas ni re-describas su apariencia.`
+          : `NPCs already present and introduced: ${introducedNPCsList.join(', ')}. Do NOT re-introduce them or re-describe their appearance.`)
+      }
+
+      // Acciones ya completadas (estado)
+      if (completedActions.length > 0) {
+        parts.push(isES
+          ? `Estado actual: ${completedActions.join(', ')}. Esto YA pasó, NO volver a narrarlo.`
+          : `Current state: ${completedActions.join(', ')}. This ALREADY happened, do NOT narrate it again.`)
+      }
+
+      // Eventos recientes
+      if (alreadyHappenedEvents.length > 0) {
+        const eventsList = alreadyHappenedEvents.slice(-6).map(e => `• ${e}`).join('\n')
+        parts.push(isES
+          ? `Lo que ya pasó (NO repetir):\n${eventsList}`
+          : `What already happened (do NOT repeat):\n${eventsList}`)
+      }
+
+      if (parts.length > 0) {
+        antiRepeatDirective = isES
+          ? `\n\n[SISTEMA — ANTI-REPETICIÓN:\n${parts.join('\n')}\nCONTINUÁ desde donde quedó. Narrá SOLO lo que pasa AHORA como consecuencia de la acción del jugador.]`
+          : `\n\n[SYSTEM — ANTI-REPETITION:\n${parts.join('\n')}\nCONTINUE from where it left off. Narrate ONLY what happens NOW as a consequence of the player's action.]`
+      }
     }
 
     conversationHistory.push({
