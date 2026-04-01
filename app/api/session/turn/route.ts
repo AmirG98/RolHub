@@ -186,11 +186,13 @@ export async function POST(req: NextRequest) {
         return { role: 'assistant' as const, content: turn.content }
       }
 
-      // Turnos DM más viejos: condensar a hechos clave
+      // Turnos DM más viejos: condensar a hechos clave con tag de NPC
       const content = turn.content || ''
       const sentences = content.split(/[.!?»"]/).filter(s => s.trim().length > 12)
       const facts = sentences.slice(0, 3).map(s => s.trim().substring(0, 80)).join('. ')
-      return { role: 'assistant' as const, content: `[Resumen: ${facts}.]` }
+      const npcInTurn = content.match(/([A-ZÁÉÍÓÚ][a-záéíóúñ]+(?:\s+[A-ZÁÉÍÓÚ]?[a-záéíóúñ]+)*)\s*[:«]/)?.[1]
+      const prefix = npcInTurn ? `[${npcInTurn} — interacción completada] ` : ''
+      return { role: 'assistant' as const, content: `${prefix}[Resumen: ${facts}.]` }
     })
 
     // === DETECCIÓN DE ESTANCAMIENTO Y ANTI-REPETICIÓN ===
@@ -268,8 +270,18 @@ export async function POST(req: NextRequest) {
         return sentences.slice(0, 3).map(s => s.trim().substring(0, 100)).join('. ')
       }).filter(s => s.length > 10)
 
-      // Extraer NPCs ya presentados (mencionados con diálogo)
+      // NPCs presentados — usar npc_states persistente + regex como fallback
       const introducedNPCs = new Set<string>()
+      // Primero: NPCs de npc_states que están en la escena actual
+      const currentSceneLower = (worldState.current_scene || '').toLowerCase()
+      Object.entries(worldState.npc_states || {}).forEach(([name, data]) => {
+        const info = typeof data === 'string' ? { status: data, location: '' } : (data as any)
+        const loc = (info.location || '').toLowerCase()
+        if (!loc || loc === currentSceneLower || currentSceneLower.includes(loc) || loc.includes(currentSceneLower)) {
+          introducedNPCs.add(name)
+        }
+      })
+      // Fallback: regex sobre narraciones recientes (para NPCs no registrados aún)
       recentDMContent.forEach(content => {
         const npcMatches = content.matchAll(/([A-ZÁÉÍÓÚ][a-záéíóúñ]+(?:\s+[A-ZÁÉÍÓÚ]?[a-záéíóúñ]+)*)\s*[:«]/g)
         for (const m of npcMatches) introducedNPCs.add(m[1])
@@ -1011,7 +1023,20 @@ IMPORTANTE:
     const systemPrompt = `${labels.dmRole}${isMultiplayer ? ` ${labels.multiplayer}` : ''}. ${isEnglish ? 'Your role is to create an immersive and exciting experience.' : 'Tu rol es crear una experiencia inmersiva y emocionante.'}
 
 ${(() => {
-  const npcList = Object.entries(worldState.npc_states || {}).map(([name, status]) => `${name} (${status})`).join(', ')
+  // Separar NPCs por ubicación — los que están AQUÍ vs en otro lugar
+  const currentScene = worldState.current_scene || ''
+  const npcsHere: string[] = []
+  const npcsElsewhere: string[] = []
+  Object.entries(worldState.npc_states || {}).forEach(([name, data]) => {
+    const info = typeof data === 'string' ? { status: data, location: '' } : (data as any)
+    const status = info.status || 'alive'
+    const location = info.location || ''
+    if (!location || location.toLowerCase() === currentScene.toLowerCase() || currentScene.toLowerCase().includes(location.toLowerCase())) {
+      npcsHere.push(`${name} (${status}) — already introduced, do NOT re-introduce`)
+    } else {
+      npcsElsewhere.push(`${name} (${status}, at ${location})`)
+    }
+  })
   // Buscar sub-locaciones de la ubicación actual
   const loreLookup = LORE_JSON_DATA[session.campaign.lore] || {}
   const currentLocationData = loreLookup.locations?.find((l: any) =>
@@ -1037,21 +1062,27 @@ ${(() => {
 📍 Location: ${locationDisplay} ${locationStatus}
 🕐 Time: ${worldState.time_in_world || 'Unknown'}
 🌤️ Weather: ${worldState.weather || 'Unknown'}
-👥 Known NPCs: ${npcList || 'None yet'}
+👥 NPCs IN THIS SCENE: ${npcsHere.length > 0 ? npcsHere.join('; ') : 'None'}
+${npcsElsewhere.length > 0 ? `👥 NPCs ELSEWHERE (NOT here — do NOT narrate them): ${npcsElsewhere.join('; ')}` : ''}
 🎒 Inventory: ${inventory.join(', ') || 'Empty'}
 ${subLocList ? `🏘️ Places within this location:\n${subLocList}\nUse scene_change to move between these places.` : ''}
 Your narration MUST take place HERE, at this TIME, with this WEATHER.
 NPCs MUST keep the SAME name in every turn. NEVER rename an NPC.
+NPCs listed as ELSEWHERE must NOT appear in your narration — they are in a different location.
+ALWAYS send npc_update when you introduce a NEW NPC (with their current location).
 INVENTORY: If items change hands, ALWAYS use new_item/remove_item.`
   : `ESTADO ACTUAL DE LA ESCENA (DEBÉS respetar esto):
 📍 Ubicación: ${locationDisplay} ${locationStatus}
 🕐 Hora: ${worldState.time_in_world || 'Desconocida'}
 🌤️ Clima: ${worldState.weather || 'Desconocido'}
-👥 NPCs conocidos: ${npcList || 'Ninguno aún'}
+👥 NPCs EN ESTA ESCENA: ${npcsHere.length > 0 ? npcsHere.join('; ') : 'Ninguno'}
+${npcsElsewhere.length > 0 ? `👥 NPCs EN OTRO LUGAR (NO están acá — NO los narres): ${npcsElsewhere.join('; ')}` : ''}
 🎒 Inventario: ${inventory.join(', ') || 'Vacío'}
 ${subLocList ? `🏘️ Lugares dentro de esta ubicación:\n${subLocList}\nUsá scene_change para moverte entre estos lugares.` : ''}
 Tu narración DEBE transcurrir AQUÍ, en este MOMENTO, con este CLIMA.
 Los NPCs DEBEN mantener el MISMO nombre en cada turno. NUNCA renombres un NPC.
+Los NPCs marcados como EN OTRO LUGAR NO deben aparecer en tu narración — están en otra ubicación.
+SIEMPRE enviá npc_update cuando introduzcas un NPC NUEVO (con su ubicación actual).
 INVENTARIO: Si cambian objetos de mano, SIEMPRE usá new_item/remove_item.`
 })()}
 
@@ -1068,7 +1099,7 @@ ${isMultiplayer ? `- ${labels.type}: ${labels.multiplayer} (${partyMembers.lengt
 - ${labels.currentScene}: ${worldState.current_scene}
 - ${labels.time}: ${worldState.time_in_world}
 - ${labels.weather}: ${worldState.weather}
-${Object.keys(worldState.npc_states || {}).length > 0 ? `- ${isEnglish ? 'NPC States' : 'Estado de NPCs'}: ${Object.entries(worldState.npc_states || {}).map(([name, state]) => `${name}: ${state}`).join(', ')}` : ''}
+${Object.keys(worldState.npc_states || {}).length > 0 ? `- ${isEnglish ? 'NPC States' : 'Estado de NPCs'}: ${Object.entries(worldState.npc_states || {}).map(([name, data]) => { const info = typeof data === 'string' ? { status: data, location: '' } : (data as any); return `${name}: ${info.status}${info.location ? ` (${info.location})` : ''}`; }).join(', ')}` : ''}
 ${(worldState.completed_quests || []).length > 0 ? `- ${isEnglish ? 'Completed Quests' : 'Quests Completadas'}: ${(worldState.completed_quests || []).join(', ')}` : ''}
 ${(worldState.narrative_anchors_hit || []).length > 0 ? `- ${isEnglish ? 'Story Milestones Reached' : 'Hitos Narrativos Alcanzados'}: ${(worldState.narrative_anchors_hit || []).join(', ')}` : ''}
 ${Object.keys(worldState.faction_relations || {}).length > 0 ? `- ${isEnglish ? 'Faction Relations' : 'Relaciones con Facciones'}: ${Object.entries(worldState.faction_relations || {}).map(([f, r]) => `${f}: ${r}`).join(', ')}` : ''}
@@ -1132,13 +1163,13 @@ ${isMultiplayer ? `8. ${labels.rule6} ${character.name}
 
 ${isEnglish
   ? `WORLD MEMORY (update these to track the story):
-- "npc_update": {"name": "NPC Name", "status": "alive/dead/fled/ally/enemy/missing"} — when an NPC's status changes
+- "npc_update": {"name": "NPC Name", "status": "alive/dead/fled/ally/enemy/missing", "location": "Current Location Name"} — ALWAYS send this when you INTRODUCE a new NPC or when an NPC's status/location changes. The location field tracks WHERE the NPC is.
 - "world_flag": {"flag": "description_of_decision", "value": true} — when the player makes an important choice or something irreversible happens
-Use these to build the world's memory. NPCs you've introduced, decisions made, and consequences should persist.`
+Use these to build the world's memory. EVERY new NPC must be registered with npc_update so the system knows where they are.`
   : `MEMORIA DEL MUNDO (actualizá estos para rastrear la historia):
-- "npc_update": {"name": "Nombre NPC", "status": "vivo/muerto/huyó/aliado/enemigo/desaparecido"} — cuando cambia el estado de un NPC
+- "npc_update": {"name": "Nombre NPC", "status": "vivo/muerto/huyó/aliado/enemigo/desaparecido", "location": "Nombre de Ubicación Actual"} — SIEMPRE enviar cuando INTRODUZCAS un NPC nuevo o cuando cambie su estado/ubicación. El campo location rastrea DÓNDE está el NPC.
 - "world_flag": {"flag": "descripcion_de_la_decision", "value": true} — cuando el jugador toma una decisión importante o pasa algo irreversible
-Usá estos para construir la memoria del mundo. Los NPCs introducidos, decisiones tomadas y consecuencias deben persistir.`}
+Usá estos para construir la memoria del mundo. CADA NPC nuevo debe registrarse con npc_update para que el sistema sepa dónde está.`}
 
 ${labels.narrativeTone}:
 ${narrativeTone}
@@ -1478,8 +1509,8 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
         on_success?: string
         on_failure?: string
       } | null
-      // NPC state update (when NPC status changes)
-      npc_update?: { name: string; status: string } | null
+      // NPC state update (when NPC status or location changes)
+      npc_update?: { name: string; status: string; location?: string } | null
       // World flag (track important decisions/events)
       world_flag?: { flag: string; value: boolean } | null
       // Dynamic location creation by DM
@@ -1878,14 +1909,18 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
       worldStateUpdates.map_state.lockReason = dmResponse.lock_reason || 'none'
     }
 
-    // Update NPC state (e.g., NPC killed, fled, joined party)
+    // Update NPC state with location tracking
     if (dmResponse.npc_update && dmResponse.npc_update.name) {
       const currentNPCStates = worldStateUpdates.npc_states || worldState.npc_states || {}
       worldStateUpdates.npc_states = {
         ...currentNPCStates,
-        [dmResponse.npc_update.name]: dmResponse.npc_update.status,
+        [dmResponse.npc_update.name]: {
+          status: dmResponse.npc_update.status,
+          location: dmResponse.npc_update.location || worldState.current_scene || '',
+          introduced: true,
+        },
       }
-      console.log(`[NPC] Updated: ${dmResponse.npc_update.name} → ${dmResponse.npc_update.status}`)
+      console.log(`[NPC] Updated: ${dmResponse.npc_update.name} → ${dmResponse.npc_update.status} @ ${dmResponse.npc_update.location || worldState.current_scene}`)
     }
 
     // Update world flags (track important player decisions)
