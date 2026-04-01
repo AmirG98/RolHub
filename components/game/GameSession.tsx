@@ -17,7 +17,7 @@ import { InventoryPanel } from '@/components/game/InventoryPanel'
 import { type Lore as LoreType } from '@/lib/maps/map-config'
 import { VoicePlayerCompact, VoicePlayerAuto } from '@/components/game/VoicePlayer'
 // import { DynamicMusicPlayer, useDynamicMusic } from '@/components/audio/DynamicMusicPlayer' // DISABLED
-import { GameEngine, CharacterContext } from '@/lib/engines/types'
+import { GameEngine } from '@/lib/engines/types'
 import { Lore } from '@prisma/client'
 // Immersion system
 import { TypewriterText } from '@/components/ui/TypewriterText'
@@ -25,10 +25,8 @@ import { SceneTransition, useSceneTransition } from '@/components/ui/SceneTransi
 import { SceneImage } from '@/components/game/SceneImage'
 import { useAmbientSound } from '@/hooks/useAmbientSound'
 import { type UIMood, getUIMood, getMoodConfig } from '@/lib/game/ui-mood'
-// Combat system
-import { TacticalCombatPanel } from '@/components/game/TacticalCombatPanel'
-import { CombatState, CombatTrigger, DEFAULT_COMBAT_STATE, CombatActionRequest, CombatActionResponse } from '@/lib/types/combat-state'
-import { initializeCombat, checkCombatEnd } from '@/lib/tactical/combat-init'
+// Combat system (simplified — narrative combat, no tactical grid)
+import { CombatState, CombatTrigger, DEFAULT_COMBAT_STATE } from '@/lib/types/combat-state'
 // Character stats panel and narrator orb
 import { CharacterStatsPanel } from '@/components/game/CharacterStatsPanel'
 import { PortraitSplash } from '@/components/game/PortraitSplash'
@@ -268,105 +266,31 @@ export default function GameSession({
   // COMBAT SYSTEM HANDLERS
   // ============================================================================
 
-  // Initialize combat from a trigger
+  // Initialize combat from a trigger — simplified narrative combat (no tactical grid)
   const initiateCombat = useCallback((trigger: CombatTrigger) => {
-    if (!character) return
-
-    setCombatTransitioning(true)
-
-    // Create character context for combat initialization
-    const playerCharacter: CharacterContext = {
-      name: character.name,
-      archetype: character.archetype,
-      level: character.level,
-      stats: character.stats as Record<string, number>,
-      inventory: worldState.party?.[character.name]?.inventory || character.inventory || [],
-      conditions: worldState.party?.[character.name]?.conditions || [],
-      hp: hp.current,
-      maxHp: hp.max,
-    }
-
-    // Initialize combat with tactical map
-    const newCombatState = initializeCombat({
-      trigger,
-      playerCharacters: [playerCharacter], // Single player for now
-      gridType: 'square',
-      cellSizeInFeet: 5,
+    setCombatState({
+      ...DEFAULT_COMBAT_STATE,
+      inCombat: true,
+      enemies: trigger.enemies?.map(e => ({
+        name: e.name,
+        type: e.type,
+        hp: e.hp || 10,
+        maxHp: e.hp || 10,
+        count: e.count || 1,
+      })) || [],
+      result: 'ongoing',
     })
+    setUiMood('combat')
+    setSuggestedActions([
+      locale === 'en' ? 'Attack the nearest enemy' : 'Atacar al enemigo más cercano',
+      locale === 'en' ? 'Defend and prepare' : 'Defenderse y prepararse',
+      locale === 'en' ? 'Try to flee' : 'Intentar huir del combate',
+      locale === 'en' ? 'Use an item' : 'Usar un item del inventario',
+    ])
+  }, [locale])
 
-    // Short delay for transition effect
-    setTimeout(() => {
-      setCombatState(newCombatState)
-      setUiMood('combat')
-      setCombatTransitioning(false)
-    }, 500)
-  }, [character, worldState, hp])
-
-  // Handle combat state updates
-  const handleCombatUpdate = useCallback((newState: CombatState) => {
-    setCombatState(newState)
-
-    // Check if combat ended
-    const checkedState = checkCombatEnd(newState)
-    if (checkedState.result !== 'ongoing') {
-      setCombatState(checkedState)
-    }
-  }, [])
-
-  // Handle combat end
-  const handleCombatEnd = useCallback((finalState: CombatState) => {
-    setCombatTransitioning(true)
-
-    // Add combat result to turns
-    const resultText = finalState.result === 'victory'
-      ? '¡Victoria! Has derrotado a todos los enemigos.'
-      : finalState.result === 'defeat'
-      ? 'Has caído en combate...'
-      : finalState.result === 'fled'
-      ? 'Has escapado del combate.'
-      : 'Se ha acordado una tregua.'
-
-    const systemTurn: Turn = {
-      id: `combat-end-${Date.now()}`,
-      sessionId,
-      role: 'SYSTEM',
-      content: `⚔️ ${resultText}`,
-      createdAt: new Date().toISOString(),
-    }
-    setLocalTurns(prev => [...prev, systemTurn])
-
-    // Update world state with combat results
-    if (finalState.result === 'victory') {
-      // Could add XP, loot, etc. here
-    }
-
-    // Reset combat state after short delay
-    setTimeout(() => {
-      setCombatState(DEFAULT_COMBAT_STATE)
-      setUiMood('exploration')
-      setCombatTransitioning(false)
-    }, 1000)
-  }, [sessionId])
-
-  // Handle combat action (called from TacticalCombatPanel)
-  const handleCombatAction = useCallback(async (request: CombatActionRequest): Promise<CombatActionResponse> => {
-    // In the future, this could call the DM API for action resolution
-    // For now, return a basic response
-    return {
-      success: true,
-      narration: `${request.action} ejecutado`,
-      combatLog: {
-        id: `log-${Date.now()}`,
-        timestamp: new Date(),
-        round: combatState.roundNumber,
-        tokenId: request.tokenId,
-        tokenName: combatState.tacticalMap?.tokens.find(t => t.id === request.tokenId)?.name || 'Unknown',
-        actionType: request.action,
-        description: `Acción ${request.action}`,
-        success: true,
-      },
-    }
-  }, [combatState])
+  // Combat is now handled narratively — no separate handlers needed
+  // The DM narrates combat actions and results through the normal turn system
 
   // Auto-scroll cuando hay nuevos turnos
   useEffect(() => {
@@ -529,6 +453,15 @@ export default function GameSession({
       // Check for combat trigger from DM
       if (data.combat_trigger) {
         initiateCombat(data.combat_trigger as CombatTrigger)
+      } else if (combatState.inCombat) {
+        // Si estamos en combate pero el DM no envía combat_trigger,
+        // y navigation no está locked, el combate terminó
+        const isStillLocked = data.worldStateUpdates?.map_state?.navigationLocked
+          ?? worldState.map_state?.navigationLocked
+        if (!isStillLocked) {
+          setCombatState(DEFAULT_COMBAT_STATE)
+          setUiMood('exploration')
+        }
       }
 
       // Handle DM dice request — show prompted dice roller
@@ -608,66 +541,7 @@ export default function GameSession({
   const moodConfig = getMoodConfig(uiMood)
 
   // ============================================================================
-  // COMBAT VIEW
-  // ============================================================================
-  if (combatState.inCombat && combatState.tacticalMap) {
-    return (
-      <div className="min-h-screen bg-shadow flex flex-col">
-        {/* Combat transition overlay */}
-        {combatTransitioning && (
-          <div className="fixed inset-0 bg-blood/50 z-50 flex items-center justify-center">
-            <div className="text-center">
-              <Swords className="w-16 h-16 text-gold animate-pulse mx-auto mb-4" />
-              <h2 className="font-heading text-2xl text-gold">¡Combate!</h2>
-            </div>
-          </div>
-        )}
-
-        {/* Header */}
-        <div className="flex items-center justify-between px-4 py-2 glass-panel-dark border-b border-blood/30">
-          <div className="flex items-center gap-3">
-            <Swords className="w-5 h-5 text-blood" />
-            <span className="font-heading text-gold">{campaignName}</span>
-          </div>
-          {character && (
-            <div className="flex items-center gap-3">
-              <span className="font-ui text-parchment text-sm">{character.name}</span>
-              <div className="flex items-center gap-1">
-                <Heart className="w-4 h-4 text-blood" />
-                <span className="font-heading text-sm text-parchment">
-                  {hp.current}/{hp.max}
-                </span>
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Tactical Combat Panel */}
-        <div className="flex-1">
-          <TacticalCombatPanel
-            combatState={combatState}
-            playerCharacters={character ? [{
-              name: character.name,
-              archetype: character.archetype,
-              level: character.level,
-              stats: character.stats as Record<string, number>,
-              inventory: character.inventory || [],
-              conditions: [],
-              hp: hp.current,
-              maxHp: hp.max,
-            }] : []}
-            sessionId={sessionId}
-            onCombatUpdate={handleCombatUpdate}
-            onCombatEnd={handleCombatEnd}
-            onCombatAction={handleCombatAction}
-          />
-        </div>
-      </div>
-    )
-  }
-
-  // ============================================================================
-  // NORMAL VIEW (Exploration, etc.)
+  // NORMAL VIEW (with inline combat banner when in combat)
   // ============================================================================
   return (
     <div className={`min-h-screen particle-bg pb-4 ${moodConfig.cssClass}`}>
@@ -834,6 +708,21 @@ export default function GameSession({
                     <span className="text-gold">🌤️</span> {worldState.weather}
                   </span>
                 )}
+              </div>
+            )}
+
+            {/* Combat Banner — inline, no separate screen */}
+            {combatState.inCombat && (
+              <div className="bg-blood/15 border border-blood/40 rounded-lg p-3 mb-3 flex items-center gap-3 ink-reveal">
+                <Swords className="w-5 h-5 text-blood flex-shrink-0" />
+                <div className="flex-1 min-w-0">
+                  <span className="font-heading text-sm text-blood tracking-wide">COMBATE</span>
+                  <div className="font-body text-xs text-parchment/70 mt-0.5 truncate">
+                    {(combatState as any).enemies?.map((e: any) =>
+                      `${e.name}${e.count > 1 ? ` ×${e.count}` : ''}`
+                    ).join(', ') || 'Enemigos'}
+                  </div>
+                </div>
               </div>
             )}
 

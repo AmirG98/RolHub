@@ -125,6 +125,15 @@ export interface CombatState {
   targetingMode?: 'single' | 'area' | 'cone' | 'line'
   pendingAction?: PendingCombatAction
 
+  // Narrative combat — simplified enemy list (no tactical grid needed)
+  enemies?: Array<{
+    name: string
+    type: string
+    hp: number
+    maxHp: number
+    count: number
+  }>
+
   // Metadata
   startedAt?: Date
   combatTriggerId?: string        // Para tracking
