@@ -205,15 +205,23 @@ export function GameMapPanel({
           isNavigationLocked={isLocked}
           lockReason={LOCK_MESSAGES[lockReason]}
           subLocations={(() => {
+            const currentLocId = worldState?.map_state?.currentLocationId
             const loreLoc = LORE_SUB_DATA[lore]?.locations?.find((l: any) =>
-              worldState?.current_scene?.toLowerCase()?.includes(l.name?.toLowerCase())
+              (currentLocId && l.id === currentLocId) ||
+              (currentLocId && l.id?.toLowerCase() === currentLocId?.toLowerCase()) ||
+              worldState?.current_scene?.toLowerCase()?.includes(l.name?.toLowerCase()) ||
+              l.name?.toLowerCase()?.includes(worldState?.current_scene?.toLowerCase()?.split(',')?.[0]?.trim())
             )
             return loreLoc?.sub_locations || []
           })()}
           currentSubLocationId={worldState?.current_sub_location || null}
           travelTimes={(() => {
+            const currentLocId = worldState?.map_state?.currentLocationId
             const loreLoc = LORE_SUB_DATA[lore]?.locations?.find((l: any) =>
-              worldState?.current_scene?.toLowerCase()?.includes(l.name?.toLowerCase())
+              (currentLocId && l.id === currentLocId) ||
+              (currentLocId && l.id?.toLowerCase() === currentLocId?.toLowerCase()) ||
+              worldState?.current_scene?.toLowerCase()?.includes(l.name?.toLowerCase()) ||
+              l.name?.toLowerCase()?.includes(worldState?.current_scene?.toLowerCase()?.split(',')?.[0]?.trim())
             )
             return loreLoc?.travel_times || {}
           })()}
