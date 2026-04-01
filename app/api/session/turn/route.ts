@@ -175,8 +175,9 @@ export async function POST(req: NextRequest) {
       }
 
       dmTurnCount++
-      // Últimos 4 turnos DM: COMPLETOS para mantener coherencia narrativa
-      if (dmTurnCount > totalDMTurns - 6) {
+      // Últimos 2 turnos DM: COMPLETOS para contexto inmediato
+      // (reducido de 6 a 2 para evitar que Claude repita narraciones previas)
+      if (dmTurnCount > totalDMTurns - 2) {
         return { role: 'assistant' as const, content: turn.content }
       }
 
@@ -277,6 +278,12 @@ export async function POST(req: NextRequest) {
         { pattern: /cerr[óo].*puerta|clos.*door|lock.*door/i, label: () => 'puerta cerrada con llave' },
         { pattern: /sub[eió].*escalera|climb.*stair/i, label: () => 'subieron las escaleras' },
         { pattern: /sal[eió].*posada|left.*inn|exit.*inn/i, label: () => 'salieron de la posada' },
+        { pattern: /salt[aóo].*ventana|jump.*window|lanz[aóo].*ventana/i, label: () => 'ya saltaron por la ventana' },
+        { pattern: /descend[ió].*cuerda|baj[aóo].*cuerda|descend.*rope|climb.*down.*rope/i, label: () => 'ya descendieron por la cuerda' },
+        { pattern: /huy[eóo]|escap[aóo]|huid|fled|escaped|running away/i, label: () => 'ya escaparon/huyeron' },
+        { pattern: /aterriz[aóo]|land(?:ed|ing)/i, label: () => 'ya aterrizaron' },
+        { pattern: /abr[eió].*ventana|open.*window/i, label: () => 'ventana ya abierta' },
+        { pattern: /at[aóo].*cuerda|tied.*rope|amarr[aóo]/i, label: () => 'cuerda ya atada' },
       ]
       const seenActions = new Set<string>()
       recentDMContent.forEach(content => {
@@ -1310,6 +1317,11 @@ ${storySoFar}` : ''}
 ${lastDMNarration ? `YOUR LAST NARRATION (CONTINUE from here, do NOT re-describe this scene):
 "${lastDMNarration}..."` : ''}
 
+${introducedNPCsList.length > 0 || completedActions.length > 0 ? `⚠️ NARRATIVE STATE (these are ALREADY TRUE — do NOT re-narrate them):
+${introducedNPCsList.length > 0 ? `- NPCs already present and introduced: ${introducedNPCsList.join(', ')}` : ''}
+${completedActions.length > 0 ? `- Already happened: ${completedActions.join(', ')}` : ''}
+These are FACTS about the current state. Start your narration AFTER these events. Do NOT describe these actions happening again, even with different words.` : ''}
+
 ${isRepeatedObservation ? `⚠️ PLAYER KEEPS OBSERVING — STOP describing physical details. Make the target REACT or something HAPPEN. Force the story forward.` : ''}
 ${isNPCLoop ? `⚠️ NPC INTERACTION LOOP DETECTED with "${loopingNPCName}" — This NPC has dominated the last 3+ turns. You MUST either: (1) have this NPC leave/finish the conversation, (2) introduce a NEW character or event that interrupts, (3) move the scene to a different location, or (4) have something urgent happen that demands attention. The player needs VARIETY, not the same NPC interaction over and over.` : ''}
 
@@ -1341,6 +1353,11 @@ ${storySoFar}` : ''}
 
 ${lastDMNarration ? `TU ÚLTIMA NARRACIÓN (CONTINUÁ desde acá, NO re-describas esta escena):
 "${lastDMNarration}..."` : ''}
+
+${introducedNPCsList.length > 0 || completedActions.length > 0 ? `⚠️ ESTADO NARRATIVO (esto YA ES VERDAD — NO lo re-narres):
+${introducedNPCsList.length > 0 ? `- NPCs ya presentes y presentados: ${introducedNPCsList.join(', ')}` : ''}
+${completedActions.length > 0 ? `- Ya sucedió: ${completedActions.join(', ')}` : ''}
+Estos son HECHOS del estado actual. Empezá tu narración DESPUÉS de estos eventos. NO describas estas acciones ocurriendo de nuevo, ni siquiera con palabras diferentes.` : ''}
 
 ${isRepeatedObservation ? `⚠️ JUGADOR SIGUE OBSERVANDO — DEJÁ de describir detalles físicos. Hacé que el objetivo REACCIONE o que algo PASE. Forzá el avance de la historia.` : ''}
 ${isNPCLoop ? `⚠️ LOOP DE NPC DETECTADO con "${loopingNPCName}" — Este NPC dominó los últimos 3+ turnos. DEBÉS: (1) hacer que este NPC se vaya o termine la conversación, (2) introducir un NUEVO personaje o evento que interrumpa, (3) mover la escena a otro lugar, o (4) hacer que pase algo urgente. El jugador necesita VARIEDAD, no la misma interacción una y otra vez.` : ''}
