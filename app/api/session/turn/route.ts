@@ -161,12 +161,18 @@ export async function POST(req: NextRequest) {
     const worldState = session.campaign.worldState as any
     const character = actingCharacter
 
+    // Detectar si el jugador quiere moverse (necesario antes de construir historial)
+    const movementPattern = /(?:vuelv|regres|dirij|dirig|voy\s|ir\s|salg|salir|me voy|parto|march|camino|me dirijo|head\s|go\s+to|go\s+back|return|leave|walk\s+to|travel|move\s+to|explor)/i
+    const playerWantsToMove = movementPattern.test(action)
+
     // Construir historial de conversación — híbrido: recientes completos + viejos condensados
-    // Los últimos 4 turnos DM van COMPLETOS para que Claude mantenga coherencia
-    // Los más viejos se condensan para ahorrar tokens
+    // Cuando el jugador quiere moverse, condensar TODO para romper el dominio del NPC
     const recentTurnsForHistory = session.turns.slice(-12)
     let dmTurnCount = 0
     const totalDMTurns = recentTurnsForHistory.filter(t => t.role === 'DM').length
+    // Si el jugador quiere moverse: 0 turnos completos (todo condensado)
+    // Si no: últimos 2 turnos DM completos
+    const fullDMWindow = playerWantsToMove ? 0 : 2
 
     const conversationHistory = recentTurnsForHistory.map((turn) => {
       // Turnos del usuario: siempre completos
@@ -175,9 +181,8 @@ export async function POST(req: NextRequest) {
       }
 
       dmTurnCount++
-      // Últimos 2 turnos DM: COMPLETOS para contexto inmediato
-      // (reducido de 6 a 2 para evitar que Claude repita narraciones previas)
-      if (dmTurnCount > totalDMTurns - 2) {
+      // Turnos DM recientes: COMPLETOS para contexto (o 0 si el jugador quiere moverse)
+      if (fullDMWindow > 0 && dmTurnCount > totalDMTurns - fullDMWindow) {
         return { role: 'assistant' as const, content: turn.content }
       }
 
@@ -332,9 +337,7 @@ export async function POST(req: NextRequest) {
     // Enviar la acción del jugador directamente, sin prefijo de tipo
     const actionContext = action
 
-    // Detectar si el jugador quiere moverse a otro lugar
-    const movementPattern = /(?:vuelv|regres|dirij|dirig|voy\s|ir\s|salg|salir|me voy|parto|march|camino|me dirijo|head\s|go\s+to|go\s+back|return|leave|walk\s+to|travel|move\s+to)/i
-    const playerWantsToMove = movementPattern.test(action)
+    // playerWantsToMove ya se calculó antes del historial (línea ~164)
 
     // Construir directiva anti-repetición con estado narrativo
     let antiRepeatDirective = ''
