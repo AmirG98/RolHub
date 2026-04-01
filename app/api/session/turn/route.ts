@@ -1509,8 +1509,9 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
         on_success?: string
         on_failure?: string
       } | null
-      // NPC state update (when NPC status or location changes)
-      npc_update?: { name: string; status: string; location?: string } | null
+      // NPC state update (when NPC status or location changes) — single or array
+      npc_update?: { name: string; status: string; location?: string }
+        | Array<{ name: string; status: string; location?: string }> | null
       // World flag (track important decisions/events)
       world_flag?: { flag: string; value: boolean } | null
       // Dynamic location creation by DM
@@ -1565,6 +1566,32 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
 
     // Calculate world state updates
     const worldStateUpdates: Record<string, any> = {}
+
+    // Auto-detect NPCs from narration — Claude doesn't always send npc_update
+    // so we extract NPC names from dialogue patterns (Name: or Name «)
+    try {
+      const narratedNPCs = [...(dmResponse.narration || '').matchAll(
+        /([A-ZÁÉÍÓÚ][a-záéíóúñ]+(?:\s+[A-ZÁÉÍÓÚ]?[a-záéíóúñ]+)*)\s*[:«]/g
+      )]
+      const currentNPCs = worldState.npc_states || {}
+      for (const match of narratedNPCs) {
+        const npcName = match[1]
+        // Skip player character, short names, common false positives
+        if (npcName === character.name || npcName.length < 3) continue
+        if (['Día', 'Noche', 'Ronda', 'Turno', 'Scene', 'Round'].includes(npcName)) continue
+        if (!currentNPCs[npcName]) {
+          if (!worldStateUpdates.npc_states) worldStateUpdates.npc_states = { ...currentNPCs }
+          worldStateUpdates.npc_states[npcName] = {
+            status: 'alive',
+            location: worldState.current_scene || '',
+            introduced: true,
+          }
+          console.log(`[NPC] Auto-detected from narration: ${npcName} @ ${worldState.current_scene}`)
+        }
+      }
+    } catch {
+      // Si falla la extracción, continuar sin problemas
+    }
 
     // Guardar valores originales ANTES del guard (para persistir en el turno)
     const originalNewItem = dmResponse.new_item || null
@@ -1930,18 +1957,23 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
       worldStateUpdates.map_state.lockReason = dmResponse.lock_reason || 'none'
     }
 
-    // Update NPC state with location tracking
-    if (dmResponse.npc_update && dmResponse.npc_update.name) {
-      const currentNPCStates = worldStateUpdates.npc_states || worldState.npc_states || {}
-      worldStateUpdates.npc_states = {
-        ...currentNPCStates,
-        [dmResponse.npc_update.name]: {
-          status: dmResponse.npc_update.status,
-          location: dmResponse.npc_update.location || worldState.current_scene || '',
-          introduced: true,
-        },
+    // Update NPC state with location tracking — supports single object or array
+    if (dmResponse.npc_update) {
+      const npcUpdates = Array.isArray(dmResponse.npc_update)
+        ? dmResponse.npc_update
+        : [dmResponse.npc_update]
+      for (const update of npcUpdates) {
+        if (update && update.name) {
+          const currentNPCStates = worldStateUpdates.npc_states || worldState.npc_states || {}
+          if (!worldStateUpdates.npc_states) worldStateUpdates.npc_states = { ...currentNPCStates }
+          worldStateUpdates.npc_states[update.name] = {
+            status: update.status,
+            location: update.location || worldState.current_scene || '',
+            introduced: true,
+          }
+          console.log(`[NPC] Updated: ${update.name} → ${update.status} @ ${update.location || worldState.current_scene}`)
+        }
       }
-      console.log(`[NPC] Updated: ${dmResponse.npc_update.name} → ${dmResponse.npc_update.status} @ ${dmResponse.npc_update.location || worldState.current_scene}`)
     }
 
     // Update world flags (track important player decisions)
