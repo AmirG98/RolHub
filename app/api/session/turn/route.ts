@@ -1571,29 +1571,42 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
     const originalRemoveItem = dmResponse.remove_item || null
 
     // Guard: bloquear re-aplicación de cambios de inventario de los últimos 3 turnos DM
-    // Claude tiende a re-enviar new_item/remove_item porque lee la narración previa
+    // Usa nombre base (sin cantidad) para detectar que "5 monedas" y "3 monedas" son el mismo item
+    const parseBaseName = (item: string): string => {
+      const match = item.match(/^\d+\s+(.+)$/)
+      return (match ? match[1] : item).toLowerCase().trim()
+    }
+
     const recentDMTurns = session.turns.filter(t => t.role === 'DM').slice(-3)
+    let blockNewItem = false
+    let blockRemoveItem = false
+
     for (const prevTurn of recentDMTurns) {
       const patch = prevTurn.worldStatePatch as any
-      if (patch?._lastNewItem && dmResponse.new_item) {
-        const lastLower = patch._lastNewItem.toLowerCase()
-        const currLower = dmResponse.new_item.toLowerCase()
-        if (lastLower === currLower || lastLower.includes(currLower) || currLower.includes(lastLower)) {
-          console.log(`[Inventory] Blocked re-application of new_item: "${dmResponse.new_item}" (matched turn: "${patch._lastNewItem}")`)
-          dmResponse.new_item = null
-          break
+
+      // Check new_item independientemente
+      if (!blockNewItem && patch?._lastNewItem && dmResponse.new_item) {
+        const lastBase = parseBaseName(patch._lastNewItem)
+        const currBase = parseBaseName(dmResponse.new_item)
+        if (lastBase === currBase || lastBase.includes(currBase) || currBase.includes(lastBase)) {
+          console.log(`[Inventory] Blocked re-application of new_item: "${dmResponse.new_item}" (matched: "${patch._lastNewItem}")`)
+          blockNewItem = true
         }
       }
-      if (patch?._lastRemoveItem && dmResponse.remove_item) {
-        const lastLower = patch._lastRemoveItem.toLowerCase()
-        const currLower = dmResponse.remove_item.toLowerCase()
-        if (lastLower === currLower || lastLower.includes(currLower) || currLower.includes(lastLower)) {
-          console.log(`[Inventory] Blocked re-application of remove_item: "${dmResponse.remove_item}" (matched turn: "${patch._lastRemoveItem}")`)
-          dmResponse.remove_item = null
-          break
+
+      // Check remove_item independientemente (NO break compartido)
+      if (!blockRemoveItem && patch?._lastRemoveItem && dmResponse.remove_item) {
+        const lastBase = parseBaseName(patch._lastRemoveItem)
+        const currBase = parseBaseName(dmResponse.remove_item)
+        if (lastBase === currBase || lastBase.includes(currBase) || currBase.includes(lastBase)) {
+          console.log(`[Inventory] Blocked re-application of remove_item: "${dmResponse.remove_item}" (matched: "${patch._lastRemoveItem}")`)
+          blockRemoveItem = true
         }
       }
     }
+
+    if (blockNewItem) dmResponse.new_item = null
+    if (blockRemoveItem) dmResponse.remove_item = null
 
     // Update HP if changed
     if (dmResponse.hp_change && dmResponse.hp_change !== 0) {
@@ -2094,10 +2107,11 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
       const newWorldState = {
         ...worldState,
         ...worldStateUpdates,
-        party: {
-          ...worldState.party,
-          ...worldStateUpdates.party,
-        },
+        // Deep merge per character to avoid losing HP/conditions when only inventory changes
+        party: Object.keys(worldStateUpdates.party || {}).reduce((merged: any, charName: string) => {
+          merged[charName] = { ...(merged[charName] || {}), ...worldStateUpdates.party[charName] }
+          return merged
+        }, { ...(worldState.party || {}) }),
         map_state: worldStateUpdates.map_state
           ? {
               ...(worldState.map_state || {}),

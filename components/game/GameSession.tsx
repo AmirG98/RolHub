@@ -436,10 +436,11 @@ export default function GameSession({
         setWorldState((prev: any) => ({
           ...prev,
           ...data.worldStateUpdates,
-          party: {
-            ...prev.party,
-            ...data.worldStateUpdates.party,
-          },
+          // Deep merge per character to avoid losing HP/conditions when only inventory changes
+          party: Object.keys(data.worldStateUpdates.party || {}).reduce((merged: any, charName: string) => {
+            merged[charName] = { ...(merged[charName] || {}), ...data.worldStateUpdates.party[charName] }
+            return merged
+          }, { ...(prev.party || {}) }),
         }))
       }
 
