@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useRef } from 'react'
 import { Archetype, Lore } from '@/lib/types/lore'
 import { RunicButton } from '@/components/medieval/RunicButton'
 import { Sword, BookOpen, Shield, Zap, Heart, Eye, Target, Sparkles, Skull, Star, HelpCircle, Dices, User } from 'lucide-react'
@@ -84,6 +84,7 @@ export function ArchetypeSelector({ archetypes, loreName, lore, onSelect, onBack
   const [showCharacterForm, setShowCharacterForm] = useState(false)
   const [showPointBuy, setShowPointBuy] = useState(false)
   const [customStats, setCustomStats] = useState<{ combat: number; exploration: number; social: number; lore: number } | null>(null)
+  const characterFormRef = useRef<HTMLDivElement>(null)
 
   // Point buy: total de puntos del arquetipo (combat + exploration + social + lore)
   const getStatTotal = useCallback((stats: { combat: number; exploration: number; social: number; lore: number }) => {
@@ -192,7 +193,10 @@ export function ArchetypeSelector({ archetypes, loreName, lore, onSelect, onBack
               className={`glass-panel rounded-lg p-4 md:p-6 cursor-pointer transition-all duration-300 hover:scale-105 ${
                 selectedArchetype?.id === archetype.id ? 'glow-effect ring-2 ring-gold-bright' : ''
               }`}
-              onClick={() => { setSelectedArchetype(archetype); setCustomStats(null); setShowPointBuy(false) }}
+              onClick={() => {
+                setSelectedArchetype(archetype); setCustomStats(null); setShowPointBuy(false)
+                setTimeout(() => { characterFormRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }) }, 300)
+              }}
             >
               <div className="flex sm:flex-col items-center sm:items-center text-left sm:text-center gap-4 sm:gap-0 sm:space-y-4">
                 {/* Icono */}
@@ -376,7 +380,7 @@ export function ArchetypeSelector({ archetypes, loreName, lore, onSelect, onBack
 
         {/* Formulario de personaje - aparece despues de seleccionar arquetipo */}
         {selectedArchetype && (
-          <div className="glass-panel-dark rounded-lg p-4 md:p-6 mb-6 md:mb-8 ink-reveal">
+          <div ref={characterFormRef} className="glass-panel-dark rounded-lg p-4 md:p-6 mb-6 md:mb-8 ink-reveal">
             <div className="flex items-center gap-2 mb-4">
               <User className="w-5 h-5 text-gold" />
               <h3 className="font-heading text-lg md:text-xl text-gold">
