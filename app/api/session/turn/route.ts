@@ -1686,8 +1686,8 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
       )
       if (matchedSubLoc) {
         worldStateUpdates.current_sub_location = matchedSubLoc.id
-      } else if (dmResponse.location_id && dmResponse.location_id !== worldState.map_state?.currentLocationId) {
-        // Cambio de ciudad → limpiar sub-locación
+      } else {
+        // scene_change que no matchea sub-locación → limpiar para no dejar stale
         worldStateUpdates.current_sub_location = null
       }
     }
@@ -2006,6 +2006,11 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
           worldStateUpdates.party[effect.character_name].hp = `${newHP}/${maxHP}`
         }
       }
+    }
+
+    // Persistir suggested_actions y scene image info en worldState para sobrevivir recargas
+    if (dmResponse.suggested_actions && dmResponse.suggested_actions.length > 0) {
+      worldStateUpdates.last_suggested_actions = dmResponse.suggested_actions
     }
 
     // Update campaign world state if there are updates

@@ -386,27 +386,34 @@ export default function GameSession({
     }
   }, [character?.avatarUrl, sessionId])
 
-  // Load initial missions from first turn + auto-play voice for latest DM turn
+  // Load persisted UI state from worldState + initial turns
   useEffect(() => {
-    if (initialTurns.length > 0) {
+    // Cargar suggested_actions persistidas en worldState (sobreviven recargas)
+    if (initialWorldState.last_suggested_actions?.length > 0) {
+      setSuggestedActions(initialWorldState.last_suggested_actions)
+    } else if (initialTurns.length > 0) {
       const firstTurn = initialTurns[0]
-      // Check if diceRolls contains suggested_actions (missions)
       if (firstTurn.diceRolls?.suggested_actions && Array.isArray(firstTurn.diceRolls.suggested_actions)) {
         setSuggestedActions(firstTurn.diceRolls.suggested_actions)
       }
+    }
 
-      // Auto-play voice + typewriter for the latest DM turn when session loads
-      const lastDMTurn = [...initialTurns].reverse().find(t => t.role === 'DM')
-      if (lastDMTurn && initialTurns.length <= 2) {
-        // Only auto-play on fresh sessions (1-2 turns = just the intro)
-        setLatestDMTurnId(lastDMTurn.id)
-        setTypewriterTurnId(lastDMTurn.id)
-      }
-
-      // Cargar imagen de escena inicial si existe en el primer turn
+    // Cargar imagen de escena persistida en worldState
+    if (initialWorldState.last_scene_image) {
+      setSceneImageUrl(initialWorldState.last_scene_image)
+    } else if (initialTurns.length > 0) {
       const firstDMTurn = initialTurns.find(t => t.role === 'DM')
       if (firstDMTurn?.imageUrl) {
         setSceneImageUrl(firstDMTurn.imageUrl)
+      }
+    }
+
+    // Auto-play voice + typewriter for the latest DM turn when session loads
+    if (initialTurns.length > 0) {
+      const lastDMTurn = [...initialTurns].reverse().find(t => t.role === 'DM')
+      if (lastDMTurn && initialTurns.length <= 2) {
+        setLatestDMTurnId(lastDMTurn.id)
+        setTypewriterTurnId(lastDMTurn.id)
       }
     }
   }, [initialTurns])
@@ -573,6 +580,12 @@ export default function GameSession({
 
           if (imgData.success && imgData.url) {
             setSceneImageUrl(imgData.url)
+            // Persistir en worldState para sobrevivir recargas
+            fetch('/api/campaign/update-ui', {
+              method: 'PATCH',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ campaignId, lastSceneImage: imgData.url }),
+            }).catch(() => {}) // Fire and forget
           }
         } catch (imgError) {
           console.error('Failed to generate scene image:', imgError)
