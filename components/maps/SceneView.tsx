@@ -478,27 +478,11 @@ export function SceneView({
           'flex items-center gap-2 px-3 py-2',
           'border-t border-gold-dim/20 bg-shadow'
         )}>
-          {canExploreInterior && (
-            <button
-              onClick={onExploreInterior}
-              disabled={isNavigationLocked}
-              className={cn(
-                'flex-1 flex items-center justify-center gap-1.5 px-3 py-1.5 rounded font-heading text-xs transition-all',
-                isNavigationLocked
-                  ? 'bg-shadow-mid text-parchment/40 cursor-not-allowed'
-                  : 'bg-emerald/80 hover:bg-emerald text-parchment hover:text-white'
-              )}
-            >
-              <span>Explorar</span>
-            </button>
-          )}
-
           <button
             onClick={onShowWorldMap}
             className={cn(
-              'flex items-center justify-center gap-1.5 px-3 py-1.5 rounded font-heading text-xs transition-all',
-              'bg-shadow-mid hover:bg-shadow border border-gold-dim/30 hover:border-gold text-parchment',
-              canExploreInterior ? '' : 'flex-1'
+              'flex-1 flex items-center justify-center gap-1.5 px-3 py-1.5 rounded font-heading text-xs transition-all',
+              'bg-shadow-mid hover:bg-shadow border border-gold-dim/30 hover:border-gold text-parchment'
             )}
           >
             <Map className="w-3.5 h-3.5" />
