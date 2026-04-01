@@ -4,14 +4,22 @@ const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined
 }
 
-// Usar la DATABASE_URL tal como viene de Supabase (session mode, puerto 5432)
-// NO cambiar al puerto 6543 — transaction mode NO soporta Prisma interactive transactions
-// Solo limitar conexiones para serverless
+// Usar el pooler de Supabase en Transaction mode (puerto 6543) para soportar
+// cientos de conexiones concurrentes desde serverless functions.
+// directUrl (schema.prisma) usa Session mode (5432) para migraciones.
+// pgbouncer=true es necesario para que Prisma maneje bien las prepared statements.
 function buildUrl(): string | undefined {
   const url = process.env.DATABASE_URL
   if (!url) return undefined
   try {
     const parsed = new URL(url)
+    // Forzar puerto 6543 (Transaction mode pooler) para todas las queries
+    parsed.port = '6543'
+    // pgbouncer=true desactiva prepared statements (necesario para pooler)
+    if (!parsed.searchParams.has('pgbouncer')) {
+      parsed.searchParams.set('pgbouncer', 'true')
+    }
+    // Limitar conexiones por instancia serverless
     if (!parsed.searchParams.has('connection_limit')) {
       parsed.searchParams.set('connection_limit', '1')
     }
