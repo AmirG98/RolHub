@@ -46,7 +46,9 @@ export async function withRetry<T>(
       lastError = error
       const isPoolError = error?.message?.includes('pool') ||
         error?.message?.includes('connection') ||
-        error?.message?.includes('timeout')
+        error?.message?.includes('timeout') ||
+        error?.message?.includes('MaxClients') ||
+        error?.message?.includes('max clients')
       if (!isPoolError || attempt === maxRetries) throw error
       console.warn(`[DB] Pool timeout, retrying (${attempt + 1}/${maxRetries})...`)
       await new Promise(r => setTimeout(r, delayMs * (attempt + 1)))

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@clerk/nextjs/server'
-import { prisma } from '@/lib/db/prisma'
+import { prisma, withRetry } from '@/lib/db/prisma'
 import { getLocalized, getLocalizedArray } from '@/lib/i18n/localize'
 import { Lore, GameMode, GameEngine, TutorialLevel, Prisma } from '@prisma/client'
 import { createCampaignMapState } from '@/lib/maps/map-init'
@@ -259,8 +259,8 @@ export async function POST(req: NextRequest) {
       inviteCode = generateInviteCode()
     }
 
-    // Crear todo en una transacción — sin timeout, sin retry (patrón original que funciona)
-    const result = await prisma.$transaction(async (tx) => {
+    // Crear todo en una transacción — con retry para manejar pool exhaustion
+    const result = await withRetry(() => prisma.$transaction(async (tx) => {
       // 0. Buscar o crear usuario
       user = await tx.user.findUnique({ where: { clerkId: userId } })
       if (!user) {
@@ -385,7 +385,7 @@ export async function POST(req: NextRequest) {
       })
 
       return { campaign, character, session, firstTurnId: firstTurn.id, introContent }
-    })
+    }))
 
     // Generar retrato del personaje SÍNCRONAMENTE (patrón original que funciona)
     let avatarUrl: string | null = null
