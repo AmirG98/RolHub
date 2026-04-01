@@ -1443,6 +1443,27 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
     // Calculate world state updates
     const worldStateUpdates: Record<string, any> = {}
 
+    // Guard: bloquear re-aplicación de cambios de inventario del turno anterior
+    // Claude tiende a re-enviar new_item/remove_item porque lee la narración previa
+    const prevDMTurn = session.turns.filter(t => t.role === 'DM').slice(-1)[0]
+    const lastPatch = prevDMTurn?.worldStatePatch as any
+    if (lastPatch?._lastNewItem && dmResponse.new_item) {
+      const lastLower = lastPatch._lastNewItem.toLowerCase()
+      const currLower = dmResponse.new_item.toLowerCase()
+      if (lastLower === currLower || lastLower.includes(currLower) || currLower.includes(lastLower)) {
+        console.log(`[Inventory] Blocked re-application of new_item: "${dmResponse.new_item}" (same as last turn: "${lastPatch._lastNewItem}")`)
+        dmResponse.new_item = null
+      }
+    }
+    if (lastPatch?._lastRemoveItem && dmResponse.remove_item) {
+      const lastLower = lastPatch._lastRemoveItem.toLowerCase()
+      const currLower = dmResponse.remove_item.toLowerCase()
+      if (lastLower === currLower || lastLower.includes(currLower) || currLower.includes(lastLower)) {
+        console.log(`[Inventory] Blocked re-application of remove_item: "${dmResponse.remove_item}" (same as last turn: "${lastPatch._lastRemoveItem}")`)
+        dmResponse.remove_item = null
+      }
+    }
+
     // Update HP if changed
     if (dmResponse.hp_change && dmResponse.hp_change !== 0) {
       const newHP = Math.max(0, Math.min(maxHPNum, currentHPNum + dmResponse.hp_change))
@@ -1967,7 +1988,11 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
         sessionId: session.id,
         role: 'DM',
         content: fullNarration,
-        worldStatePatch: Object.keys(worldStateUpdates).length > 0 ? worldStateUpdates : undefined,
+        worldStatePatch: Object.keys(worldStateUpdates).length > 0 ? {
+          ...worldStateUpdates,
+          _lastNewItem: dmResponse.new_item || null,
+          _lastRemoveItem: dmResponse.remove_item || null,
+        } : undefined,
       },
     })
 
