@@ -1566,24 +1566,32 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
     // Calculate world state updates
     const worldStateUpdates: Record<string, any> = {}
 
-    // Guard: bloquear re-aplicación de cambios de inventario del turno anterior
+    // Guardar valores originales ANTES del guard (para persistir en el turno)
+    const originalNewItem = dmResponse.new_item || null
+    const originalRemoveItem = dmResponse.remove_item || null
+
+    // Guard: bloquear re-aplicación de cambios de inventario de los últimos 3 turnos DM
     // Claude tiende a re-enviar new_item/remove_item porque lee la narración previa
-    const prevDMTurn = session.turns.filter(t => t.role === 'DM').slice(-1)[0]
-    const lastPatch = prevDMTurn?.worldStatePatch as any
-    if (lastPatch?._lastNewItem && dmResponse.new_item) {
-      const lastLower = lastPatch._lastNewItem.toLowerCase()
-      const currLower = dmResponse.new_item.toLowerCase()
-      if (lastLower === currLower || lastLower.includes(currLower) || currLower.includes(lastLower)) {
-        console.log(`[Inventory] Blocked re-application of new_item: "${dmResponse.new_item}" (same as last turn: "${lastPatch._lastNewItem}")`)
-        dmResponse.new_item = null
+    const recentDMTurns = session.turns.filter(t => t.role === 'DM').slice(-3)
+    for (const prevTurn of recentDMTurns) {
+      const patch = prevTurn.worldStatePatch as any
+      if (patch?._lastNewItem && dmResponse.new_item) {
+        const lastLower = patch._lastNewItem.toLowerCase()
+        const currLower = dmResponse.new_item.toLowerCase()
+        if (lastLower === currLower || lastLower.includes(currLower) || currLower.includes(lastLower)) {
+          console.log(`[Inventory] Blocked re-application of new_item: "${dmResponse.new_item}" (matched turn: "${patch._lastNewItem}")`)
+          dmResponse.new_item = null
+          break
+        }
       }
-    }
-    if (lastPatch?._lastRemoveItem && dmResponse.remove_item) {
-      const lastLower = lastPatch._lastRemoveItem.toLowerCase()
-      const currLower = dmResponse.remove_item.toLowerCase()
-      if (lastLower === currLower || lastLower.includes(currLower) || currLower.includes(lastLower)) {
-        console.log(`[Inventory] Blocked re-application of remove_item: "${dmResponse.remove_item}" (same as last turn: "${lastPatch._lastRemoveItem}")`)
-        dmResponse.remove_item = null
+      if (patch?._lastRemoveItem && dmResponse.remove_item) {
+        const lastLower = patch._lastRemoveItem.toLowerCase()
+        const currLower = dmResponse.remove_item.toLowerCase()
+        if (lastLower === currLower || lastLower.includes(currLower) || currLower.includes(lastLower)) {
+          console.log(`[Inventory] Blocked re-application of remove_item: "${dmResponse.remove_item}" (matched turn: "${patch._lastRemoveItem}")`)
+          dmResponse.remove_item = null
+          break
+        }
       }
     }
 
@@ -2122,8 +2130,11 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
         content: fullNarration,
         worldStatePatch: Object.keys(worldStateUpdates).length > 0 ? {
           ...worldStateUpdates,
-          _lastNewItem: dmResponse.new_item || null,
-          _lastRemoveItem: dmResponse.remove_item || null,
+          _lastNewItem: originalNewItem || null,
+          _lastRemoveItem: originalRemoveItem || null,
+        } : (originalNewItem || originalRemoveItem) ? {
+          _lastNewItem: originalNewItem || null,
+          _lastRemoveItem: originalRemoveItem || null,
         } : undefined,
       },
     })
