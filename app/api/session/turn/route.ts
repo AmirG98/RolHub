@@ -332,6 +332,10 @@ export async function POST(req: NextRequest) {
     // Enviar la acción del jugador directamente, sin prefijo de tipo
     const actionContext = action
 
+    // Detectar si el jugador quiere moverse a otro lugar
+    const movementPattern = /(?:vuelv|regres|dirij|dirig|voy\s|ir\s|salg|salir|me voy|parto|march|camino|me dirijo|head\s|go\s+to|go\s+back|return|leave|walk\s+to|travel|move\s+to)/i
+    const playerWantsToMove = movementPattern.test(action)
+
     // Construir directiva anti-repetición con estado narrativo
     let antiRepeatDirective = ''
     {
@@ -358,6 +362,13 @@ export async function POST(req: NextRequest) {
         parts.push(isES
           ? `Lo que ya pasó (NO repetir):\n${eventsList}`
           : `What already happened (do NOT repeat):\n${eventsList}`)
+      }
+
+      // Instrucción de movimiento obligatorio
+      if (playerWantsToMove) {
+        parts.push(isES
+          ? `⚠️ MOVIMIENTO OBLIGATORIO: El jugador quiere IRSE de este lugar. DEBÉS:\n1. Usar "scene_change" para mover al destino mencionado\n2. Narrar la partida brevemente (1 oración máximo)\n3. Describir el NUEVO lugar al que llega\n4. NO dejar que ningún NPC bloquee el movimiento ni siga hablando\nLa intención de movimiento del jugador tiene PRIORIDAD ABSOLUTA sobre cualquier interacción NPC.`
+          : `⚠️ MANDATORY MOVEMENT: The player wants to LEAVE this location. You MUST:\n1. Use "scene_change" to move to the destination they mentioned\n2. Briefly narrate the departure (1 sentence max)\n3. Describe the NEW location they arrive at\n4. Do NOT let any NPC block movement or keep talking\nThe player's movement intention has ABSOLUTE PRIORITY over any NPC interaction.`)
       }
 
       if (parts.length > 0) {
@@ -1174,6 +1185,7 @@ RULES:
 === NARRATIVE PROGRESSION (CRITICAL) ===
 The story MUST ALWAYS move forward. NEVER repeat a scene you already narrated.
 - If the player tries to move to another place, ALWAYS use "scene_change" and describe the NEW location. DO NOT re-narrate the departure.
+- PLAYER MOVEMENT IS SACRED: When the player says they want to go somewhere (leave, return, go to, head to, go back), you MUST move them immediately. No NPC can block voluntary movement unless navigation_locked is true. Use scene_change. Never ignore a movement request.
 - If an NPC already introduced themselves, DO NOT have them introduce themselves again.
 - If an event already happened (door opened, item given, escape made), it is DONE. Start from the NEW situation.
 - Read your previous messages: if you already narrated something, the player already experienced it.
@@ -1241,6 +1253,7 @@ REGLAS:
 === PROGRESIÓN NARRATIVA (CRÍTICO) ===
 La historia SIEMPRE debe avanzar. NUNCA repitas una escena que ya narraste.
 - Si el jugador intenta moverse a otro lugar, SIEMPRE usá "scene_change" y describí la NUEVA ubicación. NO re-narres la partida.
+- EL MOVIMIENTO DEL JUGADOR ES SAGRADO: Cuando el jugador dice que quiere ir a algún lugar (irse, volver, dirigirse, ir a, regresar), DEBÉS moverlo inmediatamente. Ningún NPC puede bloquear el movimiento voluntario a menos que navigation_locked sea true. Usá scene_change. Nunca ignores una solicitud de movimiento.
 - Si un NPC ya se presentó, NO lo hagas presentarse de nuevo.
 - Si un evento ya pasó (puerta abierta, objeto entregado, escape hecho), ESTÁ HECHO. Empezá desde la NUEVA situación.
 - Leé tus mensajes anteriores: si ya narraste algo, el jugador ya lo vivió.
