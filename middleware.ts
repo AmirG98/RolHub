@@ -15,6 +15,8 @@ const isPublicRoute = createRouteMatcher([
   '/guias(.*)',
   '/sitemap.xml',
   '/robots.txt',
+  '/privacy',
+  '/terms',
   // Guest routes - permiten jugar sin cuenta
   '/guest(.*)',
   '/play-guest(.*)',
