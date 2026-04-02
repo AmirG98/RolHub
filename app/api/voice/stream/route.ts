@@ -159,12 +159,9 @@ async function generateWithDeepgram(
   return response
 }
 
-// Handle GET requests (browser prefetch, direct navigation)
+// Handle GET requests (browser prefetch, direct navigation) — redirect to home
 export async function GET() {
-  return new Response(JSON.stringify({ error: 'Use POST to generate voice' }), {
-    status: 200,
-    headers: { 'Content-Type': 'application/json' },
-  })
+  return Response.redirect(new URL('/', 'https://rol-hub.com'), 302)
 }
 
 export async function POST(request: NextRequest) {
