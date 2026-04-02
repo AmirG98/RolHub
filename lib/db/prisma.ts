@@ -19,9 +19,12 @@ function buildUrl(): string | undefined {
     if (!parsed.searchParams.has('pgbouncer')) {
       parsed.searchParams.set('pgbouncer', 'true')
     }
-    // Limitar conexiones por instancia serverless
+    // Pool config para serverless
     if (!parsed.searchParams.has('connection_limit')) {
-      parsed.searchParams.set('connection_limit', '1')
+      parsed.searchParams.set('connection_limit', '5')
+    }
+    if (!parsed.searchParams.has('pool_timeout')) {
+      parsed.searchParams.set('pool_timeout', '15')
     }
     return parsed.toString()
   } catch {

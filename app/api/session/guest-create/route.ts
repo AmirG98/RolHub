@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { prisma } from '@/lib/db/prisma'
+import { prisma, withRetry } from '@/lib/db/prisma'
 import { getLocalized } from '@/lib/i18n/localize'
 import { Lore, GameMode, GameEngine, TutorialLevel, Prisma } from '@prisma/client'
 import { createCampaignMapState } from '@/lib/maps/map-init'
@@ -104,8 +104,8 @@ export async function POST(req: NextRequest) {
       introContent = `Bienvenido a ${getLocalized(loreData.name, 'es')}, ${characterName}.\n\nTu aventura comienza...`
     }
 
-    // Crear todo en una transacción
-    const result = await prisma.$transaction(async (tx) => {
+    // Crear todo en una transacción con retry para pool timeout
+    const result = await withRetry(() => prisma.$transaction(async (tx) => {
       // Crear usuario guest
       const user = await tx.user.create({
         data: {
@@ -163,7 +163,7 @@ export async function POST(req: NextRequest) {
       })
 
       return { campaign, character, session, firstTurnId: firstTurn.id, userId: user.id }
-    })
+    }))
 
     // Generar retrato (síncrono, como el flow normal)
     let avatarUrl: string | null = null
