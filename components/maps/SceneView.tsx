@@ -462,13 +462,17 @@ export function SceneView({
         </div>
 
         {/* Sub-locaciones dentro de la ciudad */}
-        {subLocations.length > 0 && (
+        {subLocations.length > 0 ? (
           <SubLocationsSection
             subLocations={subLocations}
             currentSubLocationId={currentSubLocationId}
             isNavigationLocked={isNavigationLocked}
             onSubLocationClick={onSubLocationClick}
           />
+        ) : (
+          <p className="text-[10px] font-ui text-parchment/30 italic text-center py-2 px-3">
+            Cuando llegues a una ciudad, aparecerán las sub-locaciones conocidas.
+          </p>
         )}
 
         </div>{/* Cierre del contenido scrolleable */}
