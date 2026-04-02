@@ -1267,6 +1267,12 @@ The story MUST ALWAYS move forward. NEVER repeat a scene you already narrated.
 - When time passes significantly, reflect it: "morning" → "afternoon" → "evening" → "night". Use scene_change if needed.
 === END PROGRESSION ===
 
+=== CONSISTENCY RULES ===
+- UNIQUE NPC NAMES: NEVER reuse a name that already exists in the NPC list above for a different character. Every NPC must have a unique name. If you need a new NPC, invent a completely new name.
+- ITEMS ALREADY IN INVENTORY: Check the player's inventory above BEFORE narrating finding/discovering items. If the player already HAS an item (gems, weapons, coins), do NOT narrate finding it again. The inventory is the source of truth.
+- NPC IDENTITY PERSISTENCE: Once you reveal an NPC's name (e.g., "the hooded figure is Strider"), that NPC is ALWAYS that character. Never change their identity, gender, or role in later turns. An NPC who was revealed as a male Ranger cannot become a female elf.
+=== END CONSISTENCY ===
+
 === TRAVEL RULES ===
 When the player travels between locations:
 1. ADVANCE time_in_world by the realistic travel duration
@@ -1334,6 +1340,12 @@ La historia SIEMPRE debe avanzar. NUNCA repitas una escena que ya narraste.
 - Los NPCs DEBEN mantener el mismo nombre en TODOS los turnos. Si nombraste a alguien "Aldric" en el turno 5, SIEMPRE es "Aldric".
 - Cuando pase tiempo significativo, reflejalo: "mañana" → "tarde" → "noche" → "amanecer". Usá scene_change si es necesario.
 === FIN PROGRESIÓN ===
+
+=== REGLAS DE CONSISTENCIA ===
+- NOMBRES ÚNICOS DE NPCs: NUNCA reutilices un nombre que ya existe en la lista de NPCs de arriba para un personaje diferente. Cada NPC debe tener un nombre único. Si necesitás un NPC nuevo, inventá un nombre completamente nuevo.
+- ITEMS YA EN INVENTARIO: Revisá el inventario del jugador arriba ANTES de narrar encontrar/descubrir items. Si el jugador YA TIENE un item (gemas, armas, monedas), NO narres encontrarlo de nuevo. El inventario es la fuente de verdad.
+- PERSISTENCIA DE IDENTIDAD NPC: Una vez que revelás el nombre de un NPC (ej: "la figura encapuchada es Strider"), ese NPC es SIEMPRE ese personaje. Nunca cambies su identidad, género o rol en turnos posteriores. Un NPC revelado como un Montaraz masculino no puede volverse una elfa.
+=== FIN CONSISTENCIA ===
 
 === REGLAS DE VIAJE ===
 Cuando el jugador viaja entre ubicaciones:
