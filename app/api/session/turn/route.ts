@@ -173,8 +173,8 @@ export async function POST(req: NextRequest) {
     let dmTurnCount = 0
     const totalDMTurns = recentTurnsForHistory.filter(t => t.role === 'DM').length
     // Si el jugador quiere moverse: 0 turnos completos (todo condensado)
-    // Si no: últimos 2 turnos DM completos
-    const fullDMWindow = playerWantsToMove ? 0 : 2
+    // Si no: solo el ÚLTIMO turno DM semi-completo (con diálogos de NPCs ya conocidos limpiados)
+    const fullDMWindow = playerWantsToMove ? 0 : 1
 
     const conversationHistory = recentTurnsForHistory.map((turn) => {
       // Turnos del usuario: siempre completos
@@ -183,9 +183,20 @@ export async function POST(req: NextRequest) {
       }
 
       dmTurnCount++
-      // Turnos DM recientes: COMPLETOS para contexto (o 0 si el jugador quiere moverse)
+      // Último turno DM: semi-completo — mantener narración pero reemplazar diálogos
+      // de NPCs ya conocidos con tags para evitar que Claude los re-introduzca
       if (fullDMWindow > 0 && dmTurnCount > totalDMTurns - fullDMWindow) {
-        return { role: 'assistant' as const, content: turn.content }
+        const rawContent = turn.content || ''
+        // Reemplazar diálogos de NPCs con tags compactos que preservan la info
+        // "Pippin: «¡Un guerrero!»" → "[Pippin responde al jugador]"
+        const cleanedContent = rawContent.replace(
+          /([A-ZÁÉÍÓÚ][a-záéíóúñ]+(?:\s+[A-ZÁÉÍÓÚ]?[a-záéíóúñ]+)*)\s*[:«]([^»\n]*)[»"]?/g,
+          (_match, name, dialogue) => {
+            const shortDialogue = (dialogue || '').trim().substring(0, 30)
+            return `[${name}: "${shortDialogue}..."]`
+          }
+        )
+        return { role: 'assistant' as const, content: cleanedContent }
       }
 
       // Turnos DM viejos: condensar SIN diálogos de NPCs (para evitar que Claude los repita)
