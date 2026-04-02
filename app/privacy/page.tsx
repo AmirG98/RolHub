@@ -33,7 +33,7 @@ export default function PrivacyPage() {
             <p>Podés solicitar la eliminación de tu cuenta y datos en cualquier momento contactándonos.</p>
 
             <h2 className="font-heading text-lg text-gold mt-6">6. Contacto</h2>
-            <p>Para consultas sobre privacidad: <span className="text-gold">soporte@rol-hub.com</span></p>
+            <p>Para consultas sobre privacidad: <span className="text-gold">amir@amirgomez.com</span></p>
           </div>
         </div>
       </div>

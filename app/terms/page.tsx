@@ -35,7 +35,7 @@ export default function TermsPage() {
             <p>El servicio se proporciona "tal cual". No garantizamos disponibilidad ininterrumpida ni la preservación indefinida de datos de partidas.</p>
 
             <h2 className="font-heading text-lg text-gold mt-6">7. Contacto</h2>
-            <p>Para consultas: <span className="text-gold">soporte@rol-hub.com</span></p>
+            <p>Para consultas: <span className="text-gold">amir@amirgomez.com</span></p>
           </div>
         </div>
       </div>
