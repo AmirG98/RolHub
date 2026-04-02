@@ -666,30 +666,78 @@ export default function GameSession({
 
             {character && (
               <div
-                className="flex items-center justify-between md:justify-end gap-3 md:gap-4 cursor-pointer hover:opacity-80 transition"
+                className="flex items-center gap-3 md:gap-4 cursor-pointer hover:opacity-90 transition rounded-lg border border-gold-dim/30 bg-shadow/40 px-3 py-2"
                 onClick={() => scrollToSection('character-sheet-section')}
-                title="Ver hoja de personaje"
+                title="Ver hoja de personaje completa"
               >
-                <div className="md:text-right">
-                  <p className="font-heading text-sm md:text-lg text-parchment truncate max-w-[120px] md:max-w-none">{characterName}</p>
-                  <p className="font-ui text-xs md:text-sm text-gold-dim">
-                    {character.archetype} • Nv.{character.level}
-                  </p>
+                {/* Avatar */}
+                {character.avatarUrl && (
+                  <div className="hidden md:block w-10 h-10 rounded border border-gold-dim/50 overflow-hidden flex-shrink-0">
+                    <img src={character.avatarUrl} alt={characterName} className="w-full h-full object-cover" />
+                  </div>
+                )}
+
+                {/* Nombre + Nivel + HP */}
+                <div className="flex-shrink-0">
+                  <div className="flex items-baseline gap-1.5">
+                    <span className="font-heading text-sm text-parchment uppercase">{characterName}</span>
+                    <span className="font-ui text-[10px] text-gold-dim">Nv.{character.level}</span>
+                  </div>
+                  <p className="font-ui text-[10px] text-gold-dim/70">{character.archetype}</p>
+                  <div className="flex items-center gap-1.5 mt-0.5">
+                    <Heart className="w-3 h-3 text-blood" />
+                    <div className="w-16 h-1.5 bg-shadow rounded-full overflow-hidden border border-gold-dim/20">
+                      <div className={`h-full ${hpColor}`} style={{ width: `${hpPercentage}%` }} />
+                    </div>
+                    <span className="font-mono text-[10px] text-parchment/70">{hp.current}/{hp.max}</span>
+                    {engine === 'DND_5E' && (
+                      <>
+                        <span className="text-[10px] text-gold-dim ml-1">AC {(character.stats as any)?.ac || 10}</span>
+                        <span className="text-[10px] text-gold-dim">Prof +{(character.stats as any)?.proficiencyBonus || 2}</span>
+                      </>
+                    )}
+                  </div>
                 </div>
-                {/* HP Bar */}
-                <div className="flex-shrink-0 min-w-[120px] md:min-w-[150px]">
-                  <div className="flex items-center gap-2 mb-1">
-                    <Heart className="w-4 h-4 text-blood" />
-                    <span className="font-heading text-blood text-sm md:text-lg">
-                      {hp.current}/{hp.max}
-                    </span>
-                  </div>
-                  <div className="h-2 bg-shadow rounded-full overflow-hidden border border-gold-dim/30">
-                    <div
-                      className={`h-full ${hpColor} transition-all duration-500`}
-                      style={{ width: `${hpPercentage}%` }}
-                    />
-                  </div>
+
+                {/* Stats compactos — solo desktop */}
+                <div className="hidden lg:flex items-center gap-2 ml-2">
+                  {engine === 'DND_5E' ? (
+                    // D&D 5e: 6 ability scores
+                    <div className="flex gap-2">
+                      {(['STR', 'DEX', 'CON', 'INT', 'WIS', 'CHA'] as const).map(stat => {
+                        const val = (character.stats as any)?.[stat] || 10
+                        const mod = Math.floor((val - 10) / 2)
+                        return (
+                          <div key={stat} className="text-center">
+                            <div className="text-[9px] text-gold-dim/60 font-ui">{stat}</div>
+                            <div className="text-xs font-heading text-parchment">{val}</div>
+                            <div className="text-[9px] text-gold-dim font-mono">{mod >= 0 ? `+${mod}` : mod}</div>
+                          </div>
+                        )
+                      })}
+                    </div>
+                  ) : (
+                    // Story mode: combat/exploration/social/knowledge
+                    <div className="flex gap-3">
+                      {[
+                        { label: 'COM', val: (character.stats as any)?.combat || 0 },
+                        { label: 'EXP', val: (character.stats as any)?.exploration || 0 },
+                        { label: 'SOC', val: (character.stats as any)?.social || 0 },
+                        { label: 'SAB', val: (character.stats as any)?.knowledge || (character.stats as any)?.lore || 0 },
+                      ].map(s => (
+                        <div key={s.label} className="text-center">
+                          <div className="text-[9px] text-gold-dim/60 font-ui">{s.label}</div>
+                          <div className="text-xs font-heading text-parchment">{s.val}</div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Ver Hoja button */}
+                <div className="hidden md:flex items-center gap-1 ml-2 px-2 py-1 rounded border border-gold-dim/30 text-[10px] font-ui text-gold-dim hover:text-gold hover:border-gold transition flex-shrink-0">
+                  <BookOpen className="w-3 h-3" />
+                  <span>Ver Hoja</span>
                 </div>
               </div>
             )}
