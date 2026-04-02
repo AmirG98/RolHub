@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@clerk/nextjs/server'
-import { prisma } from '@/lib/db/prisma'
+import { prisma, withRetry } from '@/lib/db/prisma'
 import Anthropic from '@anthropic-ai/sdk'
 import {
   getEngineConfig,
@@ -45,6 +45,11 @@ interface DiceRoll {
 
 // Vercel Pro permite hasta 300s — 120s da margen para Claude + DB
 export const maxDuration = 120
+
+// Handle GET (browser prefetch/navigation)
+export async function GET() {
+  return Response.redirect(new URL('/', 'https://rol-hub.com'), 302)
+}
 
 export async function POST(req: NextRequest) {
   try {
@@ -92,8 +97,8 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    // Obtener la sesion con todos los datos necesarios
-    const session = await prisma.session.findUnique({
+    // Obtener la sesion con todos los datos necesarios (con retry para pool timeout)
+    const session = await withRetry(() => prisma.session.findUnique({
       where: { id: sessionId },
       include: {
         campaign: {
@@ -114,7 +119,7 @@ export async function POST(req: NextRequest) {
           take: 20, // Más historial para coherencia narrativa
         },
       },
-    })
+    }))
 
     if (!session) {
       return NextResponse.json({ error: 'Sesion no encontrada' }, { status: 404 })
