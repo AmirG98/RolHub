@@ -412,6 +412,27 @@ export async function POST(req: NextRequest) {
       }
     }
 
+    // Inyectar STATE ANCHOR como último assistant message para anclar a Claude
+    // en la ubicación y estado correctos. Claude trata esto como "su última narración"
+    // y naturalmente continuará desde aquí, no desde escenas anteriores del historial.
+    {
+      const npcsHereNames = Object.entries(worldState.npc_states || {})
+        .filter(([_, data]) => {
+          const info = typeof data === 'string' ? { location: '' } : (data as any)
+          const loc = (info.location || '').toLowerCase()
+          const scene = (worldState.current_scene || '').toLowerCase()
+          return !loc || loc === scene || scene.includes(loc) || loc.includes(scene)
+        })
+        .map(([name]) => name)
+      const npcsStr = npcsHereNames.length > 0
+        ? (isEnglish ? `NPCs present: ${npcsHereNames.join(', ')}. ` : `NPCs presentes: ${npcsHereNames.join(', ')}. `)
+        : ''
+      const stateAnchor = isEnglish
+        ? `[CURRENT STATE: Location: ${worldState.current_scene || 'Unknown'}. ${npcsStr}Time: ${worldState.time_in_world || 'Unknown'}. Weather: ${worldState.weather || 'Unknown'}. Continue the story from HERE — do not go back to previous scenes.]`
+        : `[ESTADO ACTUAL: Ubicación: ${worldState.current_scene || 'Desconocida'}. ${npcsStr}Hora: ${worldState.time_in_world || 'Desconocida'}. Clima: ${worldState.weather || 'Desconocido'}. Continuá la historia desde AQUÍ — no vuelvas a escenas anteriores.]`
+      conversationHistory.push({ role: 'assistant' as const, content: stateAnchor })
+    }
+
     conversationHistory.push({
       role: 'user',
       content: actionContext + antiRepeatDirective,
