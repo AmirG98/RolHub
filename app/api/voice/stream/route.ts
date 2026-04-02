@@ -159,6 +159,14 @@ async function generateWithDeepgram(
   return response
 }
 
+// Handle GET requests (browser prefetch, direct navigation)
+export async function GET() {
+  return new Response(JSON.stringify({ error: 'Use POST to generate voice' }), {
+    status: 200,
+    headers: { 'Content-Type': 'application/json' },
+  })
+}
+
 export async function POST(request: NextRequest) {
   const startTime = Date.now()
 
