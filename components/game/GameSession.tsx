@@ -512,10 +512,10 @@ export default function GameSession({
         }
       }
 
-      // Handle DM dice request — show prompted dice roller
+      // Handle DM dice request — defer until typewriter finishes
       if (data.diceRequest) {
         setPendingDiceRequest(data.diceRequest)
-        setShowDiceRoller(true)
+        // Modal se abrirá automáticamente cuando el typewriter termine
       } else {
         setPendingDiceRequest(null)
       }
@@ -932,7 +932,13 @@ export default function GameSession({
                             text={turn.content}
                             variant="narration"
                             speed={25}
-                            onComplete={() => setTypewriterTurnId(null)}
+                            onComplete={() => {
+                              setTypewriterTurnId(null)
+                              // Si hay dice request pendiente, abrir modal ahora que la narración terminó
+                              if (pendingDiceRequest) {
+                                setTimeout(() => setShowDiceRoller(true), 300)
+                              }
+                            }}
                             skipOnClick={true}
                             className="text-base md:text-lg"
                           />
@@ -1056,7 +1062,7 @@ export default function GameSession({
             ) : (
               <ActionInputWithVoice
                 onSubmit={handleSubmit}
-                isSubmitting={isSubmitting}
+                isSubmitting={isSubmitting || !!pendingDiceRequest}
                 suggestedActions={suggestedActions}
                 lastDiceRoll={lastDiceRoll}
                 onClearDiceRoll={() => setLastDiceRoll(null)}
