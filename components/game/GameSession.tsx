@@ -665,7 +665,11 @@ export default function GameSession({
             </div>
 
             {character && (
-              <div className="flex items-center justify-between md:justify-end gap-3 md:gap-4">
+              <div
+                className="flex items-center justify-between md:justify-end gap-3 md:gap-4 cursor-pointer hover:opacity-80 transition"
+                onClick={() => scrollToSection('character-sheet-section')}
+                title="Ver hoja de personaje"
+              >
                 <div className="md:text-right">
                   <p className="font-heading text-sm md:text-lg text-parchment truncate max-w-[120px] md:max-w-none">{characterName}</p>
                   <p className="font-ui text-xs md:text-sm text-gold-dim">
@@ -1151,8 +1155,10 @@ export default function GameSession({
 
           {/* Panel derecho - Mapa + Imagen de escena (4/12) */}
           <div className="lg:col-span-4 space-y-3 md:space-y-4 order-1 lg:order-2">
-            {/* Imagen de escena - panel independiente */}
+            {/* Imagen de escena */}
             {(sceneImageUrl || isImageLoading) && (
+              <div>
+                <h3 className="font-heading text-xs text-gold-dim uppercase tracking-widest mb-2 px-1">Escena</h3>
               <SceneImage
                 imageUrl={sceneImageUrl}
                 isLoading={isImageLoading}
@@ -1160,9 +1166,11 @@ export default function GameSession({
                 error={imageError}
                 className="rounded-lg overflow-hidden"
               />
+              </div>
             )}
 
-            {/* Mapa */}
+            {/* Ubicaciones */}
+            <h3 className="font-heading text-xs text-gold-dim uppercase tracking-widest mb-2 px-1">Ubicaciones</h3>
             <GameMapPanel
               lore={lore as LoreType}
               worldState={worldState}
@@ -1182,6 +1190,7 @@ export default function GameSession({
             />
 
             {/* Inventario */}
+            <h3 className="font-heading text-xs text-gold-dim uppercase tracking-widest mb-2 px-1">Inventario</h3>
             <div className="glass-panel-dark rounded-lg border border-gold-dim/20">
               <InventoryPanel
                 inventory={worldState.party?.[characterName]?.inventory || character?.inventory || []}
