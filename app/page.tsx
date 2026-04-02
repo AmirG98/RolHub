@@ -82,6 +82,13 @@ export default function HomePage() {
             <div className="font-ui text-[10px] md:text-sm text-parchment/60">{t.homeExtras.powered}</div>
           </div>
         </div>
+
+        {/* Footer links */}
+        <div className="flex items-center justify-center gap-4 mt-8 font-ui text-xs text-parchment/40">
+          <Link href="/privacy" className="hover:text-gold transition">Política de Privacidad</Link>
+          <span>•</span>
+          <Link href="/terms" className="hover:text-gold transition">Condiciones del Servicio</Link>
+        </div>
       </div>
     </div>
   );
