@@ -171,14 +171,49 @@ export default function GameSession({
 
   // Exit dialog
   const [showExitDialog, setShowExitDialog] = useState(false)
+  const [pendingExitUrl, setPendingExitUrl] = useState<string | null>(null)
 
-  // Beforeunload warning
+  // Interceptar TODAS las formas de salir de la partida
   useEffect(() => {
+    // 1. Cierre de pestaña / refresh
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
       e.preventDefault()
     }
+
+    // 2. Clicks en links (Navbar, etc.) — interceptar navegación client-side
+    const handleLinkClick = (e: MouseEvent) => {
+      const target = (e.target as HTMLElement).closest('a')
+      if (!target) return
+      const href = target.getAttribute('href')
+      if (!href || href.startsWith('#') || href.startsWith('javascript')) return
+      // No interceptar links dentro del juego (acciones, dados, etc.)
+      if (href.includes('/play/')) return
+      // Interceptar navegación fuera del juego
+      e.preventDefault()
+      e.stopPropagation()
+      setPendingExitUrl(href)
+      setShowExitDialog(true)
+    }
+
+    // 3. Browser back button
+    const handlePopState = () => {
+      // Pushear el state de vuelta para evitar la navegación
+      window.history.pushState(null, '', window.location.href)
+      setShowExitDialog(true)
+    }
+
+    // Pushear un state extra para poder interceptar el back button
+    window.history.pushState(null, '', window.location.href)
+
     window.addEventListener('beforeunload', handleBeforeUnload)
-    return () => window.removeEventListener('beforeunload', handleBeforeUnload)
+    document.addEventListener('click', handleLinkClick, true) // capture phase
+    window.addEventListener('popstate', handlePopState)
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload)
+      document.removeEventListener('click', handleLinkClick, true)
+      window.removeEventListener('popstate', handlePopState)
+    }
   }, [])
 
   // i18n
@@ -558,9 +593,9 @@ export default function GameSession({
   // ============================================================================
   return (
     <div className={`min-h-screen particle-bg pb-4 ${moodConfig.cssClass}`}>
-      {/* Exit dialog */}
+      {/* Exit dialog — intercepta todas las formas de salir */}
       {showExitDialog && (
-        <div className="fixed inset-0 bg-shadow/80 z-50 flex items-center justify-center p-4" onClick={() => setShowExitDialog(false)}>
+        <div className="fixed inset-0 bg-shadow/80 z-50 flex items-center justify-center p-4" onClick={() => { setShowExitDialog(false); setPendingExitUrl(null) }}>
           <div className="glass-panel-dark rounded-lg p-6 max-w-sm w-full border border-gold-dim/30" onClick={e => e.stopPropagation()}>
             <h3 className="font-heading text-lg text-gold mb-3">Salir de la partida</h3>
             <p className="font-body text-sm text-parchment/80 mb-4">
@@ -568,16 +603,17 @@ export default function GameSession({
             </p>
             <div className="flex gap-3">
               <button
-                onClick={() => setShowExitDialog(false)}
+                onClick={() => { setShowExitDialog(false); setPendingExitUrl(null) }}
                 className="flex-1 px-4 py-2 rounded font-ui text-sm text-parchment bg-shadow-mid hover:bg-shadow border border-gold-dim/30"
               >
                 Seguir jugando
               </button>
-              <Link href="/campaigns" className="flex-1">
-                <button className="w-full px-4 py-2 rounded font-ui text-sm text-parchment bg-gold-dim/80 hover:bg-gold-dim">
-                  Ir a Campañas
-                </button>
-              </Link>
+              <button
+                onClick={() => { window.location.href = pendingExitUrl || '/campaigns' }}
+                className="flex-1 px-4 py-2 rounded font-ui text-sm text-parchment bg-gold-dim/80 hover:bg-gold-dim"
+              >
+                {pendingExitUrl ? 'Salir' : 'Ir a Campañas'}
+              </button>
             </div>
           </div>
         </div>
