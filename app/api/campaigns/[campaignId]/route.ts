@@ -101,3 +101,71 @@ export async function GET(req: NextRequest, { params }: RouteParams) {
     )
   }
 }
+
+// Renombrar campaña
+export async function PATCH(req: NextRequest, { params }: RouteParams) {
+  try {
+    const { userId } = await auth()
+    if (!userId) {
+      return NextResponse.json({ error: 'No autorizado' }, { status: 401 })
+    }
+
+    const { campaignId } = await params
+    const { name } = await req.json()
+
+    if (!name || typeof name !== 'string' || name.trim().length === 0) {
+      return NextResponse.json({ error: 'Nombre inválido' }, { status: 400 })
+    }
+
+    const user = await prisma.user.findUnique({ where: { clerkId: userId } })
+    if (!user) return NextResponse.json({ error: 'Usuario no encontrado' }, { status: 404 })
+
+    const campaign = await prisma.campaign.findUnique({ where: { id: campaignId } })
+    if (!campaign || campaign.userId !== user.id) {
+      return NextResponse.json({ error: 'No autorizado' }, { status: 403 })
+    }
+
+    await prisma.campaign.update({
+      where: { id: campaignId },
+      data: { name: name.trim() },
+    })
+
+    return NextResponse.json({ success: true })
+  } catch (error) {
+    console.error('Error renaming campaign:', error)
+    return NextResponse.json({ error: 'Error al renombrar' }, { status: 500 })
+  }
+}
+
+// Soft delete campaña (marca _deleted en worldState)
+export async function DELETE(req: NextRequest, { params }: RouteParams) {
+  try {
+    const { userId } = await auth()
+    if (!userId) {
+      return NextResponse.json({ error: 'No autorizado' }, { status: 401 })
+    }
+
+    const { campaignId } = await params
+
+    const user = await prisma.user.findUnique({ where: { clerkId: userId } })
+    if (!user) return NextResponse.json({ error: 'Usuario no encontrado' }, { status: 404 })
+
+    const campaign = await prisma.campaign.findUnique({ where: { id: campaignId } })
+    if (!campaign || campaign.userId !== user.id) {
+      return NextResponse.json({ error: 'No autorizado' }, { status: 403 })
+    }
+
+    const worldState = campaign.worldState as Record<string, any>
+    worldState._deleted = true
+
+    await prisma.campaign.update({
+      where: { id: campaignId },
+      data: { worldState },
+    })
+
+    return NextResponse.json({ success: true })
+  } catch (error) {
+    console.error('Error deleting campaign:', error)
+    return NextResponse.json({ error: 'Error al eliminar' }, { status: 500 })
+  }
+}

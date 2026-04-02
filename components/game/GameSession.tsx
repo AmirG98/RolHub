@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useRef, useEffect, useCallback } from 'react'
+import Link from 'next/link'
 import { ParchmentPanel } from '@/components/medieval/ParchmentPanel'
 import { OrnateFrame } from '@/components/medieval/OrnateFrame'
 import { DiceRoller } from '@/components/medieval/DiceRoller'
@@ -167,6 +168,18 @@ export default function GameSession({
 
   // Combat system state
   const [combatState, setCombatState] = useState<CombatState>(DEFAULT_COMBAT_STATE)
+
+  // Exit dialog
+  const [showExitDialog, setShowExitDialog] = useState(false)
+
+  // Beforeunload warning
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      e.preventDefault()
+    }
+    window.addEventListener('beforeunload', handleBeforeUnload)
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload)
+  }, [])
 
   // i18n
   const { locale } = useLanguage()
@@ -545,7 +558,30 @@ export default function GameSession({
   // ============================================================================
   return (
     <div className={`min-h-screen particle-bg pb-4 ${moodConfig.cssClass}`}>
-      {/* Combat banner is rendered inline near the narrator panel */}
+      {/* Exit dialog */}
+      {showExitDialog && (
+        <div className="fixed inset-0 bg-shadow/80 z-50 flex items-center justify-center p-4" onClick={() => setShowExitDialog(false)}>
+          <div className="glass-panel-dark rounded-lg p-6 max-w-sm w-full border border-gold-dim/30" onClick={e => e.stopPropagation()}>
+            <h3 className="font-heading text-lg text-gold mb-3">Salir de la partida</h3>
+            <p className="font-body text-sm text-parchment/80 mb-4">
+              Tu progreso será guardado automáticamente. Si volver atrás no funciona, dirígete a la página de campañas para continuar tu última partida.
+            </p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setShowExitDialog(false)}
+                className="flex-1 px-4 py-2 rounded font-ui text-sm text-parchment bg-shadow-mid hover:bg-shadow border border-gold-dim/30"
+              >
+                Seguir jugando
+              </button>
+              <Link href="/campaigns" className="flex-1">
+                <button className="w-full px-4 py-2 rounded font-ui text-sm text-parchment bg-gold-dim/80 hover:bg-gold-dim">
+                  Ir a Campañas
+                </button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Portrait Splash on session start */}
       {showPortraitSplash && character && (
@@ -682,9 +718,16 @@ export default function GameSession({
           {/* Panel izquierdo - Narración (8/12) */}
           <div className="lg:col-span-8 space-y-3 md:space-y-4">
 
-            {/* Location/Time/Weather banner */}
+            {/* Location/Time/Weather banner + exit button */}
             {worldState && (
               <div className="flex flex-wrap items-center gap-2 md:gap-4 px-3 py-2 rounded-lg bg-shadow/60 border border-gold-dim/30 font-ui text-xs md:text-sm text-parchment/80">
+                <button
+                  onClick={() => setShowExitDialog(true)}
+                  className="text-parchment/50 hover:text-gold transition mr-1"
+                  title="Salir de la partida"
+                >
+                  ←
+                </button>
                 {worldState.current_scene && (
                   <span className="flex items-center gap-1">
                     <span className="text-gold">📍</span> {worldState.current_scene}

@@ -48,8 +48,11 @@ export async function GET() {
       orderBy: { updatedAt: 'desc' }
     })
 
+    // Filtrar campañas soft-deleted
+    const activeCampaigns = campaigns.filter(c => !(c.worldState as any)?._deleted)
+
     // Enrich campaigns with additional info
-    const enrichedCampaigns = campaigns.map(campaign => {
+    const enrichedCampaigns = activeCampaigns.map(campaign => {
       const worldState = campaign.worldState as any
       const lastSession = campaign.sessions[0]
       const character = campaign.characters[0]
