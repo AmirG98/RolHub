@@ -13,7 +13,7 @@ export default function HomePage() {
         {/* Hero Content */}
         <div className="glass-panel-dark rounded-lg p-6 md:p-12 glow-effect">
           <h1 className="font-title text-4xl sm:text-5xl md:text-7xl mb-4 md:mb-6 bg-clip-text text-transparent bg-gradient-to-r from-gold-bright via-gold to-gold-dim animate-pulse">
-            RPG HUB
+            ROL HUB
           </h1>
           <p className="font-heading text-lg md:text-2xl text-gold mb-2 md:mb-4">
             {t.homeExtras.narrator}
@@ -84,9 +84,9 @@ export default function HomePage() {
         </div>
 
         {/* Footer links */}
-        <div className="flex items-center justify-center gap-4 mt-8 font-ui text-xs text-parchment/40">
+        <div className="flex items-center justify-center gap-6 mt-10 font-ui text-sm text-parchment/50">
           <Link href="/privacy" className="hover:text-gold transition">Política de Privacidad</Link>
-          <span>•</span>
+          <span className="text-gold-dim/30">|</span>
           <Link href="/terms" className="hover:text-gold transition">Condiciones del Servicio</Link>
         </div>
       </div>

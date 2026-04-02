@@ -19,7 +19,7 @@ export function Navbar() {
         <div className="flex items-center justify-between">
           <Link href="/" className="font-title text-xl md:text-2xl text-gold hover:text-gold-bright transition glow-effect-on-hover group">
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-gold-bright via-gold to-gold-dim group-hover:from-gold to-gold-bright transition-all">
-              RPG HUB
+              ROL HUB
             </span>
           </Link>
 
