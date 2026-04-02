@@ -167,7 +167,6 @@ export default function GameSession({
 
   // Combat system state
   const [combatState, setCombatState] = useState<CombatState>(DEFAULT_COMBAT_STATE)
-  const [combatTransitioning, setCombatTransitioning] = useState(false)
 
   // i18n
   const { locale } = useLanguage()
@@ -546,15 +545,7 @@ export default function GameSession({
   // ============================================================================
   return (
     <div className={`min-h-screen particle-bg pb-4 ${moodConfig.cssClass}`}>
-      {/* Combat transition overlay */}
-      {combatTransitioning && (
-        <div className="fixed inset-0 bg-blood/50 z-50 flex items-center justify-center">
-          <div className="text-center">
-            <Swords className="w-16 h-16 text-gold animate-pulse mx-auto mb-4" />
-            <h2 className="font-heading text-2xl text-gold">¡Combate!</h2>
-          </div>
-        </div>
-      )}
+      {/* Combat banner is rendered inline near the narrator panel */}
 
       {/* Portrait Splash on session start */}
       {showPortraitSplash && character && (

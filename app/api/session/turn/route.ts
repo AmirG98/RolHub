@@ -14,7 +14,8 @@ import { type Lore as LoreType } from '@/lib/maps/map-config'
 import { type NavigationLockReason, type LocationKnowledgeLevel, type DynamicMapLocation } from '@/lib/types/map-state'
 import { calculateRelativePosition, normalizeLegacyCoordinates } from '@/lib/maps/position-calculator'
 import { type Quest, type QuestUpdate } from '@/lib/types/quest'
-import { upgradeKnowledge, onLocationArrival } from '@/lib/maps/location-knowledge'
+// Regex consistente para detectar NPCs con diálogo (Nombre: o Nombre «)
+const NPC_DIALOGUE_REGEX = /([A-ZÁÉÍÓÚ][a-záéíóúñ]+(?:\s+[A-ZÁÉÍÓÚ]?[a-záéíóúñ]+)*)\s*[:«]/g
 
 // Lore data para sub-locaciones
 import lotrData from '@/data/lores/lotr.json'
@@ -162,7 +163,8 @@ export async function POST(req: NextRequest) {
     const character = actingCharacter
 
     // Detectar si el jugador quiere moverse (necesario antes de construir historial)
-    const movementPattern = /(?:vuelv|regres|dirij|dirig|voy\s|ir\s|salg|salir|me voy|parto|march|camino|me dirijo|head\s|go\s+to|go\s+back|return|leave|walk\s+to|travel|move\s+to|explor)/i
+    // Detectar movimiento real (NO exploración in-situ como "exploro los alrededores")
+    const movementPattern = /(?:vuelv|regres|dirij|dirig|voy\s|ir\s|salg|salir|me voy|parto|march|camino|me dirijo|head\s|go\s+to|go\s+back|return|leave|walk\s+to|travel|move\s+to)/i
     const playerWantsToMove = movementPattern.test(action)
 
     // Construir historial de conversación — híbrido: recientes completos + viejos condensados
@@ -186,13 +188,19 @@ export async function POST(req: NextRequest) {
         return { role: 'assistant' as const, content: turn.content }
       }
 
-      // Turnos DM más viejos: condensar a hechos clave con tag de NPC
+      // Turnos DM viejos: condensar SIN diálogos de NPCs (para evitar que Claude los repita)
       const content = turn.content || ''
-      const sentences = content.split(/[.!?»"]/).filter(s => s.trim().length > 12)
-      const facts = sentences.slice(0, 3).map(s => s.trim().substring(0, 80)).join('. ')
-      const npcInTurn = content.match(/([A-ZÁÉÍÓÚ][a-záéíóúñ]+(?:\s+[A-ZÁÉÍÓÚ]?[a-záéíóúñ]+)*)\s*[:«]/)?.[1]
-      const prefix = npcInTurn ? `[${npcInTurn} — interacción completada] ` : ''
-      return { role: 'assistant' as const, content: `${prefix}[Resumen: ${facts}.]` }
+      // Extraer NPCs que hablaron en este turno
+      const npcsInTurn = [...content.matchAll(NPC_DIALOGUE_REGEX)].map(m => m[1])
+      const uniqueNPCs = [...new Set(npcsInTurn)]
+      // Quitar diálogos de NPCs y dejar solo la acción/descripción
+      const withoutDialogue = content
+        .replace(/[A-ZÁÉÍÓÚ][a-záéíóúñ]+(?:\s+[A-ZÁÉÍÓÚ]?[a-záéíóúñ]+)*\s*[:«][^»\n]*[»"]?/g, '')
+        .replace(/\s{2,}/g, ' ').trim()
+      const sentences = withoutDialogue.split(/[.!?]/).filter(s => s.trim().length > 15)
+      const actionSummary = sentences.slice(0, 2).map(s => s.trim().substring(0, 80)).join('. ')
+      const npcTag = uniqueNPCs.length > 0 ? `[NPCs: ${uniqueNPCs.join(', ')} — ya interactuaste, NO re-introducir] ` : ''
+      return { role: 'assistant' as const, content: `${npcTag}${actionSummary || '[Escena previa sin acción relevante]'}` }
     })
 
     // === DETECCIÓN DE ESTANCAMIENTO Y ANTI-REPETICIÓN ===
@@ -283,7 +291,7 @@ export async function POST(req: NextRequest) {
       })
       // Fallback: regex sobre narraciones recientes (para NPCs no registrados aún)
       recentDMContent.forEach(content => {
-        const npcMatches = content.matchAll(/([A-ZÁÉÍÓÚ][a-záéíóúñ]+(?:\s+[A-ZÁÉÍÓÚ]?[a-záéíóúñ]+)*)\s*[:«]/g)
+        const npcMatches = content.matchAll(NPC_DIALOGUE_REGEX)
         for (const m of npcMatches) introducedNPCs.add(m[1])
       })
       introducedNPCsList = [...introducedNPCs]
@@ -307,7 +315,7 @@ export async function POST(req: NextRequest) {
         // NPCs que ya se presentaron
         const introMatch = content.match(/(?:present[aó]|introduc|soy\s|me llamo|mi nombre es|my name is)\b/i)
         if (introMatch) {
-          const who = content.match(/([A-ZÁÉÍÓÚ][a-záéíóúñ]+(?:\s+[A-ZÁÉÍÓÚ]?[a-záéíóúñ]+)*)\s*[:«]/)?.[1]
+          const who = content.match(NPC_DIALOGUE_REGEX)?.[1]
           if (who) {
             const action = `${who} ya se presentó`
             if (!seenActions.has(action)) { seenActions.add(action); completedActions.push(action) }
@@ -329,7 +337,7 @@ export async function POST(req: NextRequest) {
       // Detectar NPC loop: si el mismo NPC aparece en 3+ narraciones consecutivas
       if (recentDMContent.length >= 3) {
         const npcMentions = recentDMContent.map(c => {
-          const match = c.match(/([A-ZÁÉÍÓÚ][a-záéíóúñ]+(?:\s+[a-záéíóúñ]+)?)\s*[:«]/)?.[1]
+          const match = c.match(NPC_DIALOGUE_REGEX)?.[1]
           return match || ''
         }).filter(Boolean)
 
@@ -357,11 +365,11 @@ export async function POST(req: NextRequest) {
       const isES = !isEnglish
       const parts: string[] = []
 
-      // NPCs ya presentados
+      // NPCs ya presentados — instrucción ULTRA explícita
       if (introducedNPCsList.length > 0) {
         parts.push(isES
-          ? `NPCs ya presentes y presentados: ${introducedNPCsList.join(', ')}. NO los re-introduzcas ni re-describas su apariencia.`
-          : `NPCs already present and introduced: ${introducedNPCsList.join(', ')}. Do NOT re-introduce them or re-describe their appearance.`)
+          ? `⚠️ ESTOS NPCs YA SE PRESENTARON Y EL JUGADOR YA LOS CONOCE: ${introducedNPCsList.join(', ')}.\nNO repitas sus presentaciones. NO digas "Soy [nombre]" ni describas su apariencia otra vez. Ellos YA están en la escena. Simplemente hacelos REACCIONAR a la acción del jugador como personajes que ya se conocen.`
+          : `⚠️ THESE NPCs HAVE ALREADY BEEN INTRODUCED AND THE PLAYER KNOWS THEM: ${introducedNPCsList.join(', ')}.\nDo NOT repeat their introductions. Do NOT say "I am [name]" or describe their appearance again. They are ALREADY in the scene. Simply have them REACT to the player's action as characters who already know each other.`)
       }
 
       // Acciones ya completadas (estado)
@@ -1570,15 +1578,24 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
     // Auto-detect NPCs from narration — Claude doesn't always send npc_update
     // so we extract NPC names from dialogue patterns (Name: or Name «)
     try {
-      const narratedNPCs = [...(dmResponse.narration || '').matchAll(
-        /([A-ZÁÉÍÓÚ][a-záéíóúñ]+(?:\s+[A-ZÁÉÍÓÚ]?[a-záéíóúñ]+)*)\s*[:«]/g
-      )]
+      const narratedNPCs = [...(dmResponse.narration || '').matchAll(NPC_DIALOGUE_REGEX)]
       const currentNPCs = worldState.npc_states || {}
       for (const match of narratedNPCs) {
         const npcName = match[1]
         // Skip player character, short names, common false positives
         if (npcName === character.name || npcName.length < 3) continue
-        if (['Día', 'Noche', 'Ronda', 'Turno', 'Scene', 'Round'].includes(npcName)) continue
+        // Blocklist de falsos positivos: palabras comunes que matchean el patrón Nombre:
+        const NPC_BLOCKLIST = [
+          'Día', 'Noche', 'Ronda', 'Turno', 'Scene', 'Round', 'Resumen', 'Descripción',
+          'Resultado', 'Mensaje', 'Escena', 'Nota', 'Sistema', 'Inventario', 'Ubicación',
+          'Estado', 'Combate', 'Acción', 'Respuesta', 'Narración', 'Historia', 'Quest',
+          'Misión', 'Objetivo', 'Clima', 'Hora', 'Tiempo', 'Lugar', 'Destino', 'Arma',
+          'Item', 'Objeto', 'Equipo', 'Hechizo', 'Spell', 'Attack', 'Defense', 'Location',
+          'Warning', 'Error', 'Note', 'Summary', 'Description', 'Result', 'Action',
+          'Taverna', 'Castillo', 'Posada', 'Mercado', 'Plaza', 'Templo', 'Bosque',
+          'Ejemplo', 'Example', 'Important', 'Importante', 'Critical', 'Crítico',
+        ]
+        if (NPC_BLOCKLIST.some(b => b.toLowerCase() === npcName.toLowerCase())) continue
         if (!currentNPCs[npcName]) {
           if (!worldStateUpdates.npc_states) worldStateUpdates.npc_states = { ...currentNPCs }
           worldStateUpdates.npc_states[npcName] = {
