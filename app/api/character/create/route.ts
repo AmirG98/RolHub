@@ -172,8 +172,13 @@ export async function POST(req: NextRequest) {
 
       charName = characterName || archetypeData.name
       charArchetype = archetypeData.name
-      // Si hay customStats del point buy, usarlos en lugar de los defaults
-      if (body.customStats) {
+
+      // Si el engine es DND_5E y el arquetipo tiene dnd5e_stats, usar esos
+      if (engine === 'DND_5E' && archetypeData.dnd5e_stats) {
+        charStats = archetypeData.dnd5e_stats
+        charInventory = archetypeData.dnd5e_stats.equipment || getLocalizedArray(archetypeData.starting_inventory, locale)
+      } else if (body.customStats) {
+        // Si hay customStats del point buy, usarlos en lugar de los defaults
         charStats = {
           ...archetypeData.starting_stats,
           combat: body.customStats.combat,
@@ -181,10 +186,11 @@ export async function POST(req: NextRequest) {
           social: body.customStats.social,
           lore: body.customStats.lore,
         }
+        charInventory = getLocalizedArray(archetypeData.starting_inventory, locale)
       } else {
         charStats = archetypeData.starting_stats
+        charInventory = getLocalizedArray(archetypeData.starting_inventory, locale)
       }
-      charInventory = getLocalizedArray(archetypeData.starting_inventory, locale)
       charLevel = 1
     }
 
@@ -215,8 +221,8 @@ export async function POST(req: NextRequest) {
           active_effects: [] as string[],
           inventory: charInventory,
           relationships: {} as Record<string, string>,
-          // D&D 5e specific stats
-          ...(isDnD5eCharacter && {
+          // D&D 5e specific stats (from full creator or from archetype dnd5e_stats)
+          ...((isDnD5eCharacter || charStats.STR) && {
             ac: charStats.ac,
             STR: charStats.STR,
             DEX: charStats.DEX,

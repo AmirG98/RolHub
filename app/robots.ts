@@ -5,7 +5,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: ['/api/', '/play/', '/lobby/'],
+      disallow: ['/api/', '/play/', '/lobby/', '/admin/', '/design-system/', '/dice-test/', '/join/', '/invite/', '/maps/', '/tactical/'],
     },
     sitemap: 'https://rol-hub.com/sitemap.xml',
   }

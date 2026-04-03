@@ -2280,6 +2280,11 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
       combat_trigger: dmResponse.combat_trigger || null,
       // Dice roll request from DM
       diceRequest: dmResponse.dice_request || null,
+      // Item/quest notifications for frontend popups
+      newItem: originalNewItem || null,
+      removeItem: originalRemoveItem || null,
+      newQuest: dmResponse.new_quest || dmResponse.quest_create?.title || null,
+      questCompleted: dmResponse.quest_completed || null,
     })
   } catch (error) {
     console.error('Error processing turn:', error)

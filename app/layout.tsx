@@ -62,20 +62,11 @@ export const metadata: Metadata = {
     siteName: 'RolHub',
     title: 'RolHub - Juegos de Rol con DM de Inteligencia Artificial',
     description: 'Juega partidas de rol narrativo con un Director de Juego con IA. Sin experiencia previa necesaria.',
-    images: [
-      {
-        url: '/og-image.png',
-        width: 1200,
-        height: 630,
-        alt: 'RolHub - Juegos de Rol con IA',
-      },
-    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'RolHub - Juegos de Rol con DM de Inteligencia Artificial',
     description: 'Juega partidas de rol narrativo con un Director de Juego con IA.',
-    images: ['/og-image.png'],
   },
   robots: {
     index: true,
@@ -89,8 +80,12 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    // Se agregara despues de verificar en Google Search Console
-    // google: 'verification-code',
+    // PASO 1: Ir a https://search.google.com/search-console
+    // PASO 2: Agregar propiedad "https://rol-hub.com" (URL prefix)
+    // PASO 3: Elegir verificacion por "HTML tag" y copiar el content value aca abajo
+    // PASO 4: Deploy y verificar en Search Console
+    // PASO 5: Ir a Sitemaps > agregar "sitemap.xml"
+    // google: 'PEGAR_CODIGO_DE_VERIFICACION_ACA',
   },
 };
 

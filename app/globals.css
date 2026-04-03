@@ -349,29 +349,24 @@
     100% { transform: translateX(5%) translateY(-5%); }
   }
 
-  /* Efecto de sangre/peligro para combate */
-  .scene-danger {
-    position: relative;
-  }
-
+  /* Efecto de sangre/peligro para combate — halo rojo de pantalla completa */
   .scene-danger::after {
     content: '';
-    position: absolute;
+    position: fixed;
     inset: 0;
+    z-index: 40;
     pointer-events: none;
-    border: 3px solid transparent;
-    border-image: linear-gradient(
-      to bottom,
-      rgba(139, 26, 26, 0.6) 0%,
-      transparent 30%,
-      transparent 70%,
-      rgba(139, 26, 26, 0.6) 100%
-    ) 1;
-    animation: dangerFlash 1.5s ease-in-out infinite;
+    background: radial-gradient(
+      ellipse at center,
+      transparent 40%,
+      rgba(139, 26, 26, 0.15) 70%,
+      rgba(139, 26, 26, 0.4) 100%
+    );
+    animation: dangerFlash 2s ease-in-out infinite;
   }
 
   @keyframes dangerFlash {
-    0%, 100% { opacity: 0.5; }
+    0%, 100% { opacity: 0.6; }
     50% { opacity: 1; }
   }
 

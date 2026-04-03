@@ -33,6 +33,14 @@ import { CharacterStatsPanel } from '@/components/game/CharacterStatsPanel'
 import { PortraitSplash } from '@/components/game/PortraitSplash'
 import { StatsBarSummary, StoryModeStatsBar } from '@/components/game/StatsBarSummary'
 import { DnD5eCharacterSheet } from '@/components/game/DnD5eCharacterSheet'
+import {
+  GameNotifications,
+  type GameNotificationData,
+  createItemNotification,
+  createRemoveItemNotification,
+  createQuestNotification,
+  createQuestCompletedNotification,
+} from '@/components/game/GameNotification'
 import dynamic from 'next/dynamic'
 
 // Dynamic import for 3D orb (SSR-safe)
@@ -144,6 +152,11 @@ export default function GameSession({
   const [error, setError] = useState<string | null>(null)
   const [showDiceRoller, setShowDiceRoller] = useState(false)
   const [lastDiceRoll, setLastDiceRoll] = useState<{ formula: string; result: number; rolls: number[] } | null>(null)
+  // Notificaciones de items/misiones
+  const [notifications, setNotifications] = useState<GameNotificationData[]>([])
+  const dismissNotification = useCallback((id: string) => {
+    setNotifications(prev => prev.filter(n => n.id !== id))
+  }, [])
   // DM-prompted dice roll request
   const [pendingDiceRequest, setPendingDiceRequest] = useState<{
     reason: string
@@ -493,6 +506,21 @@ export default function GameSession({
 
       // Voces de NPC: no necesita cache — getNPCVoice es determinístico por género
 
+      // Notificaciones didácticas de items y misiones
+      if (data.newItem) {
+        setNotifications(prev => [...prev, createItemNotification(data.newItem, locale)])
+      }
+      if (data.removeItem) {
+        setNotifications(prev => [...prev, createRemoveItemNotification(data.removeItem, locale)])
+      }
+      if (data.newQuest) {
+        const questName = typeof data.newQuest === 'object' ? (data.newQuest as any).title || JSON.stringify(data.newQuest) : String(data.newQuest)
+        setNotifications(prev => [...prev, createQuestNotification(questName, locale)])
+      }
+      if (data.questCompleted) {
+        setNotifications(prev => [...prev, createQuestCompletedNotification(data.questCompleted, locale)])
+      }
+
       // Actualizar acciones sugeridas si vienen
       if (data.suggestedActions && data.suggestedActions.length > 0) {
         setSuggestedActions(data.suggestedActions)
@@ -592,7 +620,10 @@ export default function GameSession({
   // NORMAL VIEW (with inline combat banner when in combat)
   // ============================================================================
   return (
-    <div className={`min-h-screen particle-bg pb-4 ${moodConfig.cssClass}`}>
+    <div className={`min-h-screen particle-bg pb-4 ${moodConfig.cssClass}${uiMood === 'combat' ? ' scene-danger' : ''}`}>
+      {/* Notificaciones de items y misiones */}
+      <GameNotifications notifications={notifications} onDismiss={dismissNotification} locale={locale} />
+
       {/* Exit dialog — intercepta todas las formas de salir */}
       {showExitDialog && (
         <div className="fixed inset-0 bg-shadow/80 z-50 flex items-center justify-center p-4" onClick={() => { setShowExitDialog(false); setPendingExitUrl(null) }}>
