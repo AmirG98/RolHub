@@ -1111,8 +1111,8 @@ ${(() => {
   return isEnglish
   ? `CURRENT SCENE STATE (you MUST respect this):
 📍 Location: ${locationDisplay} ${locationStatus}
-🕐 Time: ${worldState.time_in_world || 'Unknown'}
-🌤️ Weather: ${worldState.weather || 'Unknown'}
+🕐 Time: ${worldState.time_in_world || 'Unknown'} ← Your narration is AT THIS TIME. If it says "morning", do NOT narrate night.
+🌤️ Weather: ${worldState.weather || 'Unknown'} ← This IS the current weather. To change it, use weather_update.
 👥 NPCs IN THIS SCENE: ${npcsHere.length > 0 ? npcsHere.join('; ') : 'None'}
 ${npcsElsewhere.length > 0 ? `👥 NPCs ELSEWHERE (NOT here — do NOT narrate them): ${npcsElsewhere.join('; ')}` : ''}
 🎒 Inventory: ${inventory.join(', ') || 'Empty'}
@@ -1124,8 +1124,8 @@ ALWAYS send npc_update when you introduce a NEW NPC (with their current location
 INVENTORY: If items change hands, ALWAYS use new_item/remove_item.`
   : `ESTADO ACTUAL DE LA ESCENA (DEBÉS respetar esto):
 📍 Ubicación: ${locationDisplay} ${locationStatus}
-🕐 Hora: ${worldState.time_in_world || 'Desconocida'}
-🌤️ Clima: ${worldState.weather || 'Desconocido'}
+🕐 Hora: ${worldState.time_in_world || 'Desconocida'} ← TU NARRACIÓN ES EN ESTE MOMENTO. Si dice "mañana", NO narres noche.
+🌤️ Clima: ${worldState.weather || 'Desconocido'} ← ESTE es el clima actual. Para cambiarlo, usá weather_update.
 👥 NPCs EN ESTA ESCENA: ${npcsHere.length > 0 ? npcsHere.join('; ') : 'Ninguno'}
 ${npcsElsewhere.length > 0 ? `👥 NPCs EN OTRO LUGAR (NO están acá — NO los narres): ${npcsElsewhere.join('; ')}` : ''}
 🎒 Inventario: ${inventory.join(', ') || 'Vacío'}
@@ -1285,6 +1285,7 @@ The story MUST ALWAYS move forward. NEVER repeat a scene you already narrated.
 - NO GENERIC NPCs: Every NPC must have a proper name from their FIRST appearance. Do NOT use generic descriptions like "hooded figure", "the stranger", "a mysterious woman" for multiple different NPCs. If you introduce someone as "a hooded figure", give them a name immediately in their first line of dialogue.
 - NO ATMOSPHERIC REPETITION: Do NOT repeat the same atmospheric element (drums, smoke, cold wind, distant howls) more than twice across turns. After mentioning it twice, assume the player knows it's there. Vary your descriptions — don't recycle the same image.
 - LOCATION PERMANENCE: Once the player has LEFT a location, NOTHING happens there anymore in your narration. Do not describe events at the old location. The story exists only where the player IS right now.
+- TIME & WEATHER COHERENCE: If the time says "morning", your narration MUST describe a morning scene (sunlight, dawn, early hours). If weather says "Clear", do NOT describe storms, rain, or heavy clouds. If you WANT to change time or weather, you MUST send time_update and/or weather_update in your JSON response. NEVER narrate a different time of day or weather than what the state says without updating it first.
 === END CONSISTENCY ===
 
 === TRAVEL RULES ===
@@ -1362,6 +1363,7 @@ La historia SIEMPRE debe avanzar. NUNCA repitas una escena que ya narraste.
 - SIN NPCs GENÉRICOS: Cada NPC debe tener nombre propio desde su PRIMERA aparición. NO uses descripciones genéricas como "figura encapuchada", "el desconocido", "una mujer misteriosa" para múltiples NPCs diferentes. Si introducís a alguien como "una figura encapuchada", dale un nombre inmediatamente en su primera línea de diálogo.
 - SIN REPETICIÓN ATMOSFÉRICA: NO repitas el mismo elemento atmosférico (tambores, humo, viento helado, aullidos lejanos) más de dos veces entre turnos. Después de mencionarlo dos veces, asumí que el jugador sabe que está ahí. Variá tus descripciones — no recicles la misma imagen.
 - PERMANENCIA DE UBICACIÓN: Una vez que el jugador DEJÓ una ubicación, NADA pasa allí en tu narración. No describas eventos en la ubicación anterior. La historia existe solo donde el jugador ESTÁ ahora mismo.
+- COHERENCIA DE HORA Y CLIMA: Si la hora dice "mañana", tu narración DEBE describir una escena de mañana (sol, amanecer, luz matinal). Si el clima dice "Despejado", NO describas tormenta, lluvia ni oscuridad. Si querés cambiar la hora o el clima, DEBÉS enviar time_update y/o weather_update en tu respuesta JSON. NUNCA narres un momento del día o clima diferente al que dice el estado sin actualizarlo primero.
 === FIN CONSISTENCIA ===
 
 === REGLAS DE VIAJE ===
