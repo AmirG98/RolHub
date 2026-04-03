@@ -432,9 +432,15 @@ export async function POST(req: NextRequest) {
       const npcsStr = npcsHereNames.length > 0
         ? (isEnglish ? `NPCs present: ${npcsHereNames.join(', ')}. ` : `NPCs presentes: ${npcsHereNames.join(', ')}. `)
         : ''
+      const prevLocation = worldState.map_state?.previousLocationId
+        ? (worldState.map_state.previousLocationId !== worldState.map_state?.currentLocationId ? worldState.map_state.previousLocationId : '')
+        : ''
+      const leftMsg = prevLocation
+        ? (isEnglish ? ` You already LEFT ${prevLocation} — do NOT narrate anything there.` : ` Ya DEJASTE ${prevLocation} — NO narres nada que pase allí.`)
+        : ''
       const stateAnchor = isEnglish
-        ? `[CURRENT STATE: Location: ${worldState.current_scene || 'Unknown'}. ${npcsStr}Time: ${worldState.time_in_world || 'Unknown'}. Weather: ${worldState.weather || 'Unknown'}. Continue the story from HERE — do not go back to previous scenes.]`
-        : `[ESTADO ACTUAL: Ubicación: ${worldState.current_scene || 'Desconocida'}. ${npcsStr}Hora: ${worldState.time_in_world || 'Desconocida'}. Clima: ${worldState.weather || 'Desconocido'}. Continuá la historia desde AQUÍ — no vuelvas a escenas anteriores.]`
+        ? `[CURRENT STATE: Location: ${worldState.current_scene || 'Unknown'}. ${npcsStr}Time: ${worldState.time_in_world || 'Unknown'}. Weather: ${worldState.weather || 'Unknown'}.${leftMsg} Continue the story from HERE ONLY.]`
+        : `[ESTADO ACTUAL: Ubicación: ${worldState.current_scene || 'Desconocida'}. ${npcsStr}Hora: ${worldState.time_in_world || 'Desconocida'}. Clima: ${worldState.weather || 'Desconocido'}.${leftMsg} Continuá la historia SOLO desde AQUÍ.]`
       conversationHistory.push({ role: 'assistant' as const, content: stateAnchor })
     }
 
@@ -1276,6 +1282,9 @@ The story MUST ALWAYS move forward. NEVER repeat a scene you already narrated.
 - UNIQUE NPC NAMES: NEVER reuse a name that already exists in the NPC list above for a different character. Every NPC must have a unique name. If you need a new NPC, invent a completely new name.
 - ITEMS ALREADY IN INVENTORY: Check the player's inventory above BEFORE narrating finding/discovering items. If the player already HAS an item (gems, weapons, coins), do NOT narrate finding it again. The inventory is the source of truth.
 - NPC IDENTITY PERSISTENCE: Once you reveal an NPC's name (e.g., "the hooded figure is Strider"), that NPC is ALWAYS that character. Never change their identity, gender, or role in later turns. An NPC who was revealed as a male Ranger cannot become a female elf.
+- NO GENERIC NPCs: Every NPC must have a proper name from their FIRST appearance. Do NOT use generic descriptions like "hooded figure", "the stranger", "a mysterious woman" for multiple different NPCs. If you introduce someone as "a hooded figure", give them a name immediately in their first line of dialogue.
+- NO ATMOSPHERIC REPETITION: Do NOT repeat the same atmospheric element (drums, smoke, cold wind, distant howls) more than twice across turns. After mentioning it twice, assume the player knows it's there. Vary your descriptions — don't recycle the same image.
+- LOCATION PERMANENCE: Once the player has LEFT a location, NOTHING happens there anymore in your narration. Do not describe events at the old location. The story exists only where the player IS right now.
 === END CONSISTENCY ===
 
 === TRAVEL RULES ===
@@ -1350,6 +1359,9 @@ La historia SIEMPRE debe avanzar. NUNCA repitas una escena que ya narraste.
 - NOMBRES ÚNICOS DE NPCs: NUNCA reutilices un nombre que ya existe en la lista de NPCs de arriba para un personaje diferente. Cada NPC debe tener un nombre único. Si necesitás un NPC nuevo, inventá un nombre completamente nuevo.
 - ITEMS YA EN INVENTARIO: Revisá el inventario del jugador arriba ANTES de narrar encontrar/descubrir items. Si el jugador YA TIENE un item (gemas, armas, monedas), NO narres encontrarlo de nuevo. El inventario es la fuente de verdad.
 - PERSISTENCIA DE IDENTIDAD NPC: Una vez que revelás el nombre de un NPC (ej: "la figura encapuchada es Strider"), ese NPC es SIEMPRE ese personaje. Nunca cambies su identidad, género o rol en turnos posteriores. Un NPC revelado como un Montaraz masculino no puede volverse una elfa.
+- SIN NPCs GENÉRICOS: Cada NPC debe tener nombre propio desde su PRIMERA aparición. NO uses descripciones genéricas como "figura encapuchada", "el desconocido", "una mujer misteriosa" para múltiples NPCs diferentes. Si introducís a alguien como "una figura encapuchada", dale un nombre inmediatamente en su primera línea de diálogo.
+- SIN REPETICIÓN ATMOSFÉRICA: NO repitas el mismo elemento atmosférico (tambores, humo, viento helado, aullidos lejanos) más de dos veces entre turnos. Después de mencionarlo dos veces, asumí que el jugador sabe que está ahí. Variá tus descripciones — no recicles la misma imagen.
+- PERMANENCIA DE UBICACIÓN: Una vez que el jugador DEJÓ una ubicación, NADA pasa allí en tu narración. No describas eventos en la ubicación anterior. La historia existe solo donde el jugador ESTÁ ahora mismo.
 === FIN CONSISTENCIA ===
 
 === REGLAS DE VIAJE ===
