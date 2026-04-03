@@ -349,9 +349,8 @@
     100% { transform: translateX(5%) translateY(-5%); }
   }
 
-  /* Efecto de sangre/peligro para combate — halo rojo de pantalla completa */
-  .scene-danger::after {
-    content: '';
+  /* Halo rojo de combate — overlay real, no pseudo-element (particle-bg interfiere con ::after fixed) */
+  .combat-halo {
     position: fixed;
     inset: 0;
     z-index: 40;

@@ -141,9 +141,17 @@ export function useAmbientSound({
     }
   }, [])
 
+  // Cambiar velocidad de reproducción (e.g., acelerar en combate)
+  const setPlaybackRate = useCallback((newRate: number) => {
+    if (currentHowlRef.current) {
+      currentHowlRef.current.rate(newRate)
+    }
+  }, [])
+
   return {
     isPlaying,
     isLoading,
     setAmbientVolume,
+    setPlaybackRate,
   }
 }

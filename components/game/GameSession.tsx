@@ -268,7 +268,7 @@ export default function GameSession({
   const { isTransitioning, triggerTransition, transitionProps } = useSceneTransition({ type: 'fade', duration: 600 })
 
   // Sonido ambiental — se reproduce en loop a bajo volumen según mood y escena
-  const { setAmbientVolume } = useAmbientSound({
+  const { setAmbientVolume, setPlaybackRate } = useAmbientSound({
     lore: lore as string,
     mood: uiMood,
     scene: worldState.current_scene || '',
@@ -276,6 +276,11 @@ export default function GameSession({
     volume: 0.18,
   })
   const isImagesEnabled = process.env.NEXT_PUBLIC_ENABLE_IMAGES === 'true'
+
+  // Acelerar música en combate
+  useEffect(() => {
+    setPlaybackRate(uiMood === 'combat' ? 1.15 : 1.0)
+  }, [uiMood, setPlaybackRate])
 
   // DM Orb state - derived from other states
   const getDMOrbState = (): 'idle' | 'speaking' | 'thinking' | 'combat' => {
@@ -628,7 +633,10 @@ export default function GameSession({
   // NORMAL VIEW (with inline combat banner when in combat)
   // ============================================================================
   return (
-    <div className={`min-h-screen particle-bg pb-4 ${moodConfig.cssClass}${uiMood === 'combat' ? ' scene-danger' : ''}`}>
+    <div className={`min-h-screen particle-bg pb-4 ${moodConfig.cssClass}`}>
+      {/* Halo rojo de combate */}
+      {uiMood === 'combat' && <div className="combat-halo" />}
+
       {/* Notificaciones de items y misiones */}
       <GameNotifications notifications={notifications} onDismiss={dismissNotification} locale={locale} />
 
