@@ -34,7 +34,7 @@ export default function HomePage() {
             </Link>
             <Link href="/play-guest" className="w-full sm:w-auto">
               <RunicButton variant="secondary" className="w-full sm:w-auto text-sm md:text-base px-5 md:px-6 py-2 md:py-3">
-                ⚔️ Jugar sin Cuenta
+                ⚔️ {t.homeExtras.playGuest}
               </RunicButton>
             </Link>
           </div>
@@ -62,7 +62,7 @@ export default function HomePage() {
           <div className="mt-6">
             <Link href="/guias" className="inline-flex items-center gap-2 font-ui text-sm text-emerald hover:text-emerald/80 transition">
               <span className="text-lg">❓</span>
-              Primera vez? Aprende a jugar aqui
+              {t.homeExtras.firstTime}
             </Link>
           </div>
         </div>
@@ -85,9 +85,9 @@ export default function HomePage() {
 
         {/* Footer links */}
         <div className="flex items-center justify-center gap-6 mt-10 font-ui text-sm text-parchment/50">
-          <Link href="/privacy" className="hover:text-gold transition">Política de Privacidad</Link>
+          <Link href="/privacy" className="hover:text-gold transition">{t.homeExtras.privacy}</Link>
           <span className="text-gold-dim/30">|</span>
-          <Link href="/terms" className="hover:text-gold transition">Condiciones del Servicio</Link>
+          <Link href="/terms" className="hover:text-gold transition">{t.homeExtras.terms}</Link>
         </div>
       </div>
     </div>

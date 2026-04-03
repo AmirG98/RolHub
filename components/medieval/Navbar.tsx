@@ -38,15 +38,15 @@ export function Navbar() {
           <div className="hidden md:flex items-center gap-4 lg:gap-6">
             <Link href="/guias" className="font-heading text-sm lg:text-base text-parchment hover:text-emerald transition relative group flex items-center gap-1">
               <HelpCircle size={16} />
-              Guias
+              {t.homeExtras.guides}
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-emerald group-hover:w-full transition-all"></span>
             </Link>
             <Link href="/dados" className="font-heading text-sm lg:text-base text-parchment hover:text-gold transition relative group">
-              🎲 Dados
+              🎲 {t.homeExtras.dice}
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gold group-hover:w-full transition-all"></span>
             </Link>
             <Link href="/hoja-personaje" className="font-heading text-sm lg:text-base text-parchment hover:text-neon-blue transition relative group">
-              📜 Hoja
+              📜 {t.homeExtras.sheet}
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-neon-blue group-hover:w-full transition-all"></span>
             </Link>
 
@@ -70,7 +70,7 @@ export function Navbar() {
             ) : (
               <div className="flex items-center gap-2 lg:gap-4">
                 <Link href="/play-guest" className="font-heading text-sm lg:text-base text-gold hover:text-gold-bright transition relative group">
-                  ⚔️ Jugar
+                  ⚔️ {t.homeExtras.playGuest}
                   <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gold group-hover:w-full transition-all"></span>
                 </Link>
                 <LanguageToggle />
@@ -94,21 +94,21 @@ export function Navbar() {
                 onClick={() => setIsMenuOpen(false)}
                 className="font-heading text-parchment hover:text-emerald transition py-2 flex items-center gap-2"
               >
-                <HelpCircle size={18} /> Guias para Jugar
+                <HelpCircle size={18} /> {t.homeExtras.guidesPlay}
               </Link>
               <Link
                 href="/dados"
                 onClick={() => setIsMenuOpen(false)}
                 className="font-heading text-parchment hover:text-gold transition py-2"
               >
-                🎲 Dados
+                🎲 {t.homeExtras.dice}
               </Link>
               <Link
                 href="/hoja-personaje"
                 onClick={() => setIsMenuOpen(false)}
                 className="font-heading text-parchment hover:text-neon-blue transition py-2"
               >
-                📜 Hoja de Personaje
+                📜 {t.homeExtras.characterSheet}
               </Link>
 
               {isSignedIn ? (
@@ -141,7 +141,7 @@ export function Navbar() {
               ) : (
                 <div className="flex flex-col gap-3 pt-2 border-t border-gold/20">
                   <Link href="/play-guest" onClick={() => setIsMenuOpen(false)}>
-                    <RunicButton variant="primary" className="w-full">⚔️ Jugar sin Cuenta</RunicButton>
+                    <RunicButton variant="primary" className="w-full">⚔️ {t.homeExtras.playGuest}</RunicButton>
                   </Link>
                   <Link href="/login" onClick={() => setIsMenuOpen(false)}>
                     <RunicButton variant="secondary" className="w-full">{t.nav.login}</RunicButton>
