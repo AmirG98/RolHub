@@ -206,23 +206,40 @@ export function GameMapPanel({
           lockReason={LOCK_MESSAGES[lockReason]}
           subLocations={(() => {
             const currentLocId = worldState?.map_state?.currentLocationId
-            const loreLoc = LORE_SUB_DATA[lore]?.locations?.find((l: any) =>
-              (currentLocId && l.id === currentLocId) ||
-              (currentLocId && l.id?.toLowerCase() === currentLocId?.toLowerCase()) ||
-              worldState?.current_scene?.toLowerCase()?.includes(l.name?.toLowerCase()) ||
-              l.name?.toLowerCase()?.includes(worldState?.current_scene?.toLowerCase()?.split(',')?.[0]?.trim())
-            )
+            // Buscar el nombre de la ubicación actual desde los datos del mapa
+            const mapLocationName = currentLocation?.name?.toLowerCase() || ''
+            const loreLoc = LORE_SUB_DATA[lore]?.locations?.find((l: any) => {
+              const locName = l.name?.toLowerCase() || ''
+              const locId = l.id?.toLowerCase() || ''
+              const sceneText = worldState?.current_scene?.toLowerCase() || ''
+              return (
+                // Match por ID exacto
+                (currentLocId && locId === currentLocId.toLowerCase()) ||
+                // Match por nombre del lore vs ID del mapa
+                (currentLocId && locName === currentLocId.toLowerCase()) ||
+                // Match por nombre del lore vs nombre del mapa
+                (mapLocationName && locName === mapLocationName) ||
+                // Match por nombre del lore contenido en la escena actual
+                (locName && sceneText.includes(locName)) ||
+                // Match por escena contenida en el nombre del lore
+                (locName && sceneText.split(',')[0]?.trim() && locName.includes(sceneText.split(',')[0].trim()))
+              )
+            })
             return loreLoc?.sub_locations || []
           })()}
           currentSubLocationId={worldState?.current_sub_location || null}
           travelTimes={(() => {
             const currentLocId = worldState?.map_state?.currentLocationId
-            const loreLoc = LORE_SUB_DATA[lore]?.locations?.find((l: any) =>
-              (currentLocId && l.id === currentLocId) ||
-              (currentLocId && l.id?.toLowerCase() === currentLocId?.toLowerCase()) ||
-              worldState?.current_scene?.toLowerCase()?.includes(l.name?.toLowerCase()) ||
-              l.name?.toLowerCase()?.includes(worldState?.current_scene?.toLowerCase()?.split(',')?.[0]?.trim())
-            )
+            const mapLocName = currentLocation?.name?.toLowerCase() || ''
+            const loreLoc = LORE_SUB_DATA[lore]?.locations?.find((l: any) => {
+              const locName = l.name?.toLowerCase() || ''
+              const locId = l.id?.toLowerCase() || ''
+              return (
+                (currentLocId && locId === currentLocId.toLowerCase()) ||
+                (currentLocId && locName === currentLocId.toLowerCase()) ||
+                (mapLocName && locName === mapLocName)
+              )
+            })
             return loreLoc?.travel_times || {}
           })()}
           inventory={worldState?.party?.[Object.keys(worldState?.party || {})[0]]?.inventory || []}

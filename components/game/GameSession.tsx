@@ -264,7 +264,7 @@ export default function GameSession({
 
   // Immersion system state
   const [uiMood, setUiMood] = useState<UIMood>('exploration')
-  const [sceneImageUrl, setSceneImageUrl] = useState<string | null>(null)
+  const [sceneImageUrl, setSceneImageUrl] = useState<string | null>(initialWorldState?.last_scene_image || null)
   const [isImageLoading, setIsImageLoading] = useState(false)
   const [imageError, setImageError] = useState<string | null>(null)
   const [typewriterTurnId, setTypewriterTurnId] = useState<string | null>(null) // Track which turn is animating
