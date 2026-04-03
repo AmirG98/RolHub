@@ -2015,7 +2015,7 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
     }
 
     // === XP & LEVEL UP SYSTEM ===
-    let levelUpData: { newLevel: number; statChanges: Record<string, number> } | null = null
+    let levelUpData: { newLevel: number; hpIncrease: number; statOptions: string[]; statBonus: number; needsChoice: boolean } | null = null
     if (dmResponse.xp_reward && dmResponse.xp_reward > 0) {
       if (!worldStateUpdates.party) worldStateUpdates.party = { ...worldState.party }
       if (!worldStateUpdates.party[character.name]) {
@@ -2036,89 +2036,68 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
         worldStateUpdates.party[character.name].experience = newXP - xpForNextLevel // Carry over excess
 
         const engine = session.campaign.engine
-        const statChanges: Record<string, number> = {}
         const charStats = worldState.party?.[character.name] || {}
+        let hpIncrease = 2 // default for narrative engines
+        const statOptions: string[] = []
+        let statBonus = 1
+        let needsChoice = true
 
-        if (engine === 'STORY_MODE' || engine === 'PBTA') {
-          // +2 maxHP, +1 to lowest non-max stat
-          const maxHPCurrent = parseInt(String(charStats.hp || '20/20').split('/')[1]) || 20
-          const newMaxHP = maxHPCurrent + 2
-          const currentHP = parseInt(String(charStats.hp || '20/20').split('/')[0]) || 20
-          worldStateUpdates.party[character.name].hp = `${currentHP + 2}/${newMaxHP}`
-          statChanges['maxHp'] = 2
-
-          // Find lowest stat and increase it
-          const narrativeStats = ['combat', 'exploration', 'social', 'lore']
-          let lowestStat = narrativeStats[0]
-          let lowestVal = 99
-          for (const stat of narrativeStats) {
-            const val = charStats[stat] || 0
-            if (val < lowestVal) { lowestVal = val; lowestStat = stat }
-          }
-          worldStateUpdates.party[character.name][lowestStat] = (charStats[lowestStat] || 0) + 1
-          statChanges[lowestStat] = 1
-        } else if (engine === 'YEAR_ZERO') {
-          // +2 maxHP, +1 to lowest attribute
-          const maxHPCurrent = parseInt(String(charStats.hp || '20/20').split('/')[1]) || 20
-          const newMaxHP = maxHPCurrent + 2
-          const currentHP = parseInt(String(charStats.hp || '20/20').split('/')[0]) || 20
-          worldStateUpdates.party[character.name].hp = `${currentHP + 2}/${newMaxHP}`
-          statChanges['maxHp'] = 2
-
-          const yzStats = ['combat', 'exploration', 'social', 'lore']
-          let lowestStat = yzStats[0]
-          let lowestVal = 99
-          for (const stat of yzStats) {
-            const val = charStats[stat] || 0
-            if (val < lowestVal) { lowestVal = val; lowestStat = stat }
-          }
-          worldStateUpdates.party[character.name][lowestStat] = (charStats[lowestStat] || 0) + 1
-          statChanges[lowestStat] = 1
-        } else if (engine === 'DND_5E') {
-          // D&D 5e leveling: HP increase + proficiency at certain levels
+        // Apply automatic HP increase (always happens)
+        if (engine === 'DND_5E') {
           const conMod = charStats.conMod || 0
           const hitDie = charStats.hitDice ? parseInt(String(charStats.hitDice).split('d')[1]) || 8 : 8
-          const hpIncrease = Math.floor(hitDie / 2) + 1 + conMod
-          const maxHPCurrent = parseInt(String(charStats.hp || '20/20').split('/')[1]) || 20
-          const currentHP = parseInt(String(charStats.hp || '20/20').split('/')[0]) || 20
-          worldStateUpdates.party[character.name].hp = `${currentHP + hpIncrease}/${maxHPCurrent + hpIncrease}`
-          statChanges['maxHp'] = hpIncrease
+          hpIncrease = Math.floor(hitDie / 2) + 1 + conMod
 
-          // Proficiency bonus increases at levels 5, 9, 13, 17
+          // Proficiency bonus at levels 5, 9, 13, 17
           if ([5, 9, 13, 17].includes(newLevel)) {
             const newProf = Math.floor((newLevel - 1) / 4) + 2
             worldStateUpdates.party[character.name].proficiencyBonus = newProf
-            statChanges['proficiencyBonus'] = 1
-          }
-
-          // ASI at 4, 8, 12, 16, 19 — auto +2 to highest ability
-          if ([4, 8, 12, 16, 19].includes(newLevel)) {
-            const abilities = ['STR', 'DEX', 'CON', 'INT', 'WIS', 'CHA']
-            let highestAbility = abilities[0]
-            let highestVal = 0
-            for (const ab of abilities) {
-              const val = charStats[ab] || 10
-              if (val > highestVal && val < 20) { highestVal = val; highestAbility = ab }
-            }
-            worldStateUpdates.party[character.name][highestAbility] = (charStats[highestAbility] || 10) + 2
-            // Recalculate modifier
-            const modKey = highestAbility.toLowerCase() + 'Mod'
-            worldStateUpdates.party[character.name][modKey] = Math.floor(((charStats[highestAbility] || 10) + 2 - 10) / 2)
-            statChanges[highestAbility] = 2
           }
 
           // Update hit dice
           worldStateUpdates.party[character.name].hitDice = `${newLevel}d${hitDie}`
           worldStateUpdates.party[character.name].hitDiceRemaining = newLevel
+
+          // ASI at 4, 8, 12, 16, 19 — player chooses ability
+          if ([4, 8, 12, 16, 19].includes(newLevel)) {
+            const abilities = ['STR', 'DEX', 'CON', 'INT', 'WIS', 'CHA']
+            for (const ab of abilities) {
+              if ((charStats[ab] || 10) < 20) statOptions.push(ab)
+            }
+            statBonus = 2
+          } else {
+            needsChoice = false // non-ASI levels just get HP
+          }
+        } else {
+          // Story Mode / PbtA / Year Zero — choose from 4 narrative stats
+          statOptions.push('combat', 'exploration', 'social', 'lore')
+          statBonus = 1
         }
 
-        // Also update the Character record level
+        // Apply HP increase immediately (no choice needed for HP)
+        const maxHPCurrent = parseInt(String(charStats.hp || '20/20').split('/')[1]) || 20
+        const currentHP = parseInt(String(charStats.hp || '20/20').split('/')[0]) || 20
+        worldStateUpdates.party[character.name].hp = `${currentHP + hpIncrease}/${maxHPCurrent + hpIncrease}`
+
+        // Save pending level-up for player choice (if needed)
+        if (needsChoice && statOptions.length > 0) {
+          worldStateUpdates.pendingLevelUp = {
+            characterName: character.name,
+            newLevel,
+            hpIncrease,
+            statOptions,
+            statBonus,
+            engine,
+          }
+        }
+
+        // Update the Character record level
         await prisma.character.update({
           where: { id: character.id },
           data: { level: newLevel },
         })
 
-        levelUpData = { newLevel, statChanges }
+        levelUpData = { newLevel, hpIncrease, statOptions, statBonus, needsChoice }
       }
     }
 

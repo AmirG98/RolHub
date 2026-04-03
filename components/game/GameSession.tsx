@@ -44,6 +44,7 @@ import {
   createLevelUpNotification,
 } from '@/components/game/GameNotification'
 import { DeathSaveTracker } from '@/components/game/DeathSaveTracker'
+import { LevelUpModal } from '@/components/game/LevelUpModal'
 import dynamic from 'next/dynamic'
 
 // Dynamic import for 3D orb (SSR-safe)
@@ -155,6 +156,14 @@ export default function GameSession({
   const [error, setError] = useState<string | null>(null)
   const [showDiceRoller, setShowDiceRoller] = useState(false)
   const [showDamageHalo, setShowDamageHalo] = useState(false)
+  const [pendingLevelUp, setPendingLevelUp] = useState<{
+    newLevel: number; hpIncrease: number; statOptions: string[]; statBonus: number
+  } | null>(initialWorldState?.pendingLevelUp ? {
+    newLevel: initialWorldState.pendingLevelUp.newLevel,
+    hpIncrease: initialWorldState.pendingLevelUp.hpIncrease,
+    statOptions: initialWorldState.pendingLevelUp.statOptions,
+    statBonus: initialWorldState.pendingLevelUp.statBonus,
+  } : null)
   const damageHaloTimeout = useRef<NodeJS.Timeout | null>(null)
   const [lastDiceRoll, setLastDiceRoll] = useState<{ formula: string; result: number; rolls: number[] } | null>(null)
   // Notificaciones de items/misiones
@@ -565,7 +574,11 @@ export default function GameSession({
         setNotifications(prev => [...prev, createXPNotification(data.xpReward, locale)])
       }
       if (data.levelUp) {
-        setNotifications(prev => [...prev, createLevelUpNotification(data.levelUp.newLevel, data.levelUp.statChanges, locale)])
+        if (data.levelUp.needsChoice && data.levelUp.statOptions?.length > 0) {
+          setPendingLevelUp(data.levelUp)
+        } else {
+          setNotifications(prev => [...prev, createLevelUpNotification(data.levelUp.newLevel, { maxHp: data.levelUp.hpIncrease }, locale)])
+        }
       }
 
       // Actualizar acciones sugeridas si vienen
@@ -712,6 +725,39 @@ export default function GameSession({
             </div>
           </div>
         </div>
+      )}
+
+      {/* Level-up modal con elección de stat */}
+      {pendingLevelUp && character && (
+        <LevelUpModal
+          newLevel={pendingLevelUp.newLevel}
+          hpIncrease={pendingLevelUp.hpIncrease}
+          statOptions={pendingLevelUp.statOptions}
+          statBonus={pendingLevelUp.statBonus}
+          characterName={character.name}
+          campaignId={campaignId}
+          locale={locale}
+          onComplete={(chosenStat, bonus) => {
+            setPendingLevelUp(null)
+            setNotifications(prev => [...prev, createLevelUpNotification(
+              pendingLevelUp.newLevel,
+              { [chosenStat]: bonus, maxHp: pendingLevelUp.hpIncrease },
+              locale
+            )])
+            // Actualizar worldState local con el stat elegido
+            setWorldState((prev: any) => ({
+              ...prev,
+              pendingLevelUp: undefined,
+              party: {
+                ...prev.party,
+                [character.name]: {
+                  ...prev.party?.[character.name],
+                  [chosenStat]: (prev.party?.[character.name]?.[chosenStat] || 0) + bonus,
+                },
+              },
+            }))
+          }}
+        />
       )}
 
       {/* Notificaciones de items y misiones */}

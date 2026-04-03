@@ -134,6 +134,7 @@ export default async function PlayPage({ params }: PlayPageProps) {
     campaign_id: rawWorldState.campaign_id || session.campaign.id,
     last_scene_image: rawWorldState.last_scene_image || null,
     last_suggested_actions: rawWorldState.last_suggested_actions || [],
+    pendingLevelUp: rawWorldState.pendingLevelUp || null,
   }
 
   // Serializar los turnos para el cliente con multiplayer fields
