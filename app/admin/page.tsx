@@ -359,6 +359,188 @@ export default function AdminPage() {
         </div>
       </section>
 
+      {/* === ENGAGEMENT & RETENTION === */}
+      {stats && (stats as any).engagement && (
+        <section className="mb-8">
+          <h2 className="font-heading text-xl text-gold-bright mb-4 flex items-center gap-2">
+            <TrendingUp className="h-5 w-5" /> Engagement & Retención
+          </h2>
+
+          {/* Funnel */}
+          <div className="glass-panel-dark rounded-lg p-4 border border-gold-dim/30 mb-4">
+            <h3 className="font-heading text-sm text-gold mb-3">Funnel de Conversión</h3>
+            {(() => {
+              const f = (stats as any).engagement.funnel
+              const steps = [
+                { label: 'Registrados', value: f.totalUsers },
+                { label: 'Crearon campaña', value: f.usersWithCampaigns },
+                { label: 'Jugaron 1+ sesión', value: f.usersWithSessions },
+                { label: 'Volvieron (7d)', value: f.usersReturning },
+              ]
+              const max = Math.max(...steps.map(s => s.value), 1)
+              return (
+                <div className="space-y-2">
+                  {steps.map((step, i) => (
+                    <div key={i} className="flex items-center gap-3">
+                      <span className="font-ui text-xs text-parchment/70 w-36 text-right">{step.label}</span>
+                      <div className="flex-1 bg-shadow rounded-full h-5 overflow-hidden">
+                        <div
+                          className="h-full bg-gradient-to-r from-gold-dim to-gold rounded-full transition-all"
+                          style={{ width: `${(step.value / max) * 100}%` }}
+                        />
+                      </div>
+                      <span className="font-mono text-xs text-gold w-10 text-right">{step.value}</span>
+                      {i > 0 && f.totalUsers > 0 && (
+                        <span className="font-mono text-[10px] text-parchment/50 w-12 text-right">
+                          {((step.value / f.totalUsers) * 100).toFixed(0)}%
+                        </span>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )
+            })()}
+          </div>
+
+          {/* Retention & Session Stats */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
+            <div className="p-3 rounded bg-shadow-mid border border-gold-dim/30">
+              <p className="font-heading text-lg text-gold-bright">{(stats as any).engagement.retention.dau}</p>
+              <p className="font-ui text-xs text-parchment/70">DAU (24h)</p>
+            </div>
+            <div className="p-3 rounded bg-shadow-mid border border-gold-dim/30">
+              <p className="font-heading text-lg text-gold-bright">{(stats as any).engagement.retention.sessionsLast7d}</p>
+              <p className="font-ui text-xs text-parchment/70">Sesiones (7d)</p>
+            </div>
+            <div className="p-3 rounded bg-shadow-mid border border-gold-dim/30">
+              <p className="font-heading text-lg text-gold-bright">{(stats as any).engagement.sessionStats.avgDurationMinutes}m</p>
+              <p className="font-ui text-xs text-parchment/70">Duración Prom.</p>
+            </div>
+            <div className="p-3 rounded bg-shadow-mid border border-gold-dim/30">
+              <p className="font-heading text-lg text-gold-bright">{(stats as any).engagement.sessionStats.medianTurnsPerSession}</p>
+              <p className="font-ui text-xs text-parchment/70">Turnos Mediana</p>
+            </div>
+          </div>
+
+          {/* Churn + Power Users */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="glass-panel-dark rounded-lg p-4 border border-blood/30">
+              <h3 className="font-heading text-sm text-blood mb-2">Churn</h3>
+              <p className="font-heading text-2xl text-blood">{(stats as any).engagement.churn.churnRate}%</p>
+              <p className="font-ui text-xs text-parchment/60">{(stats as any).engagement.churn.campaignsNeverPlayed} campañas nunca jugadas</p>
+            </div>
+            <div className="glass-panel-dark rounded-lg p-4 border border-gold-dim/30">
+              <h3 className="font-heading text-sm text-gold mb-2">Power Users</h3>
+              <div className="space-y-1">
+                {(stats as any).engagement.powerUsers.slice(0, 5).map((u: any, i: number) => (
+                  <div key={i} className="flex justify-between font-ui text-xs">
+                    <span className="text-parchment/80">{u.username}</span>
+                    <span className="text-gold">{u.sessions} sesiones</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* === NARRATIVE ROUTES === */}
+      {stats && (stats as any).narrative && (
+        <section className="mb-8">
+          <h2 className="font-heading text-xl text-gold-bright mb-4 flex items-center gap-2">
+            <BookOpen className="h-5 w-5" /> Rutas Narrativas
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            {/* Quest Stats */}
+            <div className="glass-panel-dark rounded-lg p-4 border border-gold-dim/30">
+              <h3 className="font-heading text-sm text-gold mb-3">Misiones</h3>
+              <div className="grid grid-cols-3 gap-2 mb-2">
+                <div className="text-center">
+                  <p className="font-heading text-lg text-emerald">{(stats as any).narrative.quests.completed}</p>
+                  <p className="font-ui text-[10px] text-parchment/60">Completadas</p>
+                </div>
+                <div className="text-center">
+                  <p className="font-heading text-lg text-gold">{(stats as any).narrative.quests.active}</p>
+                  <p className="font-ui text-[10px] text-parchment/60">Activas</p>
+                </div>
+                <div className="text-center">
+                  <p className="font-heading text-lg text-blood">{(stats as any).narrative.quests.failed}</p>
+                  <p className="font-ui text-[10px] text-parchment/60">Falladas</p>
+                </div>
+              </div>
+              <p className="font-ui text-xs text-parchment/70 text-center">
+                Tasa de completación: <span className="text-gold">{(stats as any).narrative.quests.completionRate}%</span>
+              </p>
+            </div>
+
+            {/* Level Distribution */}
+            <div className="glass-panel-dark rounded-lg p-4 border border-gold-dim/30">
+              <h3 className="font-heading text-sm text-gold mb-3">Distribución de Niveles</h3>
+              <div className="space-y-1">
+                {(stats as any).narrative.levelDistribution.map((l: any) => {
+                  const max = Math.max(...(stats as any).narrative.levelDistribution.map((x: any) => x.count), 1)
+                  return (
+                    <div key={l.level} className="flex items-center gap-2">
+                      <span className="font-mono text-xs text-parchment/70 w-10">Lv.{l.level}</span>
+                      <div className="flex-1 bg-shadow rounded-full h-3 overflow-hidden">
+                        <div className="h-full bg-gold-dim rounded-full" style={{ width: `${(l.count / max) * 100}%` }} />
+                      </div>
+                      <span className="font-mono text-xs text-gold w-6 text-right">{l.count}</span>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          </div>
+
+          {/* Top Locations */}
+          <div className="glass-panel-dark rounded-lg p-4 border border-gold-dim/30 mb-4">
+            <h3 className="font-heading text-sm text-gold mb-3">Ubicaciones más Visitadas</h3>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+              {(stats as any).narrative.topLocations.slice(0, 9).map((loc: any, i: number) => (
+                <div key={i} className="flex justify-between p-2 rounded bg-shadow border border-gold-dim/20">
+                  <span className="font-ui text-xs text-parchment/80 truncate mr-2">{loc.name}</span>
+                  <span className="font-mono text-xs text-gold flex-shrink-0">{loc.count}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Archetype Popularity + Trend */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="glass-panel-dark rounded-lg p-4 border border-gold-dim/30">
+              <h3 className="font-heading text-sm text-gold mb-3">Arquetipos Populares</h3>
+              <div className="space-y-1">
+                {(stats as any).narrative.archetypes.slice(0, 10).map((a: any, i: number) => (
+                  <div key={i} className="flex justify-between font-ui text-xs">
+                    <span className="text-parchment/80">{a.archetype} <span className="text-parchment/40">({LORE_LABELS[a.lore] || a.lore})</span></span>
+                    <span className="text-gold">{a.count}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="glass-panel-dark rounded-lg p-4 border border-gold-dim/30">
+              <h3 className="font-heading text-sm text-gold mb-3">Tendencia 30d (Nuevas Campañas)</h3>
+              <div className="space-y-1">
+                {(stats as any).narrative.trendLast30d.map((t: any, i: number) => {
+                  const max = Math.max(...(stats as any).narrative.trendLast30d.map((x: any) => x.count), 1)
+                  return (
+                    <div key={i} className="flex items-center gap-2">
+                      <span className="font-ui text-xs text-parchment/70 w-28 truncate">{LORE_LABELS[t.lore] || t.lore}</span>
+                      <div className="flex-1 bg-shadow rounded-full h-3 overflow-hidden">
+                        <div className="h-full bg-emerald rounded-full" style={{ width: `${(t.count / max) * 100}%` }} />
+                      </div>
+                      <span className="font-mono text-xs text-gold w-6 text-right">{t.count}</span>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Users List */}
       <section className="mb-8">
         <div className="flex items-center justify-between mb-4">
