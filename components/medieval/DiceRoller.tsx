@@ -74,8 +74,8 @@ export function DiceRoller({ onRoll, defaultFormula }: DiceRollerProps) {
         </button>
       )}
 
-      {/* Quick Roll Buttons */}
-      <div className="grid grid-cols-4 gap-2 mb-6">
+      {/* Quick Roll Buttons — solo cuando NO hay fórmula del DM */}
+      {!defaultFormula && <div className="grid grid-cols-4 gap-2 mb-6">
         {commonRolls.map((dice) => (
           <button
             key={dice.formula}
@@ -86,7 +86,7 @@ export function DiceRoller({ onRoll, defaultFormula }: DiceRollerProps) {
             <div className="font-heading text-lg text-parchment">{dice.label}</div>
           </button>
         ))}
-      </div>
+      </div>}
 
       {/* Result Display */}
       {result && (
