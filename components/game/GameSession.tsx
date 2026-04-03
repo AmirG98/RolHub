@@ -861,7 +861,7 @@ export default function GameSession({
                        text-parchment/80 hover:text-gold hover:bg-gold/10 border border-transparent hover:border-gold/30"
             >
               <MessageSquare className="w-3.5 h-3.5" />
-              Narrador
+              {t.game.tabNarrator}
             </button>
             <button
               onClick={() => scrollToSection('character-sheet-section')}
@@ -869,7 +869,7 @@ export default function GameSession({
                        text-parchment/80 hover:text-gold hover:bg-gold/10 border border-transparent hover:border-gold/30"
             >
               <Scroll className="w-3.5 h-3.5" />
-              Hoja del PJ
+              {t.game.tabCharSheet}
             </button>
             <button
               onClick={() => scrollToSection('quests-section')}
@@ -877,7 +877,7 @@ export default function GameSession({
                        text-parchment/80 hover:text-gold hover:bg-gold/10 border border-transparent hover:border-gold/30"
             >
               <BookOpen className="w-3.5 h-3.5" />
-              Quests
+              {t.game.tabQuests}
             </button>
 
             {isMultiplayer && (
@@ -887,7 +887,7 @@ export default function GameSession({
                          text-parchment/80 hover:text-gold hover:bg-gold/10 border border-transparent hover:border-gold/30"
               >
                 <Users className="w-3.5 h-3.5" />
-                Grupo
+                {t.game.tabParty}
               </button>
             )}
 
@@ -899,7 +899,7 @@ export default function GameSession({
                        hover:bg-gold/10 transition-all disabled:opacity-50"
             >
               <Dices className="w-3.5 h-3.5" />
-              Dados
+              {t.game.tabDice}
             </button>
           </div>
         </div>
@@ -968,14 +968,14 @@ export default function GameSession({
                   <div className="md:hidden">
                     <NarratorOrbSimple state={getDMOrbState()} size={60} />
                   </div>
-                  <h2 className="font-title text-xl md:text-2xl text-ink">El Narrador</h2>
+                  <h2 className="font-title text-xl md:text-2xl text-ink">{t.game.narratorTitle}</h2>
                 </div>
 
                 <div ref={scrollRef} className="space-y-3 md:space-y-4 overflow-y-auto flex-1 min-h-0 pr-1 md:pr-2">
                   {turns.length === 0 ? (
                     <div className="text-center py-8">
                       <p className="font-body text-stone/60 italic">
-                        La aventura está por comenzar...
+                        {t.game.narratorEmpty}
                       </p>
                     </div>
                   ) : (
@@ -993,7 +993,7 @@ export default function GameSession({
                         <div className="flex items-center justify-between gap-2 md:gap-3 mb-1.5 md:mb-2">
                           <div className="font-heading text-[10px] md:text-xs text-gold-dim uppercase tracking-wide">
                             {turn.role === 'DM' ? (
-                              '📖 Narrador'
+                              `📖 ${t.game.narratorLabel}`
                             ) : turn.role === 'USER' ? (
                               isMultiplayer && turn.characterName ? (
                                 <span>
@@ -1005,10 +1005,10 @@ export default function GameSession({
                                   )}
                                 </span>
                               ) : (
-                                '⚔️ Tú'
+                                `⚔️ ${t.game.youLabel}`
                               )
                             ) : (
-                              '⚙️ Sistema'
+                              `⚙️ ${t.game.systemLabel}`
                             )}
                           </div>
                           {/* Voice player for DM narrations */}
@@ -1078,7 +1078,7 @@ export default function GameSession({
                   {isSubmitting && (
                     <div className="p-4 rounded-lg glass-panel border-l-4 border-gold animate-pulse">
                       <div className="font-heading text-xs text-gold-dim uppercase tracking-wide mb-2">
-                        📖 Narrador
+                        📖 {t.game.narratorLabel}
                       </div>
                       <div className="flex items-center gap-2">
                         <div className="w-2 h-2 bg-gold rounded-full animate-bounce" />
@@ -1091,7 +1091,7 @@ export default function GameSession({
                           style={{ animationDelay: '0.2s' }}
                         />
                         <span className="font-body text-parchment/60 ml-2">
-                          El narrador está tejiendo la historia...
+                          {t.game.narratorThinking}
                         </span>
                       </div>
                     </div>

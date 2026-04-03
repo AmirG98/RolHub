@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import { ChevronRight, Map, Compass, Lock, MapPin, ChevronDown } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { type Lore, getMapConfig } from '@/lib/maps/map-config'
+import { useTranslations } from '@/lib/i18n'
 import { type MapLocationWithStatus } from '@/lib/types/map-state'
 
 // Iconos por tipo de ubicación
@@ -142,6 +143,7 @@ function SubLocationsSection({
   onSubLocationClick?: (name: string) => void
 }) {
   const [selectedId, setSelectedId] = useState<string | null>(null)
+  const t = useTranslations()
 
   return (
     <div className="border-t-2 border-gold/30">
@@ -149,7 +151,7 @@ function SubLocationsSection({
       <div className="px-3 py-2 bg-shadow-mid/80">
         <p className="text-[11px] font-heading text-gold uppercase tracking-widest flex items-center gap-1.5">
           <MapPin className="w-3.5 h-3.5" />
-          En este lugar
+          {t.game.inThisPlace}
         </p>
       </div>
 

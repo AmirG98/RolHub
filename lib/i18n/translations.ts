@@ -125,6 +125,43 @@ export const translations = {
       waiting: 'Esperando jugadores...',
       startGame: 'Iniciar Partida',
       players: 'jugadores',
+      // Tabs
+      tabNarrator: 'Narrador',
+      tabCharSheet: 'Hoja del PJ',
+      tabQuests: 'Quests',
+      tabParty: 'Grupo',
+      tabDice: 'Dados',
+      // Narrator
+      narratorTitle: 'El Narrador',
+      narratorEmpty: 'La aventura está por comenzar...',
+      narratorLabel: 'Narrador',
+      youLabel: 'Tú',
+      systemLabel: 'Sistema',
+      narratorThinking: 'El narrador está tejiendo la historia...',
+      // Stats
+      viewSheet: 'Ver Hoja',
+      hideSheet: 'Ocultar',
+      combat: 'Combate',
+      exploration: 'Exploración',
+      social: 'Social',
+      knowledge: 'Saber',
+      // Quests
+      quests: 'Misiones',
+      mainQuest: 'Quest Principal',
+      secondaryQuests: 'Secundarias',
+      noActiveQuests: 'No tienes misiones activas.',
+      questHint: 'Explora y habla con NPCs para descubrir nuevas quests.',
+      completedQuests: 'Completadas',
+      failedQuests: 'Falladas',
+      // Map
+      inThisPlace: 'En este lugar',
+      map: 'Mapa',
+      locations: 'Ubicaciones',
+      // Party
+      host: 'Anfitrión',
+      spectator: 'Espectador',
+      player: 'Jugador',
+      youTag: '(Tú)',
     },
 
     // Lobby
@@ -413,6 +450,43 @@ export const translations = {
       waiting: 'Waiting for players...',
       startGame: 'Start Game',
       players: 'players',
+      // Tabs
+      tabNarrator: 'Narrator',
+      tabCharSheet: 'Character',
+      tabQuests: 'Quests',
+      tabParty: 'Party',
+      tabDice: 'Dice',
+      // Narrator
+      narratorTitle: 'The Narrator',
+      narratorEmpty: 'The adventure is about to begin...',
+      narratorLabel: 'Narrator',
+      youLabel: 'You',
+      systemLabel: 'System',
+      narratorThinking: 'The narrator is weaving the story...',
+      // Stats
+      viewSheet: 'View Sheet',
+      hideSheet: 'Hide',
+      combat: 'Combat',
+      exploration: 'Exploration',
+      social: 'Social',
+      knowledge: 'Lore',
+      // Quests
+      quests: 'Quests',
+      mainQuest: 'Main Quest',
+      secondaryQuests: 'Side Quests',
+      noActiveQuests: 'No active quests.',
+      questHint: 'Explore and talk to NPCs to discover new quests.',
+      completedQuests: 'Completed',
+      failedQuests: 'Failed',
+      // Map
+      inThisPlace: 'In this place',
+      map: 'Map',
+      locations: 'Locations',
+      // Party
+      host: 'Host',
+      spectator: 'Spectator',
+      player: 'Player',
+      youTag: '(You)',
     },
 
     // Lobby

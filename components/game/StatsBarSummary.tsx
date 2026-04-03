@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { ChevronDown, ChevronUp, Heart, Shield, Scroll } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { calculateModifier, formatModifier } from '@/lib/engines/dnd-5e'
+import { useTranslations } from '@/lib/i18n'
 
 type AbilityId = 'STR' | 'DEX' | 'CON' | 'INT' | 'WIS' | 'CHA'
 
@@ -68,6 +69,7 @@ export function StatsBarSummary({
   isDnD5e,
   className,
 }: StatsBarSummaryProps) {
+  const t = useTranslations()
   return (
     <div
       className={cn(
@@ -151,7 +153,7 @@ export function StatsBarSummary({
         >
           <Scroll className="w-4 h-4" />
           <span className="hidden sm:inline">
-            {isExpanded ? 'Ocultar' : 'Ver Hoja'}
+            {isExpanded ? t.game.hideSheet : t.game.viewSheet}
           </span>
           {isExpanded ? (
             <ChevronUp className="w-4 h-4" />
@@ -220,6 +222,7 @@ export function StoryModeStatsBar({
   onToggleExpand,
   className,
 }: StoryModeStatsBarProps) {
+  const t = useTranslations()
   const stats = [
     { label: 'COM', value: combat, color: 'text-red-400' },
     { label: 'EXP', value: exploration, color: 'text-emerald-400' },
@@ -284,7 +287,7 @@ export function StoryModeStatsBar({
         >
           <Scroll className="w-4 h-4" />
           <span className="hidden sm:inline">
-            {isExpanded ? 'Ocultar' : 'Ver Stats'}
+            {isExpanded ? t.game.hideSheet : t.game.viewSheet}
           </span>
           {isExpanded ? (
             <ChevronUp className="w-4 h-4" />
