@@ -194,6 +194,37 @@ export async function POST(req: NextRequest) {
       charLevel = 1
     }
 
+    // Garantizar que todo personaje inicie con monedas y raciones (flavorizadas por lore)
+    const LORE_CURRENCY: Record<string, string> = {
+      LOTR: '15 monedas de plata',
+      ZOMBIES: '50 dólares en efectivo',
+      ISEKAI: '20 monedas de oro',
+      VIKINGOS: '10 monedas de plata nórdicas',
+      STAR_WARS: '100 créditos galácticos',
+      CYBERPUNK: '500 eurodólares',
+      LOVECRAFT_HORROR: '25 dólares',
+      DND_CLASSIC: '15 monedas de oro',
+      CUSTOM: '15 monedas de oro',
+    }
+    const LORE_RATIONS: Record<string, string> = {
+      LOTR: '5 raciones de viaje',
+      ZOMBIES: '3 raciones de emergencia',
+      ISEKAI: '5 raciones de viaje',
+      VIKINGOS: '3 raciones de carne seca y pan',
+      STAR_WARS: '5 raciones de campaña',
+      CYBERPUNK: '3 paquetes de comida sintética',
+      LOVECRAFT_HORROR: '3 raciones de viaje',
+      DND_CLASSIC: '5 raciones de viaje',
+      CUSTOM: '5 raciones de viaje',
+    }
+    const invLower = charInventory.map((i: string) => i.toLowerCase()).join(' ')
+    if (!/moneda|coin|gold|plata|silver|crédito|credit|dólar|euro/.test(invLower)) {
+      charInventory.push(LORE_CURRENCY[lore] || '15 monedas de oro')
+    }
+    if (!/racion|ration|comida|food|lembas|provisiones|paquete/.test(invLower)) {
+      charInventory.push(LORE_RATIONS[lore] || '5 raciones de viaje')
+    }
+
     // Generar el map_state inicial
     const mapState = createCampaignMapState(lore)
 
