@@ -250,6 +250,14 @@ export default function GameSession({
   const [latestDMTurnId, setLatestDMTurnId] = useState<string | null>(null)
   // Voces de NPC simplificadas — sin cache, solo detección de género determinística
   const scrollRef = useRef<HTMLDivElement>(null)
+  const lastScrollTime = useRef(0)
+  const handleTypewriterScroll = useCallback(() => {
+    const now = Date.now()
+    if (now - lastScrollTime.current > 150 && scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight
+      lastScrollTime.current = now
+    }
+  }, [])
 
   // Immersion system state
   const [uiMood, setUiMood] = useState<UIMood>('exploration')
@@ -970,6 +978,7 @@ export default function GameSession({
                                 setTimeout(() => setShowDiceRoller(true), 300)
                               }
                             }}
+                            onUpdate={handleTypewriterScroll}
                             skipOnClick={true}
                             className="text-base md:text-lg"
                           />

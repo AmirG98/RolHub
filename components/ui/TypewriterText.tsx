@@ -9,6 +9,7 @@ interface TypewriterTextProps {
   text: string
   speed?: number                    // ms por caracter (default: 30)
   onComplete?: () => void
+  onUpdate?: () => void              // Llamado cada vez que el texto crece
   variant?: TypewriterVariant
   skipOnClick?: boolean             // Click para revelar todo
   className?: string
@@ -50,6 +51,7 @@ export function TypewriterText({
   text,
   speed,
   onComplete,
+  onUpdate,
   variant = 'narration',
   skipOnClick = true,
   className = '',
@@ -114,6 +116,7 @@ export function TypewriterText({
 
       setDisplayedText(text.slice(0, currentIndex + 1))
       indexRef.current += 1
+      onUpdate?.()
 
       const delay = getNextDelay(char, remainingText)
       timeoutRef.current = setTimeout(typeNextChar, delay)
@@ -124,7 +127,7 @@ export function TypewriterText({
     return () => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current)
     }
-  }, [isStarted, isComplete, text, effectiveSpeed, onComplete, getNextDelay])
+  }, [isStarted, isComplete, text, effectiveSpeed, onComplete, onUpdate, getNextDelay])
 
   // Skip animation on click
   const handleClick = useCallback(() => {
