@@ -154,6 +154,8 @@ export default function GameSession({
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [showDiceRoller, setShowDiceRoller] = useState(false)
+  const [showDamageHalo, setShowDamageHalo] = useState(false)
+  const damageHaloTimeout = useRef<NodeJS.Timeout | null>(null)
   const [lastDiceRoll, setLastDiceRoll] = useState<{ formula: string; result: number; rolls: number[] } | null>(null)
   // Notificaciones de items/misiones
   const [notifications, setNotifications] = useState<GameNotificationData[]>([])
@@ -528,6 +530,23 @@ export default function GameSession({
 
       // Voces de NPC: no necesita cache — getNPCVoice es determinístico por género
 
+      // Halo rojo al recibir daño
+      if (data.worldStateUpdates?.party && character) {
+        const newHP = data.worldStateUpdates.party[character.name]?.hp
+        if (newHP) {
+          const [newCurrent] = String(newHP).split('/').map(Number)
+          const [oldCurrent] = String(worldState.party?.[character.name]?.hp || '0/0').split('/').map(Number)
+          if (newCurrent < oldCurrent) {
+            if (damageHaloTimeout.current) clearTimeout(damageHaloTimeout.current)
+            setShowDamageHalo(true)
+            damageHaloTimeout.current = setTimeout(() => setShowDamageHalo(false), 3000)
+          } else if (newCurrent > oldCurrent) {
+            setShowDamageHalo(false)
+            if (damageHaloTimeout.current) clearTimeout(damageHaloTimeout.current)
+          }
+        }
+      }
+
       // Notificaciones didácticas de items y misiones
       if (data.newItem) {
         setNotifications(prev => [...prev, createItemNotification(data.newItem, locale)])
@@ -649,8 +668,8 @@ export default function GameSession({
   // ============================================================================
   return (
     <div className={`min-h-screen particle-bg pb-4 ${moodConfig.cssClass}`}>
-      {/* Halo rojo de combate */}
-      {uiMood === 'combat' && <div className="combat-halo" />}
+      {/* Halo rojo al recibir daño — dura 3 segundos */}
+      {showDamageHalo && <div className="combat-halo" />}
 
       {/* Vignette oscura cuando inconsciente */}
       {isUnconscious && !isDead && <div className="unconscious-vignette" />}
