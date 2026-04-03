@@ -1,9 +1,9 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { Sword, Scroll, CheckCircle, X, Package } from 'lucide-react'
+import { Sword, Scroll, CheckCircle, X, Package, Star, Zap } from 'lucide-react'
 
-export type NotificationType = 'new_item' | 'remove_item' | 'new_quest' | 'quest_completed'
+export type NotificationType = 'new_item' | 'remove_item' | 'new_quest' | 'quest_completed' | 'xp_gain' | 'level_up'
 
 export interface GameNotificationData {
   id: string
@@ -23,6 +23,8 @@ const ICON_MAP: Record<NotificationType, typeof Sword> = {
   remove_item: Sword,
   new_quest: Scroll,
   quest_completed: CheckCircle,
+  xp_gain: Zap,
+  level_up: Star,
 }
 
 const COLOR_MAP: Record<NotificationType, string> = {
@@ -30,6 +32,8 @@ const COLOR_MAP: Record<NotificationType, string> = {
   remove_item: 'text-parchment/60',
   new_quest: 'text-gold',
   quest_completed: 'text-emerald',
+  xp_gain: 'text-gold',
+  level_up: 'text-gold-bright',
 }
 
 const BORDER_MAP: Record<NotificationType, string> = {
@@ -37,6 +41,8 @@ const BORDER_MAP: Record<NotificationType, string> = {
   remove_item: 'border-gold-dim/30',
   new_quest: 'border-gold/50',
   quest_completed: 'border-emerald/50',
+  xp_gain: 'border-gold/30',
+  level_up: 'border-gold-bright/60',
 }
 
 export function GameNotifications({ notifications, onDismiss, locale = 'es' }: Props) {
@@ -161,5 +167,28 @@ export function createQuestCompletedNotification(questName: string, locale: 'es'
     subtitle: locale === 'en'
       ? 'Check your completed quests in the Quests section'
       : 'Puedes ver tus misiones completadas en la sección "Misiones"',
+  }
+}
+
+export function createXPNotification(xp: number, locale: 'es' | 'en' = 'es'): GameNotificationData {
+  return {
+    id: `notif_${Date.now()}_${notifCounter++}`,
+    type: 'xp_gain',
+    text: locale === 'en' ? `+${xp} XP` : `+${xp} XP`,
+    subtitle: locale === 'en'
+      ? 'Experience points gained for your actions'
+      : 'Puntos de experiencia ganados por tus acciones',
+  }
+}
+
+export function createLevelUpNotification(newLevel: number, statChanges: Record<string, number>, locale: 'es' | 'en' = 'es'): GameNotificationData {
+  const changesText = Object.entries(statChanges)
+    .map(([stat, val]) => `+${val} ${stat}`)
+    .join(', ')
+  return {
+    id: `notif_${Date.now()}_${notifCounter++}`,
+    type: 'level_up',
+    text: locale === 'en' ? `Level Up! Now level ${newLevel}` : `¡Subiste de nivel! Ahora nivel ${newLevel}`,
+    subtitle: changesText || (locale === 'en' ? 'Your character has grown stronger' : 'Tu personaje se ha vuelto más fuerte'),
   }
 }

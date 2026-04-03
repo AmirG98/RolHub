@@ -40,7 +40,10 @@ import {
   createRemoveItemNotification,
   createQuestNotification,
   createQuestCompletedNotification,
+  createXPNotification,
+  createLevelUpNotification,
 } from '@/components/game/GameNotification'
+import { DeathSaveTracker } from '@/components/game/DeathSaveTracker'
 import dynamic from 'next/dynamic'
 
 // Dynamic import for 3D orb (SSR-safe)
@@ -335,6 +338,12 @@ export default function GameSession({
   const hpPercentage = (hp.current / hp.max) * 100
   const hpColor = hpPercentage > 60 ? 'bg-emerald' : hpPercentage > 30 ? 'bg-gold' : 'bg-blood'
 
+  // Death system state
+  const characterConditions: string[] = worldState.party?.[character?.name || '']?.conditions || []
+  const characterDeathSaves = worldState.party?.[character?.name || '']?.deathSaves
+  const isUnconscious = characterConditions.includes('inconsciente')
+  const isDead = characterConditions.includes('muerto')
+
   // ============================================================================
   // COMBAT SYSTEM HANDLERS
   // ============================================================================
@@ -533,6 +542,12 @@ export default function GameSession({
       if (data.questCompleted) {
         setNotifications(prev => [...prev, createQuestCompletedNotification(data.questCompleted, locale)])
       }
+      if (data.xpReward && data.xpReward > 0) {
+        setNotifications(prev => [...prev, createXPNotification(data.xpReward, locale)])
+      }
+      if (data.levelUp) {
+        setNotifications(prev => [...prev, createLevelUpNotification(data.levelUp.newLevel, data.levelUp.statChanges, locale)])
+      }
 
       // Actualizar acciones sugeridas si vienen
       if (data.suggestedActions && data.suggestedActions.length > 0) {
@@ -636,6 +651,49 @@ export default function GameSession({
     <div className={`min-h-screen particle-bg pb-4 ${moodConfig.cssClass}`}>
       {/* Halo rojo de combate */}
       {uiMood === 'combat' && <div className="combat-halo" />}
+
+      {/* Vignette oscura cuando inconsciente */}
+      {isUnconscious && !isDead && <div className="unconscious-vignette" />}
+
+      {/* Death save tracker */}
+      {characterDeathSaves && (
+        <DeathSaveTracker
+          successes={characterDeathSaves.successes}
+          failures={characterDeathSaves.failures}
+          locale={locale}
+        />
+      )}
+
+      {/* Pantalla de muerte */}
+      {isDead && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-shadow/90">
+          <div className="glass-panel-dark rounded-lg border border-blood/50 p-8 max-w-md w-full text-center">
+            <p className="text-5xl mb-4">💀</p>
+            <h2 className="font-title text-2xl text-blood mb-2">
+              {locale === 'en' ? 'You Have Fallen' : 'Has Caído'}
+            </h2>
+            <p className="font-body text-parchment/70 mb-6">
+              {locale === 'en'
+                ? `The story of ${character?.name || 'the adventurer'} has come to an end.`
+                : `La historia de ${character?.name || 'el aventurero'} ha llegado a su fin.`}
+            </p>
+            <div className="flex gap-3 justify-center">
+              <button
+                onClick={() => window.location.href = '/onboarding'}
+                className="px-4 py-2 rounded font-ui text-sm text-parchment bg-gold-dim/80 hover:bg-gold-dim border border-gold/30"
+              >
+                {locale === 'en' ? 'New Character' : 'Nuevo Personaje'}
+              </button>
+              <button
+                onClick={() => window.location.href = '/campaigns'}
+                className="px-4 py-2 rounded font-ui text-sm text-parchment bg-shadow-mid hover:bg-shadow border border-gold-dim/30"
+              >
+                {locale === 'en' ? 'My Campaigns' : 'Mis Campañas'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Notificaciones de items y misiones */}
       <GameNotifications notifications={notifications} onDismiss={dismissNotification} locale={locale} />

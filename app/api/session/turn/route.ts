@@ -525,6 +525,7 @@ export async function POST(req: NextRequest) {
       rule4: 'When the location changes significantly, use scene_change',
       rule5: 'suggested_actions must have 3 options that make sense with the situation',
       rule5b: 'TIME & WEATHER: Use time_update to advance the time of day (e.g. "Midday", "Sunset", "Night"). Use weather_update to change weather (e.g. "Heavy rain", "Clear skies"). Update these when time passes naturally, during travel, or when weather changes narratively.',
+      rule5c: 'XP REWARDS: Use xp_reward (number) to award experience points for difficult actions. Combat victory: 20-30 XP. Skill challenge: 10-20 XP. Quest complete: 25-50 XP. Creative/clever solution: 15-25 XP. Simple actions (talking, walking) = 0 XP (omit field). Only award XP when the player does something challenging or risky.',
       rule6: 'In MULTIPLAYER: respond to the action but mention other characters if relevant',
       rule7: 'HP/item changes for the acting character go in hp_change/new_item',
       rule8: 'HP changes for OTHER characters go in other_party_effects',
@@ -588,6 +589,7 @@ export async function POST(req: NextRequest) {
       rule4: 'Cuando cambie la ubicación significativamente, usa scene_change',
       rule5: 'suggested_actions debe tener 3 opciones que tengan sentido con la situación',
       rule5b: 'TIEMPO Y CLIMA: Usar time_update para avanzar la hora del día (ej: "Mediodía", "Atardecer", "Noche"). Usar weather_update para cambiar el clima (ej: "Lluvia torrencial", "Despejado"). Actualizar cuando pase tiempo naturalmente, durante viajes, o cuando el clima cambie en la narración.',
+      rule5c: 'RECOMPENSA DE XP: Usar xp_reward (número) para dar puntos de experiencia por acciones difíciles. Victoria en combate: 20-30 XP. Desafío de habilidad: 10-20 XP. Misión completada: 25-50 XP. Solución creativa/astuta: 15-25 XP. Acciones simples (hablar, caminar) = 0 XP (omitir campo). Solo dar XP cuando el jugador hace algo desafiante o riesgoso.',
       rule6: 'En MULTIJUGADOR: responde a la acción pero menciona a los otros personajes si es relevante',
       rule7: 'Los cambios de HP/items del personaje que actúa van en hp_change/new_item',
       rule8: 'Los cambios de HP de OTROS personajes van en other_party_effects',
@@ -694,6 +696,59 @@ ${enginePromptSection}
 ${diceInterpretation}
 === ${isEnglish ? 'END ENGINE RULES' : 'FIN REGLAS DEL MOTOR'} ===
 `
+
+    // Build 0 HP / death system section
+    const characterConditions: string[] = worldState.party?.[character.name]?.conditions || []
+    const characterDeathSaves = worldState.party?.[character.name]?.deathSaves
+    const isUnconscious = characterConditions.includes('inconsciente')
+    const isDead = characterConditions.includes('muerto')
+
+    let zeroHpSection = ''
+    if (isUnconscious && !isDead) {
+      const engine = session.campaign.engine
+      if (engine === 'STORY_MODE' || engine === 'PBTA') {
+        zeroHpSection = isEnglish
+          ? `\n=== ⚠️ CHARACTER FELL UNCONSCIOUS (0 HP) ===
+You MUST narrate a dramatic rescue: an ally finds them, they wake up later, a fortunate event saves them.
+The character recovers 1 HP. The rescue MUST have a narrative cost: lose an item, time passes, an opportunity is lost, or an NPC pays the price.
+The character NEVER dies in Story Mode / PbtA. Make the rescue dramatic and memorable.
+=== END 0 HP ===\n`
+          : `\n=== ⚠️ EL PERSONAJE CAYÓ INCONSCIENTE (0 HP) ===
+DEBÉS narrar un rescate dramático: un aliado lo encuentra, despierta tiempo después, un evento afortunado lo salva.
+El personaje recupera 1 HP. El rescate DEBE tener un costo narrativo: pierde un item, pasa tiempo, se pierde una oportunidad, o un NPC paga el precio.
+El personaje NUNCA muere en Story Mode / PbtA. Hacé el rescate dramático y memorable.
+=== FIN 0 HP ===\n`
+      } else if (characterDeathSaves) {
+        const { successes, failures } = characterDeathSaves
+        zeroHpSection = isEnglish
+          ? `\n=== ⚠️ DEATH SAVING THROWS — CHARACTER AT 0 HP ===
+The character is unconscious and dying. You MUST request a death save roll:
+dice_request: { reason: "Death saving throw", formula: "1d20", type: "save", difficulty: 10 }
+Rules: 10+ = 1 success. 1-9 = 1 failure. Nat 20 = instant recovery (1 HP). Nat 1 = 2 failures.
+3 successes = stabilize at 1 HP. 3 failures = character dies.
+Current state: ${successes} successes, ${failures} failures.
+Narrate each roll as a moment between life and death. The character cannot take actions while unconscious.
+=== END DEATH SAVES ===\n`
+          : `\n=== ⚠️ TIRADAS DE SALVACIÓN DE MUERTE — PERSONAJE A 0 HP ===
+El personaje está inconsciente y muriendo. DEBÉS pedir una tirada de muerte:
+dice_request: { reason: "Tirada de salvación de muerte", formula: "1d20", type: "save", difficulty: 10 }
+Reglas: 10+ = 1 éxito. 1-9 = 1 fallo. Nat 20 = recuperación instantánea (1 HP). Nat 1 = 2 fallos.
+3 éxitos = estabiliza con 1 HP. 3 fallos = muerte del personaje.
+Estado actual: ${successes} éxitos, ${failures} fallos.
+Narrá cada tirada como un momento entre la vida y la muerte. El personaje no puede actuar mientras esté inconsciente.
+=== FIN TIRADAS DE MUERTE ===\n`
+      }
+    } else if (isDead) {
+      zeroHpSection = isEnglish
+        ? `\n=== 💀 CHARACTER IS DEAD ===
+The character has died. Narrate a solemn, epic epilogue for their story. Honor their journey.
+Do NOT continue gameplay. End with a farewell message.
+=== END DEATH ===\n`
+        : `\n=== 💀 EL PERSONAJE HA MUERTO ===
+El personaje ha muerto. Narrá un epílogo solemne y épico para su historia. Honrá su viaje.
+NO continúes el gameplay. Terminá con un mensaje de despedida.
+=== FIN MUERTE ===\n`
+    }
 
     // Build location context for map integration
     const mapState = worldState.map_state
@@ -1138,6 +1193,7 @@ INVENTARIO: Si cambian objetos de mano, SIEMPRE usá new_item/remove_item.`
 })()}
 
 ${engineRulesSection}
+${zeroHpSection}
 ${locationContextSection}
 ${questContextSection}
 
@@ -1192,7 +1248,8 @@ ${isEnglish ? 'You must ALWAYS respond in JSON format with this exact structure'
   "image_prompt": null,
   "mood_hint": null,
   "time_update": null,
-  "weather_update": null${isMultiplayer ? `,
+  "weather_update": null,
+  "xp_reward": 0${isMultiplayer ? `,
   "other_party_effects": []` : ''}
 }
 ${isMultiplayer ? `
@@ -1605,6 +1662,8 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
       // Time and weather updates
       time_update?: string | null
       weather_update?: string | null
+      // XP reward
+      xp_reward?: number
       // Combat trigger
       combat_trigger?: {
         enemies: Array<{
@@ -1723,6 +1782,95 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
         worldStateUpdates.party[character.name] = { ...worldState.party?.[character.name] }
       }
       worldStateUpdates.party[character.name].hp = `${newHP}/${maxHPNum}`
+
+      // === 0 HP DETECTION — hybrid system per engine ===
+      if (newHP <= 0) {
+        const engine = session.campaign.engine
+        const currentConditions = worldState.party?.[character.name]?.conditions || []
+
+        if (engine === 'STORY_MODE' || engine === 'PBTA') {
+          // Soft death: inconsciente + rescate automático, nunca muere
+          worldStateUpdates.party[character.name].hp = `1/${maxHPNum}`
+          worldStateUpdates.party[character.name].conditions = [
+            ...currentConditions.filter((c: string) => c !== 'inconsciente'),
+            'inconsciente',
+          ]
+          worldStateUpdates._zeroHpEvent = {
+            type: 'rescue',
+            character: character.name,
+            engine,
+          }
+        } else {
+          // Hard death: death saves (Year Zero / D&D 5e)
+          const existingDeathSaves = worldState.party?.[character.name]?.deathSaves
+          if (!existingDeathSaves) {
+            worldStateUpdates.party[character.name].conditions = [
+              ...currentConditions.filter((c: string) => c !== 'inconsciente'),
+              'inconsciente',
+            ]
+            worldStateUpdates.party[character.name].deathSaves = {
+              successes: 0,
+              failures: 0,
+            }
+            worldStateUpdates._zeroHpEvent = {
+              type: 'death_saves',
+              character: character.name,
+              engine,
+            }
+          }
+        }
+      }
+    }
+
+    // === DEATH SAVE PROCESSING — when character has deathSaves and a dice roll comes in ===
+    const existingDeathSaves = worldState.party?.[character.name]?.deathSaves
+    if (existingDeathSaves && diceRoll) {
+      const rollTotal = diceRoll.result
+      const rolls = diceRoll.rolls || []
+      const isNat20 = rolls.includes(20)
+      const isNat1 = rolls.includes(1)
+
+      if (!worldStateUpdates.party) worldStateUpdates.party = { ...worldState.party }
+      if (!worldStateUpdates.party[character.name]) {
+        worldStateUpdates.party[character.name] = { ...worldState.party?.[character.name] }
+      }
+
+      let successes = existingDeathSaves.successes
+      let failures = existingDeathSaves.failures
+
+      if (isNat20) {
+        // Nat 20: instant recovery with 1 HP
+        worldStateUpdates.party[character.name].hp = `1/${maxHPNum}`
+        worldStateUpdates.party[character.name].conditions = (worldState.party?.[character.name]?.conditions || []).filter((c: string) => c !== 'inconsciente')
+        worldStateUpdates.party[character.name].deathSaves = undefined
+        worldStateUpdates._zeroHpEvent = { type: 'nat20_recovery', character: character.name, engine: session.campaign.engine }
+      } else if (isNat1) {
+        // Nat 1: 2 failures
+        failures += 2
+      } else if (rollTotal >= 10) {
+        successes += 1
+      } else {
+        failures += 1
+      }
+
+      // Check resolution (unless nat20 already resolved)
+      if (!isNat20) {
+        if (successes >= 3) {
+          // Stabilized
+          worldStateUpdates.party[character.name].hp = `1/${maxHPNum}`
+          worldStateUpdates.party[character.name].conditions = (worldState.party?.[character.name]?.conditions || []).filter((c: string) => c !== 'inconsciente')
+          worldStateUpdates.party[character.name].deathSaves = undefined
+          worldStateUpdates._zeroHpEvent = { type: 'stabilized', character: character.name, engine: session.campaign.engine }
+        } else if (failures >= 3) {
+          // Death
+          worldStateUpdates.party[character.name].conditions = ['muerto']
+          worldStateUpdates.party[character.name].deathSaves = undefined
+          worldStateUpdates._zeroHpEvent = { type: 'death', character: character.name, engine: session.campaign.engine }
+        } else {
+          // Still in death saves
+          worldStateUpdates.party[character.name].deathSaves = { successes, failures }
+        }
+      }
     }
 
     // Update inventory con normalización de items contables
@@ -1852,6 +2000,114 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
         console.log(`[Quest] New quest added: "${questName}"`)
       } else {
         console.log(`[Quest] Duplicate quest rejected: "${questName}"`)
+      }
+    }
+
+    // === XP & LEVEL UP SYSTEM ===
+    let levelUpData: { newLevel: number; statChanges: Record<string, number> } | null = null
+    if (dmResponse.xp_reward && dmResponse.xp_reward > 0) {
+      if (!worldStateUpdates.party) worldStateUpdates.party = { ...worldState.party }
+      if (!worldStateUpdates.party[character.name]) {
+        worldStateUpdates.party[character.name] = { ...worldState.party?.[character.name] }
+      }
+
+      const currentXP = worldState.party?.[character.name]?.experience || 0
+      const currentLevel = worldState.party?.[character.name]?.level || character.level || 1
+      const newXP = currentXP + dmResponse.xp_reward
+      worldStateUpdates.party[character.name].experience = newXP
+
+      // Level threshold: level * level * 50 + 50
+      const xpForNextLevel = currentLevel * currentLevel * 50 + 50
+
+      if (newXP >= xpForNextLevel) {
+        const newLevel = currentLevel + 1
+        worldStateUpdates.party[character.name].level = newLevel
+        worldStateUpdates.party[character.name].experience = newXP - xpForNextLevel // Carry over excess
+
+        const engine = session.campaign.engine
+        const statChanges: Record<string, number> = {}
+        const charStats = worldState.party?.[character.name] || {}
+
+        if (engine === 'STORY_MODE' || engine === 'PBTA') {
+          // +2 maxHP, +1 to lowest non-max stat
+          const maxHPCurrent = parseInt(String(charStats.hp || '20/20').split('/')[1]) || 20
+          const newMaxHP = maxHPCurrent + 2
+          const currentHP = parseInt(String(charStats.hp || '20/20').split('/')[0]) || 20
+          worldStateUpdates.party[character.name].hp = `${currentHP + 2}/${newMaxHP}`
+          statChanges['maxHp'] = 2
+
+          // Find lowest stat and increase it
+          const narrativeStats = ['combat', 'exploration', 'social', 'lore']
+          let lowestStat = narrativeStats[0]
+          let lowestVal = 99
+          for (const stat of narrativeStats) {
+            const val = charStats[stat] || 0
+            if (val < lowestVal) { lowestVal = val; lowestStat = stat }
+          }
+          worldStateUpdates.party[character.name][lowestStat] = (charStats[lowestStat] || 0) + 1
+          statChanges[lowestStat] = 1
+        } else if (engine === 'YEAR_ZERO') {
+          // +2 maxHP, +1 to lowest attribute
+          const maxHPCurrent = parseInt(String(charStats.hp || '20/20').split('/')[1]) || 20
+          const newMaxHP = maxHPCurrent + 2
+          const currentHP = parseInt(String(charStats.hp || '20/20').split('/')[0]) || 20
+          worldStateUpdates.party[character.name].hp = `${currentHP + 2}/${newMaxHP}`
+          statChanges['maxHp'] = 2
+
+          const yzStats = ['combat', 'exploration', 'social', 'lore']
+          let lowestStat = yzStats[0]
+          let lowestVal = 99
+          for (const stat of yzStats) {
+            const val = charStats[stat] || 0
+            if (val < lowestVal) { lowestVal = val; lowestStat = stat }
+          }
+          worldStateUpdates.party[character.name][lowestStat] = (charStats[lowestStat] || 0) + 1
+          statChanges[lowestStat] = 1
+        } else if (engine === 'DND_5E') {
+          // D&D 5e leveling: HP increase + proficiency at certain levels
+          const conMod = charStats.conMod || 0
+          const hitDie = charStats.hitDice ? parseInt(String(charStats.hitDice).split('d')[1]) || 8 : 8
+          const hpIncrease = Math.floor(hitDie / 2) + 1 + conMod
+          const maxHPCurrent = parseInt(String(charStats.hp || '20/20').split('/')[1]) || 20
+          const currentHP = parseInt(String(charStats.hp || '20/20').split('/')[0]) || 20
+          worldStateUpdates.party[character.name].hp = `${currentHP + hpIncrease}/${maxHPCurrent + hpIncrease}`
+          statChanges['maxHp'] = hpIncrease
+
+          // Proficiency bonus increases at levels 5, 9, 13, 17
+          if ([5, 9, 13, 17].includes(newLevel)) {
+            const newProf = Math.floor((newLevel - 1) / 4) + 2
+            worldStateUpdates.party[character.name].proficiencyBonus = newProf
+            statChanges['proficiencyBonus'] = 1
+          }
+
+          // ASI at 4, 8, 12, 16, 19 — auto +2 to highest ability
+          if ([4, 8, 12, 16, 19].includes(newLevel)) {
+            const abilities = ['STR', 'DEX', 'CON', 'INT', 'WIS', 'CHA']
+            let highestAbility = abilities[0]
+            let highestVal = 0
+            for (const ab of abilities) {
+              const val = charStats[ab] || 10
+              if (val > highestVal && val < 20) { highestVal = val; highestAbility = ab }
+            }
+            worldStateUpdates.party[character.name][highestAbility] = (charStats[highestAbility] || 10) + 2
+            // Recalculate modifier
+            const modKey = highestAbility.toLowerCase() + 'Mod'
+            worldStateUpdates.party[character.name][modKey] = Math.floor(((charStats[highestAbility] || 10) + 2 - 10) / 2)
+            statChanges[highestAbility] = 2
+          }
+
+          // Update hit dice
+          worldStateUpdates.party[character.name].hitDice = `${newLevel}d${hitDie}`
+          worldStateUpdates.party[character.name].hitDiceRemaining = newLevel
+        }
+
+        // Also update the Character record level
+        await prisma.character.update({
+          where: { id: character.id },
+          data: { level: newLevel },
+        })
+
+        levelUpData = { newLevel, statChanges }
       }
     }
 
@@ -2232,6 +2488,9 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
           : worldState.map_state,
       }
 
+      // Strip transient fields before persisting
+      delete newWorldState._zeroHpEvent
+
       await prisma.campaign.update({
         where: { id: session.campaignId },
         data: { worldState: newWorldState },
@@ -2287,6 +2546,11 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
       removeItem: originalRemoveItem || null,
       newQuest: dmResponse.new_quest || dmResponse.quest_create?.title || null,
       questCompleted: dmResponse.quest_completed || null,
+      // 0 HP event for frontend
+      zeroHpEvent: worldStateUpdates._zeroHpEvent || null,
+      // XP & Level up
+      xpReward: dmResponse.xp_reward || 0,
+      levelUp: levelUpData,
     })
   } catch (error) {
     console.error('Error processing turn:', error)
