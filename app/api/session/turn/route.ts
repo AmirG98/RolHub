@@ -1126,8 +1126,19 @@ IMPORTANTE:
 === FIN SISTEMA DE COMBATE ===
 `
 
-    const systemPrompt = `${labels.dmRole}${isMultiplayer ? ` ${labels.multiplayer}` : ''}. ${isEnglish ? 'Your role is to create an immersive and exciting experience.' : 'Tu rol es crear una experiencia inmersiva y emocionante.'}
+    const languageRule = isEnglish
+      ? `\n=== CRITICAL LANGUAGE RULE ===
+The player plays in ENGLISH. You MUST narrate ENTIRELY in English.
+Translate ALL lore names, location names, NPC names, item names, quest names, and descriptions to English.
+Examples: "Posada del Pony Pisador" → "The Prancing Pony Inn", "Tierra Media" → "Middle-earth", "Espada larga forjada en el oeste" → "Longsword forged in the West", "Montaraz" → "Ranger", "Erudito" → "Scholar".
+Your suggested_actions MUST be in English. Your narration, dialogue, and ALL text MUST be in English. No Spanish whatsoever.
+=== END LANGUAGE RULE ===\n`
+      : `\n=== REGLA DE IDIOMA ===
+El jugador juega en ESPAÑOL. Toda la narración, diálogo, nombres y descripciones DEBEN estar en español. No uses inglés.
+=== FIN REGLA DE IDIOMA ===\n`
 
+    const systemPrompt = `${labels.dmRole}${isMultiplayer ? ` ${labels.multiplayer}` : ''}. ${isEnglish ? 'Your role is to create an immersive and exciting experience.' : 'Tu rol es crear una experiencia inmersiva y emocionante.'}
+${languageRule}
 ${(() => {
   // Separar NPCs por ubicación — los que están AQUÍ vs en otro lugar
   const currentScene = worldState.current_scene || ''

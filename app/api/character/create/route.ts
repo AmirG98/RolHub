@@ -194,35 +194,38 @@ export async function POST(req: NextRequest) {
       charLevel = 1
     }
 
-    // Garantizar que todo personaje inicie con monedas y raciones (flavorizadas por lore)
-    const LORE_CURRENCY: Record<string, string> = {
-      LOTR: '15 monedas de plata',
-      ZOMBIES: '50 dólares en efectivo',
-      ISEKAI: '20 monedas de oro',
-      VIKINGOS: '10 monedas de plata nórdicas',
-      STAR_WARS: '100 créditos galácticos',
-      CYBERPUNK: '500 eurodólares',
-      LOVECRAFT_HORROR: '25 dólares',
-      DND_CLASSIC: '15 monedas de oro',
-      CUSTOM: '15 monedas de oro',
+    // Garantizar que todo personaje inicie con monedas y raciones (flavorizadas por lore e idioma)
+    const isEN = locale === 'en'
+    const LORE_CURRENCY: Record<string, { es: string; en: string }> = {
+      LOTR:             { es: '15 monedas de plata',         en: '15 silver coins' },
+      ZOMBIES:          { es: '50 dólares en efectivo',      en: '50 dollars cash' },
+      ISEKAI:           { es: '20 monedas de oro',           en: '20 gold coins' },
+      VIKINGOS:         { es: '10 monedas de plata nórdicas', en: '10 Norse silver coins' },
+      STAR_WARS:        { es: '100 créditos galácticos',     en: '100 galactic credits' },
+      CYBERPUNK:        { es: '500 eurodólares',             en: '500 eurodollars' },
+      LOVECRAFT_HORROR: { es: '25 dólares',                  en: '25 dollars' },
+      DND_CLASSIC:      { es: '15 monedas de oro',           en: '15 gold coins' },
+      CUSTOM:           { es: '15 monedas de oro',           en: '15 gold coins' },
     }
-    const LORE_RATIONS: Record<string, string> = {
-      LOTR: '5 raciones de viaje',
-      ZOMBIES: '3 raciones de emergencia',
-      ISEKAI: '5 raciones de viaje',
-      VIKINGOS: '3 raciones de carne seca y pan',
-      STAR_WARS: '5 raciones de campaña',
-      CYBERPUNK: '3 paquetes de comida sintética',
-      LOVECRAFT_HORROR: '3 raciones de viaje',
-      DND_CLASSIC: '5 raciones de viaje',
-      CUSTOM: '5 raciones de viaje',
+    const LORE_RATIONS: Record<string, { es: string; en: string }> = {
+      LOTR:             { es: '5 raciones de viaje',                en: '5 travel rations' },
+      ZOMBIES:          { es: '3 raciones de emergencia',           en: '3 emergency rations' },
+      ISEKAI:           { es: '5 raciones de viaje',                en: '5 travel rations' },
+      VIKINGOS:         { es: '3 raciones de carne seca y pan',     en: '3 dried meat and bread rations' },
+      STAR_WARS:        { es: '5 raciones de campaña',              en: '5 field rations' },
+      CYBERPUNK:        { es: '3 paquetes de comida sintética',     en: '3 synthetic food packs' },
+      LOVECRAFT_HORROR: { es: '3 raciones de viaje',                en: '3 travel rations' },
+      DND_CLASSIC:      { es: '5 raciones de viaje',                en: '5 travel rations' },
+      CUSTOM:           { es: '5 raciones de viaje',                en: '5 travel rations' },
     }
     const invLower = charInventory.map((i: string) => i.toLowerCase()).join(' ')
     if (!/moneda|coin|gold|plata|silver|crédito|credit|dólar|euro/.test(invLower)) {
-      charInventory.push(LORE_CURRENCY[lore] || '15 monedas de oro')
+      const currency = LORE_CURRENCY[lore] || LORE_CURRENCY.CUSTOM
+      charInventory.push(isEN ? currency.en : currency.es)
     }
     if (!/racion|ration|comida|food|lembas|provisiones|paquete/.test(invLower)) {
-      charInventory.push(LORE_RATIONS[lore] || '5 raciones de viaje')
+      const rations = LORE_RATIONS[lore] || LORE_RATIONS.CUSTOM
+      charInventory.push(isEN ? rations.en : rations.es)
     }
 
     // Generar el map_state inicial
@@ -268,14 +271,14 @@ export async function POST(req: NextRequest) {
         },
       },
       world_flags: {} as Record<string, boolean>,
-      active_quests: mode === 'ONE_SHOT' ? ['Misión Inicial'] : ([] as string[]),
+      active_quests: mode === 'ONE_SHOT' ? [locale === 'en' ? 'Initial Mission' : 'Misión Inicial'] : ([] as string[]),
       completed_quests: [] as string[],
       failed_quests: [] as string[],
       npc_states: {} as Record<string, string>,
       faction_relations: {} as Record<string, number>,
       current_scene: startingSceneName,
-      time_in_world: 'Día 1, mañana',
-      weather: 'Cielo despejado',
+      time_in_world: locale === 'en' ? 'Day 1, morning' : 'Día 1, mañana',
+      weather: locale === 'en' ? 'Clear skies' : 'Cielo despejado',
       map_state: {
         currentLocationId: mapState.currentLocationId,
         previousLocationId: mapState.previousLocationId,

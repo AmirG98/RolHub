@@ -26,12 +26,15 @@ import dndClassicData from '@/data/lores/dnd-classic.json'
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
-    const { lore, archetypeId, characterName, characterDescription } = body as {
+    const { lore, archetypeId, characterName, characterDescription, locale: rawLocale } = body as {
       lore: Lore
       archetypeId: string
       characterName: string
       characterDescription?: string
+      locale?: string
     }
+    const locale = rawLocale === 'en' ? 'en' : 'es'
+    const isEN = locale === 'en'
 
     if (!lore || !archetypeId || !characterName) {
       return NextResponse.json({ error: 'Faltan campos requeridos' }, { status: 400 })
@@ -72,11 +75,11 @@ export async function POST(req: NextRequest) {
           relationships: {},
         },
       },
-      world_flags: {}, active_quests: ['Misión Inicial'],
+      world_flags: {}, active_quests: [isEN ? 'Initial Mission' : 'Misión Inicial'],
       completed_quests: [], failed_quests: [],
       npc_states: {}, faction_relations: {},
-      current_scene: startingLocation?.name || 'Inicio',
-      time_in_world: 'Día 1, mañana', weather: 'Despejado',
+      current_scene: startingLocation?.name || (isEN ? 'Start' : 'Inicio'),
+      time_in_world: isEN ? 'Day 1, morning' : 'Día 1, mañana', weather: isEN ? 'Clear skies' : 'Despejado',
       map_state: mapState, quests: [],
     }
 
@@ -92,16 +95,19 @@ export async function POST(req: NextRequest) {
     let introContent = ''
     let suggestedActions: string[] = []
     if (openingScene) {
-      introContent = openingScene.description + '\n\n' + (openingScene.closing_prompt || '¿Qué deseas hacer?')
+      const closingPrompt = openingScene.closing_prompt || (isEN ? 'What do you want to do?' : '¿Qué deseas hacer?')
+      introContent = openingScene.description + '\n\n' + closingPrompt
       if (openingScene.visible_directions?.length > 0) {
         openingScene.visible_directions.slice(0, 3).forEach((dir: any) => {
-          suggestedActions.push(`Ir al ${dir.direction}`)
+          suggestedActions.push(isEN ? `Go to ${dir.direction}` : `Ir al ${dir.direction}`)
         })
       }
-      suggestedActions.push('Hablar con alguien cercano')
-      suggestedActions.push('Explorar el lugar actual')
+      suggestedActions.push(isEN ? 'Talk to someone nearby' : 'Hablar con alguien cercano')
+      suggestedActions.push(isEN ? 'Explore the current area' : 'Explorar el lugar actual')
     } else {
-      introContent = `Bienvenido a ${getLocalized(loreData.name, 'es')}, ${characterName}.\n\nTu aventura comienza...`
+      introContent = isEN
+        ? `Welcome to ${getLocalized(loreData.name, locale)}, ${characterName}.\n\nYour adventure begins...`
+        : `Bienvenido a ${getLocalized(loreData.name, locale)}, ${characterName}.\n\nTu aventura comienza...`
     }
 
     // Crear todo en una transacción con retry para pool timeout
@@ -120,7 +126,7 @@ export async function POST(req: NextRequest) {
       const campaign = await tx.campaign.create({
         data: {
           userId: user.id,
-          name: `Aventura en ${getLocalized(loreData.name, 'es')}`,
+          name: isEN ? `Adventure in ${getLocalized(loreData.name, locale)}` : `Aventura en ${getLocalized(loreData.name, locale)}`,
           lore, engine, mode,
           worldState: initialWorldState as unknown as Prisma.InputJsonValue,
           worldMap: {} as Prisma.InputJsonValue,
