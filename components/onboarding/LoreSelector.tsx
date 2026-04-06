@@ -20,7 +20,7 @@ const loreData: Array<{
   { id: 'ISEKAI', icon: '⭐', color: '#FFD93D' },
   { id: 'STAR_WARS', icon: '🚀', color: '#FFE81F' },
   { id: 'CYBERPUNK', icon: '🏙️', color: '#39FF14' },
-  { id: 'LOVECRAFT_HORROR', icon: '👁️', color: '#1A3A2A' },
+  { id: 'LOVECRAFT_HORROR', icon: '👁️', color: '#7B68EE' },
 ]
 
 export function LoreSelector({ onSelect }: LoreSelectorProps) {
@@ -35,22 +35,22 @@ export function LoreSelector({ onSelect }: LoreSelectorProps) {
   }))
 
   return (
-    <div className="min-h-screen particle-bg flex items-center justify-center p-4 md:p-8">
-      <div className="max-w-4xl w-full content-wrapper">
-        <h1 className="font-title text-2xl sm:text-3xl md:text-4xl text-gold mb-1 text-center px-2">
+    <div className="min-h-screen particle-bg p-4 md:p-8 pt-8 md:pt-12">
+      <div className="max-w-3xl w-full mx-auto content-wrapper">
+        <h1 className="font-title text-xl sm:text-2xl md:text-3xl text-gold mb-1 text-center">
           {t.onboarding.chooseLore.title}
         </h1>
-        <p className="font-body text-sm text-parchment/60 text-center mb-5 md:mb-6 px-2">
+        <p className="font-body text-xs md:text-sm text-parchment/60 text-center mb-4 md:mb-6">
           {t.onboarding.chooseLore.subtitle}
         </p>
 
-        {/* Lores — grid compacto */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 mb-6 max-w-3xl mx-auto">
+        {/* Lores — grid balanceado */}
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-6 max-w-2xl mx-auto">
           {lores.map((lore) => (
             <button
               key={lore.id}
               onClick={() => { setSelectedLore(lore.id); onSelect(lore.id) }}
-              className={`glass-panel p-3 md:p-4 rounded-lg transition-all duration-200 hover:scale-[1.03] text-left group ${
+              className={`glass-panel p-3 md:p-4 rounded-lg transition-all duration-200 hover:scale-[1.03] text-left group h-full ${
                 selectedLore === lore.id ? 'glow-effect ring-2 ring-gold' : ''
               }`}
             >
