@@ -1048,7 +1048,7 @@ export default function GameSession({
             {/* NarratorPanel inline */}
             <div id="narrator-section" className="scroll-mt-4">
             <OrnateFrame variant="gold">
-              <ParchmentPanel variant="ornate" className="min-h-[400px] md:min-h-[500px] max-h-[60vh] md:max-h-[70vh] overflow-hidden flex flex-col">
+              <ParchmentPanel variant="ornate" className="min-h-[400px] md:min-h-[500px] max-h-[60vh] md:max-h-[70vh] flex flex-col">
                 {/* Header with 3D Narrator Orb */}
                 <div className="flex items-center justify-center gap-3 mb-3 md:mb-4">
                   {/* 3D Orb - visible on larger screens */}
