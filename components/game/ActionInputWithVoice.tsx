@@ -289,7 +289,7 @@ export function ActionInputWithVoice({
         )}
 
         {/* Suggested actions */}
-        <div className="flex flex-wrap items-center gap-2">
+        <div id="suggested-actions" className="flex flex-wrap items-center gap-2">
           {suggestedActions.map((suggestion, i) => (
             <button
               key={i}

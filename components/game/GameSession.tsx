@@ -45,6 +45,7 @@ import {
 } from '@/components/game/GameNotification'
 import { DeathSaveTracker } from '@/components/game/DeathSaveTracker'
 import { LevelUpModal } from '@/components/game/LevelUpModal'
+import { GameTutorialTour, GAME_TOUR_STEPS } from '@/components/game/GameTutorialTour'
 import dynamic from 'next/dynamic'
 
 // Dynamic import for 3D orb (SSR-safe)
@@ -156,6 +157,7 @@ export default function GameSession({
   const [error, setError] = useState<string | null>(null)
   const [showDiceRoller, setShowDiceRoller] = useState(false)
   const [showDamageHalo, setShowDamageHalo] = useState(false)
+  const [showTutorial, setShowTutorial] = useState(false)
   const [pendingLevelUp, setPendingLevelUp] = useState<{
     newLevel: number; hpIncrease: number; statOptions: string[]; statBonus: number
   } | null>(initialWorldState?.pendingLevelUp ? {
@@ -402,6 +404,20 @@ export default function GameSession({
       }
     }
   }, [character?.avatarUrl, sessionId])
+
+  // Tutorial: mostrar solo la primera vez
+  useEffect(() => {
+    const done = localStorage.getItem('rolhub-tutorial-done')
+    if (!done) {
+      // Delay para que el DOM se renderice completamente
+      setTimeout(() => setShowTutorial(true), 1500)
+    }
+  }, [])
+
+  const completeTutorial = useCallback(() => {
+    setShowTutorial(false)
+    localStorage.setItem('rolhub-tutorial-done', 'true')
+  }, [])
 
   // Load persisted UI state from worldState + initial turns
   useEffect(() => {
@@ -760,6 +776,15 @@ export default function GameSession({
         />
       )}
 
+      {/* Tutorial tour — solo primera vez */}
+      {showTutorial && (
+        <GameTutorialTour
+          steps={GAME_TOUR_STEPS}
+          onComplete={completeTutorial}
+          locale={locale}
+        />
+      )}
+
       {/* Notificaciones de items y misiones */}
       <GameNotifications notifications={notifications} onDismiss={dismissNotification} locale={locale} />
 
@@ -804,7 +829,7 @@ export default function GameSession({
       <SceneTransition {...transitionProps} />
 
       {/* Header con información del personaje */}
-      <div className="border-b border-gold-dim/30 glass-panel-dark p-3 md:p-4">
+      <div id="character-header" className="border-b border-gold-dim/30 glass-panel-dark p-3 md:p-4">
         <div className="max-w-7xl mx-auto">
           {/* Mobile: Stack vertical */}
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 md:gap-4">
@@ -958,6 +983,7 @@ export default function GameSession({
 
             {/* Dice roller button */}
             <button
+              id="dice-button"
               onClick={() => setShowDiceRoller(true)}
               disabled={isSubmitting}
               className="flex items-center gap-1.5 px-3 py-1.5 ml-auto text-xs font-ui text-gold border border-gold/40 rounded-lg
@@ -1231,16 +1257,18 @@ export default function GameSession({
                 disabled={isSubmitting}
               />
             ) : (
-              <ActionInputWithVoice
-                onSubmit={handleSubmit}
-                isSubmitting={isSubmitting || !!pendingDiceRequest}
-                suggestedActions={suggestedActions}
-                lastDiceRoll={lastDiceRoll}
-                onClearDiceRoll={() => setLastDiceRoll(null)}
-                error={error}
-                locale={locale as 'es' | 'en'}
-                prefillAction={prefillAction}
-              />
+              <div id="action-input">
+                <ActionInputWithVoice
+                  onSubmit={handleSubmit}
+                  isSubmitting={isSubmitting || !!pendingDiceRequest}
+                  suggestedActions={suggestedActions}
+                  lastDiceRoll={lastDiceRoll}
+                  onClearDiceRoll={() => setLastDiceRoll(null)}
+                  error={error}
+                  locale={locale as 'es' | 'en'}
+                  prefillAction={prefillAction}
+                />
+              </div>
             )}
 
             {/* Character Stats Bar + Expandable Sheet */}
@@ -1395,7 +1423,8 @@ export default function GameSession({
             )}
 
             {/* Ubicaciones */}
-            <h3 className="font-heading text-xs text-gold-dim uppercase tracking-widest mb-2 px-1">Ubicaciones</h3>
+            <div id="locations-panel">
+            <h3 className="font-heading text-xs text-gold-dim uppercase tracking-widest mb-2 px-1">{t.game.locations}</h3>
             <GameMapPanel
               lore={lore as LoreType}
               worldState={worldState}
@@ -1413,15 +1442,18 @@ export default function GameSession({
               }}
               locale={locale as 'es' | 'en'}
             />
+            </div>
 
             {/* Inventario */}
-            <h3 className="font-heading text-xs text-gold-dim uppercase tracking-widest mb-2 px-1">Inventario</h3>
+            <div id="inventory-panel">
+            <h3 className="font-heading text-xs text-gold-dim uppercase tracking-widest mb-2 px-1">{t.game.inventory}</h3>
             <div className="glass-panel-dark rounded-lg border border-gold-dim/20">
               <InventoryPanel
                 inventory={worldState.party?.[characterName]?.inventory || character?.inventory || []}
                 characterName={characterName}
                 locale={locale as 'es' | 'en'}
               />
+            </div>
             </div>
 
             {/* Quests Section */}
