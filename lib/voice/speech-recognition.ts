@@ -117,8 +117,8 @@ export function createSpeechRecognition(
     recognition = new SpeechRecognitionClass()
 
     recognition.lang = lang
-    recognition.continuous = false // Solo una frase
-    recognition.interimResults = false // Solo resultados finales
+    recognition.continuous = true // Seguir escuchando después de pausas
+    recognition.interimResults = true // Mostrar resultados parciales
     recognition.maxAlternatives = 1
 
     recognition.onstart = () => {
@@ -126,13 +126,28 @@ export function createSpeechRecognition(
     }
 
     recognition.onresult = (event: SpeechRecognitionEvent) => {
-      const result = event.results[0]
-      if (result) {
-        const alternative = result[0]
+      // Acumular texto de todos los results (finales + interim)
+      let finalTranscript = ''
+      let interimTranscript = ''
+
+      for (let i = 0; i < event.results.length; i++) {
+        const result = event.results[i]
+        if (result) {
+          const transcript = result[0]?.transcript || ''
+          if (result.isFinal) {
+            finalTranscript += transcript + ' '
+          } else {
+            interimTranscript += transcript
+          }
+        }
+      }
+
+      const fullTranscript = (finalTranscript + interimTranscript).trim()
+      if (fullTranscript) {
         callbacks.onResult({
-          transcript: alternative.transcript,
-          confidence: alternative.confidence,
-          isFinal: result.isFinal
+          transcript: fullTranscript,
+          confidence: event.results[event.results.length - 1]?.[0]?.confidence || 0,
+          isFinal: interimTranscript.length === 0 // final si no hay texto interim pendiente
         })
       }
     }

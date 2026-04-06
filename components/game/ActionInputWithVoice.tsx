@@ -54,19 +54,21 @@ export function ActionInputWithVoice({
     }
   }, [])
 
+  const isTouchDevice = useRef(false)
+  const voiceTextRef = useRef('')
+
   const startListening = useCallback(() => {
     if (!isSpeechSupported || isListening) return
 
     setVoiceError(null)
+    voiceTextRef.current = ''
 
     const controller = createSpeechRecognition(
       {
         onResult: (result) => {
-          if (result.isFinal && result.transcript.trim()) {
-            // Envío directo - procesar y enviar inmediatamente
-            const processed = processAction(result.transcript, mode)
-            onSubmit(processed.cleanText, processed.actionType)
-          }
+          // Mostrar texto en el textarea mientras habla (no enviar)
+          voiceTextRef.current = result.transcript
+          setAction(result.transcript)
         },
         onStart: () => {
           setIsListening(true)
@@ -74,6 +76,13 @@ export function ActionInputWithVoice({
         onEnd: () => {
           setIsListening(false)
           speechControllerRef.current = null
+          // En mobile push-to-talk: auto-submit al soltar
+          if (isTouchDevice.current && voiceTextRef.current.trim()) {
+            const processed = processAction(voiceTextRef.current, mode)
+            onSubmit(processed.cleanText, processed.actionType)
+            setAction('')
+            voiceTextRef.current = ''
+          }
         },
         onError: (errorMsg) => {
           setVoiceError(errorMsg)
@@ -95,6 +104,28 @@ export function ActionInputWithVoice({
     }
     setIsListening(false)
   }, [])
+
+  // Mobile push-to-talk handlers
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    e.preventDefault()
+    isTouchDevice.current = true
+    startListening()
+  }, [startListening])
+
+  const handleTouchEnd = useCallback((e: React.TouchEvent) => {
+    e.preventDefault()
+    stopListening()
+    // onEnd handler will auto-submit for touch devices
+  }, [stopListening])
+
+  const handleMicClick = useCallback(() => {
+    if (isTouchDevice.current) return // Touch ya lo maneja
+    if (isListening) {
+      stopListening()
+    } else {
+      startListening()
+    }
+  }, [isListening, startListening, stopListening])
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -203,7 +234,9 @@ export function ActionInputWithVoice({
           <div className="flex flex-col gap-2">
             <button
               type="button"
-              onClick={isListening ? stopListening : startListening}
+              onClick={handleMicClick}
+              onTouchStart={handleTouchStart}
+              onTouchEnd={handleTouchEnd}
               disabled={!isSpeechSupported || isSubmitting}
               title={!isSpeechSupported ? labels.micNotSupported : undefined}
               className={cn(
