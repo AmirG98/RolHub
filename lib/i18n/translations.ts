@@ -101,6 +101,7 @@ export const translations = {
         back: '← Volver',
         continue: 'Continuar →',
         startAdventure: 'Comenzar Aventura',
+        completeFirst: 'Completá la configuración antes de avanzar',
       },
     },
 
@@ -426,6 +427,7 @@ export const translations = {
         back: '← Back',
         continue: 'Continue →',
         startAdventure: 'Start Adventure',
+        completeFirst: 'Complete the setup before continuing',
       },
     },
 

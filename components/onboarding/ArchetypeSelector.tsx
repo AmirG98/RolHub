@@ -460,11 +460,16 @@ export function ArchetypeSelector({ archetypes, loreName, lore, onSelect, onBack
 
           <RunicButton
             variant="primary"
-            disabled={!canContinue}
-            onClick={handleSubmit}
+            onClick={() => {
+              if (canContinue) {
+                handleSubmit()
+              } else {
+                window.scrollTo({ top: 0, behavior: 'smooth' })
+              }
+            }}
             className="text-sm md:text-base px-4 md:px-12"
           >
-            {t.archetypeSelector.startAdventure}
+            {canContinue ? t.archetypeSelector.startAdventure : t.onboarding.buttons.completeFirst}
           </RunicButton>
         </div>
       </div>

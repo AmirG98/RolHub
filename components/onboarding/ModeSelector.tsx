@@ -294,19 +294,21 @@ export function ModeSelector({ onSelect, onBack }: ModeSelectorProps) {
 
           <RunicButton
             variant="primary"
-            disabled={!canContinue}
-            onClick={() =>
-              canContinue &&
-              onSelect({
-                mode: selectedMode,
-                engine: selectedEngine,
-                tutorialLevel: selectedTutorial,
-                isMultiplayer: isMultiplayer,
-              })
-            }
+            onClick={() => {
+              if (canContinue) {
+                onSelect({
+                  mode: selectedMode,
+                  engine: selectedEngine,
+                  tutorialLevel: selectedTutorial,
+                  isMultiplayer: isMultiplayer,
+                })
+              } else {
+                window.scrollTo({ top: 0, behavior: 'smooth' })
+              }
+            }}
             className="text-sm md:text-base px-6 md:px-12"
           >
-            {t.onboarding.buttons.continue}
+            {canContinue ? t.onboarding.buttons.continue : t.onboarding.buttons.completeFirst}
           </RunicButton>
         </div>
       </div>

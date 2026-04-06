@@ -98,11 +98,16 @@ export function LoreSelector({ onSelect }: LoreSelectorProps) {
         <div className="text-center sticky bottom-4 md:relative md:bottom-auto space-y-3">
           <RunicButton
             variant="primary"
-            disabled={!selectedLore}
-            onClick={() => selectedLore && onSelect(selectedLore)}
+            onClick={() => {
+              if (selectedLore) {
+                onSelect(selectedLore)
+              } else {
+                window.scrollTo({ top: 0, behavior: 'smooth' })
+              }
+            }}
             className="px-8 md:px-12 py-3 md:py-4 w-full md:w-auto"
           >
-            {t.onboarding.buttons.continue}
+            {selectedLore ? t.onboarding.buttons.continue : t.onboarding.buttons.completeFirst}
           </RunicButton>
           <div>
             <Link href="/guias/mejores-mundos" className="inline-flex items-center gap-2 font-ui text-xs md:text-sm text-emerald hover:text-emerald/80 transition">
