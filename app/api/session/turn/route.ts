@@ -1354,6 +1354,7 @@ The story MUST ALWAYS move forward. NEVER repeat a scene you already narrated.
 - NO ATMOSPHERIC REPETITION: Do NOT repeat the same atmospheric element (drums, smoke, cold wind, distant howls) more than twice across turns. After mentioning it twice, assume the player knows it's there. Vary your descriptions — don't recycle the same image.
 - LOCATION PERMANENCE: Once the player has LEFT a location, NOTHING happens there anymore in your narration. Do not describe events at the old location. The story exists only where the player IS right now.
 - TIME & WEATHER COHERENCE: If the time says "morning", your narration MUST describe a morning scene (sunlight, dawn, early hours). If weather says "Clear", do NOT describe storms, rain, or heavy clouds. If you WANT to change time or weather, you MUST send time_update and/or weather_update in your JSON response. NEVER narrate a different time of day or weather than what the state says without updating it first.
+- NPC RELATIONSHIPS & ROMANCE: Romantic relationships with NPCs are possible IF the player builds trust naturally over multiple turns (protecting them, helping them, showing genuine interest, making sacrifices). The NPC must have realistic reasons to reciprocate. NEVER allow romance from crude/forced advances — NPCs should react with discomfort or rejection to inappropriate behavior. Track relationship progression in the relationships field. Romance should feel earned, not granted.
 === END CONSISTENCY ===
 
 === TRAVEL RULES ===
