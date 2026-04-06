@@ -37,7 +37,7 @@ function HPBarMini({ current, max }: { current: number; max: number }) {
   const isMedium = percentage > 25 && percentage <= 50
 
   return (
-    <div className="relative h-3 w-20 sm:w-28 bg-shadow rounded-full overflow-hidden border border-gold-dim/30">
+    <div className="relative h-3 w-24 sm:w-32 bg-shadow rounded-full overflow-hidden border border-gold-dim/30">
       <div
         className={cn(
           "absolute inset-y-0 left-0 transition-all duration-500",

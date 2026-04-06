@@ -237,7 +237,7 @@ export function ActionInputWithVoice({
               "font-body text-sm md:text-base text-ink placeholder:text-stone/50",
               "focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/20",
               "disabled:opacity-50 disabled:cursor-not-allowed resize-none",
-              mode === 'do' ? "border-gold/40" : mode === 'talk' ? "border-emerald/40" : "border-gold-dim/30"
+              mode === 'do' ? "border-gold/60" : mode === 'talk' ? "border-emerald/60" : "border-gold-dim/30"
             )}
           />
 
@@ -307,8 +307,8 @@ export function ActionInputWithVoice({
               type="button"
               onClick={() => handleSuggestionClick(suggestion)}
               disabled={isSubmitting || isListening}
-              className="px-2 md:px-3 py-1 text-xs md:text-sm font-ui text-gold-dim border border-gold-dim/30 rounded-full
-                       hover:bg-gold/10 hover:border-gold transition-all disabled:opacity-50"
+              className="px-3 md:px-3 py-2 md:py-1 min-h-[44px] md:min-h-0 text-xs md:text-sm font-ui text-gold-dim border border-gold-dim/30 rounded-full
+                       hover:bg-gold/10 hover:border-gold transition-all disabled:opacity-50 flex items-center"
             >
               {suggestion}
             </button>

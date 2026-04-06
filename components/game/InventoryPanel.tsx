@@ -63,10 +63,13 @@ export function InventoryPanel({ inventory, characterName, locale = 'es', classN
 
   if (grouped.length === 0) {
     return (
-      <div className={`px-3 py-4 text-center ${className}`}>
-        <Package className="w-6 h-6 text-parchment/30 mx-auto mb-1" />
-        <p className="font-body text-xs text-parchment/40">
+      <div className={`px-3 py-6 text-center ${className}`}>
+        <Package className="w-8 h-8 text-parchment/30 mx-auto mb-2" />
+        <p className="font-body text-sm text-parchment/50">
           {locale === 'en' ? 'Empty inventory' : 'Inventario vacío'}
+        </p>
+        <p className="font-ui text-xs text-parchment/30 mt-1">
+          {locale === 'en' ? 'Complete actions or find treasure to get items' : 'Completá acciones o encontrá tesoros para obtener items'}
         </p>
       </div>
     )
@@ -82,7 +85,7 @@ export function InventoryPanel({ inventory, characterName, locale = 'es', classN
         <span className="text-[10px] text-parchment/50">({inventory.length})</span>
       </div>
 
-      <div className="px-2 py-1.5 max-h-48 overflow-y-auto space-y-0.5">
+      <div className="px-2 py-1.5 max-h-64 lg:max-h-96 overflow-y-auto space-y-0.5">
         {grouped.map((item, i) => (
           <div
             key={`${item.name}-${i}`}

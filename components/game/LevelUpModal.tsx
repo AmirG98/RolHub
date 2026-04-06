@@ -93,7 +93,7 @@ export function LevelUpModal({
             : `Elegí un stat para aumentar en +${statBonus}:`}
         </p>
 
-        <div className="grid grid-cols-2 gap-2 mb-5">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-2 mb-5">
           {statOptions.map(stat => {
             const config = STAT_CONFIG[stat] || { icon: Star, color: 'text-parchment border-parchment/50', label: { es: stat, en: stat } }
             const Icon = config.icon

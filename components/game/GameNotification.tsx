@@ -101,9 +101,9 @@ function NotificationToast({
     >
       <button
         onClick={dismiss}
-        className="absolute top-2 right-2 text-parchment/40 hover:text-parchment/70 transition-colors"
+        className="absolute top-1 right-1 p-1.5 text-parchment/40 hover:text-parchment/70 transition-colors"
       >
-        <X size={14} />
+        <X size={16} />
       </button>
 
       <div className="flex items-start gap-3">

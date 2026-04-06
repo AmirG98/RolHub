@@ -43,7 +43,7 @@ export function QuestPanel({
         </h3>
       </div>
 
-      <div className="max-h-80 overflow-y-auto scrollbar-thin">
+      <div className="max-h-96 lg:max-h-[500px] overflow-y-auto scrollbar-thin">
         {/* Quest Principal */}
         {mainQuest && (
           <div className="p-2 border-b border-gold/10">
@@ -84,10 +84,10 @@ export function QuestPanel({
 
         {/* Sin quests activas */}
         {activeQuests.length === 0 && (
-          <div className="p-4 text-center text-parchment/50 text-sm">
-            No tienes misiones activas.
-            <br />
-            <span className="text-xs">Explora y habla con NPCs para descubrir nuevas quests.</span>
+          <div className="p-6 text-center">
+            <span className="text-2xl mb-2 block">🗺️</span>
+            <p className="text-parchment/50 text-sm">No tienes misiones activas.</p>
+            <p className="text-parchment/30 text-xs mt-1">Explorá y hablá con NPCs para descubrir nuevas quests.</p>
           </div>
         )}
 

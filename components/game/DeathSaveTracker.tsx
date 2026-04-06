@@ -29,7 +29,7 @@ export function DeathSaveTracker({ successes, failures, locale = 'es' }: DeathSa
                   className={`w-4 h-4 rounded-full border-2 transition-all duration-300 ${
                     i < successes
                       ? 'bg-gold border-gold-bright shadow-[0_0_8px_rgba(201,168,76,0.5)]'
-                      : 'border-gold-dim/40 bg-transparent'
+                      : 'border-gold-dim/60 bg-transparent'
                   }`}
                 />
               ))}
@@ -48,7 +48,7 @@ export function DeathSaveTracker({ successes, failures, locale = 'es' }: DeathSa
                   className={`w-4 h-4 rounded-full border-2 transition-all duration-300 ${
                     i < failures
                       ? 'bg-blood border-blood shadow-[0_0_8px_rgba(139,26,26,0.5)]'
-                      : 'border-blood/30 bg-transparent'
+                      : 'border-blood/50 bg-transparent'
                   }`}
                 />
               ))}

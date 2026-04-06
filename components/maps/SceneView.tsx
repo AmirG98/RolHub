@@ -232,8 +232,8 @@ function SubLocationsSection({
                         : 'bg-gradient-to-r from-gold/20 to-gold/10 hover:from-gold/30 hover:to-gold/20 text-gold hover:text-gold-bright border border-gold/30 hover:border-gold/50'
                     )}
                   >
-                    <Compass className="w-3.5 h-3.5" />
-                    Dirigirse a {sl.name}
+                    <Compass className="w-3.5 h-3.5 flex-shrink-0" />
+                    <span className="truncate">{sl.name}</span>
                   </button>
                 </div>
               )}
@@ -351,7 +351,7 @@ export function SceneView({
             </div>
           </div>
 
-          <div className="flex items-center gap-1 flex-shrink-0 ml-2">
+          <div className="flex items-center gap-1 flex-shrink-0 ml-2 whitespace-nowrap">
             <span className={cn('text-xs drop-shadow-md', dangerColor)}>
               {'⚔️'.repeat(Math.min(dangerLevel, 3))}
             </span>

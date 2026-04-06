@@ -899,8 +899,8 @@ export default function GameSession({
                   </div>
                 </div>
 
-                {/* Stats compactos — solo desktop */}
-                <div className="hidden lg:flex items-center gap-2 ml-2">
+                {/* Stats compactos — tablets y desktop */}
+                <div className="hidden md:flex items-center gap-2 ml-2">
                   {engine === 'DND_5E' ? (
                     // D&D 5e: 6 ability scores
                     <div className="flex gap-2">
