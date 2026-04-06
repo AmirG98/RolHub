@@ -219,6 +219,17 @@ export function ActionInputWithVoice({
             id="action"
             value={action}
             onChange={(e) => setAction(e.target.value)}
+            onKeyDown={(e) => {
+              // Enter = enviar, Shift+Enter o Alt+Enter = nueva línea
+              if (e.key === 'Enter' && !e.shiftKey && !e.altKey) {
+                e.preventDefault()
+                if (action.trim() && !isSubmitting) {
+                  const processed = processAction(action, mode)
+                  onSubmit(processed.cleanText, processed.actionType)
+                  setAction('')
+                }
+              }
+            }}
             disabled={isSubmitting || isListening}
             placeholder={getPlaceholder()}
             className={cn(
@@ -240,11 +251,11 @@ export function ActionInputWithVoice({
               disabled={!isSpeechSupported || isSubmitting}
               title={!isSpeechSupported ? labels.micNotSupported : undefined}
               className={cn(
-                "p-3 md:p-4 rounded-lg transition-all border",
+                "p-3 md:p-4 rounded-lg transition-all border min-w-[44px] min-h-[44px] flex items-center justify-center",
                 isListening
                   ? "bg-blood/80 border-blood text-parchment animate-pulse shadow-[0_0_20px_rgba(139,26,26,0.5)]"
                   : isSpeechSupported
-                    ? "bg-gold-dim/20 border-gold/30 text-gold hover:bg-gold/20 hover:border-gold/50"
+                    ? "bg-gold-dim/40 border-gold/50 text-gold hover:bg-gold/30 hover:border-gold/60"
                     : "bg-stone/20 border-stone/30 text-stone/50 cursor-not-allowed"
               )}
             >
