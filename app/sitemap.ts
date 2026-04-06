@@ -151,13 +151,27 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   // Bestiary pages
   const bestiarySlugs = [
+    // LOTR
     'troll-de-las-cavernas', 'huargo', 'nazgul', 'balrog', 'araña-gigante-de-mirkwood',
+    'orco-de-mordor', 'mumakil', 'espectro-del-pantano', 'guardian-del-agua', 'shelob',
+    // Zombies
     'caminante', 'corredor', 'bloater', 'alfa',
+    'rastreador', 'nino-infectado', 'demoledor', 'reina-de-colmena', 'perro-zombie',
+    // Vikingos
     'draugr', 'fenrir', 'jormungandr',
+    'kraken-nordico', 'berserker-maldito', 'valquiria-oscura', 'troll-de-hielo',
+    // Isekai
     'slime-rey', 'dragon-anciano', 'goblin-bandido',
+    'mimic', 'lich-del-bosque', 'grifo-real', 'elemental-de-fuego', 'orco-chaman',
+    // Star Wars
     'rancor', 'sarlacc',
+    'wampa', 'krayt-dragon', 'acklay', 'nexu',
+    // Cyberpunk
     'cyberpsico', 'mech-corporativo',
+    'drone-asesino', 'netrunner-fantasma', 'rata-mutante-gigante', 'borgs-de-gang',
+    // Lovecraft
     'profundo', 'shoggoth',
+    'mi-go', 'avatar-de-cthulhu', 'hombre-serpiente',
   ]
 
   const bestiaryPages = [
