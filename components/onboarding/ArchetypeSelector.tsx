@@ -364,8 +364,11 @@ export function ArchetypeSelector({ archetypes, loreName, lore, onSelect, onBack
 
             {selectedArchetype.starting_inventory && (
               <>
-                <h3 className="font-heading text-base md:text-xl text-gold mb-3 md:mb-4">{t.archetypeSelector.startingEquipment}</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-1.5 md:gap-2">
+                <details className="mb-2">
+                  <summary className="font-heading text-sm text-gold cursor-pointer hover:text-gold-bright transition flex items-center gap-2">
+                    {t.archetypeSelector.startingEquipment} ({getLocalizedArray(selectedArchetype.starting_inventory, locale as 'es' | 'en').length} items)
+                  </summary>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-1.5 md:gap-2 mt-2">
                   {groupInventoryItems(getLocalizedArray(selectedArchetype.starting_inventory, locale as 'es' | 'en')).map((item, index) => (
                     <div key={index} className="flex items-center space-x-2 font-body text-parchment/80 text-xs md:text-sm">
                       <span className="text-gold-dim">•</span>
@@ -373,6 +376,7 @@ export function ArchetypeSelector({ archetypes, loreName, lore, onSelect, onBack
                     </div>
                   ))}
                 </div>
+                </details>
               </>
             )}
           </div>

@@ -2,13 +2,11 @@
 
 import { useState, useRef } from 'react'
 import { GameMode, GameEngine, TutorialLevel } from '@/lib/types/lore'
-import { ParchmentPanel } from '@/components/medieval/ParchmentPanel'
 import { RunicButton } from '@/components/medieval/RunicButton'
 import { useTranslations, useLanguage } from '@/lib/i18n'
-import { Clock, Calendar, Book, Dices, Sword, Users, HelpCircle } from 'lucide-react'
-import Link from 'next/link'
 
 interface ModeSelectorProps {
+  selectedTutorialLevel?: TutorialLevel | null
   onSelect: (data: {
     mode: GameMode
     engine: GameEngine
@@ -18,277 +16,195 @@ interface ModeSelectorProps {
   onBack: () => void
 }
 
-
-export function ModeSelector({ onSelect, onBack }: ModeSelectorProps) {
+export function ModeSelector({ selectedTutorialLevel, onSelect, onBack }: ModeSelectorProps) {
   const t = useTranslations()
   const { locale } = useLanguage()
+  const isEN = locale === 'en'
   const [selectedMode, setSelectedMode] = useState<GameMode | null>(null)
   const [selectedEngine, setSelectedEngine] = useState<GameEngine | null>(null)
-  const [selectedTutorial, setSelectedTutorial] = useState<TutorialLevel | null>(null)
-  const [isMultiplayer, setIsMultiplayer] = useState<boolean | null>(null)
+  const [selectedTutorial, setSelectedTutorial] = useState<TutorialLevel | null>(selectedTutorialLevel || null)
+  const [isMultiplayer, setIsMultiplayer] = useState<boolean>(false)
 
-  // Refs para auto-scroll entre secciones
-  const durationRef = useRef<HTMLDivElement>(null)
   const engineRef = useRef<HTMLDivElement>(null)
-  const experienceRef = useRef<HTMLDivElement>(null)
   const buttonsRef = useRef<HTMLDivElement>(null)
 
   const scrollTo = (ref: React.RefObject<HTMLDivElement | null>) => {
-    setTimeout(() => {
-      ref.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    }, 300)
+    setTimeout(() => ref.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 300)
   }
 
-  const canContinue = selectedMode && selectedEngine && selectedTutorial && isMultiplayer !== null
+  const isNovice = selectedTutorial === 'NOVICE'
 
-  // Dynamic content based on translations
-  const modes = [
-    {
-      id: 'ONE_SHOT' as GameMode,
-      name: t.onboarding.duration.oneShot,
-      tagline: t.onboarding.duration.oneShotDesc,
-      description: t.onboarding.duration.oneShotDetail,
-      icon: '⚡',
-      color: '#FFD93D',
-    },
-    {
-      id: 'CAMPAIGN' as GameMode,
-      name: t.onboarding.duration.campaign,
-      tagline: t.onboarding.duration.campaignDesc,
-      description: t.onboarding.duration.campaignDetail,
-      icon: '📖',
-      color: '#B026FF',
-    },
-  ]
+  // Para novatos: auto-seleccionar Story Mode
+  const effectiveEngine = isNovice ? 'STORY_MODE' as GameEngine : selectedEngine
+  const canContinue = selectedMode && selectedTutorial && (isNovice || selectedEngine)
 
-  const engines = [
-    {
-      id: 'STORY_MODE' as GameEngine,
-      name: t.onboarding.engine.storyMode,
-      tagline: t.onboarding.engine.storyModeDesc,
-      description: t.onboarding.engine.storyModeDetail,
-      icon: '📚',
-      color: '#00D9FF',
-      recommended: true,
-      comingSoon: false,
-    },
-    {
-      id: 'DND_5E' as GameEngine,
-      name: t.onboarding.engine.dnd,
-      tagline: t.onboarding.engine.dndDesc,
-      description: t.onboarding.engine.dndDetail,
-      icon: '🐉',
-      color: '#B026FF',
-      recommended: false,
-      comingSoon: false,
-    },
-    {
-      id: 'PBTA' as GameEngine,
-      name: t.onboarding.engine.pbta,
-      tagline: t.onboarding.engine.pbtaDesc,
-      description: t.onboarding.engine.pbtaDetail,
-      icon: '🎲',
-      color: '#FFD93D',
-      recommended: false,
-      comingSoon: true,
-    },
-    {
-      id: 'YEAR_ZERO' as GameEngine,
-      name: t.onboarding.engine.yearZero,
-      tagline: t.onboarding.engine.yearZeroDesc,
-      description: t.onboarding.engine.yearZeroDetail,
-      icon: '💀',
-      color: '#FF6B6B',
-      recommended: false,
-      comingSoon: true,
-    },
-  ]
-
-  const tutorialLevels = [
-    {
-      id: 'NOVICE' as TutorialLevel,
-      name: locale === 'en' ? 'Beginner' : 'Novato',
-      description: locale === 'en' ? 'First time playing a tabletop RPG' : 'Primera vez jugando un RPG de mesa',
-      icon: '🌱',
-      color: '#39FF14',
-    },
-    {
-      id: 'VETERAN' as TutorialLevel,
-      name: locale === 'en' ? 'I know D&D' : 'Sé jugar D&D',
-      description: locale === 'en' ? 'I have experience with tabletop RPGs' : 'Tengo experiencia con RPGs de mesa',
-      icon: '⚔️',
-      color: '#B026FF',
-    },
-  ]
+  const handleTutorialSelect = (level: TutorialLevel) => {
+    setSelectedTutorial(level)
+    if (level === 'NOVICE') {
+      setSelectedEngine('STORY_MODE' as GameEngine)
+      // Si ya eligió modo, auto-avanzar
+      if (selectedMode) {
+        setTimeout(() => onSelect({
+          mode: selectedMode,
+          engine: 'STORY_MODE' as GameEngine,
+          tutorialLevel: level,
+          isMultiplayer,
+        }), 400)
+      }
+    } else {
+      scrollTo(engineRef)
+    }
+  }
 
   return (
     <div className="min-h-screen particle-bg flex items-center justify-center p-4 md:p-8">
-      <div className="max-w-6xl w-full space-y-8 md:space-y-12 content-wrapper pb-24 md:pb-8">
-        {/* Paso 0: Solo o con amigos */}
+      <div className="max-w-3xl w-full space-y-6 md:space-y-8 content-wrapper pb-24 md:pb-8">
+
+        {/* Sección 1: Experiencia */}
         <div>
-          <h2 className="font-title text-2xl md:text-4xl text-gold-bright text-center mb-2 md:mb-4 ink-reveal">
-            {t.onboarding.chooseMode.title}
+          <h2 className="font-title text-xl md:text-3xl text-gold-bright text-center mb-1">
+            {t.onboarding.experience.title}
           </h2>
-          <p className="font-ui text-sm md:text-base text-parchment text-center mb-4 md:mb-8">
-            {t.onboarding.chooseMode.subtitle}
+          <p className="font-ui text-xs md:text-sm text-parchment/60 text-center mb-4">
+            {isEN ? 'This helps us tailor the experience for you' : 'Esto nos ayuda a adaptar la experiencia para vos'}
           </p>
 
-          <div className="grid grid-cols-2 gap-3 md:gap-6 max-w-2xl mx-auto">
+          <div className="grid grid-cols-2 gap-3 max-w-lg mx-auto">
             <button
-              className={`glass-panel rounded-lg p-4 md:p-6 cursor-pointer transition-all duration-300 hover:scale-105 text-center ${
-                isMultiplayer === false ? 'glow-effect ring-2 ring-gold-bright' : ''
+              className={`glass-panel rounded-lg p-3 md:p-4 transition-all duration-200 hover:scale-[1.03] text-center ${
+                selectedTutorial === 'NOVICE' ? 'glow-effect ring-2 ring-emerald' : ''
               }`}
-              onClick={() => { setIsMultiplayer(false); scrollTo(durationRef) }}
+              onClick={() => handleTutorialSelect('NOVICE')}
             >
-              <div className="text-4xl md:text-6xl mb-2 md:mb-3">🧙</div>
-              <h3 className="font-heading text-lg md:text-2xl text-parchment mb-1 md:mb-2">{t.onboarding.chooseMode.solo}</h3>
-              <p className="font-ui text-xs md:text-sm text-gold mb-1">
-                {t.onboarding.chooseMode.soloDesc}
-              </p>
-              <p className="font-body text-xs text-parchment/80 hidden md:block">
-                {t.onboarding.chooseMode.soloDetail}
-              </p>
+              <div className="text-2xl md:text-3xl mb-1">🌱</div>
+              <h3 className="font-heading text-sm md:text-base text-parchment">{isEN ? 'Beginner' : 'Novato'}</h3>
+              <p className="font-ui text-[10px] md:text-xs text-parchment/60">{isEN ? 'First time with RPGs' : 'Primera vez con RPGs'}</p>
             </button>
-
             <button
-              className={`glass-panel rounded-lg p-4 md:p-6 cursor-pointer transition-all duration-300 hover:scale-105 text-center ${
-                isMultiplayer === true ? 'glow-effect ring-2 ring-gold-bright' : ''
+              className={`glass-panel rounded-lg p-3 md:p-4 transition-all duration-200 hover:scale-[1.03] text-center ${
+                selectedTutorial === 'VETERAN' ? 'glow-effect ring-2 ring-gold' : ''
               }`}
-              onClick={() => { setIsMultiplayer(true); scrollTo(durationRef) }}
+              onClick={() => handleTutorialSelect('VETERAN')}
             >
-              <div className="text-4xl md:text-6xl mb-2 md:mb-3">👥</div>
-              <h3 className="font-heading text-lg md:text-2xl text-parchment mb-1 md:mb-2">{t.onboarding.chooseMode.withFriends}</h3>
-              <p className="font-ui text-xs md:text-sm text-emerald mb-1">
-                {t.onboarding.chooseMode.withFriendsDesc}
-              </p>
-              <p className="font-body text-xs text-parchment/80 hidden md:block">
-                {t.onboarding.chooseMode.withFriendsDetail}
-              </p>
+              <div className="text-2xl md:text-3xl mb-1">⚔️</div>
+              <h3 className="font-heading text-sm md:text-base text-parchment">{isEN ? 'I know RPGs' : 'Conozco RPGs'}</h3>
+              <p className="font-ui text-[10px] md:text-xs text-parchment/60">{isEN ? 'I have experience' : 'Tengo experiencia'}</p>
             </button>
           </div>
         </div>
 
-        {/* Paso 1: Modo de juego */}
-        <div ref={durationRef}>
-          <h2 className="font-title text-2xl md:text-4xl text-gold-bright text-center mb-2 md:mb-4">
+        {/* Sección 2: Duración */}
+        <div>
+          <h2 className="font-title text-xl md:text-3xl text-gold-bright text-center mb-1">
             {t.onboarding.duration.title}
           </h2>
-          <p className="font-ui text-sm md:text-base text-parchment text-center mb-4 md:mb-8">
+          <p className="font-ui text-xs md:text-sm text-parchment/60 text-center mb-4">
             {t.onboarding.duration.subtitle}
           </p>
 
-          <div className="grid grid-cols-2 gap-3 md:gap-6">
-            {modes.map((mode) => (
-              <button
-                key={mode.id}
-                className={`glass-panel rounded-lg p-3 md:p-6 cursor-pointer transition-all duration-300 hover:scale-105 text-left ${
-                  selectedMode === mode.id ? 'glow-effect ring-2 ring-gold-bright' : ''
-                }`}
-                onClick={() => { setSelectedMode(mode.id); scrollTo(engineRef) }}
-              >
-                <div className="text-3xl md:text-5xl mb-2 md:mb-3">{mode.icon}</div>
-                <h3 className="font-heading text-base md:text-2xl text-parchment mb-1 md:mb-2">{mode.name}</h3>
-                <p className="font-ui text-xs md:text-sm mb-1 md:mb-2 line-clamp-2" style={{ color: mode.color }}>
-                  {mode.tagline}
-                </p>
-                <p className="font-body text-xs text-parchment/80 hidden md:block">{mode.description}</p>
-              </button>
-            ))}
+          <div className="grid grid-cols-2 gap-3 max-w-lg mx-auto">
+            <button
+              className={`glass-panel rounded-lg p-3 md:p-4 transition-all duration-200 hover:scale-[1.03] text-center ${
+                selectedMode === 'ONE_SHOT' ? 'glow-effect ring-2 ring-gold-bright' : ''
+              }`}
+              onClick={() => {
+                setSelectedMode('ONE_SHOT')
+                if (isNovice && selectedTutorial) {
+                  setTimeout(() => onSelect({
+                    mode: 'ONE_SHOT',
+                    engine: 'STORY_MODE' as GameEngine,
+                    tutorialLevel: selectedTutorial,
+                    isMultiplayer,
+                  }), 400)
+                } else if (selectedTutorial === 'VETERAN') {
+                  scrollTo(engineRef)
+                }
+              }}
+            >
+              <div className="text-2xl md:text-3xl mb-1">⚡</div>
+              <h3 className="font-heading text-sm md:text-base text-parchment">{t.onboarding.duration.oneShot}</h3>
+              <p className="font-ui text-[10px] md:text-xs text-gold-dim">{t.onboarding.duration.oneShotDesc}</p>
+            </button>
+            <button
+              className={`glass-panel rounded-lg p-3 md:p-4 transition-all duration-200 hover:scale-[1.03] text-center ${
+                selectedMode === 'CAMPAIGN' ? 'glow-effect ring-2 ring-gold-bright' : ''
+              }`}
+              onClick={() => {
+                setSelectedMode('CAMPAIGN')
+                if (isNovice && selectedTutorial) {
+                  setTimeout(() => onSelect({
+                    mode: 'CAMPAIGN',
+                    engine: 'STORY_MODE' as GameEngine,
+                    tutorialLevel: selectedTutorial,
+                    isMultiplayer,
+                  }), 400)
+                } else if (selectedTutorial === 'VETERAN') {
+                  scrollTo(engineRef)
+                }
+              }}
+            >
+              <div className="text-2xl md:text-3xl mb-1">📖</div>
+              <h3 className="font-heading text-sm md:text-base text-parchment">{t.onboarding.duration.campaign}</h3>
+              <p className="font-ui text-[10px] md:text-xs text-neon-purple">{t.onboarding.duration.campaignDesc}</p>
+            </button>
           </div>
         </div>
 
-        {/* Paso 2: Motor de reglas */}
-        <div ref={engineRef}>
-          <h2 className="font-title text-2xl md:text-4xl text-gold-bright text-center mb-2 md:mb-4">
-            {t.onboarding.engine.title}
-          </h2>
-          <p className="font-ui text-sm md:text-base text-parchment text-center mb-4 md:mb-8">
-            {t.onboarding.engine.subtitle}
-          </p>
+        {/* Sección 3: Engine — SOLO para veteranos */}
+        {selectedTutorial === 'VETERAN' && (
+          <div ref={engineRef}>
+            <h2 className="font-title text-xl md:text-3xl text-gold-bright text-center mb-1">
+              {isEN ? 'Game System' : 'Sistema de Juego'}
+            </h2>
+            <p className="font-ui text-xs md:text-sm text-parchment/60 text-center mb-4">
+              {isEN ? 'Choose how dice and rules work' : 'Elegí cómo funcionan los dados y las reglas'}
+            </p>
 
-          <div className="grid grid-cols-2 gap-3 md:gap-4">
-            {engines.map((engine) => (
-              <button
-                key={engine.id}
-                className={`glass-panel rounded-lg p-3 md:p-4 transition-all duration-300 text-left relative ${
-                  engine.comingSoon
-                    ? 'opacity-50 cursor-not-allowed'
-                    : 'cursor-pointer hover:scale-105'
-                } ${
-                  selectedEngine === engine.id && !engine.comingSoon ? 'glow-effect ring-2 ring-gold-bright' : ''
-                }`}
-                onClick={() => { if (!engine.comingSoon) { setSelectedEngine(engine.id); scrollTo(experienceRef) } }}
-                disabled={engine.comingSoon}
-              >
-                {engine.recommended && (
-                  <div className="absolute top-1 right-1 md:top-2 md:right-2 bg-emerald text-parchment px-1.5 md:px-2 py-0.5 rounded-full text-[10px] md:text-xs font-ui font-semibold">
-                    ★ {t.onboarding.engine.recommended}
-                  </div>
-                )}
-                {engine.comingSoon && (
-                  <div className="absolute top-1 right-1 md:top-2 md:right-2 bg-gold/80 text-shadow px-1.5 md:px-2 py-0.5 rounded-full text-[10px] md:text-xs font-ui font-semibold">
-                    Próximamente
-                  </div>
-                )}
-                <div className="text-2xl md:text-4xl mb-1 md:mb-2">{engine.icon}</div>
-                <h3 className="font-heading text-sm md:text-lg text-parchment mb-0.5 md:mb-1 line-clamp-1">{engine.name}</h3>
-                <p className="font-ui text-[10px] md:text-xs mb-1 md:mb-2 line-clamp-1" style={{ color: engine.comingSoon ? '#888' : engine.color }}>
-                  {engine.tagline}
-                </p>
-                <p className="font-body text-xs text-parchment/80 hidden md:block">{engine.description}</p>
-              </button>
-            ))}
+            <div className="grid grid-cols-2 gap-3 max-w-lg mx-auto">
+              {[
+                { id: 'STORY_MODE' as GameEngine, icon: '📚', name: isEN ? 'Pure Narrative' : 'Narrativo Puro', desc: isEN ? 'No complex rules' : 'Sin reglas complejas', color: 'text-neon-blue' },
+                { id: 'DND_5E' as GameEngine, icon: '🐉', name: isEN ? 'Classic D&D' : 'D&D Clásico', desc: isEN ? 'd20 + ability scores' : 'd20 + habilidades', color: 'text-neon-purple' },
+                { id: 'PBTA' as GameEngine, icon: '🎲', name: isEN ? 'Simple Dice' : 'Dados Simples', desc: isEN ? '2d6, partial successes' : '2d6, éxitos parciales', color: 'text-gold' },
+                { id: 'YEAR_ZERO' as GameEngine, icon: '💀', name: isEN ? 'Survival' : 'Supervivencia', desc: isEN ? 'Scarce resources, push your luck' : 'Recursos escasos, arriesgá', color: 'text-blood' },
+              ].map(eng => (
+                <button
+                  key={eng.id}
+                  className={`glass-panel rounded-lg p-3 transition-all duration-200 hover:scale-[1.03] text-center ${
+                    selectedEngine === eng.id ? 'glow-effect ring-2 ring-gold-bright' : ''
+                  }`}
+                  onClick={() => {
+                    setSelectedEngine(eng.id)
+                    if (selectedMode) {
+                      setTimeout(() => onSelect({
+                        mode: selectedMode,
+                        engine: eng.id,
+                        tutorialLevel: 'VETERAN',
+                        isMultiplayer,
+                      }), 400)
+                    }
+                  }}
+                >
+                  <div className="text-2xl mb-1">{eng.icon}</div>
+                  <h3 className="font-heading text-sm text-parchment">{eng.name}</h3>
+                  <p className={`font-ui text-[10px] ${eng.color}`}>{eng.desc}</p>
+                </button>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
-        {/* Paso 3: Nivel de experiencia */}
-        <div ref={experienceRef}>
-          <h2 className="font-title text-2xl md:text-4xl text-gold-bright text-center mb-2 md:mb-4">
-            {t.onboarding.experience.title}
-          </h2>
-          <p className="font-ui text-sm md:text-base text-parchment text-center mb-4 md:mb-6">
-            {t.onboarding.experience.subtitle}
-          </p>
-          <div className="text-center mb-4 md:mb-6">
-            <Link href="/guias/como-jugar" className="inline-flex items-center gap-2 font-ui text-xs md:text-sm text-emerald hover:text-emerald/80 transition">
-              <HelpCircle size={14} />
-              Primera vez jugando rol? Te explicamos paso a paso
-            </Link>
+        {/* Novato hint */}
+        {isNovice && selectedMode && (
+          <div className="text-center p-3 glass-panel-dark rounded-lg border border-emerald/30 max-w-lg mx-auto">
+            <p className="font-ui text-xs text-emerald">
+              ✨ {isEN ? 'Story Mode selected automatically — no complex rules, just pure narrative adventure!' : 'Story Mode seleccionado automáticamente — sin reglas complejas, ¡pura aventura narrativa!'}
+            </p>
           </div>
+        )}
 
-          <div className="grid grid-cols-2 gap-3 md:gap-4">
-            {tutorialLevels.map((level) => (
-              <button
-                key={level.id}
-                className={`glass-panel rounded-lg p-3 md:p-4 cursor-pointer transition-all duration-300 hover:scale-105 text-left ${
-                  selectedTutorial === level.id ? 'glow-effect ring-2 ring-gold-bright' : ''
-                }`}
-                onClick={() => {
-                  setSelectedTutorial(level.id)
-                  // Si ya están todas las opciones seleccionadas, avanzar automáticamente
-                  if (selectedMode && selectedEngine && isMultiplayer !== null) {
-                    setTimeout(() => onSelect({
-                      mode: selectedMode,
-                      engine: selectedEngine,
-                      tutorialLevel: level.id,
-                      isMultiplayer: isMultiplayer,
-                    }), 500)
-                  } else {
-                    scrollTo(buttonsRef)
-                  }
-                }}
-              >
-                <div className="text-2xl md:text-4xl mb-1 md:mb-2">{level.icon}</div>
-                <h3 className="font-heading text-sm md:text-lg text-parchment mb-0.5 md:mb-1">{level.name}</h3>
-                <p className="font-body text-[10px] md:text-xs text-parchment/80 line-clamp-2">{level.description}</p>
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Botones de navegación - fixed en mobile */}
-        <div ref={buttonsRef} className="fixed bottom-0 left-0 right-0 md:relative bg-shadow/95 md:bg-transparent p-4 md:p-0 border-t border-gold/20 md:border-0 flex justify-between items-center md:pt-6 z-40">
-          <RunicButton variant="secondary" onClick={onBack} className="text-sm md:text-base px-4 md:px-6">
+        {/* Botones */}
+        <div ref={buttonsRef} className="fixed bottom-0 left-0 right-0 md:relative bg-shadow/95 md:bg-transparent p-4 md:p-0 border-t border-gold/20 md:border-0 flex justify-between items-center md:pt-4 z-40">
+          <RunicButton variant="secondary" onClick={onBack} className="text-sm px-4">
             {t.onboarding.buttons.back}
           </RunicButton>
 
@@ -297,16 +213,16 @@ export function ModeSelector({ onSelect, onBack }: ModeSelectorProps) {
             onClick={() => {
               if (canContinue) {
                 onSelect({
-                  mode: selectedMode,
-                  engine: selectedEngine,
-                  tutorialLevel: selectedTutorial,
-                  isMultiplayer: isMultiplayer,
+                  mode: selectedMode!,
+                  engine: effectiveEngine!,
+                  tutorialLevel: selectedTutorial!,
+                  isMultiplayer,
                 })
               } else {
                 window.scrollTo({ top: 0, behavior: 'smooth' })
               }
             }}
-            className="text-sm md:text-base px-6 md:px-12"
+            className="text-sm px-6 md:px-12"
           >
             {canContinue ? t.onboarding.buttons.continue : t.onboarding.buttons.completeFirst}
           </RunicButton>
