@@ -149,5 +149,31 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
   ]
 
-  return [...staticPages, ...guidePages]
+  // Bestiary pages
+  const bestiarySlugs = [
+    'troll-de-las-cavernas', 'huargo', 'nazgul', 'balrog', 'araña-gigante-de-mirkwood',
+    'caminante', 'corredor', 'bloater', 'alfa',
+    'draugr', 'fenrir', 'jormungandr',
+    'slime-rey', 'dragon-anciano', 'goblin-bandido',
+    'rancor', 'sarlacc',
+    'cyberpsico', 'mech-corporativo',
+    'profundo', 'shoggoth',
+  ]
+
+  const bestiaryPages = [
+    {
+      url: `${baseUrl}/compendio/bestias`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.8,
+    },
+    ...bestiarySlugs.map(slug => ({
+      url: `${baseUrl}/compendio/bestias/${slug}`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.7,
+    })),
+  ]
+
+  return [...staticPages, ...guidePages, ...bestiaryPages]
 }

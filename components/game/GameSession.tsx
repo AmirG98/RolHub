@@ -411,6 +411,13 @@ export default function GameSession({
     }
   }, [character?.avatarUrl, sessionId])
 
+  // Esconder navbar durante el gameplay para maximizar espacio
+  useEffect(() => {
+    const nav = document.querySelector('nav')
+    if (nav) nav.style.display = 'none'
+    return () => { if (nav) nav.style.display = '' }
+  }, [])
+
   // Tutorial: mostrar solo la primera vez
   useEffect(() => {
     const done = localStorage.getItem('rolhub-tutorial-done')
