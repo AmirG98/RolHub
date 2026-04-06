@@ -179,7 +179,7 @@ export function ActionInputWithVoice({
               type="button"
               onClick={() => setMode(mode === 'do' ? 'auto' : 'do')}
               className={cn(
-                "flex items-center gap-1.5 px-4 py-2 rounded-lg font-heading text-sm transition-all border-2",
+                "flex items-center gap-1.5 px-4 py-2.5 md:py-2 min-h-[44px] rounded-lg font-heading text-sm transition-all border-2",
                 mode === 'do'
                   ? "bg-blood/30 text-parchment border-blood shadow-[0_0_12px_rgba(139,26,26,0.4)]"
                   : "bg-shadow/50 text-parchment/60 border-gold-dim/30 hover:border-blood/50 hover:text-parchment hover:bg-blood/10"
@@ -194,7 +194,7 @@ export function ActionInputWithVoice({
               type="button"
               onClick={() => setMode(mode === 'talk' ? 'auto' : 'talk')}
               className={cn(
-                "flex items-center gap-1.5 px-4 py-2 rounded-lg font-heading text-sm transition-all border-2",
+                "flex items-center gap-1.5 px-4 py-2.5 md:py-2 min-h-[44px] rounded-lg font-heading text-sm transition-all border-2",
                 mode === 'talk'
                   ? "bg-emerald/30 text-parchment border-emerald shadow-[0_0_12px_rgba(26,58,42,0.4)]"
                   : "bg-shadow/50 text-parchment/60 border-gold-dim/30 hover:border-emerald/50 hover:text-parchment hover:bg-emerald/10"
@@ -267,7 +267,7 @@ export function ActionInputWithVoice({
             </button>
 
             {isListening && (
-              <span className="text-[10px] text-blood text-center animate-pulse">
+              <span className="text-xs md:text-[10px] text-blood text-center animate-pulse">
                 {labels.listening}
               </span>
             )}

@@ -266,6 +266,8 @@ export function SceneView({
   const [confirmTravel, setConfirmTravel] = useState<TravelInfo | null>(null)
   const [confirmDestId, setConfirmDestId] = useState<string | null>(null)
 
+  const t = useTranslations()
+
   // Calcular días de viaje a partir del texto de travel_time
   const parseDays = (timeStr: string): number => {
     const match = timeStr.match(/(\d+)\s*(?:día|day|días|days)/i)
@@ -472,8 +474,8 @@ export function SceneView({
             onSubLocationClick={onSubLocationClick}
           />
         ) : (
-          <p className="text-[10px] font-ui text-parchment/30 italic text-center py-2 px-3">
-            Cuando llegues a una ciudad, aparecerán las sub-locaciones conocidas.
+          <p className="text-xs font-ui text-parchment/40 italic text-center py-3 px-4">
+            {t.game.subLocationHint}
           </p>
         )}
 

@@ -156,6 +156,7 @@ export const translations = {
       failedQuests: 'Falladas',
       // Map
       inThisPlace: 'En este lugar',
+      subLocationHint: 'Cuando llegues a una ciudad, aparecerán las sub-locaciones conocidas.',
       map: 'Mapa',
       locations: 'Ubicaciones',
       // Party
@@ -482,6 +483,7 @@ export const translations = {
       failedQuests: 'Failed',
       // Map
       inThisPlace: 'In this place',
+      subLocationHint: 'When you reach a city, known sub-locations will appear.',
       map: 'Map',
       locations: 'Locations',
       // Party

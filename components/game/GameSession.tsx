@@ -909,9 +909,9 @@ export default function GameSession({
                         const mod = Math.floor((val - 10) / 2)
                         return (
                           <div key={stat} className="text-center">
-                            <div className="text-[9px] text-gold-dim/60 font-ui">{stat}</div>
+                            <div className="text-[10px] text-gold-dim/60 font-ui">{stat}</div>
                             <div className="text-xs font-heading text-parchment">{val}</div>
-                            <div className="text-[9px] text-gold-dim font-mono">{mod >= 0 ? `+${mod}` : mod}</div>
+                            <div className="text-[10px] text-gold-dim font-mono">{mod >= 0 ? `+${mod}` : mod}</div>
                           </div>
                         )
                       })}
@@ -926,7 +926,7 @@ export default function GameSession({
                         { label: 'SAB', val: (character.stats as any)?.knowledge || (character.stats as any)?.lore || 0 },
                       ].map(s => (
                         <div key={s.label} className="text-center">
-                          <div className="text-[9px] text-gold-dim/60 font-ui">{s.label}</div>
+                          <div className="text-[10px] text-gold-dim/60 font-ui">{s.label}</div>
                           <div className="text-xs font-heading text-parchment">{s.val}</div>
                         </div>
                       ))}

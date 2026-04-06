@@ -172,10 +172,10 @@ export function StatsBarSummary({
               const mod = calculateModifier(score)
               return (
                 <div key={ability} className="text-center">
-                  <span className="text-[9px] font-ui text-gold block">{ability}</span>
+                  <span className="text-[10px] font-ui text-gold block">{ability}</span>
                   <span className="text-xs font-heading text-parchment block">{score}</span>
                   <span className={cn(
-                    "text-[9px] font-mono",
+                    "text-[10px] font-mono",
                     mod >= 0 ? "text-emerald-400" : "text-red-400"
                   )}>
                     {formatModifier(mod)}
@@ -303,7 +303,7 @@ export function StoryModeStatsBar({
           <div className="grid grid-cols-4 gap-2 bg-shadow/30 rounded-lg p-2 border border-gold-dim/20">
             {stats.map((stat) => (
               <div key={stat.label} className="text-center">
-                <span className="text-[9px] font-ui text-gold block">{stat.label}</span>
+                <span className="text-[10px] font-ui text-gold block">{stat.label}</span>
                 <span className={cn("text-base font-heading", stat.color)}>{stat.value}</span>
               </div>
             ))}
