@@ -189,5 +189,50 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
   ]
 
-  return [...staticPages, ...guidePages, ...bestiaryPages]
+  // Items pages
+  const itemSlugs = [
+    'dardo','glamdring','cota-de-mithril','frasco-de-galadriel','palantir','lembas','capa-elfica','athelas',
+    'machete-reforzado','escopeta-recortada','botiquin-militar','chaleco-antibalas','molotov','walkie-talkie','trampa-de-alambre',
+    'hacha-de-guerra-runica','escudo-de-madera-sagrada','hidromiel-de-odin','amuleto-de-thor','espada-ulfberht','mapa-de-las-estrellas','capa-de-piel-de-oso',
+    'espada-del-heroe','bolsa-dimensional','pocion-de-curacion','grimorio-ancestral','anillo-de-invisibilidad','baston-del-archimago','amuleto-de-respawn','botas-de-velocidad',
+    'lightsaber','blaster-dl-44','armadura-mandaloriana','holocron','bacta-tank-portatil','thermal-detonator','jetpack',
+    'katana-monowire','mantis-blades','sandevistan','deck-de-netrunner','implante-ocular-kiroshi','nanobots-curativos','emp-grenade',
+    'necronomicon','daga-de-plata-encantada','polvo-de-ibn-ghazi','espejo-de-nitocris','piedra-brillante','signo-antiguo',
+  ]
+  const itemPages = [
+    { url: `${baseUrl}/compendio/items`, lastModified: new Date(), changeFrequency: 'weekly' as const, priority: 0.8 },
+    ...itemSlugs.map(slug => ({ url: `${baseUrl}/compendio/items/${slug}`, lastModified: new Date(), changeFrequency: 'monthly' as const, priority: 0.7 })),
+  ]
+
+  // Spell pages
+  const spellSlugs = [
+    'palabra-de-mando','luz-de-earendil','cancion-de-poder','curacion-elfica','maldicion-de-morgul','escudo-runico','invocar-aguilas',
+    'primeros-auxilios','adrenalina','camuflaje-improvisado','grito-de-alerta','reparacion-rapida','fortaleza-mental',
+    'bendicion-de-odin','furia-del-berserker','runa-de-proteccion','invocar-tormenta','curar-con-seidr','ojo-del-cuervo','marca-de-tyr',
+    'bola-de-fuego','curacion-mayor','teletransporte','barrera-magica','rayo-sagrado','invocacion-de-familiar','metamorfosis','resurreccion',
+    'empujon-de-fuerza','truco-mental-jedi','estrangulamiento','deflectar-blaster','vision-de-la-fuerza','curacion-con-la-fuerza','rayo-de-fuerza',
+    'hackeo-rapido','cortocircuito','contagio-virus','reinicio-de-sistema','ping-de-red','sobrecarga-de-implante','camara-lenta-sandevistan','escudo-cibernetico',
+    'invocar-entidad','senal-de-koth','contactar-sonador','polvo-del-sueno','destierro','barrera-mental','ritual-de-proteccion',
+  ]
+  const spellPages = [
+    { url: `${baseUrl}/compendio/hechizos`, lastModified: new Date(), changeFrequency: 'weekly' as const, priority: 0.8 },
+    ...spellSlugs.map(slug => ({ url: `${baseUrl}/compendio/hechizos/${slug}`, lastModified: new Date(), changeFrequency: 'monthly' as const, priority: 0.7 })),
+  ]
+
+  // Location pages
+  const locationSlugs = [
+    'la-comarca','bree','rivendel','moria','lothlorien','rohan','minas-tirith','mordor',
+    'campamento-base','hospital-abandonado','centro-comercial','estacion-de-policia','puente-colapsado','granja-aislada','aeropuerto',
+    'kattegat','templo-de-uppsala','mar-del-norte','lindisfarne','jotunheim','helheim','bosque-sagrado',
+    'ciudad-inicial','bosque-de-los-principiantes','torre-del-mago','dungeon-del-rey-demonio','mercado-de-gremios','montana-del-dragon','pradera-elfica','puerto-de-los-piratas',
+    'mos-eisley','coruscant','dagobah','hoth-base-echo','death-star','endor','jakku',
+    'night-city-centro','afterlife-bar','arasaka-tower','badlands','pacifica','junk-city','orbital-station',
+    'arkham','innsmouth','meseta-de-leng','rlyeh','biblioteca-de-miskatonic','dunwich',
+  ]
+  const locationPages = [
+    { url: `${baseUrl}/compendio/locaciones`, lastModified: new Date(), changeFrequency: 'weekly' as const, priority: 0.8 },
+    ...locationSlugs.map(slug => ({ url: `${baseUrl}/compendio/locaciones/${slug}`, lastModified: new Date(), changeFrequency: 'monthly' as const, priority: 0.7 })),
+  ]
+
+  return [...staticPages, ...guidePages, ...bestiaryPages, ...itemPages, ...spellPages, ...locationPages]
 }
