@@ -270,7 +270,12 @@ export default function GameSession({
   const handleTypewriterScroll = useCallback(() => {
     const now = Date.now()
     if (now - lastScrollTime.current > 150 && scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight
+      // Solo auto-scroll si el usuario está cerca del fondo (no si scrolleó hacia arriba)
+      const { scrollTop, scrollHeight, clientHeight } = scrollRef.current
+      const isNearBottom = scrollHeight - scrollTop - clientHeight < 150
+      if (isNearBottom) {
+        scrollRef.current.scrollTop = scrollRef.current.scrollHeight
+      }
       lastScrollTime.current = now
     }
   }, [])
@@ -1155,13 +1160,7 @@ export default function GameSession({
                             )}
                           </div>
                         )}
-                        {turn.imageUrl && (
-                          <img
-                            src={turn.imageUrl}
-                            alt="Scene"
-                            className="mt-3 md:mt-4 rounded-lg w-full"
-                          />
-                        )}
+                        {/* Imagen de escena movida al panel derecho — no duplicar acá */}
                       </div>
                     ))
                   )}
