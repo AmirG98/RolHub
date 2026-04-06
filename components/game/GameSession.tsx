@@ -45,7 +45,7 @@ import {
 } from '@/components/game/GameNotification'
 import { DeathSaveTracker } from '@/components/game/DeathSaveTracker'
 import { LevelUpModal } from '@/components/game/LevelUpModal'
-import { GameTutorialTour, GAME_TOUR_STEPS } from '@/components/game/GameTutorialTour'
+import { GameTutorialTour } from '@/components/game/GameTutorialTour'
 import dynamic from 'next/dynamic'
 
 // Dynamic import for 3D orb (SSR-safe)
@@ -387,9 +387,10 @@ export default function GameSession({
   // Combat is now handled narratively — no separate handlers needed
   // The DM narrates combat actions and results through the normal turn system
 
-  // Auto-scroll cuando hay nuevos turnos
+  // Auto-scroll cuando hay nuevos turnos (no en carga inicial)
+  const initialTurnCount = useRef(turns.length)
   useEffect(() => {
-    if (scrollRef.current) {
+    if (scrollRef.current && turns.length > initialTurnCount.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight
     }
   }, [turns])
@@ -776,10 +777,9 @@ export default function GameSession({
         />
       )}
 
-      {/* Tutorial tour — solo primera vez */}
+      {/* Tutorial carousel — solo primera vez */}
       {showTutorial && (
         <GameTutorialTour
-          steps={GAME_TOUR_STEPS}
           onComplete={completeTutorial}
           locale={locale}
         />
