@@ -27,6 +27,7 @@ import cyberpunkData from '@/data/lores/cyberpunk.json'
 import lovecraftData from '@/data/lores/lovecraft.json'
 import dndClassicData from '@/data/lores/dnd-classic.json'
 import romantasyData from '@/data/lores/romantasy.json'
+import cozyWitchData from '@/data/lores/cozy-witch.json'
 
 export async function POST(req: NextRequest) {
   try {
@@ -84,6 +85,7 @@ export async function POST(req: NextRequest) {
       LOVECRAFT_HORROR: lovecraftData,
       DND_CLASSIC: dndClassicData,
       ROMANTASY: romantasyData,
+      COZY_WITCH: cozyWitchData,
       CUSTOM: lotrData, // Fallback
     }
 

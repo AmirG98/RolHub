@@ -75,6 +75,10 @@ const getArchetypeIcon = (id: string): React.ReactNode => {
     cortesano: <Sparkles className="h-12 w-12" />,
     'guerrera-illyriana': <Sword className="h-12 w-12" />,
     'alta-dama': <Star className="h-12 w-12" />,
+    // Cozy Witch
+    'bruja-verde': <BookOpen className="h-12 w-12" />,
+    'bruja-hogar': <Heart className="h-12 w-12" />,
+    'bruja-mar': <Eye className="h-12 w-12" />,
   }
   return iconMap[id] || <Sword className="h-12 w-12" />
 }

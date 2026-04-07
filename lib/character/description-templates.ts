@@ -235,6 +235,38 @@ const TEMPLATES: Record<string, DescriptionTemplate> = {
     ],
   },
 
+  COZY_WITCH: {
+    builds: [
+      'De estatura mediana y manos curtidas por la jardinería',
+      'Menud@ pero de presencia tranquila',
+      'Robust@ de carne suave, brazos fuertes de amasar pan',
+      'Alt@ y delgad@, con la postura de quien escucha mucho',
+      'De porte sereno, como si nunca tuviera prisa',
+    ],
+    features: [
+      'ojos amables con líneas de risa en los bordes',
+      'cabello recogido con un pañuelo bordado',
+      'manchas de tierra en las uñas que nunca terminan de irse',
+      'una cicatriz pequeña en el pulgar de cuando aprendiste a usar el cuchillo curvo',
+      'las pecas de quien pasó muchas tardes en el jardín',
+      'una sonrisa que llega antes que las palabras',
+    ],
+    attitudes: [
+      'Camina despacio y mira las plantas al pasar',
+      'Habla en voz baja pero la gente la escucha',
+      'Siempre tiene té recién hecho para ofrecer',
+      'Se acuerda de los nombres de todos los gatos del pueblo',
+      'Tiene la calma de quien sabe que las cosas llegan a su tiempo',
+    ],
+    accessories: [
+      'Un delantal con bolsillos llenos de hierbas y un trozo de hilo',
+      'Un saquito de tela con semillas para regalar',
+      'Una taza de cerámica reparada con oro (kintsugi)',
+      'Un pañuelo de cabeza bordado por una abuela',
+      'Una llave vieja que abre cualquier puerta del pueblo',
+    ],
+  },
+
   ROMANTASY: {
     builds: [
       'De porte elegante y movimientos felinos',

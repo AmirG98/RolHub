@@ -1219,7 +1219,7 @@ REGLA: Una feature no está terminada hasta que tiene:
 
 Ultima actualizacion: 2026-04-07
 Fase actual:         2 — Onboarding + DM Basico (MVP COMPLETO) + expansion de lores
-Ultima sesion:       Agregado lore ROMANTASY (Romance Fantasía) — 9 lores totales
+Ultima sesion:       Agregado lore COZY_WITCH (Aquelarre del Eclipse) — 10 lores totales
 
 URL DE PRODUCCION: https://rol-hub.vercel.app (verificar en Vercel Dashboard)
 
@@ -1231,10 +1231,11 @@ COMPLETADO - FASE 1 (Cimientos):
   ✅ Navbar con links a todas las secciones
 
 COMPLETADO - FASE 2 (MVP Funcional):
-  ✅ 9 lores completos con JSON estructurado:
+  ✅ 10 lores completos con JSON estructurado:
      - Tierra Media (LOTR), Apocalipsis Zombie, Mundo Isekai, Saga Vikinga
      - Star Wars, Cyberpunk, Horrores Cosmicos (Lovecraft), Reinos Olvidados (DND_CLASSIC)
      - Romance Fantasía (ROMANTASY) — público femenino, estilo ACOTAR/Fourth Wing
+     - Aquelarre del Eclipse (COZY_WITCH) — slice-of-life mágico, sin combate como eje, estilo Ghibli/Practical Magic
   ✅ Flujo de onboarding completo (3 pantallas):
      - Pantalla 1: Selector de lore con 7 mundos
      - Pantalla 2: Modo (ONE_SHOT/CAMPAIGN) + Engine + Tutorial Level

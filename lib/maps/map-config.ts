@@ -341,6 +341,38 @@ export const LORE_MAP_CONFIGS: Record<string, LoreMapConfig> = {
     markerSize: 32,
   },
 
+  // Aquelarre del Eclipse — pergamino verde-musgo, dorado cálido, marino claro
+  COZY_WITCH: {
+    backgroundColor: '#EFE8D0',
+    primaryColor: '#7A9B6E',
+    secondaryColor: '#3E5C3A',
+    accentColor: '#D4A84C',
+    dangerColor: '#A66B4D',
+    safeColor: '#5A8A6B',
+    textColor: '#2A3624',
+    fogColor: '#D8E0C8',
+    fogOpacity: 0.5,
+    glowColor: '#F5E0A8',
+    pathColor: '#8B7340',
+    pathStyle: 'dashed',
+    fontFamily: 'EB Garamond, serif',
+    titleFontFamily: 'Cinzel Decorative, serif',
+    backgroundPattern: 'parchment',
+    hasAmbientAnimation: true,
+    ambientAnimationType: 'flicker',
+    icons: {
+      city: '🏡',
+      dungeon: '🌿',
+      wilderness: '🌳',
+      landmark: '🗼',
+      danger: '🌊',
+      safe: '☕',
+      mystery: '🌙',
+    },
+    markerStyle: 'medieval',
+    markerSize: 30,
+  },
+
   // Romantasy — pergamino rosado, jardines feéricos y crepúsculo dorado
   ROMANTASY: {
     backgroundColor: '#F5E6D8',

@@ -215,6 +215,10 @@ export function getStartingLocationIds(lore: Lore): { starting: string; discover
       starting: 'corte-primavera',
       discovered: ['corte-primavera', 'velaris', 'bosque-espinas', 'aldea-mortal-prythian'],
     },
+    COZY_WITCH: {
+      starting: 'casa-bruja',
+      discovered: ['casa-bruja', 'plaza-mercado', 'panaderia-alba', 'bosque-susurrante'],
+    },
     CUSTOM: {
       starting: 'start',
       discovered: ['start'],

@@ -1,0 +1,637 @@
+{
+  "id": "COZY_WITCH",
+  "name": "Aquelarre del Eclipse",
+  "tagline": "Magia cotidiana en un pueblo costero donde el eclipse marca el ritmo del año",
+  "tone": [
+    "cozy",
+    "slice-of-life",
+    "cálido",
+    "comunitario"
+  ],
+  "world_summary": "Cala Quieta es un pueblito costero de casas blancas y tejas rojas, escondido entre acantilados verdes y el mar. Vive de la pesca, del pan caliente al amanecer, de los mercados de los sábados y de los rituales pequeños que casi nadie nombra en voz alta. Pero las brujas saben. Tres mujeres mayores forman el Aquelarre del Eclipse, y cada año, cuando la luna se come al sol durante unos minutos, la magia del pueblo se amplifica y todo lo que estuvo guardado durante meses tiene que decirse. Acá no hay villanos. Hay vecinos con secretos, almas que llegan rotas, gatos que entienden más de lo que muestran, panes que se hornean con intención, hierbas que escuchan. Tu personaje es una bruja del pueblo —no la heroína del mundo, sino la mujer a la que la gente le pide infusiones cuando no puede dormir. Tu trabajo no es salvar nada grande. Tu trabajo es prestar atención, ofrecer una taza de té cuando hace falta, recordar los nombres de las flores, y cuando llegue el eclipse, sostener tu parte del círculo.",
+  "factions": [
+    {
+      "name": "El Aquelarre del Eclipse",
+      "description": "Tres brujas mayores - guardianas de los rituales del año",
+      "alignment": "Bueno",
+      "influence": 2
+    },
+    {
+      "name": "La Gente del Pueblo",
+      "description": "Pescadores, panaderos, niños - saben de la magia pero no hablan de ella",
+      "alignment": "Bueno",
+      "influence": 3
+    },
+    {
+      "name": "Los Visitantes",
+      "description": "Almas que llegan al pueblo cuando lo necesitan, sin saberlo",
+      "alignment": "Neutral",
+      "influence": 1
+    },
+    {
+      "name": "Las Cosas del Bosque",
+      "description": "Espíritus pequeños, gatos antiguos, hierbas que escuchan - aliados silenciosos",
+      "alignment": "Neutral",
+      "influence": 1
+    }
+  ],
+  "locations": [
+    {
+      "name": "La Casa de la Bruja",
+      "description": "Cottage con jardín de hierbas, gato y chimenea siempre encendida",
+      "type": "asentamiento",
+      "danger_level": 1,
+      "travel_times": {
+        "Plaza del Mercado": "10 minutos a pie por el sendero",
+        "El Bosque Susurrante": "15 minutos caminando entre los helechos",
+        "Cala Quieta": "20 minutos bajando por el acantilado"
+      },
+      "sub_locations": [
+        {
+          "id": "jardin-hierbas",
+          "name": "Jardín de Hierbas",
+          "type": "garden",
+          "description": "Rectángulo de tierra negra con romero, lavanda, manzanilla, salvia, hinojo, y un manzano viejo en el fondo"
+        },
+        {
+          "id": "cocina-bruja",
+          "name": "Cocina de la Bruja",
+          "type": "hall",
+          "description": "Mesa de madera con hierbas colgando del techo, chimenea de piedra, dos sillas, una tetera siempre tibia"
+        },
+        {
+          "id": "estanteria-frascos",
+          "name": "La Estantería de los Frascos",
+          "type": "library",
+          "description": "Pared entera de frascos de vidrio etiquetados a mano: tinturas, polvos, sales, miel del solsticio, lágrimas guardadas"
+        },
+        {
+          "id": "rincon-gato",
+          "name": "El Rincón del Gato",
+          "type": "residence",
+          "description": "Almohadón gastado junto al fuego donde duerme Saúco, un gato negro de ojos amarillos que sabe más de lo que parece"
+        }
+      ]
+    },
+    {
+      "name": "Plaza del Mercado",
+      "description": "Corazón social del pueblo - los sábados huele a pan y a sal",
+      "type": "asentamiento",
+      "danger_level": 1,
+      "travel_times": {
+        "La Casa de la Bruja": "10 minutos a pie",
+        "La Panadería del Alba": "5 minutos caminando",
+        "Cala Quieta": "15 minutos bajando"
+      },
+      "sub_locations": [
+        {
+          "id": "puesto-quesos",
+          "name": "Puesto de Quesos de Doña Imelda",
+          "type": "market",
+          "description": "Tabla larga con quesos envueltos en hojas de higuera y un cartel escrito a mano que dice 'Pruebe sin compromiso'"
+        },
+        {
+          "id": "fuente-plaza",
+          "name": "La Fuente de los Tres Caños",
+          "type": "plaza",
+          "description": "Fuente de piedra con tres caños desiguales donde los chicos llenan jarras y las viejas se sientan a mirar"
+        },
+        {
+          "id": "rincon-musica",
+          "name": "El Rincón de la Música",
+          "type": "plaza",
+          "description": "Esquina sombreada donde un hombre delgado toca acordeón los sábados a cambio de monedas o de pan"
+        }
+      ]
+    },
+    {
+      "name": "La Panadería del Alba",
+      "description": "Abre a las 4am - donde se intercambian secretos antes del sol",
+      "type": "asentamiento",
+      "danger_level": 1,
+      "travel_times": {
+        "Plaza del Mercado": "5 minutos caminando",
+        "La Casa de la Bruja": "12 minutos a pie",
+        "Cala Quieta": "10 minutos hacia el mar"
+      },
+      "sub_locations": [
+        {
+          "id": "horno-piedra",
+          "name": "El Horno de Piedra",
+          "type": "workshop",
+          "description": "Bóveda de ladrillo refractario que arde toda la noche - el calor te golpea cuando entrás antes del amanecer"
+        },
+        {
+          "id": "mostrador-pan",
+          "name": "Mostrador del Pan Caliente",
+          "type": "market",
+          "description": "Tabla de roble con canastas de mimbre y una balanza vieja - el aire huele a levadura y a romero"
+        }
+      ]
+    },
+    {
+      "name": "El Bosque Susurrante",
+      "description": "Pequeño bosque con hierbas raras - amistoso si lo escuchás",
+      "type": "bosque",
+      "danger_level": 1,
+      "travel_times": {
+        "La Casa de la Bruja": "15 minutos caminando entre helechos",
+        "El Círculo de Piedras del Eclipse": "30 minutos subiendo el sendero",
+        "Plaza del Mercado": "25 minutos por el sendero del molino"
+      }
+    },
+    {
+      "name": "El Faro Viejo",
+      "description": "Extremo del acantilado - refugio de meditación, ya no enciende",
+      "type": "asentamiento",
+      "danger_level": 1,
+      "travel_times": {
+        "Cala Quieta": "20 minutos subiendo el sendero del acantilado",
+        "El Círculo de Piedras del Eclipse": "10 minutos por el borde del acantilado",
+        "La Casa de la Bruja": "35 minutos por el camino largo"
+      }
+    },
+    {
+      "name": "Cala Quieta",
+      "description": "Playa de cantos rodados - donde el mar trae lo que el pueblo necesita",
+      "type": "asentamiento",
+      "danger_level": 1,
+      "travel_times": {
+        "La Casa de la Bruja": "20 minutos subiendo por el acantilado",
+        "El Faro Viejo": "20 minutos por el sendero del acantilado",
+        "Plaza del Mercado": "15 minutos subiendo"
+      }
+    },
+    {
+      "name": "El Círculo de Piedras del Eclipse",
+      "description": "Claro en lo alto del acantilado - el ritual anual del aquelarre",
+      "type": "ruinas",
+      "danger_level": 2,
+      "travel_times": {
+        "El Faro Viejo": "10 minutos por el borde del acantilado",
+        "El Bosque Susurrante": "30 minutos bajando el sendero",
+        "La Casa de la Bruja": "45 minutos por el camino del bosque"
+      }
+    }
+  ],
+  "archetypes": [
+    {
+      "id": "bruja-verde",
+      "name": "Bruja Verde (Herbalista)",
+      "description": "Conoce cada planta del bosque por su nombre verdadero",
+      "simple_description": "Tu magia vive en las hojas, las raíces y la tierra. Curás con infusiones, leés la salud de un bosque con una mirada, y las plantas te hablan si te quedás quieta.",
+      "starting_stats": {
+        "hp": 16,
+        "maxHp": 16,
+        "combat": 1,
+        "exploration": 4,
+        "social": 3,
+        "lore": 6
+      },
+      "starting_inventory": [
+        "Mortero y pilón de piedra",
+        "Cuchillo curvo para cosechar hierbas",
+        "Mochila de lino con bolsillos",
+        "Frascos vacíos (12) para tinturas",
+        "Cuaderno de hierbas con dibujos a tinta",
+        "Manta tejida a mano",
+        "Pan envuelto en paño limpio",
+        "Cantimplora de barro con agua del manantial",
+        "Lámpara pequeña con aceite de oliva",
+        "Saquito de semillas que regalás al despedirte",
+        "Pañuelo bordado por tu abuela",
+        "Una flor seca prensada entre las páginas del cuaderno"
+      ],
+      "special_ability": "Voz Verde: Las plantas te dicen qué necesitan y qué pueden ofrecer. Podés preparar curas para cualquier dolencia común con lo que encuentres a tu alrededor. El bosque te abre caminos cuando los necesitás."
+    },
+    {
+      "id": "bruja-hogar",
+      "name": "Bruja del Hogar (Cocinera de Conjuros)",
+      "description": "La magia que se cuela en el pan, el caldo y las puertas abiertas",
+      "simple_description": "Tu cocina es tu altar. Cada plato lleva una intención escondida: calma para el que no duerme, valor para el que se despide, perdón para el que no sabe pedirlo. Hospedás. Alimentás. Reparás.",
+      "starting_stats": {
+        "hp": 18,
+        "maxHp": 18,
+        "combat": 1,
+        "exploration": 2,
+        "social": 6,
+        "lore": 5
+      },
+      "starting_inventory": [
+        "Olla de hierro fundido heredada",
+        "Cuchara de madera de roble (consagrada con uso)",
+        "Cuaderno de recetas con manchas y notas al margen",
+        "Delantal con bolsillos profundos",
+        "Frasco de sal de mar bendecida",
+        "Tarro de miel del solsticio pasado",
+        "Saquito con especias raras (anís, cardamomo, pimienta rosa)",
+        "Pañuelo de cabeza bordado",
+        "Pan recién horneado envuelto en paño",
+        "Vela de cera de abeja para la mesa",
+        "Llave vieja que abre cualquier puerta de Cala Quieta",
+        "Una taza de cerámica con grietas reparadas con oro (kintsugi)"
+      ],
+      "special_ability": "Cocina con Intención: Cualquier comida que prepares con propósito puede aliviar emociones difíciles, abrir conversaciones bloqueadas, o hacer que un huésped se sienta en casa. Tu mesa nunca está sola por mucho tiempo."
+    },
+    {
+      "id": "bruja-mar",
+      "name": "Bruja del Mar (Adivinadora de Mareas)",
+      "description": "Lee el oleaje como otros leen libros",
+      "simple_description": "El mar te eligió. Sabés cuándo va a cambiar el viento, qué trae la marea esta noche, qué carta sacar para alguien que no sabe pedir. Tu lugar es el faro, tu maestro es el agua.",
+      "starting_stats": {
+        "hp": 15,
+        "maxHp": 15,
+        "combat": 1,
+        "exploration": 5,
+        "social": 4,
+        "lore": 5
+      },
+      "starting_inventory": [
+        "Mazo de cartas pintadas a mano (oráculo de mareas)",
+        "Cuaderno de bitácora con observaciones del mar",
+        "Catalejo de bronce gastado",
+        "Saquito con caracolas y cantos rodados",
+        "Frasco de agua de cada luna llena del año",
+        "Capa de lana con capucha (para el viento del faro)",
+        "Botas de cuero engrasado",
+        "Cantimplora con té de algas",
+        "Pan envuelto en paño",
+        "Linterna pequeña de aceite",
+        "Brújula heredada de tu abuela marinera",
+        "Una piedra pulida por el mar que llevás siempre encima"
+      ],
+      "special_ability": "Lectura de Mareas: Una vez por escena podés sacar una carta del oráculo y vislumbrar lo que se acerca - una llegada, una despedida, una decisión que hay que tomar. Tu intuición sobre el clima y el mar es casi infalible."
+    }
+  ],
+  "voice_id": "narrador_calido",
+  "npc_voices": {
+    "bruja_mayor": "abuela_sabia",
+    "vecino": "amable_cotidiano",
+    "visitante": "perdido_curioso",
+    "nino": "alegre_inocente"
+  },
+  "music_mood": "rest_peaceful",
+  "art_style": "studio ghibli inspired watercolor illustration, cozy seaside village, soft natural lighting, lush herbs and flowers, warm golden hour, peaceful slice-of-life atmosphere, hand-drawn details, Practical Magic vibes",
+  "roll_tables": {
+    "encounters": {
+      "formula": "1d20",
+      "results": [
+        {
+          "range": [1, 4],
+          "result": "Una vecina llega a tu puerta con una cesta de huevos y una pregunta que no sabe cómo formular"
+        },
+        {
+          "range": [5, 8],
+          "result": "Un niño del pueblo te trae una hierba que no reconocés - puede ser importante"
+        },
+        {
+          "range": [9, 12],
+          "result": "Un visitante perdido pregunta por el faro, claramente buscando algo que no es un faro"
+        },
+        {
+          "range": [13, 15],
+          "result": "Saúco el gato deja un objeto pequeño en tu escalón - un dije, una llave, una pluma"
+        },
+        {
+          "range": [16, 17],
+          "result": "Una de las brujas mayores del aquelarre te invita a té con un tono que indica que algo cambió"
+        },
+        {
+          "range": [18, 19],
+          "result": "El mar deja algo en la playa que solo vos vas a notar - una carta sellada, un zapato, una caracola roja"
+        },
+        {
+          "range": [20, 20],
+          "result": "Sentís en el cuerpo que el eclipse se está acercando - todavía faltan días, pero ya empieza"
+        }
+      ]
+    },
+    "loot": {
+      "formula": "1d10",
+      "results": [
+        {
+          "range": [1, 3],
+          "result": "Hierbas frescas del bosque para tinturas - 2d6 manojos"
+        },
+        {
+          "range": [4, 5],
+          "result": "Frasco de algo guardado por una vecina con cariño (mermelada, tintura, miel)"
+        },
+        {
+          "range": [6, 7],
+          "result": "Carta o nota dejada por alguien que no sabe pedir ayuda directamente"
+        },
+        {
+          "range": [8, 9],
+          "result": "Objeto que el mar trajo a la playa - significa algo para alguien del pueblo"
+        },
+        {
+          "range": [10, 10],
+          "result": "Receta o ritual antiguo escrito a mano por una bruja anterior"
+        }
+      ]
+    }
+  },
+  "active_effects_pool": [
+    {
+      "id": "calma_te",
+      "name": "Calma del Té Compartido",
+      "description": "Tu próxima conversación va a ser honesta",
+      "type": "buff",
+      "duration": 2,
+      "effects": {
+        "social": 3,
+        "lore": 1
+      }
+    },
+    {
+      "id": "intuicion_marea",
+      "name": "Intuición de la Marea",
+      "description": "Sabés algo importante antes que el resto - úsalo bien",
+      "type": "buff",
+      "duration": 3,
+      "effects": {
+        "lore": 2,
+        "exploration": 2
+      }
+    },
+    {
+      "id": "cansancio_dulce",
+      "name": "Cansancio Dulce",
+      "description": "Diste demasiado de vos hoy - necesitás descansar",
+      "type": "debuff",
+      "duration": 2,
+      "effects": {
+        "exploration": -2,
+        "social": -1
+      }
+    },
+    {
+      "id": "bendicion_aquelarre",
+      "name": "Bendición del Aquelarre",
+      "description": "Las tres brujas mayores te tienen en sus pensamientos",
+      "type": "buff",
+      "duration": 5,
+      "effects": {
+        "lore": 2,
+        "social": 1
+      }
+    }
+  ],
+  "narrative_skeleton": {
+    "act_1": {
+      "name": "La Llegada",
+      "description": "Algo o alguien nuevo aparece en Cala Quieta",
+      "anchors": [
+        "Un visitante llega al pueblo con una pregunta sin formular",
+        "Notás un cambio sutil en el ritmo de las cosas",
+        "Una de las brujas mayores menciona que el eclipse será especial este año"
+      ],
+      "typical_scenes": [
+        "La Casa de la Bruja",
+        "Plaza del Mercado",
+        "La Panadería del Alba"
+      ],
+      "mood": "rest_peaceful"
+    },
+    "act_2": {
+      "name": "Los Rituales del Año",
+      "description": "El ritmo de las estaciones revela tensiones cotidianas",
+      "anchors": [
+        "Un vecino te pide ayuda con algo que parece pequeño y no lo es",
+        "Descubrís que el visitante carga algo más pesado de lo que muestra",
+        "El bosque te ofrece una hierba que no había crecido nunca"
+      ],
+      "typical_scenes": [
+        "El Bosque Susurrante",
+        "La Cocina de la Bruja",
+        "El Faro Viejo"
+      ],
+      "mood": "exploration_calm"
+    },
+    "act_3": {
+      "name": "El Eclipse se Acerca",
+      "description": "La magia se intensifica, los secretos del pueblo afloran",
+      "anchors": [
+        "Las tres brujas mayores te llaman al aquelarre",
+        "Un secreto largo se cuenta en voz baja en una mesa de cocina",
+        "Tenés que elegir entre dos cosas que no podés tener al mismo tiempo"
+      ],
+      "typical_scenes": [
+        "La Casa de la Bruja",
+        "El Círculo de Piedras del Eclipse",
+        "La Panadería del Alba"
+      ],
+      "mood": "drama_tense"
+    },
+    "act_4": {
+      "name": "La Noche del Eclipse",
+      "description": "El ritual anual donde todo lo emocional se resuelve",
+      "anchors": [
+        "El círculo del aquelarre se forma en lo alto del acantilado",
+        "Algo que estuvo guardado durante meses tiene que decirse esta noche",
+        "Tu personaje sostiene su parte del ritual - de la forma que pueda"
+      ],
+      "typical_scenes": [
+        "El Círculo de Piedras del Eclipse",
+        "El Faro Viejo"
+      ],
+      "mood": "dramatic_emotional"
+    },
+    "act_5": {
+      "name": "El Pueblo Después",
+      "description": "Lo que cambia y lo que permanece",
+      "anchors": [
+        "Las cosas vuelven a su ritmo, pero algo es distinto",
+        "Te das cuenta de qué fue lo que aprendiste",
+        "Cala Quieta sigue ahí - vos también"
+      ],
+      "typical_scenes": [
+        "La Casa de la Bruja",
+        "Plaza del Mercado",
+        "Cala Quieta"
+      ],
+      "mood": "rest_peaceful"
+    }
+  },
+  "one_shot_hook": "Es martes a la tarde y estás secando salvia en la cocina cuando alguien golpea la puerta. Es Doña Imelda, la del puesto de quesos, con los ojos rojos y una excusa para entrar que las dos sabemos que es mentira. Pone la cesta sobre la mesa, se sienta sin pedir permiso, y mira el fuego durante un minuto largo antes de hablar. 'Brujita,' te dice, 'mi hijo no escribe desde el invierno. Y anoche soñé con él y estaba parado en el faro viejo. Vos sabés lo que eso significa.' El faro hace años que no enciende. Y sin embargo. Faltan once días para el eclipse. ¿Qué hacés?",
+  "opening_scene": {
+    "location_id": "casa-bruja",
+    "location_name": "La Casa de la Bruja, Cala Quieta",
+    "description": "Te despierta el sol entrando por la ventana de la cocina y el ruido suave de Saúco saltando del almohadón al suelo. La chimenea todavía tiene brasas de anoche. Hay olor a romero seco y a algo más viejo - cera de abeja, madera mojada, té que se enfrió hace horas. El jardín del fondo respira despacio bajo la luz dorada del amanecer: las matas de lavanda tiemblan apenas, las hojas del manzano tienen rocío, una mariposa amarilla flota sobre las matas de hinojo sin aterrizar. Te sentás en la mesa de roble. La tetera de hierro está donde siempre. Y sin embargo, hoy hay algo distinto en el aire - una presión suave en el pecho, como cuando se acerca la lluvia pero no es la lluvia. Faltan once días para el eclipse, y tu cuerpo ya lo sabe.",
+    "visible_directions": [
+      {
+        "direction": "puerta del jardín",
+        "landmark": "el sendero entre los helechos que lleva al Bosque Susurrante, donde las hierbas más raras esperan ser cosechadas"
+      },
+      {
+        "direction": "puerta de la cocina",
+        "landmark": "el camino al pueblo - en quince minutos podés estar en Plaza del Mercado o en La Panadería del Alba"
+      },
+      {
+        "direction": "ventana del este",
+        "landmark": "vista del acantilado y del faro viejo recortado contra el mar - hace años que no enciende"
+      },
+      {
+        "direction": "rincón del fuego",
+        "landmark": "Saúco el gato te observa desde el almohadón con una atención que no tenía ayer"
+      }
+    ],
+    "ambient_rumors": [
+      "dicen que este eclipse va a ser más largo que los anteriores - hasta tres minutos enteros",
+      "una de las brujas mayores soñó con el faro viejo encendido y nadie sabe qué significa",
+      "llegó al pueblo un visitante el sábado pasado y todavía no encontró dónde quedarse",
+      "el mar trajo algo a la playa hace dos noches y los pescadores no quieren tocarlo"
+    ],
+    "closing_prompt": "La tetera espera. El día empieza despacio. ¿Qué hacés?"
+  },
+  "opening_scenes": [
+    {
+      "id": "default",
+      "location_id": "casa-bruja",
+      "location_name": "La Casa de la Bruja, Cala Quieta",
+      "description": "Te despierta el sol entrando por la ventana de la cocina y el ruido suave de Saúco saltando del almohadón al suelo. La chimenea todavía tiene brasas de anoche. Hay olor a romero seco y a algo más viejo - cera de abeja, madera mojada, té que se enfrió hace horas. El jardín del fondo respira despacio bajo la luz dorada del amanecer: las matas de lavanda tiemblan apenas, las hojas del manzano tienen rocío, una mariposa amarilla flota sobre las matas de hinojo sin aterrizar. Te sentás en la mesa de roble. La tetera de hierro está donde siempre. Y sin embargo, hoy hay algo distinto en el aire - una presión suave en el pecho, como cuando se acerca la lluvia pero no es la lluvia. Faltan once días para el eclipse, y tu cuerpo ya lo sabe.",
+      "visible_directions": [
+        {
+          "direction": "puerta del jardín",
+          "landmark": "el sendero entre los helechos que lleva al Bosque Susurrante"
+        },
+        {
+          "direction": "puerta de la cocina",
+          "landmark": "el camino al pueblo - Plaza del Mercado o La Panadería del Alba"
+        },
+        {
+          "direction": "ventana del este",
+          "landmark": "vista del acantilado y del faro viejo recortado contra el mar"
+        },
+        {
+          "direction": "rincón del fuego",
+          "landmark": "Saúco el gato te observa con una atención que no tenía ayer"
+        }
+      ],
+      "ambient_rumors": [
+        "dicen que este eclipse va a ser más largo que los anteriores",
+        "una de las brujas mayores soñó con el faro viejo encendido",
+        "llegó un visitante al pueblo el sábado y todavía no encontró dónde quedarse",
+        "el mar trajo algo a la playa hace dos noches y los pescadores no quieren tocarlo"
+      ],
+      "closing_prompt": "La tetera espera. El día empieza despacio. ¿Qué hacés?"
+    },
+    {
+      "id": "market_saturday",
+      "location_id": "plaza-mercado",
+      "location_name": "Plaza del Mercado, sábado a la mañana",
+      "description": "Es sábado y la Plaza del Mercado huele a pan recién horneado, a queso envuelto en hojas de higuera, a café fuerte y a sal del mar que sube por las calles empedradas. Doña Imelda te saluda con un pedazo de queso fresco que insiste en que pruebes. El acordeonista del rincón toca algo lento que suena a despedida sin tristeza. Las viejas en la fuente te hacen señas para que te sientes con ellas. Hay un movimiento normal de día de mercado, pero también hay un visitante que no encaja: un hombre delgado con una valija pequeña que pregunta a todo el mundo por el faro viejo y nadie le sabe explicar bien por qué ya no enciende. Vos lo notás antes de que él te note a vos.",
+      "visible_directions": [
+        {
+          "direction": "fuente de los tres caños",
+          "landmark": "las viejas del pueblo te invitan a sentarte y compartir chismes que probablemente no son chismes"
+        },
+        {
+          "direction": "puesto de quesos",
+          "landmark": "Doña Imelda parece tener algo más que queso para ofrecerte hoy"
+        },
+        {
+          "direction": "el visitante con la valija",
+          "landmark": "un hombre que pregunta por el faro - su voz tiene la urgencia de quien no sabe que está urgido"
+        },
+        {
+          "direction": "calle hacia la panadería",
+          "landmark": "la Panadería del Alba sigue abierta - el olor a pan caliente te llama"
+        }
+      ],
+      "ambient_rumors": [
+        "dicen que este eclipse va a ser más largo que los anteriores",
+        "una de las brujas mayores soñó con el faro viejo encendido",
+        "llegó un visitante al pueblo el sábado y todavía no encontró dónde quedarse",
+        "el mar trajo algo a la playa hace dos noches y los pescadores no quieren tocarlo"
+      ],
+      "closing_prompt": "El mercado bulle suavemente y todo el mundo parece esperar algo sin saberlo. ¿Qué hacés?"
+    },
+    {
+      "id": "lighthouse_dream",
+      "location_id": "faro-viejo",
+      "location_name": "El Faro Viejo, antes del amanecer",
+      "description": "Soñaste con el faro tres noches seguidas y al final te levantaste de madrugada y caminaste hasta acá sin pensarlo. El acantilado está envuelto en niebla baja y el mar respira pesado abajo, golpeando las rocas con paciencia de siglos. La puerta del faro está cerrada con candado oxidado pero la llave que tenés en el bolsillo - la que te dejó tu abuela cuando murió - encaja perfecta. Adentro huele a sal vieja y a polvo. Hay una escalera de caracol que sube al cuarto de la lámpara. Y arriba, donde tendría que estar la luz apagada, ves un resplandor débil, intermitente, como una vela que insiste en arder. No tendría que estar pasando esto. El faro lleva años sin encenderse.",
+      "visible_directions": [
+        {
+          "direction": "escalera de caracol",
+          "landmark": "los escalones llevan al cuarto de la lámpara, donde algo está encendido que no debería estarlo"
+        },
+        {
+          "direction": "puerta hacia el acantilado",
+          "landmark": "salir y volver al pueblo a buscar al aquelarre - alguien tiene que saber qué significa esto"
+        },
+        {
+          "direction": "ventana baja",
+          "landmark": "la cala donde rompe la marea, y algo flotando en el agua que el sol todavía no ilumina"
+        },
+        {
+          "direction": "rincón polvoriento",
+          "landmark": "una mesa con bitácoras viejas del último farero - puede haber respuestas ahí"
+        }
+      ],
+      "ambient_rumors": [
+        "dicen que este eclipse va a ser más largo que los anteriores",
+        "una de las brujas mayores soñó con el faro viejo encendido",
+        "llegó un visitante al pueblo el sábado y todavía no encontró dónde quedarse",
+        "el mar trajo algo a la playa hace dos noches y los pescadores no quieren tocarlo"
+      ],
+      "closing_prompt": "Estás sola en el faro y arriba hay una luz que no debería existir. Faltan once días para el eclipse. ¿Qué hacés?"
+    }
+  ],
+  "initial_missions": [
+    {
+      "id": "doña_imelda",
+      "title": "El Sueño de Doña Imelda",
+      "description": "Doña Imelda, la del puesto de quesos, soñó con su hijo que vive lejos parado en el faro viejo. Hace meses que el chico no escribe. Ella te pide que averigües qué significa el sueño - sin alarmar a nadie, sin pedir nada a cambio.",
+      "difficulty": "easy",
+      "tags": [
+        "social",
+        "mystery",
+        "family"
+      ]
+    },
+    {
+      "id": "visitante_perdido",
+      "title": "El Visitante con la Valija",
+      "description": "Un hombre llegó al pueblo el sábado pasado preguntando por el faro y todavía no encontró dónde quedarse. Hay algo en él que no encaja - no es peligroso, es triste. Te toca decidir si lo invitás a tu mesa, si le buscás alojamiento, o si simplemente lo escuchás cuando esté listo para hablar.",
+      "difficulty": "medium",
+      "tags": [
+        "social",
+        "hospitality",
+        "emotional"
+      ]
+    },
+    {
+      "id": "circulo_eclipse",
+      "title": "Tu Lugar en el Círculo",
+      "description": "Las tres brujas mayores del aquelarre te llamaron a tomar el té. Te dicen que este año vas a tener tu lugar en el ritual del eclipse. No es una pregunta. Te quedan once días para entender qué significa eso, qué se espera de vos, y si estás lista para sostener tu parte.",
+      "difficulty": "hard",
+      "tags": [
+        "ritual",
+        "growth",
+        "community"
+      ]
+    }
+  ],
+  "engine_notes": {
+    "story_mode": "ESTE LORE NO TIENE COMBATE COMO EJE. Las escenas se resuelven con conversaciones, gestos pequeños, decisiones emocionales. El conflicto es interno o comunitario, nunca violento. Si el jugador pide pelear, ofrecer alternativas no-violentas como primera opción. Las consecuencias del fallo son emocionales (alguien se siente incomprendido, una oportunidad se posterga), no mecánicas. Tono: cálido, contemplativo, con humor suave. Ritmo lento, pausas valoradas.",
+    "pbta": "Movimientos sugeridos: 'Ofrecer una taza de té', 'Escuchar sin interrumpir', 'Leer las cartas', 'Cocinar con intención', 'Cosechar hierbas', 'Sostener el círculo'. Fallos parciales = la conversación queda incompleta, la receta sale rara, alguien se va antes de tiempo. Nunca daño físico.",
+    "year_zero": "Recursos a trackear: hierbas, frascos, paciencia, energía emocional, favores del pueblo. Empujar dados = dar más de lo que tenés, perder una noche de sueño, prometer algo que no podés cumplir.",
+    "dnd_5e": "Adaptación importante: las clases de combate no encajan acá. Recomendar Druida (Bruja Verde), Bardo (Bruja del Hogar), Hechicero Wild Magic (Bruja del Mar). Encuentros sociales y de exploración valen más XP que combates. Combat encounters son raros y narrativos."
+  },
+  "tutorial_notes": "Para NOVICE: Es CRÍTICO explicar al inicio que este lore es slice-of-life, sin combate épico. El primer turno del DM debe establecer ritmo lento, sensorial, descriptivo. Las primeras opciones de acción deben incluir cosas como 'preparar té', 'salir al jardín', 'visitar a una vecina', 'sentarte a observar'. Si el jugador dice 'busco enemigos', el DM responde con humor cálido y reorienta hacia conflicto emocional o comunitario. El primer 'logro' del jugador puede ser tan simple como hacer reír a una vecina triste.",
+  "glossary": {
+    "Aquelarre": "Reunión de brujas - en este lore, son tres mujeres mayores que guardan los rituales del año",
+    "Cala Quieta": "Pueblito costero donde transcurre todo - también es el nombre de la playa",
+    "Eclipse": "Evento celestial anual que amplifica la magia del pueblo durante unos minutos",
+    "Saúco": "Gato negro de la Bruja - sabe más de lo que muestra",
+    "Bruja Verde": "Herbalista, conoce las plantas por su nombre verdadero",
+    "Bruja del Hogar": "Cocinera de conjuros, magia doméstica e intencional",
+    "Bruja del Mar": "Adivinadora, lee mareas y cartas",
+    "Faro Viejo": "Faro que ya no enciende - hasta que algo cambie",
+    "Círculo de Piedras": "Claro en el acantilado donde el aquelarre hace el ritual del eclipse",
+    "Doña Imelda": "Vecina del puesto de quesos - probablemente la primera persona que te pida ayuda"
+  }
+}

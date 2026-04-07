@@ -111,6 +111,18 @@ export const LORE_VOICES: LoreVoicesMap = {
       emotion: 'sensual'
     }
   },
+  COZY_WITCH: {
+    es: {
+      voice: 'narrator_storyteller',
+      speed: 0.92,
+      emotion: 'warm'
+    },
+    en: {
+      voice: 'narrator_storyteller',
+      speed: 0.92,
+      emotion: 'warm'
+    }
+  },
   CUSTOM: {
     es: {
       voice: 'narrator_grave',

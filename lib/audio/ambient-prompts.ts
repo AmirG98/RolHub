@@ -27,6 +27,17 @@ export const AMBIENT_PROMPTS: Record<string, Record<string, string>> = {
     ambient: 'abandoned city wind, distant echoes, empty streets, post apocalyptic desolation, lonely atmosphere',
   },
 
+  COZY_WITCH: {
+    exploration: 'cozy seaside village ambience, gentle waves in distance, birds chirping, wind through herb garden, peaceful slice of life atmosphere',
+    tension: 'quiet emotional tension, fireplace crackling softly, distant waves, kettle starting to whistle, anticipation without danger',
+    combat: 'rare moment of conflict, raised voices in a kitchen, plates rattling, emotional but not violent confrontation',
+    dramatic: 'eclipse approaching ambience, stones humming faintly, wind picking up over cliff, ritual atmosphere, mystical anticipation',
+    peaceful: 'witch cottage interior ambience, fireplace crackling, cat purring, herbs drying, kettle simmering, deep peace',
+    horror: 'lighthouse fog ambience, distant foghorn that should not exist, eerie silence, something old waking up gently',
+    victory: 'community celebration ambience, laughter in a small village square, accordion music, glasses clinking, warm shared joy',
+    ambient: 'coastal village ambience, gentle breeze, distant seagulls, wooden shutters creaking, herbs swaying, pure tranquility',
+  },
+
   ROMANTASY: {
     exploration: 'enchanted fae court ambience, distant harp music, gentle wind through rose gardens, magical chimes, ethereal atmosphere',
     tension: 'royal court intrigue tension, hushed whispers, silk rustling, footsteps on marble, dangerous social atmosphere',
@@ -82,7 +93,7 @@ const SCENE_KEYWORDS: Record<string, string[]> = {
   inn: ['hospedaje', 'hostal', 'albergue'],
   forest: ['bosque', 'forest', 'arboleda', 'selva', 'grove', 'wood'],
   dungeon: ['dungeon', 'mazmorra', 'cripta', 'undermountain', 'criptas', 'subterráneo'],
-  city: ['ciudad', 'city', 'waterdeep', 'baldur', 'neverwinter', 'bree', 'mercado', 'plaza', 'velaris', 'corte'],
+  city: ['ciudad', 'city', 'waterdeep', 'baldur', 'neverwinter', 'bree', 'mercado', 'plaza', 'velaris', 'corte', 'cala', 'panaderia', 'panadería'],
   mountain: ['montaña', 'mountain', 'pico', 'cumbre', 'icewind', 'colina'],
   sea: ['puerto', 'port', 'costa', 'mar', 'océano', 'muelle', 'dock', 'barco'],
   cave: ['cueva', 'cave', 'caverna', 'gruta', 'mina'],

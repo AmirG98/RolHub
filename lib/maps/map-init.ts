@@ -53,7 +53,7 @@ const LORE_STARTING_CONFIG: Record<
   },
   COZY_WITCH: {
     starting: 'casa-bruja',
-    discoveredNames: ['Casa de la Bruja', 'Plaza del Pueblo', 'Acantilado del Faro', 'Bosque Susurrante'],
+    discoveredNames: ['La Casa de la Bruja', 'Plaza del Mercado', 'La Panadería del Alba', 'El Bosque Susurrante'],
   },
   NOIR_MYSTERY: {
     starting: 'oficina-detective',

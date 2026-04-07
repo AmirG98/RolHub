@@ -711,6 +711,46 @@ const DND_CLASSIC_REGIONS: TerrainRegion[] = [
   },
 ]
 
+// COZY_WITCH terrain - jardín de hierbas, bosque amistoso, acantilado, mar
+const COZY_WITCH_REGIONS: TerrainRegion[] = [
+  {
+    id: 'jardin-hierbas-region',
+    name: 'Jardín de Hierbas',
+    type: 'plains',
+    points: [280, 220, 420, 200, 440, 340, 360, 380, 260, 360],
+    color: '#9BB87C',
+    opacity: 0.2,
+    labelPosition: { x: 350, y: 290 },
+  },
+  {
+    id: 'bosque-susurrante-region',
+    name: 'Bosque Susurrante',
+    type: 'forest',
+    points: [100, 100, 300, 80, 320, 260, 220, 320, 80, 280],
+    color: '#5A8050',
+    opacity: 0.22,
+    labelPosition: { x: 200, y: 200 },
+  },
+  {
+    id: 'acantilado-cala',
+    name: 'Acantilado del Faro',
+    type: 'mountains',
+    points: [560, 380, 720, 380, 720, 540, 560, 540],
+    color: '#A89880',
+    opacity: 0.18,
+    labelPosition: { x: 640, y: 460 },
+  },
+  {
+    id: 'mar-cala-quieta',
+    name: 'Mar de Cala Quieta',
+    type: 'water',
+    points: [400, 460, 720, 460, 720, 600, 400, 600],
+    color: '#6BA8C8',
+    opacity: 0.22,
+    labelPosition: { x: 560, y: 530 },
+  },
+]
+
 // ROMANTASY terrain - jardines feéricos, bosque encantado y muro mágico
 const ROMANTASY_REGIONS: TerrainRegion[] = [
   {
@@ -762,6 +802,7 @@ const LORE_TERRAIN: Record<string, TerrainRegion[]> = {
   LOVECRAFT_HORROR: LOVECRAFT_REGIONS,
   DND_CLASSIC: DND_CLASSIC_REGIONS,
   ROMANTASY: ROMANTASY_REGIONS,
+  COZY_WITCH: COZY_WITCH_REGIONS,
   CUSTOM: [],
 }
 

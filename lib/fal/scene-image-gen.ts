@@ -35,6 +35,8 @@ const LORE_SCENE_STYLES: Record<string, string> = {
 
   ROMANTASY: 'ethereal romantic fantasy oil painting, fae court aesthetic, lush florals and twilight, dramatic candlelight, ACOTAR inspired, sensual atmosphere, intricate gowns and capes, dreamy bokeh, magical realism',
 
+  COZY_WITCH: 'studio ghibli inspired watercolor illustration, cozy seaside witch village, soft natural lighting, lush herb gardens and sea cliffs, warm golden hour, peaceful slice-of-life atmosphere, hand-drawn details, Practical Magic vibes, cottagecore aesthetic',
+
   CUSTOM: 'fantasy concept art illustration, dramatic lighting, cinematic composition, detailed environment, atmospheric mood',
 }
 

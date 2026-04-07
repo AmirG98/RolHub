@@ -225,6 +225,30 @@ export const LORE_ENVIRONMENTS: Record<string, LoreEnvironment> = {
     },
   },
 
+  COZY_WITCH: {
+    skybox: 'dawn',
+    backgroundColor: '#d8e0c8',
+    fog: { color: '#e8efd8', near: 100, far: 400 },
+    ambientLight: { intensity: 0.7, color: '#f5e8c8' },
+    directionalLight: { intensity: 1.0, color: '#fff0c8', position: [50, 90, 50] },
+    terrain: {
+      color: '#7a9b6e',
+      roughness: 0.85,
+      metalness: 0.05,
+      displacement: 8,
+    },
+    markers: {
+      defaultColor: '#7a9b6e',
+      visitedColor: '#d4a84c',
+      currentColor: '#f5e0a8',
+      glowColor: '#fff0a8',
+    },
+    postProcessing: {
+      bloom: { intensity: 0.3, threshold: 0.8 },
+      vignette: { darkness: 0.25 },
+    },
+  },
+
   ROMANTASY: {
     skybox: 'sunset',
     backgroundColor: '#2a1830',

@@ -293,6 +293,11 @@ export const translations = {
         tagline: 'Donde la política feérica y el deseo prohibido tejen el destino',
         description: 'Cortes feéricas, romance peligroso e intriga entre Altos Señores',
       },
+      COZY_WITCH: {
+        name: 'Aquelarre del Eclipse',
+        tagline: 'Magia cotidiana en un pueblo costero donde el eclipse marca el ritmo del año',
+        description: 'Una bruja en Cala Quieta, hierbas, vecinos y rituales pequeños',
+      },
     },
 
     // Archetype selector
@@ -624,6 +629,11 @@ export const translations = {
         name: 'Romance Fantasy',
         tagline: 'Where fae politics and forbidden desire weave fate',
         description: 'Fae courts, dangerous romance, and intrigue between High Lords',
+      },
+      COZY_WITCH: {
+        name: 'Eclipse Coven',
+        tagline: 'Everyday magic in a seaside village where the eclipse marks the year',
+        description: 'A village witch in Cala Quieta — herbs, neighbors, and small rituals',
       },
     },
 

@@ -30,6 +30,8 @@ const LORE_PORTRAIT_STYLES: Record<string, string> = {
 
   ROMANTASY: 'romantic fantasy portrait, ethereal lighting, fae court aesthetic, ACOTAR inspired, intricate gown or armor, lush florals in background, sensual atmosphere, dreamy painterly style',
 
+  COZY_WITCH: 'cozy witch portrait, studio ghibli watercolor style, warm golden hour lighting, herb garden or seaside cottage background, soft kind expression, simple linen or wool clothing, Practical Magic aesthetic, gentle peaceful mood',
+
   CUSTOM: 'fantasy character portrait, detailed illustration, dramatic lighting, heroic pose',
 }
 
@@ -81,6 +83,11 @@ const ARCHETYPE_DESCRIPTIONS: Record<string, string> = {
   'Cortesano (Maestre del Juego)': 'fae courtier, intricate silk gown or doublet, jeweled accessories, knowing smile, candlelit ballroom background, ACOTAR aesthetic',
   'Guerrera Illyriana (Guardiana Alada)': 'winged warrior, leather battle armor with sigils, dual blades, fierce eyes, mountain backdrop, dark wings spread',
   'Alta Dama (Hechicera de las Estrellas)': 'high lady sorceress, flowing robes with star embroidery, glowing crystal staff, ethereal presence, twilight garden background',
+
+  // COZY_WITCH
+  'Bruja Verde (Herbalista)': 'gentle herbalist witch, simple linen dress with herb-stained apron, basket of fresh herbs, warm kind eyes, lush green garden background, watercolor ghibli style',
+  'Bruja del Hogar (Cocinera de Conjuros)': 'cozy kitchen witch, woolen shawl and bread-flour apron, holding a wooden spoon, warm hearth background, softly smiling, golden hour light',
+  'Bruja del Mar (Adivinadora de Mareas)': 'sea witch reader, hooded cloak with sea glass and shells, oracle cards in hand, lighthouse and ocean background, contemplative gaze, salt air atmosphere',
 }
 
 // Descripciones visuales de razas D&D 5e para retratos

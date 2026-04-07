@@ -122,6 +122,17 @@ const DND_CLASSIC_COORDINATES: Record<string, { x: number; y: number; connection
   'Candlekeep': { x: 100, y: 500, connections: ['Baldur\'s Gate'] },
 }
 
+// Coordenadas para COZY_WITCH (Cala Quieta)
+const COZY_WITCH_COORDINATES: Record<string, { x: number; y: number; connections: string[] }> = {
+  'La Casa de la Bruja': { x: 350, y: 280, connections: ['Plaza del Mercado', 'El Bosque Susurrante', 'Cala Quieta'] },
+  'Plaza del Mercado': { x: 450, y: 350, connections: ['La Casa de la Bruja', 'La Panadería del Alba', 'Cala Quieta'] },
+  'La Panadería del Alba': { x: 500, y: 320, connections: ['Plaza del Mercado', 'La Casa de la Bruja', 'Cala Quieta'] },
+  'El Bosque Susurrante': { x: 220, y: 200, connections: ['La Casa de la Bruja', 'El Círculo de Piedras del Eclipse'] },
+  'El Faro Viejo': { x: 600, y: 450, connections: ['Cala Quieta', 'El Círculo de Piedras del Eclipse', 'La Casa de la Bruja'] },
+  'Cala Quieta': { x: 500, y: 480, connections: ['La Casa de la Bruja', 'El Faro Viejo', 'Plaza del Mercado'] },
+  'El Círculo de Piedras del Eclipse': { x: 520, y: 120, connections: ['El Faro Viejo', 'El Bosque Susurrante'] },
+}
+
 // Coordenadas para ROMANTASY (Cortes feéricas de Velaris)
 const ROMANTASY_COORDINATES: Record<string, { x: number; y: number; connections: string[] }> = {
   'Corte de Primavera': { x: 300, y: 250, connections: ['Bosque de Espinas', 'Aldea Mortal de Prythian', 'Velaris (Ciudad Estrella)'] },
@@ -154,6 +165,7 @@ const LORE_COORDINATES: Record<string, Record<string, { x: number; y: number; co
   LOVECRAFT_HORROR: LOVECRAFT_HORROR_COORDINATES,
   DND_CLASSIC: DND_CLASSIC_COORDINATES,
   ROMANTASY: ROMANTASY_COORDINATES,
+  COZY_WITCH: COZY_WITCH_COORDINATES,
   CUSTOM: CUSTOM_COORDINATES,
 }
 
@@ -329,6 +341,15 @@ export function getExampleMapData(lore: Lore): MapLocation[] {
       { id: 'icewind-dale', name: 'Icewind Dale', description: 'Tundra helada del extremo norte', type: 'danger', dangerLevel: 4, coordinates: { x: 500, y: 50 }, connections: ['neverwinter'], icon: '', discovered: false, visited: false },
       { id: 'phandalin', name: 'Phandalin', description: 'Pequeño asentamiento minero con secretos', type: 'safe', dangerLevel: 2, coordinates: { x: 300, y: 350 }, connections: ['waterdeep', 'baldurs-gate'], icon: '', discovered: true, visited: false },
       { id: 'candlekeep', name: 'Candlekeep', description: 'Biblioteca-fortaleza del conocimiento', type: 'landmark', dangerLevel: 1, coordinates: { x: 100, y: 500 }, connections: ['baldurs-gate'], icon: '', discovered: false, visited: false },
+    ],
+    COZY_WITCH: [
+      { id: 'casa-bruja', name: 'La Casa de la Bruja', description: 'Cottage con jardín de hierbas, gato y chimenea siempre encendida', type: 'safe', dangerLevel: 1, coordinates: { x: 350, y: 280 }, connections: ['plaza-mercado', 'bosque-susurrante', 'cala-quieta'], icon: '', discovered: true, visited: true },
+      { id: 'plaza-mercado', name: 'Plaza del Mercado', description: 'Corazón social del pueblo - los sábados huele a pan y a sal', type: 'safe', dangerLevel: 1, coordinates: { x: 450, y: 350 }, connections: ['casa-bruja', 'panaderia-alba', 'cala-quieta'], icon: '', discovered: true, visited: false },
+      { id: 'panaderia-alba', name: 'La Panadería del Alba', description: 'Abre a las 4am - donde se intercambian secretos antes del sol', type: 'safe', dangerLevel: 1, coordinates: { x: 500, y: 320 }, connections: ['plaza-mercado', 'casa-bruja', 'cala-quieta'], icon: '', discovered: true, visited: false },
+      { id: 'bosque-susurrante', name: 'El Bosque Susurrante', description: 'Pequeño bosque con hierbas raras - amistoso si lo escuchás', type: 'wilderness', dangerLevel: 1, coordinates: { x: 220, y: 200 }, connections: ['casa-bruja', 'circulo-piedras-eclipse'], icon: '', discovered: true, visited: false },
+      { id: 'faro-viejo', name: 'El Faro Viejo', description: 'Extremo del acantilado - refugio de meditación, ya no enciende', type: 'landmark', dangerLevel: 1, coordinates: { x: 600, y: 450 }, connections: ['cala-quieta', 'circulo-piedras-eclipse', 'casa-bruja'], icon: '', discovered: false, visited: false },
+      { id: 'cala-quieta', name: 'Cala Quieta', description: 'Playa de cantos rodados - donde el mar trae lo que el pueblo necesita', type: 'safe', dangerLevel: 1, coordinates: { x: 500, y: 480 }, connections: ['casa-bruja', 'faro-viejo', 'plaza-mercado'], icon: '', discovered: false, visited: false },
+      { id: 'circulo-piedras-eclipse', name: 'El Círculo de Piedras del Eclipse', description: 'Claro en lo alto del acantilado - el ritual anual del aquelarre', type: 'mystery', dangerLevel: 2, coordinates: { x: 520, y: 120 }, connections: ['faro-viejo', 'bosque-susurrante'], icon: '', discovered: false, visited: false },
     ],
     ROMANTASY: [
       { id: 'corte-primavera', name: 'Corte de Primavera', description: 'Palacio de mármol blanco entre jardines de rosas eternas', type: 'city', dangerLevel: 3, coordinates: { x: 300, y: 250 }, connections: ['bosque-espinas', 'aldea-mortal-prythian', 'velaris'], icon: '', discovered: true, visited: true },
