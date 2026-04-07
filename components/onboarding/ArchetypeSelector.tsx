@@ -196,11 +196,11 @@ export function ArchetypeSelector({ archetypes, loreName, lore, onSelect, onBack
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 mb-6 md:mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4 mb-6 md:mb-8">
           {archetypes.map((archetype) => (
             <div
               key={archetype.id}
-              className={`glass-panel rounded-lg p-4 md:p-6 cursor-pointer transition-all duration-300 hover:scale-105 ${
+              className={`glass-panel rounded-lg p-3 md:p-4 cursor-pointer transition-all duration-300 hover:scale-105 ${
                 selectedArchetype?.id === archetype.id ? 'glow-effect ring-2 ring-gold-bright' : ''
               }`}
               onClick={() => {
@@ -208,53 +208,20 @@ export function ArchetypeSelector({ archetypes, loreName, lore, onSelect, onBack
                 setTimeout(() => { characterFormRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }) }, 300)
               }}
             >
-              <div className="flex sm:flex-col items-center sm:items-center text-left sm:text-center gap-4 sm:gap-0 sm:space-y-4">
+              <div className="flex sm:flex-col items-center sm:items-center text-left sm:text-center gap-3 sm:gap-0 sm:space-y-2">
                 {/* Icono */}
-                <div className="text-gold-bright flex-shrink-0 [&>svg]:h-10 [&>svg]:w-10 md:[&>svg]:h-12 md:[&>svg]:w-12">
+                <div className="text-gold-bright flex-shrink-0 [&>svg]:h-8 [&>svg]:w-8 md:[&>svg]:h-10 md:[&>svg]:w-10">
                   {getArchetypeIcon(archetype.id)}
                 </div>
 
                 <div className="flex-1 sm:flex-none sm:w-full">
                   {/* Nombre */}
-                  <h3 className="font-heading text-lg md:text-2xl text-gold mb-1 sm:mb-0">{getLocalized(archetype.name, locale as 'es' | 'en')}</h3>
+                  <h3 className="font-heading text-base md:text-xl text-gold mb-1 sm:mb-0">{getLocalized(archetype.name, locale as 'es' | 'en')}</h3>
 
                   {/* Descripcion simple */}
-                  <p className="font-body text-parchment/80 text-xs md:text-sm leading-relaxed line-clamp-3 sm:line-clamp-none sm:mt-2">
+                  <p className="font-body text-parchment/80 text-xs md:text-sm leading-snug line-clamp-3 sm:mt-1.5">
                     {getLocalized(archetype.simple_description, locale as 'es' | 'en') || getLocalized(archetype.description, locale as 'es' | 'en')}
                   </p>
-
-                  {/* Stats visuales - solo desktop */}
-                  {archetype.starting_stats && (
-                    <div className="hidden sm:block w-full pt-4 border-t border-gold-dim/30 mt-4">
-                      <div className="grid grid-cols-2 gap-2 text-xs font-ui">
-                        <div>
-                          <span className="text-gold">{t.archetypeSelector.hp}:</span>{' '}
-                          <span className="text-parchment font-semibold">{archetype.starting_stats.maxHp}</span>
-                        </div>
-                        <div>
-                          <span className="text-gold">{t.archetypeSelector.combat}:</span>{' '}
-                          <span className="text-parchment font-semibold">{archetype.starting_stats.combat}</span>
-                        </div>
-                        <div>
-                          <span className="text-gold">{t.archetypeSelector.exploration}:</span>{' '}
-                          <span className="text-parchment font-semibold">{archetype.starting_stats.exploration}</span>
-                        </div>
-                        <div>
-                          <span className="text-gold">{t.archetypeSelector.social}:</span>{' '}
-                          <span className="text-parchment font-semibold">{archetype.starting_stats.social}</span>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Habilidad especial - solo desktop */}
-                  {archetype.special_ability && (
-                    <div className="hidden sm:block w-full pt-2">
-                      <p className="text-xs font-ui text-emerald font-semibold line-clamp-2">
-                        {getLocalized(archetype.special_ability, locale as 'es' | 'en')}
-                      </p>
-                    </div>
-                  )}
                 </div>
               </div>
             </div>
