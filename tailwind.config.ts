@@ -25,7 +25,7 @@ const config: Config = {
           light: '#2C2416'
         },
         ink: '#1C1208',
-        emerald: '#1A3A2A',
+        emerald: '#5FBF8A',
         neon: {
           blue: '#00D9FF',
           purple: '#B026FF',
