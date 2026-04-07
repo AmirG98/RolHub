@@ -4,6 +4,7 @@ import { useState, useRef } from 'react'
 import { GameMode, GameEngine, TutorialLevel } from '@/lib/types/lore'
 import { RunicButton } from '@/components/medieval/RunicButton'
 import { useTranslations, useLanguage } from '@/lib/i18n'
+import { OnboardingProgressBar } from './OnboardingProgressBar'
 
 interface ModeSelectorProps {
   selectedTutorialLevel?: TutorialLevel | null
@@ -59,6 +60,7 @@ export function ModeSelector({ selectedTutorialLevel, onSelect, onBack }: ModeSe
   return (
     <div className="min-h-screen particle-bg flex items-center justify-center p-4 md:p-8">
       <div className="max-w-3xl w-full space-y-6 md:space-y-8 content-wrapper pb-24 md:pb-8">
+        <OnboardingProgressBar step={2} />
 
         {/* Sección 1: Experiencia */}
         <div>

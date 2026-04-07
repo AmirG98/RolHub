@@ -158,6 +158,7 @@ export default function GameSession({
   const [showDiceRoller, setShowDiceRoller] = useState(false)
   const [showDamageHalo, setShowDamageHalo] = useState(false)
   const [showTutorial, setShowTutorial] = useState(false)
+  const [isNarratorPlaying, setIsNarratorPlaying] = useState(false)
   const [pendingLevelUp, setPendingLevelUp] = useState<{
     newLevel: number; hpIncrease: number; statOptions: string[]; statBonus: number
   } | null>(initialWorldState?.pendingLevelUp ? {
@@ -288,13 +289,17 @@ export default function GameSession({
   const [typewriterTurnId, setTypewriterTurnId] = useState<string | null>(null) // Track which turn is animating
   const { isTransitioning, triggerTransition, transitionProps } = useSceneTransition({ type: 'fade', duration: 600 })
 
-  // Sonido ambiental — se reproduce en loop a bajo volumen según mood y escena
+  // Sonido ambiental — se reproduce UNA sola vez (no loop) y SOLO después de que termina la voz del narrador.
+  // Mientras el narrador habla, gateOpen=false → el ambiente espera. Cuando la voz termina,
+  // gateOpen pasa a true y arranca el ambiente del mood actual.
   const { setAmbientVolume, setPlaybackRate } = useAmbientSound({
     lore: lore as string,
     mood: uiMood,
     scene: worldState.current_scene || '',
     enabled: isVoiceEnabled,
     volume: 0.18,
+    playOnce: true,
+    gateOpen: !isNarratorPlaying && !showTutorial,
   })
   const isImagesEnabled = process.env.NEXT_PUBLIC_ENABLE_IMAGES === 'true'
 
@@ -1115,17 +1120,22 @@ export default function GameSession({
                             )}
                           </div>
                           {/* Voice player for DM narrations */}
+                          {/* Auto-play is gated on !showTutorial: when the tutorial closes,
+                              VoicePlayerAuto mounts for the first time and starts playback.
+                              isNarratorPlaying state is propagated to useAmbientSound so the
+                              ambient sound waits until the narrator finishes. */}
                           {turn.role === 'DM' && isVoiceEnabled && (
-                            turn.id === latestDMTurnId ? (
-                              // Auto-play voice for the latest DM turn
+                            turn.id === latestDMTurnId && !showTutorial ? (
+                              // Auto-play voice for the latest DM turn (only after tutorial is closed)
                               <VoicePlayerAuto
                                 key={`voice-auto-${turn.id}`}
                                 text={turn.content}
                                 lore={lore as Lore}
                                 locale={locale as 'es' | 'en'}
+                                onPlayStateChange={setIsNarratorPlaying}
                               />
                             ) : (
-                              // Manual play for older turns
+                              // Manual play for older turns OR while tutorial is open
                               <VoicePlayerCompact
                                 text={turn.content}
                                 lore={lore as Lore}

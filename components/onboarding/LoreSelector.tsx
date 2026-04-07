@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Lore } from '@/lib/types/lore'
 import { RunicButton } from '@/components/medieval/RunicButton'
 import { useTranslations } from '@/lib/i18n'
+import { OnboardingProgressBar } from './OnboardingProgressBar'
 
 interface LoreSelectorProps {
   onSelect: (lore: Lore) => void
@@ -37,8 +38,9 @@ export function LoreSelector({ onSelect }: LoreSelectorProps) {
   }))
 
   return (
-    <div className="min-h-screen particle-bg p-4 md:p-8 pt-8 md:pt-12">
+    <div className="min-h-screen particle-bg p-4 md:p-8 pt-6 md:pt-8">
       <div className="max-w-3xl w-full mx-auto content-wrapper">
+        <OnboardingProgressBar step={1} />
         <h1 className="font-title text-xl sm:text-2xl md:text-3xl text-gold mb-1 text-center">
           {t.onboarding.chooseLore.title}
         </h1>

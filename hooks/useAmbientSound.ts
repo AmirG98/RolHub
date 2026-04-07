@@ -11,6 +11,8 @@ interface UseAmbientSoundOptions {
   volume?: number          // 0-1, default 0.20
   fadeInMs?: number        // Fade in duration, default 2000
   fadeOutMs?: number       // Fade out duration, default 1500
+  playOnce?: boolean       // Si true, no loopea — se reproduce una sola vez
+  gateOpen?: boolean       // Si false, espera (no arranca aún). Cuando pasa a true, arranca.
 }
 
 /**
@@ -18,7 +20,8 @@ interface UseAmbientSoundOptions {
  * - Se genera on-demand via /api/sfx/generate
  * - Se cachea en DB (primera vez es lenta, después instantánea)
  * - Crossfade entre moods
- * - Loop automático
+ * - Modo loop o one-shot (playOnce)
+ * - Gate opcional (gateOpen) para esperar antes de arrancar (e.g., hasta que termine el narrador)
  * - Volumen bajo para no tapar la voz
  */
 export function useAmbientSound({
@@ -29,6 +32,8 @@ export function useAmbientSound({
   volume = 0.20,
   fadeInMs = 2000,
   fadeOutMs = 1500,
+  playOnce = false,
+  gateOpen = true,
 }: UseAmbientSoundOptions) {
   const currentHowlRef = useRef<Howl | null>(null)
   const currentKeyRef = useRef<string>('')
@@ -77,12 +82,19 @@ export function useAmbientSound({
       // Crear nuevo Howl con el audio generado
       const newHowl = new Howl({
         src: [data.url],
-        loop: true,
+        loop: !playOnce,
         volume: 0,
         html5: true, // Streaming — no cargar todo en memoria
         onplay: () => {
           setIsPlaying(true)
           setIsLoading(false)
+        },
+        onend: () => {
+          // Cuando es one-shot, marcar como detenido y limpiar
+          if (playOnce) {
+            setIsPlaying(false)
+            // No unload acá — el cleanup del effect lo maneja al cambiar de mood
+          }
         },
         onloaderror: (_id, err) => {
           console.warn('[AmbientSound] Load error:', err)
@@ -101,9 +113,9 @@ export function useAmbientSound({
       console.warn('[AmbientSound] Error:', err)
       setIsLoading(false)
     }
-  }, [volume, fadeInMs, fadeOutMs, scene])
+  }, [volume, fadeInMs, fadeOutMs, scene, playOnce])
 
-  // Reaccionar a cambios de mood/lore/scene
+  // Reaccionar a cambios de mood/lore/scene/gate
   useEffect(() => {
     if (!enabled || !lore || !mood) {
       // Parar si está deshabilitado
@@ -120,8 +132,14 @@ export function useAmbientSound({
       return
     }
 
+    // Gate cerrado: esperar (no arrancar todavía).
+    // Cuando gateOpen pase a true, este effect se va a re-ejecutar y entonces sí arrancamos.
+    if (!gateOpen) {
+      return
+    }
+
     loadAndPlay(lore, mood)
-  }, [lore, mood, scene, enabled, loadAndPlay, fadeOutMs])
+  }, [lore, mood, scene, enabled, gateOpen, loadAndPlay, fadeOutMs])
 
   // Cleanup al desmontar
   useEffect(() => {

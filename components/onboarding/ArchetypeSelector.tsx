@@ -8,6 +8,7 @@ import { useTranslations, useLanguage } from '@/lib/i18n'
 import { getLocalized, getLocalizedArray } from '@/lib/i18n/localize'
 import Link from 'next/link'
 import { generateRandomDescription } from '@/lib/character/description-templates'
+import { OnboardingProgressBar } from './OnboardingProgressBar'
 
 // Agrupa items repetidos: ["daga", "daga", "daga"] -> ["daga x3"]
 function groupInventoryItems(items: string[]): string[] {
@@ -176,6 +177,7 @@ export function ArchetypeSelector({ archetypes, loreName, lore, onSelect, onBack
   return (
     <div className="min-h-screen particle-bg flex items-center justify-center p-4 md:p-8">
       <div className="max-w-6xl w-full content-wrapper pb-24 md:pb-8">
+        <OnboardingProgressBar step={3} />
         <h1 className="font-title text-2xl sm:text-3xl md:text-5xl text-gold-bright text-center mb-1 md:mb-2 ink-reveal glow-effect-on-hover">
           {t.archetypeSelector.chooseWhoYouAre}
         </h1>
