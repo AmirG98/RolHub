@@ -17,6 +17,15 @@ export const translations = {
       subtitle: 'Tu Dungeon Master Digital',
       description: 'Aventuras de rol narrativo con un DM autónomo impulsado por IA. Elige tu mundo, crea tu personaje y vive historias épicas.',
       startAdventure: 'Comenzar Aventura',
+      continuePlaying: 'Continuar Jugando',
+      headline: 'Jugá rol con un Game Master que es una IA',
+      subheadline: 'Cuando quieras, donde quieras, con o sin amigos. Elegí tu universo, crea tu personaje, y empezá a jugar con narración, imágenes, y un sistema de reglas adaptado para tu diversión.',
+      previewLabel: 'Vista previa',
+      previewNarration: 'El sol se filtra entre los árboles del Bosque Viejo mientras el ruido de cascos se acerca por el sendero. Tres jinetes con capas oscuras avanzan al trote. Todavía no te vieron.',
+      previewAction1: 'Esconderte tras un árbol',
+      previewAction2: 'Saludar a los jinetes',
+      previewAction3: 'Preparar tu arco',
+      chooseWorldLabel: 'Elegí tu mundo',
       features: {
         ai: {
           title: 'DM Inteligente',
@@ -354,6 +363,15 @@ export const translations = {
       subtitle: 'Your Digital Dungeon Master',
       description: 'Narrative role-playing adventures with an autonomous AI-powered DM. Choose your world, create your character, and live epic stories.',
       startAdventure: 'Start Adventure',
+      continuePlaying: 'Continue Playing',
+      headline: 'Play tabletop RPG with a Game Master that is an AI',
+      subheadline: 'Whenever you want, wherever you are, with or without friends. Pick your universe, create your character, and start playing with narration, images, and a rules system tailored to your fun.',
+      previewLabel: 'Preview',
+      previewNarration: 'Sunlight filters through the trees of the Old Forest as the sound of hooves draws closer along the path. Three riders in dark cloaks trot forward. They have not seen you yet.',
+      previewAction1: 'Hide behind a tree',
+      previewAction2: 'Greet the riders',
+      previewAction3: 'Ready your bow',
+      chooseWorldLabel: 'Choose your world',
       features: {
         ai: {
           title: 'Smart DM',

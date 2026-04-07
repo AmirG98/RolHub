@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useState, useEffect, Suspense } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useUser } from '@clerk/nextjs'
 import { LoreSelector } from '@/components/onboarding/LoreSelector'
 import { ModeSelector } from '@/components/onboarding/ModeSelector'
@@ -38,12 +38,38 @@ const LORE_DATA: Record<string, any> = {
   CUSTOM: lotrData,
 }
 
+// Lores válidos para deep-linking desde la home (?lore=LOTR)
+const VALID_LORES: Lore[] = [
+  'LOTR', 'ZOMBIES', 'ISEKAI', 'VIKINGOS', 'STAR_WARS',
+  'CYBERPUNK', 'LOVECRAFT_HORROR', 'DND_CLASSIC', 'ROMANTASY', 'COZY_WITCH', 'CUSTOM',
+]
+
+// Wrapper externo: Next.js requiere que `useSearchParams` esté dentro de un boundary <Suspense>
+// para que la página pueda prerenderizar estáticamente.
 export default function OnboardingPage() {
+  return (
+    <Suspense fallback={null}>
+      <OnboardingPageInner />
+    </Suspense>
+  )
+}
+
+function OnboardingPageInner() {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const { user } = useUser()
   const { locale } = useLanguage()
   const [step, setStep] = useState(1)
   const [selectedLore, setSelectedLore] = useState<Lore | null>(null)
+
+  // Deep-link: si la URL trae ?lore=X y es válido, pre-seleccionar y saltar al paso 2
+  useEffect(() => {
+    const loreParam = searchParams.get('lore')
+    if (loreParam && VALID_LORES.includes(loreParam as Lore)) {
+      setSelectedLore(loreParam as Lore)
+      setStep(2)
+    }
+  }, [searchParams])
   const [gameMode, setGameMode] = useState<GameMode | null>(null)
   const [engine, setEngine] = useState<GameEngine | null>(null)
   const [tutorialLevel, setTutorialLevel] = useState<TutorialLevel | null>(null)
