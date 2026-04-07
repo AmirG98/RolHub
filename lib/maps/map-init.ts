@@ -47,6 +47,22 @@ const LORE_STARTING_CONFIG: Record<
     starting: 'waterdeep',
     discoveredNames: ['Waterdeep', 'Undermountain', "Baldur's Gate", 'Phandalin'],
   },
+  ROMANTASY: {
+    starting: 'corte-primavera',
+    discoveredNames: ['Corte de Primavera', 'Velaris (Ciudad Estrella)', 'Bosque de Espinas', 'Aldea Mortal de Prythian'],
+  },
+  COZY_WITCH: {
+    starting: 'casa-bruja',
+    discoveredNames: ['Casa de la Bruja', 'Plaza del Pueblo', 'Acantilado del Faro', 'Bosque Susurrante'],
+  },
+  NOIR_MYSTERY: {
+    starting: 'oficina-detective',
+    discoveredNames: ['Oficina del Detective', 'Club Cobalto', 'Comisaría 13', 'Muelles'],
+  },
+  PULP_ADVENTURE: {
+    starting: 'puerto-cairo',
+    discoveredNames: ['Puerto de El Cairo', 'Bazar de Khan el-Khalili', 'Valle de los Reyes', 'Hotel Shepheard'],
+  },
   CUSTOM: {
     starting: 'start',
     discoveredNames: [],

@@ -288,6 +288,11 @@ export const translations = {
         tagline: 'La Costa de la Espada te espera, aventurero',
         description: 'Gremios, dungeons, dragones y magia en Faerûn',
       },
+      ROMANTASY: {
+        name: 'Romance Fantasía',
+        tagline: 'Donde la política feérica y el deseo prohibido tejen el destino',
+        description: 'Cortes feéricas, romance peligroso e intriga entre Altos Señores',
+      },
     },
 
     // Archetype selector
@@ -614,6 +619,11 @@ export const translations = {
         name: 'Forgotten Realms',
         tagline: 'The Sword Coast awaits you, adventurer',
         description: 'Guilds, dungeons, dragons and magic in Faerûn',
+      },
+      ROMANTASY: {
+        name: 'Romance Fantasy',
+        tagline: 'Where fae politics and forbidden desire weave fate',
+        description: 'Fae courts, dangerous romance, and intrigue between High Lords',
       },
     },
 

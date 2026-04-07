@@ -11,10 +11,12 @@ import starwarsData from '@/data/lores/starwars.json'
 import cyberpunkData from '@/data/lores/cyberpunk.json'
 import lovecraftData from '@/data/lores/lovecraft.json'
 import dndClassicData from '@/data/lores/dnd-classic.json'
+import romantasyData from '@/data/lores/romantasy.json'
 
 const LORE_DATA: Record<string, any> = {
   LOTR: lotrData, ZOMBIES: zombiesData, ISEKAI: isekaiData, VIKINGOS: vikingosData,
   STAR_WARS: starwarsData, CYBERPUNK: cyberpunkData, LOVECRAFT_HORROR: lovecraftData, DND_CLASSIC: dndClassicData,
+  ROMANTASY: romantasyData,
 }
 
 const TYPE_ICONS: Record<string, string> = {

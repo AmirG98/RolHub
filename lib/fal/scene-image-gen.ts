@@ -33,6 +33,8 @@ const LORE_SCENE_STYLES: Record<string, string> = {
 
   LOVECRAFT_HORROR: 'cosmic horror painting, unsettling atmosphere, muted palette with eldritch greens and purples, fog and shadows, psychological dread',
 
+  ROMANTASY: 'ethereal romantic fantasy oil painting, fae court aesthetic, lush florals and twilight, dramatic candlelight, ACOTAR inspired, sensual atmosphere, intricate gowns and capes, dreamy bokeh, magical realism',
+
   CUSTOM: 'fantasy concept art illustration, dramatic lighting, cinematic composition, detailed environment, atmospheric mood',
 }
 

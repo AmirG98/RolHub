@@ -341,6 +341,38 @@ export const LORE_MAP_CONFIGS: Record<string, LoreMapConfig> = {
     markerSize: 32,
   },
 
+  // Romantasy — pergamino rosado, jardines feéricos y crepúsculo dorado
+  ROMANTASY: {
+    backgroundColor: '#F5E6D8',
+    primaryColor: '#C9788A',
+    secondaryColor: '#7A3B4C',
+    accentColor: '#E8A87C',
+    dangerColor: '#8B1A3A',
+    safeColor: '#5A8A6B',
+    textColor: '#3C1A24',
+    fogColor: '#E8C8C0',
+    fogOpacity: 0.55,
+    glowColor: '#F5C8D8',
+    pathColor: '#B8836B',
+    pathStyle: 'dashed',
+    fontFamily: 'EB Garamond, serif',
+    titleFontFamily: 'Cinzel Decorative, serif',
+    backgroundPattern: 'parchment',
+    hasAmbientAnimation: true,
+    ambientAnimationType: 'flicker',
+    icons: {
+      city: '🏰',
+      dungeon: '🌹',
+      wilderness: '🌸',
+      landmark: '💫',
+      danger: '🗡️',
+      safe: '🍷',
+      mystery: '🔮',
+    },
+    markerStyle: 'medieval',
+    markerSize: 32,
+  },
+
   // Config genérico para CUSTOM
   CUSTOM: {
     backgroundColor: '#F4E8C1',

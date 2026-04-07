@@ -711,6 +711,46 @@ const DND_CLASSIC_REGIONS: TerrainRegion[] = [
   },
 ]
 
+// ROMANTASY terrain - jardines feéricos, bosque encantado y muro mágico
+const ROMANTASY_REGIONS: TerrainRegion[] = [
+  {
+    id: 'jardines-primavera',
+    name: 'Jardines Eternos',
+    type: 'plains',
+    points: [200, 180, 400, 160, 420, 320, 350, 380, 220, 360],
+    color: '#E8A8C8',
+    opacity: 0.18,
+    labelPosition: { x: 310, y: 270 },
+  },
+  {
+    id: 'bosque-espinas-region',
+    name: 'Bosque de Espinas',
+    type: 'forest',
+    points: [320, 280, 520, 260, 560, 440, 480, 500, 340, 460],
+    color: '#6B7A4C',
+    opacity: 0.22,
+    labelPosition: { x: 430, y: 380 },
+  },
+  {
+    id: 'muro-mistico',
+    name: 'El Muro',
+    type: 'mountains',
+    points: [120, 380, 320, 380, 320, 520, 120, 520],
+    color: '#9B8AB8',
+    opacity: 0.2,
+    labelPosition: { x: 220, y: 450 },
+  },
+  {
+    id: 'velaris-noche',
+    name: 'Reino de la Noche',
+    type: 'plains',
+    points: [450, 100, 700, 80, 720, 250, 500, 280],
+    color: '#3A2A5C',
+    opacity: 0.18,
+    labelPosition: { x: 580, y: 180 },
+  },
+]
+
 // Mapa de regiones por lore
 const LORE_TERRAIN: Record<string, TerrainRegion[]> = {
   LOTR: LOTR_REGIONS,
@@ -721,6 +761,7 @@ const LORE_TERRAIN: Record<string, TerrainRegion[]> = {
   CYBERPUNK: CYBERPUNK_REGIONS,
   LOVECRAFT_HORROR: LOVECRAFT_REGIONS,
   DND_CLASSIC: DND_CLASSIC_REGIONS,
+  ROMANTASY: ROMANTASY_REGIONS,
   CUSTOM: [],
 }
 

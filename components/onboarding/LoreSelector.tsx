@@ -21,6 +21,7 @@ const loreData: Array<{
   { id: 'STAR_WARS', icon: '🚀', color: '#FFE81F' },
   { id: 'CYBERPUNK', icon: '🏙️', color: '#39FF14' },
   { id: 'LOVECRAFT_HORROR', icon: '👁️', color: '#7B68EE' },
+  { id: 'ROMANTASY', icon: '🌹', color: '#E8A87C' },
 ]
 
 export function LoreSelector({ onSelect }: LoreSelectorProps) {

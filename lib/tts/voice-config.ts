@@ -99,6 +99,18 @@ export const LORE_VOICES: LoreVoicesMap = {
       emotion: 'ominous'
     }
   },
+  ROMANTASY: {
+    es: {
+      voice: 'narrator_warm',
+      speed: 0.95,
+      emotion: 'sensual'
+    },
+    en: {
+      voice: 'narrator_warm',
+      speed: 0.95,
+      emotion: 'sensual'
+    }
+  },
   CUSTOM: {
     es: {
       voice: 'narrator_grave',

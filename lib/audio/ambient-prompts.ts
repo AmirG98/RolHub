@@ -27,6 +27,17 @@ export const AMBIENT_PROMPTS: Record<string, Record<string, string>> = {
     ambient: 'abandoned city wind, distant echoes, empty streets, post apocalyptic desolation, lonely atmosphere',
   },
 
+  ROMANTASY: {
+    exploration: 'enchanted fae court ambience, distant harp music, gentle wind through rose gardens, magical chimes, ethereal atmosphere',
+    tension: 'royal court intrigue tension, hushed whispers, silk rustling, footsteps on marble, dangerous social atmosphere',
+    combat: 'fae duel ambience, blade against blade, magical energy crackling, intense romantic stakes, dramatic combat',
+    dramatic: 'epic romantic moment, swelling orchestral strings, rain on stained glass, fateful meeting atmosphere',
+    peaceful: 'cozy fae bedroom ambience, fireplace crackling softly, distant violin, silk on skin, intimate tranquility',
+    horror: 'cursed castle ambience, tragic piano notes, cold draft through corridors, broken hearts atmosphere, mournful',
+    victory: 'royal celebration ambience, distant trumpets, joyful murmur, glasses clinking in toast, triumphant strings',
+    ambient: 'twilight rose garden ambience, gentle breeze, distant nightingale, magical sparkle, romantic dreamy mood',
+  },
+
   DND_CLASSIC: {
     exploration: 'fantasy medieval city ambience, busy marketplace, distant blacksmith hammering, people chatting, medieval town sounds',
     tension: 'dungeon exploration ambience, dripping water in stone corridors, distant echoes, torches flickering, underground mystery',
@@ -71,7 +82,7 @@ const SCENE_KEYWORDS: Record<string, string[]> = {
   inn: ['hospedaje', 'hostal', 'albergue'],
   forest: ['bosque', 'forest', 'arboleda', 'selva', 'grove', 'wood'],
   dungeon: ['dungeon', 'mazmorra', 'cripta', 'undermountain', 'criptas', 'subterráneo'],
-  city: ['ciudad', 'city', 'waterdeep', 'baldur', 'neverwinter', 'bree', 'mercado', 'plaza'],
+  city: ['ciudad', 'city', 'waterdeep', 'baldur', 'neverwinter', 'bree', 'mercado', 'plaza', 'velaris', 'corte'],
   mountain: ['montaña', 'mountain', 'pico', 'cumbre', 'icewind', 'colina'],
   sea: ['puerto', 'port', 'costa', 'mar', 'océano', 'muelle', 'dock', 'barco'],
   cave: ['cueva', 'cave', 'caverna', 'gruta', 'mina'],

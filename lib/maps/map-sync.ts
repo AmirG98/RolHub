@@ -211,6 +211,10 @@ export function getStartingLocationIds(lore: Lore): { starting: string; discover
       starting: 'waterdeep',
       discovered: ['waterdeep', 'undermountain', 'baldurs-gate', 'phandalin'],
     },
+    ROMANTASY: {
+      starting: 'corte-primavera',
+      discovered: ['corte-primavera', 'velaris', 'bosque-espinas', 'aldea-mortal-prythian'],
+    },
     CUSTOM: {
       starting: 'start',
       discovered: ['start'],

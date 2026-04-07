@@ -235,6 +235,38 @@ const TEMPLATES: Record<string, DescriptionTemplate> = {
     ],
   },
 
+  ROMANTASY: {
+    builds: [
+      'De porte elegante y movimientos felinos',
+      'Alta y esbelta como una nyfa cortesana',
+      'De silueta sensual y andar deliberado',
+      'Robust@ pero con gracia inesperada',
+      'Etéreo y casi luminoso bajo la luz de las velas',
+    ],
+    features: [
+      'ojos del color de un crepúsculo imposible',
+      'una marca de nacimiento con forma de luna',
+      'cabello que parece atrapar la luz como hilos de seda',
+      'rasgos finos cincelados como por un escultor antiguo',
+      'una cicatriz pequeña que solo realza su belleza',
+      'una mirada que promete tanto deseo como peligro',
+    ],
+    attitudes: [
+      'Camina como si todos los salones le pertenecieran',
+      'Sonríe con la misma facilidad con la que oculta secretos',
+      'Cada gesto parece coreografiado por la pasión',
+      'Habla en susurros cargados de intención',
+      'Lleva el porte de quien sabe ser amad@ y temid@ al mismo tiempo',
+    ],
+    accessories: [
+      'Un anillo con una gema que cambia de color según la emoción',
+      'Una capa de seda con bordados de hilo plateado',
+      'Un colgante con un mechón de cabello de un amor pasado',
+      'Una daga ceremonial siempre cerca, oculta entre los pliegues',
+      'Un perfume embriagador con notas de jazmín nocturno',
+    ],
+  },
+
   CUSTOM: {
     builds: [
       'De complexion atletica y equilibrada',

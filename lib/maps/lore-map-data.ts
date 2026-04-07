@@ -122,6 +122,17 @@ const DND_CLASSIC_COORDINATES: Record<string, { x: number; y: number; connection
   'Candlekeep': { x: 100, y: 500, connections: ['Baldur\'s Gate'] },
 }
 
+// Coordenadas para ROMANTASY (Cortes feéricas de Velaris)
+const ROMANTASY_COORDINATES: Record<string, { x: number; y: number; connections: string[] }> = {
+  'Corte de Primavera': { x: 300, y: 250, connections: ['Bosque de Espinas', 'Aldea Mortal de Prythian', 'Velaris (Ciudad Estrella)'] },
+  'Velaris (Ciudad Estrella)': { x: 500, y: 200, connections: ['Corte de Primavera', 'Bosque de Espinas', 'Corte de Invierno'] },
+  'Bosque de Espinas': { x: 400, y: 350, connections: ['Corte de Primavera', 'Velaris (Ciudad Estrella)', 'Cuevas del Pacto', 'El Muro'] },
+  'El Muro': { x: 250, y: 450, connections: ['Bosque de Espinas', 'Aldea Mortal de Prythian', 'Cuevas del Pacto'] },
+  'Aldea Mortal de Prythian': { x: 150, y: 400, connections: ['Corte de Primavera', 'El Muro'] },
+  'Corte de Invierno': { x: 650, y: 100, connections: ['Velaris (Ciudad Estrella)'] },
+  'Cuevas del Pacto': { x: 500, y: 500, connections: ['Bosque de Espinas', 'El Muro'] },
+}
+
 // Coordenadas para CUSTOM (genérico)
 const CUSTOM_COORDINATES: Record<string, { x: number; y: number; connections: string[] }> = {
   'Ciudad Principal': { x: 400, y: 300, connections: ['Bosque', 'Montaña', 'Puerto'] },
@@ -142,6 +153,7 @@ const LORE_COORDINATES: Record<string, Record<string, { x: number; y: number; co
   CYBERPUNK: CYBERPUNK_COORDINATES,
   LOVECRAFT_HORROR: LOVECRAFT_HORROR_COORDINATES,
   DND_CLASSIC: DND_CLASSIC_COORDINATES,
+  ROMANTASY: ROMANTASY_COORDINATES,
   CUSTOM: CUSTOM_COORDINATES,
 }
 
@@ -317,6 +329,15 @@ export function getExampleMapData(lore: Lore): MapLocation[] {
       { id: 'icewind-dale', name: 'Icewind Dale', description: 'Tundra helada del extremo norte', type: 'danger', dangerLevel: 4, coordinates: { x: 500, y: 50 }, connections: ['neverwinter'], icon: '', discovered: false, visited: false },
       { id: 'phandalin', name: 'Phandalin', description: 'Pequeño asentamiento minero con secretos', type: 'safe', dangerLevel: 2, coordinates: { x: 300, y: 350 }, connections: ['waterdeep', 'baldurs-gate'], icon: '', discovered: true, visited: false },
       { id: 'candlekeep', name: 'Candlekeep', description: 'Biblioteca-fortaleza del conocimiento', type: 'landmark', dangerLevel: 1, coordinates: { x: 100, y: 500 }, connections: ['baldurs-gate'], icon: '', discovered: false, visited: false },
+    ],
+    ROMANTASY: [
+      { id: 'corte-primavera', name: 'Corte de Primavera', description: 'Palacio de mármol blanco entre jardines de rosas eternas', type: 'city', dangerLevel: 3, coordinates: { x: 300, y: 250 }, connections: ['bosque-espinas', 'aldea-mortal-prythian', 'velaris'], icon: '', discovered: true, visited: true },
+      { id: 'velaris', name: 'Velaris (Ciudad Estrella)', description: 'Capital oculta de la Corte de la Noche', type: 'city', dangerLevel: 2, coordinates: { x: 500, y: 200 }, connections: ['corte-primavera', 'bosque-espinas', 'corte-invierno'], icon: '', discovered: true, visited: false },
+      { id: 'bosque-espinas', name: 'Bosque de Espinas', description: 'Frontera salvaje entre cortes - peligro y magia ancestral', type: 'wilderness', dangerLevel: 4, coordinates: { x: 400, y: 350 }, connections: ['corte-primavera', 'velaris', 'cuevas-pacto', 'el-muro'], icon: '', discovered: true, visited: false },
+      { id: 'el-muro', name: 'El Muro', description: 'Barrera mágica milenaria entre tierras fae y humanas', type: 'landmark', dangerLevel: 5, coordinates: { x: 250, y: 450 }, connections: ['bosque-espinas', 'aldea-mortal-prythian', 'cuevas-pacto'], icon: '', discovered: false, visited: false },
+      { id: 'aldea-mortal-prythian', name: 'Aldea Mortal de Prythian', description: 'Pueblo humano en la frontera donde florece el comercio prohibido', type: 'safe', dangerLevel: 2, coordinates: { x: 150, y: 400 }, connections: ['corte-primavera', 'el-muro'], icon: '', discovered: true, visited: false },
+      { id: 'corte-invierno', name: 'Corte de Invierno', description: 'Fortaleza de hielo eterno con guerreros de honor', type: 'city', dangerLevel: 3, coordinates: { x: 650, y: 100 }, connections: ['velaris'], icon: '', discovered: false, visited: false },
+      { id: 'cuevas-pacto', name: 'Cuevas del Pacto', description: 'Lugar antiguo donde se firmó el Tratado - magia primordial', type: 'mystery', dangerLevel: 5, coordinates: { x: 500, y: 500 }, connections: ['bosque-espinas', 'el-muro'], icon: '', discovered: false, visited: false },
     ],
     CUSTOM: [
       { id: 'ciudad-principal', name: 'Ciudad Principal', description: 'El centro de la civilización', type: 'city', dangerLevel: 1, coordinates: { x: 400, y: 300 }, connections: ['bosque', 'montana'], icon: '', discovered: true, visited: true },

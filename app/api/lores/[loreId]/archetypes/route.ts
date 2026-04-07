@@ -8,6 +8,7 @@ import vikingosData from '@/data/lores/vikingos.json'
 import starwarsData from '@/data/lores/starwars.json'
 import cyberpunkData from '@/data/lores/cyberpunk.json'
 import lovecraftData from '@/data/lores/lovecraft.json'
+import romantasyData from '@/data/lores/romantasy.json'
 
 const LORE_DATA: Record<string, any> = {
   lotr: lotrData,
@@ -19,6 +20,7 @@ const LORE_DATA: Record<string, any> = {
   cyberpunk: cyberpunkData,
   lovecraft_horror: lovecraftData,
   lovecraft: lovecraftData,
+  romantasy: romantasyData,
 }
 
 export async function GET(

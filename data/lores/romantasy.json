@@ -1,0 +1,627 @@
+{
+  "id": "ROMANTASY",
+  "name": "Romance Fantasía",
+  "tagline": "Donde la política feérica y el deseo prohibido tejen el destino",
+  "tone": [
+    "romántico",
+    "épico",
+    "sensual",
+    "intriga cortesana"
+  ],
+  "world_summary": "El reino de Velaris está dividido en cuatro Cortes feéricas: Primavera, Verano, Otoño e Invierno. Cada una gobernada por un Alto Señor inmortal con poderes elementales. Bajo ellas, la Corte de la Noche opera en las sombras, manejando los hilos de la política y el comercio prohibido. Hace mil años, los humanos y los fae firmaron un Tratado que dividió el continente: las tierras al sur del Muro son humanas, las del norte pertenecen a los fae. Pero el Muro está debilitándose. Los pactos antiguos crujen. Las Cortes intrigan entre sí, los Altos Señores buscan herederos, y las profecías hablan de un mortal que cambiará el equilibrio. Vos llegás a este mundo en un momento donde el amor puede ser un arma más afilada que cualquier espada, y donde una mirada en el salón equivocado puede desatar una guerra de siglos. La magia corre por la sangre, los lazos del corazón se vuelven cadenas mágicas, y nadie es exactamente lo que parece.",
+  "factions": [
+    {
+      "name": "Corte de Primavera",
+      "description": "Belleza eterna, jardines mágicos, juegos cortesanos crueles",
+      "alignment": "Neutral",
+      "influence": 3
+    },
+    {
+      "name": "Corte de la Noche",
+      "description": "Intriga, secretos, poder oculto - los más temidos",
+      "alignment": "Neutral",
+      "influence": 3
+    },
+    {
+      "name": "Corte de Invierno",
+      "description": "Honor, frío inquebrantable, guerreros leales",
+      "alignment": "Bueno",
+      "influence": 2
+    },
+    {
+      "name": "Reino Humano del Sur",
+      "description": "Reyes mortales que temen a los fae - frágiles pero astutos",
+      "alignment": "Neutral",
+      "influence": 2
+    },
+    {
+      "name": "Los Sin Corte",
+      "description": "Fae exiliados, mestizos, rebeldes que rechazan el sistema",
+      "alignment": "Neutral",
+      "influence": 1
+    }
+  ],
+  "locations": [
+    {
+      "name": "Corte de Primavera",
+      "description": "Palacio de mármol blanco entre jardines de rosas eternas",
+      "type": "palacio",
+      "danger_level": 3,
+      "travel_times": {
+        "Bosque de Espinas": "1 hora a caballo, 3 horas a pie",
+        "Velaris (Corte de la Noche)": "2 días a caballo por portal feérico",
+        "Aldea Mortal de Prythian": "medio día a caballo"
+      },
+      "sub_locations": [
+        {
+          "id": "salon-rosas",
+          "name": "Salón de las Rosas",
+          "type": "throne_room",
+          "description": "Sala del trono donde el Alto Señor recibe a sus invitados entre columnas envueltas en enredaderas vivas"
+        },
+        {
+          "id": "jardin-eterno",
+          "name": "Jardín Eterno",
+          "type": "garden",
+          "description": "Laberinto de setos mágicos donde las flores nunca mueren y los secretos siempre se susurran"
+        },
+        {
+          "id": "biblioteca-cristal",
+          "name": "Biblioteca de Cristal",
+          "type": "library",
+          "description": "Torre de cristal con tomos prohibidos sobre magia antigua y pactos rotos"
+        },
+        {
+          "id": "alcobas-doradas",
+          "name": "Alcobas Doradas",
+          "type": "residence",
+          "description": "Habitaciones de invitados forradas en seda dorada donde más de un destino se ha sellado en la oscuridad"
+        }
+      ]
+    },
+    {
+      "name": "Velaris (Ciudad Estrella)",
+      "description": "Capital oculta de la Corte de la Noche - solo los invitados saben que existe",
+      "type": "ciudad",
+      "danger_level": 2,
+      "travel_times": {
+        "Corte de Primavera": "2 días por portal feérico",
+        "El Muro": "3 días en transporte mágico",
+        "Bosque de Espinas": "1 día por sendero estelar"
+      },
+      "sub_locations": [
+        {
+          "id": "casa-viento-estrellas",
+          "name": "Casa del Viento y las Estrellas",
+          "type": "residence",
+          "description": "Torre flotante donde reside el Círculo Interno - vistas imposibles sobre la ciudad nocturna"
+        },
+        {
+          "id": "rito-libreria",
+          "name": "Librería del Rito",
+          "type": "library",
+          "description": "Tienda de libros raros y manuscritos prohibidos, regenteada por una fae con secretos propios"
+        },
+        {
+          "id": "puente-estrellas",
+          "name": "Puente de las Estrellas",
+          "type": "landmark",
+          "description": "Puente de luz pura que cruza el río Sidra - dicen que dos amantes que lo crucen juntos quedan atados para siempre"
+        },
+        {
+          "id": "muelle-rainbow",
+          "name": "Muelle Arcoíris",
+          "type": "market",
+          "description": "Mercado de artesanos donde los pintores fae venden cuadros que cambian con el ánimo de quien los mira"
+        }
+      ]
+    },
+    {
+      "name": "Bosque de Espinas",
+      "description": "Frontera salvaje entre cortes - peligro y magia ancestral",
+      "type": "bosque",
+      "danger_level": 4,
+      "travel_times": {
+        "Corte de Primavera": "1 hora a caballo",
+        "Velaris": "1 día por sendero estelar",
+        "Aldea Mortal de Prythian": "2 horas a caballo"
+      }
+    },
+    {
+      "name": "El Muro",
+      "description": "Barrera mágica milenaria entre tierras fae y humanas",
+      "type": "fortaleza",
+      "danger_level": 5,
+      "travel_times": {
+        "Aldea Mortal de Prythian": "medio día a caballo",
+        "Velaris": "3 días en transporte mágico",
+        "Reino Humano del Sur": "1 día caminando hacia el sur"
+      }
+    },
+    {
+      "name": "Aldea Mortal de Prythian",
+      "description": "Pueblo humano en la frontera - donde el comercio prohibido florece",
+      "type": "asentamiento",
+      "danger_level": 2,
+      "travel_times": {
+        "El Muro": "medio día a caballo",
+        "Corte de Primavera": "medio día a caballo",
+        "Bosque de Espinas": "2 horas a caballo"
+      }
+    },
+    {
+      "name": "Corte de Invierno",
+      "description": "Fortaleza de hielo eterno, salones de cristal y guerreros de honor",
+      "type": "palacio",
+      "danger_level": 3,
+      "travel_times": {
+        "Velaris": "4 días por portal feérico",
+        "Corte de Primavera": "5 días por portal feérico",
+        "Bosque de Espinas": "3 días a caballo en condiciones brutales"
+      }
+    },
+    {
+      "name": "Cuevas del Pacto",
+      "description": "Lugar antiguo donde se firmó el Tratado - magia primordial",
+      "type": "ruinas",
+      "danger_level": 5,
+      "travel_times": {
+        "El Muro": "1 día caminando por senderos secretos",
+        "Bosque de Espinas": "2 días a caballo"
+      }
+    }
+  ],
+  "archetypes": [
+    {
+      "id": "cortesano",
+      "name": "Cortesano (Maestre del Juego)",
+      "description": "Diplomático y manipulador entre las Cortes feéricas",
+      "simple_description": "Tu arma es la palabra. Conocés cada baile, cada protocolo, cada secreto familiar. En la Corte sobreviven los que saben sonreír mientras envenenan la copa del rival.",
+      "starting_stats": {
+        "hp": 16,
+        "maxHp": 16,
+        "combat": 2,
+        "exploration": 2,
+        "social": 6,
+        "lore": 4
+      },
+      "starting_inventory": [
+        "Vestimentas de seda con bordados de la Corte",
+        "Daga ceremonial de plata (legal en banquetes)",
+        "Anillo con sello familiar",
+        "Carta sellada de invitación",
+        "Frasco con perfume embrujado",
+        "Pañuelo con monograma",
+        "Bolsa de monedas de oro",
+        "Libro de etiqueta cortesana",
+        "Espejo de mano encantado (ve mentiras)",
+        "Joyero portátil con piezas de cambio",
+        "Botiquín de hierbas finas",
+        "Pluma y pergamino sellado"
+      ],
+      "special_ability": "Voz de Miel: Podés detectar mentiras en una conversación y persuadir a NPCs hostiles cuando hay testigos. Las Cortes te abren las puertas que cierran a otros."
+    },
+    {
+      "id": "guerrera-illyriana",
+      "name": "Guerrera Illyriana (Guardiana Alada)",
+      "description": "Combatiente de élite con alas de murciélago y disciplina feroz",
+      "simple_description": "Sangre Illyriana corre en tus venas. Naciste con alas y entrenaste desde que aprendiste a caminar. Tu lealtad es de hierro, tu furia es legendaria, y nadie sobrevive a tu danza de espadas.",
+      "starting_stats": {
+        "hp": 24,
+        "maxHp": 24,
+        "combat": 6,
+        "exploration": 4,
+        "social": 1,
+        "lore": 1
+      },
+      "starting_inventory": [
+        "Cuero de batalla Illyriano con sigilos",
+        "Espada larga de acero feérico",
+        "Arco corto y carcaj de flechas rúnicas",
+        "Daga oculta en la bota",
+        "Tatuajes mágicos (sigil de protección)",
+        "Capa con capucha de viajero",
+        "Mochila de cuero curtido",
+        "Raciones secas (5 días)",
+        "Cantimplora reforzada",
+        "Cuerda trenzada (20m)",
+        "Linterna de aceite con cristal",
+        "Saco de dormir liviano"
+      ],
+      "special_ability": "Vuelo de Combate: Podés volar distancias cortas y atacar desde el aire. En combate, tus golpes ignoran armadura ligera. Ningún Illyriano huye de una pelea."
+    },
+    {
+      "id": "alta-dama",
+      "name": "Alta Dama (Hechicera de las Estrellas)",
+      "description": "Maga poderosa con conexión a la magia ancestral",
+      "simple_description": "La magia te eligió. Ves los hilos del destino, hablás con las estrellas, y tu sola presencia hace que las llamas se inclinen. Pero el poder atrae miradas, y no todas son benévolas.",
+      "starting_stats": {
+        "hp": 14,
+        "maxHp": 14,
+        "combat": 1,
+        "exploration": 3,
+        "social": 4,
+        "lore": 7
+      },
+      "starting_inventory": [
+        "Túnica ceremonial bordada con runas",
+        "Báculo de cristal de cuarzo lunar",
+        "Grimorio personal con hechizos antiguos",
+        "Amuleto del Tercer Ojo",
+        "Cartas del destino (oráculo)",
+        "Saquito de hierbas rituales",
+        "Frasco con tinta de estrella",
+        "Vela negra para invocaciones",
+        "Daga ritual de plata",
+        "Cristales de poder (3 colores)",
+        "Mochila de cuero curtido",
+        "Pergaminos en blanco"
+      ],
+      "special_ability": "Visión del Destino: Una vez por escena podés vislumbrar el futuro inmediato y reaccionar antes de que pase. Tu magia puede sanar, sellar pactos o romper cadenas mágicas."
+    }
+  ],
+  "voice_id": "cálido_seductor",
+  "npc_voices": {
+    "alto_senor": "grave_imperioso",
+    "cortesano": "elegante_calculador",
+    "guerrero": "ronco_disciplinado",
+    "hechicera": "etéreo_misterioso"
+  },
+  "music_mood": "drama_tense",
+  "art_style": "ethereal romantic fantasy oil painting, fae court aesthetic, lush florals and twilight, dramatic candlelight, ACOTAR inspired, sensual atmosphere, intricate gowns and capes",
+  "roll_tables": {
+    "encounters": {
+      "formula": "1d20",
+      "results": [
+        {
+          "range": [1, 4],
+          "result": "Un cortesano misterioso te invita a un baile privado con segundas intenciones"
+        },
+        {
+          "range": [5, 8],
+          "result": "Emisario de otra Corte con un mensaje que no debe ser leído por nadie más"
+        },
+        {
+          "range": [9, 12],
+          "result": "Bestia del Bosque de Espinas atacando viajeros - testigo desesperado pide ayuda"
+        },
+        {
+          "range": [13, 15],
+          "result": "Asesino enmascarado intentando colarse en una recepción cortesana"
+        },
+        {
+          "range": [16, 17],
+          "result": "Antiguo amor reaparece con una propuesta peligrosa"
+        },
+        {
+          "range": [18, 19],
+          "result": "Profecía recitada por una vidente ciega en el mercado - te incluye"
+        },
+        {
+          "range": [20, 20],
+          "result": "Pacto mágico se activa - sentís el lazo del destino tirando de vos"
+        }
+      ]
+    },
+    "loot": {
+      "formula": "1d10",
+      "results": [
+        {
+          "range": [1, 3],
+          "result": "Joya cortesana - 1d6 x 50 monedas de oro"
+        },
+        {
+          "range": [4, 5],
+          "result": "Carta de amor sellada con secretos políticos"
+        },
+        {
+          "range": [6, 7],
+          "result": "Frasco con esencia mágica (cura, sueño o verdad)"
+        },
+        {
+          "range": [8, 9],
+          "result": "Arma feérica antigua con runa propia"
+        },
+        {
+          "range": [10, 10],
+          "result": "Reliquia élfica con poder de pacto - cambia destinos"
+        }
+      ]
+    }
+  },
+  "active_effects_pool": [
+    {
+      "id": "lazo_corazon",
+      "name": "Lazo del Corazón",
+      "description": "Vínculo mágico con otro personaje - sentís sus emociones a distancia",
+      "type": "buff",
+      "duration": 999,
+      "effects": {
+        "social": 2,
+        "shared_pain": true
+      }
+    },
+    {
+      "id": "encantamiento",
+      "name": "Encantamiento",
+      "description": "Estás bajo el efecto de magia seductora - tus elecciones están comprometidas",
+      "type": "debuff",
+      "duration": 4,
+      "effects": {
+        "social": -3,
+        "lore": -2
+      }
+    },
+    {
+      "id": "bendicion_alta_dama",
+      "name": "Bendición de la Alta Dama",
+      "description": "Una maga poderosa intervino a tu favor",
+      "type": "buff",
+      "duration": 3,
+      "effects": {
+        "lore": 3,
+        "combat": 1
+      }
+    },
+    {
+      "id": "pacto_sangre",
+      "name": "Pacto de Sangre",
+      "description": "Sellaste un acuerdo mágico irrompible - romperlo cuesta la vida",
+      "type": "critical",
+      "duration": 999,
+      "effects": {
+        "binding": true
+      }
+    }
+  ],
+  "narrative_skeleton": {
+    "act_1": {
+      "name": "Invitación Inesperada",
+      "description": "Una carta sellada cambia tu vida para siempre",
+      "anchors": [
+        "Recibís una invitación a una Corte feérica",
+        "Conocés a alguien que despierta algo en vos",
+        "Descubrís que tenés un don que ignorabas"
+      ],
+      "typical_scenes": [
+        "Aldea Mortal de Prythian",
+        "Corte de Primavera"
+      ],
+      "mood": "drama_tense"
+    },
+    "act_2": {
+      "name": "Juegos Cortesanos",
+      "description": "El amor y la política se entrelazan peligrosamente",
+      "anchors": [
+        "Sos atrapad@ entre dos facciones rivales",
+        "Un secreto familiar sale a la luz",
+        "Un baile termina en sangre"
+      ],
+      "typical_scenes": [
+        "Velaris",
+        "Salón de las Rosas"
+      ],
+      "mood": "horror_ambient"
+    },
+    "act_3": {
+      "name": "El Pacto Roto",
+      "description": "Las viejas alianzas se quiebran y todos eligen bando",
+      "anchors": [
+        "Descubrís quién mueve los hilos en las sombras",
+        "Forjás un pacto mágico arriesgado",
+        "Tu lazo del corazón es revelado"
+      ],
+      "typical_scenes": [
+        "Cuevas del Pacto",
+        "Corte de Invierno"
+      ],
+      "mood": "drama_tense"
+    },
+    "act_4": {
+      "name": "Guerra de las Cortes",
+      "description": "El equilibrio de mil años se hace pedazos",
+      "anchors": [
+        "Las Cortes entran en conflicto abierto",
+        "Tu amor se convierte en arma o en cadena",
+        "Una traición lo cambia todo"
+      ],
+      "typical_scenes": [
+        "El Muro",
+        "Bosque de Espinas"
+      ],
+      "mood": "combat_epic"
+    },
+    "act_5": {
+      "name": "Coronas y Cenizas",
+      "description": "El nuevo orden nace de las llamas - vos elegís cómo",
+      "anchors": [
+        "El destino del mundo está en tus manos",
+        "Sacrificio o redención",
+        "Tu nombre quedará en las leyendas"
+      ],
+      "typical_scenes": [
+        "Velaris",
+        "Cuevas del Pacto"
+      ],
+      "mood": "rest_peaceful"
+    }
+  },
+  "one_shot_hook": "Una invitación sellada con cera dorada llega a tu puerta al amanecer: el Alto Señor de la Corte de Primavera te invita al Baile de las Estrellas Caídas, una ceremonia que se celebra cada cien años. Lo extraño es que vos no pertenecés a la nobleza. Pero el sello es real, el portador es un fae alado de mirada glacial, y dice que tu presencia es 'esencial para que el equilibrio se mantenga'. Si aceptás, conocerás un mundo que te puede consumir. Si rechazás, alguien va a venir a buscarte de todas formas. ¿Qué hacés?",
+  "opening_scene": {
+    "location_id": "salon-rosas",
+    "location_name": "Salón de las Rosas, Corte de Primavera",
+    "description": "Las puertas dobles de mármol se abren ante vos y el aire huele a jazmín nocturno y a algo más antiguo, algo que hace que los vellos de la nuca se ericen. El Salón de las Rosas se extiende como un sueño imposible: columnas de piedra blanca envueltas en enredaderas vivas que florecen y se marchitan en ciclos de segundos, candelabros flotantes con velas de luz fría, y en el centro, un estanque de agua plateada donde los fae bailan sin tocar la superficie. Las miradas se posan sobre vos al instante. Sedas que se mueven solas. Joyas que cambian de color con la emoción de quien las lleva. Y al fondo, sentado en un trono de cuarzo rosado, un Alto Señor con ojos del color de la primavera te observa como si te conociera desde siempre.",
+    "visible_directions": [
+      {
+        "direction": "trono al fondo",
+        "landmark": "el Alto Señor de Primavera, hermoso y peligroso, esperando tu acercamiento"
+      },
+      {
+        "direction": "balcón este",
+        "landmark": "una figura encapuchada de la Corte de la Noche observándote en silencio desde las sombras"
+      },
+      {
+        "direction": "jardín lateral",
+        "landmark": "un camino de pétalos vivos que lleva al Jardín Eterno, donde los secretos se intercambian por favores"
+      },
+      {
+        "direction": "escalera de cristal",
+        "landmark": "los pisos privados del palacio, prohibidos a los invitados sin permiso explícito"
+      }
+    ],
+    "ambient_rumors": [
+      "dicen que el Alto Señor no había recibido a un mortal en su salón en doscientos años",
+      "una hechicera de Velaris vio una profecía sobre alguien que llegaría hoy y cambiaría el destino de las Cortes",
+      "el lazo del corazón se está activando entre dos personas presentes esta noche - nadie sabe quiénes",
+      "uno de los Altos Señores está enfermo de una maldición antigua y busca desesperadamente una cura"
+    ],
+    "closing_prompt": "Todas las miradas están sobre vos y el silencio se vuelve denso. Cada paso que des esta noche puede sellar tu destino. ¿Qué hacés?"
+  },
+  "opening_scenes": [
+    {
+      "id": "default",
+      "location_id": "salon-rosas",
+      "location_name": "Salón de las Rosas, Corte de Primavera",
+      "description": "Las puertas dobles de mármol se abren ante vos y el aire huele a jazmín nocturno y a algo más antiguo, algo que hace que los vellos de la nuca se ericen. El Salón de las Rosas se extiende como un sueño imposible: columnas de piedra blanca envueltas en enredaderas vivas que florecen y se marchitan en ciclos de segundos, candelabros flotantes con velas de luz fría, y en el centro, un estanque de agua plateada donde los fae bailan sin tocar la superficie. Las miradas se posan sobre vos al instante. Sedas que se mueven solas. Joyas que cambian de color con la emoción de quien las lleva. Y al fondo, sentado en un trono de cuarzo rosado, un Alto Señor con ojos del color de la primavera te observa como si te conociera desde siempre.",
+      "visible_directions": [
+        {
+          "direction": "trono al fondo",
+          "landmark": "el Alto Señor de Primavera, hermoso y peligroso, esperando tu acercamiento"
+        },
+        {
+          "direction": "balcón este",
+          "landmark": "una figura encapuchada de la Corte de la Noche observándote en silencio desde las sombras"
+        },
+        {
+          "direction": "jardín lateral",
+          "landmark": "un camino de pétalos vivos que lleva al Jardín Eterno, donde los secretos se intercambian por favores"
+        },
+        {
+          "direction": "escalera de cristal",
+          "landmark": "los pisos privados del palacio, prohibidos a los invitados sin permiso explícito"
+        }
+      ],
+      "ambient_rumors": [
+        "dicen que el Alto Señor no había recibido a un mortal en su salón en doscientos años",
+        "una hechicera de Velaris vio una profecía sobre alguien que llegaría hoy y cambiaría el destino de las Cortes",
+        "el lazo del corazón se está activando entre dos personas presentes esta noche - nadie sabe quiénes",
+        "uno de los Altos Señores está enfermo de una maldición antigua y busca desesperadamente una cura"
+      ],
+      "closing_prompt": "Todas las miradas están sobre vos y el silencio se vuelve denso. Cada paso que des esta noche puede sellar tu destino. ¿Qué hacés?"
+    },
+    {
+      "id": "midnight_pact",
+      "location_id": "jardin-eterno",
+      "location_name": "Jardín Eterno, Corte de Primavera",
+      "description": "Te escabullís del baile principal y el Jardín Eterno te recibe con un silencio que no es del todo silencio. Las flores murmuran en una lengua que casi entendés. Senderos de piedra luminiscente se ramifican entre setos imposiblemente altos, y la luna -dos lunas, en realidad, una blanca y una rosada- proyecta sombras que no siempre coinciden con quien las arroja. Una figura te espera junto a una fuente de aguas plateadas. Capa oscura, capucha baja, manos enguantadas. Cuando habla, su voz es la primera cosa esta noche que parece honesta: 'Tenemos poco tiempo. Lo que te ofrecieron ahí adentro no es lo que parece, y lo que vas a aceptar va a definir si vivís o morís antes del amanecer. Escuchame bien.'",
+      "visible_directions": [
+        {
+          "direction": "fuente plateada",
+          "landmark": "la figura encapuchada con una propuesta urgente y peligrosa"
+        },
+        {
+          "direction": "sendero al norte",
+          "landmark": "un camino oculto que sale del palacio sin pasar por las puertas vigiladas"
+        },
+        {
+          "direction": "regreso al salón",
+          "landmark": "las puertas del baile, donde tu ausencia ya empezó a notarse"
+        },
+        {
+          "direction": "puerta de servicio",
+          "landmark": "una entrada lateral usada por la servidumbre - rumor de que esconde un pasaje secreto"
+        }
+      ],
+      "ambient_rumors": [
+        "dicen que el Alto Señor no había recibido a un mortal en su salón en doscientos años",
+        "una hechicera de Velaris vio una profecía sobre alguien que llegaría hoy y cambiaría el destino de las Cortes",
+        "el lazo del corazón se está activando entre dos personas presentes esta noche - nadie sabe quiénes",
+        "uno de los Altos Señores está enfermo de una maldición antigua y busca desesperadamente una cura"
+      ],
+      "closing_prompt": "La figura espera tu respuesta y cada segundo que pasa hace que tu ausencia del salón sea más evidente. ¿Qué hacés?"
+    },
+    {
+      "id": "broken_treaty",
+      "location_id": "el-muro",
+      "location_name": "Frontera del Muro, Tierras Mortales",
+      "description": "El Muro se eleva ante vos como una cicatriz en el cielo: una barrera de aire vibrante que distorsiona todo lo que hay del otro lado. Hace una hora, una grieta se abrió en el sector norte y nadie ha podido cerrarla. Soldados humanos del reino del sur custodian la zona, nerviosos, con cruces de hierro frío en las manos. Pero vos sabés que ese hierro no va a parar a lo que está cruzando. Ya escuchaste los aullidos. Olisteis el aroma a magia descompuesta. Un mensajero feérico atraviesa la grieta, herido y desesperado, y antes de caer en tus brazos te entrega un anillo de oro grabado con runas: 'Llevalo a la Corte de la Noche. Si no llega antes del amanecer, todas las Cortes arderán.' Después, sus ojos se apagan.",
+      "visible_directions": [
+        {
+          "direction": "grieta en el Muro",
+          "landmark": "el agujero por donde lo que sea que viene puede estar entrando ahora mismo"
+        },
+        {
+          "direction": "soldados humanos",
+          "landmark": "guardias mortales aterrorizados pero dispuestos a detenerte si intentás cruzar"
+        },
+        {
+          "direction": "camino al sur",
+          "landmark": "ruta hacia un pueblo humano donde podrías esconder el anillo y desaparecer"
+        },
+        {
+          "direction": "camino al norte",
+          "landmark": "el sendero que cruza al territorio fae, hacia Velaris - tres días de viaje brutal"
+        }
+      ],
+      "ambient_rumors": [
+        "dicen que el Alto Señor no había recibido a un mortal en su salón en doscientos años",
+        "una hechicera de Velaris vio una profecía sobre alguien que llegaría hoy y cambiaría el destino de las Cortes",
+        "el lazo del corazón se está activando entre dos personas presentes esta noche - nadie sabe quiénes",
+        "uno de los Altos Señores está enfermo de una maldición antigua y busca desesperadamente una cura"
+      ],
+      "closing_prompt": "El anillo pesa más de lo que debería en tu mano y el cuerpo del mensajero se enfría a tus pies. El amanecer está a horas. ¿Qué hacés?"
+    }
+  ],
+  "initial_missions": [
+    {
+      "id": "invitation_ball",
+      "title": "El Baile de las Estrellas",
+      "description": "Te invitaron a un baile cortesano sin explicación. Tenés que descubrir quién te invitó realmente, qué quieren de vos, y sobrevivir al protocolo letal de la Corte sin enemistarte con todos.",
+      "difficulty": "easy",
+      "tags": [
+        "social",
+        "mystery"
+      ]
+    },
+    {
+      "id": "courier_pact",
+      "title": "Mensajero del Pacto",
+      "description": "Un anillo encantado debe llegar a la Corte de la Noche antes del amanecer. Te lo dieron en circunstancias sospechosas y todos parecen quererlo. El camino es peligroso y no podés confiar en nadie.",
+      "difficulty": "medium",
+      "tags": [
+        "travel",
+        "stealth",
+        "intrigue"
+      ]
+    },
+    {
+      "id": "broken_seal",
+      "title": "El Sello Roto",
+      "description": "Las Cuevas del Pacto fueron profanadas y la magia milenaria del Tratado se está debilitando. Tenés que infiltrarte, descubrir quién lo hizo, y decidir si reparás el daño o aprovechás la oportunidad para cambiar las reglas del mundo.",
+      "difficulty": "hard",
+      "tags": [
+        "exploration",
+        "magic",
+        "moral_choice"
+      ]
+    }
+  ],
+  "engine_notes": {
+    "story_mode": "Romance épico con política cortesana. Los conflictos se resuelven más con palabras, miradas y elecciones emocionales que con espadas. Las consecuencias del corazón pesan tanto como las del combate. Tono: anhelo, deseo, peligro elegante.",
+    "pbta": "Movimientos como 'Seducir o Manipular', 'Leer la Situación', 'Desafiar el Peligro Cortesano'. Fallos parciales = enredarte sentimentalmente, deber un favor a la Corte equivocada, dejar testigos.",
+    "year_zero": "Recursos: favores cortesanos, secretos, lazos del corazón, magia personal. Empujar dados = comprometer tu reputación, romper un voto, agotar tu poder mágico.",
+    "dnd_5e": "Clases recomendadas: Bardo (Cortesano), Ranger Aaracokra adaptado a Illyriano, Hechicero Wild Magic (Alta Dama). Encuentros sociales valen tanta XP como combates. Pactos mágicos como Geas obligatorios."
+  },
+  "tutorial_notes": "Para NOVICE: Explicar que en Romantasy las palabras son armas y los lazos emocionales son mecánicas reales. El primer baile actúa como tutorial de relaciones - el DM presenta tres NPCs distintivos con motivaciones claras. El combate es raro y siempre tiene peso narrativo. Aclarar que está bien priorizar romance e intriga sobre violencia.",
+  "glossary": {
+    "Alto Señor": "Gobernante inmortal de una Corte feérica con poderes elementales",
+    "Corte": "Reino feérico gobernado por un Alto Señor - hay siete en total",
+    "Lazo del Corazón": "Vínculo mágico irrompible entre dos almas destinadas",
+    "Illyriano": "Raza fae alada conocida por su disciplina militar",
+    "Pacto de Sangre": "Acuerdo mágico sellado con sangre - romperlo es la muerte",
+    "Tratado": "Acuerdo milenario que dividió el mundo entre fae y mortales",
+    "Velaris": "Capital secreta de la Corte de la Noche, conocida como la Ciudad Estrella",
+    "Mortal": "Humano - vive una sola vida y los fae los ven como frágiles pero fascinantes",
+    "Fae": "Inmortal con magia innata - hermoso, peligroso, ligado a su Corte"
+  }
+}

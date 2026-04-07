@@ -28,6 +28,8 @@ const LORE_PORTRAIT_STYLES: Record<string, string> = {
 
   LOVECRAFT_HORROR: 'dark portrait, cosmic horror aesthetic, unsettling atmosphere, muted colors with eldritch highlights, mysterious expression',
 
+  ROMANTASY: 'romantic fantasy portrait, ethereal lighting, fae court aesthetic, ACOTAR inspired, intricate gown or armor, lush florals in background, sensual atmosphere, dreamy painterly style',
+
   CUSTOM: 'fantasy character portrait, detailed illustration, dramatic lighting, heroic pose',
 }
 
@@ -74,6 +76,11 @@ const ARCHETYPE_DESCRIPTIONS: Record<string, string> = {
   'Investigador': 'investigator, 1920s attire, notebook, haunted expression',
   'Ocultista': 'occultist, ritual robes, arcane symbols, knowing gaze',
   'Profesor': 'professor, scholarly clothes, ancient tome, worried eyes',
+
+  // ROMANTASY
+  'Cortesano (Maestre del Juego)': 'fae courtier, intricate silk gown or doublet, jeweled accessories, knowing smile, candlelit ballroom background, ACOTAR aesthetic',
+  'Guerrera Illyriana (Guardiana Alada)': 'winged warrior, leather battle armor with sigils, dual blades, fierce eyes, mountain backdrop, dark wings spread',
+  'Alta Dama (Hechicera de las Estrellas)': 'high lady sorceress, flowing robes with star embroidery, glowing crystal staff, ethereal presence, twilight garden background',
 }
 
 // Descripciones visuales de razas D&D 5e para retratos
