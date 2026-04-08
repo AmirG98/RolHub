@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { Package, Sword, Shield, FlaskConical, Scroll, Coins, Backpack } from 'lucide-react'
+import { translateInventoryItem } from '@/lib/i18n/inventory-translate'
 
 // Categorizar items por keywords en el nombre
 function categorizeItem(name: string): string {
@@ -49,11 +50,16 @@ export function InventoryPanel({ inventory, characterName, locale = 'es', classN
 
   // Defensivo: algunos personajes guest viejos pueden tener inventory como
   // LocalizedString[] (objetos {es,en}) en DB en vez de strings planos.
-  const normalizedInventory: string[] = inventory.map((item: any) => {
+  const flatInventory: string[] = inventory.map((item: any) => {
     if (typeof item === 'string') return item
     if (item && typeof item === 'object') return item[locale] || item.es || item.en || ''
     return String(item ?? '')
   }).filter(Boolean)
+
+  // Traducción al vuelo ES⇄EN para personajes pre-existentes cuyo inventory
+  // en DB está en el idioma "equivocado" respecto al locale actual. Items no
+  // encontrados en el lookup (loot del DM) pasan sin cambios.
+  const normalizedInventory: string[] = flatInventory.map(i => translateInventoryItem(i, locale))
 
   // Detectar items nuevos para highlight
   useEffect(() => {
