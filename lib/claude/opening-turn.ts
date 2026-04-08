@@ -44,16 +44,24 @@ export async function generateOpeningTurnWithClaude(
   const worldSummary = loreData.world_summary || ''
 
   const systemPrompt = locale === 'en'
-    ? `You are the DM of a tabletop RPG game session. Your job right now is to write the opening narration of a new game — the very first thing the player will read.
+    ? `You are the DM of a tabletop RPG. Write a SHORT opening narration — the very first thing the player will read.
 
-Write in ENGLISH. Write in second person ("you"). Use atmospheric, sensory prose in the style of a skilled tabletop Game Master. 3 to 5 short paragraphs. Describe the setting around the character, the mood, the sounds and smells, who else might be nearby, and a subtle hint of something interesting about to happen. End with a single question asking the player what they want to do.
+STRICT RULES:
+- Write in ENGLISH, second person ("you").
+- Exactly 2 short paragraphs. No more.
+- Total length: 60-100 words. Be concise and evocative.
+- Atmospheric sensory detail, but no filler.
+- End with a single short question asking what the player wants to do.
+- Output PLAIN TEXT only. NO markdown, NO headings (no "#", no "##"), NO titles, NO stage directions, NO meta commentary. Just the narration prose.`
+    : `Sos el DM de una partida de rol. Escribí una narración de apertura CORTA — lo primero que el jugador va a leer.
 
-Do NOT add meta commentary. Do NOT include stage directions. Do NOT break the fourth wall. Output ONLY the narration text.`
-    : `Sos el DM de una partida de rol. Tu trabajo ahora es escribir la narración de apertura de una nueva partida — lo primero que el jugador va a leer.
-
-Escribí en ESPAÑOL rioplatense. Escribí en segunda persona ("vos"). Usá prosa atmosférica y sensorial en el estilo de un buen Game Master. 3 a 5 párrafos cortos. Describí el entorno del personaje, el clima de la escena, los sonidos y olores, quién más puede estar cerca, y una pista sutil de algo interesante por venir. Terminá con una sola pregunta al jugador sobre qué hacer.
-
-NO agregues meta-comentarios. NO incluyas acotaciones. NO rompas la cuarta pared. Devolvé SOLO el texto de la narración.`
+REGLAS ESTRICTAS:
+- Escribí en ESPAÑOL rioplatense, segunda persona ("vos").
+- Exactamente 2 párrafos cortos. Ni uno más.
+- Largo total: 60-100 palabras. Concisa y evocativa.
+- Detalle sensorial atmosférico, sin relleno.
+- Terminá con una sola pregunta corta sobre qué quiere hacer el jugador.
+- Devolvé TEXTO PLANO. NADA de markdown, NADA de títulos ni headings (nada de "#" ni "##"), nada de acotaciones, nada de meta-comentarios. Solo la prosa narrativa.`
 
   const userMessage = locale === 'en'
     ? `Lore: ${loreName}
@@ -82,7 +90,13 @@ Escribí la narración de apertura ahora.`
     })
 
     const textBlock = response.content.find((b) => b.type === 'text')
-    const introContent = textBlock && 'text' in textBlock ? textBlock.text.trim() : ''
+    let introContent = textBlock && 'text' in textBlock ? textBlock.text.trim() : ''
+
+    // Scrub markdown headings that Claude a veces agrega aunque le pidas que no
+    introContent = introContent
+      .replace(/^#{1,6}\s+.*$/gm, '')   // líneas enteras que son headings
+      .replace(/^\*{1,3}.*\*{1,3}$/gm, '') // énfasis que ocupan una línea entera (títulos)
+      .trim()
 
     if (!introContent) {
       throw new Error('Claude returned empty content')
