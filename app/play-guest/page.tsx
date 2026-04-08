@@ -13,9 +13,9 @@ import { Play, Scroll, Swords, Map, MessageCircle, ChevronRight } from 'lucide-r
 
 // Lores disponibles
 const GUEST_LORES = [
-  { id: 'LOTR', name: 'Tierras Medias', nameEn: 'Middle Earth', emoji: '🏰', description: 'Fantasía épica tolkieniana' },
-  { id: 'ZOMBIES', name: 'Apocalipsis Zombie', nameEn: 'Zombie Apocalypse', emoji: '☠️', description: 'Supervivencia y horror' },
-  { id: 'DND_CLASSIC', name: 'Reinos Olvidados', nameEn: 'Forgotten Realms', emoji: '⚔️', description: 'D&D clásico en Faerûn' },
+  { id: 'LOTR', name: 'Tierras Medias', nameEn: 'Middle Earth', emoji: '🏰', description: 'Fantasía épica tolkieniana', descriptionEn: 'Epic Tolkien-style fantasy' },
+  { id: 'ZOMBIES', name: 'Apocalipsis Zombie', nameEn: 'Zombie Apocalypse', emoji: '☠️', description: 'Supervivencia y horror', descriptionEn: 'Survival and horror' },
+  { id: 'DND_CLASSIC', name: 'Reinos Olvidados', nameEn: 'Forgotten Realms', emoji: '⚔️', description: 'D&D clásico en Faerûn', descriptionEn: 'Classic D&D in Faerûn' },
 ]
 
 // Arquetipos simplificados para guest
@@ -173,7 +173,7 @@ export default function PlayGuestPage() {
                         <h3 className="font-heading text-lg text-ink group-hover:text-gold transition-colors">
                           {isEnglish ? lore.nameEn : lore.name}
                         </h3>
-                        <p className="font-ui text-sm text-ink/60">{lore.description}</p>
+                        <p className="font-ui text-sm text-ink/60">{isEnglish ? lore.descriptionEn : lore.description}</p>
                       </div>
                       <ChevronRight className="h-5 w-5 text-ink/30 group-hover:text-gold transition-colors" />
                     </button>
