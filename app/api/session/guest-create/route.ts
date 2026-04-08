@@ -53,7 +53,7 @@ export async function POST(req: NextRequest) {
 
     // Buscar arquetipo en los datos del lore
     const archetype = loreData.archetypes?.find((a: any) => a.id === archetypeId)
-    const charArchetype = archetype?.name || archetypeId
+    const charArchetype = archetype?.name ? getLocalized(archetype.name, locale) : archetypeId
     const charStats = archetype?.starting_stats || { combat: 2, exploration: 2, social: 2, lore: 2 }
     const charInventory = archetype?.starting_inventory || []
 

@@ -105,8 +105,13 @@ export const clerkConfig = {
         color: '#FFFFFF',
       },
       otpCodeFieldInput: {
+        backgroundColor: 'rgba(18, 12, 4, 0.8)',
+        border: '1px solid #8B6914',
         color: '#FFFFFF',
-        borderColor: '#8B6914',
+        '&:focus': {
+          borderColor: '#C9A84C',
+          boxShadow: '0 0 0 2px rgba(201, 168, 76, 0.2)',
+        },
       },
       alertText: {
         color: '#FFFFFF',

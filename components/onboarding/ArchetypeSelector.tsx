@@ -125,11 +125,11 @@ export function ArchetypeSelector({ archetypes, loreName, lore, onSelect, onBack
     setShowPointBuy(false)
   }, [])
 
-  // Generar descripcion aleatoria
+  // Generar descripcion aleatoria (respeta el locale activo)
   const handleGenerateDescription = useCallback(() => {
-    const description = generateRandomDescription(lore || 'CUSTOM')
+    const description = generateRandomDescription(lore || 'CUSTOM', undefined, undefined, locale as 'es' | 'en')
     setCharacterDescription(description)
-  }, [lore])
+  }, [lore, locale])
 
   // Confirmar seleccion de arquetipo y mostrar formulario
   const handleArchetypeConfirm = useCallback(() => {

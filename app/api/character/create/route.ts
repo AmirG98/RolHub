@@ -174,8 +174,8 @@ export async function POST(req: NextRequest) {
       }
       const archetypeData = archetype as any
 
-      charName = characterName || archetypeData.name
-      charArchetype = archetypeData.name
+      charName = characterName || getLocalized(archetypeData.name, locale)
+      charArchetype = getLocalized(archetypeData.name, locale)
 
       // Si el engine es DND_5E y el arquetipo tiene dnd5e_stats, usar esos
       if (engine === 'DND_5E' && archetypeData.dnd5e_stats) {
@@ -359,7 +359,7 @@ export async function POST(req: NextRequest) {
           activeEffects: [],
           backstory: isDnD5eCharacter
             ? `${charStats.raceName} ${charStats.className} nivel ${charLevel}`
-            : loreData.archetypes.find((a: any) => a.id === archetypeId)?.description || '',
+            : getLocalized(loreData.archetypes.find((a: any) => a.id === archetypeId)?.description, locale) || '',
         },
       })
 

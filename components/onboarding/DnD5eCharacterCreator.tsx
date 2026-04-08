@@ -8,6 +8,7 @@ import {
   Shirt, Backpack, Coins, Gem, Axe, Crosshair, Music, FlaskConical
 } from 'lucide-react'
 import { generateRandomDescription } from '@/lib/character/description-templates'
+import { useLanguage } from '@/lib/i18n'
 import {
   getClasses, getRaces, getClass, getRace, getSubclasses,
   getRecommendedAbilityScores, getStartingGold, getMagicItemsAllowed,
@@ -195,6 +196,7 @@ function getItemInfo(item: string): { name: string; icon: React.ReactNode; categ
 }
 
 export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharacterCreatorProps) {
+  const { locale } = useLanguage()
   const [currentStep, setCurrentStep] = useState<Step>('race')
   const [selectedRaceId, setSelectedRaceId] = useState<string | null>(null)
   const [selectedSubraceId, setSelectedSubraceId] = useState<string | null>(null)
@@ -212,15 +214,16 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
   // Equipment choices state — tracks which option the player selected for each choice
   const [equipmentChoices, setEquipmentChoices] = useState<Record<number, number>>({})
 
-  // Generar descripcion aleatoria consistente con raza y clase
+  // Generar descripcion aleatoria consistente con raza y clase (respeta el locale)
   const handleGenerateDescription = useCallback(() => {
     const description = generateRandomDescription(
       (lore as any) || 'LOTR',
       selectedSubraceId || selectedRaceId || undefined,
-      selectedClassId || undefined
+      selectedClassId || undefined,
+      locale as 'es' | 'en'
     )
     setCharacterDescription(description)
-  }, [lore, selectedRaceId, selectedSubraceId, selectedClassId])
+  }, [lore, selectedRaceId, selectedSubraceId, selectedClassId, locale])
 
   const classes = useMemo(() => getClasses(), [])
   const races = useMemo(() => getRaces(), [])
