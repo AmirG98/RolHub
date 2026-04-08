@@ -68,27 +68,27 @@
       "sub_locations": [
         {
           "id": "cantina-chalmun",
-          "name": "Cantina de Chalmun",
+          "name": {"es": "Cantina de Chalmun", "en": "Chalmun's Cantina"},
           "type": "tavern",
-          "description": "El bar más infame del Borde Exterior, donde pilotos y criminales cierran tratos"
+          "description": {"es": "El bar más infame del Borde Exterior, donde pilotos y criminales cierran tratos", "en": "The most infamous bar in the Outer Rim, where pilots and criminals cut their deals"}
         },
         {
           "id": "bahia-atraque-94",
-          "name": "Bahía de Atraque 94",
+          "name": {"es": "Bahía de Atraque 94", "en": "Docking Bay 94"},
           "type": "hangar",
-          "description": "Hangar donde se estacionan naves de contrabandistas y viajeros"
+          "description": {"es": "Hangar donde se estacionan naves de contrabandistas y viajeros", "en": "A hangar where smugglers and travelers dock their ships"}
         },
         {
           "id": "mercado-jawa",
-          "name": "Mercado Jawa",
+          "name": {"es": "Mercado Jawa", "en": "Jawa Market"},
           "type": "market",
-          "description": "Droides y chatarra robada vendidos por los pequeños Jawas encapuchados"
+          "description": {"es": "Droides y chatarra robada vendidos por los pequeños Jawas encapuchados", "en": "Droids and stolen scrap sold by the hooded little Jawas"}
         },
         {
           "id": "oficina-imperial",
-          "name": "Oficina de Control Imperial",
+          "name": {"es": "Oficina de Control Imperial", "en": "Imperial Control Office"},
           "type": "gate",
-          "description": "Checkpoint de Stormtroopers que revisan identificaciones y carga"
+          "description": {"es": "Checkpoint de Stormtroopers que revisan identificaciones y carga", "en": "A Stormtrooper checkpoint inspecting IDs and cargo"}
         }
       ]
     },
@@ -138,33 +138,33 @@
       "sub_locations": [
         {
           "id": "senado-galactico",
-          "name": "Senado Galáctico",
+          "name": {"es": "Senado Galáctico", "en": "Galactic Senate"},
           "type": "palace",
-          "description": "El enorme edificio donde el Emperador dicta la ley galáctica"
+          "description": {"es": "El enorme edificio donde el Emperador dicta la ley galáctica", "en": "The massive building where the Emperor dictates galactic law"}
         },
         {
           "id": "distrito-entretenimiento",
-          "name": "Distrito de Entretenimiento",
+          "name": {"es": "Distrito de Entretenimiento", "en": "Entertainment District"},
           "type": "plaza",
-          "description": "Niveles medios llenos de cantinas, casinos y espectáculos para toda la galaxia"
+          "description": {"es": "Niveles medios llenos de cantinas, casinos y espectáculos para toda la galaxia", "en": "Middle levels crammed with cantinas, casinos and shows for the whole galaxy"}
         },
         {
           "id": "mercado-niveles-bajos",
-          "name": "Mercado de los Niveles Bajos",
+          "name": {"es": "Mercado de los Niveles Bajos", "en": "Lower Levels Market"},
           "type": "market",
-          "description": "Comercio clandestino en los suburbios oscuros bajo la superficie brillante"
+          "description": {"es": "Comercio clandestino en los suburbios oscuros bajo la superficie brillante", "en": "Clandestine trade in the dark underbelly beneath the shining surface"}
         },
         {
           "id": "templo-jedi",
-          "name": "Ruinas del Templo Jedi",
+          "name": {"es": "Ruinas del Templo Jedi", "en": "Jedi Temple Ruins"},
           "type": "temple",
-          "description": "Antiguo centro de la Orden Jedi, ahora sellado y custodiado por el Imperio"
+          "description": {"es": "Antiguo centro de la Orden Jedi, ahora sellado y custodiado por el Imperio", "en": "The ancient seat of the Jedi Order, now sealed and guarded by the Empire"}
         },
         {
           "id": "base-imperial",
-          "name": "Cuartel General Imperial",
+          "name": {"es": "Cuartel General Imperial", "en": "Imperial Headquarters"},
           "type": "prison",
-          "description": "Centro de operaciones militares y celdas de detención para prisioneros políticos"
+          "description": {"es": "Centro de operaciones militares y celdas de detención para prisioneros políticos", "en": "Military operations center and detention cells for political prisoners"}
         }
       ]
     },
@@ -200,18 +200,18 @@
         "lore": 1
       },
       "starting_inventory": [
-        "Blaster rápido",
-        "Nave carguera",
-        "Dados de Sabacc",
-        "Deuda de 10,000 créditos",
-        "Droide astromecánico",
-        "Mochila de campo",
-        "3 raciones de campaña",
-        "Cantimplora térmica",
-        "Cuerda sintética (15m)",
-        "Linterna de bolsillo",
-        "Medpac básico",
-        "Créditos galácticos (50)"
+        {"es": "Blaster rápido", "en": "Quick-draw blaster"},
+        {"es": "Nave carguera", "en": "Light freighter"},
+        {"es": "Dados de Sabacc", "en": "Sabacc dice"},
+        {"es": "Deuda de 10,000 créditos", "en": "10,000 credit debt"},
+        {"es": "Droide astromecánico", "en": "Astromech droid"},
+        {"es": "Mochila de campo", "en": "Field backpack"},
+        {"es": "3 raciones de campaña", "en": "3 ration packs"},
+        {"es": "Cantimplora térmica", "en": "Thermal canteen"},
+        {"es": "Cuerda sintética (15m)", "en": "Synthetic rope (15m)"},
+        {"es": "Linterna de bolsillo", "en": "Pocket glowrod"},
+        {"es": "Medpac básico", "en": "Basic medpac"},
+        {"es": "Créditos galácticos (50)", "en": "Galactic credits (50)"}
       ],
       "special_ability": "Suerte del Contrabandista: Una vez por sesión, convertí un fallo crítico en éxito. Tu nave tiene escondites secretos"
     },
@@ -229,18 +229,18 @@
         "lore": 5
       },
       "starting_inventory": [
-        "Sable de luz heredado",
-        "Holocrón Jedi",
-        "Túnica simple",
-        "Manual Jedi antiguo",
-        "Cristal Kyber",
-        "Mochila de campo",
-        "3 raciones de campaña",
-        "Cantimplora térmica",
-        "Cuerda sintética (15m)",
-        "Medpac básico",
-        "Créditos galácticos (50)",
-        "Herramienta multiuso"
+        {"es": "Sable de luz heredado", "en": "Inherited lightsaber"},
+        {"es": "Holocrón Jedi", "en": "Jedi holocron"},
+        {"es": "Túnica simple", "en": "Simple tunic"},
+        {"es": "Manual Jedi antiguo", "en": "Ancient Jedi manual"},
+        {"es": "Cristal Kyber", "en": "Kyber crystal"},
+        {"es": "Mochila de campo", "en": "Field backpack"},
+        {"es": "3 raciones de campaña", "en": "3 ration packs"},
+        {"es": "Cantimplora térmica", "en": "Thermal canteen"},
+        {"es": "Cuerda sintética (15m)", "en": "Synthetic rope (15m)"},
+        {"es": "Medpac básico", "en": "Basic medpac"},
+        {"es": "Créditos galácticos (50)", "en": "Galactic credits (50)"},
+        {"es": "Herramienta multiuso", "en": "Multi-tool"}
       ],
       "special_ability": "La Fuerza: Podés usar telequinesis, sentir presencias y tener visiones. Tu conexión crece con el tiempo"
     },
@@ -258,18 +258,18 @@
         "lore": 2
       },
       "starting_inventory": [
-        "Rifle blaster",
-        "Armadura mandaloriana",
-        "Gadgets de rastreo",
-        "Nave de combate",
-        "Ataduras de captura",
-        "Mochila de campo",
-        "3 raciones de campaña",
-        "Cantimplora térmica",
-        "Cuerda sintética (15m)",
-        "Linterna de bolsillo",
-        "Medpac básico",
-        "Créditos galácticos (50)"
+        {"es": "Rifle blaster", "en": "Blaster rifle"},
+        {"es": "Armadura mandaloriana", "en": "Mandalorian armor"},
+        {"es": "Gadgets de rastreo", "en": "Tracking gadgets"},
+        {"es": "Nave de combate", "en": "Combat ship"},
+        {"es": "Ataduras de captura", "en": "Capture binders"},
+        {"es": "Mochila de campo", "en": "Field backpack"},
+        {"es": "3 raciones de campaña", "en": "3 ration packs"},
+        {"es": "Cantimplora térmica", "en": "Thermal canteen"},
+        {"es": "Cuerda sintética (15m)", "en": "Synthetic rope (15m)"},
+        {"es": "Linterna de bolsillo", "en": "Pocket glowrod"},
+        {"es": "Medpac básico", "en": "Basic medpac"},
+        {"es": "Créditos galácticos (50)", "en": "Galactic credits (50)"}
       ],
       "special_ability": "Rastreador Experto: Siempre encontrás a tu objetivo. Tenés contactos en el Gremio para info privilegiada"
     }

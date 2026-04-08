@@ -274,33 +274,33 @@
       "sub_locations": [
         {
           "id": "gremio-aventureros-central",
-          "name": "Sede Central del Gremio de Aventureros",
+          "name": { "es": "Sede Central del Gremio de Aventureros", "en": "Adventurers Guild Headquarters" },
           "type": "hall",
-          "description": "Edificio enorme con tablón de misiones, mostrador de recepción y arena de entrenamiento"
+          "description": { "es": "Edificio enorme con tablón de misiones, mostrador de recepción y arena de entrenamiento", "en": "Enormous building with a quest board, reception desk, and training arena" }
         },
         {
           "id": "palacio-real",
-          "name": "Palacio Real de Astraea",
+          "name": { "es": "Palacio Real de Astraea", "en": "Royal Palace of Astraea" },
           "type": "palace",
-          "description": "Castillo de cristal mágico donde el Rey Aldric III gobierna con sabiduría"
+          "description": { "es": "Castillo de cristal mágico donde el Rey Aldric III gobierna con sabiduría", "en": "Magical crystal castle where King Aldric III rules with wisdom" }
         },
         {
           "id": "mercado-luminaria",
-          "name": "Gran Mercado de Luminaria",
+          "name": { "es": "Gran Mercado de Luminaria", "en": "Grand Market of Luminaria" },
           "type": "market",
-          "description": "Plaza comercial con tiendas de pociones, armas, armaduras y objetos mágicos"
+          "description": { "es": "Plaza comercial con tiendas de pociones, armas, armaduras y objetos mágicos", "en": "Commercial plaza with shops for potions, weapons, armor, and magical items" }
         },
         {
           "id": "templo-todos-dioses",
-          "name": "Templo de Todos los Dioses",
+          "name": { "es": "Templo de Todos los Dioses", "en": "Temple of All Gods" },
           "type": "temple",
-          "description": "Santuario ecuménico donde se puede rezar a cualquiera de las siete deidades mayores"
+          "description": { "es": "Santuario ecuménico donde se puede rezar a cualquiera de las siete deidades mayores", "en": "Ecumenical sanctuary where one can pray to any of the seven major deities" }
         },
         {
           "id": "barrios-bajos",
-          "name": "Barrios Bajos",
+          "name": { "es": "Barrios Bajos", "en": "Slums" },
           "type": "residence",
-          "description": "Zona pobre de la ciudad donde se esconden ladrones y se consigue información"
+          "description": { "es": "Zona pobre de la ciudad donde se esconden ladrones y se consigue información", "en": "Poor district where thieves hide and information can be bought" }
         }
       ]
     },
@@ -431,27 +431,27 @@
       "sub_locations": [
         {
           "id": "posada-luna-llena",
-          "name": "Posada de la Luna Llena",
+          "name": { "es": "Posada de la Luna Llena", "en": "Full Moon Inn" },
           "type": "tavern",
-          "description": "Posada acogedora de la posadera María, con estofado caliente y camas limpias"
+          "description": { "es": "Posada acogedora de la posadera María, con estofado caliente y camas limpias", "en": "Cozy inn run by Innkeeper María, with hot stew and clean beds" }
         },
         {
           "id": "herreria-jack",
-          "name": "Herrería de Jack",
+          "name": { "es": "Herrería de Jack", "en": "Jack's Smithy" },
           "type": "workshop",
-          "description": "Pequeña forja donde el aprendiz Jack sueña con aventuras mientras martilla metal"
+          "description": { "es": "Pequeña forja donde el aprendiz Jack sueña con aventuras mientras martilla metal", "en": "Small forge where apprentice Jack dreams of adventure while hammering metal" }
         },
         {
           "id": "capilla-aldea",
-          "name": "Capilla de Solarius",
+          "name": { "es": "Capilla de Solarius", "en": "Chapel of Solarius" },
           "type": "temple",
-          "description": "Pequeña iglesia dedicada al dios creador de los humanos, con un sacerdote amable"
+          "description": { "es": "Pequeña iglesia dedicada al dios creador de los humanos, con un sacerdote amable", "en": "Small church dedicated to the creator god of humans, with a kind priest" }
         },
         {
           "id": "tienda-provisiones",
-          "name": "Tienda de Provisiones",
+          "name": { "es": "Tienda de Provisiones", "en": "Provisions Shop" },
           "type": "market",
-          "description": "Negocio general con equipo básico para aventureros principiantes"
+          "description": { "es": "Negocio general con equipo básico para aventureros principiantes", "en": "General store with basic gear for beginner adventurers" }
         }
       ]
     },
@@ -549,27 +549,27 @@
       "sub_locations": [
         {
           "id": "muelle-principal",
-          "name": "Muelle Principal",
+          "name": { "es": "Muelle Principal", "en": "Main Docks" },
           "type": "dock",
-          "description": "Puerto bullicioso donde barcos de todas las naciones descargan mercancías exóticas"
+          "description": { "es": "Puerto bullicioso donde barcos de todas las naciones descargan mercancías exóticas", "en": "Bustling harbor where ships from all nations unload exotic goods" }
         },
         {
           "id": "taberna-ancla-dorada",
-          "name": "Taberna del Ancla Dorada",
+          "name": { "es": "Taberna del Ancla Dorada", "en": "The Golden Anchor Tavern" },
           "type": "tavern",
-          "description": "Bar de marineros y piratas reformados donde se consiguen misiones marítimas"
+          "description": { "es": "Bar de marineros y piratas reformados donde se consiguen misiones marítimas", "en": "Bar of sailors and reformed pirates where maritime quests are found" }
         },
         {
           "id": "mercado-negro-mareas",
-          "name": "Mercado Negro de Mareas",
+          "name": { "es": "Mercado Negro de Mareas", "en": "Tides Black Market" },
           "type": "market",
-          "description": "Zona oculta donde se venden objetos prohibidos y se compra información"
+          "description": { "es": "Zona oculta donde se venden objetos prohibidos y se compra información", "en": "Hidden area where forbidden items are sold and information is bought" }
         },
         {
           "id": "oficina-gobernador",
-          "name": "Oficina del Gobernador Barbanegra",
+          "name": { "es": "Oficina del Gobernador Barbanegra", "en": "Governor Blackbeard's Office" },
           "type": "palace",
-          "description": "Edificio portuario desde donde el ex-pirata mantiene el orden con puño de hierro"
+          "description": { "es": "Edificio portuario desde donde el ex-pirata mantiene el orden con puño de hierro", "en": "Harbor building from which the ex-pirate keeps order with an iron fist" }
         }
       ]
     },
@@ -635,21 +635,21 @@
       "sub_locations": [
         {
           "id": "tienda-jefe-lobo",
-          "name": "Tienda del Jefe Lobo",
+          "name": { "es": "Tienda del Jefe Lobo", "en": "Wolf Chieftain's Tent" },
           "type": "hall",
-          "description": "Gran tienda central donde Fenrir celebra consejos con los líderes tribales"
+          "description": { "es": "Gran tienda central donde Fenrir celebra consejos con los líderes tribales", "en": "Great central tent where Fenrir holds councils with tribal leaders" }
         },
         {
           "id": "campo-entrenamiento",
-          "name": "Campo de Entrenamiento",
+          "name": { "es": "Campo de Entrenamiento", "en": "Training Grounds" },
           "type": "arena",
-          "description": "Claro donde los guerreros de todas las tribus entrenan y compiten"
+          "description": { "es": "Claro donde los guerreros de todas las tribus entrenan y compiten", "en": "Clearing where warriors from all tribes train and compete" }
         },
         {
           "id": "choza-sacerdotisa",
-          "name": "Choza de la Sacerdotisa Luna",
+          "name": { "es": "Choza de la Sacerdotisa Luna", "en": "Priestess Luna's Hut" },
           "type": "temple",
-          "description": "Refugio espiritual donde la sacerdotisa coneja lee el futuro en las estrellas"
+          "description": { "es": "Refugio espiritual donde la sacerdotisa coneja lee el futuro en las estrellas", "en": "Spiritual refuge where the rabbit priestess reads the future in the stars" }
         }
       ]
     }
@@ -671,18 +671,18 @@
         "growth_rate": 10
       },
       "starting_inventory": [
-        "Espada Sagrada Excalion (crece contigo, actualmente +1)",
-        "Armadura Ligera de Héroe (regenera lentamente)",
-        "Piedra de Traducción (entiendes todos los idiomas)",
-        "Mochila Dimensional (50 slots de inventario)",
-        "Manual del Héroe (explica el Sistema)",
-        "1000 monedas de oro (regalo del reino)",
-        "Cantimplora mágica",
-        "3 raciones de viaje",
-        "Saco de dormir ligero",
-        "Piedra de luz (iluminación mágica)",
-        "Poción de curación menor",
-        "Cuerda resistente (15m)"
+        { "es": "Espada Sagrada Excalion (crece contigo, actualmente +1)", "en": "Holy Sword Excalion (grows with you, currently +1)" },
+        { "es": "Armadura Ligera de Héroe (regenera lentamente)", "en": "Hero's Light Armor (slowly regenerates)" },
+        { "es": "Piedra de Traducción (entiendes todos los idiomas)", "en": "Translation Stone (you understand all languages)" },
+        { "es": "Mochila Dimensional (50 slots de inventario)", "en": "Dimensional Backpack (50 inventory slots)" },
+        { "es": "Manual del Héroe (explica el Sistema)", "en": "Hero's Manual (explains the System)" },
+        { "es": "1000 monedas de oro (regalo del reino)", "en": "1000 gold coins (gift from the kingdom)" },
+        { "es": "Cantimplora mágica", "en": "Magical waterskin" },
+        { "es": "3 raciones de viaje", "en": "3 travel rations" },
+        { "es": "Saco de dormir ligero", "en": "Light sleeping bag" },
+        { "es": "Piedra de luz (iluminación mágica)", "en": "Light stone (magical illumination)" },
+        { "es": "Poción de curación menor", "en": "Minor healing potion" },
+        { "es": "Cuerda resistente (15m)", "en": "Sturdy rope (15m)" }
       ],
       "special_ability": "Vista del Sistema: Ves estadísticas de personas, monstruos y objetos. Creces 10 veces más rápido que los nativos. Puedes 'guardar' antes de momentos peligrosos (1 vez por día).",
       "advancement_paths": [
@@ -708,18 +708,18 @@
         "business": 5
       },
       "starting_inventory": [
-        "Carrito de Comerciante con Espacio Expandido",
-        "5000 monedas de oro (capital inicial)",
-        "Libreta de Negocios (registro de contactos y precios)",
-        "Balanza de Precisión mágica",
-        "Muestras de productos únicos de la Tierra (ideas)",
-        "Contrato en blanco mágico (se auto-ejecuta)",
-        "Daga oculta (por si acaso)",
-        "Cantimplora mágica",
-        "3 raciones de viaje",
-        "Saco de dormir ligero",
-        "Piedra de luz (iluminación mágica)",
-        "Cuerda resistente (15m)"
+        { "es": "Carrito de Comerciante con Espacio Expandido", "en": "Merchant cart with expanded space" },
+        { "es": "5000 monedas de oro (capital inicial)", "en": "5000 gold coins (starting capital)" },
+        { "es": "Libreta de Negocios (registro de contactos y precios)", "en": "Business ledger (contacts and prices)" },
+        { "es": "Balanza de Precisión mágica", "en": "Magical precision scale" },
+        { "es": "Muestras de productos únicos de la Tierra (ideas)", "en": "Samples of unique Earth products (ideas)" },
+        { "es": "Contrato en blanco mágico (se auto-ejecuta)", "en": "Blank magical contract (self-enforcing)" },
+        { "es": "Daga oculta (por si acaso)", "en": "Hidden dagger (just in case)" },
+        { "es": "Cantimplora mágica", "en": "Magical waterskin" },
+        { "es": "3 raciones de viaje", "en": "3 travel rations" },
+        { "es": "Saco de dormir ligero", "en": "Light sleeping bag" },
+        { "es": "Piedra de luz (iluminación mágica)", "en": "Light stone (magical illumination)" },
+        { "es": "Cuerda resistente (15m)", "en": "Sturdy rope (15m)" }
       ],
       "special_ability": "Ingenio Terrenal: Puedes crear 'inventos' basados en conocimientos de la Tierra. Los NPCs pagan 50% más por tus productos. Detectas valor oculto en objetos que otros ignoran.",
       "advancement_paths": [
@@ -745,18 +745,18 @@
         "mana": 100
       },
       "starting_inventory": [
-        "Grimorio Infinito (registra y aprende hechizos)",
-        "Vara Mágica +2 (amplifica hechizos)",
-        "Túnica de Aprendiz (reduce costo de mana 10%)",
-        "Pociones de Mana x10",
-        "Libro de Hechizos Básicos (10 hechizos iniciales)",
-        "Cristal de Comunicación (contacto con la Academia)",
-        "500 monedas de oro",
-        "Mochila de aventurero",
-        "Cantimplora mágica",
-        "3 raciones de viaje",
-        "Saco de dormir ligero",
-        "Poción de curación menor"
+        { "es": "Grimorio Infinito (registra y aprende hechizos)", "en": "Infinite Grimoire (records and learns spells)" },
+        { "es": "Vara Mágica +2 (amplifica hechizos)", "en": "Magic Wand +2 (amplifies spells)" },
+        { "es": "Túnica de Aprendiz (reduce costo de mana 10%)", "en": "Apprentice Robes (reduces mana cost 10%)" },
+        { "es": "Pociones de Mana x10", "en": "Mana potions x10" },
+        { "es": "Libro de Hechizos Básicos (10 hechizos iniciales)", "en": "Basic Spellbook (10 starting spells)" },
+        { "es": "Cristal de Comunicación (contacto con la Academia)", "en": "Communication crystal (contact with the Academy)" },
+        { "es": "500 monedas de oro", "en": "500 gold coins" },
+        { "es": "Mochila de aventurero", "en": "Adventurer's backpack" },
+        { "es": "Cantimplora mágica", "en": "Magical waterskin" },
+        { "es": "3 raciones de viaje", "en": "3 travel rations" },
+        { "es": "Saco de dormir ligero", "en": "Light sleeping bag" },
+        { "es": "Poción de curación menor", "en": "Minor healing potion" }
       ],
       "special_ability": "Aprendizaje Infinito: Puedes copiar cualquier magia que veas al Grimorio. Mana se regenera el doble de rápido. Sin límite de elementos mágicos.",
       "advancement_paths": [
@@ -782,18 +782,18 @@
         "taming": 5
       },
       "starting_inventory": [
-        "Collar de Vinculación x5 (domestica monstruos)",
-        "Slime Compañero (mascota inicial, sorprendentemente útil)",
-        "Flauta de Bestias (calma monstruos hostiles)",
-        "Manual de Monstruos (información de especies)",
-        "Comida especial para monstruos x20",
-        "Armadura ligera de explorador",
-        "300 monedas de oro",
-        "Mochila de aventurero",
-        "Cantimplora mágica",
-        "3 raciones de viaje",
-        "Saco de dormir ligero",
-        "Cuerda resistente (15m)"
+        { "es": "Collar de Vinculación x5 (domestica monstruos)", "en": "Binding Collar x5 (tames monsters)" },
+        { "es": "Slime Compañero (mascota inicial, sorprendentemente útil)", "en": "Slime companion (starter pet, surprisingly useful)" },
+        { "es": "Flauta de Bestias (calma monstruos hostiles)", "en": "Beast Flute (calms hostile monsters)" },
+        { "es": "Manual de Monstruos (información de especies)", "en": "Monster Manual (species information)" },
+        { "es": "Comida especial para monstruos x20", "en": "Special monster food x20" },
+        { "es": "Armadura ligera de explorador", "en": "Explorer's light armor" },
+        { "es": "300 monedas de oro", "en": "300 gold coins" },
+        { "es": "Mochila de aventurero", "en": "Adventurer's backpack" },
+        { "es": "Cantimplora mágica", "en": "Magical waterskin" },
+        { "es": "3 raciones de viaje", "en": "3 travel rations" },
+        { "es": "Saco de dormir ligero", "en": "Light sleeping bag" },
+        { "es": "Cuerda resistente (15m)", "en": "Sturdy rope (15m)" }
       ],
       "special_ability": "Corazón de Bestia: Puedes domesticar cualquier monstruo si reduces su HP sin matarlo. Máximo 6 monstruos activos, infinitos en reserva. Los monstruos te obedecen y crecen contigo.",
       "advancement_paths": [
@@ -819,17 +819,17 @@
         "preparation": 5
       },
       "starting_inventory": [
-        "Equipo personalizado (diseñaste cada pieza)",
-        "Espada encantada por ti mismo",
-        "Grimorio con 20 años de investigación",
-        "Red de contactos (preparada durante años)",
-        "Base secreta (ubicación oculta)",
-        "3000 monedas de oro (ahorros)",
-        "Plan detallado para 'arreglar este mundo'",
-        "Cantimplora mágica",
-        "3 raciones de viaje",
-        "Piedra de luz (iluminación mágica)",
-        "Poción de curación menor"
+        { "es": "Equipo personalizado (diseñaste cada pieza)", "en": "Custom gear (you designed every piece)" },
+        { "es": "Espada encantada por ti mismo", "en": "Sword you enchanted yourself" },
+        { "es": "Grimorio con 20 años de investigación", "en": "Grimoire with 20 years of research" },
+        { "es": "Red de contactos (preparada durante años)", "en": "Network of contacts (prepared over years)" },
+        { "es": "Base secreta (ubicación oculta)", "en": "Secret base (hidden location)" },
+        { "es": "3000 monedas de oro (ahorros)", "en": "3000 gold coins (savings)" },
+        { "es": "Plan detallado para 'arreglar este mundo'", "en": "Detailed plan to 'fix this world'" },
+        { "es": "Cantimplora mágica", "en": "Magical waterskin" },
+        { "es": "3 raciones de viaje", "en": "3 travel rations" },
+        { "es": "Piedra de luz (iluminación mágica)", "en": "Light stone (magical illumination)" },
+        { "es": "Poción de curación menor", "en": "Minor healing potion" }
       ],
       "special_ability": "18 Años de Preparación: Tienes contactos, bases, equipo y planes. Puedes declarar 'Ya lo había previsto' una vez por sesión para revelar una preparación conveniente.",
       "advancement_paths": [
@@ -855,18 +855,18 @@
         "support": 6
       },
       "starting_inventory": [
-        "Báculo de Sanación Infinita",
-        "Togas del Santo (protección pasiva)",
-        "Biblia de Buffs (todos los hechizos de apoyo)",
-        "Incienso de Resurreción x3",
-        "Kit de primeros auxilios mágico",
-        "Contrato de Party (beneficios legales)",
-        "800 monedas de oro",
-        "Mochila de aventurero",
-        "Cantimplora mágica",
-        "3 raciones de viaje",
-        "Saco de dormir ligero",
-        "Piedra de luz (iluminación mágica)"
+        { "es": "Báculo de Sanación Infinita", "en": "Staff of Infinite Healing" },
+        { "es": "Togas del Santo (protección pasiva)", "en": "Saint's Robes (passive protection)" },
+        { "es": "Biblia de Buffs (todos los hechizos de apoyo)", "en": "Bible of Buffs (all support spells)" },
+        { "es": "Incienso de Resurreción x3", "en": "Resurrection incense x3" },
+        { "es": "Kit de primeros auxilios mágico", "en": "Magical first-aid kit" },
+        { "es": "Contrato de Party (beneficios legales)", "en": "Party contract (legal benefits)" },
+        { "es": "800 monedas de oro", "en": "800 gold coins" },
+        { "es": "Mochila de aventurero", "en": "Adventurer's backpack" },
+        { "es": "Cantimplora mágica", "en": "Magical waterskin" },
+        { "es": "3 raciones de viaje", "en": "3 travel rations" },
+        { "es": "Saco de dormir ligero", "en": "Light sleeping bag" },
+        { "es": "Piedra de luz (iluminación mágica)", "en": "Light stone (magical illumination)" }
       ],
       "special_ability": "Apoyo Absoluto: Curación y buffs no tienen límite de uso. Puedes revivir a alguien que murió en los últimos 10 minutos (1 vez por día). No puedes hacer daño directo.",
       "advancement_paths": [

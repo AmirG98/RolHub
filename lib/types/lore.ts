@@ -52,10 +52,17 @@ export interface Faction {
 }
 
 export interface Location {
-  name: string
-  description: string
+  name: LocalizedString
+  description: LocalizedString
   type: string
   danger_level: number
+}
+
+export interface SubLocation {
+  id: string
+  name: LocalizedString
+  description: LocalizedString
+  type: string
 }
 
 export interface Archetype {
@@ -71,7 +78,7 @@ export interface Archetype {
     social: number
     lore: number
   }
-  starting_inventory: string[]
+  starting_inventory: LocalizedString[]
   special_ability: string
 }
 

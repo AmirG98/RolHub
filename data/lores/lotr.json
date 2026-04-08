@@ -119,11 +119,11 @@
         "Bree": "1 día a pie, 4 horas a caballo"
       },
       "sub_locations": [
-        {"id": "hobbiton-plaza", "name": "Plaza de Hobbiton", "type": "plaza", "description": "Centro de la vida hobbit, con el árbol festivo y bancas de piedra"},
-        {"id": "dragon-verde", "name": "Posada del Dragón Verde", "type": "tavern", "description": "La mejor cerveza de la Comarca, punto de reunión de hobbits chismosos"},
-        {"id": "bolson-cerrado", "name": "Bolsón Cerrado", "type": "residence", "description": "La famosa cueva-hogar de los Bolsón, en la cima de la colina"},
-        {"id": "mercado-hobbiton", "name": "Mercado de Hobbiton", "type": "market", "description": "Frutas, verduras, semillas y pipas de los mejores granjeros hobbits"},
-        {"id": "molino-sandyman", "name": "Molino de Sandyman", "type": "workshop", "description": "El viejo molino junto al río, donde Ted Sandyman muele el grano"}
+        {"id": "hobbiton-plaza", "name": {"es": "Plaza de Hobbiton", "en": "Hobbiton Square"}, "type": "plaza", "description": {"es": "Centro de la vida hobbit, con el árbol festivo y bancas de piedra", "en": "The heart of hobbit life, with the Party Tree and stone benches"}},
+        {"id": "dragon-verde", "name": {"es": "Posada del Dragón Verde", "en": "The Green Dragon Inn"}, "type": "tavern", "description": {"es": "La mejor cerveza de la Comarca, punto de reunión de hobbits chismosos", "en": "The best ale in the Shire, gathering place of gossiping hobbits"}},
+        {"id": "bolson-cerrado", "name": {"es": "Bolsón Cerrado", "en": "Bag End"}, "type": "residence", "description": {"es": "La famosa cueva-hogar de los Bolsón, en la cima de la colina", "en": "The famous hobbit-hole of the Baggins family, atop the hill"}},
+        {"id": "mercado-hobbiton", "name": {"es": "Mercado de Hobbiton", "en": "Hobbiton Market"}, "type": "market", "description": {"es": "Frutas, verduras, semillas y pipas de los mejores granjeros hobbits", "en": "Fruits, vegetables, seeds and pipes from the finest hobbit farmers"}},
+        {"id": "molino-sandyman", "name": {"es": "Molino de Sandyman", "en": "Sandyman's Mill"}, "type": "workshop", "description": {"es": "El viejo molino junto al río, donde Ted Sandyman muele el grano", "en": "The old mill by the river, where Ted Sandyman grinds the grain"}}
       ]
     },
     {
@@ -154,12 +154,12 @@
         "Las Montañas Nubladas": "10 días a pie, 4 días a caballo"
       },
       "sub_locations": [
-        {"id": "pony-pisador", "name": "Posada del Pony Pisador", "type": "tavern", "description": "La posada más famosa de Bree, regentada por Cebadilla Mantecona. Fuego cálido, cerveza de cebada y estofado de cordero"},
-        {"id": "mercado-bree", "name": "Mercado de Bree", "type": "market", "description": "Plaza central donde comerciantes de todas las razas intercambian mercancías. Enanos con gemas, hobbits con pipas, hombres con armas"},
-        {"id": "porton-sur", "name": "Portón Sur", "type": "gate", "description": "La puerta principal hacia el Camino Verde y las tierras del sur"},
-        {"id": "porton-este", "name": "Portón Este", "type": "gate", "description": "Salida hacia el Camino del Este, Rivendel y las tierras lejanas"},
-        {"id": "herreria-bree", "name": "Herrería de Bree", "type": "workshop", "description": "Forja donde se reparan armas y herramientas. El herrero es un hombre corpulento y silencioso"},
-        {"id": "establo-bree", "name": "Establos de Bree", "type": "stable", "description": "Donde los viajeros guardan sus monturas. Ponys de la Comarca y caballos del norte"}
+        {"id": "pony-pisador", "name": {"es": "Posada del Pony Pisador", "en": "The Prancing Pony"}, "type": "tavern", "description": {"es": "La posada más famosa de Bree, regentada por Cebadilla Mantecona. Fuego cálido, cerveza de cebada y estofado de cordero", "en": "The most famous inn in Bree, run by Barliman Butterbur. A warm hearth, barley ale and mutton stew"}},
+        {"id": "mercado-bree", "name": {"es": "Mercado de Bree", "en": "Bree Market"}, "type": "market", "description": {"es": "Plaza central donde comerciantes de todas las razas intercambian mercancías. Enanos con gemas, hobbits con pipas, hombres con armas", "en": "The central square where merchants of every race trade goods. Dwarves with gems, hobbits with pipes, men with weapons"}},
+        {"id": "porton-sur", "name": {"es": "Portón Sur", "en": "South Gate"}, "type": "gate", "description": {"es": "La puerta principal hacia el Camino Verde y las tierras del sur", "en": "The main gate toward the Greenway and the lands of the south"}},
+        {"id": "porton-este", "name": {"es": "Portón Este", "en": "East Gate"}, "type": "gate", "description": {"es": "Salida hacia el Camino del Este, Rivendel y las tierras lejanas", "en": "The way out toward the East Road, Rivendell and distant lands"}},
+        {"id": "herreria-bree", "name": {"es": "Herrería de Bree", "en": "Bree Smithy"}, "type": "workshop", "description": {"es": "Forja donde se reparan armas y herramientas. El herrero es un hombre corpulento y silencioso", "en": "A forge where weapons and tools are mended. The blacksmith is a broad, silent man"}},
+        {"id": "establo-bree", "name": {"es": "Establos de Bree", "en": "Bree Stables"}, "type": "stable", "description": {"es": "Donde los viajeros guardan sus monturas. Ponys de la Comarca y caballos del norte", "en": "Where travelers keep their mounts. Shire ponies and horses from the North"}}
       ]
     },
     {
@@ -216,11 +216,11 @@
         "Moria": "5 días a pie (entrada oeste)"
       },
       "sub_locations": [
-        {"id": "casa-elrond", "name": "Casa de Elrond", "type": "palace", "description": "Salones de piedra blanca con cascadas, donde el Señor de Rivendel recibe a sus huéspedes"},
-        {"id": "biblioteca-rivendel", "name": "Gran Biblioteca", "type": "library", "description": "La mayor colección de conocimiento de la Tierra Media. Pergaminos en todas las lenguas"},
-        {"id": "forja-elfos", "name": "Forja Élfica", "type": "workshop", "description": "Donde los herreros élficos crean armas y armaduras de incomparable belleza"},
-        {"id": "jardines-rivendel", "name": "Jardines de Rivendel", "type": "garden", "description": "Terrazas con flores eternas sobre las cascadas. Lugar de meditación y sanación"},
-        {"id": "salon-fuego", "name": "Salón del Fuego", "type": "hall", "description": "Donde los elfos cantan y cuentan historias por las noches. Aquí se celebran los consejos"}
+        {"id": "casa-elrond", "name": {"es": "Casa de Elrond", "en": "The House of Elrond"}, "type": "palace", "description": {"es": "Salones de piedra blanca con cascadas, donde el Señor de Rivendel recibe a sus huéspedes", "en": "White stone halls flanked by waterfalls, where the Lord of Rivendell welcomes his guests"}},
+        {"id": "biblioteca-rivendel", "name": {"es": "Gran Biblioteca", "en": "The Great Library"}, "type": "library", "description": {"es": "La mayor colección de conocimiento de la Tierra Media. Pergaminos en todas las lenguas", "en": "The greatest collection of knowledge in Middle-earth. Scrolls in every tongue"}},
+        {"id": "forja-elfos", "name": {"es": "Forja Élfica", "en": "The Elven Forge"}, "type": "workshop", "description": {"es": "Donde los herreros élficos crean armas y armaduras de incomparable belleza", "en": "Where elven smiths craft weapons and armor of unmatched beauty"}},
+        {"id": "jardines-rivendel", "name": {"es": "Jardines de Rivendel", "en": "The Gardens of Rivendell"}, "type": "garden", "description": {"es": "Terrazas con flores eternas sobre las cascadas. Lugar de meditación y sanación", "en": "Terraces of everlasting flowers above the waterfalls. A place of meditation and healing"}},
+        {"id": "salon-fuego", "name": {"es": "Salón del Fuego", "en": "The Hall of Fire"}, "type": "hall", "description": {"es": "Donde los elfos cantan y cuentan historias por las noches. Aquí se celebran los consejos", "en": "Where the elves sing and tell tales at night. Councils are held here"}}
       ]
     },
     {
@@ -241,11 +241,11 @@
         "Mordor": "5 días a pie (ruta peligrosa)"
       },
       "sub_locations": [
-        {"id": "ciudadela", "name": "La Ciudadela (Nivel 7)", "type": "palace", "description": "La cima de Minas Tirith. La Torre de Ecthelion, el Trono del Senescal y el Árbol Blanco muerto"},
-        {"id": "casas-curacion", "name": "Casas de Curación (Nivel 6)", "type": "hospital", "description": "Donde los heridos son atendidos con hierbas y artes antiguas de sanación"},
-        {"id": "archivos", "name": "Archivos de Minas Tirith (Nivel 5)", "type": "library", "description": "Registros de miles de años de historia de Gondor. Mapas, genealogías, crónicas"},
-        {"id": "mercado-siete-niveles", "name": "Mercado de los Niveles (Nivel 3)", "type": "market", "description": "Comerciantes de todo Gondor venden armas, armaduras, provisiones y lujos"},
-        {"id": "puerta-grande", "name": "Gran Puerta (Nivel 1)", "type": "gate", "description": "La entrada principal de Minas Tirith, con puertas de hierro y acero. Guardias de la Torre Blanca"}
+        {"id": "ciudadela", "name": {"es": "La Ciudadela (Nivel 7)", "en": "The Citadel (Level 7)"}, "type": "palace", "description": {"es": "La cima de Minas Tirith. La Torre de Ecthelion, el Trono del Senescal y el Árbol Blanco muerto", "en": "The summit of Minas Tirith. The Tower of Ecthelion, the Steward's Throne, and the withered White Tree"}},
+        {"id": "casas-curacion", "name": {"es": "Casas de Curación (Nivel 6)", "en": "Houses of Healing (Level 6)"}, "type": "hospital", "description": {"es": "Donde los heridos son atendidos con hierbas y artes antiguas de sanación", "en": "Where the wounded are tended with herbs and ancient healing arts"}},
+        {"id": "archivos", "name": {"es": "Archivos de Minas Tirith (Nivel 5)", "en": "Archives of Minas Tirith (Level 5)"}, "type": "library", "description": {"es": "Registros de miles de años de historia de Gondor. Mapas, genealogías, crónicas", "en": "Records of thousands of years of Gondor's history. Maps, genealogies, chronicles"}},
+        {"id": "mercado-siete-niveles", "name": {"es": "Mercado de los Niveles (Nivel 3)", "en": "Market of the Levels (Level 3)"}, "type": "market", "description": {"es": "Comerciantes de todo Gondor venden armas, armaduras, provisiones y lujos", "en": "Merchants from across Gondor sell weapons, armor, provisions and luxuries"}},
+        {"id": "puerta-grande", "name": {"es": "Gran Puerta (Nivel 1)", "en": "The Great Gate (Level 1)"}, "type": "gate", "description": {"es": "La entrada principal de Minas Tirith, con puertas de hierro y acero. Guardias de la Torre Blanca", "en": "The main entrance to Minas Tirith, with doors of iron and steel. Guards of the White Tower stand watch"}}
       ]
     },
     {
@@ -432,17 +432,17 @@
         "lore": 2
       },
       "starting_inventory": [
-        "Espada larga forjada en el oeste",
-        "Arco largo de tejo y 20 flechas",
-        "Capa élfica que oculta del enemigo",
-        "Pipa de fumar y hierba del sur",
-        "Mapa de las Tierras Salvajes",
-        "Hierbas medicinales (athelas)",
-        "Saco de dormir de lana",
-        "3 raciones de viaje",
-        "Odre de agua",
-        "Cuerda de cáñamo (15m)",
-        "Pedernal y acero"
+        {"es": "Espada larga forjada en el oeste", "en": "Longsword forged in the West"},
+        {"es": "Arco largo de tejo y 20 flechas", "en": "Yew longbow and 20 arrows"},
+        {"es": "Capa élfica que oculta del enemigo", "en": "Elven cloak that hides you from enemies"},
+        {"es": "Pipa de fumar y hierba del sur", "en": "Smoking pipe and pipe-weed from the South"},
+        {"es": "Mapa de las Tierras Salvajes", "en": "Map of the Wild"},
+        {"es": "Hierbas medicinales (athelas)", "en": "Medicinal herbs (athelas)"},
+        {"es": "Saco de dormir de lana", "en": "Wool sleeping roll"},
+        {"es": "3 raciones de viaje", "en": "3 travel rations"},
+        {"es": "Odre de agua", "en": "Waterskin"},
+        {"es": "Cuerda de cáñamo (15m)", "en": "Hemp rope (15m)"},
+        {"es": "Pedernal y acero", "en": "Flint and steel"}
       ],
       "special_ability": "Rastreador Experto: Siempre sabes qué criaturas han pasado por un lugar, cuándo, y hacia dónde fueron",
       "advancement_paths": [
@@ -507,17 +507,17 @@
         "lore": 5
       },
       "starting_inventory": [
-        "Bastón de madera con inscripciones",
-        "Libro de crónicas antiguas",
-        "Kit de escritura con tinta especial",
-        "Lupa de cristal enano",
-        "Pergaminos en quenya y sindarin",
-        "Mapas de ruinas conocidas",
-        "Saco de dormir de lana",
-        "3 raciones de viaje",
-        "Odre de agua",
-        "Antorchas (2)",
-        "15 monedas de plata"
+        {"es": "Bastón de madera con inscripciones", "en": "Wooden staff carved with inscriptions"},
+        {"es": "Libro de crónicas antiguas", "en": "Book of ancient chronicles"},
+        {"es": "Kit de escritura con tinta especial", "en": "Writing kit with special ink"},
+        {"es": "Lupa de cristal enano", "en": "Dwarven crystal magnifying glass"},
+        {"es": "Pergaminos en quenya y sindarin", "en": "Scrolls in Quenya and Sindarin"},
+        {"es": "Mapas de ruinas conocidas", "en": "Maps of known ruins"},
+        {"es": "Saco de dormir de lana", "en": "Wool sleeping roll"},
+        {"es": "3 raciones de viaje", "en": "3 travel rations"},
+        {"es": "Odre de agua", "en": "Waterskin"},
+        {"es": "Antorchas (2)", "en": "Torches (2)"},
+        {"es": "15 monedas de plata", "en": "15 silver coins"}
       ],
       "special_ability": "Conocimiento Antiguo: Puedes leer cualquier lengua antigua y recordar leyendas relevantes sobre lugares, objetos y criaturas",
       "advancement_paths": [
@@ -590,18 +590,18 @@
         "lore": 1
       },
       "starting_inventory": [
-        "Espada ancha de acero gondoriano",
-        "Escudo con emblema de tu casa",
-        "Armadura de mallas reforzada",
-        "Cuerno de guerra",
-        "Estandarte de tu unidad",
-        "Saco de dormir de lana",
-        "3 raciones de viaje",
-        "Odre de agua",
-        "Cuerda de cáñamo (15m)",
-        "Antorchas (2)",
-        "Pedernal y acero",
-        "15 monedas de plata"
+        {"es": "Espada ancha de acero gondoriano", "en": "Broadsword of Gondorian steel"},
+        {"es": "Escudo con emblema de tu casa", "en": "Shield bearing your house's crest"},
+        {"es": "Armadura de mallas reforzada", "en": "Reinforced chain mail"},
+        {"es": "Cuerno de guerra", "en": "War horn"},
+        {"es": "Estandarte de tu unidad", "en": "Banner of your unit"},
+        {"es": "Saco de dormir de lana", "en": "Wool sleeping roll"},
+        {"es": "3 raciones de viaje", "en": "3 travel rations"},
+        {"es": "Odre de agua", "en": "Waterskin"},
+        {"es": "Cuerda de cáñamo (15m)", "en": "Hemp rope (15m)"},
+        {"es": "Antorchas (2)", "en": "Torches (2)"},
+        {"es": "Pedernal y acero", "en": "Flint and steel"},
+        {"es": "15 monedas de plata", "en": "15 silver coins"}
       ],
       "special_ability": "Protector: Puedes interponerte para recibir daño en lugar de un aliado, reduciendo el daño a la mitad",
       "advancement_paths": [
@@ -668,17 +668,17 @@
         "corruption_resistance": 5
       },
       "starting_inventory": [
-        "Daga corta (espada para un hobbit)",
-        "Capa de viaje de la Comarca",
-        "Pipa y hierba para pipa",
-        "5 raciones de viaje",
-        "Cuerda élfica",
-        "Pañuelo bordado (importante)",
-        "Saco de dormir de lana",
-        "Odre de agua",
-        "Pedernal y acero",
-        "15 monedas de plata",
-        "Hierbas curativas básicas"
+        {"es": "Daga corta (espada para un hobbit)", "en": "Short dagger (a sword for a hobbit)"},
+        {"es": "Capa de viaje de la Comarca", "en": "Shire travelling cloak"},
+        {"es": "Pipa y hierba para pipa", "en": "Pipe and pipe-weed"},
+        {"es": "5 raciones de viaje", "en": "5 travel rations"},
+        {"es": "Cuerda élfica", "en": "Elven rope"},
+        {"es": "Pañuelo bordado (importante)", "en": "Embroidered handkerchief (important)"},
+        {"es": "Saco de dormir de lana", "en": "Wool sleeping roll"},
+        {"es": "Odre de agua", "en": "Waterskin"},
+        {"es": "Pedernal y acero", "en": "Flint and steel"},
+        {"es": "15 monedas de plata", "en": "15 silver coins"},
+        {"es": "Hierbas curativas básicas", "en": "Basic healing herbs"}
       ],
       "special_ability": "Corazón Inquebrantable: Tienes resistencia natural a la corrupción y el miedo mágico. Los anillos de poder tienen menos efecto sobre ti",
       "advancement_paths": [
@@ -744,16 +744,16 @@
         "lore": 4
       },
       "starting_inventory": [
-        "Arco élfico de Lothlórien",
-        "Espada larga forjada en la Primera Edad",
-        "Capa élfica que oculta y protege",
-        "Pan de viaje (lembas)",
-        "Cuerda élfica",
-        "Fial con luz de estrella",
-        "Odre de agua élfico",
-        "Hierbas curativas básicas",
-        "Saco de dormir de seda élfica",
-        "15 monedas de plata"
+        {"es": "Arco élfico de Lothlórien", "en": "Elven bow of Lothlórien"},
+        {"es": "Espada larga forjada en la Primera Edad", "en": "Longsword forged in the First Age"},
+        {"es": "Capa élfica que oculta y protege", "en": "Elven cloak that hides and protects"},
+        {"es": "Pan de viaje (lembas)", "en": "Lembas waybread"},
+        {"es": "Cuerda élfica", "en": "Elven rope"},
+        {"es": "Fial con luz de estrella", "en": "Phial filled with starlight"},
+        {"es": "Odre de agua élfico", "en": "Elven waterskin"},
+        {"es": "Hierbas curativas básicas", "en": "Basic healing herbs"},
+        {"es": "Saco de dormir de seda élfica", "en": "Elven silk sleeping roll"},
+        {"es": "15 monedas de plata", "en": "15 silver coins"}
       ],
       "special_ability": "Vista de las Estrellas: Ves en la oscuridad como de día, detectas magia y corrupción, y puedes comunicarte con animales del bosque",
       "advancement_paths": [
@@ -819,18 +819,18 @@
         "crafting": 4
       },
       "starting_inventory": [
-        "Hacha de guerra enana",
-        "Armadura de placas enana",
-        "Casco con runas de protección",
-        "Kit de herramientas de forja",
-        "Cerveza enana (varios barriles pequeños)",
-        "Mapa de túneles conocidos",
-        "Saco de dormir de lana gruesa",
-        "3 raciones de viaje",
-        "Odre de agua",
-        "Cuerda de cáñamo (15m)",
-        "Pedernal y acero",
-        "15 monedas de plata"
+        {"es": "Hacha de guerra enana", "en": "Dwarven war axe"},
+        {"es": "Armadura de placas enana", "en": "Dwarven plate armor"},
+        {"es": "Casco con runas de protección", "en": "Helmet carved with runes of protection"},
+        {"es": "Kit de herramientas de forja", "en": "Smith's toolkit"},
+        {"es": "Cerveza enana (varios barriles pequeños)", "en": "Dwarven ale (several small casks)"},
+        {"es": "Mapa de túneles conocidos", "en": "Map of known tunnels"},
+        {"es": "Saco de dormir de lana gruesa", "en": "Thick wool sleeping roll"},
+        {"es": "3 raciones de viaje", "en": "3 travel rations"},
+        {"es": "Odre de agua", "en": "Waterskin"},
+        {"es": "Cuerda de cáñamo (15m)", "en": "Hemp rope (15m)"},
+        {"es": "Pedernal y acero", "en": "Flint and steel"},
+        {"es": "15 monedas de plata", "en": "15 silver coins"}
       ],
       "special_ability": "Hijo de la Piedra: Nunca te pierdes bajo tierra, resistes magia de forma natural, y detectas trampas y pasajes secretos en la roca",
       "advancement_paths": [

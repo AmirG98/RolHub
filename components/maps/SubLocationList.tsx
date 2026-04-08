@@ -1,6 +1,7 @@
 'use client'
 
 import { type Lore } from '@/lib/maps/map-config'
+import { getLocalized } from '@/lib/i18n/localize'
 
 // Importar lore data
 import lotrData from '@/data/lores/lotr.json'
@@ -36,23 +37,35 @@ export function SubLocationList({ lore, currentScene, locale = 'es' }: SubLocati
   const loreData = LORE_DATA[lore]
   if (!loreData?.locations) return null
 
-  // Buscar la ubicación actual en el lore
-  const currentLocation = loreData.locations.find((l: any) =>
-    currentScene?.toLowerCase().includes(l.name?.toLowerCase()) ||
-    l.name?.toLowerCase().includes(currentScene?.toLowerCase()?.split(',')[0]?.trim())
-  )
+  // El name del location top-level puede ser bilingue — hay que comparar ambas versiones
+  const currentLocation = loreData.locations.find((l: any) => {
+    const nameEs = typeof l.name === 'string' ? l.name : l.name?.es || ''
+    const nameEn = typeof l.name === 'string' ? l.name : l.name?.en || ''
+    const sceneLower = currentScene?.toLowerCase() || ''
+    const sceneFirstPart = sceneLower.split(',')[0]?.trim() || ''
+    return (
+      sceneLower.includes(nameEs.toLowerCase()) ||
+      sceneLower.includes(nameEn.toLowerCase()) ||
+      nameEs.toLowerCase().includes(sceneFirstPart) ||
+      nameEn.toLowerCase().includes(sceneFirstPart)
+    )
+  })
 
   const subLocations = currentLocation?.sub_locations
   if (!subLocations || subLocations.length === 0) return null
 
+  const currentLocationName = getLocalized(currentLocation.name, locale)
+
   return (
     <div className="px-3 py-2 border-t border-gold-dim/30 bg-shadow/80">
       <p className="text-[10px] font-heading text-gold-dim uppercase tracking-wider mb-1.5">
-        {locale === 'en' ? 'Places in' : 'Lugares en'} {currentLocation.name}
+        {locale === 'en' ? 'Places in' : 'Lugares en'} {currentLocationName}
       </p>
       <div className="space-y-1 max-h-32 overflow-y-auto">
         {subLocations.map((sl: any) => {
-          const isActive = currentScene?.toLowerCase().includes(sl.name?.toLowerCase())
+          const slName = getLocalized(sl.name, locale)
+          const slDescription = getLocalized(sl.description, locale)
+          const isActive = currentScene?.toLowerCase().includes(slName.toLowerCase())
           return (
             <div
               key={sl.id}
@@ -64,8 +77,8 @@ export function SubLocationList({ lore, currentScene, locale = 'es' }: SubLocati
             >
               <span className="flex-shrink-0">{TYPE_ICONS[sl.type] || '📍'}</span>
               <div className="min-w-0">
-                <span className="font-heading text-[11px]">{sl.name}</span>
-                <p className="text-[9px] text-parchment/50 line-clamp-1">{sl.description}</p>
+                <span className="font-heading text-[11px]">{slName}</span>
+                <p className="text-[9px] text-parchment/50 line-clamp-1">{slDescription}</p>
               </div>
             </div>
           )

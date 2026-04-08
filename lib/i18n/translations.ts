@@ -233,6 +233,8 @@ export const translations = {
       daysShort: 'días',
       loadingMap: 'Cargando mapa...',
       exploringLocation: 'Explorando ubicación...',
+      startAdventureSplash: 'Comenzar Aventura',
+      clickAnywhereToContinue: 'Click en cualquier lugar para continuar',
     },
 
     // Lobby
@@ -680,6 +682,8 @@ export const translations = {
       daysShort: 'days',
       loadingMap: 'Loading map...',
       exploringLocation: 'Exploring location...',
+      startAdventureSplash: 'Begin Adventure',
+      clickAnywhereToContinue: 'Click anywhere to continue',
     },
 
     // Lobby

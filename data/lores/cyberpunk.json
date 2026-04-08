@@ -56,27 +56,27 @@
       "sub_locations": [
         {
           "id": "plaza-corporativa",
-          "name": "Plaza Corporativa",
+          "name": {"es": "Plaza Corporativa", "en": "Corporate Plaza"},
           "type": "plaza",
-          "description": "Centro neurálgico de rascacielos de cristal con pantallas holográficas gigantes"
+          "description": {"es": "Centro neurálgico de rascacielos de cristal con pantallas holográficas gigantes", "en": "A nerve center of glass skyscrapers wrapped in giant holographic screens"}
         },
         {
           "id": "centro-comercial-neon",
-          "name": "Centro Comercial Neón",
+          "name": {"es": "Centro Comercial Neón", "en": "Neon Mall"},
           "type": "market",
-          "description": "Shopping vertical de 50 pisos con tiendas de implantes, armas y moda tech"
+          "description": {"es": "Shopping vertical de 50 pisos con tiendas de implantes, armas y moda tech", "en": "A 50-story vertical mall crammed with implant clinics, weapon shops and tech fashion"}
         },
         {
           "id": "hospital-trauma-team",
-          "name": "Hospital de Trauma Team",
+          "name": {"es": "Hospital de Trauma Team", "en": "Trauma Team Hospital"},
           "type": "hospital",
-          "description": "Centro médico premium donde solo atienden a clientes con seguro corporativo"
+          "description": {"es": "Centro médico premium donde solo atienden a clientes con seguro corporativo", "en": "A premium medical center that only treats clients with corporate insurance"}
         },
         {
           "id": "estacion-ncart",
-          "name": "Estación NCART Central",
+          "name": {"es": "Estación NCART Central", "en": "NCART Central Station"},
           "type": "gate",
-          "description": "Nodo principal del tren urbano de Night City, siempre atestado de gente"
+          "description": {"es": "Nodo principal del tren urbano de Night City, siempre atestado de gente", "en": "The main hub of Night City's urban rail, always packed with people"}
         }
       ]
     },
@@ -94,27 +94,27 @@
       "sub_locations": [
         {
           "id": "bloque-megaedificio",
-          "name": "Megaedificio H10",
+          "name": {"es": "Megaedificio H10", "en": "Megabuilding H10"},
           "type": "residence",
-          "description": "Colmena vertical de apartamentos diminutos donde viven miles de personas hacinadas"
+          "description": {"es": "Colmena vertical de apartamentos diminutos donde viven miles de personas hacinadas", "en": "A vertical hive of tiny apartments where thousands of people live crammed together"}
         },
         {
           "id": "puesto-comida-callejera",
-          "name": "Puestos de Comida Callejera",
+          "name": {"es": "Puestos de Comida Callejera", "en": "Street Food Stalls"},
           "type": "market",
-          "description": "Hilera de vendedores ambulantes con fideos sintéticos y cerveza barata"
+          "description": {"es": "Hilera de vendedores ambulantes con fideos sintéticos y cerveza barata", "en": "A row of vendors peddling synthetic noodles and cheap beer"}
         },
         {
           "id": "taller-mecanico",
-          "name": "Taller Mecánico de Vic",
+          "name": {"es": "Taller Mecánico de Vic", "en": "Vic's Auto Shop"},
           "type": "workshop",
-          "description": "Garaje clandestino donde se modifican vehículos y se esconden cargamentos"
+          "description": {"es": "Garaje clandestino donde se modifican vehículos y se esconden cargamentos", "en": "A clandestine garage where vehicles get modded and cargo gets hidden"}
         },
         {
           "id": "arena-subterranea",
-          "name": "Arena Subterránea",
+          "name": {"es": "Arena Subterránea", "en": "Underground Arena"},
           "type": "arena",
-          "description": "Ring de peleas ilegales donde los Solos apuestan su vida por créditos"
+          "description": {"es": "Ring de peleas ilegales donde los Solos apuestan su vida por créditos", "en": "An illegal fight ring where Solos bet their lives for eddies"}
         }
       ]
     },
@@ -198,18 +198,18 @@
         "lore": 1
       },
       "starting_inventory": [
-        "Pistola inteligente",
-        "Mantis blades (implante)",
-        "Jacket antibalas",
-        "Estimulantes de combate",
-        "Kontrato actual",
-        "Mochila urbana reforzada",
-        "Barras nutricionales (3 días)",
-        "Botella de agua con filtro",
-        "Cuerda sintética (15m)",
-        "Linterna táctica",
-        "Nano-botiquín",
-        "Credstick con 200 eurodólares"
+        {"es": "Pistola inteligente", "en": "Smart pistol"},
+        {"es": "Mantis blades (implante)", "en": "Mantis blades (cyberware)"},
+        {"es": "Jacket antibalas", "en": "Bulletproof jacket"},
+        {"es": "Estimulantes de combate", "en": "Combat stims"},
+        {"es": "Kontrato actual", "en": "Current contract"},
+        {"es": "Mochila urbana reforzada", "en": "Reinforced urban backpack"},
+        {"es": "Barras nutricionales (3 días)", "en": "Nutrient bars (3 days)"},
+        {"es": "Botella de agua con filtro", "en": "Filtered water bottle"},
+        {"es": "Cuerda sintética (15m)", "en": "Synthetic rope (15m)"},
+        {"es": "Linterna táctica", "en": "Tactical flashlight"},
+        {"es": "Nano-botiquín", "en": "Nano medkit"},
+        {"es": "Credstick con 200 eurodólares", "en": "Credstick loaded with 200 eurodollars"}
       ],
       "special_ability": "Reflejos Mejorados: Actúas primero en combate. Tus ataques cuerpo a cuerpo son críticos frecuentemente"
     },
@@ -227,18 +227,18 @@
         "lore": 6
       },
       "starting_inventory": [
-        "Cyberdeck militar",
-        "Silla de inmersión",
-        "ICE breakers",
-        "Data robada valiosa",
-        "Firewall personal",
-        "Mochila urbana reforzada",
-        "Barras nutricionales (3 días)",
-        "Botella de agua con filtro",
-        "Linterna táctica",
-        "Nano-botiquín",
-        "Credstick con 200 eurodólares",
-        "Multitool electrónica"
+        {"es": "Cyberdeck militar", "en": "Military-grade cyberdeck"},
+        {"es": "Silla de inmersión", "en": "Immersion chair"},
+        {"es": "ICE breakers", "en": "ICE breakers"},
+        {"es": "Data robada valiosa", "en": "Valuable stolen data"},
+        {"es": "Firewall personal", "en": "Personal firewall"},
+        {"es": "Mochila urbana reforzada", "en": "Reinforced urban backpack"},
+        {"es": "Barras nutricionales (3 días)", "en": "Nutrient bars (3 days)"},
+        {"es": "Botella de agua con filtro", "en": "Filtered water bottle"},
+        {"es": "Linterna táctica", "en": "Tactical flashlight"},
+        {"es": "Nano-botiquín", "en": "Nano medkit"},
+        {"es": "Credstick con 200 eurodólares", "en": "Credstick loaded with 200 eurodollars"},
+        {"es": "Multitool electrónica", "en": "Electronic multi-tool"}
       ],
       "special_ability": "Hackear: Podés tomar control de sistemas, drones, implantes enemigos. En combate, dañás directamente la mente"
     },
@@ -256,18 +256,18 @@
         "lore": 3
       },
       "starting_inventory": [
-        "Pistola oculta",
-        "Teléfono encriptado",
-        "Contactos en todas las facciones",
-        "Club nocturno propio",
-        "Deudas que cobrar",
-        "Mochila urbana reforzada",
-        "Barras nutricionales (3 días)",
-        "Botella de agua con filtro",
-        "Cuerda sintética (15m)",
-        "Linterna táctica",
-        "Nano-botiquín",
-        "Credstick con 200 eurodólares"
+        {"es": "Pistola oculta", "en": "Concealed pistol"},
+        {"es": "Teléfono encriptado", "en": "Encrypted phone"},
+        {"es": "Contactos en todas las facciones", "en": "Contacts in every faction"},
+        {"es": "Club nocturno propio", "en": "Your own nightclub"},
+        {"es": "Deudas que cobrar", "en": "Debts to collect"},
+        {"es": "Mochila urbana reforzada", "en": "Reinforced urban backpack"},
+        {"es": "Barras nutricionales (3 días)", "en": "Nutrient bars (3 days)"},
+        {"es": "Botella de agua con filtro", "en": "Filtered water bottle"},
+        {"es": "Cuerda sintética (15m)", "en": "Synthetic rope (15m)"},
+        {"es": "Linterna táctica", "en": "Tactical flashlight"},
+        {"es": "Nano-botiquín", "en": "Nano medkit"},
+        {"es": "Credstick con 200 eurodólares", "en": "Credstick loaded with 200 eurodollars"}
       ],
       "special_ability": "Conexiones: Siempre conocés alguien que puede ayudar. Los NPCs te deben favores. Tenés intel privilegiada"
     }

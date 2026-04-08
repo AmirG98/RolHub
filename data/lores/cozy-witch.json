@@ -49,27 +49,27 @@
       "sub_locations": [
         {
           "id": "jardin-hierbas",
-          "name": "Jardín de Hierbas",
+          "name": {"es": "Jardín de Hierbas", "en": "Herb Garden"},
           "type": "garden",
-          "description": "Rectángulo de tierra negra con romero, lavanda, manzanilla, salvia, hinojo, y un manzano viejo en el fondo"
+          "description": {"es": "Rectángulo de tierra negra con romero, lavanda, manzanilla, salvia, hinojo, y un manzano viejo en el fondo", "en": "A rectangle of dark earth with rosemary, lavender, chamomile, sage, fennel, and an old apple tree at the back"}
         },
         {
           "id": "cocina-bruja",
-          "name": "Cocina de la Bruja",
+          "name": {"es": "Cocina de la Bruja", "en": "The Witch's Kitchen"},
           "type": "hall",
-          "description": "Mesa de madera con hierbas colgando del techo, chimenea de piedra, dos sillas, una tetera siempre tibia"
+          "description": {"es": "Mesa de madera con hierbas colgando del techo, chimenea de piedra, dos sillas, una tetera siempre tibia", "en": "A wooden table with herbs hanging from the rafters, a stone hearth, two chairs, and a kettle that is always warm"}
         },
         {
           "id": "estanteria-frascos",
-          "name": "La Estantería de los Frascos",
+          "name": {"es": "La Estantería de los Frascos", "en": "The Jar Shelf"},
           "type": "library",
-          "description": "Pared entera de frascos de vidrio etiquetados a mano: tinturas, polvos, sales, miel del solsticio, lágrimas guardadas"
+          "description": {"es": "Pared entera de frascos de vidrio etiquetados a mano: tinturas, polvos, sales, miel del solsticio, lágrimas guardadas", "en": "A whole wall of glass jars hand-labelled: tinctures, powders, salts, solstice honey, kept tears"}
         },
         {
           "id": "rincon-gato",
-          "name": "El Rincón del Gato",
+          "name": {"es": "El Rincón del Gato", "en": "The Cat's Corner"},
           "type": "residence",
-          "description": "Almohadón gastado junto al fuego donde duerme Saúco, un gato negro de ojos amarillos que sabe más de lo que parece"
+          "description": {"es": "Almohadón gastado junto al fuego donde duerme Saúco, un gato negro de ojos amarillos que sabe más de lo que parece", "en": "A worn cushion by the fire where Saúco sleeps — a black cat with yellow eyes who knows more than he lets on"}
         }
       ]
     },
@@ -86,21 +86,21 @@
       "sub_locations": [
         {
           "id": "puesto-quesos",
-          "name": "Puesto de Quesos de Doña Imelda",
+          "name": {"es": "Puesto de Quesos de Doña Imelda", "en": "Doña Imelda's Cheese Stall"},
           "type": "market",
-          "description": "Tabla larga con quesos envueltos en hojas de higuera y un cartel escrito a mano que dice 'Pruebe sin compromiso'"
+          "description": {"es": "Tabla larga con quesos envueltos en hojas de higuera y un cartel escrito a mano que dice 'Pruebe sin compromiso'", "en": "A long plank with cheeses wrapped in fig leaves and a handwritten sign reading 'Try a piece, no obligation'"}
         },
         {
           "id": "fuente-plaza",
-          "name": "La Fuente de los Tres Caños",
+          "name": {"es": "La Fuente de los Tres Caños", "en": "The Three-Spout Fountain"},
           "type": "plaza",
-          "description": "Fuente de piedra con tres caños desiguales donde los chicos llenan jarras y las viejas se sientan a mirar"
+          "description": {"es": "Fuente de piedra con tres caños desiguales donde los chicos llenan jarras y las viejas se sientan a mirar", "en": "A stone fountain with three uneven spouts where children fill jugs and the old women sit and watch"}
         },
         {
           "id": "rincon-musica",
-          "name": "El Rincón de la Música",
+          "name": {"es": "El Rincón de la Música", "en": "The Music Corner"},
           "type": "plaza",
-          "description": "Esquina sombreada donde un hombre delgado toca acordeón los sábados a cambio de monedas o de pan"
+          "description": {"es": "Esquina sombreada donde un hombre delgado toca acordeón los sábados a cambio de monedas o de pan", "en": "A shaded corner where a thin man plays accordion on Saturdays for coins or bread"}
         }
       ]
     },
@@ -117,15 +117,15 @@
       "sub_locations": [
         {
           "id": "horno-piedra",
-          "name": "El Horno de Piedra",
+          "name": {"es": "El Horno de Piedra", "en": "The Stone Oven"},
           "type": "workshop",
-          "description": "Bóveda de ladrillo refractario que arde toda la noche - el calor te golpea cuando entrás antes del amanecer"
+          "description": {"es": "Bóveda de ladrillo refractario que arde toda la noche - el calor te golpea cuando entrás antes del amanecer", "en": "A vaulted firebrick oven that burns all night — the heat hits you when you step inside before dawn"}
         },
         {
           "id": "mostrador-pan",
-          "name": "Mostrador del Pan Caliente",
+          "name": {"es": "Mostrador del Pan Caliente", "en": "The Hot Bread Counter"},
           "type": "market",
-          "description": "Tabla de roble con canastas de mimbre y una balanza vieja - el aire huele a levadura y a romero"
+          "description": {"es": "Tabla de roble con canastas de mimbre y una balanza vieja - el aire huele a levadura y a romero", "en": "An oak plank with wicker baskets and an old balance scale — the air smells of yeast and rosemary"}
         }
       ]
     },
@@ -189,18 +189,18 @@
         "lore": 6
       },
       "starting_inventory": [
-        "Mortero y pilón de piedra",
-        "Cuchillo curvo para cosechar hierbas",
-        "Mochila de lino con bolsillos",
-        "Frascos vacíos (12) para tinturas",
-        "Cuaderno de hierbas con dibujos a tinta",
-        "Manta tejida a mano",
-        "Pan envuelto en paño limpio",
-        "Cantimplora de barro con agua del manantial",
-        "Lámpara pequeña con aceite de oliva",
-        "Saquito de semillas que regalás al despedirte",
-        "Pañuelo bordado por tu abuela",
-        "Una flor seca prensada entre las páginas del cuaderno"
+        {"es": "Mortero y pilón de piedra", "en": "Stone mortar and pestle"},
+        {"es": "Cuchillo curvo para cosechar hierbas", "en": "Curved knife for harvesting herbs"},
+        {"es": "Mochila de lino con bolsillos", "en": "Linen satchel with many pockets"},
+        {"es": "Frascos vacíos (12) para tinturas", "en": "Empty jars (12) for tinctures"},
+        {"es": "Cuaderno de hierbas con dibujos a tinta", "en": "Herbal notebook with ink drawings"},
+        {"es": "Manta tejida a mano", "en": "Hand-knitted blanket"},
+        {"es": "Pan envuelto en paño limpio", "en": "Bread wrapped in a clean cloth"},
+        {"es": "Cantimplora de barro con agua del manantial", "en": "Clay canteen with spring water"},
+        {"es": "Lámpara pequeña con aceite de oliva", "en": "Small olive oil lamp"},
+        {"es": "Saquito de semillas que regalás al despedirte", "en": "A small pouch of seeds you give away as a parting gift"},
+        {"es": "Pañuelo bordado por tu abuela", "en": "A handkerchief embroidered by your grandmother"},
+        {"es": "Una flor seca prensada entre las páginas del cuaderno", "en": "A dried flower pressed between the pages of your notebook"}
       ],
       "special_ability": "Voz Verde: Las plantas te dicen qué necesitan y qué pueden ofrecer. Podés preparar curas para cualquier dolencia común con lo que encuentres a tu alrededor. El bosque te abre caminos cuando los necesitás."
     },
@@ -218,18 +218,18 @@
         "lore": 5
       },
       "starting_inventory": [
-        "Olla de hierro fundido heredada",
-        "Cuchara de madera de roble (consagrada con uso)",
-        "Cuaderno de recetas con manchas y notas al margen",
-        "Delantal con bolsillos profundos",
-        "Frasco de sal de mar bendecida",
-        "Tarro de miel del solsticio pasado",
-        "Saquito con especias raras (anís, cardamomo, pimienta rosa)",
-        "Pañuelo de cabeza bordado",
-        "Pan recién horneado envuelto en paño",
-        "Vela de cera de abeja para la mesa",
-        "Llave vieja que abre cualquier puerta de Cala Quieta",
-        "Una taza de cerámica con grietas reparadas con oro (kintsugi)"
+        {"es": "Olla de hierro fundido heredada", "en": "Inherited cast-iron pot"},
+        {"es": "Cuchara de madera de roble (consagrada con uso)", "en": "Oakwood spoon (seasoned by years of use)"},
+        {"es": "Cuaderno de recetas con manchas y notas al margen", "en": "Recipe notebook full of stains and margin notes"},
+        {"es": "Delantal con bolsillos profundos", "en": "Apron with deep pockets"},
+        {"es": "Frasco de sal de mar bendecida", "en": "Jar of blessed sea salt"},
+        {"es": "Tarro de miel del solsticio pasado", "en": "Jar of honey from the last solstice"},
+        {"es": "Saquito con especias raras (anís, cardamomo, pimienta rosa)", "en": "Pouch of rare spices (anise, cardamom, pink pepper)"},
+        {"es": "Pañuelo de cabeza bordado", "en": "Embroidered headscarf"},
+        {"es": "Pan recién horneado envuelto en paño", "en": "Fresh-baked bread wrapped in cloth"},
+        {"es": "Vela de cera de abeja para la mesa", "en": "Beeswax candle for the table"},
+        {"es": "Llave vieja que abre cualquier puerta de Cala Quieta", "en": "An old key that opens any door in Cala Quieta"},
+        {"es": "Una taza de cerámica con grietas reparadas con oro (kintsugi)", "en": "A ceramic cup with cracks mended in gold (kintsugi)"}
       ],
       "special_ability": "Cocina con Intención: Cualquier comida que prepares con propósito puede aliviar emociones difíciles, abrir conversaciones bloqueadas, o hacer que un huésped se sienta en casa. Tu mesa nunca está sola por mucho tiempo."
     },
@@ -247,18 +247,18 @@
         "lore": 5
       },
       "starting_inventory": [
-        "Mazo de cartas pintadas a mano (oráculo de mareas)",
-        "Cuaderno de bitácora con observaciones del mar",
-        "Catalejo de bronce gastado",
-        "Saquito con caracolas y cantos rodados",
-        "Frasco de agua de cada luna llena del año",
-        "Capa de lana con capucha (para el viento del faro)",
-        "Botas de cuero engrasado",
-        "Cantimplora con té de algas",
-        "Pan envuelto en paño",
-        "Linterna pequeña de aceite",
-        "Brújula heredada de tu abuela marinera",
-        "Una piedra pulida por el mar que llevás siempre encima"
+        {"es": "Mazo de cartas pintadas a mano (oráculo de mareas)", "en": "Hand-painted card deck (Tide Oracle)"},
+        {"es": "Cuaderno de bitácora con observaciones del mar", "en": "Logbook of sea observations"},
+        {"es": "Catalejo de bronce gastado", "en": "Worn brass spyglass"},
+        {"es": "Saquito con caracolas y cantos rodados", "en": "Pouch of shells and sea-polished stones"},
+        {"es": "Frasco de agua de cada luna llena del año", "en": "Jar of water collected from every full moon of the year"},
+        {"es": "Capa de lana con capucha (para el viento del faro)", "en": "Hooded wool cloak (for the lighthouse wind)"},
+        {"es": "Botas de cuero engrasado", "en": "Oiled leather boots"},
+        {"es": "Cantimplora con té de algas", "en": "Canteen of kelp tea"},
+        {"es": "Pan envuelto en paño", "en": "Bread wrapped in cloth"},
+        {"es": "Linterna pequeña de aceite", "en": "Small oil lantern"},
+        {"es": "Brújula heredada de tu abuela marinera", "en": "Compass inherited from your seafaring grandmother"},
+        {"es": "Una piedra pulida por el mar que llevás siempre encima", "en": "A sea-polished stone you always carry with you"}
       ],
       "special_ability": "Lectura de Mareas: Una vez por escena podés sacar una carta del oráculo y vislumbrar lo que se acerca - una llegada, una despedida, una decisión que hay que tomar. Tu intuición sobre el clima y el mar es casi infalible."
     }

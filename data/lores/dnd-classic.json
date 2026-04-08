@@ -196,33 +196,33 @@
       "sub_locations": [
         {
           "id": "portal-bostezante",
-          "name": "Taberna del Portal Bostezante",
+          "name": {"es": "Taberna del Portal Bostezante", "en": "The Yawning Portal"},
           "type": "tavern",
-          "description": "Famosa taberna con un pozo que desciende directamente a Undermountain"
+          "description": {"es": "Famosa taberna con un pozo que desciende directamente a Undermountain", "en": "Famous tavern with a pit that descends straight into Undermountain"}
         },
         {
           "id": "mercado-aurora",
-          "name": "Mercado de Aurora",
+          "name": {"es": "Mercado de Aurora", "en": "Aurora's Market"},
           "type": "market",
-          "description": "El mercado más grande de la Costa de la Espada, donde se vende desde pan hasta artefactos mágicos"
+          "description": {"es": "El mercado más grande de la Costa de la Espada, donde se vende desde pan hasta artefactos mágicos", "en": "The largest market on the Sword Coast, selling everything from bread to magical artifacts"}
         },
         {
           "id": "torre-blackstaff",
-          "name": "Torre de Blackstaff",
+          "name": {"es": "Torre de Blackstaff", "en": "Blackstaff Tower"},
           "type": "library",
-          "description": "Academia de magia y sede del Archimago de Waterdeep, protegida por poderosos encantamientos"
+          "description": {"es": "Academia de magia y sede del Archimago de Waterdeep, protegida por poderosos encantamientos", "en": "The academy of magic and seat of the Archmage of Waterdeep, shielded by powerful wards"}
         },
         {
           "id": "barrio-muelles",
-          "name": "Barrio de los Muelles",
+          "name": {"es": "Barrio de los Muelles", "en": "Dock Ward"},
           "type": "dock",
-          "description": "Puerto bullicioso y peligroso donde contrabandistas y marineros hacen negocios turbios"
+          "description": {"es": "Puerto bullicioso y peligroso donde contrabandistas y marineros hacen negocios turbios", "en": "A bustling, dangerous harbor where smugglers and sailors cut shady deals"}
         },
         {
           "id": "palacio-waterdeep",
-          "name": "Palacio de Waterdeep",
+          "name": {"es": "Palacio de Waterdeep", "en": "Palace of Waterdeep"},
           "type": "palace",
-          "description": "Sede del gobierno donde los Señores Enmascarados se reúnen en secreto"
+          "description": {"es": "Sede del gobierno donde los Señores Enmascarados se reúnen en secreto", "en": "Seat of government where the Masked Lords convene in secret"}
         }
       ]
     },
@@ -358,33 +358,33 @@
       "sub_locations": [
         {
           "id": "yelmo-capa",
-          "name": "Taberna del Yelmo y la Capa",
+          "name": {"es": "Taberna del Yelmo y la Capa", "en": "Helm and Cloak Tavern"},
           "type": "tavern",
-          "description": "Posada de dos pisos en la Ciudad Baja, refugio de aventureros y espías"
+          "description": {"es": "Posada de dos pisos en la Ciudad Baja, refugio de aventureros y espías", "en": "A two-story inn in the Lower City, a refuge for adventurers and spies"}
         },
         {
           "id": "templo-gond",
-          "name": "Templo de Gond",
+          "name": {"es": "Templo de Gond", "en": "Temple of Gond"},
           "type": "temple",
-          "description": "Santuario del dios de la invención, lleno de artilugios mecánicos y mágicos"
+          "description": {"es": "Santuario del dios de la invención, lleno de artilugios mecánicos y mágicos", "en": "Shrine of the god of invention, crowded with mechanical and magical contraptions"}
         },
         {
           "id": "arena-baldurs",
-          "name": "Arena de Combate",
+          "name": {"es": "Arena de Combate", "en": "Combat Arena"},
           "type": "arena",
-          "description": "Coliseo donde gladiadores pelean por fama y oro ante multitudes rugientes"
+          "description": {"es": "Coliseo donde gladiadores pelean por fama y oro ante multitudes rugientes", "en": "A coliseum where gladiators fight for fame and gold before roaring crowds"}
         },
         {
           "id": "puerto-baldurs",
-          "name": "Puerto de Baldur's Gate",
+          "name": {"es": "Puerto de Baldur's Gate", "en": "Port of Baldur's Gate"},
           "type": "dock",
-          "description": "Muelles atestados de barcos mercantes donde se cierran tratos legales e ilegales"
+          "description": {"es": "Muelles atestados de barcos mercantes donde se cierran tratos legales e ilegales", "en": "Docks crowded with merchant ships where both legal and illegal deals are struck"}
         },
         {
           "id": "catacumbas-bhaal",
-          "name": "Catacumbas de Bhaal",
+          "name": {"es": "Catacumbas de Bhaal", "en": "Catacombs of Bhaal"},
           "type": "temple",
-          "description": "Templo oculto bajo la ciudad donde cultos secretos realizan rituales sangrientos"
+          "description": {"es": "Templo oculto bajo la ciudad donde cultos secretos realizan rituales sangrientos", "en": "A hidden temple beneath the city where secret cults perform bloody rituals"}
         }
       ]
     },
@@ -453,27 +453,27 @@
       "sub_locations": [
         {
           "id": "barrio-protector",
-          "name": "Barrio del Protector",
+          "name": {"es": "Barrio del Protector", "en": "The Protector's Enclave"},
           "type": "plaza",
-          "description": "Zona restaurada de la ciudad con mercados, talleres de artesanos y vida próspera"
+          "description": {"es": "Zona restaurada de la ciudad con mercados, talleres de artesanos y vida próspera", "en": "The restored district of the city, busy with markets, artisan workshops, and thriving life"}
         },
         {
           "id": "barrio-cenizas",
-          "name": "Barrio de las Cenizas",
+          "name": {"es": "Barrio de las Cenizas", "en": "The Ashen District"},
           "type": "residence",
-          "description": "Ruinas devastadas por la erupción volcánica, habitadas por muertos vivientes y saqueadores"
+          "description": {"es": "Ruinas devastadas por la erupción volcánica, habitadas por muertos vivientes y saqueadores", "en": "Ruins devastated by the volcanic eruption, haunted by undead and looters"}
         },
         {
           "id": "puente-hundido",
-          "name": "Taberna del Puente Hundido",
+          "name": {"es": "Taberna del Puente Hundido", "en": "Sunken Bridge Tavern"},
           "type": "tavern",
-          "description": "Bar reconstruido sobre las ruinas de un puente, popular entre mercenarios y exploradores"
+          "description": {"es": "Bar reconstruido sobre las ruinas de un puente, popular entre mercenarios y exploradores", "en": "A bar rebuilt atop the ruins of a bridge, popular with mercenaries and scouts"}
         },
         {
           "id": "templo-oghma",
-          "name": "Templo de Oghma Restaurado",
+          "name": {"es": "Templo de Oghma Restaurado", "en": "Restored Temple of Oghma"},
           "type": "temple",
-          "description": "Santuario del dios del conocimiento, uno de los primeros edificios reconstruidos"
+          "description": {"es": "Santuario del dios del conocimiento, uno de los primeros edificios reconstruidos", "en": "Shrine of the god of knowledge, one of the first buildings rebuilt"}
         }
       ]
     },
@@ -600,21 +600,21 @@
       "sub_locations": [
         {
           "id": "bryn-shander",
-          "name": "Bryn Shander",
+          "name": {"es": "Bryn Shander", "en": "Bryn Shander"},
           "type": "gate",
-          "description": "La ciudad más grande de las Diez Ciudades, amurallada contra gigantes y tormentas"
+          "description": {"es": "La ciudad más grande de las Diez Ciudades, amurallada contra gigantes y tormentas", "en": "The largest of the Ten-Towns, walled against giants and storms"}
         },
         {
           "id": "taberna-kelvin",
-          "name": "Taberna de Kelvin",
+          "name": {"es": "Taberna de Kelvin", "en": "Kelvin's Tavern"},
           "type": "tavern",
-          "description": "Posada cálida donde cazadores de pieles y aventureros comparten historias junto al fuego"
+          "description": {"es": "Posada cálida donde cazadores de pieles y aventureros comparten historias junto al fuego", "en": "A warm inn where fur trappers and adventurers share stories by the fireside"}
         },
         {
           "id": "mercado-pieles",
-          "name": "Mercado de Pieles y Pescado",
+          "name": {"es": "Mercado de Pieles y Pescado", "en": "Fur and Fish Market"},
           "type": "market",
-          "description": "Centro comercial donde se intercambian las principales riquezas del norte helado"
+          "description": {"es": "Centro comercial donde se intercambian las principales riquezas del norte helado", "en": "A trading hub where the chief riches of the frozen north change hands"}
         }
       ]
     },
@@ -683,27 +683,27 @@
       "sub_locations": [
         {
           "id": "gigante-dormido",
-          "name": "Taberna del Gigante Dormido",
+          "name": {"es": "Taberna del Gigante Dormido", "en": "Stonehill Inn (Sleeping Giant)"},
           "type": "tavern",
-          "description": "Posada rústica con cervezas baratas y un tablón de anuncios lleno de trabajos"
+          "description": {"es": "Posada rústica con cervezas baratas y un tablón de anuncios lleno de trabajos", "en": "A rustic inn with cheap ales and a notice board full of odd jobs"}
         },
         {
           "id": "santuario-suerte",
-          "name": "Santuario de la Suerte",
+          "name": {"es": "Santuario de la Suerte", "en": "Shrine of Luck"},
           "type": "temple",
-          "description": "Pequeño templo de Tymora donde la Hermana Garaele ofrece bendiciones y curación"
+          "description": {"es": "Pequeño templo de Tymora donde la Hermana Garaele ofrece bendiciones y curación", "en": "A small temple of Tymora where Sister Garaele offers blessings and healing"}
         },
         {
           "id": "provisiones-barthen",
-          "name": "Provisiones Generales de Barthen",
+          "name": {"es": "Provisiones Generales de Barthen", "en": "Barthen's Provisions"},
           "type": "market",
-          "description": "Tienda principal del pueblo con equipo básico para aventureros"
+          "description": {"es": "Tienda principal del pueblo con equipo básico para aventureros", "en": "The town's main shop, stocked with basic gear for adventurers"}
         },
         {
           "id": "mansion-tresendar",
-          "name": "Mansión Tresendar (Ruinas)",
+          "name": {"es": "Mansión Tresendar (Ruinas)", "en": "Tresendar Manor (Ruins)"},
           "type": "residence",
-          "description": "Mansión en ruinas sobre el pueblo, guarida secreta de los bandidos Redbrands"
+          "description": {"es": "Mansión en ruinas sobre el pueblo, guarida secreta de los bandidos Redbrands", "en": "A ruined manor above the town, secret hideout of the Redbrand bandits"}
         }
       ]
     },
@@ -785,18 +785,18 @@
         "lore": 1
       },
       "starting_inventory": [
-        "Espada larga con marca del Gremio",
-        "Escudo de madera reforzada",
-        "Cota de mallas ligera",
-        "Paquete de explorador (mochila, saco de dormir)",
-        "Cuerda de cáñamo (15m)",
-        "Antorchas (5)",
-        "Kit de primeros auxilios",
-        "Odre de agua",
-        "Pedernal y acero",
-        "Placa del Gremio de Aventureros",
-        "25 monedas de oro",
-        "5 raciones de viaje"
+        {"es": "Espada larga con marca del Gremio", "en": "Longsword bearing the Guild's mark"},
+        {"es": "Escudo de madera reforzada", "en": "Reinforced wooden shield"},
+        {"es": "Cota de mallas ligera", "en": "Light chain mail"},
+        {"es": "Paquete de explorador (mochila, saco de dormir)", "en": "Explorer's pack (backpack, bedroll)"},
+        {"es": "Cuerda de cáñamo (15m)", "en": "Hemp rope (15m)"},
+        {"es": "Antorchas (5)", "en": "Torches (5)"},
+        {"es": "Kit de primeros auxilios", "en": "Healer's kit"},
+        {"es": "Odre de agua", "en": "Waterskin"},
+        {"es": "Pedernal y acero", "en": "Flint and steel"},
+        {"es": "Placa del Gremio de Aventureros", "en": "Adventurers' Guild badge"},
+        {"es": "25 monedas de oro", "en": "25 gold coins"},
+        {"es": "5 raciones de viaje", "en": "5 travel rations"}
       ],
       "special_ability": "Veterano de Mazmorras: Detectás trampas y emboscadas por instinto. Ventaja en tiradas de percepción dentro de estructuras subterráneas y ruinas",
       "advancement_paths": [
@@ -820,17 +820,17 @@
         "lore": 4
       },
       "starting_inventory": [
-        "Bastón arcano con cristal incrustado",
-        "Grimorio con 6 conjuros básicos",
-        "Túnica de la Academia de Blackstaff",
-        "Componentes mágicos (bolsa de cuero)",
-        "Kit de escritura (tinta, plumas, pergaminos)",
-        "3 raciones de viaje",
-        "Odre de agua",
-        "Antorchas (2)",
-        "Lente de aumento para runas",
-        "Carta de recomendación de la Academia",
-        "15 monedas de oro"
+        {"es": "Bastón arcano con cristal incrustado", "en": "Arcane staff set with a crystal"},
+        {"es": "Grimorio con 6 conjuros básicos", "en": "Spellbook with 6 cantrips and first-level spells"},
+        {"es": "Túnica de la Academia de Blackstaff", "en": "Robes of the Blackstaff Academy"},
+        {"es": "Componentes mágicos (bolsa de cuero)", "en": "Spell components (leather pouch)"},
+        {"es": "Kit de escritura (tinta, plumas, pergaminos)", "en": "Writing kit (ink, quills, parchment)"},
+        {"es": "3 raciones de viaje", "en": "3 travel rations"},
+        {"es": "Odre de agua", "en": "Waterskin"},
+        {"es": "Antorchas (2)", "en": "Torches (2)"},
+        {"es": "Lente de aumento para runas", "en": "Magnifying lens for runes"},
+        {"es": "Carta de recomendación de la Academia", "en": "Letter of recommendation from the Academy"},
+        {"es": "15 monedas de oro", "en": "15 gold coins"}
       ],
       "special_ability": "Sentido Arcano: Podés detectar magia activa y residual, identificar el tipo de hechizo usado, y leer inscripciones mágicas en cualquier idioma",
       "advancement_paths": [
@@ -854,17 +854,17 @@
         "lore": 1
       },
       "starting_inventory": [
-        "Dagas gemelas de acero negro",
-        "Armadura de cuero suave y silenciosa",
-        "Ganzúas de calidad (kit completo)",
-        "Cuerda con gancho (15m)",
-        "3 raciones de viaje",
-        "Odre de agua",
-        "Capa con capucha oscura",
-        "Bolsa de canicas (para distracciones)",
-        "Espejo pequeño",
-        "Dados cargados",
-        "20 monedas de oro"
+        {"es": "Dagas gemelas de acero negro", "en": "Twin black-steel daggers"},
+        {"es": "Armadura de cuero suave y silenciosa", "en": "Soft, silent leather armor"},
+        {"es": "Ganzúas de calidad (kit completo)", "en": "Quality thieves' tools (full kit)"},
+        {"es": "Cuerda con gancho (15m)", "en": "Grappling hook rope (15m)"},
+        {"es": "3 raciones de viaje", "en": "3 travel rations"},
+        {"es": "Odre de agua", "en": "Waterskin"},
+        {"es": "Capa con capucha oscura", "en": "Dark hooded cloak"},
+        {"es": "Bolsa de canicas (para distracciones)", "en": "Bag of marbles (for distractions)"},
+        {"es": "Espejo pequeño", "en": "Small mirror"},
+        {"es": "Dados cargados", "en": "Loaded dice"},
+        {"es": "20 monedas de oro", "en": "20 gold coins"}
       ],
       "special_ability": "Sombra Urbana: Podés desaparecer en cualquier multitud o entorno urbano, abrir cerraduras comunes sin tirada, y siempre sabés la salida más rápida de un edificio",
       "advancement_paths": [

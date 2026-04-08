@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Sparkles } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { useTranslations } from '@/lib/i18n'
 
 interface PortraitSplashProps {
   avatarUrl: string
@@ -22,6 +23,7 @@ export function PortraitSplash({
   onComplete,
   className,
 }: PortraitSplashProps) {
+  const t = useTranslations()
   const [isVisible, setIsVisible] = useState(true)
 
   // Auto-dismiss después de 4 segundos
@@ -167,7 +169,7 @@ export function PortraitSplash({
                 transition={{ delay: 0.8 }}
                 className="mt-2 text-parchment/60 font-ui text-sm"
               >
-                Nivel {level}
+                {t.game.levelFull} {level}
               </motion.p>
             </motion.div>
 
@@ -188,7 +190,7 @@ export function PortraitSplash({
                 "focus:outline-none focus:ring-2 focus:ring-gold-bright/50"
               )}
             >
-              Comenzar Aventura
+              {t.game.startAdventureSplash}
             </motion.button>
 
             {/* Hint de click */}
@@ -198,7 +200,7 @@ export function PortraitSplash({
               transition={{ delay: 2 }}
               className="mt-4 text-parchment/40 text-xs font-ui"
             >
-              Click en cualquier lugar para continuar
+              {t.game.clickAnywhereToContinue}
             </motion.p>
           </div>
         </motion.div>

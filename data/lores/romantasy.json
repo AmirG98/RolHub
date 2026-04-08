@@ -55,27 +55,27 @@
       "sub_locations": [
         {
           "id": "salon-rosas",
-          "name": "Salón de las Rosas",
+          "name": {"es": "Salón de las Rosas", "en": "The Hall of Roses"},
           "type": "throne_room",
-          "description": "Sala del trono donde el Alto Señor recibe a sus invitados entre columnas envueltas en enredaderas vivas"
+          "description": {"es": "Sala del trono donde el Alto Señor recibe a sus invitados entre columnas envueltas en enredaderas vivas", "en": "The throne hall where the High Lord receives his guests between columns wreathed in living vines"}
         },
         {
           "id": "jardin-eterno",
-          "name": "Jardín Eterno",
+          "name": {"es": "Jardín Eterno", "en": "The Eternal Garden"},
           "type": "garden",
-          "description": "Laberinto de setos mágicos donde las flores nunca mueren y los secretos siempre se susurran"
+          "description": {"es": "Laberinto de setos mágicos donde las flores nunca mueren y los secretos siempre se susurran", "en": "A maze of enchanted hedges where the flowers never wither and the secrets are always whispered"}
         },
         {
           "id": "biblioteca-cristal",
-          "name": "Biblioteca de Cristal",
+          "name": {"es": "Biblioteca de Cristal", "en": "The Crystal Library"},
           "type": "library",
-          "description": "Torre de cristal con tomos prohibidos sobre magia antigua y pactos rotos"
+          "description": {"es": "Torre de cristal con tomos prohibidos sobre magia antigua y pactos rotos", "en": "A crystal tower holding forbidden tomes on ancient magic and broken pacts"}
         },
         {
           "id": "alcobas-doradas",
-          "name": "Alcobas Doradas",
+          "name": {"es": "Alcobas Doradas", "en": "The Gilded Bedchambers"},
           "type": "residence",
-          "description": "Habitaciones de invitados forradas en seda dorada donde más de un destino se ha sellado en la oscuridad"
+          "description": {"es": "Habitaciones de invitados forradas en seda dorada donde más de un destino se ha sellado en la oscuridad", "en": "Guest rooms lined with gold silk where more than one fate has been sealed in the dark"}
         }
       ]
     },
@@ -92,27 +92,27 @@
       "sub_locations": [
         {
           "id": "casa-viento-estrellas",
-          "name": "Casa del Viento y las Estrellas",
+          "name": {"es": "Casa del Viento y las Estrellas", "en": "The House of Wind and Stars"},
           "type": "residence",
-          "description": "Torre flotante donde reside el Círculo Interno - vistas imposibles sobre la ciudad nocturna"
+          "description": {"es": "Torre flotante donde reside el Círculo Interno - vistas imposibles sobre la ciudad nocturna", "en": "A floating tower where the Inner Circle dwells — impossible views over the night city"}
         },
         {
           "id": "rito-libreria",
-          "name": "Librería del Rito",
+          "name": {"es": "Librería del Rito", "en": "The Rite Bookshop"},
           "type": "library",
-          "description": "Tienda de libros raros y manuscritos prohibidos, regenteada por una fae con secretos propios"
+          "description": {"es": "Tienda de libros raros y manuscritos prohibidos, regenteada por una fae con secretos propios", "en": "A shop of rare books and forbidden manuscripts, run by a fae with secrets of her own"}
         },
         {
           "id": "puente-estrellas",
-          "name": "Puente de las Estrellas",
+          "name": {"es": "Puente de las Estrellas", "en": "The Bridge of Stars"},
           "type": "landmark",
-          "description": "Puente de luz pura que cruza el río Sidra - dicen que dos amantes que lo crucen juntos quedan atados para siempre"
+          "description": {"es": "Puente de luz pura que cruza el río Sidra - dicen que dos amantes que lo crucen juntos quedan atados para siempre", "en": "A bridge of pure light crossing the River Sidra — they say two lovers who cross it together are bound forever"}
         },
         {
           "id": "muelle-rainbow",
-          "name": "Muelle Arcoíris",
+          "name": {"es": "Muelle Arcoíris", "en": "The Rainbow Quay"},
           "type": "market",
-          "description": "Mercado de artesanos donde los pintores fae venden cuadros que cambian con el ánimo de quien los mira"
+          "description": {"es": "Mercado de artesanos donde los pintores fae venden cuadros que cambian con el ánimo de quien los mira", "en": "An artisans' market where fae painters sell canvases that shift with the mood of whoever looks at them"}
         }
       ]
     },
@@ -186,18 +186,18 @@
         "lore": 4
       },
       "starting_inventory": [
-        "Vestimentas de seda con bordados de la Corte",
-        "Daga ceremonial de plata (legal en banquetes)",
-        "Anillo con sello familiar",
-        "Carta sellada de invitación",
-        "Frasco con perfume embrujado",
-        "Pañuelo con monograma",
-        "Bolsa de monedas de oro",
-        "Libro de etiqueta cortesana",
-        "Espejo de mano encantado (ve mentiras)",
-        "Joyero portátil con piezas de cambio",
-        "Botiquín de hierbas finas",
-        "Pluma y pergamino sellado"
+        {"es": "Vestimentas de seda con bordados de la Corte", "en": "Silk garments embroidered with the Court's sigils"},
+        {"es": "Daga ceremonial de plata (legal en banquetes)", "en": "Silver ceremonial dagger (permitted at banquets)"},
+        {"es": "Anillo con sello familiar", "en": "Signet ring of your family"},
+        {"es": "Carta sellada de invitación", "en": "Sealed letter of invitation"},
+        {"es": "Frasco con perfume embrujado", "en": "Vial of enchanted perfume"},
+        {"es": "Pañuelo con monograma", "en": "Monogrammed handkerchief"},
+        {"es": "Bolsa de monedas de oro", "en": "Purse of gold coins"},
+        {"es": "Libro de etiqueta cortesana", "en": "Book of courtly etiquette"},
+        {"es": "Espejo de mano encantado (ve mentiras)", "en": "Enchanted hand mirror (reveals lies)"},
+        {"es": "Joyero portátil con piezas de cambio", "en": "Portable jewelry box with trade pieces"},
+        {"es": "Botiquín de hierbas finas", "en": "Kit of rare healing herbs"},
+        {"es": "Pluma y pergamino sellado", "en": "Quill and sealed parchment"}
       ],
       "special_ability": "Voz de Miel: Podés detectar mentiras en una conversación y persuadir a NPCs hostiles cuando hay testigos. Las Cortes te abren las puertas que cierran a otros."
     },
@@ -215,18 +215,18 @@
         "lore": 1
       },
       "starting_inventory": [
-        "Cuero de batalla Illyriano con sigilos",
-        "Espada larga de acero feérico",
-        "Arco corto y carcaj de flechas rúnicas",
-        "Daga oculta en la bota",
-        "Tatuajes mágicos (sigil de protección)",
-        "Capa con capucha de viajero",
-        "Mochila de cuero curtido",
-        "Raciones secas (5 días)",
-        "Cantimplora reforzada",
-        "Cuerda trenzada (20m)",
-        "Linterna de aceite con cristal",
-        "Saco de dormir liviano"
+        {"es": "Cuero de batalla Illyriano con sigilos", "en": "Illyrian battle leathers carved with sigils"},
+        {"es": "Espada larga de acero feérico", "en": "Longsword of fae-forged steel"},
+        {"es": "Arco corto y carcaj de flechas rúnicas", "en": "Shortbow and quiver of runed arrows"},
+        {"es": "Daga oculta en la bota", "en": "Dagger hidden in the boot"},
+        {"es": "Tatuajes mágicos (sigil de protección)", "en": "Magical tattoos (sigils of protection)"},
+        {"es": "Capa con capucha de viajero", "en": "Hooded traveller's cloak"},
+        {"es": "Mochila de cuero curtido", "en": "Tanned leather backpack"},
+        {"es": "Raciones secas (5 días)", "en": "Dried rations (5 days)"},
+        {"es": "Cantimplora reforzada", "en": "Reinforced canteen"},
+        {"es": "Cuerda trenzada (20m)", "en": "Braided rope (20m)"},
+        {"es": "Linterna de aceite con cristal", "en": "Oil lantern with crystal pane"},
+        {"es": "Saco de dormir liviano", "en": "Lightweight bedroll"}
       ],
       "special_ability": "Vuelo de Combate: Podés volar distancias cortas y atacar desde el aire. En combate, tus golpes ignoran armadura ligera. Ningún Illyriano huye de una pelea."
     },
@@ -244,18 +244,18 @@
         "lore": 7
       },
       "starting_inventory": [
-        "Túnica ceremonial bordada con runas",
-        "Báculo de cristal de cuarzo lunar",
-        "Grimorio personal con hechizos antiguos",
-        "Amuleto del Tercer Ojo",
-        "Cartas del destino (oráculo)",
-        "Saquito de hierbas rituales",
-        "Frasco con tinta de estrella",
-        "Vela negra para invocaciones",
-        "Daga ritual de plata",
-        "Cristales de poder (3 colores)",
-        "Mochila de cuero curtido",
-        "Pergaminos en blanco"
+        {"es": "Túnica ceremonial bordada con runas", "en": "Ceremonial robe embroidered with runes"},
+        {"es": "Báculo de cristal de cuarzo lunar", "en": "Staff of moon quartz crystal"},
+        {"es": "Grimorio personal con hechizos antiguos", "en": "Personal grimoire of ancient spells"},
+        {"es": "Amuleto del Tercer Ojo", "en": "Amulet of the Third Eye"},
+        {"es": "Cartas del destino (oráculo)", "en": "Oracle cards of fate"},
+        {"es": "Saquito de hierbas rituales", "en": "Pouch of ritual herbs"},
+        {"es": "Frasco con tinta de estrella", "en": "Vial of starlight ink"},
+        {"es": "Vela negra para invocaciones", "en": "Black candle for invocations"},
+        {"es": "Daga ritual de plata", "en": "Silver ritual dagger"},
+        {"es": "Cristales de poder (3 colores)", "en": "Power crystals (3 colors)"},
+        {"es": "Mochila de cuero curtido", "en": "Tanned leather backpack"},
+        {"es": "Pergaminos en blanco", "en": "Blank scrolls"}
       ],
       "special_ability": "Visión del Destino: Una vez por escena podés vislumbrar el futuro inmediato y reaccionar antes de que pase. Tu magia puede sanar, sellar pactos o romper cadenas mágicas."
     }

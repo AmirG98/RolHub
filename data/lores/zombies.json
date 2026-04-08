@@ -275,27 +275,27 @@
       "sub_locations": [
         {
           "id": "enfermeria-campamento",
-          "name": "Enfermería del Campamento",
+          "name": {"es": "Enfermería del Campamento", "en": "Camp Infirmary"},
           "type": "hospital",
-          "description": "Caravana adaptada donde Abuela Rosa cura heridos con lo que tiene a mano"
+          "description": {"es": "Caravana adaptada donde Abuela Rosa cura heridos con lo que tiene a mano", "en": "A converted trailer where Granny Rosa treats the wounded with whatever she has on hand"}
         },
         {
           "id": "puesto-guardia",
-          "name": "Puesto de Guardia Norte",
+          "name": {"es": "Puesto de Guardia Norte", "en": "North Watchpost"},
           "type": "gate",
-          "description": "Torre improvisada con un vigía permanente que vigila el perímetro"
+          "description": {"es": "Torre improvisada con un vigía permanente que vigila el perímetro", "en": "A makeshift tower with a permanent lookout scanning the perimeter"}
         },
         {
           "id": "almacen-comunitario",
-          "name": "Almacén Comunitario",
+          "name": {"es": "Almacén Comunitario", "en": "Communal Stockpile"},
           "type": "market",
-          "description": "Tienda de campaña donde se guardan y reparten los suministros del grupo"
+          "description": {"es": "Tienda de campaña donde se guardan y reparten los suministros del grupo", "en": "A tent where the group's supplies are stored and rationed out"}
         },
         {
           "id": "fogata-central",
-          "name": "Fogata Central",
+          "name": {"es": "Fogata Central", "en": "Central Campfire"},
           "type": "plaza",
-          "description": "Punto de reunión donde Marcus da las noticias y se toman decisiones colectivas"
+          "description": {"es": "Punto de reunión donde Marcus da las noticias y se toman decisiones colectivas", "en": "The gathering spot where Marcus shares news and the group makes decisions together"}
         }
       ]
     },
@@ -506,27 +506,27 @@
       "sub_locations": [
         {
           "id": "bloque-celdas-a",
-          "name": "Bloque de Celdas A",
+          "name": {"es": "Bloque de Celdas A", "en": "Cell Block A"},
           "type": "residence",
-          "description": "Celdas reconvertidas en dormitorios para los civiles bajo el mando del Alcaide"
+          "description": {"es": "Celdas reconvertidas en dormitorios para los civiles bajo el mando del Alcaide", "en": "Cells turned into dormitories for the civilians under the Warden's command"}
         },
         {
           "id": "patio-prision",
-          "name": "Patio Central",
+          "name": {"es": "Patio Central", "en": "Central Yard"},
           "type": "plaza",
-          "description": "Espacio abierto donde se reúnen los habitantes y se realizan trueques"
+          "description": {"es": "Espacio abierto donde se reúnen los habitantes y se realizan trueques", "en": "Open ground where the residents gather and barter with one another"}
         },
         {
           "id": "torreon-vigilancia",
-          "name": "Torreón de Vigilancia",
+          "name": {"es": "Torreón de Vigilancia", "en": "Watchtower"},
           "type": "gate",
-          "description": "Torre elevada con vista a los alrededores y un rifle de francotirador"
+          "description": {"es": "Torre elevada con vista a los alrededores y un rifle de francotirador", "en": "A raised tower with a clear view of the surroundings and a sniper rifle on hand"}
         },
         {
           "id": "cocina-prision",
-          "name": "Cocina Industrial",
+          "name": {"es": "Cocina Industrial", "en": "Industrial Kitchen"},
           "type": "workshop",
-          "description": "Cocina de la prisión donde se preparan las raciones diarias para todos"
+          "description": {"es": "Cocina de la prisión donde se preparan las raciones diarias para todos", "en": "The prison kitchen where daily rations are prepared for everyone"}
         }
       ]
     },
@@ -582,18 +582,18 @@
         "medical": 5
       },
       "starting_inventory": [
-        "Botiquín médico completo",
-        "Bisturí (arma improvisada)",
-        "Antibióticos (3 dosis)",
-        "Vendas y gasas",
-        "Linterna de mano",
-        "Manual de primeros auxilios",
-        "Adrenalina (1 dosis de emergencia)",
-        "Mochila resistente",
-        "Botella de agua reutilizable",
-        "Barras energéticas (3 días)",
-        "Encendedor",
-        "Cuerda de nylon (15m)"
+        {"es": "Botiquín médico completo", "en": "Full medical kit"},
+        {"es": "Bisturí (arma improvisada)", "en": "Scalpel (improvised weapon)"},
+        {"es": "Antibióticos (3 dosis)", "en": "Antibiotics (3 doses)"},
+        {"es": "Vendas y gasas", "en": "Bandages and gauze"},
+        {"es": "Linterna de mano", "en": "Hand flashlight"},
+        {"es": "Manual de primeros auxilios", "en": "First aid manual"},
+        {"es": "Adrenalina (1 dosis de emergencia)", "en": "Adrenaline (1 emergency dose)"},
+        {"es": "Mochila resistente", "en": "Heavy-duty backpack"},
+        {"es": "Botella de agua reutilizable", "en": "Reusable water bottle"},
+        {"es": "Barras energéticas (3 días)", "en": "Energy bars (3 days)"},
+        {"es": "Encendedor", "en": "Lighter"},
+        {"es": "Cuerda de nylon (15m)", "en": "Nylon rope (15m)"}
       ],
       "special_ability": "Primeros Auxilios Expertos: Podés estabilizar heridas graves y curar el doble con suministros médicos. Podés retrasar la infección por mordida 1d6 horas extra",
       "advancement_paths": [
@@ -618,18 +618,18 @@
         "tactics": 4
       },
       "starting_inventory": [
-        "Rifle de asalto M4 (30 balas)",
-        "Pistola Glock 17 (15 balas)",
-        "Chaleco antibalas nivel III",
-        "Cuchillo de combate Ka-Bar",
-        "Brújula y mapa topográfico",
-        "Cantimplora militar",
-        "3 raciones de supervivencia",
-        "Mochila resistente",
-        "Linterna con baterías de repuesto",
-        "Cinta adhesiva",
-        "Cuerda de nylon (15m)",
-        "Encendedor"
+        {"es": "Rifle de asalto M4 (30 balas)", "en": "M4 assault rifle (30 rounds)"},
+        {"es": "Pistola Glock 17 (15 balas)", "en": "Glock 17 pistol (15 rounds)"},
+        {"es": "Chaleco antibalas nivel III", "en": "Level III bulletproof vest"},
+        {"es": "Cuchillo de combate Ka-Bar", "en": "Ka-Bar combat knife"},
+        {"es": "Brújula y mapa topográfico", "en": "Compass and topographic map"},
+        {"es": "Cantimplora militar", "en": "Military canteen"},
+        {"es": "3 raciones de supervivencia", "en": "3 survival rations"},
+        {"es": "Mochila resistente", "en": "Heavy-duty backpack"},
+        {"es": "Linterna con baterías de repuesto", "en": "Flashlight with spare batteries"},
+        {"es": "Cinta adhesiva", "en": "Duct tape"},
+        {"es": "Cuerda de nylon (15m)", "en": "Nylon rope (15m)"},
+        {"es": "Encendedor", "en": "Lighter"}
       ],
       "special_ability": "Tácticas de Combate: Podés planear emboscadas perfectas y tu daño es crítico contra grupos. En combate, siempre actuás primero",
       "advancement_paths": [
@@ -654,18 +654,18 @@
         "stealth": 4
       },
       "starting_inventory": [
-        "Palanca",
-        "Mochila grande reforzada",
-        "Ganzúas profesionales",
-        "Cuerda de escalada (50ft)",
-        "Comida enlatada (5 latas)",
-        "Walkie-talkie (sin baterías)",
-        "Navaja multiusos",
-        "Linterna con baterías de repuesto",
-        "Botella de agua reutilizable",
-        "Encendedor",
-        "Cinta adhesiva",
-        "Botiquín básico de primeros auxilios"
+        {"es": "Palanca", "en": "Crowbar"},
+        {"es": "Mochila grande reforzada", "en": "Large reinforced backpack"},
+        {"es": "Ganzúas profesionales", "en": "Professional lockpicks"},
+        {"es": "Cuerda de escalada (50ft)", "en": "Climbing rope (50 ft)"},
+        {"es": "Comida enlatada (5 latas)", "en": "Canned food (5 cans)"},
+        {"es": "Walkie-talkie (sin baterías)", "en": "Walkie-talkie (no batteries)"},
+        {"es": "Navaja multiusos", "en": "Multi-tool knife"},
+        {"es": "Linterna con baterías de repuesto", "en": "Flashlight with spare batteries"},
+        {"es": "Botella de agua reutilizable", "en": "Reusable water bottle"},
+        {"es": "Encendedor", "en": "Lighter"},
+        {"es": "Cinta adhesiva", "en": "Duct tape"},
+        {"es": "Botiquín básico de primeros auxilios", "en": "Basic first aid kit"}
       ],
       "special_ability": "Buscador Nato: Siempre encontrás recursos extra cuando saqueas. Podés abrir cualquier cerradura y detectar trampas antes de activarlas",
       "advancement_paths": [
@@ -690,18 +690,18 @@
         "crafting": 5
       },
       "starting_inventory": [
-        "Caja de herramientas completa",
-        "Llave inglesa grande (arma)",
-        "Sifón de combustible",
-        "Cinta americana y WD-40",
-        "Radio de auto modificada",
-        "Guantes de trabajo",
-        "Manual de reparación de autos",
-        "Mochila resistente",
-        "Linterna con baterías de repuesto",
-        "Botella de agua reutilizable",
-        "Barras energéticas (3 días)",
-        "Encendedor"
+        {"es": "Caja de herramientas completa", "en": "Full toolbox"},
+        {"es": "Llave inglesa grande (arma)", "en": "Large wrench (weapon)"},
+        {"es": "Sifón de combustible", "en": "Fuel siphon"},
+        {"es": "Cinta americana y WD-40", "en": "Duct tape and WD-40"},
+        {"es": "Radio de auto modificada", "en": "Modified car radio"},
+        {"es": "Guantes de trabajo", "en": "Work gloves"},
+        {"es": "Manual de reparación de autos", "en": "Car repair manual"},
+        {"es": "Mochila resistente", "en": "Heavy-duty backpack"},
+        {"es": "Linterna con baterías de repuesto", "en": "Flashlight with spare batteries"},
+        {"es": "Botella de agua reutilizable", "en": "Reusable water bottle"},
+        {"es": "Barras energéticas (3 días)", "en": "Energy bars (3 days)"},
+        {"es": "Encendedor", "en": "Lighter"}
       ],
       "special_ability": "Ingeniero Improvizado: Podés reparar cualquier vehículo o máquina con los materiales disponibles. Podés crear armas y herramientas improvisadas",
       "advancement_paths": [
@@ -726,18 +726,18 @@
         "tracking": 4
       },
       "starting_inventory": [
-        "Arco compuesto (20 flechas)",
-        "Cuchillo de caza",
-        "Rifle de caza con mira (10 balas)",
-        "Tienda de campaña compacta",
-        "Kit de supervivencia",
-        "5 raciones de supervivencia",
-        "Poncho impermeable",
-        "Botella de agua reutilizable",
-        "Cuerda de nylon (15m)",
-        "Encendedor",
-        "Linterna con baterías de repuesto",
-        "Botiquín básico de primeros auxilios"
+        {"es": "Arco compuesto (20 flechas)", "en": "Compound bow (20 arrows)"},
+        {"es": "Cuchillo de caza", "en": "Hunting knife"},
+        {"es": "Rifle de caza con mira (10 balas)", "en": "Scoped hunting rifle (10 rounds)"},
+        {"es": "Tienda de campaña compacta", "en": "Compact tent"},
+        {"es": "Kit de supervivencia", "en": "Survival kit"},
+        {"es": "5 raciones de supervivencia", "en": "5 survival rations"},
+        {"es": "Poncho impermeable", "en": "Waterproof poncho"},
+        {"es": "Botella de agua reutilizable", "en": "Reusable water bottle"},
+        {"es": "Cuerda de nylon (15m)", "en": "Nylon rope (15m)"},
+        {"es": "Encendedor", "en": "Lighter"},
+        {"es": "Linterna con baterías de repuesto", "en": "Flashlight with spare batteries"},
+        {"es": "Botiquín básico de primeros auxilios", "en": "Basic first aid kit"}
       ],
       "special_ability": "Cazador Silencioso: Tus ataques con arco no atraen zombies. Podés rastrear cualquier cosa y siempre sabés dónde está el norte",
       "advancement_paths": [
@@ -762,18 +762,18 @@
         "leadership": 4
       },
       "starting_inventory": [
-        "Pistola con silenciador (12 balas)",
-        "Megáfono portátil",
-        "Libreta y bolígrafo",
-        "Radio de largo alcance",
-        "Mapa de la región con notas",
-        "4 raciones de supervivencia",
-        "Botiquín básico",
-        "Mochila resistente",
-        "Linterna con baterías de repuesto",
-        "Botella de agua reutilizable",
-        "Cuerda de nylon (15m)",
-        "Encendedor"
+        {"es": "Pistola con silenciador (12 balas)", "en": "Silenced pistol (12 rounds)"},
+        {"es": "Megáfono portátil", "en": "Portable megaphone"},
+        {"es": "Libreta y bolígrafo", "en": "Notebook and pen"},
+        {"es": "Radio de largo alcance", "en": "Long-range radio"},
+        {"es": "Mapa de la región con notas", "en": "Regional map with handwritten notes"},
+        {"es": "4 raciones de supervivencia", "en": "4 survival rations"},
+        {"es": "Botiquín básico", "en": "Basic first aid kit"},
+        {"es": "Mochila resistente", "en": "Heavy-duty backpack"},
+        {"es": "Linterna con baterías de repuesto", "en": "Flashlight with spare batteries"},
+        {"es": "Botella de agua reutilizable", "en": "Reusable water bottle"},
+        {"es": "Cuerda de nylon (15m)", "en": "Nylon rope (15m)"},
+        {"es": "Encendedor", "en": "Lighter"}
       ],
       "special_ability": "Inspiración: Podés dar bonificaciones a los aliados con tus palabras. Una vez por sesión, podés convencer a un NPC hostil de escucharte",
       "advancement_paths": [

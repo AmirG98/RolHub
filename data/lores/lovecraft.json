@@ -57,33 +57,33 @@
       "sub_locations": [
         {
           "id": "universidad-miskatonic",
-          "name": "Campus de la Universidad Miskatonic",
+          "name": {"es": "Campus de la Universidad Miskatonic", "en": "Miskatonic University Campus"},
           "type": "library",
-          "description": "Edificios académicos de ladrillo rojo donde se investigan ciencias prohibidas"
+          "description": {"es": "Edificios académicos de ladrillo rojo donde se investigan ciencias prohibidas", "en": "Red-brick academic buildings where forbidden sciences are studied"}
         },
         {
           "id": "comisaria-arkham",
-          "name": "Comisaría de Arkham",
+          "name": {"es": "Comisaría de Arkham", "en": "Arkham Police Station"},
           "type": "prison",
-          "description": "Estación de policía donde los agentes prefieren no creer en lo sobrenatural"
+          "description": {"es": "Estación de policía donde los agentes prefieren no creer en lo sobrenatural", "en": "A police station where the officers would rather not believe in the supernatural"}
         },
         {
           "id": "mercado-arkham",
-          "name": "Mercado de Church Street",
+          "name": {"es": "Mercado de Church Street", "en": "Church Street Market"},
           "type": "market",
-          "description": "Calle comercial con tiendas de antigüedades y una librería de libros raros"
+          "description": {"es": "Calle comercial con tiendas de antigüedades y una librería de libros raros", "en": "A commercial street lined with antique shops and a rare-books dealer"}
         },
         {
           "id": "taberna-velvet",
-          "name": "Taberna The Velvet",
+          "name": {"es": "Taberna The Velvet", "en": "The Velvet Tavern"},
           "type": "tavern",
-          "description": "Bar oscuro donde los investigadores comparten rumores sobre fenómenos inexplicables"
+          "description": {"es": "Bar oscuro donde los investigadores comparten rumores sobre fenómenos inexplicables", "en": "A dim bar where investigators trade rumors about inexplicable phenomena"}
         },
         {
           "id": "estacion-tren",
-          "name": "Estación de Tren de Arkham",
+          "name": {"es": "Estación de Tren de Arkham", "en": "Arkham Train Station"},
           "type": "gate",
-          "description": "Pequeña estación que conecta con Boston y las ciudades costeras de Nueva Inglaterra"
+          "description": {"es": "Pequeña estación que conecta con Boston y las ciudades costeras de Nueva Inglaterra", "en": "A small station that connects to Boston and the coastal towns of New England"}
         }
       ]
     },
@@ -111,27 +111,27 @@
       "sub_locations": [
         {
           "id": "hotel-gilman",
-          "name": "Hotel Gilman",
+          "name": {"es": "Hotel Gilman", "en": "Gilman House"},
           "type": "tavern",
-          "description": "Posada decrépita con habitaciones húmedas y huéspedes de aspecto inquietante"
+          "description": {"es": "Posada decrépita con habitaciones húmedas y huéspedes de aspecto inquietante", "en": "A decrepit inn with damp rooms and unsettling guests"}
         },
         {
           "id": "templo-orden-dagon",
-          "name": "Templo de la Orden Esotérica de Dagón",
+          "name": {"es": "Templo de la Orden Esotérica de Dagón", "en": "Temple of the Esoteric Order of Dagon"},
           "type": "temple",
-          "description": "Iglesia reconvertida donde los Profundos realizan sus ritos oscuros"
+          "description": {"es": "Iglesia reconvertida donde los Profundos realizan sus ritos oscuros", "en": "A converted church where the Deep Ones perform their dark rites"}
         },
         {
           "id": "muelle-innsmouth",
-          "name": "Muelles de Innsmouth",
+          "name": {"es": "Muelles de Innsmouth", "en": "Innsmouth Docks"},
           "type": "dock",
-          "description": "Puerto abandonado donde barcas podridas se mecen y figuras emergen del agua de noche"
+          "description": {"es": "Puerto abandonado donde barcas podridas se mecen y figuras emergen del agua de noche", "en": "An abandoned harbor where rotted boats sway and figures emerge from the water at night"}
         },
         {
           "id": "almacen-marsh",
-          "name": "Refinería Marsh",
+          "name": {"es": "Refinería Marsh", "en": "Marsh Refinery"},
           "type": "workshop",
-          "description": "Fábrica en ruinas propiedad de la familia Marsh, llena de oro de origen sospechoso"
+          "description": {"es": "Fábrica en ruinas propiedad de la familia Marsh, llena de oro de origen sospechoso", "en": "A ruined factory owned by the Marsh family, piled with gold of dubious origin"}
         }
       ]
     },
@@ -169,21 +169,21 @@
       "sub_locations": [
         {
           "id": "ala-comun",
-          "name": "Ala de Pacientes Comunes",
+          "name": {"es": "Ala de Pacientes Comunes", "en": "General Patient Ward"},
           "type": "hospital",
-          "description": "Salas con camas donde los internados susurran sobre cosas que vieron"
+          "description": {"es": "Salas con camas donde los internados susurran sobre cosas que vieron", "en": "Rooms of beds where the inmates whisper about things they have seen"}
         },
         {
           "id": "ala-restringida",
-          "name": "Ala Restringida",
+          "name": {"es": "Ala Restringida", "en": "Restricted Ward"},
           "type": "prison",
-          "description": "Celdas acolchadas para los casos más extremos, con gritos que no cesan de noche"
+          "description": {"es": "Celdas acolchadas para los casos más extremos, con gritos que no cesan de noche", "en": "Padded cells for the most extreme cases, screams that never stop at night"}
         },
         {
           "id": "jardin-sanatorio",
-          "name": "Jardín del Sanatorio",
+          "name": {"es": "Jardín del Sanatorio", "en": "Sanatorium Garden"},
           "type": "garden",
-          "description": "Patio cercado donde los pacientes caminan en círculos murmurando en lenguas muertas"
+          "description": {"es": "Patio cercado donde los pacientes caminan en círculos murmurando en lenguas muertas", "en": "A fenced courtyard where patients walk in circles murmuring in dead tongues"}
         }
       ]
     },
@@ -226,18 +226,18 @@
         "maxSanity": 100
       },
       "starting_inventory": [
-        "Ejemplar del Necronomicón (peligroso)",
-        "Lupa",
-        "Diario de investigación",
-        "Contactos académicos",
-        "Linterna",
-        "Maletín de cuero",
-        "3 raciones enlatadas",
-        "Cantimplora de latón",
-        "Cuerda resistente (15m)",
-        "Cerillas y encendedor",
-        "Botiquín de primeros auxilios",
-        "Billetera con 25 dólares"
+        {"es": "Ejemplar del Necronomicón (peligroso)", "en": "Copy of the Necronomicon (dangerous)"},
+        {"es": "Lupa", "en": "Magnifying glass"},
+        {"es": "Diario de investigación", "en": "Research journal"},
+        {"es": "Contactos académicos", "en": "Academic contacts"},
+        {"es": "Linterna", "en": "Lantern"},
+        {"es": "Maletín de cuero", "en": "Leather briefcase"},
+        {"es": "3 raciones enlatadas", "en": "3 canned rations"},
+        {"es": "Cantimplora de latón", "en": "Brass canteen"},
+        {"es": "Cuerda resistente (15m)", "en": "Sturdy rope (15m)"},
+        {"es": "Cerillas y encendedor", "en": "Matches and lighter"},
+        {"es": "Botiquín de primeros auxilios", "en": "First aid kit"},
+        {"es": "Billetera con 25 dólares", "en": "Wallet with 25 dollars"}
       ],
       "special_ability": "Erudición Oscura: Podés leer textos prohibidos. Cada lectura te da +1 Lore pero -10 Sanity"
     },
@@ -257,18 +257,18 @@
         "maxSanity": 100
       },
       "starting_inventory": [
-        "Revólver .38",
-        "Insignia de detective",
-        "Notas del caso",
-        "Contacto en la policía",
-        "Cámara",
-        "Maletín de cuero",
-        "3 raciones enlatadas",
-        "Cantimplora de latón",
-        "Cuerda resistente (15m)",
-        "Linterna de mano con pilas",
-        "Cerillas y encendedor",
-        "Billetera con 25 dólares"
+        {"es": "Revólver .38", "en": ".38 revolver"},
+        {"es": "Insignia de detective", "en": "Detective's badge"},
+        {"es": "Notas del caso", "en": "Case notes"},
+        {"es": "Contacto en la policía", "en": "Police contact"},
+        {"es": "Cámara", "en": "Camera"},
+        {"es": "Maletín de cuero", "en": "Leather briefcase"},
+        {"es": "3 raciones enlatadas", "en": "3 canned rations"},
+        {"es": "Cantimplora de latón", "en": "Brass canteen"},
+        {"es": "Cuerda resistente (15m)", "en": "Sturdy rope (15m)"},
+        {"es": "Linterna de mano con pilas", "en": "Handheld flashlight with batteries"},
+        {"es": "Cerillas y encendedor", "en": "Matches and lighter"},
+        {"es": "Billetera con 25 dólares", "en": "Wallet with 25 dollars"}
       ],
       "special_ability": "Olfato para el Peligro: Detectás emboscadas y trampas. Primer ataque sorpresa siempre falla contra vos"
     },
@@ -288,18 +288,18 @@
         "maxSanity": 100
       },
       "starting_inventory": [
-        "Grimorio personal",
-        "Velas rituales",
-        "Sangre de cordero",
-        "Amuleto protector",
-        "Tiza para círculos",
-        "Maletín de cuero",
-        "3 raciones enlatadas",
-        "Cantimplora de latón",
-        "Cuerda resistente (15m)",
-        "Linterna de mano con pilas",
-        "Botiquín de primeros auxilios",
-        "Billetera con 25 dólares"
+        {"es": "Grimorio personal", "en": "Personal grimoire"},
+        {"es": "Velas rituales", "en": "Ritual candles"},
+        {"es": "Sangre de cordero", "en": "Lamb's blood"},
+        {"es": "Amuleto protector", "en": "Protective amulet"},
+        {"es": "Tiza para círculos", "en": "Chalk for drawing circles"},
+        {"es": "Maletín de cuero", "en": "Leather briefcase"},
+        {"es": "3 raciones enlatadas", "en": "3 canned rations"},
+        {"es": "Cantimplora de latón", "en": "Brass canteen"},
+        {"es": "Cuerda resistente (15m)", "en": "Sturdy rope (15m)"},
+        {"es": "Linterna de mano con pilas", "en": "Handheld flashlight with batteries"},
+        {"es": "Botiquín de primeros auxilios", "en": "First aid kit"},
+        {"es": "Billetera con 25 dólares", "en": "Wallet with 25 dollars"}
       ],
       "special_ability": "Magia Ritual: Podés lanzar hechizos prohibidos. Cada hechizo cuesta Sanity pero puede salvar vidas"
     }

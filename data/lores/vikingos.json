@@ -537,33 +537,33 @@
       "sub_locations": [
         {
           "id": "gran-salon-bjorn",
-          "name": "Gran Salón de Bjorn",
+          "name": {"es": "Gran Salón de Bjorn", "en": "Bjorn's Great Hall"},
           "type": "hall",
-          "description": "Longhouse central donde el jarl celebra festines, juzga disputas y planifica incursiones"
+          "description": {"es": "Longhouse central donde el jarl celebra festines, juzga disputas y planifica incursiones", "en": "The central longhouse where the jarl holds feasts, judges disputes, and plans raids"}
         },
         {
           "id": "puerto-lobos",
-          "name": "Puerto de los Lobos",
+          "name": {"es": "Puerto de los Lobos", "en": "Harbor of the Wolves"},
           "type": "dock",
-          "description": "Embarcadero natural donde descansan los drakkars del Clan del Lobo"
+          "description": {"es": "Embarcadero natural donde descansan los drakkars del Clan del Lobo", "en": "A natural harbor where the Wolf Clan's drakkars are moored"}
         },
         {
           "id": "forja-gunnar",
-          "name": "Forja de Gunnar",
+          "name": {"es": "Forja de Gunnar", "en": "Gunnar's Forge"},
           "type": "workshop",
-          "description": "Herrería del mejor forjador del norte, donde se crean armas y herramientas"
+          "description": {"es": "Herrería del mejor forjador del norte, donde se crean armas y herramientas", "en": "The smithy of the north's finest blacksmith, where weapons and tools are forged"}
         },
         {
           "id": "arbol-ancestros",
-          "name": "Árbol de los Ancestros",
+          "name": {"es": "Árbol de los Ancestros", "en": "Tree of the Ancestors"},
           "type": "temple",
-          "description": "Roble sagrado cubierto de ofrendas donde se honra a los muertos del clan"
+          "description": {"es": "Roble sagrado cubierto de ofrendas donde se honra a los muertos del clan", "en": "A sacred oak hung with offerings where the clan honors its dead"}
         },
         {
           "id": "campo-entrenamiento-ulfsfjord",
-          "name": "Campos de Entrenamiento",
+          "name": {"es": "Campos de Entrenamiento", "en": "Training Grounds"},
           "type": "arena",
-          "description": "Explanada donde los jóvenes aprenden a luchar con hacha, espada y escudo"
+          "description": {"es": "Explanada donde los jóvenes aprenden a luchar con hacha, espada y escudo", "en": "An open field where the young learn to fight with axe, sword and shield"}
         }
       ]
     },
@@ -695,27 +695,27 @@
       "sub_locations": [
         {
           "id": "gran-templo",
-          "name": "Gran Templo de los Æsir",
+          "name": {"es": "Gran Templo de los Æsir", "en": "Great Temple of the Æsir"},
           "type": "temple",
-          "description": "Santuario principal con estatuas de Odín, Thor y Freyr bañadas en sangre de sacrificios"
+          "description": {"es": "Santuario principal con estatuas de Odín, Thor y Freyr bañadas en sangre de sacrificios", "en": "The main sanctuary with statues of Odin, Thor and Freyr stained with sacrificial blood"}
         },
         {
           "id": "casa-volvas",
-          "name": "Casa de las Völvas",
+          "name": {"es": "Casa de las Völvas", "en": "House of the Völvas"},
           "type": "residence",
-          "description": "Morada de las videntes más poderosas del norte, rodeada de humo de hierbas"
+          "description": {"es": "Morada de las videntes más poderosas del norte, rodeada de humo de hierbas", "en": "Home of the most powerful seeresses of the North, wreathed in herb smoke"}
         },
         {
           "id": "mercado-sagrado",
-          "name": "Mercado Sagrado",
+          "name": {"es": "Mercado Sagrado", "en": "Sacred Market"},
           "type": "market",
-          "description": "Feria temporal que acompaña las celebraciones, con armas, amuletos y esclavos"
+          "description": {"es": "Feria temporal que acompaña las celebraciones, con armas, amuletos y esclavos", "en": "A temporary fair that accompanies the rites, trading weapons, amulets and thralls"}
         },
         {
           "id": "bosque-sacrificios",
-          "name": "Bosque de los Sacrificios",
+          "name": {"es": "Bosque de los Sacrificios", "en": "Sacrificial Grove"},
           "type": "garden",
-          "description": "Arboleda sagrada donde cuelgan los cuerpos de animales y hombres ofrecidos a los dioses"
+          "description": {"es": "Arboleda sagrada donde cuelgan los cuerpos de animales y hombres ofrecidos a los dioses", "en": "A sacred grove where the bodies of beasts and men offered to the gods are hung"}
         }
       ]
     },
@@ -787,33 +787,33 @@
       "sub_locations": [
         {
           "id": "hipódromo",
-          "name": "Hipódromo",
+          "name": {"es": "Hipódromo", "en": "The Hippodrome"},
           "type": "arena",
-          "description": "Estadio colosal donde miles de bizantinos rugen ante las carreras de carros"
+          "description": {"es": "Estadio colosal donde miles de bizantinos rugen ante las carreras de carros", "en": "A colossal stadium where thousands of Byzantines roar at the chariot races"}
         },
         {
           "id": "santa-sofia",
-          "name": "Santa Sofía",
+          "name": {"es": "Santa Sofía", "en": "Hagia Sophia"},
           "type": "temple",
-          "description": "La iglesia más grande del mundo, con cúpula dorada que deslumbra a los nórdicos"
+          "description": {"es": "La iglesia más grande del mundo, con cúpula dorada que deslumbra a los nórdicos", "en": "The largest church in the world, its golden dome dazzling every northman who enters"}
         },
         {
           "id": "gran-bazar",
-          "name": "Gran Bazar",
+          "name": {"es": "Gran Bazar", "en": "Grand Bazaar"},
           "type": "market",
-          "description": "Mercado laberíntico donde se vende seda, especias, joyas y artefactos de todo el mundo"
+          "description": {"es": "Mercado laberíntico donde se vende seda, especias, joyas y artefactos de todo el mundo", "en": "A labyrinthine market selling silk, spices, jewels and artifacts from every corner of the world"}
         },
         {
           "id": "cuartel-varangio",
-          "name": "Cuartel de la Guardia Varangia",
+          "name": {"es": "Cuartel de la Guardia Varangia", "en": "Varangian Guard Barracks"},
           "type": "hall",
-          "description": "Barracas donde los vikingos imperiales viven, entrenan y cobran en oro bizantino"
+          "description": {"es": "Barracas donde los vikingos imperiales viven, entrenan y cobran en oro bizantino", "en": "The barracks where the imperial Vikings live, train, and are paid in Byzantine gold"}
         },
         {
           "id": "puerto-dorado",
-          "name": "Puerto Dorado",
+          "name": {"es": "Puerto Dorado", "en": "The Golden Horn"},
           "type": "dock",
-          "description": "Entrada marítima a la ciudad, custodiada por cadenas gigantes y barcos de guerra"
+          "description": {"es": "Entrada marítima a la ciudad, custodiada por cadenas gigantes y barcos de guerra", "en": "The city's sea gate, guarded by giant chains and warships"}
         }
       ]
     },
@@ -851,27 +851,27 @@
       "sub_locations": [
         {
           "id": "jorvik-centro",
-          "name": "Jorvik (York)",
+          "name": {"es": "Jorvik (York)", "en": "Jorvik (York)"},
           "type": "plaza",
-          "description": "Capital del Danelaw, ciudad bulliciosa donde vikingos y sajones coexisten tensamente"
+          "description": {"es": "Capital del Danelaw, ciudad bulliciosa donde vikingos y sajones coexisten tensamente", "en": "The capital of the Danelaw, a bustling city where Vikings and Saxons coexist uneasily"}
         },
         {
           "id": "mercado-jorvik",
-          "name": "Mercado de Jorvik",
+          "name": {"es": "Mercado de Jorvik", "en": "Jorvik Market"},
           "type": "market",
-          "description": "Feria permanente donde se comercia ámbar, pieles, armas y esclavos"
+          "description": {"es": "Feria permanente donde se comercia ámbar, pieles, armas y esclavos", "en": "A permanent fair trading amber, furs, weapons and thralls"}
         },
         {
           "id": "gran-salon-jorvik",
-          "name": "Gran Salón del Jarl",
+          "name": {"es": "Gran Salón del Jarl", "en": "Jarl's Great Hall"},
           "type": "hall",
-          "description": "Sede del poder vikingo en Inglaterra, donde el jarl local administra justicia"
+          "description": {"es": "Sede del poder vikingo en Inglaterra, donde el jarl local administra justicia", "en": "Seat of Viking power in England, where the local jarl dispenses justice"}
         },
         {
           "id": "templo-convertido",
-          "name": "Templo Reconvertido",
+          "name": {"es": "Templo Reconvertido", "en": "Reconsecrated Temple"},
           "type": "temple",
-          "description": "Antigua iglesia sajona transformada en santuario a Thor y Odín"
+          "description": {"es": "Antigua iglesia sajona transformada en santuario a Thor y Odín", "en": "An old Saxon church reshaped into a sanctuary of Thor and Odin"}
         }
       ]
     },
@@ -953,17 +953,17 @@
         "lore": 1
       },
       "starting_inventory": [
-        "Hacha de guerra danesa",
-        "Piel de oso",
-        "Amuleto de Odín",
-        "Cuerno de hidromiel",
-        "Pintura de guerra",
-        "Saco de dormir de piel",
-        "Carne seca y pan de viaje (3 días)",
-        "Cuerda trenzada (15m)",
-        "Antorcha de resina (2)",
-        "Pedernal y yesca",
-        "Ungüento curativo"
+        {"es": "Hacha de guerra danesa", "en": "Dane war axe"},
+        {"es": "Piel de oso", "en": "Bear pelt"},
+        {"es": "Amuleto de Odín", "en": "Amulet of Odin"},
+        {"es": "Cuerno de hidromiel", "en": "Drinking horn of mead"},
+        {"es": "Pintura de guerra", "en": "War paint"},
+        {"es": "Saco de dormir de piel", "en": "Fur bedroll"},
+        {"es": "Carne seca y pan de viaje (3 días)", "en": "Dried meat and travel bread (3 days)"},
+        {"es": "Cuerda trenzada (15m)", "en": "Braided rope (15m)"},
+        {"es": "Antorcha de resina (2)", "en": "Resin torches (2)"},
+        {"es": "Pedernal y yesca", "en": "Flint and tinder"},
+        {"es": "Ungüento curativo", "en": "Healing salve"}
       ],
       "special_ability": "Furia Berserker: En combate, no podés morir hasta que termine (quedás con 1 HP). Después colapsás exhausto",
       "background": {
@@ -1027,17 +1027,17 @@
         "lore": 4
       },
       "starting_inventory": [
-        "Lira de madera",
-        "Pergaminos de sagas",
-        "Ropa fina",
-        "Anillo de plata",
-        "Favor de un jarl",
-        "Saco de dormir de piel",
-        "Carne seca y pan de viaje (3 días)",
-        "Odre de hidromiel",
-        "Cuerda trenzada (15m)",
-        "Antorcha de resina (2)",
-        "Bolsa con 10 piezas de plata"
+        {"es": "Lira de madera", "en": "Wooden lyre"},
+        {"es": "Pergaminos de sagas", "en": "Scrolls of sagas"},
+        {"es": "Ropa fina", "en": "Fine clothes"},
+        {"es": "Anillo de plata", "en": "Silver ring"},
+        {"es": "Favor de un jarl", "en": "Favor owed by a jarl"},
+        {"es": "Saco de dormir de piel", "en": "Fur bedroll"},
+        {"es": "Carne seca y pan de viaje (3 días)", "en": "Dried meat and travel bread (3 days)"},
+        {"es": "Odre de hidromiel", "en": "Mead skin"},
+        {"es": "Cuerda trenzada (15m)", "en": "Braided rope (15m)"},
+        {"es": "Antorcha de resina (2)", "en": "Resin torches (2)"},
+        {"es": "Bolsa con 10 piezas de plata", "en": "Pouch of 10 silver pieces"}
       ],
       "special_ability": "Canto de Batalla: Tus aliados reciben +2 a combate mientras cantás. Podés desmoralizar enemigos con insultos épicos",
       "background": {
@@ -1101,17 +1101,17 @@
         "lore": 2
       },
       "starting_inventory": [
-        "Espada y escudo",
-        "Cota de mallas",
-        "Lanza de caza",
-        "Cuchillo de sacrificio",
-        "Amuleto de Freyja",
-        "Saco de dormir de piel",
-        "Carne seca y pan de viaje (3 días)",
-        "Odre de hidromiel",
-        "Cuerda trenzada (15m)",
-        "Pedernal y yesca",
-        "Ungüento curativo"
+        {"es": "Espada y escudo", "en": "Sword and shield"},
+        {"es": "Cota de mallas", "en": "Chain mail"},
+        {"es": "Lanza de caza", "en": "Hunting spear"},
+        {"es": "Cuchillo de sacrificio", "en": "Sacrificial knife"},
+        {"es": "Amuleto de Freyja", "en": "Amulet of Freyja"},
+        {"es": "Saco de dormir de piel", "en": "Fur bedroll"},
+        {"es": "Carne seca y pan de viaje (3 días)", "en": "Dried meat and travel bread (3 days)"},
+        {"es": "Odre de hidromiel", "en": "Mead skin"},
+        {"es": "Cuerda trenzada (15m)", "en": "Braided rope (15m)"},
+        {"es": "Pedernal y yesca", "en": "Flint and tinder"},
+        {"es": "Ungüento curativo", "en": "Healing salve"}
       ],
       "special_ability": "Muro de Escudos: Podés proteger a aliados adyacentes. Los ataques a ellos te afectan a vos en su lugar",
       "background": {
@@ -1176,17 +1176,17 @@
         "lore": 6
       },
       "starting_inventory": [
-        "Báculo tallado con runas",
-        "Bolsa de runas divinatorias",
-        "Capa de plumas",
-        "Hierbas rituales",
-        "Cráneo ancestral",
-        "Saco de dormir de piel",
-        "Carne seca y pan de viaje (3 días)",
-        "Odre de hidromiel",
-        "Antorcha de resina (2)",
-        "Pedernal y yesca",
-        "Ungüento curativo"
+        {"es": "Báculo tallado con runas", "en": "Staff carved with runes"},
+        {"es": "Bolsa de runas divinatorias", "en": "Bag of divination runes"},
+        {"es": "Capa de plumas", "en": "Feather cloak"},
+        {"es": "Hierbas rituales", "en": "Ritual herbs"},
+        {"es": "Cráneo ancestral", "en": "Ancestor's skull"},
+        {"es": "Saco de dormir de piel", "en": "Fur bedroll"},
+        {"es": "Carne seca y pan de viaje (3 días)", "en": "Dried meat and travel bread (3 days)"},
+        {"es": "Odre de hidromiel", "en": "Mead skin"},
+        {"es": "Antorcha de resina (2)", "en": "Resin torches (2)"},
+        {"es": "Pedernal y yesca", "en": "Flint and tinder"},
+        {"es": "Ungüento curativo", "en": "Healing salve"}
       ],
       "special_ability": "Visión del Destino: Una vez por sesión, podés ver un fragmento del futuro. El DM te da una pista críptica pero útil",
       "background": {
@@ -1250,17 +1250,17 @@
         "lore": 3
       },
       "starting_inventory": [
-        "Espada ancestral de la familia",
-        "Armadura de calidad",
-        "Anillo de sello del clan",
-        "Capa de piel fina",
-        "Mapa de territorios del clan",
-        "Saco de dormir de piel",
-        "Carne seca y pan de viaje (3 días)",
-        "Odre de hidromiel",
-        "Cuerda trenzada (15m)",
-        "Pedernal y yesca",
-        "Bolsa con 10 piezas de plata"
+        { "es": "Espada ancestral de la familia", "en": "Ancestral family sword" },
+        { "es": "Armadura de calidad", "en": "Quality armor" },
+        { "es": "Anillo de sello del clan", "en": "Clan signet ring" },
+        { "es": "Capa de piel fina", "en": "Fine fur cloak" },
+        { "es": "Mapa de territorios del clan", "en": "Map of clan territories" },
+        { "es": "Saco de dormir de piel", "en": "Fur sleeping bag" },
+        { "es": "Carne seca y pan de viaje (3 días)", "en": "Dried meat and travel bread (3 days)" },
+        { "es": "Odre de hidromiel", "en": "Waterskin of mead" },
+        { "es": "Cuerda trenzada (15m)", "en": "Braided rope (15m)" },
+        { "es": "Pedernal y yesca", "en": "Flint and tinder" },
+        { "es": "Bolsa con 10 piezas de plata", "en": "Pouch with 10 silver pieces" }
       ],
       "special_ability": "Autoridad de Sangre: Podés invocar el nombre de tu familia para obtener respeto, recursos o paso seguro en territorio amigo",
       "background": {
@@ -1325,17 +1325,17 @@
         "lore": 3
       },
       "starting_inventory": [
-        "Cuchillo de trabajo (ahora arma)",
-        "Ropas simples de hombre libre",
-        "Documento de liberación",
-        "Herramientas de oficio",
-        "Pequeño ahorro de plata",
-        "Saco de dormir de piel",
-        "Carne seca y pan de viaje (3 días)",
-        "Odre de hidromiel",
-        "Cuerda trenzada (15m)",
-        "Antorcha de resina (2)",
-        "Pedernal y yesca"
+        { "es": "Cuchillo de trabajo (ahora arma)", "en": "Work knife (now a weapon)" },
+        { "es": "Ropas simples de hombre libre", "en": "Simple freeman's clothes" },
+        { "es": "Documento de liberación", "en": "Manumission document" },
+        { "es": "Herramientas de oficio", "en": "Trade tools" },
+        { "es": "Pequeño ahorro de plata", "en": "Small silver savings" },
+        { "es": "Saco de dormir de piel", "en": "Fur sleeping bag" },
+        { "es": "Carne seca y pan de viaje (3 días)", "en": "Dried meat and travel bread (3 days)" },
+        { "es": "Odre de hidromiel", "en": "Waterskin of mead" },
+        { "es": "Cuerda trenzada (15m)", "en": "Braided rope (15m)" },
+        { "es": "Antorcha de resina (2)", "en": "Resin torch (2)" },
+        { "es": "Pedernal y yesca", "en": "Flint and tinder" }
       ],
       "special_ability": "Superviviente: Has sobrevivido lo peor. Tiradas de supervivencia y resistencia +2. Nunca te rendís",
       "background": {
