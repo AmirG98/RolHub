@@ -5,7 +5,9 @@ import { ChevronRight, Map, Compass, Lock, MapPin, ChevronDown } from 'lucide-re
 import { cn } from '@/lib/utils'
 import { type Lore, getMapConfig } from '@/lib/maps/map-config'
 import { useTranslations, useLanguage } from '@/lib/i18n'
+import { getLocalized } from '@/lib/i18n/localize'
 import { type MapLocationWithStatus } from '@/lib/types/map-state'
+import { type LocalizedString } from '@/lib/types/lore'
 
 // Iconos por tipo de ubicación
 const LOCATION_ICONS: Record<string, string> = {
@@ -95,9 +97,9 @@ const SHORT_AMBIANCE: Record<string, Record<string, BilingualString>> = {
 
 interface SubLocation {
   id: string
-  name: string
+  name: LocalizedString
   type: string
-  description: string
+  description: LocalizedString
 }
 
 const SUB_TYPE_ICONS: Record<string, string> = {
@@ -145,6 +147,7 @@ function SubLocationsSection({
 }) {
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const t = useTranslations()
+  const { locale } = useLanguage()
 
   return (
     <div className="border-t-2 border-gold/30">
@@ -161,6 +164,9 @@ function SubLocationsSection({
         {subLocations.map((sl) => {
           const isActive = sl.id === currentSubLocationId
           const isSelected = selectedId === sl.id && !isActive
+          const slName = getLocalized(sl.name, locale)
+          const slDescription = getLocalized(sl.description, locale)
+          const hereLabel = locale === 'en' ? '📍 You are here' : '📍 Estás aquí'
 
           return (
             <div
@@ -196,13 +202,13 @@ function SubLocationsSection({
                     'font-heading text-[13px] leading-tight',
                     isActive ? 'text-gold-bright' : 'text-parchment'
                   )}>
-                    {sl.name}
+                    {slName}
                   </p>
                   <p className={cn(
                     'text-[10px] mt-0.5 line-clamp-1',
                     isActive ? 'text-gold/60' : 'text-parchment/40'
                   )}>
-                    {isActive ? '📍 Estás aquí' : sl.description}
+                    {isActive ? hereLabel : slDescription}
                   </p>
                 </div>
 
@@ -221,10 +227,10 @@ function SubLocationsSection({
               {isSelected && (
                 <div className="px-3 pb-3 border-t border-gold-dim/20 mt-0">
                   <p className="text-[11px] text-parchment/70 font-body mt-2 mb-2.5 leading-relaxed">
-                    {sl.description}
+                    {slDescription}
                   </p>
                   <button
-                    onClick={() => onSubLocationClick?.(sl.name)}
+                    onClick={() => onSubLocationClick?.(slName)}
                     disabled={isNavigationLocked}
                     className={cn(
                       'w-full flex items-center justify-center gap-2 px-3 py-2 rounded-md font-heading text-xs transition-all',
@@ -234,7 +240,7 @@ function SubLocationsSection({
                     )}
                   >
                     <Compass className="w-3.5 h-3.5 flex-shrink-0" />
-                    <span className="truncate">{sl.name}</span>
+                    <span className="truncate">{slName}</span>
                   </button>
                 </div>
               )}
