@@ -428,11 +428,12 @@ export function GameMapPanel({
 
 // Loading skeleton para mapa
 function MapLoading() {
+  const t = useTranslations()
   return (
     <div className="w-full h-full flex items-center justify-center bg-shadow">
       <div className="text-center text-gold animate-pulse">
         <div className="text-3xl mb-2">🗺️</div>
-        <p className="text-xs">Cargando mapa...</p>
+        <p className="text-xs">{t.game.loadingMap}</p>
       </div>
     </div>
   )
@@ -440,11 +441,12 @@ function MapLoading() {
 
 // Loading skeleton para submapa
 function SubmapLoading() {
+  const t = useTranslations()
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80">
       <div className="text-center text-gold animate-pulse">
         <div className="text-4xl mb-3">🏰</div>
-        <p className="text-sm font-heading">Explorando ubicación...</p>
+        <p className="text-sm font-heading">{t.game.exploringLocation}</p>
       </div>
     </div>
   )

@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import { ChevronRight, Map, Compass, Lock, MapPin, ChevronDown } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { type Lore, getMapConfig } from '@/lib/maps/map-config'
-import { useTranslations } from '@/lib/i18n'
+import { useTranslations, useLanguage } from '@/lib/i18n'
 import { type MapLocationWithStatus } from '@/lib/types/map-state'
 
 // Iconos por tipo de ubicación
@@ -18,77 +18,78 @@ const LOCATION_ICONS: Record<string, string> = {
   landmark: '🗿',
 }
 
-// Descripciones cortas por tipo y lore
-const SHORT_AMBIANCE: Record<string, Record<string, string>> = {
+// Descripciones cortas por tipo y lore — bilingues
+type BilingualString = { es: string; en: string }
+const SHORT_AMBIANCE: Record<string, Record<string, BilingualString>> = {
   city: {
-    LOTR: 'Voces y comercio llenan el aire',
-    ZOMBIES: 'Silencio inquietante entre edificios',
-    ISEKAI: 'Bullicio del mercado mágico',
-    VIKINGOS: 'Humo y olor a mar',
-    STAR_WARS: 'Zumbido de naves y droides',
-    CYBERPUNK: 'Neones y lluvia ácida',
-    LOVECRAFT_HORROR: 'Arquitectura imposible',
-    CUSTOM: 'Actividad y posibilidades',
+    LOTR:             { es: 'Voces y comercio llenan el aire',    en: 'Voices and trade fill the air' },
+    ZOMBIES:          { es: 'Silencio inquietante entre edificios', en: 'An unsettling silence between buildings' },
+    ISEKAI:           { es: 'Bullicio del mercado mágico',        en: 'The bustle of the magic market' },
+    VIKINGOS:         { es: 'Humo y olor a mar',                  en: 'Smoke and sea air' },
+    STAR_WARS:        { es: 'Zumbido de naves y droides',         en: 'The hum of ships and droids' },
+    CYBERPUNK:        { es: 'Neones y lluvia ácida',              en: 'Neon lights and acid rain' },
+    LOVECRAFT_HORROR: { es: 'Arquitectura imposible',             en: 'Impossible architecture' },
+    CUSTOM:           { es: 'Actividad y posibilidades',          en: 'Activity and possibility' },
   },
   safe: {
-    LOTR: 'Paz y protección antigua',
-    ZOMBIES: 'Barricadas en su lugar',
-    ISEKAI: 'Zona de descanso segura',
-    VIKINGOS: 'Fuego e hidromiel',
-    STAR_WARS: 'Sector seguro',
-    CYBERPUNK: 'Fuera de jurisdicción',
-    LOVECRAFT_HORROR: 'Normalidad reconfortante',
-    CUSTOM: 'Refugio seguro',
+    LOTR:             { es: 'Paz y protección antigua',           en: 'Ancient peace and shelter' },
+    ZOMBIES:          { es: 'Barricadas en su lugar',             en: 'Barricades in place' },
+    ISEKAI:           { es: 'Zona de descanso segura',            en: 'A safe rest area' },
+    VIKINGOS:         { es: 'Fuego e hidromiel',                  en: 'Firelight and mead' },
+    STAR_WARS:        { es: 'Sector seguro',                      en: 'Secure sector' },
+    CYBERPUNK:        { es: 'Fuera de jurisdicción',              en: 'Out of jurisdiction' },
+    LOVECRAFT_HORROR: { es: 'Normalidad reconfortante',           en: 'Reassuring normality' },
+    CUSTOM:           { es: 'Refugio seguro',                     en: 'A safe haven' },
   },
   danger: {
-    LOTR: 'El mal acecha',
-    ZOMBIES: 'Gruñidos cercanos',
-    ISEKAI: 'Nivel de peligro alto',
-    VIKINGOS: 'Territorio hostil',
-    STAR_WARS: 'Presencia Imperial',
-    CYBERPUNK: 'Territorio de pandillas',
-    LOVECRAFT_HORROR: 'La cordura se desvanece',
-    CUSTOM: 'Peligro acechante',
+    LOTR:             { es: 'El mal acecha',                      en: 'Evil lurks nearby' },
+    ZOMBIES:          { es: 'Gruñidos cercanos',                  en: 'Groans close by' },
+    ISEKAI:           { es: 'Nivel de peligro alto',              en: 'High danger level' },
+    VIKINGOS:         { es: 'Territorio hostil',                  en: 'Hostile territory' },
+    STAR_WARS:        { es: 'Presencia Imperial',                 en: 'Imperial presence' },
+    CYBERPUNK:        { es: 'Territorio de pandillas',            en: 'Gang territory' },
+    LOVECRAFT_HORROR: { es: 'La cordura se desvanece',            en: 'Sanity slips away' },
+    CUSTOM:           { es: 'Peligro acechante',                  en: 'Lurking danger' },
   },
   dungeon: {
-    LOTR: 'Oscuridad palpable',
-    ZOMBIES: 'Pasillos estrechos',
-    ISEKAI: 'Tesoros y monstruos',
-    VIKINGOS: 'Tumbas antiguas',
-    STAR_WARS: 'Sensores inactivos',
-    CYBERPUNK: 'Red aislada',
-    LOVECRAFT_HORROR: 'Ángulos imposibles',
-    CUSTOM: 'Secretos subterráneos',
+    LOTR:             { es: 'Oscuridad palpable',                 en: 'A palpable darkness' },
+    ZOMBIES:          { es: 'Pasillos estrechos',                 en: 'Narrow corridors' },
+    ISEKAI:           { es: 'Tesoros y monstruos',                en: 'Treasures and monsters' },
+    VIKINGOS:         { es: 'Tumbas antiguas',                    en: 'Ancient tombs' },
+    STAR_WARS:        { es: 'Sensores inactivos',                 en: 'Sensors offline' },
+    CYBERPUNK:        { es: 'Red aislada',                        en: 'An air-gapped network' },
+    LOVECRAFT_HORROR: { es: 'Ángulos imposibles',                 en: 'Impossible angles' },
+    CUSTOM:           { es: 'Secretos subterráneos',              en: 'Underground secrets' },
   },
   wilderness: {
-    LOTR: 'Naturaleza salvaje',
-    ZOMBIES: 'Campo abierto',
-    ISEKAI: 'Zona de farmeo',
-    VIKINGOS: 'Espíritus susurrantes',
-    STAR_WARS: 'Vida salvaje',
-    CYBERPUNK: 'Sin conexión ni ley',
-    LOVECRAFT_HORROR: 'Vegetación incorrecta',
-    CUSTOM: 'Tierras salvajes',
+    LOTR:             { es: 'Naturaleza salvaje',                 en: 'Untamed wilderness' },
+    ZOMBIES:          { es: 'Campo abierto',                      en: 'Open ground' },
+    ISEKAI:           { es: 'Zona de farmeo',                     en: 'A farming zone' },
+    VIKINGOS:         { es: 'Espíritus susurrantes',              en: 'Whispering spirits' },
+    STAR_WARS:        { es: 'Vida salvaje',                       en: 'Wildlife everywhere' },
+    CYBERPUNK:        { es: 'Sin conexión ni ley',                en: 'Off-grid and lawless' },
+    LOVECRAFT_HORROR: { es: 'Vegetación incorrecta',              en: 'Vegetation that should not be' },
+    CUSTOM:           { es: 'Tierras salvajes',                   en: 'Wild lands' },
   },
   mystery: {
-    LOTR: 'Magia antigua',
-    ZOMBIES: 'Algo no cuadra',
-    ISEKAI: 'Evento secreto',
-    VIKINGOS: 'Los dioses observan',
-    STAR_WARS: 'La Fuerza es fuerte',
-    CYBERPUNK: 'Datos encriptados',
-    LOVECRAFT_HORROR: 'Velo entre mundos',
-    CUSTOM: 'Misterio por resolver',
+    LOTR:             { es: 'Magia antigua',                      en: 'Old magic lingers' },
+    ZOMBIES:          { es: 'Algo no cuadra',                     en: "Something doesn't add up" },
+    ISEKAI:           { es: 'Evento secreto',                     en: 'A hidden event' },
+    VIKINGOS:         { es: 'Los dioses observan',                en: 'The gods are watching' },
+    STAR_WARS:        { es: 'La Fuerza es fuerte',                en: 'The Force is strong here' },
+    CYBERPUNK:        { es: 'Datos encriptados',                  en: 'Encrypted data' },
+    LOVECRAFT_HORROR: { es: 'Velo entre mundos',                  en: 'A thin veil between worlds' },
+    CUSTOM:           { es: 'Misterio por resolver',              en: 'A mystery to unravel' },
   },
   landmark: {
-    LOTR: 'Lugar legendario',
-    ZOMBIES: 'Punto de referencia',
-    ISEKAI: 'Punto de guardado',
-    VIKINGOS: 'Marca ancestral',
-    STAR_WARS: 'Coordenadas clave',
-    CYBERPUNK: 'Punto de interés',
-    LOVECRAFT_HORROR: 'Arquitectura imposible',
-    CUSTOM: 'Lugar notable',
+    LOTR:             { es: 'Lugar legendario',                   en: 'A legendary place' },
+    ZOMBIES:          { es: 'Punto de referencia',                en: 'A landmark' },
+    ISEKAI:           { es: 'Punto de guardado',                  en: 'A save point' },
+    VIKINGOS:         { es: 'Marca ancestral',                    en: 'An ancestral marker' },
+    STAR_WARS:        { es: 'Coordenadas clave',                  en: 'Key coordinates' },
+    CYBERPUNK:        { es: 'Punto de interés',                   en: 'A point of interest' },
+    LOVECRAFT_HORROR: { es: 'Arquitectura imposible',             en: 'Impossible architecture' },
+    CUSTOM:           { es: 'Lugar notable',                      en: 'A notable spot' },
   },
 }
 
@@ -267,6 +268,27 @@ export function SceneView({
   const [confirmDestId, setConfirmDestId] = useState<string | null>(null)
 
   const t = useTranslations()
+  const { locale } = useLanguage()
+
+  // Traduce strings de travel_time (del JSON de lores) del español al inglés via regex.
+  // Los JSON guardan "1 día a pie, 4 horas a caballo" — para locale EN lo convertimos
+  // al vuelo sin necesidad de traducir los 10 JSONs.
+  const localizeTravelTime = (str: string, loc: 'es' | 'en'): string => {
+    if (loc !== 'en' || !str) return str
+    return str
+      // Orden importante: días (plural) antes que día
+      .replace(/\b(\d+)\s+d[ií]as\b/gi, '$1 days')
+      .replace(/\b(\d+)\s+d[ií]a\b/gi, '$1 day')
+      .replace(/\b(\d+)\s+horas\b/gi, '$1 hours')
+      .replace(/\b(\d+)\s+hora\b/gi, '$1 hour')
+      .replace(/\b(\d+)\s+minutos\b/gi, '$1 minutes')
+      .replace(/\b(\d+)\s+minuto\b/gi, '$1 minute')
+      .replace(/a pie/gi, 'on foot')
+      .replace(/a caballo/gi, 'by horse')
+      .replace(/en barco/gi, 'by boat')
+      .replace(/en carreta/gi, 'by cart')
+      .replace(/volando/gi, 'flying')
+  }
 
   // Calcular días de viaje a partir del texto de travel_time
   const parseDays = (timeStr: string): number => {
@@ -301,7 +323,7 @@ export function SceneView({
     setConfirmDestId(destId)
     setConfirmTravel({
       destination: destName,
-      travelTime: timeStr || '???',
+      travelTime: localizeTravelTime(timeStr, locale as 'es' | 'en') || '???',
       rationsNeeded: days,
       hasEnoughRations: rations >= days || days === 0,
     })
@@ -317,7 +339,10 @@ export function SceneView({
 
   const locationType = location.type || 'landmark'
   const icon = LOCATION_ICONS[locationType] || '📍'
-  const ambiance = SHORT_AMBIANCE[locationType]?.[lore] || location.description
+  const ambianceEntry = SHORT_AMBIANCE[locationType]?.[lore]
+  const ambiance = ambianceEntry
+    ? ambianceEntry[locale as 'es' | 'en'] || ambianceEntry.es
+    : location.description
 
   const dangerLevel = location.dangerLevel || 1
   const dangerColor = dangerLevel >= 4 ? 'text-red-400' : dangerLevel >= 2 ? 'text-gold' : 'text-emerald'
@@ -392,7 +417,7 @@ export function SceneView({
                 const canTravel = !isNavigationLocked && dest.discovered
 
                 const isConfirming = confirmDestId === dest.id
-                const travelTime = travelTimes[dest.name] || ''
+                const travelTime = localizeTravelTime(travelTimes[dest.name] || '', locale as 'es' | 'en')
 
                 return (
                   <div key={dest.id} className="space-y-1">

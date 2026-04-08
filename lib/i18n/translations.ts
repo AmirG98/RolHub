@@ -44,6 +44,14 @@ export const translations = {
 
     // Onboarding
     onboarding: {
+      loading: {
+        creatingTitle: 'Creando tu personaje...',
+        creatingSubtitle: 'Inscribiendo tu destino en {lore}',
+        portraitTitle: 'Generando tu retrato...',
+        portraitSubtitle: 'Un artista mágico dibuja tu semblante',
+        finalizingTitle: 'Entrando al mundo...',
+        finalizingSubtitle: 'Tu aventura comienza',
+      },
       chooseLore: {
         title: 'Elige Tu Mundo',
         subtitle: 'Cada universo tiene sus propias reglas, criaturas y misterios',
@@ -223,6 +231,8 @@ export const translations = {
       unknownLocation: 'Ubicación desconocida...',
       dayShort: 'día',
       daysShort: 'días',
+      loadingMap: 'Cargando mapa...',
+      exploringLocation: 'Explorando ubicación...',
     },
 
     // Lobby
@@ -481,6 +491,14 @@ export const translations = {
 
     // Onboarding
     onboarding: {
+      loading: {
+        creatingTitle: 'Creating your character...',
+        creatingSubtitle: 'Inscribing your fate in {lore}',
+        portraitTitle: 'Generating your portrait...',
+        portraitSubtitle: 'A magical artist is drawing your likeness',
+        finalizingTitle: 'Entering the world...',
+        finalizingSubtitle: 'Your adventure begins',
+      },
       chooseLore: {
         title: 'Choose Your World',
         subtitle: 'Each universe has its own rules, creatures, and mysteries',
@@ -660,6 +678,8 @@ export const translations = {
       unknownLocation: 'Unknown location...',
       dayShort: 'day',
       daysShort: 'days',
+      loadingMap: 'Loading map...',
+      exploringLocation: 'Exploring location...',
     },
 
     // Lobby

@@ -9,7 +9,7 @@ import { ArchetypeSelector, CharacterCreationData } from '@/components/onboardin
 import { DnD5eCharacterCreator } from '@/components/onboarding/DnD5eCharacterCreator'
 import { DnDModeSelector } from '@/components/onboarding/DnDModeSelector'
 import { Lore, GameMode, GameEngine, TutorialLevel, Archetype } from '@/lib/types/lore'
-import { useLanguage } from '@/lib/i18n'
+import { useLanguage, useTranslations } from '@/lib/i18n'
 
 // Importar todos los lores
 import lotrData from '@/data/lores/lotr.json'
@@ -59,6 +59,7 @@ function OnboardingPageInner() {
   const searchParams = useSearchParams()
   const { user } = useUser()
   const { locale } = useLanguage()
+  const t = useTranslations()
   const [step, setStep] = useState(1)
   const [selectedLore, setSelectedLore] = useState<Lore | null>(null)
 
@@ -262,18 +263,18 @@ function OnboardingPageInner() {
     const loadingMessages = {
       creating: {
         icon: '📜',
-        title: 'Creando tu personaje...',
-        subtitle: `Inscribiendo tu destino en ${getLoreName()}`,
+        title: t.onboarding.loading.creatingTitle,
+        subtitle: t.onboarding.loading.creatingSubtitle.replace('{lore}', getLoreName()),
       },
       portrait: {
         icon: '🎨',
-        title: 'Generando tu retrato...',
-        subtitle: 'Un artista mágico dibuja tu semblante',
+        title: t.onboarding.loading.portraitTitle,
+        subtitle: t.onboarding.loading.portraitSubtitle,
       },
       finalizing: {
         icon: '✨',
-        title: 'Entrando al mundo...',
-        subtitle: 'Tu aventura comienza',
+        title: t.onboarding.loading.finalizingTitle,
+        subtitle: t.onboarding.loading.finalizingSubtitle,
       },
     }
 
