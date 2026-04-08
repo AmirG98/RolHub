@@ -96,7 +96,7 @@ export function StatsBarSummary({
           {/* Name & Archetype */}
           <div className="flex items-baseline gap-2">
             <h3 className="font-heading text-lg text-gold-bright truncate">{name}</h3>
-            <span className="text-xs text-gold font-ui">Nv.{level}</span>
+            <span className="text-xs text-gold font-ui">{t.game.levelShort}{level}</span>
           </div>
           <p className="text-xs text-parchment/80 truncate">{archetype}</p>
 
@@ -112,7 +112,7 @@ export function StatsBarSummary({
                   <span className="text-sm font-heading text-parchment">{ac}</span>
                 </div>
                 <span className="text-xs text-parchment/50 hidden sm:inline">
-                  Prof +{proficiencyBonus}
+                  {t.game.profShort} +{proficiencyBonus}
                 </span>
               </>
             )}
@@ -254,7 +254,7 @@ export function StoryModeStatsBar({
         <div className="flex-1 min-w-0">
           <div className="flex items-baseline gap-2">
             <h3 className="font-heading text-lg text-gold-bright truncate">{name}</h3>
-            <span className="text-xs text-gold font-ui">Nv.{level}</span>
+            <span className="text-xs text-gold font-ui">{t.game.levelShort}{level}</span>
           </div>
           <p className="text-xs text-parchment/80 truncate">{archetype}</p>
 

@@ -8,6 +8,7 @@ import { getExampleMapData } from '@/lib/maps/lore-map-data'
 import { generateCharacterPortrait } from '@/lib/fal/character-portrait-gen'
 import { handleCachedSceneImageRequest } from '@/lib/fal/scene-image-gen'
 import { type Lore as LoreType } from '@/lib/types/lore'
+import { generateOpeningTurnWithClaude } from '@/lib/claude/opening-turn'
 
 // Generar código de invitación único de 6 caracteres
 function generateInviteCode(): string {
@@ -303,6 +304,26 @@ export async function POST(req: NextRequest) {
       inviteCode = generateInviteCode()
     }
 
+    // Para campañas en inglés, generar el primer turno del DM con Claude ANTES
+    // de abrir la transacción (para no bloquear el lock con una llamada de ~2s).
+    // Si falla, caemos al comportamiento español del JSON dentro de la transacción.
+    let precomputedOpening: { introContent: string; suggestedActions: string[] } | null = null
+    if (locale === 'en') {
+      try {
+        precomputedOpening = await generateOpeningTurnWithClaude({
+          loreData,
+          archetypeName: charArchetype,
+          characterName: charName,
+          characterDescription: characterDescription || undefined,
+          startingLocationName: startingSceneName,
+          locale: 'en',
+        })
+      } catch (err) {
+        console.warn('[character/create] Opening turn generation failed, falling back to JSON:', err)
+        // precomputedOpening queda en null y el fallback del JSON se encarga
+      }
+    }
+
     // Crear todo en una transacción — con retry para manejar pool exhaustion
     const result = await withRetry(() => prisma.$transaction(async (tx) => {
       // 0. Buscar o crear usuario
@@ -385,37 +406,45 @@ export async function POST(req: NextRequest) {
       })
 
       // 4. Crear el primer turn del sistema con contexto espacial inmersivo
-      // Soportar opening_scenes (array de variantes) o opening_scene (legacy singular)
-      const openingScenes = (loreData as any).opening_scenes || (loreData.opening_scene ? [loreData.opening_scene] : [])
-      const openingScene = openingScenes.length > 0
-        ? openingScenes[Math.floor(Math.random() * openingScenes.length)]
-        : null
       let introContent = ''
       let suggestedActions: string[] = []
 
-      if (openingScene) {
-        // Intro concisa e inmersiva — solo descripción + pregunta
-        introContent = getLocalized(openingScene.description, locale) + '\n\n'
-        introContent += getLocalized(openingScene.closing_prompt, locale) || (locale === 'en' ? 'What do you do?' : '¿Qué deseas hacer?')
-
-        // Acciones sugeridas basadas en direcciones y rumores
-        if (openingScene.visible_directions?.length > 0) {
-          openingScene.visible_directions.slice(0, 3).forEach((dir: { direction: string; landmark: string }) => {
-            suggestedActions.push(`Ir al ${dir.direction}`)
-          })
-        }
-        suggestedActions.push('Hablar con alguien cercano')
-        suggestedActions.push('Explorar el lugar actual')
-
+      if (precomputedOpening) {
+        // Caso EN: ya generamos la narración con Claude antes de la transacción
+        introContent = precomputedOpening.introContent
+        suggestedActions = precomputedOpening.suggestedActions
       } else {
-        // Fallback al sistema anterior si no hay opening_scene
-        const narrativeHook = mode === 'ONE_SHOT'
-          ? (loreData.one_shot_hooks?.[0]?.hook || loreData.narrative_skeleton?.act_1?.description || 'Tu aventura comienza...')
-          : (loreData.narrative_skeleton?.act_1?.description || 'Tu aventura comienza...')
+        // Caso ES (o fallback si Claude falló): leer del JSON
+        // Soportar opening_scenes (array de variantes) o opening_scene (legacy singular)
+        const openingScenes = (loreData as any).opening_scenes || (loreData.opening_scene ? [loreData.opening_scene] : [])
+        const openingScene = openingScenes.length > 0
+          ? openingScenes[Math.floor(Math.random() * openingScenes.length)]
+          : null
 
-        introContent = locale === 'en'
-          ? `Welcome to ${getLocalized(loreData.name, locale)}, ${charName}.\n\n${narrativeHook}`
-          : `Bienvenido a ${getLocalized(loreData.name, locale)}, ${charName}.\n\n${narrativeHook}`
+        if (openingScene) {
+          // Intro concisa e inmersiva — solo descripción + pregunta
+          introContent = getLocalized(openingScene.description, locale) + '\n\n'
+          introContent += getLocalized(openingScene.closing_prompt, locale) || (locale === 'en' ? 'What do you do?' : '¿Qué deseas hacer?')
+
+          // Acciones sugeridas basadas en direcciones y rumores
+          if (openingScene.visible_directions?.length > 0) {
+            openingScene.visible_directions.slice(0, 3).forEach((dir: { direction: string; landmark: string }) => {
+              suggestedActions.push(locale === 'en' ? `Go to the ${dir.direction}` : `Ir al ${dir.direction}`)
+            })
+          }
+          suggestedActions.push(locale === 'en' ? 'Talk to someone nearby' : 'Hablar con alguien cercano')
+          suggestedActions.push(locale === 'en' ? 'Explore the area' : 'Explorar el lugar actual')
+
+        } else {
+          // Fallback al sistema anterior si no hay opening_scene
+          const narrativeHook = mode === 'ONE_SHOT'
+            ? (loreData.one_shot_hooks?.[0]?.hook || loreData.narrative_skeleton?.act_1?.description || 'Tu aventura comienza...')
+            : (loreData.narrative_skeleton?.act_1?.description || 'Tu aventura comienza...')
+
+          introContent = locale === 'en'
+            ? `Welcome to ${getLocalized(loreData.name, locale)}, ${charName}.\n\n${narrativeHook}`
+            : `Bienvenido a ${getLocalized(loreData.name, locale)}, ${charName}.\n\n${narrativeHook}`
+        }
       }
 
       const firstTurn = await tx.turn.create({

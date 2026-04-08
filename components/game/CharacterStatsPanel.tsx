@@ -4,6 +4,7 @@ import React from 'react'
 import { cn } from '@/lib/utils'
 import { Heart, Sword, Map, MessageSquare, BookOpen, Shield, Zap, Brain, Eye, Smile } from 'lucide-react'
 import { type GameEngine } from '@/lib/types/lore'
+import { useTranslations } from '@/lib/i18n'
 
 interface CharacterStats {
   // Common stats
@@ -74,11 +75,12 @@ function HPBar({ current, max, className }: { current: number, max: number, clas
 
 // Stats para Story Mode
 function StoryModeStats({ stats, conditions }: { stats: CharacterStats, conditions?: string[] }) {
+  const t = useTranslations()
   const statItems = [
-    { label: 'Combate', value: stats.combat || 0, icon: Sword, color: 'text-blood' },
-    { label: 'Explorar', value: stats.exploration || 0, icon: Map, color: 'text-emerald' },
-    { label: 'Social', value: stats.social || 0, icon: MessageSquare, color: 'text-gold' },
-    { label: 'Saber', value: stats.knowledge || 0, icon: BookOpen, color: 'text-blue-400' },
+    { label: t.game.statCombat, value: stats.combat || 0, icon: Sword, color: 'text-blood' },
+    { label: t.game.statExploration, value: stats.exploration || 0, icon: Map, color: 'text-emerald' },
+    { label: t.game.statSocial, value: stats.social || 0, icon: MessageSquare, color: 'text-gold' },
+    { label: t.game.statLore, value: stats.knowledge || 0, icon: BookOpen, color: 'text-blue-400' },
   ]
 
   return (
@@ -121,13 +123,14 @@ function StoryModeStats({ stats, conditions }: { stats: CharacterStats, conditio
 
 // Stats para D&D 5e
 function DnD5eStats({ stats, conditions }: { stats: CharacterStats, conditions?: string[] }) {
+  const t = useTranslations()
   const abilityScores = [
-    { label: 'FUE', value: stats.STR || 10, icon: Sword },
-    { label: 'DES', value: stats.DEX || 10, icon: Zap },
-    { label: 'CON', value: stats.CON || 10, icon: Shield },
-    { label: 'INT', value: stats.INT || 10, icon: Brain },
-    { label: 'SAB', value: stats.WIS || 10, icon: Eye },
-    { label: 'CAR', value: stats.CHA || 10, icon: Smile },
+    { label: t.game.abbrSTR, value: stats.STR || 10, icon: Sword },
+    { label: t.game.abbrDEX, value: stats.DEX || 10, icon: Zap },
+    { label: t.game.abbrCON, value: stats.CON || 10, icon: Shield },
+    { label: t.game.abbrINT, value: stats.INT || 10, icon: Brain },
+    { label: t.game.abbrWIS, value: stats.WIS || 10, icon: Eye },
+    { label: t.game.abbrCHA, value: stats.CHA || 10, icon: Smile },
   ]
 
   return (
@@ -159,8 +162,8 @@ function DnD5eStats({ stats, conditions }: { stats: CharacterStats, conditions?:
 
       {/* Extra Info Row */}
       <div className="flex items-center justify-between text-xs font-ui text-parchment/70">
-        <span>Competencia: +{stats.proficiencyBonus || 2}</span>
-        <span>Velocidad: {stats.speed || 30} ft</span>
+        <span>{t.game.proficiency}: +{stats.proficiencyBonus || 2}</span>
+        <span>{t.game.speed}: {stats.speed || 30} {t.game.speedUnit}</span>
       </div>
 
       {/* Conditions */}
@@ -189,6 +192,7 @@ export function CharacterStatsPanel({
   conditions,
   className,
 }: CharacterStatsPanelProps) {
+  const t = useTranslations()
   const isDnD5e = engine === 'DND_5E'
 
   return (
@@ -220,7 +224,7 @@ export function CharacterStatsPanel({
               : archetype}
           </p>
           <p className="text-xs text-parchment/50">
-            Nivel {stats.level || 1}
+            {t.game.levelFull} {stats.level || 1}
           </p>
         </div>
       </div>
@@ -251,6 +255,7 @@ export function CharacterStatsMini({
   level: number
   className?: string
 }) {
+  const t = useTranslations()
   return (
     <div
       className={cn(
@@ -273,7 +278,7 @@ export function CharacterStatsMini({
       <div className="flex-1 min-w-0">
         <div className="flex items-center justify-between">
           <span className="text-xs font-heading text-parchment truncate">{name}</span>
-          <span className="text-[10px] text-gold-dim">Nv.{level}</span>
+          <span className="text-[10px] text-gold-dim">{t.game.levelShort}{level}</span>
         </div>
         <HPBar current={hp} max={maxHp} className="h-2" />
       </div>

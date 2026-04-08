@@ -809,22 +809,22 @@ export default function GameSession({
       {showExitDialog && (
         <div className="fixed inset-0 bg-shadow/80 z-50 flex items-center justify-center p-4" onClick={() => { setShowExitDialog(false); setPendingExitUrl(null) }}>
           <div className="glass-panel-dark rounded-lg p-6 max-w-sm w-full border border-gold-dim/30" onClick={e => e.stopPropagation()}>
-            <h3 className="font-heading text-lg text-gold mb-3">Salir de la partida</h3>
+            <h3 className="font-heading text-lg text-gold mb-3">{t.game.exitDialogTitle}</h3>
             <p className="font-body text-sm text-parchment/80 mb-4">
-              Tu progreso será guardado automáticamente. Si volver atrás no funciona, dirígete a la página de campañas para continuar tu última partida.
+              {t.game.exitDialogText}
             </p>
             <div className="flex gap-3">
               <button
                 onClick={() => { setShowExitDialog(false); setPendingExitUrl(null) }}
                 className="flex-1 px-4 py-2 rounded font-ui text-sm text-parchment bg-shadow-mid hover:bg-shadow border border-gold-dim/30"
               >
-                Seguir jugando
+                {t.game.keepPlaying}
               </button>
               <button
                 onClick={() => { window.location.href = pendingExitUrl || '/campaigns' }}
                 className="flex-1 px-4 py-2 rounded font-ui text-sm text-parchment bg-gold-dim/80 hover:bg-gold-dim"
               >
-                {pendingExitUrl ? 'Salir' : 'Ir a Campañas'}
+                {pendingExitUrl ? t.game.exitShort : t.game.goToCampaigns}
               </button>
             </div>
           </div>
@@ -859,7 +859,7 @@ export default function GameSession({
                       isConnected ? 'bg-emerald/20 text-emerald' : 'bg-blood/20 text-blood'
                     }`}>
                       <Wifi className="w-3 h-3" />
-                      {isConnected ? 'En vivo' : 'Desconectado'}
+                      {isConnected ? t.game.online : t.game.offline}
                     </div>
                     {isUserDM && (
                       <div className="flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] bg-gold/20 text-gold">
@@ -872,7 +872,7 @@ export default function GameSession({
               </div>
               <p className="font-ui text-parchment text-xs md:text-sm truncate">
                 {worldState.current_scene} • {worldState.time_in_world}
-                {isMultiplayer && ` • ${participants.filter(p => p.isOnline).length} jugadores`}
+                {isMultiplayer && ` • ${participants.filter(p => p.isOnline).length} ${t.game.players}`}
               </p>
             </div>
 
@@ -893,7 +893,7 @@ export default function GameSession({
                 <div className="flex-shrink-0">
                   <div className="flex items-baseline gap-1.5">
                     <span className="font-heading text-sm text-parchment uppercase">{characterName}</span>
-                    <span className="font-ui text-[10px] text-gold-dim">Nv.{character.level}</span>
+                    <span className="font-ui text-[10px] text-gold-dim">{t.game.levelShort}{character.level}</span>
                   </div>
                   <p className="font-ui text-[10px] text-gold-dim/70">{character.archetype}</p>
                   <div className="flex items-center gap-1.5 mt-0.5">
@@ -949,7 +949,7 @@ export default function GameSession({
                 {/* Ver Hoja button */}
                 <div className="hidden md:flex items-center gap-1 ml-2 px-2 py-1 rounded border border-gold-dim/30 text-[10px] font-ui text-gold-dim hover:text-gold hover:border-gold transition flex-shrink-0">
                   <BookOpen className="w-3 h-3" />
-                  <span>Ver Hoja</span>
+                  <span>{t.game.viewSheet}</span>
                 </div>
               </div>
             )}
@@ -1025,7 +1025,7 @@ export default function GameSession({
                 <button
                   onClick={() => setShowExitDialog(true)}
                   className="text-parchment/50 hover:text-gold transition mr-1"
-                  title="Salir de la partida"
+                  title={t.game.exitDialogTitle}
                 >
                   ←
                 </button>
@@ -1427,7 +1427,7 @@ export default function GameSession({
             {/* Imagen de escena */}
             {(sceneImageUrl || isImageLoading) && (
               <div>
-                <h3 className="font-heading text-xs text-gold-dim uppercase tracking-widest mb-2 px-1">Escena</h3>
+                <h3 className="font-heading text-xs text-gold-dim uppercase tracking-widest mb-2 px-1">{t.game.sceneLabel}</h3>
               <SceneImage
                 imageUrl={sceneImageUrl}
                 isLoading={isImageLoading}
@@ -1476,7 +1476,7 @@ export default function GameSession({
             <div id="quests-section" className="glass-panel-dark rounded-lg p-4 border border-gold-dim/20 scroll-mt-4">
               <h3 className="font-heading text-lg text-gold mb-3">
                 <Scroll className="w-4 h-4 inline-block mr-2" />
-                Misiones
+                {t.game.quests}
               </h3>
               <div className="space-y-2 max-h-[250px] overflow-y-auto">
                 {(worldState.active_quests || []).map((quest: any, i: number) => {

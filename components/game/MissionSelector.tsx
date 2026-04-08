@@ -2,6 +2,7 @@
 
 import { cn } from '@/lib/utils'
 import { Sword, Compass, Shield, Skull, Users, Search, Zap } from 'lucide-react'
+import { useTranslations } from '@/lib/i18n'
 
 interface MissionSelectorProps {
   missions: string[]
@@ -35,21 +36,21 @@ const getTagIcon = (mission: string) => {
   return <Zap className="w-5 h-5" />
 }
 
-// Extraer el titulo de "Elegir: Titulo de la Mision"
+// Extraer el titulo de "Elegir: Titulo de la Mision" / "Choose: Mission Title"
 const extractTitle = (mission: string) => {
-  if (mission.startsWith('Elegir: ')) {
-    return mission.substring(8)
-  }
+  if (mission.startsWith('Elegir: ')) return mission.substring(8)
+  if (mission.startsWith('Choose: ')) return mission.substring(8)
   return mission
 }
 
 export function MissionSelector({ missions, onSelect, disabled }: MissionSelectorProps) {
+  const t = useTranslations()
   if (missions.length === 0) return null
 
   return (
     <div className="my-4">
       <h3 className="font-heading text-lg text-gold mb-3 text-center">
-        Elige tu aventura
+        {t.game.chooseYourAdventure}
       </h3>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
         {missions.map((mission, i) => {

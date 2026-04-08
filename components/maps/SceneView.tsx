@@ -310,7 +310,7 @@ export function SceneView({
   if (!location) {
     return (
       <div className={cn('flex items-center justify-center p-4', className)}>
-        <p className="text-parchment/50 font-body text-sm">Ubicación desconocida...</p>
+        <p className="text-parchment/50 font-body text-sm">{t.game.unknownLocation}</p>
       </div>
     )
   }
@@ -366,7 +366,7 @@ export function SceneView({
         <div className="px-3 py-2">
           <div className="flex items-center gap-2 mb-2">
             <Compass className="w-3.5 h-3.5 text-gold drop-shadow-md" />
-            <span className="text-xs font-heading text-gold uppercase tracking-wide drop-shadow-md">Viajar a</span>
+            <span className="text-xs font-heading text-gold uppercase tracking-wide drop-shadow-md">{t.game.travelToHeading}</span>
             {isNavigationLocked && (
               <span className="text-xs text-red-400 ml-auto flex items-center gap-1">
                 <Lock className="w-3 h-3" /> {lockReason}
@@ -376,12 +376,12 @@ export function SceneView({
 
           {connectedLocations.length === 0 ? (
             <div className="text-center py-2">
-              <p className="text-xs text-parchment/50 italic mb-1">No hay caminos directos</p>
+              <p className="text-xs text-parchment/50 italic mb-1">{t.game.noDirectPaths}</p>
               <button
                 onClick={onShowWorldMap}
                 className="text-xs text-gold hover:text-gold-bright underline"
               >
-                Abrir mapa
+                {t.game.openMap}
               </button>
             </div>
           ) : (
@@ -427,15 +427,15 @@ export function SceneView({
                     {isConfirming && confirmTravel && (
                       <div className="mx-1 p-2.5 rounded-lg border border-gold/30 bg-shadow-mid/90 space-y-2">
                         <p className="text-[11px] font-heading text-gold">
-                          ¿Viajar a {confirmTravel.destination}?
+                          {t.game.travelConfirmQuestion.replace('{dest}', confirmTravel.destination)}
                         </p>
                         <div className="text-[10px] text-parchment/70 space-y-0.5">
-                          <p>🕐 Duración: <span className="text-parchment">{confirmTravel.travelTime}</span></p>
+                          <p>🕐 {t.game.travelDuration}: <span className="text-parchment">{confirmTravel.travelTime}</span></p>
                           {confirmTravel.rationsNeeded > 0 && (
-                            <p>🍞 Raciones necesarias: <span className={confirmTravel.hasEnoughRations ? 'text-emerald' : 'text-red-400'}>{confirmTravel.rationsNeeded} día{confirmTravel.rationsNeeded !== 1 ? 's' : ''}</span></p>
+                            <p>🍞 {t.game.travelRationsNeeded}: <span className={confirmTravel.hasEnoughRations ? 'text-emerald' : 'text-red-400'}>{confirmTravel.rationsNeeded} {confirmTravel.rationsNeeded !== 1 ? t.game.daysShort : t.game.dayShort}</span></p>
                           )}
                           {!confirmTravel.hasEnoughRations && confirmTravel.rationsNeeded > 0 && (
-                            <p className="text-red-400/80">⚠️ Sin suficientes raciones — sufrirás hambre</p>
+                            <p className="text-red-400/80">⚠️ {t.game.travelNotEnoughRations}</p>
                           )}
                         </div>
                         <div className="flex gap-2">
@@ -447,13 +447,13 @@ export function SceneView({
                             }}
                             className="flex-1 px-2 py-1.5 rounded text-[11px] font-heading bg-gold/20 hover:bg-gold/30 text-gold border border-gold/30 transition-all"
                           >
-                            Partir
+                            {t.game.travelDepart}
                           </button>
                           <button
                             onClick={() => { setConfirmTravel(null); setConfirmDestId(null) }}
                             className="px-2 py-1.5 rounded text-[11px] font-heading text-parchment/50 hover:text-parchment/80 transition-all"
                           >
-                            Cancelar
+                            {t.game.travelCancel}
                           </button>
                         </div>
                       </div>
@@ -494,7 +494,7 @@ export function SceneView({
             )}
           >
             <Map className="w-3.5 h-3.5" />
-            <span>Mapa</span>
+            <span>{t.game.map}</span>
           </button>
         </div>
       </div>

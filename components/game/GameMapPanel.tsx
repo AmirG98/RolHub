@@ -11,6 +11,7 @@ import { useMapSync } from '@/hooks/useMapSync'
 import { cn } from '@/lib/utils'
 import { QuestPanelCompact, CurrentQuestWidget } from './QuestPanel'
 import { SceneView } from '@/components/maps/SceneView'
+import { useTranslations } from '@/lib/i18n'
 // Lore data para sub-locaciones
 import lotrData from '@/data/lores/lotr.json'
 import zombiesData from '@/data/lores/zombies.json'
@@ -44,15 +45,17 @@ const DynamicSubmapRouter = dynamic(
 // ThreeMapViewer removido temporalmente - solo mapa 2D por ahora
 // TODO: Reimplementar mapa 3D en versión futura
 
-// Mensajes de bloqueo de navegación
-const LOCK_MESSAGES: Record<NavigationLockReason, string> = {
-  combat: 'En combate',
-  dialogue: 'En conversación',
-  cutscene: 'Escena en progreso',
-  important_choice: 'Decisión pendiente',
-  ritual: 'Ritual en progreso',
-  trap: 'Atrapado',
-  none: '',
+// Mensajes de bloqueo de navegación — localizados vía t.game.lock*
+function getLockMessages(t: ReturnType<typeof useTranslations>): Record<NavigationLockReason, string> {
+  return {
+    combat: t.game.lockInCombat,
+    dialogue: t.game.lockInDialogue,
+    cutscene: t.game.lockCutscene,
+    important_choice: t.game.lockChoice,
+    ritual: t.game.lockRitual,
+    trap: t.game.lockTrapped,
+    none: '',
+  }
 }
 
 interface GameMapPanelProps {
@@ -83,6 +86,8 @@ export function GameMapPanel({
   onQuestClick,
   onViewQuestOnMap,
 }: GameMapPanelProps) {
+  const t = useTranslations()
+  const LOCK_MESSAGES = getLockMessages(t)
   // Vista: 'scene' muestra ubicación actual inmersiva, 'worldMap' muestra el mapa completo
   const [viewMode, setViewMode] = useState<'scene' | 'worldMap'>('scene')
   const [showFog, setShowFog] = useState(true)
@@ -282,7 +287,7 @@ export function GameMapPanel({
         >
           <MapPin className="w-4 h-4" />
           <span className="text-xs font-heading">
-            {currentLocation?.name || 'Escena'}
+            {currentLocation?.name || t.game.sceneLabel}
           </span>
         </button>
 

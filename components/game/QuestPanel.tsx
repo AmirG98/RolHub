@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import { type Quest, getQuestProgress } from '@/lib/types/quest'
 import { QuestMarkerInline, QuestTypeBadge } from '@/components/maps/QuestMarker'
+import { useTranslations } from '@/lib/i18n'
 
 interface QuestPanelProps {
   quests: Quest[]
@@ -21,6 +22,7 @@ export function QuestPanel({
   onViewOnMap,
   className = '',
 }: QuestPanelProps) {
+  const t = useTranslations()
   const [expandedQuestId, setExpandedQuestId] = useState<string | null>(null)
   const [showCompleted, setShowCompleted] = useState(false)
 
@@ -36,9 +38,9 @@ export function QuestPanel({
       {/* Header */}
       <div className="px-3 py-2 bg-shadow border-b border-gold/20">
         <h3 className="font-heading text-gold-bright text-sm tracking-wide">
-          Misiones
+          {t.game.quests}
           {activeQuests.length > 0 && (
-            <span className="ml-2 text-parchment/60">({activeQuests.length} activas)</span>
+            <span className="ml-2 text-parchment/60">({activeQuests.length} {t.campaigns.activeQuestsCount})</span>
           )}
         </h3>
       </div>

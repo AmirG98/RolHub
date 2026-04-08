@@ -7,6 +7,7 @@ import { getExampleMapData } from '@/lib/maps/lore-map-data'
 import { generateCharacterPortrait } from '@/lib/fal/character-portrait-gen'
 import { handleCachedSceneImageRequest } from '@/lib/fal/scene-image-gen'
 import { type Lore as LoreType } from '@/lib/types/lore'
+import { generateOpeningTurnWithClaude } from '@/lib/claude/opening-turn'
 import { cookies } from 'next/headers'
 
 import lotrData from '@/data/lores/lotr.json'
@@ -89,28 +90,50 @@ export async function POST(req: NextRequest) {
     // Generar guest ID único
     const guestId = `guest_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`
 
-    // Opening scene
-    const openingScenes = (loreData as any).opening_scenes || (loreData.opening_scene ? [loreData.opening_scene] : [])
-    const openingScene = openingScenes.length > 0
-      ? openingScenes[Math.floor(Math.random() * openingScenes.length)]
-      : null
-
+    // Opening scene / primer turno del DM
     let introContent = ''
     let suggestedActions: string[] = []
-    if (openingScene) {
-      const closingPrompt = openingScene.closing_prompt || (isEN ? 'What do you want to do?' : '¿Qué deseas hacer?')
-      introContent = openingScene.description + '\n\n' + closingPrompt
-      if (openingScene.visible_directions?.length > 0) {
-        openingScene.visible_directions.slice(0, 3).forEach((dir: any) => {
-          suggestedActions.push(isEN ? `Go to ${dir.direction}` : `Ir al ${dir.direction}`)
+
+    // Para guests en inglés, generar el primer turno con Claude (evita que el JSON en español se muestre literal)
+    if (isEN) {
+      try {
+        const opening = await generateOpeningTurnWithClaude({
+          loreData,
+          archetypeName: charArchetype,
+          characterName,
+          characterDescription: characterDescription || undefined,
+          startingLocationName: startingLocation?.name,
+          locale: 'en',
         })
+        introContent = opening.introContent
+        suggestedActions = opening.suggestedActions
+      } catch (err) {
+        console.warn('[guest-create] Opening turn generation failed, falling back to JSON:', err)
       }
-      suggestedActions.push(isEN ? 'Talk to someone nearby' : 'Hablar con alguien cercano')
-      suggestedActions.push(isEN ? 'Explore the current area' : 'Explorar el lugar actual')
-    } else {
-      introContent = isEN
-        ? `Welcome to ${getLocalized(loreData.name, locale)}, ${characterName}.\n\nYour adventure begins...`
-        : `Bienvenido a ${getLocalized(loreData.name, locale)}, ${characterName}.\n\nTu aventura comienza...`
+    }
+
+    if (!introContent) {
+      // ES o fallback: leer del JSON
+      const openingScenes = (loreData as any).opening_scenes || (loreData.opening_scene ? [loreData.opening_scene] : [])
+      const openingScene = openingScenes.length > 0
+        ? openingScenes[Math.floor(Math.random() * openingScenes.length)]
+        : null
+
+      if (openingScene) {
+        const closingPrompt = openingScene.closing_prompt || (isEN ? 'What do you want to do?' : '¿Qué deseas hacer?')
+        introContent = openingScene.description + '\n\n' + closingPrompt
+        if (openingScene.visible_directions?.length > 0) {
+          openingScene.visible_directions.slice(0, 3).forEach((dir: any) => {
+            suggestedActions.push(isEN ? `Go to ${dir.direction}` : `Ir al ${dir.direction}`)
+          })
+        }
+        suggestedActions.push(isEN ? 'Talk to someone nearby' : 'Hablar con alguien cercano')
+        suggestedActions.push(isEN ? 'Explore the current area' : 'Explorar el lugar actual')
+      } else {
+        introContent = isEN
+          ? `Welcome to ${getLocalized(loreData.name, locale)}, ${characterName}.\n\nYour adventure begins...`
+          : `Bienvenido a ${getLocalized(loreData.name, locale)}, ${characterName}.\n\nTu aventura comienza...`
+      }
     }
 
     // Crear todo en una transacción con retry para pool timeout
@@ -193,9 +216,11 @@ export async function POST(req: NextRequest) {
       console.error('[GuestCreate] Portrait failed:', err)
     }
 
-    // Generar imagen de escena inicial
+    // Generar imagen de escena inicial (usa el opening scene del JSON como fuente del prompt,
+    // independiente del locale — la imagen no tiene idioma)
     let initialSceneImageUrl: string | null = null
-    const openingSceneForImage = openingScenes.length > 0 ? openingScenes[0] : null
+    const openingScenesForImage = (loreData as any).opening_scenes || (loreData.opening_scene ? [loreData.opening_scene] : [])
+    const openingSceneForImage = openingScenesForImage.length > 0 ? openingScenesForImage[0] : null
     if (openingSceneForImage && process.env.FAL_KEY) {
       try {
         const sceneResult = await handleCachedSceneImageRequest({
