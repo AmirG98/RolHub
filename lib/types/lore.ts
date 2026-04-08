@@ -1,9 +1,13 @@
 // Tipos para el sistema de lores
 
+// String localizable — puede ser un string plano (legacy, solo ES) o un objeto bilingüe.
+// Usar getLocalized() de lib/i18n/localize.ts para consumirlos de forma segura.
+export type LocalizedString = string | { es: string; en: string }
+
 export interface LoreBible {
   id: string
-  name: string
-  tagline: string
+  name: LocalizedString
+  tagline: LocalizedString
   tone: string[]
   world_summary: string
   factions: Faction[]
@@ -56,9 +60,9 @@ export interface Location {
 
 export interface Archetype {
   id: string
-  name: string
-  description: string
-  simple_description: string
+  name: LocalizedString
+  description: LocalizedString
+  simple_description: LocalizedString
   starting_stats: {
     hp: number
     maxHp: number

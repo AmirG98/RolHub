@@ -1,7 +1,7 @@
 {
   "id": "LOTR",
-  "name": "Tierra Media",
-  "tagline": "Un mundo de magia antigua, pueblos nobles y la lucha eterna contra la oscuridad",
+  "name": { "es": "Tierra Media", "en": "Middle-earth" },
+  "tagline": { "es": "Un mundo de magia antigua, pueblos nobles y la lucha eterna contra la oscuridad", "en": "A world of ancient magic, noble peoples, and the eternal struggle against the shadow" },
   "tone": ["épico", "heroico", "melancólico", "esperanzador"],
   "world_summary": "La Tierra Media es un vasto continente donde humanos, elfos, enanos y hobbits conviven bajo la amenaza constante de fuerzas oscuras. Es una era de magia decadente, donde los grandes poderes del pasado se desvanecen lentamente. Los elfos parten hacia el oeste, los enanos se refugian en sus montañas, y los humanos heredan un mundo que apenas comprenden. Antiguas fortalezas yacen en ruinas, bosques inmortales guardan secretos olvidados, y en las sombras, sirvientes del mal conspiran para sumir al mundo en tinieblas eternas. Es un tiempo donde pequeños actos de valentía pueden cambiar el destino de naciones enteras.",
 
@@ -419,9 +419,9 @@
   "archetypes": [
     {
       "id": "ranger",
-      "name": "Montaraz",
-      "description": "Explorador y guerrero que protege las fronteras salvajes",
-      "simple_description": "Conoces los bosques y caminos secretos. Eres hábil con la espada y el arco. Proteges a los inocentes desde las sombras.",
+      "name": { "es": "Montaraz", "en": "Ranger" },
+      "description": { "es": "Explorador y guerrero que protege las fronteras salvajes", "en": "Scout and warrior who guards the wild borders" },
+      "simple_description": { "es": "Conoces los bosques y caminos secretos. Eres hábil con la espada y el arco. Proteges a los inocentes desde las sombras.", "en": "You know the forests and hidden paths. You're skilled with sword and bow. You protect the innocent from the shadows." },
       "detailed_background": "Los Montaraces son los últimos Dúnedain del Norte, herederos del reino perdido de Arnor. Vagan por las tierras salvajes como cazadores y guardianes, vestidos de gris y verde para fundirse con los bosques. La gente común los ve como vagabundos peligrosos, sin saber que estos guerreros errantes son todo lo que se interpone entre ellos y los horrores de la noche. Cada Montaraz lleva la carga de su linaje: sangre de reyes, pero sin reino que gobernar.",
       "starting_stats": {
         "hp": 20,
@@ -494,9 +494,9 @@
     },
     {
       "id": "scholar",
-      "name": "Erudito",
-      "description": "Sabio que estudia la historia antigua y las lenguas olvidadas",
-      "simple_description": "Has dedicado tu vida al estudio de textos antiguos. Conoces historias y leyendas que otros han olvidado. Tu sabiduría puede revelar secretos cruciales.",
+      "name": { "es": "Erudito", "en": "Scholar" },
+      "description": { "es": "Sabio que estudia la historia antigua y las lenguas olvidadas", "en": "Sage who studies ancient history and forgotten tongues" },
+      "simple_description": { "es": "Has dedicado tu vida al estudio de textos antiguos. Conoces historias y leyendas que otros han olvidado. Tu sabiduría puede revelar secretos cruciales.", "en": "You have devoted your life to ancient texts. You know stories and legends others have long forgotten. Your wisdom can reveal crucial secrets." },
       "detailed_background": "En Rivendel, Minas Tirith o las bibliotecas de los enanos, siempre hay quienes dedican sus vidas al conocimiento. Has pasado años descifrando pergaminos amarillentos, aprendiendo lenguas muertas y memorizando genealogías de reyes olvidados. Donde otros ven ruinas, tú ves historia. Donde otros ven símbolos, tú lees advertencias. El conocimiento es poder, y en una era donde mucho se ha olvidado, tu memoria puede ser la diferencia entre el triunfo y la catástrofe.",
       "starting_stats": {
         "hp": 14,
@@ -577,9 +577,9 @@
     },
     {
       "id": "warrior",
-      "name": "Guerrero",
-      "description": "Combatiente valiente entrenado en las artes de la guerra",
-      "simple_description": "Has sido entrenado en el combate desde joven. Tu valor en batalla es legendario. Defiendes a los débiles con tu acero.",
+      "name": { "es": "Guerrero", "en": "Warrior" },
+      "description": { "es": "Combatiente valiente entrenado en las artes de la guerra", "en": "Brave fighter trained in the arts of war" },
+      "simple_description": { "es": "Has sido entrenado en el combate desde joven. Tu valor en batalla es legendario. Defiendes a los débiles con tu acero.", "en": "You've been trained in combat since childhood. Your courage in battle is legendary. You defend the weak with steel in hand." },
       "detailed_background": "Ya sea un soldado de Gondor, un jinete de Rohan o un guardia enano, has dedicado tu vida al arte de la guerra. Has visto batallas y sobrevivido. Conoces el peso de la responsabilidad de proteger a los débiles. Tu espada ha probado sangre de orco, y tu escudo lleva las marcas de cien combates. En tiempos de paz serías un simple guardia o mercenario, pero los tiempos de paz han terminado.",
       "starting_stats": {
         "hp": 25,
@@ -653,9 +653,9 @@
     },
     {
       "id": "hobbit",
-      "name": "Hobbit Aventurero",
-      "description": "Pequeño pero valiente, con una resistencia sorprendente al mal",
-      "simple_description": "Eres un hobbit que ha dejado la comodidad de la Comarca. Pequeño y subestimado, pero posees una fuerza interior que los grandes no comprenden.",
+      "name": { "es": "Hobbit Aventurero", "en": "Adventurous Hobbit" },
+      "description": { "es": "Pequeño pero valiente, con una resistencia sorprendente al mal", "en": "Small but brave, with a surprising resistance to evil" },
+      "simple_description": { "es": "Eres un hobbit que ha dejado la comodidad de la Comarca. Pequeño y subestimado, pero posees una fuerza interior que los grandes no comprenden.", "en": "You're a hobbit who left the comfort of the Shire. Small and underestimated, yet you carry an inner strength the Big Folk cannot understand." },
       "detailed_background": "La mayoría de los hobbits nunca pasan del Puente de Brandy. Pero algo te llamó: historias de Bilbo, sueños de tierras lejanas, o simplemente un deseo de ver montañas. Los Grandes te subestiman, y eso es tu ventaja. Donde un guerrero es obvio, tú pasas desapercibido. Donde la sombra corrompe a los poderosos, tu simple corazón hobbit resiste. Algunos destinados para la grandeza no la buscaron.",
       "starting_stats": {
         "hp": 12,
@@ -731,9 +731,9 @@
     },
     {
       "id": "elf",
-      "name": "Elfo Errante",
-      "description": "Inmortal que ha elegido caminar entre los mortales antes de partir al oeste",
-      "simple_description": "Has vivido siglos y visto reinos nacer y morir. Pronto partirás al oeste, pero antes, tienes una última tarea en la Tierra Media.",
+      "name": { "es": "Elfo Errante", "en": "Wandering Elf" },
+      "description": { "es": "Inmortal que ha elegido caminar entre los mortales antes de partir al oeste", "en": "An immortal who chose to walk among mortals before sailing West" },
+      "simple_description": { "es": "Has vivido siglos y visto reinos nacer y morir. Pronto partirás al oeste, pero antes, tienes una última tarea en la Tierra Media.", "en": "You have lived for centuries and watched kingdoms rise and fall. Soon you will sail West, but first there's one last task for you in Middle-earth." },
       "detailed_background": "Has visto las estrellas cuando eran jóvenes. Recuerdas la luz de los Árboles en el oeste. Has amado y perdido más veces de las que puedes contar. La mayoría de tu pueblo parte hacia Valinor, cansados de un mundo que ya no les pertenece. Pero tú te quedas. Hay algo que debes hacer, alguien a quien proteger, o simplemente no estás listo para abandonar estas tierras que has conocido durante eras.",
       "starting_stats": {
         "hp": 16,
@@ -805,9 +805,9 @@
     },
     {
       "id": "dwarf",
-      "name": "Enano de las Montañas",
-      "description": "Guerrero y artesano de las profundidades, leal y obstinado",
-      "simple_description": "Vienes de los salones bajo la montaña. Eres terco, leal y formidable en batalla. Tu hacha ha probado sangre de orco.",
+      "name": { "es": "Enano de las Montañas", "en": "Mountain Dwarf" },
+      "description": { "es": "Guerrero y artesano de las profundidades, leal y obstinado", "en": "Warrior and craftsman of the deep halls, loyal and stubborn" },
+      "simple_description": { "es": "Vienes de los salones bajo la montaña. Eres terco, leal y formidable en batalla. Tu hacha ha probado sangre de orco.", "en": "You come from the halls beneath the mountain. You're stubborn, loyal, and formidable in battle. Your axe has tasted orc blood." },
       "detailed_background": "Los enanos fueron creados para resistir. Resistir el tiempo, resistir la oscuridad, resistir el enemigo. Has trabajado en las forjas desde que tus manos pudieron sostener un martillo. Has marchado a la guerra cuando tu rey lo ordenó. Pero el mundo sobre la tierra te llama ahora. Quizás buscas riqueza, o venganza contra los orcos, o simplemente la gloria que cantarán en los salones de tus ancestros.",
       "starting_stats": {
         "hp": 22,

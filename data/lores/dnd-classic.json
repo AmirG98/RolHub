@@ -1,7 +1,7 @@
 {
   "id": "DND_CLASSIC",
-  "name": "Reinos Olvidados",
-  "tagline": "La Costa de la Espada te llama: aventura, gloria y peligro acechan en cada esquina de Faerûn",
+  "name": { "es": "Reinos Olvidados", "en": "Forgotten Realms" },
+  "tagline": { "es": "La Costa de la Espada te llama: aventura, gloria y peligro acechan en cada esquina de Faerûn", "en": "The Sword Coast is calling: adventure, glory, and danger lurk around every corner of Faerûn" },
   "tone": [
     "épico",
     "heroico",
@@ -772,9 +772,9 @@
   "archetypes": [
     {
       "id": "guild-adventurer",
-      "name": "Aventurero de Gremio",
-      "description": "Guerrero experimentado del Gremio de Aventureros de Waterdeep",
-      "simple_description": "Sos un profesional de la aventura. Tu espada y tu experiencia son tu sustento. El Gremio te envía a misiones y vos volvés con el trabajo hecho... o no volvés.",
+      "name": { "es": "Aventurero de Gremio", "en": "Guild Adventurer" },
+      "description": { "es": "Guerrero experimentado del Gremio de Aventureros de Waterdeep", "en": "A seasoned fighter from the Waterdeep Adventurers' Guild" },
+      "simple_description": { "es": "Sos un profesional de la aventura. Tu espada y tu experiencia son tu sustento. El Gremio te envía a misiones y vos volvés con el trabajo hecho... o no volvés.", "en": "You're a professional adventurer. Your sword and your experience are your livelihood. The Guild sends you on jobs and you come back with the work done... or you don't come back." },
       "detailed_background": "El Gremio de Aventureros de Waterdeep es tu hogar. Empezaste como cargador de antorchas para un grupo de veteranos, aprendiendo a sobrevivir a fuerza de cicatrices y lecciones duras. Ahora sos un aventurero hecho y derecho: sabés luchar, sabés cuándo retirarte, y sabés que la primera regla de una mazmorra es nunca separarse del grupo. Has explorado ruinas, enfrentado monstruos y cobrado recompensas. La aventura no es un sueño romántico para vos — es un trabajo peligroso que paga bien si sobrevivís.",
       "starting_stats": {
         "hp": 22,
@@ -807,9 +807,9 @@
     },
     {
       "id": "academy-mage",
-      "name": "Mago de la Academia",
-      "description": "Hechicero instruido en la Torre de Blackstaff de Waterdeep",
-      "simple_description": "Estudiaste magia en la academia más prestigiosa de la Costa de la Espada. Tu poder crece con cada hechizo que aprendés, pero la magia siempre tiene un costo.",
+      "name": { "es": "Mago de la Academia", "en": "Academy Mage" },
+      "description": { "es": "Hechicero instruido en la Torre de Blackstaff de Waterdeep", "en": "A wizard trained in Waterdeep's Blackstaff Tower" },
+      "simple_description": { "es": "Estudiaste magia en la academia más prestigiosa de la Costa de la Espada. Tu poder crece con cada hechizo que aprendés, pero la magia siempre tiene un costo.", "en": "You studied magic at the most prestigious academy on the Sword Coast. Your power grows with every spell you learn, but magic always has a cost." },
       "detailed_background": "La Torre de Blackstaff en Waterdeep fue tu hogar durante años. Pasaste noches enteras memorizando conjuros, descifrando pergaminos y aprendiendo las leyes fundamentales de la magia arcana. Tus maestros te enseñaron que la magia es una herramienta y un arma, pero sobre todo una responsabilidad. Has visto a compañeros consumidos por la arrogancia de creer que podían controlar fuerzas más allá de su comprensión. Ahora el mundo real te espera, y los problemas reales no se resuelven en una biblioteca.",
       "starting_stats": {
         "hp": 14,
@@ -841,9 +841,9 @@
     },
     {
       "id": "street-rogue",
-      "name": "Pícaro Callejero",
-      "description": "Superviviente de los callejones de la Ciudad Baja de Baldur's Gate",
-      "simple_description": "Creciste en las calles, robando para comer y aprendiendo que la astucia vale más que la fuerza. Ahora usás esas habilidades para algo más que sobrevivir.",
+      "name": { "es": "Pícaro Callejero", "en": "Street Rogue" },
+      "description": { "es": "Superviviente de los callejones de la Ciudad Baja de Baldur's Gate", "en": "A survivor of the Lower City alleys of Baldur's Gate" },
+      "simple_description": { "es": "Creciste en las calles, robando para comer y aprendiendo que la astucia vale más que la fuerza. Ahora usás esas habilidades para algo más que sobrevivir.", "en": "You grew up on the streets, stealing to eat and learning that wit is worth more than muscle. Now you use those skills for something more than just surviving." },
       "detailed_background": "Las calles de la Ciudad Baja de Baldur's Gate fueron tu escuela. Aprendiste a robar carteras antes de aprender a leer. Aprendiste a esconderte antes de aprender a pelear. La vida en los callejones te enseñó que la confianza es un lujo, la información es moneda, y la velocidad es supervivencia. Trabajaste para el Gremio de Ladrones hasta que te cansaste de que otros se quedaran con la parte grande. Ahora buscás tu propia fortuna, usando las habilidades que la calle te dio para algo más grande que robar bolsos.",
       "starting_stats": {
         "hp": 16,

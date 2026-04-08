@@ -1,7 +1,7 @@
 {
   "id": "VIKINGOS",
-  "name": "Saga Vikinga",
-  "tagline": "Conquista, gloria y el favor de los dioses",
+  "name": { "es": "Saga Vikinga", "en": "Viking Saga" },
+  "tagline": { "es": "Conquista, gloria y el favor de los dioses", "en": "Conquest, glory, and the favor of the gods" },
   "tone": [
     "épico",
     "brutal",
@@ -941,9 +941,9 @@
   "archetypes": [
     {
       "id": "berserker",
-      "name": "Berserker",
-      "description": "Guerrero que pelea con furia divina sin sentir dolor. Bendecido (o maldecido) por Odín, entras en un trance de batalla donde no conoces miedo ni piedad. Los enemigos huyen ante tu presencia. Tus aliados te respetan... y te temen.",
-      "simple_description": "En batalla, entrás en frenesí sagrado. No sentís dolor. Tu furia es legendaria. Los enemigos te temen.",
+      "name": { "es": "Berserker", "en": "Berserker" },
+      "description": { "es": "Guerrero que pelea con furia divina sin sentir dolor. Bendecido (o maldecido) por Odín, entras en un trance de batalla donde no conoces miedo ni piedad. Los enemigos huyen ante tu presencia. Tus aliados te respetan... y te temen.", "en": "A warrior who fights with divine fury and feels no pain. Blessed (or cursed) by Odin, you enter a battle trance where you know neither fear nor mercy. Enemies flee before you. Allies respect you... and fear you." },
+      "simple_description": { "es": "En batalla, entrás en frenesí sagrado. No sentís dolor. Tu furia es legendaria. Los enemigos te temen.", "en": "In battle you enter a sacred frenzy. You feel no pain. Your fury is legendary. Enemies fear you." },
       "starting_stats": {
         "hp": 28,
         "maxHp": 28,
@@ -1015,9 +1015,9 @@
     },
     {
       "id": "skald",
-      "name": "Skald (Bardo)",
-      "description": "Poeta, cantor e historiador. Tus palabras tienen poder: podés inmortalizar o destruir la reputación de un guerrero. Los skalds recuerdan las sagas, componen nuevas, y su lengua afilada puede ser más letal que cualquier espada. En una cultura donde la fama eterna importa más que la vida, vos controlás quién será recordado.",
-      "simple_description": "Tus palabras inspiran a guerreros. Conocés las sagas antiguas. Tu lengua es tan poderosa como cualquier espada.",
+      "name": { "es": "Skald (Bardo)", "en": "Skald (Bard)" },
+      "description": { "es": "Poeta, cantor e historiador. Tus palabras tienen poder: podés inmortalizar o destruir la reputación de un guerrero. Los skalds recuerdan las sagas, componen nuevas, y su lengua afilada puede ser más letal que cualquier espada. En una cultura donde la fama eterna importa más que la vida, vos controlás quién será recordado.", "en": "Poet, singer, and historian. Your words hold power: you can immortalize or destroy a warrior's reputation. Skalds remember the sagas, compose new ones, and their sharp tongue can be deadlier than any sword. In a culture where eternal fame matters more than life, you decide who will be remembered." },
+      "simple_description": { "es": "Tus palabras inspiran a guerreros. Conocés las sagas antiguas. Tu lengua es tan poderosa como cualquier espada.", "en": "Your words inspire warriors. You know the ancient sagas. Your tongue is as powerful as any blade." },
       "starting_stats": {
         "hp": 16,
         "maxHp": 16,
@@ -1089,9 +1089,9 @@
     },
     {
       "id": "shieldmaiden",
-      "name": "Doncella Escudera (Skjaldmær)",
-      "description": "Guerrera que ha demostrado su valía en combate. En una sociedad donde los hombres guerrean, elegiste tomar el escudo y la espada. Tuviste que ser el doble de buena para ganar la mitad del respeto, pero ahora nadie cuestiona tu lugar en el muro de escudos.",
-      "simple_description": "Luchás tan bien como cualquier hombre. Tu escudo protege a tus compañeros. Has ganado tu lugar en el salón.",
+      "name": { "es": "Doncella Escudera (Skjaldmær)", "en": "Shieldmaiden (Skjaldmær)" },
+      "description": { "es": "Guerrera que ha demostrado su valía en combate. En una sociedad donde los hombres guerrean, elegiste tomar el escudo y la espada. Tuviste que ser el doble de buena para ganar la mitad del respeto, pero ahora nadie cuestiona tu lugar en el muro de escudos.", "en": "A warrior who has proven her worth in combat. In a society where men make war, you chose to take up shield and sword. You had to be twice as good to earn half the respect, but now no one questions your place in the shield wall." },
+      "simple_description": { "es": "Luchás tan bien como cualquier hombre. Tu escudo protege a tus compañeros. Has ganado tu lugar en el salón.", "en": "You fight as well as any man. Your shield protects your companions. You have earned your place in the hall." },
       "starting_stats": {
         "hp": 22,
         "maxHp": 22,
@@ -1164,9 +1164,9 @@
     },
     {
       "id": "volva",
-      "name": "Völva (Vidente)",
-      "description": "Practicante de seiðr, la magia de la visión y el destino. Podés ver el futuro, hablar con los muertos, y maldecir a tus enemigos. Tu poder viene con un precio: la magia te cambia, y la sociedad te mira con mezcla de reverencia y miedo.",
-      "simple_description": "Ves el futuro en las runas. Los espíritus te hablan. Tu magia puede bendecir o maldecir.",
+      "name": { "es": "Völva (Vidente)", "en": "Völva (Seer)" },
+      "description": { "es": "Practicante de seiðr, la magia de la visión y el destino. Podés ver el futuro, hablar con los muertos, y maldecir a tus enemigos. Tu poder viene con un precio: la magia te cambia, y la sociedad te mira con mezcla de reverencia y miedo.", "en": "A practitioner of seiðr, the magic of vision and fate. You can glimpse the future, speak with the dead, and curse your enemies. Your power comes at a price: magic changes you, and society watches you with a mix of reverence and fear." },
+      "simple_description": { "es": "Ves el futuro en las runas. Los espíritus te hablan. Tu magia puede bendecir o maldecir.", "en": "You read the future in the runes. The spirits speak to you. Your magic can bless or curse." },
       "starting_stats": {
         "hp": 14,
         "maxHp": 14,
@@ -1238,9 +1238,9 @@
     },
     {
       "id": "jarl_heir",
-      "name": "Heredero de Jarl",
-      "description": "Hijo o hija de un líder del clan. Naciste con privilegios pero también con expectativas imposibles. Debés demostrar que merecés liderar por tus propios méritos, no solo por tu sangre. El trono te espera... si sobrevivís.",
-      "simple_description": "Sangre noble corre por tus venas. Debés demostrar que merecés liderar. El clan te observa.",
+      "name": { "es": "Heredero de Jarl", "en": "Jarl's Heir" },
+      "description": { "es": "Hijo o hija de un líder del clan. Naciste con privilegios pero también con expectativas imposibles. Debés demostrar que merecés liderar por tus propios méritos, no solo por tu sangre. El trono te espera... si sobrevivís.", "en": "Son or daughter of a clan leader. Born with privilege but also with impossible expectations. You must prove you deserve to lead by your own merit, not just your blood. The throne is waiting... if you survive." },
+      "simple_description": { "es": "Sangre noble corre por tus venas. Debés demostrar que merecés liderar. El clan te observa.", "en": "Noble blood runs in your veins. You must prove you deserve to lead. The clan is watching." },
       "starting_stats": {
         "hp": 20,
         "maxHp": 20,
@@ -1313,9 +1313,9 @@
     },
     {
       "id": "thrall_freed",
-      "name": "Esclavo Liberado",
-      "description": "Naciste o fuiste capturado como thrall (esclavo). Contra toda probabilidad, ganaste tu libertad - por valor en batalla, compra, o servicio excepcional. Ahora debés construir una nueva identidad. No tenés linaje, pero tenés determinación.",
-      "simple_description": "Fuiste esclavo. Ahora sos libre. No tenés linaje pero tenés voluntad de hierro.",
+      "name": { "es": "Esclavo Liberado", "en": "Freed Thrall" },
+      "description": { "es": "Naciste o fuiste capturado como thrall (esclavo). Contra toda probabilidad, ganaste tu libertad - por valor en batalla, compra, o servicio excepcional. Ahora debés construir una nueva identidad. No tenés linaje, pero tenés determinación.", "en": "You were born or captured as a thrall (slave). Against all odds, you earned your freedom — through valor in battle, purchase, or exceptional service. Now you must build a new identity. You have no lineage, but you have iron will." },
+      "simple_description": { "es": "Fuiste esclavo. Ahora sos libre. No tenés linaje pero tenés voluntad de hierro.", "en": "You were a thrall. Now you are free. You have no lineage, but your will is iron." },
       "starting_stats": {
         "hp": 18,
         "maxHp": 18,

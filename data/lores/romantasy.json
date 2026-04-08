@@ -1,7 +1,7 @@
 {
   "id": "ROMANTASY",
-  "name": "Romance Fantasía",
-  "tagline": "Donde la política feérica y el deseo prohibido tejen el destino",
+  "name": { "es": "Romance Fantasía", "en": "Romance Fantasy" },
+  "tagline": { "es": "Donde la política feérica y el deseo prohibido tejen el destino", "en": "Where fae politics and forbidden desire weave fate" },
   "tone": [
     "romántico",
     "épico",
@@ -174,9 +174,9 @@
   "archetypes": [
     {
       "id": "cortesano",
-      "name": "Cortesano (Maestre del Juego)",
-      "description": "Diplomático y manipulador entre las Cortes feéricas",
-      "simple_description": "Tu arma es la palabra. Conocés cada baile, cada protocolo, cada secreto familiar. En la Corte sobreviven los que saben sonreír mientras envenenan la copa del rival.",
+      "name": { "es": "Cortesano (Maestre del Juego)", "en": "Courtier (Master of the Game)" },
+      "description": { "es": "Diplomático y manipulador entre las Cortes feéricas", "en": "Diplomat and manipulator among the fae Courts" },
+      "simple_description": { "es": "Tu arma es la palabra. Conocés cada baile, cada protocolo, cada secreto familiar. En la Corte sobreviven los que saben sonreír mientras envenenan la copa del rival.", "en": "Your weapon is your words. You know every dance, every protocol, every family secret. In the Court, only those who can smile while poisoning a rival's cup survive." },
       "starting_stats": {
         "hp": 16,
         "maxHp": 16,
@@ -203,9 +203,9 @@
     },
     {
       "id": "guerrera-illyriana",
-      "name": "Guerrera Illyriana (Guardiana Alada)",
-      "description": "Combatiente de élite con alas de murciélago y disciplina feroz",
-      "simple_description": "Sangre Illyriana corre en tus venas. Naciste con alas y entrenaste desde que aprendiste a caminar. Tu lealtad es de hierro, tu furia es legendaria, y nadie sobrevive a tu danza de espadas.",
+      "name": { "es": "Guerrera Illyriana (Guardiana Alada)", "en": "Illyrian Warrior (Winged Guardian)" },
+      "description": { "es": "Combatiente de élite con alas de murciélago y disciplina feroz", "en": "Elite fighter with bat-like wings and fierce discipline" },
+      "simple_description": { "es": "Sangre Illyriana corre en tus venas. Naciste con alas y entrenaste desde que aprendiste a caminar. Tu lealtad es de hierro, tu furia es legendaria, y nadie sobrevive a tu danza de espadas.", "en": "Illyrian blood runs through your veins. You were born with wings and you've trained since the moment you could walk. Your loyalty is iron, your fury is legendary, and no one survives your blade dance." },
       "starting_stats": {
         "hp": 24,
         "maxHp": 24,
@@ -232,9 +232,9 @@
     },
     {
       "id": "alta-dama",
-      "name": "Alta Dama (Hechicera de las Estrellas)",
-      "description": "Maga poderosa con conexión a la magia ancestral",
-      "simple_description": "La magia te eligió. Ves los hilos del destino, hablás con las estrellas, y tu sola presencia hace que las llamas se inclinen. Pero el poder atrae miradas, y no todas son benévolas.",
+      "name": { "es": "Alta Dama (Hechicera de las Estrellas)", "en": "High Lady (Starborn Sorceress)" },
+      "description": { "es": "Maga poderosa con conexión a la magia ancestral", "en": "Powerful sorceress bound to ancient magic" },
+      "simple_description": { "es": "La magia te eligió. Ves los hilos del destino, hablás con las estrellas, y tu sola presencia hace que las llamas se inclinen. Pero el poder atrae miradas, y no todas son benévolas.", "en": "Magic chose you. You see the threads of fate, speak with the stars, and your mere presence bends the flames. But power draws attention, and not all eyes are kind." },
       "starting_stats": {
         "hp": 14,
         "maxHp": 14,

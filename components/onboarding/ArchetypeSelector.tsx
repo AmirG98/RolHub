@@ -192,7 +192,7 @@ export function ArchetypeSelector({ archetypes, loreName, lore, onSelect, onBack
         <div className="text-center mb-4 md:mb-8">
           <Link href="/guias/crear-personaje" className="inline-flex items-center gap-2 font-ui text-xs md:text-sm text-emerald hover:text-emerald/80 transition">
             <HelpCircle size={14} />
-            Necesitas ayuda para elegir? Lee nuestra guia
+            {t.archetypeSelector.needHelpChoosing} {t.archetypeSelector.readOurGuide}
           </Link>
         </div>
 
@@ -365,24 +365,24 @@ export function ArchetypeSelector({ archetypes, loreName, lore, onSelect, onBack
             <div className="flex items-center gap-2 mb-4">
               <User className="w-5 h-5 text-gold" />
               <h3 className="font-heading text-lg md:text-xl text-gold">
-                Crea tu personaje
+                {t.archetypeSelector.createCharacterTitle}
               </h3>
             </div>
 
             <p className="font-body text-sm text-parchment/70 mb-4">
-              Has elegido ser un <span className="text-gold">{selectedArchetype.name}</span>. Ahora dale nombre y personalidad a tu personaje.
+              {t.archetypeSelector.youChosePrefix} <span className="text-gold">{getLocalized(selectedArchetype.name, locale as 'es' | 'en')}</span>. {t.archetypeSelector.addNameAndPersonality}
             </p>
 
             {/* Nombre del personaje */}
             <div className="mb-4">
               <label className="block font-ui text-sm text-gold mb-2">
-                Nombre de tu personaje *
+                {t.archetypeSelector.characterNameLabel} *
               </label>
               <input
                 type="text"
                 value={characterName}
                 onChange={(e) => setCharacterName(e.target.value)}
-                placeholder={selectedArchetype.name}
+                placeholder={getLocalized(selectedArchetype.name, locale as 'es' | 'en')}
                 className="w-full px-4 py-3 bg-shadow border border-gold-dim/50 rounded-lg
                          font-body text-parchment placeholder:text-parchment/30
                          focus:border-gold focus:outline-none focus:ring-1 focus:ring-gold/50
@@ -390,20 +390,20 @@ export function ArchetypeSelector({ archetypes, loreName, lore, onSelect, onBack
                 maxLength={50}
               />
               <p className="text-xs text-parchment/50 mt-1">
-                Minimo 2 caracteres
+                {t.archetypeSelector.minTwoChars}
               </p>
             </div>
 
             {/* Descripcion del personaje */}
             <div className="mb-4">
               <label className="block font-ui text-sm text-gold mb-2">
-                Describe a tu personaje
-                <span className="text-parchment/50 ml-1">(opcional)</span>
+                {t.archetypeSelector.describeCharacterLabel}
+                <span className="text-parchment/50 ml-1">({t.archetypeSelector.optional})</span>
               </label>
               <textarea
                 value={characterDescription}
                 onChange={(e) => setCharacterDescription(e.target.value)}
-                placeholder="Apariencia, personalidad, historia..."
+                placeholder={t.archetypeSelector.descriptionPlaceholder}
                 className="w-full px-4 py-3 bg-shadow border border-gold-dim/50 rounded-lg
                          font-body text-parchment placeholder:text-parchment/30
                          focus:border-gold focus:outline-none focus:ring-1 focus:ring-gold/50
@@ -413,7 +413,7 @@ export function ArchetypeSelector({ archetypes, loreName, lore, onSelect, onBack
               />
               <div className="flex justify-between items-center mt-1">
                 <p className="text-xs text-parchment/50">
-                  Esta descripcion se usara para generar tu retrato
+                  {t.archetypeSelector.descriptionPortraitHint}
                 </p>
                 <span className="text-xs text-parchment/40">{characterDescription.length}/500</span>
               </div>
@@ -428,7 +428,7 @@ export function ArchetypeSelector({ archetypes, loreName, lore, onSelect, onBack
                        transition-colors group"
             >
               <Dices className="w-4 h-4 group-hover:animate-spin" />
-              Generar descripcion aleatoria
+              {t.archetypeSelector.generateRandomDescription}
             </button>
           </div>
         )}

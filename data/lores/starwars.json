@@ -1,7 +1,7 @@
 {
   "id": "STAR_WARS",
-  "name": "Guerra de las Galaxias",
-  "tagline": "Una galaxia muy, muy lejana llena de aventura",
+  "name": { "es": "Guerra de las Galaxias", "en": "Star Wars" },
+  "tagline": { "es": "Una galaxia muy, muy lejana llena de aventura", "en": "A galaxy far, far away full of adventure" },
   "tone": [
     "épico",
     "espacial",
@@ -188,9 +188,9 @@
   "archetypes": [
     {
       "id": "smuggler",
-      "name": "Contrabandista",
-      "description": "Piloto astuto con nave rápida y problemas con el Imperio",
-      "simple_description": "Piloteás tu propia nave. Conocés rutas secretas. Debés dinero a gente peligrosa pero siempre te las arreglás.",
+      "name": { "es": "Contrabandista", "en": "Smuggler" },
+      "description": { "es": "Piloto astuto con nave rápida y problemas con el Imperio", "en": "A cunning pilot with a fast ship and trouble with the Empire" },
+      "simple_description": { "es": "Piloteás tu propia nave. Conocés rutas secretas. Debés dinero a gente peligrosa pero siempre te las arreglás.", "en": "You fly your own ship. You know the secret routes. You owe money to dangerous people, but somehow you always pull through." },
       "starting_stats": {
         "hp": 18,
         "maxHp": 18,
@@ -217,9 +217,9 @@
     },
     {
       "id": "force_sensitive",
-      "name": "Sensible a la Fuerza",
-      "description": "Tenés poderes que no comprendés - el legado Jedi vive en vos",
-      "simple_description": "Podés mover objetos con la mente. Sentís peligros antes de que pasen. Un anciano te dejó un sable de luz.",
+      "name": { "es": "Sensible a la Fuerza", "en": "Force Sensitive" },
+      "description": { "es": "Tenés poderes que no comprendés - el legado Jedi vive en vos", "en": "You have powers you don't understand — the Jedi legacy lives in you" },
+      "simple_description": { "es": "Podés mover objetos con la mente. Sentís peligros antes de que pasen. Un anciano te dejó un sable de luz.", "en": "You can move objects with your mind. You sense danger before it strikes. An old stranger left you a lightsaber." },
       "starting_stats": {
         "hp": 16,
         "maxHp": 16,
@@ -246,9 +246,9 @@
     },
     {
       "id": "bounty_hunter",
-      "name": "Cazarrecompensas",
-      "description": "Profesional que captura objetivos por dinero - sin preguntas",
-      "simple_description": "Rastreás personas por recompensas. Tu armadura mandaloriana te protege. Sos el mejor en lo que hacés.",
+      "name": { "es": "Cazarrecompensas", "en": "Bounty Hunter" },
+      "description": { "es": "Profesional que captura objetivos por dinero - sin preguntas", "en": "A professional who captures targets for credits — no questions asked" },
+      "simple_description": { "es": "Rastreás personas por recompensas. Tu armadura mandaloriana te protege. Sos el mejor en lo que hacés.", "en": "You track people for bounties. Your Mandalorian armor protects you. You're the best at what you do." },
       "starting_stats": {
         "hp": 22,
         "maxHp": 22,

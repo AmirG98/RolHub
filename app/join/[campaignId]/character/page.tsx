@@ -8,12 +8,16 @@ import { OrnateFrame } from '@/components/medieval/OrnateFrame'
 import { ParchmentPanel } from '@/components/medieval/ParchmentPanel'
 import { LORES } from '@/lib/constants/lores'
 import { Loader2, Sword, Shield, Scroll, Plus, User, RefreshCw } from 'lucide-react'
+import { getLocalized } from '@/lib/i18n/localize'
+import { useLanguage } from '@/lib/i18n'
+
+type LocalizedString = string | { es: string; en: string }
 
 interface Archetype {
   id: string
-  name: string
-  description: string
-  simple_description: string
+  name: LocalizedString
+  description: LocalizedString
+  simple_description: LocalizedString
   starting_stats: {
     hp: number
     maxHp: number
@@ -88,6 +92,7 @@ export default function JoinCharacterPage() {
   const params = useParams()
   const router = useRouter()
   const { user, isLoaded } = useUser()
+  const { locale } = useLanguage()
   const campaignId = params.campaignId as string
 
   const [campaignInfo, setCampaignInfo] = useState<CampaignInfo | null>(null)
@@ -170,7 +175,7 @@ export default function JoinCharacterPage() {
         body: JSON.stringify({
           campaignId,
           name: characterName,
-          archetype: archetype.name,
+          archetype: getLocalized(archetype.name, locale as 'es' | 'en'),
           stats: archetype.starting_stats,
           inventory: archetype.starting_inventory,
         }),
@@ -489,11 +494,11 @@ export default function JoinCharacterPage() {
                           ) : (
                             <Scroll className="w-6 h-6 text-gold" />
                           )}
-                          <h3 className="font-heading text-lg text-gold">{archetype.name}</h3>
+                          <h3 className="font-heading text-lg text-gold">{getLocalized(archetype.name, locale as 'es' | 'en')}</h3>
                         </div>
 
                         <p className="font-body text-parchment/80 text-sm mb-4">
-                          {archetype.simple_description}
+                          {getLocalized(archetype.simple_description, locale as 'es' | 'en')}
                         </p>
 
                         {/* Stats Preview */}

@@ -1,7 +1,7 @@
 {
   "id": "LOVECRAFT_HORROR",
-  "name": "Horrores Cósmicos",
-  "tagline": "Hay cosas que la humanidad no debe saber",
+  "name": { "es": "Horrores Cósmicos", "en": "Cosmic Horrors" },
+  "tagline": { "es": "Hay cosas que la humanidad no debe saber", "en": "There are things humanity was never meant to know" },
   "tone": [
     "terrorífico",
     "cósmico",
@@ -212,9 +212,9 @@
   "archetypes": [
     {
       "id": "professor",
-      "name": "Profesor",
-      "description": "Académico que busca conocimiento peligroso",
-      "simple_description": "Tu intelecto es tu arma. Traducís lenguas muertas. Cada libro te acerca más a la verdad... y a la locura.",
+      "name": { "es": "Profesor", "en": "Professor" },
+      "description": { "es": "Académico que busca conocimiento peligroso", "en": "An academic who seeks dangerous knowledge" },
+      "simple_description": { "es": "Tu intelecto es tu arma. Traducís lenguas muertas. Cada libro te acerca más a la verdad... y a la locura.", "en": "Your intellect is your weapon. You translate dead languages. Every book brings you closer to the truth... and to madness." },
       "starting_stats": {
         "hp": 12,
         "maxHp": 12,
@@ -243,9 +243,9 @@
     },
     {
       "id": "detective",
-      "name": "Detective Privado",
-      "description": "Investigador que siguió el caso equivocado",
-      "simple_description": "Sabés seguir pistas. Tu instinto te mantiene vivo. Has visto cosas que no deberías.",
+      "name": { "es": "Detective Privado", "en": "Private Detective" },
+      "description": { "es": "Investigador que siguió el caso equivocado", "en": "An investigator who followed the wrong case" },
+      "simple_description": { "es": "Sabés seguir pistas. Tu instinto te mantiene vivo. Has visto cosas que no deberías.", "en": "You know how to follow a trail. Your instincts keep you alive. You've seen things you shouldn't have." },
       "starting_stats": {
         "hp": 16,
         "maxHp": 16,
@@ -274,9 +274,9 @@
     },
     {
       "id": "occultist",
-      "name": "Ocultista",
-      "description": "Practicante de artes místicas - conocés rituales",
-      "simple_description": "Podés realizar rituales antiguos. Entendés símbolos que otros no ven. La magia tiene precio.",
+      "name": { "es": "Ocultista", "en": "Occultist" },
+      "description": { "es": "Practicante de artes místicas - conocés rituales", "en": "A practitioner of the mystical arts — you know the rituals" },
+      "simple_description": { "es": "Podés realizar rituales antiguos. Entendés símbolos que otros no ven. La magia tiene precio.", "en": "You can perform ancient rituals. You read symbols others cannot see. Magic always comes at a price." },
       "starting_stats": {
         "hp": 14,
         "maxHp": 14,

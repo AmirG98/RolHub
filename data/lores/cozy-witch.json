@@ -1,7 +1,7 @@
 {
   "id": "COZY_WITCH",
-  "name": "Aquelarre del Eclipse",
-  "tagline": "Magia cotidiana en un pueblo costero donde el eclipse marca el ritmo del año",
+  "name": { "es": "Aquelarre del Eclipse", "en": "Eclipse Coven" },
+  "tagline": { "es": "Magia cotidiana en un pueblo costero donde el eclipse marca el ritmo del año", "en": "Everyday magic in a seaside village where the eclipse marks the rhythm of the year" },
   "tone": [
     "cozy",
     "slice-of-life",
@@ -177,9 +177,9 @@
   "archetypes": [
     {
       "id": "bruja-verde",
-      "name": "Bruja Verde (Herbalista)",
-      "description": "Conoce cada planta del bosque por su nombre verdadero",
-      "simple_description": "Tu magia vive en las hojas, las raíces y la tierra. Curás con infusiones, leés la salud de un bosque con una mirada, y las plantas te hablan si te quedás quieta.",
+      "name": { "es": "Bruja Verde (Herbalista)", "en": "Green Witch (Herbalist)" },
+      "description": { "es": "Conoce cada planta del bosque por su nombre verdadero", "en": "Knows every plant in the forest by its true name" },
+      "simple_description": { "es": "Tu magia vive en las hojas, las raíces y la tierra. Curás con infusiones, leés la salud de un bosque con una mirada, y las plantas te hablan si te quedás quieta.", "en": "Your magic lives in leaves, roots, and earth. You heal with infusions, read a forest's health with a glance, and plants speak to you when you stay still." },
       "starting_stats": {
         "hp": 16,
         "maxHp": 16,
@@ -206,9 +206,9 @@
     },
     {
       "id": "bruja-hogar",
-      "name": "Bruja del Hogar (Cocinera de Conjuros)",
-      "description": "La magia que se cuela en el pan, el caldo y las puertas abiertas",
-      "simple_description": "Tu cocina es tu altar. Cada plato lleva una intención escondida: calma para el que no duerme, valor para el que se despide, perdón para el que no sabe pedirlo. Hospedás. Alimentás. Reparás.",
+      "name": { "es": "Bruja del Hogar (Cocinera de Conjuros)", "en": "Hearth Witch (Spell Cook)" },
+      "description": { "es": "La magia que se cuela en el pan, el caldo y las puertas abiertas", "en": "Magic that slips into the bread, the broth, and every open door" },
+      "simple_description": { "es": "Tu cocina es tu altar. Cada plato lleva una intención escondida: calma para el que no duerme, valor para el que se despide, perdón para el que no sabe pedirlo. Hospedás. Alimentás. Reparás.", "en": "Your kitchen is your altar. Every dish carries a hidden intention: calm for the sleepless, courage for the one saying goodbye, forgiveness for the one who can't ask for it. You host. You feed. You mend." },
       "starting_stats": {
         "hp": 18,
         "maxHp": 18,
@@ -235,9 +235,9 @@
     },
     {
       "id": "bruja-mar",
-      "name": "Bruja del Mar (Adivinadora de Mareas)",
-      "description": "Lee el oleaje como otros leen libros",
-      "simple_description": "El mar te eligió. Sabés cuándo va a cambiar el viento, qué trae la marea esta noche, qué carta sacar para alguien que no sabe pedir. Tu lugar es el faro, tu maestro es el agua.",
+      "name": { "es": "Bruja del Mar (Adivinadora de Mareas)", "en": "Sea Witch (Tide Reader)" },
+      "description": { "es": "Lee el oleaje como otros leen libros", "en": "Reads the waves the way others read books" },
+      "simple_description": { "es": "El mar te eligió. Sabés cuándo va a cambiar el viento, qué trae la marea esta noche, qué carta sacar para alguien que no sabe pedir. Tu lugar es el faro, tu maestro es el agua.", "en": "The sea chose you. You know when the wind will turn, what the tide brings tonight, which card to draw for someone too lost to ask. Your place is the lighthouse, your teacher is the water." },
       "starting_stats": {
         "hp": 15,
         "maxHp": 15,

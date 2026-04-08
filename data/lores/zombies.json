@@ -1,7 +1,7 @@
 {
   "id": "ZOMBIES",
-  "name": "Apocalipsis Zombie",
-  "tagline": "Sobrevivir un día más en un mundo muerto",
+  "name": { "es": "Apocalipsis Zombie", "en": "Zombie Apocalypse" },
+  "tagline": { "es": "Sobrevivir un día más en un mundo muerto", "en": "Survive one more day in a dead world" },
   "tone": [
     "desesperado",
     "tenso",
@@ -568,9 +568,9 @@
   "archetypes": [
     {
       "id": "medic",
-      "name": "Paramédico",
-      "description": "Salvaste vidas antes - ahora salvas lo que queda de humanidad",
-      "simple_description": "Sabés primeros auxilios y cómo curar heridas. Tu conocimiento médico mantiene vivo al grupo. Cada vida salvada es una pequeña victoria.",
+      "name": { "es": "Paramédico", "en": "Paramedic" },
+      "description": { "es": "Salvaste vidas antes - ahora salvas lo que queda de humanidad", "en": "You saved lives before — now you save what's left of humanity" },
+      "simple_description": { "es": "Sabés primeros auxilios y cómo curar heridas. Tu conocimiento médico mantiene vivo al grupo. Cada vida salvada es una pequeña victoria.", "en": "You know first aid and how to treat wounds. Your medical knowledge keeps the group alive. Every life saved is a small victory." },
       "detailed_background": "Eras paramédico cuando todo empezó. El Día Cero estabas en la ambulancia, respondiendo a llamadas que nunca terminaban. Viste morir a tu compañero. Viste a los muertos levantarse. Sobreviviste porque sabías cuándo correr y cuándo luchar. Ahora tu conocimiento médico es más valioso que el oro. Pero cada paciente que pierdes te recuerda a los que no pudiste salvar.",
       "starting_stats": {
         "hp": 16,
@@ -604,9 +604,9 @@
     },
     {
       "id": "soldier",
-      "name": "Ex-Militar",
-      "description": "Fuiste entrenado para la guerra - esto es peor",
-      "simple_description": "Sabés usar armas y tácticas de combate. Tu entrenamiento te mantiene con vida. Protegés a los que no pueden defenderse.",
+      "name": { "es": "Ex-Militar", "en": "Ex-Military" },
+      "description": { "es": "Fuiste entrenado para la guerra - esto es peor", "en": "You were trained for war — this is worse" },
+      "simple_description": { "es": "Sabés usar armas y tácticas de combate. Tu entrenamiento te mantiene con vida. Protegés a los que no pueden defenderse.", "en": "You know weapons and combat tactics. Your training keeps you alive. You protect those who can't defend themselves." },
       "detailed_background": "Dos tours en Afganistán te enseñaron a sobrevivir en el infierno. Pero nada te preparó para esto. Los zombies no negocian, no se rinden, no sienten miedo. Tu unidad cayó en los primeros días protegiendo civiles. Ahora estás solo, con las habilidades para sobrevivir pero el peso de todos los que no pudiste salvar. La guerra nunca terminó para ti; solo cambió el enemigo.",
       "starting_stats": {
         "hp": 22,
@@ -640,9 +640,9 @@
     },
     {
       "id": "scavenger",
-      "name": "Saqueador",
-      "description": "Sobrevivías en las calles antes del apocalipsis - ahora sos experto",
-      "simple_description": "Sabés encontrar cosas donde otros ven nada. Moverte sigilosamente es tu fuerte. Los edificios abandonados son tu territorio.",
+      "name": { "es": "Saqueador", "en": "Scavenger" },
+      "description": { "es": "Sobrevivías en las calles antes del apocalipsis - ahora sos experto", "en": "You survived the streets before the apocalypse — now you're an expert" },
+      "simple_description": { "es": "Sabés encontrar cosas donde otros ven nada. Moverte sigilosamente es tu fuerte. Los edificios abandonados son tu territorio.", "en": "You find things where others see nothing. Moving silently is your strength. Abandoned buildings are your territory." },
       "detailed_background": "La vida te enseñó a sobrevivir con nada mucho antes del apocalipsis. Vivías en las calles, conocías cada callejón, cada escondite, cada truco. Cuando el mundo cayó, simplemente seguiste haciendo lo que siempre hiciste: encontrar recursos donde otros no miran, moverte sin ser visto, sobrevivir un día más. La diferencia es que ahora todos necesitan tus habilidades.",
       "starting_stats": {
         "hp": 18,
@@ -676,9 +676,9 @@
     },
     {
       "id": "mechanic",
-      "name": "Mecánico",
-      "description": "Si tiene motor, podés hacerlo funcionar. Si no lo tiene, podés agregárselo.",
-      "simple_description": "Sabés reparar vehículos y máquinas. Tus manos crean herramientas de supervivencia. Un auto funcionando vale más que oro.",
+      "name": { "es": "Mecánico", "en": "Mechanic" },
+      "description": { "es": "Si tiene motor, podés hacerlo funcionar. Si no lo tiene, podés agregárselo.", "en": "If it has an engine, you can make it run. If it doesn't, you can bolt one on." },
+      "simple_description": { "es": "Sabés reparar vehículos y máquinas. Tus manos crean herramientas de supervivencia. Un auto funcionando vale más que oro.", "en": "You can fix vehicles and machines. Your hands turn junk into survival tools. A working car is worth more than gold." },
       "detailed_background": "Trabajabas en el taller de tu padre desde los 14. Motores, transmisiones, electricidad - todo tiene sentido para vos. Cuando el mundo cayó, descubriste que tus habilidades valían más que nunca. Un auto funcionando puede significar escape. Un generador reparado puede significar luz y calor. Ahora sos el tipo de persona que todos quieren en su grupo.",
       "starting_stats": {
         "hp": 20,
@@ -712,9 +712,9 @@
     },
     {
       "id": "hunter",
-      "name": "Cazador",
-      "description": "El bosque era tu hogar. Ahora todo el mundo es tu territorio de caza.",
-      "simple_description": "Sabés rastrear, cazar y sobrevivir en la naturaleza. Tu arco es silencioso y mortal. Donde otros ven peligro, vos ves oportunidad.",
+      "name": { "es": "Cazador", "en": "Hunter" },
+      "description": { "es": "El bosque era tu hogar. Ahora todo el mundo es tu territorio de caza.", "en": "The forest was your home. Now the whole world is your hunting ground." },
+      "simple_description": { "es": "Sabés rastrear, cazar y sobrevivir en la naturaleza. Tu arco es silencioso y mortal. Donde otros ven peligro, vos ves oportunidad.", "en": "You can track, hunt, and survive in the wild. Your bow is silent and deadly. Where others see danger, you see opportunity." },
       "detailed_background": "Creciste cazando con tu abuelo en los bosques del norte. Aprendiste a rastrear, a esperar, a matar limpiamente. Cuando las ciudades cayeron, te fuiste al bosque. Sobreviviste meses solo antes de encontrar otros. Tu habilidad con el arco es invaluable: silenciosa, no gasta munición, mortal. Y sabés leer el terreno como un libro abierto.",
       "starting_stats": {
         "hp": 19,
@@ -748,9 +748,9 @@
     },
     {
       "id": "leader",
-      "name": "Líder Nato",
-      "description": "La gente te sigue porque les das esperanza en un mundo sin ella.",
-      "simple_description": "Sabés inspirar y organizar a las personas. Tu carisma mantiene unidos a los grupos. En el apocalipsis, la moral es tan vital como la comida.",
+      "name": { "es": "Líder Nato", "en": "Natural Leader" },
+      "description": { "es": "La gente te sigue porque les das esperanza en un mundo sin ella.", "en": "People follow you because you give them hope in a world that has none." },
+      "simple_description": { "es": "Sabés inspirar y organizar a las personas. Tu carisma mantiene unidos a los grupos. En el apocalipsis, la moral es tan vital como la comida.", "en": "You inspire and organize people. Your charisma holds groups together. In the apocalypse, morale is as vital as food." },
       "detailed_background": "Eras gerente, entrenador, político local - no importa. Lo que importa es que siempre supiste cómo hacer que la gente trabaje junta. Cuando todo cayó, te encontraste liderando un grupo de supervivientes sin siquiera proponértelo. La gente necesita esperanza, dirección, alguien que les diga que van a sobrevivir. Ese alguien sos vos.",
       "starting_stats": {
         "hp": 17,

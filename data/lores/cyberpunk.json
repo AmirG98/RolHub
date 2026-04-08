@@ -1,7 +1,7 @@
 {
   "id": "CYBERPUNK",
-  "name": "Neón y Cromo",
-  "tagline": "Alta tecnología, baja vida en la ciudad del futuro",
+  "name": { "es": "Neón y Cromo", "en": "Neon and Chrome" },
+  "tagline": { "es": "Alta tecnología, baja vida en la ciudad del futuro", "en": "High tech, low life in the city of the future" },
   "tone": [
     "oscuro",
     "tech-noir",
@@ -186,9 +186,9 @@
   "archetypes": [
     {
       "id": "solo",
-      "name": "Solo (Mercenario)",
-      "description": "Guerrero cibernético con reflejos mejorados",
-      "simple_description": "Tus implantes te hacen más rápido y mortal. Sos músculo de alquiler. Sobrevivís por tu arma y tus reflejos.",
+      "name": { "es": "Solo (Mercenario)", "en": "Solo (Merc)" },
+      "description": { "es": "Guerrero cibernético con reflejos mejorados", "en": "Cybernetic warrior with enhanced reflexes" },
+      "simple_description": { "es": "Tus implantes te hacen más rápido y mortal. Sos músculo de alquiler. Sobrevivís por tu arma y tus reflejos.", "en": "Your implants make you faster and deadlier. You're muscle for hire. You survive on your weapon and your reflexes." },
       "starting_stats": {
         "hp": 24,
         "maxHp": 24,
@@ -215,9 +215,9 @@
     },
     {
       "id": "netrunner",
-      "name": "Netrunner (Hacker)",
-      "description": "Pirata informático que ataca desde el ciberespacio",
-      "simple_description": "Tu mente se conecta a la Red. Hackeás sistemas, robás data, fríes cerebros. El ciberespacio es tu arma.",
+      "name": { "es": "Netrunner (Hacker)", "en": "Netrunner (Hacker)" },
+      "description": { "es": "Pirata informático que ataca desde el ciberespacio", "en": "A hacker who attacks from cyberspace" },
+      "simple_description": { "es": "Tu mente se conecta a la Red. Hackeás sistemas, robás data, fríes cerebros. El ciberespacio es tu arma.", "en": "Your mind jacks into the Net. You hack systems, steal data, fry brains. Cyberspace is your weapon." },
       "starting_stats": {
         "hp": 14,
         "maxHp": 14,
@@ -244,9 +244,9 @@
     },
     {
       "id": "fixer",
-      "name": "Fixer (Intermediario)",
-      "description": "Conocés gente, conseguís cosas, hacés que sucedan",
-      "simple_description": "Tu red de contactos es tu poder. Conocés a todos. Podés conseguir cualquier cosa por el precio correcto.",
+      "name": { "es": "Fixer (Intermediario)", "en": "Fixer (Middleman)" },
+      "description": { "es": "Conocés gente, conseguís cosas, hacés que sucedan", "en": "You know people, you get things, you make things happen" },
+      "simple_description": { "es": "Tu red de contactos es tu poder. Conocés a todos. Podés conseguir cualquier cosa por el precio correcto.", "en": "Your network is your power. You know everyone. You can get anything for the right price." },
       "starting_stats": {
         "hp": 16,
         "maxHp": 16,

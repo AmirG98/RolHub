@@ -1,7 +1,7 @@
 {
   "id": "ISEKAI",
-  "name": "Mundo Mágico Isekai",
-  "tagline": "Fuiste transportado a un mundo de fantasía - tu aventura comienza ahora",
+  "name": { "es": "Mundo Mágico Isekai", "en": "Isekai World" },
+  "tagline": { "es": "Fuiste transportado a un mundo de fantasía - tu aventura comienza ahora", "en": "You were transported to a world of fantasy — your adventure begins now" },
   "tone": [
     "aventurero",
     "mágico",
@@ -657,9 +657,9 @@
   "archetypes": [
     {
       "id": "summoned_hero",
-      "name": "Héroe Invocado",
-      "description": "Fuiste traído específicamente para salvar este mundo",
-      "simple_description": "Tenés un poder especial: una habilidad única de tu mundo. La gente espera grandes cosas de vos. Tu destino es salvar el reino.",
+      "name": { "es": "Héroe Invocado", "en": "Summoned Hero" },
+      "description": { "es": "Fuiste traído específicamente para salvar este mundo", "en": "You were brought here specifically to save this world" },
+      "simple_description": { "es": "Tenés un poder especial: una habilidad única de tu mundo. La gente espera grandes cosas de vos. Tu destino es salvar el reino.", "en": "You have a special power: a unique ability from your world. People expect great things from you. Your destiny is to save the kingdom." },
       "detailed_background": "Un día normal en la Tierra: ibas a la escuela, al trabajo, o simplemente caminabas por la calle. Una luz te envolvió. Voces antiguas susurraron tu nombre. Despertaste en un altar rodeado de sacerdotes que te llamaban 'Salvador'. Los dioses te eligieron. Tienes el poder de ver el 'Sistema' - estadísticas, niveles, habilidades - como un videojuego. Creces diez veces más rápido que los nativos. El reino te venera. Pero la presión de ser el 'Elegido' pesa. ¿Realmente puedes salvar un mundo que apenas conoces?",
       "starting_stats": {
         "hp": 20,
@@ -694,9 +694,9 @@
     },
     {
       "id": "merchant_traveler",
-      "name": "Comerciante Viajero",
-      "description": "Tenés conocimientos de tu mundo que aquí son revolucionarios",
-      "simple_description": "Conocés tecnología y conceptos que aquí parecen mágicos. Podés comerciar y negociar como nadie. Tu ingenio es tu mejor arma.",
+      "name": { "es": "Comerciante Viajero", "en": "Traveling Merchant" },
+      "description": { "es": "Tenés conocimientos de tu mundo que aquí son revolucionarios", "en": "You carry knowledge from your world that is revolutionary here" },
+      "simple_description": { "es": "Conocés tecnología y conceptos que aquí parecen mágicos. Podés comerciar y negociar como nadie. Tu ingenio es tu mejor arma.", "en": "You know technology and ideas that look like magic here. You trade and negotiate like no one else. Your wit is your best weapon." },
       "detailed_background": "Eras emprendedor, estudiante de negocios, o simplemente alguien que entendía cómo funciona el mundo moderno. Cuando llegaste a Aetheria, te diste cuenta de algo: conocimientos básicos de tu mundo aquí son revolucionarios. Contabilidad, marketing, preservación de alimentos, conceptos de higiene. Podrías hacerte rico fácilmente. Pero también podrías cambiar este mundo para mejor. La Alianza de Comerciantes te observa con interés... y preocupación.",
       "starting_stats": {
         "hp": 16,
@@ -731,9 +731,9 @@
     },
     {
       "id": "magic_student",
-      "name": "Estudiante de Magia",
-      "description": "Despertaste con un grimorio misterioso y potencial mágico infinito",
-      "simple_description": "Podés aprender cualquier tipo de magia. Tu grimorio registra todos los hechizos que ves. Tu potencial mágico es ilimitado.",
+      "name": { "es": "Estudiante de Magia", "en": "Magic Student" },
+      "description": { "es": "Despertaste con un grimorio misterioso y potencial mágico infinito", "en": "You woke up holding a mysterious grimoire and boundless magical potential" },
+      "simple_description": { "es": "Podés aprender cualquier tipo de magia. Tu grimorio registra todos los hechizos que ves. Tu potencial mágico es ilimitado.", "en": "You can learn any kind of magic. Your grimoire records every spell you witness. Your magical potential is limitless." },
       "detailed_background": "Te encantaban las historias de magia en tu mundo anterior. Cuando llegaste a Aetheria, un grimorio apareció en tus manos como si siempre hubiera estado esperándote. Descubriste que podías aprender cualquier magia que vieras, sin importar afinidad elemental. El Archimago de la Academia te quiere como estudiante. Los dioses parecen haber apostado todo tu poder en la magia en lugar del combate físico. Sos frágil pero tu potencial es literalmente infinito.",
       "starting_stats": {
         "hp": 14,
@@ -768,9 +768,9 @@
     },
     {
       "id": "beast_tamer",
-      "name": "Domador de Bestias",
-      "description": "Los monstruos te siguen en lugar de atacarte",
-      "simple_description": "Podés domesticar monstruos y hacerlos tus aliados. Tu ejército personal crece con cada calabozo que visitas.",
+      "name": { "es": "Domador de Bestias", "en": "Beast Tamer" },
+      "description": { "es": "Los monstruos te siguen en lugar de atacarte", "en": "Monsters follow you instead of attacking" },
+      "simple_description": { "es": "Podés domesticar monstruos y hacerlos tus aliados. Tu ejército personal crece con cada calabozo que visitas.", "en": "You can tame monsters and turn them into allies. Your personal army grows with every dungeon you visit." },
       "detailed_background": "Siempre tuviste afinidad con los animales en la Tierra. Aquí, esa afinidad se amplificó mil veces. Los monstruos que deberían atacarte se detienen, confundidos. Puedes comunicarte con ellos, entender sus emociones, y eventualmente, hacerlos tus compañeros. Un slime fue tu primer amigo en este mundo. Ahora viajas con una familia de monstruos leales. Los aventureros te miran raro, pero los resultados hablan solos.",
       "starting_stats": {
         "hp": 18,
@@ -805,9 +805,9 @@
     },
     {
       "id": "reincarnated_sage",
-      "name": "Sabio Reencarnado",
-      "description": "Moriste en la Tierra pero renaciste aquí con todos tus recuerdos",
-      "simple_description": "Empezás desde bebé pero con la mente de un adulto. 18 años de preparación te han hecho un prodigio en todo.",
+      "name": { "es": "Sabio Reencarnado", "en": "Reincarnated Sage" },
+      "description": { "es": "Moriste en la Tierra pero renaciste aquí con todos tus recuerdos", "en": "You died on Earth but were reborn here with all your memories intact" },
+      "simple_description": { "es": "Empezás desde bebé pero con la mente de un adulto. 18 años de preparación te han hecho un prodigio en todo.", "en": "You started as a baby but with an adult mind. Eighteen years of preparation have made you a prodigy at everything." },
       "detailed_background": "No fuiste invocado; reencarnaste. Moriste en la Tierra (accidente, enfermedad, lo que sea) y despertaste como bebé en Aetheria. Con la mente de un adulto en un cuerpo infantil, aprovechaste cada momento. Aprendiste a caminar en semanas, a hablar en meses, magia a los 5 años. Ahora tienes 18 y eres considerado un genio. Nadie sabe tu secreto. Has tenido tiempo de estudiar este mundo a fondo y tienes planes.",
       "starting_stats": {
         "hp": 17,
@@ -841,9 +841,9 @@
     },
     {
       "id": "op_support",
-      "name": "Soporte Overpowered",
-      "description": "No podés pelear pero tus buffs hacen invencible a cualquiera",
-      "simple_description": "Tu magia de apoyo no tiene límites. Curación infinita, buffs absurdos, resurreción. Tu party nunca perderá.",
+      "name": { "es": "Soporte Overpowered", "en": "Overpowered Support" },
+      "description": { "es": "No podés pelear pero tus buffs hacen invencible a cualquiera", "en": "You can't fight, but your buffs make anyone invincible" },
+      "simple_description": { "es": "Tu magia de apoyo no tiene límites. Curación infinita, buffs absurdos, resurreción. Tu party nunca perderá.", "en": "Your support magic has no limits. Infinite healing, absurd buffs, resurrection. Your party will never lose." },
       "detailed_background": "Los dioses te dieron poder, pero de forma extraña. No podés hacer daño. Literalmente. Tus ataques hacen 0 de daño sin importar qué. Pero tu magia de apoyo es ridículamente poderosa. Puedes curar heridas mortales, dar buffs que triplican estadísticas, incluso revivir a los recién muertos. Nadie te quería en su party al principio. Ahora todos pelean por tenerte.",
       "starting_stats": {
         "hp": 12,
