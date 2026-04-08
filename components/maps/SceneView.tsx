@@ -6,6 +6,7 @@ import { cn } from '@/lib/utils'
 import { type Lore, getMapConfig } from '@/lib/maps/map-config'
 import { useTranslations, useLanguage } from '@/lib/i18n'
 import { getLocalized } from '@/lib/i18n/localize'
+import { getMapLocationName, getMapLocationDescription } from '@/lib/maps/lore-map-data'
 import { type MapLocationWithStatus } from '@/lib/types/map-state'
 import { type LocalizedString } from '@/lib/types/lore'
 
@@ -348,7 +349,7 @@ export function SceneView({
   const ambianceEntry = SHORT_AMBIANCE[locationType]?.[lore]
   const ambiance = ambianceEntry
     ? ambianceEntry[locale as 'es' | 'en'] || ambianceEntry.es
-    : location.description
+    : getMapLocationDescription(location, locale as 'es' | 'en')
 
   const dangerLevel = location.dangerLevel || 1
   const dangerColor = dangerLevel >= 4 ? 'text-red-400' : dangerLevel >= 2 ? 'text-gold' : 'text-emerald'
@@ -376,7 +377,7 @@ export function SceneView({
             <span className="text-xl flex-shrink-0">{icon}</span>
             <div className="min-w-0 flex-1">
               <h2 className="font-heading text-base text-gold-bright truncate drop-shadow-lg">
-                {location.name}
+                {location ? getMapLocationName(location, locale) : ''}
               </h2>
               <p className="text-xs text-parchment/70 truncate italic drop-shadow-md">{ambiance}</p>
             </div>
@@ -442,7 +443,7 @@ export function SceneView({
                     >
                       <span className="text-base flex-shrink-0">{destIcon}</span>
                       <div className="flex-1 min-w-0">
-                        <p className="font-heading text-sm text-parchment truncate drop-shadow-md">{dest.name}</p>
+                        <p className="font-heading text-sm text-parchment truncate drop-shadow-md">{getMapLocationName(dest, locale as 'es' | 'en')}</p>
                         {travelTime && <p className="text-[9px] text-parchment/40">{travelTime}</p>}
                       </div>
                       <div className="flex items-center gap-1.5 flex-shrink-0">

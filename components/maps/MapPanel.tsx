@@ -3,6 +3,8 @@
 import React, { useState, useCallback } from 'react'
 import dynamic from 'next/dynamic'
 import { type Lore, type MapLocation, getMapConfig } from '@/lib/maps/map-config'
+import { getMapLocationName } from '@/lib/maps/lore-map-data'
+import { useLanguage } from '@/lib/i18n'
 
 // Importar MapContainer dinámicamente para evitar SSR issues con Konva
 const MapContainer = dynamic(
@@ -180,6 +182,7 @@ interface MapLegendProps {
 }
 
 function MapLegend({ config, locations, currentLocationId }: MapLegendProps) {
+  const { locale } = useLanguage()
   // Obtener tipos únicos presentes en el mapa
   const presentTypes = new Set(locations.map(l => l.type))
 
@@ -207,7 +210,7 @@ function MapLegend({ config, locations, currentLocationId }: MapLegendProps) {
             className="font-bold text-sm"
             style={{ color: config.accentColor }}
           >
-            {currentLocation.name}
+            {getMapLocationName(currentLocation, locale as 'es' | 'en')}
           </span>
           <span
             className="text-xs opacity-70 ml-auto"

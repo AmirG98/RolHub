@@ -6,6 +6,8 @@ import { Billboard, Text } from '@react-three/drei'
 import * as THREE from 'three'
 import { type Lore } from '@/lib/maps/map-config'
 import { getLoreEnvironment, type LoreEnvironment } from '@/lib/maps-3d/lore-environments'
+import { getMapLocationName } from '@/lib/maps/lore-map-data'
+import { useLanguage } from '@/lib/i18n'
 
 // Tipo de nivel de conocimiento
 type LocationKnowledgeLevel = 'unknown' | 'rumored' | 'discovered' | 'visited' | 'explored' | 'mastered'
@@ -154,6 +156,7 @@ export function LocationMarker3D({
   knowledgeLevel,
   onClick
 }: LocationMarker3DProps) {
+  const { locale } = useLanguage()
   const env = getLoreEnvironment(lore)
   const groupRef = useRef<THREE.Group>(null)
   const meshRef = useRef<THREE.Mesh>(null)
@@ -362,7 +365,7 @@ export function LocationMarker3D({
             outlineColor="#000000"
             fillOpacity={appearance.opacity}
           >
-            {location.name}{appearance.labelSuffix || ''}
+            {getMapLocationName(location, locale as 'es' | 'en')}{appearance.labelSuffix || ''}
           </Text>
 
           {/* Indicador de quest/misión (solo si visited o superior) */}

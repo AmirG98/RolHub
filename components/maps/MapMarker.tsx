@@ -7,6 +7,8 @@ import { type Lore, type MapLocation, getMapConfig, DIFFICULTY_COLORS, dangerToR
 import { type QuestMarker as QuestMarkerType, getQuestMarkerIcon, getQuestMarkerColor } from '@/lib/types/quest'
 import { type LocationKnowledgeLevel } from '@/lib/types/map-state'
 import { getKnowledgeLevelStyle } from '@/lib/maps/location-knowledge'
+import { getMapLocationName } from '@/lib/maps/lore-map-data'
+import { useLanguage } from '@/lib/i18n'
 
 interface MapMarkerProps {
   location: MapLocation
@@ -34,6 +36,7 @@ export function MapMarker({
   questMarker,
   knowledgeLevel = 'discovered',
 }: MapMarkerProps) {
+  const { locale } = useLanguage()
   const groupRef = useRef<Konva.Group>(null)
   const config = getMapConfig(lore)
   const { x, y } = location.coordinates
@@ -97,7 +100,8 @@ export function MapMarker({
   }
 
   // Determinar texto a mostrar según knowledge level
-  const displayName = knowledgeStyle.showQuestionMark ? `${location.name}?` : location.name
+  const localizedName = getMapLocationName(location, locale as 'es' | 'en')
+  const displayName = knowledgeStyle.showQuestionMark ? `${localizedName}?` : localizedName
 
   // Handler que solo permite click si puede viajar
   const handleClick = () => {

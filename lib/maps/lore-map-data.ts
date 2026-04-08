@@ -372,3 +372,135 @@ export function getExampleMapData(lore: Lore): MapLocation[] {
 
   return exampleData[lore] || []
 }
+
+// ─────────────────────────────────────────────────────────────────────────
+// Traducciones EN para los nombres y descripciones de getExampleMapData.
+// Keyed por id (canonical, en español). Se usa solo para display.
+// El name canonical en MapLocation sigue siendo en español — todas las
+// referencias internas (current_scene, world_state, IDs) lo asumen.
+// ─────────────────────────────────────────────────────────────────────────
+const MAP_LOCATION_EN: Record<string, { name: string; description: string }> = {
+  // LOTR
+  'comarca':         { name: 'The Shire',          description: 'Peaceful land of the hobbits' },
+  'bree':            { name: 'Bree',               description: 'Crossroads with The Prancing Pony Inn' },
+  'rivendel':        { name: 'Rivendell',          description: 'Elven refuge of Elrond' },
+  'moria':           { name: 'Moria',              description: 'Ancient dwarven kingdom under the mountains' },
+  'lothlorien':      { name: 'Lothlórien',         description: 'Golden forest of the elves of Galadriel' },
+  'rohan':           { name: 'Rohan',              description: 'Land of the horse-lords' },
+  'gondor':          { name: 'Gondor',             description: 'The kingdom of men' },
+  'mordor':          { name: 'Mordor',             description: 'Black land of the enemy' },
+  'isengard':        { name: 'Isengard',           description: 'Tower of Saruman' },
+  // ZOMBIES
+  'campamento-base':   { name: 'Base Camp',           description: 'Your safe shelter... for now' },
+  'centro-comercial':  { name: 'Shopping Mall',       description: 'Infested but full of supplies' },
+  'hospital':          { name: 'General Hospital',    description: 'Medicines... and horrors' },
+  'estacion-policia':  { name: 'Police Station',      description: 'Guns and ammo wait inside' },
+  'zona-residencial':  { name: 'Residential Area',    description: 'Empty houses... or not so empty' },
+  'la-horda':          { name: 'The Horde',           description: 'Massive concentration of infected' },
+  'almacen':           { name: 'Industrial Warehouse',description: 'Hidden supplies' },
+  'puerto':            { name: 'Harbor',              description: 'A possible escape route' },
+  // ISEKAI
+  'aldea-inicio':      { name: 'Starting Village',    description: 'Where your adventure began' },
+  'bosque-inicial':    { name: 'Beginner Forest',     description: 'Rank F — perfect for beginners' },
+  'cueva-slimes':      { name: 'Slime Cave',          description: 'Rank F — your first dungeon' },
+  'ciudad-capital':    { name: 'Capital City',        description: 'Center of the kingdom with the Guild' },
+  'gremio':            { name: 'Adventurers Guild',   description: 'Quests and rewards await' },
+  'torre-mago':        { name: "Mage's Tower",        description: 'Rank B — magic and mysteries' },
+  'biblioteca':        { name: 'Arcane Library',      description: 'Rank A — forbidden knowledge' },
+  'dungeon-dragon':    { name: 'Dragon Dungeon',      description: 'Rank S — only for the strongest' },
+  'rey-demonio':       { name: "Demon King's Castle", description: 'Rank SSS — the final boss' },
+  // VIKINGOS
+  'aldea':           { name: 'Your Village',        description: 'Home of your viking clan' },
+  'islas-este':      { name: 'Eastern Isles',       description: 'Territories yet to conquer' },
+  'costa-sajona':    { name: 'Saxon Coast',         description: 'Rich lands ripe for plunder' },
+  'monasterio':      { name: 'Lindisfarne Monastery',description: 'Gold and relics await' },
+  'bosque-sagrado':  { name: 'Sacred Grove',        description: 'Place of the ancient rituals' },
+  'templo-odin':     { name: 'Temple of Odin',      description: 'The Allfather watches you' },
+  'yggdrasil':       { name: 'Yggdrasil',           description: 'The World Tree' },
+  'jotunheim':       { name: 'Jötunheim',           description: 'Land of the frost giants' },
+  // STAR_WARS
+  'tatooine':   { name: 'Tatooine',          description: 'Desert planet on the Outer Rim' },
+  'mos-eisley': { name: 'Mos Eisley',        description: 'A wretched hive of scum and villainy' },
+  'coruscant':  { name: 'Coruscant',         description: 'Capital of the Galaxy' },
+  'naboo':      { name: 'Naboo',             description: 'Peaceful world of meadows and cities' },
+  'alderaan':   { name: 'Alderaan',          description: 'A peaceful world... for now' },
+  'yavin':      { name: 'Yavin IV',          description: 'Jungle moon, secret rebel base' },
+  'endor':      { name: 'Endor',             description: 'Forest moon of the Ewoks' },
+  'death-star': { name: 'Death Star',        description: 'Imperial battle station' },
+  'kashyyyk':   { name: 'Kashyyyk',          description: 'Homeworld of the Wookiees' },
+  // CYBERPUNK
+  'tu-apartamento':   { name: 'Your Apartment',         description: 'A 20m² cubicle you call home' },
+  'downtown':         { name: 'Downtown',               description: 'The heart of Night City' },
+  'afterlife':        { name: 'Afterlife Club',         description: 'Where the best mercs make deals' },
+  'distrito-corpo':   { name: 'Corporate District',     description: 'Glass towers and absolute power' },
+  'arasaka':          { name: 'Arasaka Tower',          description: 'The heart of corporate power' },
+  'mercado-negro':    { name: 'Black Market',           description: 'Everything has a price here' },
+  'submundo':         { name: 'Underworld',             description: 'Where the scum of Night City lives' },
+  'alcantarillas':    { name: 'Sewers',                 description: 'Home of cyberpsychos and worse' },
+  'ripperdoc':        { name: "Ripperdoc's Clinic",     description: 'Chrome upgrades, no questions asked' },
+  'vertedero':        { name: 'The Dump',               description: 'Tech junk and buried secrets' },
+  'zona-industrial':  { name: 'Industrial Zone',        description: 'Abandoned factories and gangs' },
+  // LOVECRAFT
+  'tu-oficina':   { name: 'Your Office',            description: 'Private investigator in dark times' },
+  'arkham':       { name: 'Arkham',                 description: 'A town with too many secrets' },
+  'universidad':  { name: 'Miskatonic University',  description: 'Knowledge best left unknown' },
+  // 'biblioteca' already covered above for ISEKAI — Lovecraft uses same id
+  'cementerio':   { name: 'Arkham Cemetery',        description: 'The dead do not always rest' },
+  'cripta':       { name: 'Ancient Crypt',          description: 'Symbols that should not exist' },
+  // 'puerto' already covered above for ZOMBIES — Lovecraft uses same id (ok, same EN works ish)
+  'innsmouth':    { name: 'Innsmouth',              description: 'The people here... do not seem normal' },
+  'manicomio':    { name: 'Arkham Asylum',          description: 'Are they mad... or have they seen too much?' },
+  'templo':       { name: 'Sunken Temple',          description: "Ph'nglui mglw'nafh..." },
+  // DND_CLASSIC
+  'waterdeep':         { name: 'Waterdeep',           description: 'The City of Splendors, port and metropolis' },
+  'undermountain':     { name: 'Undermountain',       description: 'The megadungeon beneath Waterdeep' },
+  'baldurs-gate':      { name: "Baldur's Gate",       description: 'Port city of trade and crime' },
+  'neverwinter':       { name: 'Neverwinter',         description: 'The Jewel of the North, rebuilding' },
+  'bosque-neverwinter':{ name: 'Neverwinter Wood',    description: 'Mysterious forest with elven ruins' },
+  'icewind-dale':      { name: 'Icewind Dale',        description: 'Frozen tundra of the far north' },
+  'phandalin':         { name: 'Phandalin',           description: 'Small mining settlement with secrets' },
+  'candlekeep':        { name: 'Candlekeep',          description: 'Library-fortress of knowledge' },
+  // COZY_WITCH
+  'casa-bruja':              { name: "The Witch's Cottage",   description: 'Cottage with herb garden, cat, and a hearth that never goes out' },
+  'plaza-mercado':           { name: 'Market Square',         description: "Town's social heart — Saturdays smell of bread and salt" },
+  'panaderia-alba':          { name: 'The Dawn Bakery',       description: 'Opens at 4am — where secrets are traded before sunrise' },
+  'bosque-susurrante':       { name: 'The Whispering Wood',   description: 'A small wood with rare herbs — friendly if you listen' },
+  'faro-viejo':              { name: 'The Old Lighthouse',    description: 'Cliff edge — meditation refuge, no longer lit' },
+  'cala-quieta':             { name: 'Quiet Cove',            description: 'Pebble beach — where the sea brings what the village needs' },
+  'circulo-piedras-eclipse': { name: 'The Eclipse Stone Circle',description: "Clearing on the cliff top — the coven's annual ritual" },
+  // ROMANTASY
+  'corte-primavera':        { name: 'Spring Court',         description: 'White marble palace among gardens of eternal roses' },
+  'velaris':                { name: 'Velaris (City of Starlight)',description: 'Hidden capital of the Night Court' },
+  'bosque-espinas':         { name: 'Forest of Thorns',     description: 'Wild frontier between courts — danger and ancient magic' },
+  'el-muro':                { name: 'The Wall',             description: 'Millennia-old magical barrier between fae and human lands' },
+  'aldea-mortal-prythian':  { name: 'Mortal Village of Prythian',description: 'Border human village where forbidden trade thrives' },
+  'corte-invierno':         { name: 'Winter Court',         description: 'Eternal-ice fortress with warriors of honor' },
+  'cuevas-pacto':           { name: 'Caves of the Pact',    description: 'Ancient site where the Treaty was signed — primordial magic' },
+  // CUSTOM
+  'ciudad-principal': { name: 'Main City',       description: 'The center of civilization' },
+  'bosque':           { name: 'Dark Forest',     description: 'A place of mysteries' },
+  'montana':          { name: 'Sacred Mountain', description: 'Peaks that touch the sky' },
+  'ruinas':           { name: 'Ancient Ruins',   description: 'Remnants of a forgotten era' },
+  'cueva':            { name: "Dragon's Cave",   description: 'A place of danger and treasure' },
+}
+
+/**
+ * Devuelve el nombre de display de un MapLocation según el locale.
+ * Para EN, busca la traducción por id; si no existe, retorna el nombre canonical (es).
+ */
+export function getMapLocationName(loc: { id: string; name: string }, locale: 'es' | 'en'): string {
+  if (locale === 'en' && MAP_LOCATION_EN[loc.id]) {
+    return MAP_LOCATION_EN[loc.id].name
+  }
+  return loc.name
+}
+
+/**
+ * Devuelve la descripción de display de un MapLocation según el locale.
+ */
+export function getMapLocationDescription(loc: { id: string; description: string }, locale: 'es' | 'en'): string {
+  if (locale === 'en' && MAP_LOCATION_EN[loc.id]) {
+    return MAP_LOCATION_EN[loc.id].description
+  }
+  return loc.description
+}

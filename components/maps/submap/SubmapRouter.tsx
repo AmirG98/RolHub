@@ -5,6 +5,8 @@ import { type MapLocation, type Lore } from '@/lib/maps/map-config'
 import { type Submap, type SubmapNode, stringToSeed } from '@/lib/maps/submap-types'
 import { generateSubmap } from '@/lib/maps/generators'
 import { SubmapContainer } from './SubmapContainer'
+import { getMapLocationName, getMapLocationDescription } from '@/lib/maps/lore-map-data'
+import { useLanguage } from '@/lib/i18n'
 
 interface SubmapRouterProps {
   location: MapLocation
@@ -23,6 +25,7 @@ export function SubmapRouter({
   onPlayerMove,
   className = '',
 }: SubmapRouterProps) {
+  const { locale } = useLanguage()
   const [playerNodeId, setPlayerNodeId] = useState<string | null>(null)
   const [selectedNode, setSelectedNode] = useState<SubmapNode | null>(null)
 
@@ -83,8 +86,8 @@ export function SubmapRouter({
         {/* Header */}
         <div className="absolute top-0 left-0 right-0 z-10 flex items-center justify-between px-4 py-3 bg-shadow/90 border-b border-gold">
           <div>
-            <h2 className="text-gold-bright font-heading text-lg">{location.name}</h2>
-            <p className="text-parchment/70 text-sm">{location.description.slice(0, 60)}...</p>
+            <h2 className="text-gold-bright font-heading text-lg">{getMapLocationName(location, locale as 'es' | 'en')}</h2>
+            <p className="text-parchment/70 text-sm">{getMapLocationDescription(location, locale as 'es' | 'en').slice(0, 60)}...</p>
           </div>
           <button
             onClick={onClose}
