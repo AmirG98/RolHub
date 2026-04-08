@@ -56,7 +56,10 @@ export async function POST(req: NextRequest) {
     const archetype = loreData.archetypes?.find((a: any) => a.id === archetypeId)
     const charArchetype = archetype?.name ? getLocalized(archetype.name, locale) : archetypeId
     const charStats = archetype?.starting_stats || { combat: 2, exploration: 2, social: 2, lore: 2 }
-    const charInventory = archetype?.starting_inventory || []
+    // Importante: starting_inventory es LocalizedString[] (bilingüe). Hay que
+    // aplanarlo con getLocalized al locale actual antes de persistir en Character.inventory
+    const rawInventory = archetype?.starting_inventory || []
+    const charInventory: string[] = rawInventory.map((item: any) => getLocalized(item, locale))
 
     // HP basado en stats
     const maxHP = 10 + (charStats.combat || 2) * 2
@@ -94,45 +97,55 @@ export async function POST(req: NextRequest) {
     let introContent = ''
     let suggestedActions: string[] = []
 
-    // Para guests en inglés, generar el primer turno con Claude (evita que el JSON en español se muestre literal)
+    // Para guests en inglés, generar el primer turno con Claude (evita que el JSON en español se muestre literal).
+    // Reintenta 1 vez ante error para amortiguar cold starts / timeouts transitorios de Claude.
     if (isEN) {
-      try {
-        const opening = await generateOpeningTurnWithClaude({
-          loreData,
-          archetypeName: charArchetype,
-          characterName,
-          characterDescription: characterDescription || undefined,
-          startingLocationName: startingLocation?.name,
-          locale: 'en',
-        })
-        introContent = opening.introContent
-        suggestedActions = opening.suggestedActions
-      } catch (err) {
-        console.warn('[guest-create] Opening turn generation failed, falling back to JSON:', err)
+      for (let attempt = 0; attempt < 2 && !introContent; attempt++) {
+        try {
+          const opening = await generateOpeningTurnWithClaude({
+            loreData,
+            archetypeName: charArchetype,
+            characterName,
+            characterDescription: characterDescription || undefined,
+            startingLocationName: startingLocation?.name,
+            locale: 'en',
+          })
+          introContent = opening.introContent
+          suggestedActions = opening.suggestedActions
+        } catch (err) {
+          console.error(`[guest-create] Opening turn generation failed (attempt ${attempt + 1}/2):`, err)
+        }
       }
     }
 
     if (!introContent) {
-      // ES o fallback: leer del JSON
-      const openingScenes = (loreData as any).opening_scenes || (loreData.opening_scene ? [loreData.opening_scene] : [])
-      const openingScene = openingScenes.length > 0
-        ? openingScenes[Math.floor(Math.random() * openingScenes.length)]
-        : null
-
-      if (openingScene) {
-        const closingPrompt = openingScene.closing_prompt || (isEN ? 'What do you want to do?' : '¿Qué deseas hacer?')
-        introContent = openingScene.description + '\n\n' + closingPrompt
-        if (openingScene.visible_directions?.length > 0) {
-          openingScene.visible_directions.slice(0, 3).forEach((dir: any) => {
-            suggestedActions.push(isEN ? `Go to ${dir.direction}` : `Ir al ${dir.direction}`)
-          })
-        }
-        suggestedActions.push(isEN ? 'Talk to someone nearby' : 'Hablar con alguien cercano')
-        suggestedActions.push(isEN ? 'Explore the current area' : 'Explorar el lugar actual')
+      if (isEN) {
+        // Fallback EN: NO usar openingScenes (están solo en español). Mejor un mensaje mínimo
+        // que el usuario ve como welcome y el DM toma desde ahí en turnos posteriores.
+        const loreName = getLocalized(loreData.name, 'en')
+        const locName = startingLocation?.name || loreName
+        introContent = `You find yourself in ${locName}, at the beginning of a new adventure in ${loreName}. Take a moment to take in your surroundings — the sights, the sounds, the people nearby. Your story starts here.\n\nWhat do you want to do?`
+        suggestedActions = ['Look around', 'Talk to someone nearby', 'Explore the area']
       } else {
-        introContent = isEN
-          ? `Welcome to ${getLocalized(loreData.name, locale)}, ${characterName}.\n\nYour adventure begins...`
-          : `Bienvenido a ${getLocalized(loreData.name, locale)}, ${characterName}.\n\nTu aventura comienza...`
+        // ES: leer del JSON (está en español nativo)
+        const openingScenes = (loreData as any).opening_scenes || (loreData.opening_scene ? [loreData.opening_scene] : [])
+        const openingScene = openingScenes.length > 0
+          ? openingScenes[Math.floor(Math.random() * openingScenes.length)]
+          : null
+
+        if (openingScene) {
+          const closingPrompt = openingScene.closing_prompt || '¿Qué deseas hacer?'
+          introContent = openingScene.description + '\n\n' + closingPrompt
+          if (openingScene.visible_directions?.length > 0) {
+            openingScene.visible_directions.slice(0, 3).forEach((dir: any) => {
+              suggestedActions.push(`Ir al ${dir.direction}`)
+            })
+          }
+          suggestedActions.push('Hablar con alguien cercano')
+          suggestedActions.push('Explorar el lugar actual')
+        } else {
+          introContent = `Bienvenido a ${getLocalized(loreData.name, locale)}, ${characterName}.\n\nTu aventura comienza...`
+        }
       }
     }
 

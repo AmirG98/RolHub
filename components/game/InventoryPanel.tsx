@@ -47,19 +47,27 @@ export function InventoryPanel({ inventory, characterName, locale = 'es', classN
   const [newItems, setNewItems] = useState<Set<string>>(new Set())
   const prevInventoryRef = useRef<string[]>([])
 
+  // Defensivo: algunos personajes guest viejos pueden tener inventory como
+  // LocalizedString[] (objetos {es,en}) en DB en vez de strings planos.
+  const normalizedInventory: string[] = inventory.map((item: any) => {
+    if (typeof item === 'string') return item
+    if (item && typeof item === 'object') return item[locale] || item.es || item.en || ''
+    return String(item ?? '')
+  }).filter(Boolean)
+
   // Detectar items nuevos para highlight
   useEffect(() => {
     const prev = new Set(prevInventoryRef.current)
-    const added = inventory.filter(item => !prev.has(item))
+    const added = normalizedInventory.filter(item => !prev.has(item))
     if (added.length > 0) {
       setNewItems(new Set(added))
       const timer = setTimeout(() => setNewItems(new Set()), 3000)
       return () => clearTimeout(timer)
     }
-    prevInventoryRef.current = [...inventory]
-  }, [inventory])
+    prevInventoryRef.current = [...normalizedInventory]
+  }, [normalizedInventory])
 
-  const grouped = groupItems(inventory)
+  const grouped = groupItems(normalizedInventory)
 
   if (grouped.length === 0) {
     return (
@@ -82,7 +90,7 @@ export function InventoryPanel({ inventory, characterName, locale = 'es', classN
         <span className="font-heading text-sm text-gold">
           {locale === 'en' ? 'Inventory' : 'Inventario'}
         </span>
-        <span className="text-[10px] text-parchment/50">({inventory.length})</span>
+        <span className="text-[10px] text-parchment/50">({normalizedInventory.length})</span>
       </div>
 
       <div className="px-2 py-1.5 max-h-64 lg:max-h-96 overflow-y-auto space-y-0.5">
