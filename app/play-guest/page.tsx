@@ -1,7 +1,7 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useState, useEffect, Suspense } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { ParchmentPanel } from '@/components/medieval/ParchmentPanel'
 import { OrnateFrame } from '@/components/medieval/OrnateFrame'
 import { RunicButton } from '@/components/medieval/RunicButton'
@@ -39,8 +39,22 @@ const GUEST_ARCHETYPES: Record<string, { id: string; name: string; nameEn: strin
 
 type Step = 'warning' | 'lore' | 'archetype' | 'name' | 'playing'
 
+// IDs de los lores soportados por el guest flow (debe coincidir con GUEST_LORES abajo)
+const GUEST_LORE_IDS = new Set(['LOTR', 'ZOMBIES', 'DND_CLASSIC'])
+
+// Wrapper externo: Next requiere que useSearchParams esté dentro de un
+// <Suspense> boundary para que la página prerenderice estáticamente.
 export default function PlayGuestPage() {
+  return (
+    <Suspense fallback={null}>
+      <PlayGuestPageInner />
+    </Suspense>
+  )
+}
+
+function PlayGuestPageInner() {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const { locale } = useLanguage()
   const { isGuest, session, startGuestSession, setGuestCharacter } = useGuest()
   const isEnglish = locale === 'en'
@@ -56,6 +70,18 @@ export default function PlayGuestPage() {
       setStep('playing')
     }
   }, [isGuest, session])
+
+  // Deep-link: si la URL trae ?lore=X y es un lore guest válido, pre-seleccionar
+  // y saltar directo al step de arquetipo (después del warning modal).
+  // El warning se respeta porque `step` arranca en 'warning' y el effect solo
+  // override cuando el usuario ya aceptó y pasamos a 'lore'.
+  useEffect(() => {
+    const loreParam = searchParams.get('lore')
+    if (!loreParam || !GUEST_LORE_IDS.has(loreParam)) return
+    // Pre-seleccionar el lore sin tocar el step actual
+    setSelectedLore(loreParam)
+    startGuestSession(loreParam, 'STORY_MODE', 'ONE_SHOT')
+  }, [searchParams, startGuestSession])
 
   const labels = isEnglish ? {
     selectWorld: 'Choose Your World',
@@ -76,7 +102,13 @@ export default function PlayGuestPage() {
   }
 
   const handleContinueAsGuest = () => {
-    setStep('lore')
+    // Si ya hay un lore pre-seleccionado por el query param, saltar directo
+    // al step de arquetipo. Si no, ir al selector de lore normal.
+    if (selectedLore) {
+      setStep('archetype')
+    } else {
+      setStep('lore')
+    }
   }
 
   const handleSelectLore = (loreId: string) => {

@@ -14,6 +14,7 @@ import { type Lore as LoreType } from '@/lib/maps/map-config'
 import { type NavigationLockReason, type LocationKnowledgeLevel, type DynamicMapLocation } from '@/lib/types/map-state'
 import { calculateRelativePosition, normalizeLegacyCoordinates } from '@/lib/maps/position-calculator'
 import { type Quest, type QuestUpdate } from '@/lib/types/quest'
+import { generateSummaryCheckpoint } from '@/lib/claude/session-summarizer'
 // Regex consistente para detectar NPCs con diálogo (Nombre: o Nombre «)
 const NPC_DIALOGUE_REGEX = /([A-ZÁÉÍÓÚ][a-záéíóúñ]+(?:\s+[A-ZÁÉÍÓÚ]?[a-záéíóúñ]+)*)\s*[:«]/g
 
@@ -119,7 +120,10 @@ export async function POST(req: NextRequest) {
         },
         turns: {
           orderBy: { createdAt: 'asc' },
-          take: 20, // Más historial para coherencia narrativa
+          take: 80, // Ventana extendida para memoria narrativa de largo plazo
+        },
+        summaryCheckpoints: {
+          orderBy: { turnIndex: 'asc' },
         },
       },
     }))
@@ -254,23 +258,39 @@ export async function POST(req: NextRequest) {
     const isStagnant = hasRepetition || passiveCount >= 2 || (totalTurns > 12 && worldState.act === 1)
     const needsWorldEvent = passiveCount >= 3 || turnsInCurrentLocation >= 6 || ignoredQuests.length >= 2
 
-    // Resumen acumulativo de TODA la sesión (fuera de la ventana de 6 turnos)
-    // Toma la primera oración significativa de cada narración del DM, distribuido uniformemente
-    const olderDMNarrations = allTurns.slice(0, -6).filter(t => t.role === 'DM' && t.content.length > 30)
+    // Story so far — preferimos los SummaryCheckpoints generados por Haiku
+    // (memoria semántica completa). Si no hay checkpoints todavía, fallback al
+    // resumen heurístico de primera-oración para no perder cobertura en sesiones
+    // que aún no llegaron al primer trigger de summarizer.
+    const checkpoints = (session as any).summaryCheckpoints || []
     let storySoFar = ''
-    if (olderDMNarrations.length > 0) {
-      // Tomar hasta 8 puntos distribuidos uniformemente por toda la sesión
-      const maxPoints = 8
-      const step = Math.max(1, Math.floor(olderDMNarrations.length / maxPoints))
-      const summaryPoints: string[] = []
-      for (let i = 0; i < olderDMNarrations.length; i += step) {
-        const firstSentence = olderDMNarrations[i].content.split(/[.!?]/)[0]?.trim()
-        if (firstSentence && firstSentence.length > 10) {
-          summaryPoints.push(firstSentence)
+
+    if (checkpoints.length > 0) {
+      // Concatenar todos los checkpoints como bloques etiquetados con turn range.
+      // Cada checkpoint cubre ~10 turnos comprimidos a 4-6 oraciones por Haiku.
+      storySoFar = checkpoints
+        .map((c: any) => {
+          const start = Math.max(1, c.turnIndex - c.turnCount + 1)
+          const end = c.turnIndex
+          return `[Turns ${start}-${end}] ${c.summary}`
+        })
+        .join('\n\n')
+    } else {
+      // Fallback heurístico: primera oración de cada narración del DM
+      const olderDMNarrations = allTurns.slice(0, -6).filter(t => t.role === 'DM' && t.content.length > 30)
+      if (olderDMNarrations.length > 0) {
+        const maxPoints = 8
+        const step = Math.max(1, Math.floor(olderDMNarrations.length / maxPoints))
+        const summaryPoints: string[] = []
+        for (let i = 0; i < olderDMNarrations.length; i += step) {
+          const firstSentence = olderDMNarrations[i].content.split(/[.!?]/)[0]?.trim()
+          if (firstSentence && firstSentence.length > 10) {
+            summaryPoints.push(firstSentence)
+          }
+          if (summaryPoints.length >= maxPoints) break
         }
-        if (summaryPoints.length >= maxPoints) break
+        storySoFar = summaryPoints.join('. ') + '.'
       }
-      storySoFar = summaryPoints.join('. ') + '.'
     }
 
     // Última narración del DM (para evitar repetir la misma escena)
@@ -286,6 +306,10 @@ export async function POST(req: NextRequest) {
     // Estado narrativo acumulado — NPCs presentados y acciones completadas
     let introducedNPCsList: string[] = []
     let completedActions: string[] = []
+    // Memoria persistente de TODOS los NPCs conocidos a lo largo de la sesión
+    // (independiente de la escena actual). Se inyecta en el prompt como "NPCs
+    // ya conocidos" para que el DM no los re-presente en turnos lejanos.
+    let allKnownNPCs: Array<{ name: string; info: string }> = []
 
     try {
       const recentDMContent = allTurns.slice(-10).filter(t => t.role === 'DM').map(t => t.content || '')
@@ -314,6 +338,21 @@ export async function POST(req: NextRequest) {
         for (const m of npcMatches) introducedNPCs.add(m[1])
       })
       introducedNPCsList = [...introducedNPCs]
+
+      // Memoria persistente: TODOS los NPCs conocidos en cualquier punto de la
+      // sesión, con su info estructurada del worldState.npc_states. Esto es la
+      // fuente de verdad de largo plazo, independiente de la escena actual.
+      Object.entries(worldState.npc_states || {}).forEach(([name, data]) => {
+        const info = typeof data === 'string' ? { status: data } : (data as any)
+        const parts: string[] = []
+        if (info.status) parts.push(info.status)
+        if (info.location) parts.push(`en ${info.location}`)
+        if (info.relationship_to_player) parts.push(`relación: ${info.relationship_to_player}`)
+        if (info.active_motivation) parts.push(`motivación: ${info.active_motivation}`)
+        allKnownNPCs.push({ name, info: parts.join(', ') || 'conocido' })
+      })
+      // Cap a 30 para no inflar el prompt
+      allKnownNPCs = allKnownNPCs.slice(0, 30)
 
       // Extraer acciones ya completadas (estado, no eventos)
       const actionPatterns: Array<{ pattern: RegExp; label: (who?: string) => string }> = [
@@ -1504,6 +1543,11 @@ ${ignoredQuests.length > 0 ? `- Forgotten quests: ${ignoredQuests.join(', ')}` :
 ${storySoFar ? `STORY SO FAR (do NOT repeat these scenes/descriptions):
 ${storySoFar}` : ''}
 
+${allKnownNPCs.length > 0 ? `## ENDURING MEMORY — NPCs the player has met during this session:
+${allKnownNPCs.map(n => `- ${n.name} (${n.info})`).join('\n')}
+These characters EXIST in the world and the player KNOWS them. If they reappear, do NOT re-introduce them — treat them as familiar.
+` : ''}
+
 ${lastDMNarration ? `YOUR LAST NARRATION (CONTINUE from here, do NOT re-describe this scene):
 "${lastDMNarration}..."` : ''}
 
@@ -1540,6 +1584,11 @@ ${ignoredQuests.length > 0 ? `- Quests olvidadas: ${ignoredQuests.join(', ')}` :
 
 ${storySoFar ? `HISTORIA HASTA AHORA (NO repitas estas escenas/descripciones):
 ${storySoFar}` : ''}
+
+${allKnownNPCs.length > 0 ? `## MEMORIA PERSISTENTE — NPCs que el jugador conoció en esta sesión:
+${allKnownNPCs.map(n => `- ${n.name} (${n.info})`).join('\n')}
+Estos personajes EXISTEN en el mundo y el jugador YA LOS CONOCE. Si reaparecen, NO los vuelvas a presentar — tratalos como familiares.
+` : ''}
 
 ${lastDMNarration ? `TU ÚLTIMA NARRACIÓN (CONTINUÁ desde acá, NO re-describas esta escena):
 "${lastDMNarration}..."` : ''}
@@ -2517,6 +2566,55 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
         } : undefined,
       },
     })
+
+    // 4.5 Trigger fire-and-forget del session summarizer cuando corresponde.
+    // Política: cada vez que la cantidad total de turnos cruza un múltiplo de 10
+    // (>= 20), comprimimos el chunk de 10 turnos que acaba de salir de la ventana
+    // activa con Claude Haiku. El resultado se persiste en SummaryCheckpoint y se
+    // consume en el prompt builder reemplazando el storySoFar heurístico.
+    try {
+      // Total real después de guardar el USER turn y el DM turn de este request:
+      const totalAfterThisTurn = (allTurns?.length || 0) + 2
+
+      if (totalAfterThisTurn >= 20 && totalAfterThisTurn % 10 === 0) {
+        // El chunk que queremos comprimir es [end-19, end-10] (los 10 turnos que
+        // están justo afuera de la ventana activa de últimos 10).
+        const chunkEndIndex = totalAfterThisTurn - 10 // 1-indexed turn number
+        const chunkStartIndex = chunkEndIndex - 9
+        const existingCheckpoints: any[] = (session as any).summaryCheckpoints || []
+        const alreadyDone = existingCheckpoints.some(
+          (c) => c.turnIndex === chunkEndIndex && c.turnCount === 10
+        )
+
+        if (!alreadyDone) {
+          // Tomar los 10 turnos del chunk del array allTurns ya cargado.
+          // allTurns tiene los últimos 80 turnos, así que para chunks recientes
+          // siempre los vamos a tener. Si la sesión es muy vieja, sliceamos.
+          const offsetFromEnd = totalAfterThisTurn - chunkEndIndex // = 10
+          const startInLocal = Math.max(0, allTurns.length - offsetFromEnd - 10)
+          const chunkTurns = allTurns
+            .slice(startInLocal, startInLocal + 10)
+            .map((t) => ({ role: t.role as string, content: t.content }))
+
+          if (chunkTurns.length === 10) {
+            // Fire-and-forget — no await, no bloquea la respuesta
+            generateSummaryCheckpoint(
+              session.id,
+              chunkTurns,
+              chunkStartIndex,
+              worldState,
+              session.campaign.lore,
+              locale as 'es' | 'en'
+            ).catch((err) => {
+              console.error('[turn] background summarizer failed:', err)
+            })
+          }
+        }
+      }
+    } catch (err) {
+      // Nunca bloquear al jugador por un error del summarizer
+      console.error('[turn] summarizer trigger error:', err)
+    }
 
     // 5. Retornar exito con world state updates
     return NextResponse.json({
