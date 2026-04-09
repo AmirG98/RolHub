@@ -517,23 +517,89 @@ export default function GameSession({
     setLastDiceRoll(null)
 
     try {
-      const response = await fetch('/api/session/turn', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          sessionId,
-          campaignId,
-          action: submittedAction,
-          actionType, // 'do' for physical actions, 'talk' for dialogue
-          diceRoll: submittedDiceRoll,
-          locale, // Pass language preference for DM narration
-        }),
-      })
+      // Retry loop: hasta 3 intentos con backoff 0ms / 1500ms / 4000ms y timeout de 45s.
+      // Cubre errores transitorios de deploy (Vercel alias switch), cold starts, pool timeouts.
+      // No retryea 401/403 (auth) ni 4xx (body inválido) porque esos son permanentes.
+      const RETRY_BACKOFFS = [0, 1500, 4000]
+      const PER_ATTEMPT_TIMEOUT_MS = 45000
 
-      const data = await response.json()
+      let data: any = null
+      let lastError: Error | null = null
+      let attemptedOnce = false
 
-      if (!response.ok) {
-        throw new Error(data.error || 'Error al enviar la acción')
+      for (let attempt = 0; attempt < RETRY_BACKOFFS.length; attempt++) {
+        if (RETRY_BACKOFFS[attempt] > 0) {
+          await new Promise((r) => setTimeout(r, RETRY_BACKOFFS[attempt]))
+        }
+        const controller = new AbortController()
+        const timeoutId = setTimeout(() => controller.abort(), PER_ATTEMPT_TIMEOUT_MS)
+        try {
+          const response = await fetch('/api/session/turn', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              sessionId,
+              campaignId,
+              action: submittedAction,
+              actionType, // 'do' for physical actions, 'talk' for dialogue
+              diceRoll: submittedDiceRoll,
+              locale, // Pass language preference for DM narration
+            }),
+            signal: controller.signal,
+          })
+          clearTimeout(timeoutId)
+          attemptedOnce = true
+
+          // 401/403/4xx permanentes: no retryear
+          if (response.status === 401 || response.status === 403) {
+            const d = await response.json().catch(() => ({}))
+            throw new Error(d.error || (locale === 'en' ? 'Not authorized' : 'No autorizado'))
+          }
+          if (response.status >= 400 && response.status < 500) {
+            const d = await response.json().catch(() => ({}))
+            throw new Error(d.error || (locale === 'en' ? 'Invalid request' : 'Solicitud inválida'))
+          }
+
+          // 5xx: retryear
+          if (!response.ok) {
+            const d = await response.json().catch(() => ({}))
+            lastError = new Error(d.error || (locale === 'en' ? 'Server error' : 'Error del servidor'))
+            if (process.env.NODE_ENV === 'development') {
+              console.warn(`[turn] attempt ${attempt + 1} got ${response.status}, retrying...`)
+            }
+            continue
+          }
+
+          data = await response.json()
+          break // éxito, salir del loop
+        } catch (err) {
+          clearTimeout(timeoutId)
+          const errName = (err as any)?.name
+          const isAbort = errName === 'AbortError'
+          const isNetwork = errName === 'TypeError' && /fetch|network/i.test((err as Error).message || '')
+          const isPermanent4xx =
+            (err as Error).message &&
+            /No autorizado|Not authorized|Solicitud inválida|Invalid request/.test((err as Error).message)
+
+          if (isPermanent4xx) {
+            // No reintentar errores de auth / body inválido
+            throw err
+          }
+
+          lastError = err as Error
+          if (process.env.NODE_ENV === 'development') {
+            console.warn(`[turn] attempt ${attempt + 1} failed:`, isAbort ? 'timeout' : isNetwork ? 'network' : (err as Error).message)
+          }
+          // Seguir al próximo intento
+        }
+      }
+
+      if (!data) {
+        // Todos los intentos fallaron. Mostrar mensaje amable.
+        const friendlyMsg = locale === 'en'
+          ? 'The connection faltered. Please try your action again.'
+          : 'La conexión falló. Por favor, intentá tu acción de nuevo.'
+        throw new Error(friendlyMsg)
       }
 
       // Agregar respuesta del DM

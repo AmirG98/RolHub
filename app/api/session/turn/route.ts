@@ -120,7 +120,7 @@ export async function POST(req: NextRequest) {
         },
         turns: {
           orderBy: { createdAt: 'asc' },
-          take: 80, // Ventana extendida para memoria narrativa de largo plazo
+          take: 40, // Ventana activa — los SummaryCheckpoints cubren turnos más viejos
         },
         summaryCheckpoints: {
           orderBy: { turnIndex: 'asc' },
@@ -155,8 +155,8 @@ export async function POST(req: NextRequest) {
       if (specifiedChar) actingCharacter = specifiedChar
     }
 
-    // 1. Guardar el turno del jugador con info de multiplayer
-    const playerTurn = await prisma.turn.create({
+    // 1. Guardar el turno del jugador con info de multiplayer (con retry ante pool timeouts)
+    const playerTurn = await withRetry(() => prisma.turn.create({
       data: {
         sessionId: session.id,
         role: 'USER',
@@ -168,7 +168,7 @@ export async function POST(req: NextRequest) {
         characterName: actingCharacter?.name,
         playerName: actingPlayer,
       },
-    })
+    }))
 
     // 2. Preparar contexto para Claude
     const worldState = session.campaign.worldState as any
@@ -2534,10 +2534,10 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
       // Strip transient fields before persisting
       delete newWorldState._zeroHpEvent
 
-      await prisma.campaign.update({
+      await withRetry(() => prisma.campaign.update({
         where: { id: session.campaignId },
         data: { worldState: newWorldState },
-      })
+      }))
     }
 
     // Build the full narration with HP change notification
@@ -2551,7 +2551,7 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
     }
 
     // 4. Guardar el turno del DM
-    await prisma.turn.create({
+    await withRetry(() => prisma.turn.create({
       data: {
         sessionId: session.id,
         role: 'DM',
@@ -2565,16 +2565,19 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
           _lastRemoveItem: originalRemoveItem || null,
         } : undefined,
       },
-    })
+    }))
 
     // 4.5 Trigger fire-and-forget del session summarizer cuando corresponde.
     // Política: cada vez que la cantidad total de turnos cruza un múltiplo de 10
     // (>= 20), comprimimos el chunk de 10 turnos que acaba de salir de la ventana
     // activa con Claude Haiku. El resultado se persiste en SummaryCheckpoint y se
     // consume en el prompt builder reemplazando el storySoFar heurístico.
+    //
+    // Usamos un count real de la DB (no allTurns.length) porque allTurns está
+    // limitado por el take:40 del query principal — en sesiones >40 turnos el
+    // cálculo basado en allTurns sería incorrecto.
     try {
-      // Total real después de guardar el USER turn y el DM turn de este request:
-      const totalAfterThisTurn = (allTurns?.length || 0) + 2
+      const totalAfterThisTurn = await prisma.turn.count({ where: { sessionId: session.id } })
 
       if (totalAfterThisTurn >= 20 && totalAfterThisTurn % 10 === 0) {
         // El chunk que queremos comprimir es [end-19, end-10] (los 10 turnos que
@@ -2587,20 +2590,21 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
         )
 
         if (!alreadyDone) {
-          // Tomar los 10 turnos del chunk del array allTurns ya cargado.
-          // allTurns tiene los últimos 80 turnos, así que para chunks recientes
-          // siempre los vamos a tener. Si la sesión es muy vieja, sliceamos.
-          const offsetFromEnd = totalAfterThisTurn - chunkEndIndex // = 10
-          const startInLocal = Math.max(0, allTurns.length - offsetFromEnd - 10)
-          const chunkTurns = allTurns
-            .slice(startInLocal, startInLocal + 10)
-            .map((t) => ({ role: t.role as string, content: t.content }))
+          // Traer los 10 turnos del chunk de la DB — no dependemos de allTurns,
+          // así sirve también para sesiones >40 turnos.
+          const chunkTurnsDb = await prisma.turn.findMany({
+            where: { sessionId: session.id },
+            orderBy: { createdAt: 'asc' },
+            skip: chunkStartIndex - 1,
+            take: 10,
+            select: { role: true, content: true },
+          })
 
-          if (chunkTurns.length === 10) {
+          if (chunkTurnsDb.length === 10) {
             // Fire-and-forget — no await, no bloquea la respuesta
             generateSummaryCheckpoint(
               session.id,
-              chunkTurns,
+              chunkTurnsDb.map(t => ({ role: t.role as string, content: t.content })),
               chunkStartIndex,
               worldState,
               session.campaign.lore,
