@@ -3,8 +3,8 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
 import { ParchmentPanel } from '@/components/medieval/ParchmentPanel'
 import { RunicButton } from '@/components/medieval/RunicButton'
-import { Dices, Mic, MicOff, Swords, MessageCircle } from 'lucide-react'
-import { ActionType, processAction } from '@/lib/types/action'
+import { Dices, Mic, MicOff } from 'lucide-react'
+import { processAction } from '@/lib/types/action'
 import { createSpeechRecognition, isSpeechRecognitionSupported, SpeechController } from '@/lib/voice/speech-recognition'
 import { cn } from '@/lib/utils'
 
@@ -37,7 +37,10 @@ export function ActionInputWithVoice({
       setAction(prefillAction)
     }
   }, [prefillAction])
-  const [mode, setMode] = useState<ActionType>('auto')
+  // Modo siempre 'auto': el sistema detecta dialogue por default y soporta
+  // *texto* para acciones físicas. Los botones Do/Talk fueron removidos por
+  // crear fricción innecesaria en el flujo del jugador.
+  const mode = 'auto' as const
   const [isListening, setIsListening] = useState(false)
   const [voiceError, setVoiceError] = useState<string | null>(null)
   const speechControllerRef = useRef<SpeechController | null>(null)
@@ -141,22 +144,15 @@ export function ActionInputWithVoice({
     onSubmit(processed.cleanText, processed.actionType)
   }
 
-  // Placeholders según el modo
-  const getPlaceholder = () => {
-    if (mode === 'do') {
-      return locale === 'en' ? 'Describe what you do...' : 'Describe qué haces...'
-    }
-    if (mode === 'talk') {
-      return locale === 'en' ? 'What do you say...' : 'Qué dices...'
-    }
-    return locale === 'en' ? 'Describe your action... (*action* for physical, text for dialogue)' : 'Describe tu acción... (*acción* para físico, texto para diálogo)'
-  }
+  // Placeholder único — el sistema detecta dialogue por default y *texto* para acciones
+  const getPlaceholder = () =>
+    locale === 'en'
+      ? 'What do you say or do? (*action* for physical actions)'
+      : 'Qué decís o hacés? (*acción* para acciones físicas)'
 
   // Labels
   const labels = {
-    whatDo: locale === 'en' ? 'What do you do?' : '¿Qué haces?',
-    do: locale === 'en' ? 'Do' : 'Hacer',
-    talk: locale === 'en' ? 'Talk' : 'Hablar',
+    whatDo: locale === 'en' ? 'Your turn' : 'Tu turno',
     send: locale === 'en' ? 'Send' : 'Enviar',
     sending: locale === 'en' ? 'Sending...' : 'Enviando...',
     listening: locale === 'en' ? 'Listening...' : 'Escuchando...',
@@ -167,53 +163,11 @@ export function ActionInputWithVoice({
   return (
     <ParchmentPanel variant="ornate">
       <form onSubmit={handleSubmit} className="space-y-3 md:space-y-4">
-        {/* Row 1: Mode buttons */}
-        <div className="flex flex-col gap-3">
-          <label className="font-heading text-ink text-base md:text-lg">
-            {labels.whatDo}
-          </label>
+        <label className="font-heading text-ink text-base md:text-lg block">
+          {labels.whatDo}
+        </label>
 
-          <div className="flex items-center gap-2">
-            {/* Do button - physical actions */}
-            <button
-              type="button"
-              onClick={() => setMode(mode === 'do' ? 'auto' : 'do')}
-              className={cn(
-                "flex items-center gap-1.5 px-4 py-2.5 md:py-2 min-h-[44px] rounded-lg font-heading text-sm transition-all border-2",
-                mode === 'do'
-                  ? "bg-blood/30 text-parchment border-blood shadow-[0_0_12px_rgba(139,26,26,0.4)]"
-                  : "bg-shadow/50 text-parchment/60 border-gold-dim/30 hover:border-blood/50 hover:text-parchment hover:bg-blood/10"
-              )}
-            >
-              <Swords className="w-4 h-4" />
-              {labels.do}
-            </button>
-
-            {/* Talk button - dialogue */}
-            <button
-              type="button"
-              onClick={() => setMode(mode === 'talk' ? 'auto' : 'talk')}
-              className={cn(
-                "flex items-center gap-1.5 px-4 py-2.5 md:py-2 min-h-[44px] rounded-lg font-heading text-sm transition-all border-2",
-                mode === 'talk'
-                  ? "bg-emerald/30 text-parchment border-emerald shadow-[0_0_12px_rgba(26,58,42,0.4)]"
-                  : "bg-shadow/50 text-parchment/60 border-gold-dim/30 hover:border-emerald/50 hover:text-parchment hover:bg-emerald/10"
-              )}
-            >
-              <MessageCircle className="w-4 h-4" />
-              {labels.talk}
-            </button>
-
-            {/* Hint for current mode */}
-            <span className="text-xs text-parchment/50 ml-2 hidden sm:inline">
-              {mode === 'do' && (locale === 'en' ? 'Physical action' : 'Acción física')}
-              {mode === 'talk' && (locale === 'en' ? 'Dialogue' : 'Diálogo')}
-              {mode === 'auto' && (locale === 'en' ? 'Use *text* for actions' : 'Usa *texto* para acciones')}
-            </span>
-          </div>
-        </div>
-
-        {/* Row 2: Input + Voice button */}
+        {/* Input + Voice button */}
         <div className="flex gap-2">
           <textarea
             id="action"
@@ -237,7 +191,7 @@ export function ActionInputWithVoice({
               "font-body text-sm md:text-base text-ink placeholder:text-stone/50",
               "focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/20",
               "disabled:opacity-50 disabled:cursor-not-allowed resize-none",
-              mode === 'do' ? "border-gold/60" : mode === 'talk' ? "border-emerald/60" : "border-gold-dim/30"
+              "border-gold-dim/30"
             )}
           />
 
