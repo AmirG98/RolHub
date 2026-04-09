@@ -1,9 +1,17 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { Sword, Scroll, CheckCircle, X, Package, Star, Zap } from 'lucide-react'
+import { Sword, Scroll, CheckCircle, X, Package, Star, Zap, Trophy, Flame } from 'lucide-react'
 
-export type NotificationType = 'new_item' | 'remove_item' | 'new_quest' | 'quest_completed' | 'xp_gain' | 'level_up'
+export type NotificationType =
+  | 'new_item'
+  | 'remove_item'
+  | 'new_quest'
+  | 'quest_completed'
+  | 'xp_gain'
+  | 'level_up'
+  | 'achievement_unlocked'
+  | 'streak_milestone'
 
 export interface GameNotificationData {
   id: string
@@ -25,6 +33,8 @@ const ICON_MAP: Record<NotificationType, typeof Sword> = {
   quest_completed: CheckCircle,
   xp_gain: Zap,
   level_up: Star,
+  achievement_unlocked: Trophy,
+  streak_milestone: Flame,
 }
 
 const COLOR_MAP: Record<NotificationType, string> = {
@@ -34,6 +44,8 @@ const COLOR_MAP: Record<NotificationType, string> = {
   quest_completed: 'text-emerald',
   xp_gain: 'text-gold',
   level_up: 'text-gold-bright',
+  achievement_unlocked: 'text-gold-bright',
+  streak_milestone: 'text-blood',
 }
 
 const BORDER_MAP: Record<NotificationType, string> = {
@@ -43,6 +55,8 @@ const BORDER_MAP: Record<NotificationType, string> = {
   quest_completed: 'border-emerald/50',
   xp_gain: 'border-gold/30',
   level_up: 'border-gold-bright/60',
+  achievement_unlocked: 'border-gold-bright/60',
+  streak_milestone: 'border-blood/60',
 }
 
 export function GameNotifications({ notifications, onDismiss, locale = 'es' }: Props) {
@@ -190,5 +204,37 @@ export function createLevelUpNotification(newLevel: number, statChanges: Record<
     type: 'level_up',
     text: locale === 'en' ? `Level Up! Now level ${newLevel}` : `¡Subiste de nivel! Ahora nivel ${newLevel}`,
     subtitle: changesText || (locale === 'en' ? 'Your character has grown stronger' : 'Tu personaje se ha vuelto más fuerte'),
+  }
+}
+
+/**
+ * Notificación cuando el usuario desbloquea un achievement meta (player progress).
+ * `name` y `desc` ya vienen localizados.
+ */
+export function createAchievementNotification(
+  name: string,
+  desc: string,
+  xpBonus: number,
+  locale: 'es' | 'en' = 'es'
+): GameNotificationData {
+  return {
+    id: `notif_${Date.now()}_${notifCounter++}`,
+    type: 'achievement_unlocked',
+    text: locale === 'en' ? `🏆 Achievement unlocked: ${name}` : `🏆 ¡Logro desbloqueado: ${name}!`,
+    subtitle: `${desc} · +${xpBonus} XP`,
+  }
+}
+
+/**
+ * Notificación cuando la racha del usuario cruza un milestone (3, 7, 14, 30, 60, 100 días).
+ */
+export function createStreakNotification(days: number, locale: 'es' | 'en' = 'es'): GameNotificationData {
+  return {
+    id: `notif_${Date.now()}_${notifCounter++}`,
+    type: 'streak_milestone',
+    text: locale === 'en' ? `🔥 ${days}-day streak!` : `🔥 ¡Racha de ${days} días!`,
+    subtitle: locale === 'en'
+      ? 'Keep playing every day to keep your streak alive'
+      : 'Seguí jugando todos los días para mantener tu racha',
   }
 }

@@ -19,6 +19,16 @@ model User {
   plan                  Plan                   @default(FREE)
   tutorialLevel         TutorialLevel          @default(NOVICE)
   tutorialProgress      Json                   @default("{}")
+  // Progreso meta del usuario (gamificación estilo Duolingo)
+  xp                    Int                    @default(0)
+  level                 Int                    @default(1)
+  streakDays            Int                    @default(0)
+  longestStreak         Int                    @default(0)
+  lastActiveAt          DateTime?
+  achievements          Json                   @default("[]")
+  totalTurns            Int                    @default(0)
+  totalSessions         Int                    @default(0)
+  completedCampaigns    Int                    @default(0)
   campaigns             Campaign[]
   sessions              Session[]
   characters            Character[]

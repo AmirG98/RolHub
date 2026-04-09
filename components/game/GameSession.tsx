@@ -42,6 +42,8 @@ import {
   createQuestCompletedNotification,
   createXPNotification,
   createLevelUpNotification,
+  createAchievementNotification,
+  createStreakNotification,
 } from '@/components/game/GameNotification'
 import { DeathSaveTracker } from '@/components/game/DeathSaveTracker'
 import { LevelUpModal } from '@/components/game/LevelUpModal'
@@ -678,6 +680,25 @@ export default function GameSession({
           setPendingLevelUp(data.levelUp)
         } else {
           setNotifications(prev => [...prev, createLevelUpNotification(data.levelUp.newLevel, { maxHp: data.levelUp.hpIncrease }, locale)])
+        }
+      }
+
+      // Progreso meta del usuario (Duolingo-style): achievements y rachas.
+      // Solo llega para usuarios logueados (null para guests).
+      if (data.progressUpdate) {
+        const pu = data.progressUpdate
+        // Notificaciones de achievements desbloqueados
+        if (Array.isArray(pu.newAchievements) && pu.newAchievements.length > 0) {
+          for (const a of pu.newAchievements) {
+            const def = (t.progress.achievementDefs as any)?.[a.id]
+            const name = def?.name || a.id
+            const desc = def?.desc || ''
+            setNotifications(prev => [...prev, createAchievementNotification(name, desc, a.xpBonus, locale as 'es' | 'en')])
+          }
+        }
+        // Notificación de milestone de racha
+        if (pu.streakContinued && [3, 7, 14, 30, 60, 100].includes(pu.newStreakDays)) {
+          setNotifications(prev => [...prev, createStreakNotification(pu.newStreakDays, locale as 'es' | 'en')])
         }
       }
 

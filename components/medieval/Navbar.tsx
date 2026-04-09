@@ -60,6 +60,10 @@ export function Navbar() {
                   {t.nav.characters}
                   <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-neon-blue group-hover:w-full transition-all"></span>
                 </Link>
+                <Link href="/progress" className="font-heading text-sm lg:text-base text-parchment hover:text-gold-bright transition relative group">
+                  🔥 {t.progress.navLink}
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gold-bright group-hover:w-full transition-all"></span>
+                </Link>
                 <Link href="/compendium" className="font-heading text-sm lg:text-base text-parchment hover:text-neon-purple transition relative group">
                   {t.nav.compendium}
                   <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-neon-purple group-hover:w-full transition-all"></span>
@@ -126,6 +130,13 @@ export function Navbar() {
                     className="font-heading text-parchment hover:text-neon-blue transition py-2"
                   >
                     ⚔️ {t.nav.characters}
+                  </Link>
+                  <Link
+                    href="/progress"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="font-heading text-parchment hover:text-gold-bright transition py-2"
+                  >
+                    🔥 {t.progress.navLink}
                   </Link>
                   <Link
                     href="/compendium"

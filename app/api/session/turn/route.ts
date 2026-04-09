@@ -15,6 +15,7 @@ import { type NavigationLockReason, type LocationKnowledgeLevel, type DynamicMap
 import { calculateRelativePosition, normalizeLegacyCoordinates } from '@/lib/maps/position-calculator'
 import { type Quest, type QuestUpdate } from '@/lib/types/quest'
 import { generateSummaryCheckpoint } from '@/lib/claude/session-summarizer'
+import { updateUserProgress, type ProgressUpdate } from '@/lib/game/user-progress'
 // Regex consistente para detectar NPCs con diálogo (Nombre: o Nombre «)
 const NPC_DIALOGUE_REGEX = /([A-ZÁÉÍÓÚ][a-záéíóúñ]+(?:\s+[A-ZÁÉÍÓÚ]?[a-záéíóúñ]+)*)\s*[:«]/g
 
@@ -2567,6 +2568,22 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
       },
     }))
 
+    // 4.4 Actualizar progreso meta del usuario (streak, XP, achievements).
+    // Solo para usuarios logueados con Clerk — los guests no trackean progreso meta.
+    // Fire-and-forget: si falla, loggeamos pero no bloqueamos la respuesta al jugador.
+    let progressUpdate: ProgressUpdate | null = null
+    if (clerkUserId && authUserId) {
+      try {
+        progressUpdate = await updateUserProgress({
+          userId: authUserId,
+          event: 'turn',
+          characterXpReward: dmResponse.xp_reward,
+        })
+      } catch (err) {
+        console.error('[turn] updateUserProgress failed:', err)
+      }
+    }
+
     // 4.5 Trigger fire-and-forget del session summarizer cuando corresponde.
     // Política: cada vez que la cantidad total de turnos cruza un múltiplo de 10
     // (>= 20), comprimimos el chunk de 10 turnos que acaba de salir de la ventana
@@ -2644,9 +2661,11 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
       questCompleted: dmResponse.quest_completed || null,
       // 0 HP event for frontend
       zeroHpEvent: worldStateUpdates._zeroHpEvent || null,
-      // XP & Level up
+      // XP & Level up (del personaje)
       xpReward: dmResponse.xp_reward || 0,
       levelUp: levelUpData,
+      // Progreso meta del usuario (Duolingo-style) — null para guests
+      progressUpdate,
     })
   } catch (error) {
     console.error('Error processing turn:', error)
