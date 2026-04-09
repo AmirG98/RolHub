@@ -1,8 +1,9 @@
 'use client'
 
-import { useState, useEffect, Suspense } from 'react'
+import { useState, useEffect, Suspense, useRef } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useUser } from '@clerk/nextjs'
+import { useUser, SignInButton, SignUpButton } from '@clerk/nextjs'
+import { savePending, loadPending, clearPending } from '@/lib/onboarding/pending'
 import { LoreSelector } from '@/components/onboarding/LoreSelector'
 import { ModeSelector } from '@/components/onboarding/ModeSelector'
 import { ArchetypeSelector, CharacterCreationData } from '@/components/onboarding/ArchetypeSelector'
@@ -80,6 +81,9 @@ function OnboardingPageInner() {
   const [loading, setLoading] = useState(false)
   const [loadingPhase, setLoadingPhase] = useState<'creating' | 'portrait' | 'finalizing'>('creating')
   const [error, setError] = useState<string | null>(null)
+  const [showAuthModal, setShowAuthModal] = useState(false)
+  const resumeHandledRef = useRef(false)
+  const isEnglish = locale === 'en'
 
   const handleCreateCharacter = async (data: CharacterCreationData) => {
     const { archetype, characterName, characterDescription, customStats } = data
@@ -92,8 +96,20 @@ function OnboardingPageInner() {
     }
 
     if (!user) {
-      console.error('User not authenticated')
-      setError('Debes iniciar sesión para comenzar una aventura.')
+      // En vez de mostrar error, persistimos el wizard state y ofrecemos login/signup inline
+      setSelectedArchetype(archetype)
+      savePending({
+        selectedLore,
+        gameMode,
+        engine,
+        tutorialLevel,
+        isMultiplayer,
+        archetype,
+        characterName: characterName || '',
+        characterDescription: characterDescription || '',
+        customStats: customStats || null,
+      })
+      setShowAuthModal(true)
       return
     }
 
@@ -175,8 +191,20 @@ function OnboardingPageInner() {
     }
 
     if (!user) {
-      console.error('User not authenticated')
-      setError('Debes iniciar sesión para comenzar una aventura.')
+      savePending({
+        selectedLore,
+        gameMode,
+        engine,
+        tutorialLevel,
+        isMultiplayer,
+        archetype: null,
+        characterName: character.name || '',
+        characterDescription: character.description || '',
+        customStats: null,
+        isDnD5eCharacter: true,
+        dnd5eCharacterData: character,
+      })
+      setShowAuthModal(true)
       return
     }
 
@@ -237,6 +265,50 @@ function OnboardingPageInner() {
       setLoading(false)
     }
   }
+
+  // Efecto de restore post-login: si la URL trae ?resume=1 y Clerk user ya hidrató,
+  // buscamos el wizard state guardado en sessionStorage y disparamos la creación.
+  useEffect(() => {
+    if (resumeHandledRef.current) return
+    const isResume = searchParams.get('resume') === '1'
+    if (!isResume) return
+    if (!user) return // esperar a Clerk
+
+    const pending = loadPending()
+    if (!pending) {
+      resumeHandledRef.current = true
+      return
+    }
+
+    resumeHandledRef.current = true
+
+    // Restaurar state visible por si la creación falla y el user vuelve al wizard
+    setSelectedLore(pending.selectedLore as Lore | null)
+    setGameMode(pending.gameMode as GameMode | null)
+    setEngine(pending.engine as GameEngine | null)
+    setTutorialLevel(pending.tutorialLevel as TutorialLevel | null)
+    setIsMultiplayer(pending.isMultiplayer)
+    if (pending.archetype) setSelectedArchetype(pending.archetype)
+    setStep(3)
+
+    // Limpiar el pending ya mismo para no re-disparar
+    clearPending()
+
+    // Disparar automáticamente la creación
+    ;(async () => {
+      if (pending.isDnD5eCharacter && pending.dnd5eCharacterData) {
+        await handleDnD5eCharacterCreate(pending.dnd5eCharacterData)
+      } else if (pending.archetype) {
+        await handleCreateCharacter({
+          archetype: pending.archetype,
+          characterName: pending.characterName,
+          characterDescription: pending.characterDescription,
+          customStats: pending.customStats,
+        })
+      }
+    })()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user, searchParams])
 
   // Cargar los arquetipos segun el lore seleccionado
   const getArchetypes = (): Archetype[] => {
@@ -302,12 +374,50 @@ function OnboardingPageInner() {
     )
   }
 
+  if (showAuthModal) {
+    return (
+      <div className="min-h-screen particle-bg flex items-center justify-center p-4">
+        <div className="max-w-md w-full content-wrapper glass-panel-dark p-8 rounded-xl text-center">
+          <div className="text-5xl mb-4">🪄</div>
+          <h2 className="font-title text-2xl text-gold-bright mb-2">
+            {isEnglish ? 'One last step' : 'Un último paso'}
+          </h2>
+          <p className="font-body text-parchment/80 mb-6">
+            {isEnglish
+              ? 'Sign in or create a free account to save your character and begin the adventure. Your choices will be kept.'
+              : 'Iniciá sesión o creá una cuenta gratis para guardar tu personaje y comenzar la aventura. Tus elecciones se conservan.'}
+          </p>
+          <div className="flex flex-col gap-3">
+            <SignInButton mode="modal" forceRedirectUrl="/onboarding?resume=1" signUpForceRedirectUrl="/onboarding?resume=1">
+              <button className="px-6 py-3 bg-gold hover:bg-gold-bright text-shadow font-heading rounded transition-all">
+                {isEnglish ? 'Sign In' : 'Iniciar sesión'}
+              </button>
+            </SignInButton>
+            <SignUpButton mode="modal" forceRedirectUrl="/onboarding?resume=1" signInForceRedirectUrl="/onboarding?resume=1">
+              <button className="px-6 py-3 border border-gold/50 hover:bg-gold/10 text-parchment font-heading rounded transition-all">
+                {isEnglish ? 'Create Account' : 'Crear cuenta'}
+              </button>
+            </SignUpButton>
+            <button
+              onClick={() => setShowAuthModal(false)}
+              className="mt-2 text-sm text-parchment/60 hover:text-parchment/90 transition-colors"
+            >
+              {isEnglish ? '← Keep editing' : '← Seguir editando'}
+            </button>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   if (error) {
     return (
       <div className="min-h-screen particle-bg flex items-center justify-center">
         <div className="text-center content-wrapper glass-panel-dark p-8 rounded-lg max-w-md">
           <div className="text-blood text-6xl mb-4">⚠️</div>
-          <h2 className="font-heading text-blood text-2xl mb-4">Error al crear personaje</h2>
+          <h2 className="font-heading text-blood text-2xl mb-4">
+            {isEnglish ? 'Error creating character' : 'Error al crear personaje'}
+          </h2>
           <p className="font-body text-parchment/80 mb-6">{error}</p>
           <button
             onClick={() => {
@@ -316,7 +426,7 @@ function OnboardingPageInner() {
             }}
             className="px-6 py-3 bg-gold hover:bg-gold-bright text-shadow font-heading rounded transition-all"
           >
-            Intentar de nuevo
+            {isEnglish ? 'Try again' : 'Intentar de nuevo'}
           </button>
         </div>
       </div>

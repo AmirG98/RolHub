@@ -1,12 +1,14 @@
 'use client'
 
 import { useEffect, useState, useCallback } from 'react'
+import { useRouter } from 'next/navigation'
 import { useUser } from '@clerk/nextjs'
 import { RunicButton } from '@/components/medieval/RunicButton'
 import Link from 'next/link'
 import { LORES } from '@/lib/constants/lores'
 import { Heart, Scroll, MapPin, Calendar, User, MoreVertical, Pencil, Trash2, X, Check, Crown } from 'lucide-react'
 import { useTranslations } from '@/lib/i18n'
+import { hasPending } from '@/lib/onboarding/pending'
 
 interface Campaign {
   id: string
@@ -29,9 +31,19 @@ interface Campaign {
 }
 
 export default function CampaignsPage() {
+  const router = useRouter()
   const { user } = useUser()
   const t = useTranslations()
   const [campaigns, setCampaigns] = useState<Campaign[]>([])
+
+  // Safety net: si un usuario aterriza acá pero tenía un wizard de onboarding
+  // pendiente (porque Clerk ignoró forceRedirectUrl), volvemos a onboarding
+  // con resume=1 para que se retome la creación del personaje.
+  useEffect(() => {
+    if (hasPending()) {
+      router.replace('/onboarding?resume=1')
+    }
+  }, [router])
   const [loading, setLoading] = useState(true)
   const [menuOpen, setMenuOpen] = useState<string | null>(null)
   const [editingId, setEditingId] = useState<string | null>(null)
