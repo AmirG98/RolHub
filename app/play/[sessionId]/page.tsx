@@ -76,7 +76,14 @@ export default async function PlayPage({ params }: PlayPageProps) {
     },
   })
 
+  // Detectar si es guest (cookie present, sin Clerk auth)
+  const isGuest = !clerkUserId
+
   if (!session) {
+    // Safety net: para guests, volver al onboarding en vez de mostrar error
+    if (isGuest) {
+      redirect('/play-guest')
+    }
     return (
       <div className="min-h-screen particle-bg flex items-center justify-center p-8">
         <div className="glass-panel-dark rounded-lg p-8 max-w-2xl content-wrapper">
@@ -96,11 +103,11 @@ export default async function PlayPage({ params }: PlayPageProps) {
   const isParticipant = session.campaign.participants.some(p => p.userId === dbUserId)
 
   if (!isOwner && !isParticipant) {
+    if (isGuest) {
+      redirect('/play-guest')
+    }
     redirect('/')
   }
-
-  // Detectar si es guest
-  const isGuest = !clerkUserId
 
   // Get current user's character in this campaign
   const currentParticipant = session.campaign.participants.find(p => p.userId === dbUserId)

@@ -91,45 +91,94 @@ export default function PlayGuestPage() {
   }
 
   const [isCreating, setIsCreating] = useState(false)
-  const [createError, setCreateError] = useState<string | null>(null)
+  const [creationFailed, setCreationFailed] = useState(false)
+  const [loadingMessageIndex, setLoadingMessageIndex] = useState(0)
+
+  // Mensajes narrativos rotando durante la creación — locale-aware
+  const LOADING_MESSAGES_ES = [
+    'Forjando tu destino...',
+    'Tejiendo las primeras líneas de tu historia...',
+    'Invocando al narrador...',
+    'El mundo despierta para recibirte...',
+  ]
+  const LOADING_MESSAGES_EN = [
+    'Forging your destiny...',
+    'Weaving the first lines of your story...',
+    'Summoning the narrator...',
+    'The world awakens to receive you...',
+  ]
+  const loadingMessages = isEnglish ? LOADING_MESSAGES_EN : LOADING_MESSAGES_ES
+
+  // Rotar mensajes cada 2.5s mientras isCreating
+  useEffect(() => {
+    if (!isCreating) {
+      setLoadingMessageIndex(0)
+      return
+    }
+    const interval = setInterval(() => {
+      setLoadingMessageIndex((i) => (i + 1) % loadingMessages.length)
+    }, 2500)
+    return () => clearInterval(interval)
+  }, [isCreating, loadingMessages.length])
+
+  // Un intento individual de crear la sesión, con timeout por AbortController
+  const attemptCreateSession = async (signal: AbortSignal): Promise<string | null> => {
+    const response = await fetch('/api/session/guest-create', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        lore: selectedLore,
+        archetypeId: selectedArchetype,
+        characterName: characterName.trim(),
+        characterDescription: '',
+        locale,
+      }),
+      signal,
+    })
+    if (!response.ok) {
+      return null
+    }
+    const data = await response.json()
+    return data?.sessionId || null
+  }
 
   const handleStartGame = async () => {
     if (!selectedLore || !selectedArchetype || !characterName.trim()) return
-    setIsCreating(true)
-    setCreateError(null)
-
     const archetype = GUEST_ARCHETYPES[selectedLore]?.find(a => a.id === selectedArchetype)
     if (!archetype) return
 
-    try {
-      // Crear sesión completa en la DB (mismo flow que con cuenta)
-      const response = await fetch('/api/session/guest-create', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          lore: selectedLore,
-          archetypeId: selectedArchetype,
-          characterName: characterName.trim(),
-          characterDescription: '',
-        }),
-      })
+    setIsCreating(true)
+    setCreationFailed(false)
 
-      const data = await response.json()
-      if (!response.ok) {
-        throw new Error(data.details || data.error || 'Error al crear sesión')
-      }
+    // 3 reintentos internos transparentes con backoff. Cada intento con timeout de 30s.
+    const BACKOFFS = [0, 1500, 3000] // delays antes de cada intento (primer intento inmediato)
+    const PER_ATTEMPT_TIMEOUT_MS = 30000
 
-      if (data.sessionId) {
-        // Redirigir a la página de juego real (misma que con cuenta)
-        router.push(`/play/${data.sessionId}`)
-      } else {
-        throw new Error('No se recibió ID de sesión')
+    for (let attempt = 0; attempt < BACKOFFS.length; attempt++) {
+      if (BACKOFFS[attempt] > 0) {
+        await new Promise((r) => setTimeout(r, BACKOFFS[attempt]))
       }
-    } catch (err) {
-      console.error('Error creating guest session:', err)
-      setCreateError((err as Error).message)
-      setIsCreating(false)
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => controller.abort(), PER_ATTEMPT_TIMEOUT_MS)
+      try {
+        const sessionId = await attemptCreateSession(controller.signal)
+        clearTimeout(timeoutId)
+        if (sessionId) {
+          // El loading queda visible hasta que el router cambie la página
+          router.push(`/play/${sessionId}`)
+          return
+        }
+      } catch (err) {
+        clearTimeout(timeoutId)
+        if (process.env.NODE_ENV === 'development') {
+          console.error(`[play-guest] attempt ${attempt + 1} failed:`, err)
+        }
+      }
     }
+
+    // Si llegamos acá es que los 3 intentos fallaron
+    setIsCreating(false)
+    setCreationFailed(true)
   }
 
   // Render según el paso actual
@@ -144,6 +193,71 @@ export default function PlayGuestPage() {
 
   if (step === 'playing' && session?.character) {
     return <GuestGameSession />
+  }
+
+  // Loading temático durante la creación — oculta todo lo demás para que el
+  // usuario no vea botones ni errores. Los reintentos son transparentes.
+  if (isCreating) {
+    return (
+      <div className="min-h-screen particle-bg flex items-center justify-center p-4">
+        <div className="max-w-xl w-full">
+          <OrnateFrame variant="gold">
+            <ParchmentPanel variant="ornate" className="p-8 md:p-12 text-center">
+              <div className="space-y-6">
+                <div className="text-6xl md:text-7xl candlelight">✨</div>
+                <h1 className="font-title text-2xl md:text-3xl text-ink animate-pulse">
+                  {loadingMessages[loadingMessageIndex]}
+                </h1>
+                <p className="font-ui text-sm text-ink/60">
+                  {isEnglish
+                    ? 'This may take a few moments...'
+                    : 'Esto puede tardar unos momentos...'}
+                </p>
+                <div className="flex items-center justify-center gap-2 pt-2">
+                  <span className="w-2 h-2 rounded-full bg-gold animate-pulse" style={{ animationDelay: '0ms' }} />
+                  <span className="w-2 h-2 rounded-full bg-gold animate-pulse" style={{ animationDelay: '200ms' }} />
+                  <span className="w-2 h-2 rounded-full bg-gold animate-pulse" style={{ animationDelay: '400ms' }} />
+                </div>
+              </div>
+            </ParchmentPanel>
+          </OrnateFrame>
+        </div>
+      </div>
+    )
+  }
+
+  // Fallback amable si los 3 reintentos fallaron
+  if (creationFailed) {
+    return (
+      <div className="min-h-screen particle-bg flex items-center justify-center p-4">
+        <div className="max-w-xl w-full">
+          <OrnateFrame variant="gold">
+            <ParchmentPanel variant="ornate" className="p-8 md:p-12 text-center">
+              <div className="space-y-6">
+                <div className="text-5xl md:text-6xl">🕯️</div>
+                <h1 className="font-title text-2xl md:text-3xl text-ink">
+                  {isEnglish ? 'The runes are settling...' : 'Las runas se están asentando...'}
+                </h1>
+                <p className="font-body text-ink/70 max-w-md mx-auto leading-relaxed">
+                  {isEnglish
+                    ? 'It will take a moment. Please try again in a few seconds.'
+                    : 'Tomará un momento. Volvé a intentarlo en unos segundos.'}
+                </p>
+                <div className="pt-2">
+                  <RunicButton
+                    onClick={handleStartGame}
+                    variant="primary"
+                    className="px-8"
+                  >
+                    {isEnglish ? 'Try Again' : 'Volver a intentar'}
+                  </RunicButton>
+                </div>
+              </div>
+            </ParchmentPanel>
+          </OrnateFrame>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -260,7 +374,7 @@ export default function PlayGuestPage() {
                 <div className="flex justify-center">
                   <RunicButton
                     onClick={handleStartGame}
-                    disabled={!characterName.trim()}
+                    disabled={!characterName.trim() || isCreating}
                     variant="primary"
                     className="px-8"
                   >
