@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { ParchmentPanel } from '@/components/medieval/ParchmentPanel'
 import { RunicButton } from '@/components/medieval/RunicButton'
+import { useTranslations } from '@/lib/i18n'
 
 interface ActionInputProps {
   sessionId: string
@@ -10,15 +11,16 @@ interface ActionInputProps {
 }
 
 export default function ActionInput({ sessionId, campaignId }: ActionInputProps) {
+  const t = useTranslations()
   const [action, setAction] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    
+
     if (!action.trim()) {
-      setError('Debes escribir una acción')
+      setError(t.errors.actionEmpty)
       return
     }
 
@@ -39,7 +41,7 @@ export default function ActionInput({ sessionId, campaignId }: ActionInputProps)
       const data = await response.json()
 
       if (!response.ok) {
-        throw new Error(data.error || 'Error al enviar la acción')
+        throw new Error(data.error || t.errors.actionSendFailed)
       }
 
       // Recargar la página para mostrar los nuevos turnos
@@ -55,14 +57,14 @@ export default function ActionInput({ sessionId, campaignId }: ActionInputProps)
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label htmlFor="action" className="font-heading text-ink text-lg mb-2 block">
-            ¿Qué haces?
+            {t.game.actionLabel}
           </label>
           <textarea
             id="action"
             value={action}
             onChange={(e) => setAction(e.target.value)}
             disabled={isSubmitting}
-            placeholder="Describe tu acción..."
+            placeholder={t.game.actionPlaceholder}
             className="w-full h-32 p-4 bg-parchment-dark/50 border-2 border-gold-dim/30 rounded-lg
                      font-body text-ink placeholder:text-stone/50
                      focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/20
@@ -83,7 +85,7 @@ export default function ActionInput({ sessionId, campaignId }: ActionInputProps)
             disabled={isSubmitting || !action.trim()}
             variant="primary"
           >
-            {isSubmitting ? 'Enviando...' : 'Enviar Acción'}
+            {isSubmitting ? t.game.sending : t.game.sendAction}
           </RunicButton>
         </div>
       </form>

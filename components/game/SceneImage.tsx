@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { ImageIcon, RefreshCw, AlertCircle, Maximize2, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { type Lore, getMapConfig } from '@/lib/maps/map-config'
+import { useTranslations } from '@/lib/i18n'
 
 interface SceneImageProps {
   imageUrl: string | null
@@ -52,6 +53,7 @@ export function SceneImage({
   aspectRatio = '16:9',
   showFullscreenButton = true,
 }: SceneImageProps) {
+  const t = useTranslations()
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [hasLoadError, setHasLoadError] = useState(false)
   const config = getMapConfig(lore)
@@ -101,7 +103,7 @@ export function SceneImage({
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-shadow/90 z-10">
             <AlertCircle className="w-10 h-10 text-blood mb-3" />
             <p className="text-sm text-parchment/70 text-center mb-3 font-body italic max-w-[200px]">
-              La visión se desvanece antes de tomar forma...
+              {t.errors.imageFailed}
             </p>
             {onRetry && (
               <button
@@ -109,7 +111,7 @@ export function SceneImage({
                 className="flex items-center gap-2 px-3 py-1.5 rounded bg-gold-dim/20 hover:bg-gold-dim/40 text-gold text-sm transition-colors"
               >
                 <RefreshCw className="w-4 h-4" />
-                Reintentar
+                {t.game.sceneImageRetry}
               </button>
             )}
           </div>
@@ -172,7 +174,7 @@ export function SceneImage({
         {!imageUrl && !isLoading && !error && (
           <div className="absolute inset-0 flex flex-col items-center justify-center text-parchment/40">
             <ImageIcon className="w-12 h-12 mb-2" />
-            <span className="text-sm font-body italic">Sin imagen de escena</span>
+            <span className="text-sm font-body italic">{t.game.sceneImageNone}</span>
           </div>
         )}
       </div>
@@ -225,6 +227,7 @@ export function SceneImage({
 
 // Skeleton loader con estética medieval
 function SceneImageSkeleton({ lore }: { lore: Lore }) {
+  const t = useTranslations()
   const config = getMapConfig(lore)
 
   return (
@@ -251,7 +254,7 @@ function SceneImageSkeleton({ lore }: { lore: Lore }) {
 
       {/* Texto */}
       <p className="text-sm font-body italic text-parchment/60">
-        Conjurando visión...
+        {t.game.sceneImageGenerating}
       </p>
 
       {/* Barra de progreso estilizada */}
@@ -348,6 +351,7 @@ export function SceneImageWithPrompt({
   showPrompt = false,
   ...props
 }: SceneImageWithPromptProps) {
+  const t = useTranslations()
   const [isPromptVisible, setIsPromptVisible] = useState(showPrompt)
 
   return (
@@ -360,7 +364,7 @@ export function SceneImageWithPrompt({
             onClick={() => setIsPromptVisible(!isPromptVisible)}
             className="text-xs text-parchment/50 hover:text-parchment/70 transition-colors"
           >
-            {isPromptVisible ? 'Ocultar prompt' : 'Ver prompt'}
+            {isPromptVisible ? t.game.hidePrompt : t.game.showPrompt}
           </button>
 
           {isPromptVisible && (

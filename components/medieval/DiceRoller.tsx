@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { RunicButton } from './RunicButton'
+import { useTranslations } from '@/lib/i18n'
 
 interface DiceRollerProps {
   onRoll?: (result: DiceRollResult) => void
@@ -15,6 +16,7 @@ interface DiceRollResult {
 }
 
 export function DiceRoller({ onRoll, defaultFormula }: DiceRollerProps) {
+  const t = useTranslations()
   const [result, setResult] = useState<DiceRollResult | null>(null)
   const [rolling, setRolling] = useState(false)
 
@@ -60,7 +62,7 @@ export function DiceRoller({ onRoll, defaultFormula }: DiceRollerProps) {
 
   return (
     <div className="glass-panel-dark rounded-lg p-6">
-      <h3 className="font-heading text-xl text-gold mb-4">Tirar Dados</h3>
+      <h3 className="font-heading text-xl text-gold mb-4">{t.game.rollDice}</h3>
 
       {/* Prominent button for DM-requested formula */}
       {defaultFormula && (
@@ -70,7 +72,7 @@ export function DiceRoller({ onRoll, defaultFormula }: DiceRollerProps) {
           className="w-full mb-4 py-4 rounded-lg bg-gold/20 border-2 border-gold hover:bg-gold/30 transition-all hover:scale-[1.02] disabled:opacity-50 glow-effect"
         >
           <div className="font-heading text-2xl text-gold-bright">{defaultFormula}</div>
-          <div className="font-ui text-xs text-parchment/60 mt-1">Toca para tirar</div>
+          <div className="font-ui text-xs text-parchment/60 mt-1">{t.game.tapToRoll}</div>
         </button>
       )}
 
@@ -103,14 +105,14 @@ export function DiceRoller({ onRoll, defaultFormula }: DiceRollerProps) {
             ))}
           </div>
           <div className="font-title text-4xl text-gold-bright glow-effect">
-            Total: {result.total}
+            {t.game.rollTotal}: {result.total}
           </div>
         </div>
       )}
 
       {rolling && (
         <div className="text-center py-4">
-          <div className="font-heading text-gold animate-pulse">Tirando dados...</div>
+          <div className="font-heading text-gold animate-pulse">{t.game.rollingDice}</div>
         </div>
       )}
     </div>

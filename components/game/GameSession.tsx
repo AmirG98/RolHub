@@ -492,7 +492,7 @@ export default function GameSession({
 
   const handleSubmit = async (action: string, actionType: 'do' | 'talk' = 'talk') => {
     if (!action.trim()) {
-      setError('Debes escribir una acción')
+      setError(t.errors.actionEmpty)
       return
     }
 
@@ -758,7 +758,7 @@ export default function GameSession({
           }
         } catch (imgError) {
           console.error('Failed to generate scene image:', imgError)
-          setImageError('La visión se desvanece...')
+          setImageError(t.errors.imageFailed)
         } finally {
           setIsImageLoading(false)
         }

@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Image from 'next/image'
 import { RefreshCw, User, Sparkles, Loader2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { useTranslations } from '@/lib/i18n'
 
 interface CharacterPortraitProps {
   /** URL del retrato actual (si existe) */
@@ -34,6 +35,7 @@ export function CharacterPortrait({
   onPortraitGenerated,
   className,
 }: CharacterPortraitProps) {
+  const t = useTranslations()
   const [isGenerating, setIsGenerating] = useState(false)
   const [currentUrl, setCurrentUrl] = useState(portraitUrl)
   const [error, setError] = useState<string | null>(null)
@@ -72,10 +74,10 @@ export function CharacterPortrait({
         setCurrentUrl(data.url)
         onPortraitGenerated?.(data.url)
       } else {
-        setError(data.error || 'Error al generar retrato')
+        setError(data.error || t.errors.portraitFailed)
       }
     } catch (err) {
-      setError('Error de conexión')
+      setError(t.errors.generic)
     } finally {
       setIsGenerating(false)
     }

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { createPortal } from 'react-dom'
+import { useTranslations } from '@/lib/i18n'
 
 // Tipos para el resultado de dados
 export interface DiceRollResult {
@@ -43,6 +44,7 @@ export function DiceOverlay({
   notation,
   onRollComplete
 }: DiceOverlayProps) {
+  const t = useTranslations()
   const [mounted, setMounted] = useState(false)
   const canvasRef = useRef<HTMLDivElement>(null)
   const diceBoxRef = useRef<any>(null)
@@ -235,18 +237,18 @@ export function DiceOverlay({
             {/* Mensaje crítico/pifia */}
             {result.isCritical && (
               <div className="font-heading text-lg text-gold-bright mt-2 animate-pulse">
-                CRITICO!
+                {t.game.critical}
               </div>
             )}
             {result.isFumble && (
               <div className="font-heading text-lg text-blood mt-2">
-                Pifia...
+                {t.game.fumble}
               </div>
             )}
 
             {/* Instrucción para cerrar */}
             <div className="font-ui text-xs text-parchment/40 mt-4">
-              Click para cerrar
+              {t.game.clickToClose}
             </div>
           </div>
         </div>
@@ -257,7 +259,7 @@ export function DiceOverlay({
         <div className="relative z-[52] text-center pointer-events-none">
           <div className="glass-panel-dark rounded-lg px-6 py-3">
             <div className="font-heading text-xl text-gold animate-pulse">
-              Tirando dados...
+              {t.game.rollingDice}
             </div>
           </div>
         </div>

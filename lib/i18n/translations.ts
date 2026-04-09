@@ -235,6 +235,25 @@ export const translations = {
       exploringLocation: 'Explorando ubicación...',
       startAdventureSplash: 'Comenzar Aventura',
       clickAnywhereToContinue: 'Click en cualquier lugar para continuar',
+      // Dice roller
+      rollDice: 'Tirar Dados',
+      tapToRoll: 'Toca para tirar',
+      rollingDice: 'Tirando dados...',
+      rollTotal: 'Total',
+      critical: '¡CRÍTICO!',
+      fumble: 'Pifia...',
+      clickToClose: 'Click para cerrar',
+      // Scene image
+      sceneImageGenerating: 'Conjurando visión...',
+      sceneImageNone: 'Sin imagen de escena',
+      sceneImageRetry: 'Reintentar',
+      showPrompt: 'Ver prompt',
+      hidePrompt: 'Ocultar prompt',
+      // Action input (non-voice)
+      actionLabel: '¿Qué haces?',
+      actionPlaceholder: 'Describe tu acción...',
+      sendAction: 'Enviar Acción',
+      sending: 'Enviando...',
     },
 
     // Lobby
@@ -315,6 +334,10 @@ export const translations = {
       characterNotFound: 'Personaje no encontrado',
       generic: 'Algo salió mal',
       createCharacter: 'Error al crear personaje',
+      actionEmpty: 'Debes escribir una acción',
+      actionSendFailed: 'Error al enviar la acción',
+      portraitFailed: 'Error al generar retrato',
+      imageFailed: 'La visión se desvanece antes de tomar forma...',
     },
 
     // Lores
@@ -687,6 +710,25 @@ export const translations = {
       exploringLocation: 'Exploring location...',
       startAdventureSplash: 'Begin Adventure',
       clickAnywhereToContinue: 'Click anywhere to continue',
+      // Dice roller
+      rollDice: 'Roll Dice',
+      tapToRoll: 'Tap to roll',
+      rollingDice: 'Rolling dice...',
+      rollTotal: 'Total',
+      critical: 'CRITICAL!',
+      fumble: 'Fumble...',
+      clickToClose: 'Click to close',
+      // Scene image
+      sceneImageGenerating: 'Conjuring vision...',
+      sceneImageNone: 'No scene image',
+      sceneImageRetry: 'Retry',
+      showPrompt: 'Show prompt',
+      hidePrompt: 'Hide prompt',
+      // Action input (non-voice)
+      actionLabel: 'What do you do?',
+      actionPlaceholder: 'Describe your action...',
+      sendAction: 'Send Action',
+      sending: 'Sending...',
     },
 
     // Lobby
@@ -767,6 +809,10 @@ export const translations = {
       characterNotFound: 'Character not found',
       generic: 'Something went wrong',
       createCharacter: 'Error creating character',
+      actionEmpty: 'You must write an action',
+      actionSendFailed: 'Failed to send action',
+      portraitFailed: 'Failed to generate portrait',
+      imageFailed: 'The vision fades before taking shape...',
     },
 
     // Lores
