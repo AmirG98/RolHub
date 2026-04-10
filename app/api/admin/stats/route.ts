@@ -2,7 +2,7 @@ import { auth, clerkClient } from '@clerk/nextjs/server'
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/db/prisma'
 
-const ADMIN_EMAILS = ['amir.gomez.14@gmail.com']
+const ADMIN_EMAILS = ['amir.gomez.14@gmail.com', 'tokugagua@gmail.com']
 
 export async function GET() {
   try {
