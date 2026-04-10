@@ -402,6 +402,45 @@ export default function AdminPage() {
             })()}
           </div>
 
+          {/* Session Engagement Funnel */}
+          {(stats as any).engagement.sessionFunnel && (() => {
+            const sf = (stats as any).engagement.sessionFunnel
+            const steps = [
+              { label: 'Vieron opening (1 turno)', value: sf.sawOpening, color: 'from-blood/60 to-blood/40' },
+              { label: 'Jugaron 1 turno (2-3)', value: sf.playedOneTurn, color: 'from-gold-dim to-gold-dim/60' },
+              { label: 'Sesión corta (4-10)', value: sf.shortSession, color: 'from-gold-dim to-gold' },
+              { label: 'Sesión media (11-30)', value: sf.mediumSession, color: 'from-gold to-gold-bright' },
+              { label: 'Sesión larga (31+)', value: sf.longSession, color: 'from-emerald/80 to-emerald' },
+            ]
+            const max = Math.max(...steps.map(s => s.value), 1)
+            const total = sf.totalSessions || 1
+            return (
+              <div className="glass-panel-dark rounded-lg p-4 border border-gold-dim/30 mb-4">
+                <h3 className="font-heading text-sm text-gold mb-3">Funnel de Sesiones (profundidad de engagement)</h3>
+                <div className="space-y-2">
+                  {steps.map((step, i) => (
+                    <div key={i} className="flex items-center gap-3">
+                      <span className="font-ui text-xs text-parchment/70 w-44 text-right">{step.label}</span>
+                      <div className="flex-1 bg-shadow rounded-full h-5 overflow-hidden">
+                        <div
+                          className={`h-full bg-gradient-to-r ${step.color} rounded-full transition-all`}
+                          style={{ width: `${(step.value / max) * 100}%` }}
+                        />
+                      </div>
+                      <span className="font-mono text-xs text-gold w-10 text-right">{step.value}</span>
+                      <span className="font-mono text-[10px] text-parchment/50 w-12 text-right">
+                        {((step.value / total) * 100).toFixed(0)}%
+                      </span>
+                    </div>
+                  ))}
+                </div>
+                <p className="font-ui text-[10px] text-parchment/40 mt-2 text-right">
+                  Drop-off opening: {total > 0 ? ((sf.sawOpening / total) * 100).toFixed(0) : 0}% de las sesiones
+                </p>
+              </div>
+            )
+          })()}
+
           {/* Retention & Session Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
             <div className="p-3 rounded bg-shadow-mid border border-gold-dim/30">

@@ -85,6 +85,38 @@ export async function GET() {
     // DAU unique user count
     const dauUsers = new Set(dau.map(t => t.session?.userId).filter(Boolean)).size
 
+    // Session engagement funnel: cuántas sesiones se quedan en cada nivel de profundidad
+    const sessionFunnelRaw = await prisma.$queryRawUnsafe<Array<{ bucket: string; count: bigint }>>(`
+      SELECT
+        CASE
+          WHEN turn_count = 1 THEN 'saw_opening'
+          WHEN turn_count BETWEEN 2 AND 3 THEN 'played_one_turn'
+          WHEN turn_count BETWEEN 4 AND 10 THEN 'short_session'
+          WHEN turn_count BETWEEN 11 AND 30 THEN 'medium_session'
+          WHEN turn_count > 30 THEN 'long_session'
+        END AS bucket,
+        COUNT(*)::bigint AS count
+      FROM (
+        SELECT s.id, COUNT(t.id) AS turn_count
+        FROM "Session" s
+        LEFT JOIN "Turn" t ON t."sessionId" = s.id
+        GROUP BY s.id
+      ) sub
+      GROUP BY bucket
+      ORDER BY
+        CASE bucket
+          WHEN 'saw_opening' THEN 1
+          WHEN 'played_one_turn' THEN 2
+          WHEN 'short_session' THEN 3
+          WHEN 'medium_session' THEN 4
+          WHEN 'long_session' THEN 5
+        END
+    `)
+    const sessionFunnel: Record<string, number> = {}
+    for (const row of sessionFunnelRaw) {
+      if (row.bucket) sessionFunnel[row.bucket] = Number(row.count)
+    }
+
     // Session duration stats
     const sessionsWithDuration = await prisma.session.findMany({
       where: { endedAt: { not: null } },
@@ -206,6 +238,14 @@ export async function GET() {
           usersWithCampaigns,
           usersWithSessions,
           usersReturning: usersWithMultipleSessions,
+        },
+        sessionFunnel: {
+          sawOpening: sessionFunnel['saw_opening'] || 0,
+          playedOneTurn: sessionFunnel['played_one_turn'] || 0,
+          shortSession: sessionFunnel['short_session'] || 0,
+          mediumSession: sessionFunnel['medium_session'] || 0,
+          longSession: sessionFunnel['long_session'] || 0,
+          totalSessions: totalSessions,
         },
         retention: {
           dau: dauUsers,
