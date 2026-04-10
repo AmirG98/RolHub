@@ -117,6 +117,9 @@ export function GameMapPanel({
     handleLocationClick,
     hasSubmapAvailable,
     getSubmapType,
+    pendingTravel,
+    confirmTravel,
+    cancelTravel,
   } = useMapSync(worldState, lore, {
     locale,
     onTravelRequest,
@@ -380,6 +383,48 @@ export function GameMapPanel({
               quest={mainQuest}
               onViewOnMap={onViewQuestOnMap}
             />
+          </div>
+        )}
+
+        {/* Overlay de confirmación de viaje */}
+        {pendingTravel && (
+          <div
+            className="absolute inset-0 z-20 flex items-center justify-center bg-shadow/70"
+            onClick={cancelTravel}
+          >
+            <div
+              className="glass-panel-dark rounded-lg border border-gold/50 p-4 max-w-xs w-full mx-4"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center gap-2 mb-3">
+                <Navigation className="w-4 h-4 text-gold" />
+                <span className="font-heading text-sm text-gold">
+                  {locale === 'en' ? 'Travel to' : 'Viajar a'}
+                </span>
+              </div>
+              <p className="font-heading text-base text-parchment mb-3">
+                {pendingTravel.location.name}
+              </p>
+              {pendingTravel.location.description && (
+                <p className="font-body text-xs text-parchment/60 mb-3 line-clamp-2">
+                  {pendingTravel.location.description}
+                </p>
+              )}
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={cancelTravel}
+                  className="flex-1 px-3 py-2 rounded text-xs font-heading text-parchment/70 border border-gold-dim/30 hover:bg-shadow-mid transition-colors"
+                >
+                  {locale === 'en' ? 'Cancel' : 'Cancelar'}
+                </button>
+                <button
+                  onClick={confirmTravel}
+                  className="flex-1 px-3 py-2 rounded text-xs font-heading bg-gold/20 hover:bg-gold/30 text-gold border border-gold/40 hover:border-gold/60 transition-colors"
+                >
+                  {locale === 'en' ? 'Depart →' : 'Partir →'}
+                </button>
+              </div>
+            </div>
           </div>
         )}
       </div>

@@ -48,6 +48,11 @@ interface UseMapSyncReturn {
   selectedLocation: MapLocationWithStatus | null
   setSelectedLocation: (location: MapLocationWithStatus | null) => void
 
+  // Viaje con confirmación
+  pendingTravel: { location: MapLocationWithStatus; action: string } | null
+  confirmTravel: () => void
+  cancelTravel: () => void
+
   // Helpers
   hasSubmapAvailable: (location: MapLocationWithStatus) => boolean
   getSubmapType: (location: MapLocationWithStatus) => 'city' | 'dungeon' | 'wilderness' | 'stronghold' | 'nautical'
@@ -70,6 +75,13 @@ export function useMapSync(
 
   // Estado local para la locación seleccionada (hover/click)
   const [selectedLocation, setSelectedLocation] = useState<MapLocationWithStatus | null>(null)
+
+  // Viaje pendiente de confirmación — se muestra un panel con destino/tiempo/raciones
+  // y el usuario confirma con "Partir" antes de que se dispare el viaje real.
+  const [pendingTravel, setPendingTravel] = useState<{
+    location: MapLocationWithStatus
+    action: string
+  } | null>(null)
 
   // Migrar worldState si no tiene map_state
   const mapState: MapState = useMemo(() => {
@@ -107,10 +119,12 @@ export function useMapSync(
       const validation = validateTravel(location)
 
       if (validation.valid) {
-        // Generar acción de viaje
-        if (mapSyncState.currentLocation && onTravelRequest) {
+        // En vez de viajar inmediatamente, guardar como viaje pendiente
+        // de confirmación. El usuario verá un panel y clickeará "Partir".
+        if (mapSyncState.currentLocation) {
           const action = createTravelAction(mapSyncState.currentLocation, location, locale)
-          onTravelRequest(action, location.id)
+          setPendingTravel({ location, action })
+          setSelectedLocation(location)
         }
       } else {
         // Mostrar mensaje de error
@@ -147,6 +161,19 @@ export function useMapSync(
     }
   }, [mapSyncState.currentLocation, locale, onTravelFailed, onExploreInterior])
 
+  // Confirmar viaje pendiente — ejecuta onTravelRequest y limpia el pendiente
+  const confirmTravel = useCallback(() => {
+    if (pendingTravel && onTravelRequest) {
+      onTravelRequest(pendingTravel.action, pendingTravel.location.id)
+    }
+    setPendingTravel(null)
+  }, [pendingTravel, onTravelRequest])
+
+  // Cancelar viaje pendiente
+  const cancelTravel = useCallback(() => {
+    setPendingTravel(null)
+  }, [])
+
   return {
     // Estado derivado
     mapSyncState,
@@ -167,6 +194,11 @@ export function useMapSync(
     lockMessage: mapSyncState.lockMessage,
     selectedLocation,
     setSelectedLocation,
+
+    // Viaje con confirmación
+    pendingTravel,
+    confirmTravel,
+    cancelTravel,
 
     // Helpers exportados
     hasSubmapAvailable,
