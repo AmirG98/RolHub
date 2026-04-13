@@ -156,20 +156,19 @@ export async function POST(req: NextRequest) {
       if (specifiedChar) actingCharacter = specifiedChar
     }
 
-    // 1. Guardar el turno del jugador con info de multiplayer (con retry ante pool timeouts)
-    const playerTurn = await withRetry(() => prisma.turn.create({
-      data: {
-        sessionId: session.id,
-        role: 'USER',
-        content: action,
-        diceRolls: diceRoll ? JSON.parse(JSON.stringify(diceRoll)) : undefined,
-        // Multiplayer fields
-        participantId: participant?.id,
-        characterId: actingCharacter?.id,
-        characterName: actingCharacter?.name,
-        playerName: actingPlayer,
-      },
-    }))
+    // 1. Preparar datos del turno del jugador (NO persistimos todavía — si Claude
+    // falla, no queremos orphan USER turns en DB). Se persiste en la $transaction
+    // final junto con el DM turn y el worldState update.
+    const playerTurnData = {
+      sessionId: session.id,
+      role: 'USER' as const,
+      content: action,
+      diceRolls: diceRoll ? JSON.parse(JSON.stringify(diceRoll)) : undefined,
+      participantId: participant?.id,
+      characterId: actingCharacter?.id,
+      characterName: actingCharacter?.name,
+      playerName: actingPlayer,
+    }
 
     // 2. Preparar contexto para Claude
     const worldState = session.campaign.worldState as any
@@ -2515,6 +2514,7 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
     }
 
     // Update campaign world state if there are updates
+    let campaignUpdateData: { worldState: any } | null = null
     if (Object.keys(worldStateUpdates).length > 0) {
       const newWorldState = {
         ...worldState,
@@ -2535,10 +2535,7 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
       // Strip transient fields before persisting
       delete newWorldState._zeroHpEvent
 
-      await withRetry(() => prisma.campaign.update({
-        where: { id: session.campaignId },
-        data: { worldState: newWorldState },
-      }))
+      campaignUpdateData = { worldState: newWorldState }
     }
 
     // Build the full narration with HP change notification
@@ -2551,22 +2548,33 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
       fullNarration += `\n\n[${changeText}${reason}]`
     }
 
-    // 4. Guardar el turno del DM
-    await withRetry(() => prisma.turn.create({
-      data: {
-        sessionId: session.id,
-        role: 'DM',
-        content: fullNarration,
-        worldStatePatch: Object.keys(worldStateUpdates).length > 0 ? {
-          ...worldStateUpdates,
-          _lastNewItem: originalNewItem || null,
-          _lastRemoveItem: originalRemoveItem || null,
-        } : (originalNewItem || originalRemoveItem) ? {
-          _lastNewItem: originalNewItem || null,
-          _lastRemoveItem: originalRemoveItem || null,
-        } : undefined,
-      },
-    }))
+    // 4. Persistir USER turn + DM turn + worldState update en una SOLA transacción.
+    // Esto evita orphan USER turns: si Claude respondió OK pero la DB falla,
+    // ni el USER turn ni el DM turn quedan huérfanos — ambos fallan juntos.
+    // Si Claude falló (exception más arriba), nunca se llega acá.
+    const dmTurnPatch = Object.keys(worldStateUpdates).length > 0 ? {
+      ...worldStateUpdates,
+      _lastNewItem: originalNewItem || null,
+      _lastRemoveItem: originalRemoveItem || null,
+    } : (originalNewItem || originalRemoveItem) ? {
+      _lastNewItem: originalNewItem || null,
+      _lastRemoveItem: originalRemoveItem || null,
+    } : undefined
+
+    await withRetry(() => prisma.$transaction([
+      prisma.turn.create({ data: playerTurnData }),
+      prisma.turn.create({
+        data: {
+          sessionId: session.id,
+          role: 'DM',
+          content: fullNarration,
+          worldStatePatch: dmTurnPatch,
+        },
+      }),
+      ...(campaignUpdateData
+        ? [prisma.campaign.update({ where: { id: session.campaignId }, data: campaignUpdateData })]
+        : []),
+    ]))
 
     // 4.4 Actualizar progreso meta del usuario (streak, XP, achievements).
     // Solo para usuarios logueados con Clerk — los guests no trackean progreso meta.
