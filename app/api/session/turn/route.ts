@@ -814,172 +814,38 @@ NO continúes el gameplay. Terminá con un mensaje de despedida.
       }).join('\n')
     }
 
+    // Versión COMPACTA del location system: la lista completa de ubicaciones y los
+    // 3 JSON examples solo se incluyen cuando el jugador quiere moverse. En turnos
+    // normales, solo va la ubicación actual y las reglas mínimas de discover_locations.
+    // Ahorra ~3000 chars (~750 tokens) en el 80% de los turnos.
     const locationContextSection = isEnglish ? `
-=== LOCATION SYSTEM (NARRATIVE DISCOVERY) ===
-Current Location ID: ${currentLocationId || 'unknown'}
-Current Location: ${currentMapLocation?.name || worldState.current_scene}
-Navigation Status: ${navigationLocked ? 'LOCKED' : 'FREE'}
-${mapState?.lockReason ? `Lock Reason: ${mapState.lockReason}` : ''}
-
-ALL WORLD LOCATIONS (with knowledge levels):
+=== LOCATION ===
+Current: ${currentLocationId || 'unknown'} — ${currentMapLocation?.name || worldState.current_scene}
+Nav: ${navigationLocked ? 'LOCKED' : 'FREE'}${mapState?.lockReason ? ` (${mapState.lockReason})` : ''}
+${playerWantsToMove ? `
+WORLD LOCATIONS:
 ${buildLocationList(mapLocations, locationKnowledge)}
 
-KNOWLEDGE LEVELS:
-- "unknown": Player has never heard of this place
-- "rumored": Player heard about it (name shown with "?" on map, CANNOT travel)
-- "discovered": Player knows how to get there (CAN travel)
-- "visited": Player has been there
-- "explored": Player investigated thoroughly
-- "mastered": Player knows all secrets
-
-NARRATIVE DISCOVERY RULES:
-1. The player can ONLY travel to locations with knowledge level >= "discovered"
-2. To REVEAL new locations, use "discover_locations" in your response
-3. Use level "rumored" when they HEAR about a place (NPC mentions it, rumor, etc.)
-4. Use level "discovered" when they LEARN HOW to get there (map found, directions given, etc.)
-5. The narrative MUST justify the discovery: NPC tells them, they find a map, overhear conversation, etc.
-6. When player arrives at a new location, include "location_id" with the ID
-7. Use "navigation_locked": true during combat, important dialogue, or crucial decisions
-
-EXAMPLE - Revealing a location through narrative:
-{
-  "narration": "The old merchant leans closer and whispers: 'There's an ancient temple hidden in the northern mountains... I've heard strange lights there at night.'",
-  "discover_locations": [
-    { "locationId": "ancient-temple", "level": "rumored", "source": "NPC dialogue" }
-  ]
-}
-
-EXAMPLE - Upgrading to discovered (can now travel):
-{
-  "narration": "The merchant hands you a weathered map. 'Here, this shows the path through the mountains to the temple.'",
-  "discover_locations": [
-    { "locationId": "ancient-temple", "level": "discovered", "source": "found map" }
-  ]
-}
-
-CRITICAL RULE - TRAVEL BETWEEN LOCATIONS:
-When the player says they travel to another location (e.g. "I travel to Rivendell", "I head to Bree", "I go to the city"):
-1. ALWAYS include "location_id" with the exact destination location ID
-2. ALWAYS include "scene_change" with the name of the new place
-3. Narrate the journey immersively (landscapes, road dangers, arrival)
-4. Upon arrival, describe the new location
-
-EXAMPLE - Player travels to another location:
-{
-  "narration": "You set off eastward, leaving behind the green fields of the Shire. The path winds through increasingly dense hills and forests. After hours of walking, the Valley of Rivendell opens before you: crystal waterfalls, elven terraces among ancient trees, and an ancient peace fills the air.",
-  "location_id": "rivendel",
-  "scene_change": "Rivendell",
-  "generate_image": true,
-  "image_prompt": "Elven valley with crystal waterfalls, terraces among ancient trees, elegant elven architecture, golden sunset light filtering through foliage, a hobbit traveler arriving at the valley",
-  "mood_hint": "exploration",
-  "suggested_actions": ["Seek Lord Elrond", "Explore the elven terraces", "Rest by the waterfalls"]
-}
-
-CREATING NEW LOCATIONS DYNAMICALLY:
-When the narrative introduces a place that does NOT exist in the location list above,
-you can create it dynamically using "create_location" in your response.
-The new location will appear on the player's map automatically.
-Position it relative to an existing location using direction and distance.
-
-"create_location": {
-  "id": "hidden-cave",
-  "name": "Hidden Cave",
-  "description": "A cave behind a waterfall",
-  "type": "dungeon",
-  "dangerLevel": 3,
-  "nearLocationId": "rivendel",
-  "direction": "north",
-  "distance": "close",
-  "connectTo": ["rivendel"]
-}
-
-Valid directions: north, south, east, west, northeast, northwest, southeast, southwest
-Valid distances: close, medium, far
-Valid types: city, dungeon, wilderness, landmark, danger, safe, mystery
-=== END LOCATION SYSTEM ===
+When player travels: include "location_id" + "scene_change". Narrate journey immersively.
+To reveal locations: use "discover_locations": [{"locationId","level":"rumored|discovered","source"}].
+To create new locations: use "create_location": {"id","name","description","type","dangerLevel","nearLocationId","direction","distance","connectTo"}.
+Directions: north/south/east/west/ne/nw/se/sw. Distances: close/medium/far. Types: city/dungeon/wilderness/landmark/danger/safe/mystery.` : `
+Use "discover_locations" if an NPC mentions a new place. Use "location_id" if player moves.`}
+=== END LOCATION ===
 ` : `
-=== SISTEMA DE UBICACIÓN (DESCUBRIMIENTO NARRATIVO) ===
-ID de Ubicación Actual: ${currentLocationId || 'desconocido'}
-Ubicación Actual: ${currentMapLocation?.name || worldState.current_scene}
-Estado de Navegación: ${navigationLocked ? 'BLOQUEADA' : 'LIBRE'}
-${mapState?.lockReason ? `Razón del Bloqueo: ${mapState.lockReason}` : ''}
-
-TODAS LAS UBICACIONES DEL MUNDO (con niveles de conocimiento):
+=== UBICACIÓN ===
+Actual: ${currentLocationId || 'desconocido'} — ${currentMapLocation?.name || worldState.current_scene}
+Nav: ${navigationLocked ? 'BLOQUEADA' : 'LIBRE'}${mapState?.lockReason ? ` (${mapState.lockReason})` : ''}
+${playerWantsToMove ? `
+UBICACIONES DEL MUNDO:
 ${buildLocationList(mapLocations, locationKnowledge)}
 
-NIVELES DE CONOCIMIENTO:
-- "unknown": El jugador nunca ha oído de este lugar
-- "rumored": El jugador escuchó hablar de él (nombre con "?" en mapa, NO PUEDE viajar)
-- "discovered": El jugador sabe cómo llegar (PUEDE viajar)
-- "visited": El jugador ha estado ahí
-- "explored": El jugador investigó a fondo
-- "mastered": El jugador conoce todos los secretos
-
-REGLAS DE DESCUBRIMIENTO NARRATIVO:
-1. El jugador SOLO puede viajar a ubicaciones con nivel de conocimiento >= "discovered"
-2. Para REVELAR nuevas ubicaciones, usa "discover_locations" en tu respuesta
-3. Usa nivel "rumored" cuando ESCUCHEN sobre un lugar (NPC lo menciona, rumor, etc.)
-4. Usa nivel "discovered" cuando APRENDAN CÓMO llegar (encuentran mapa, les dan indicaciones, etc.)
-5. La narrativa DEBE justificar el descubrimiento: NPC les cuenta, encuentran mapa, escuchan conversación, etc.
-6. Cuando el jugador llegue a una nueva ubicación, incluye "location_id" con el ID
-7. Usa "navigation_locked": true durante combate, diálogo importante o decisiones cruciales
-
-EJEMPLO - Revelando una ubicación mediante narrativa:
-{
-  "narration": "El viejo mercader se acerca y susurra: 'Hay un templo antiguo oculto en las montañas del norte... He oído de luces extrañas ahí por las noches.'",
-  "discover_locations": [
-    { "locationId": "templo-antiguo", "level": "rumored", "source": "NPC dialogue" }
-  ]
-}
-
-EJEMPLO - Mejorando a discovered (ahora pueden viajar):
-{
-  "narration": "El mercader te entrega un mapa desgastado. 'Aquí, esto muestra el camino a través de las montañas hasta el templo.'",
-  "discover_locations": [
-    { "locationId": "templo-antiguo", "level": "discovered", "source": "found map" }
-  ]
-}
-
-REGLA CRÍTICA - VIAJE ENTRE UBICACIONES:
-Cuando el jugador dice que viaja a otra ubicación (ej: "Viajo hacia Rivendel", "Me dirijo a Bree", "Voy a la ciudad"):
-1. SIEMPRE incluir "location_id" con el ID exacto de la ubicación de destino
-2. SIEMPRE incluir "scene_change" con el nombre del nuevo lugar
-3. Narra el viaje de forma inmersiva (paisajes, peligros del camino, llegada)
-4. Al llegar, describe la nueva ubicación
-
-EJEMPLO - Jugador viaja a otra ubicación:
-{
-  "narration": "Emprendes el camino hacia el este, dejando atrás los verdes campos de la Comarca. El sendero serpentea entre colinas y bosques cada vez más densos. Tras horas de marcha, el Valle de Rivendel se abre ante ti: cascadas de cristal, terrazas élficas entre los árboles, y una paz antigua que invade el aire.",
-  "location_id": "rivendel",
-  "scene_change": "Rivendel",
-  "generate_image": true,
-  "image_prompt": "Valle élfico con cascadas cristalinas, terrazas entre árboles ancestrales, arquitectura élfica elegante, luz dorada del atardecer filtrándose entre el follaje, un viajero hobbit llegando al valle",
-  "mood_hint": "exploration",
-  "suggested_actions": ["Buscar al Señor Elrond", "Explorar las terrazas élficas", "Descansar junto a las cascadas"]
-}
-
-CREACIÓN DINÁMICA DE UBICACIONES:
-Cuando la narrativa introduce un lugar que NO existe en la lista de ubicaciones anterior,
-puedes crearlo dinámicamente usando "create_location" en tu respuesta.
-La nueva ubicación aparecerá automáticamente en el mapa del jugador.
-Posiciónala respecto a una ubicación existente usando dirección y distancia.
-
-"create_location": {
-  "id": "cueva-oculta",
-  "name": "Cueva Oculta",
-  "description": "Una cueva detrás de una cascada",
-  "type": "dungeon",
-  "dangerLevel": 3,
-  "nearLocationId": "rivendel",
-  "direction": "north",
-  "distance": "close",
-  "connectTo": ["rivendel"]
-}
-
-Direcciones válidas: north, south, east, west, northeast, northwest, southeast, southwest
-Distancias válidas: close, medium, far
-Tipos válidos: city, dungeon, wilderness, landmark, danger, safe, mystery
-=== FIN SISTEMA DE UBICACIÓN ===
+Cuando el jugador viaja: incluí "location_id" + "scene_change". Narrá el viaje inmersivamente.
+Para revelar ubicaciones: usá "discover_locations": [{"locationId","level":"rumored|discovered","source"}].
+Para crear ubicaciones nuevas: usá "create_location": {"id","name","description","type","dangerLevel","nearLocationId","direction","distance","connectTo"}.
+Direcciones: north/south/east/west/ne/nw/se/sw. Distancias: close/medium/far. Tipos: city/dungeon/wilderness/landmark/danger/safe/mystery.` : `
+Usá "discover_locations" si un NPC menciona un lugar nuevo. Usá "location_id" si el jugador se mueve.`}
+=== FIN UBICACIÓN ===
 `
 
     // Build quest context section
@@ -1531,90 +1397,36 @@ INCORRECTO (se leerá como narrador):
 Ejemplo:
 "El bosque se cierra a tu alrededor. Gandalf: «No temas, joven hobbit... el camino aún está por delante.» Sus palabras resuenan con antigua sabiduría."`}
 
-${isEnglish ? `=== NARRATIVE PACING & ANTI-REPETITION ===
-CURRENT STATUS:
-- Turn ${totalTurns} of this session
-- Turns in "${currentScene}": ${turnsInCurrentLocation}
-- Passive actions detected: ${passiveCount}
-${isStagnant ? '⚠️ STAGNATION DETECTED' : ''}
-${needsWorldEvent ? '🌍 WORLD EVENT NEEDED THIS TURN' : ''}
-${ignoredQuests.length > 0 ? `- Forgotten quests: ${ignoredQuests.join(', ')}` : ''}
-
-${storySoFar ? `STORY SO FAR (do NOT repeat these scenes/descriptions):
-${storySoFar}` : ''}
-
-${allKnownNPCs.length > 0 ? `## ENDURING MEMORY — NPCs the player has met during this session:
-${allKnownNPCs.map(n => `- ${n.name} (${n.info})`).join('\n')}
-These characters EXIST in the world and the player KNOWS them. If they reappear, do NOT re-introduce them — treat them as familiar.
-` : ''}
-
-${lastDMNarration ? `YOUR LAST NARRATION (CONTINUE from here, do NOT re-describe this scene):
-"${lastDMNarration}..."` : ''}
-
-${introducedNPCsList.length > 0 || completedActions.length > 0 ? `⚠️ NARRATIVE STATE (these are ALREADY TRUE — do NOT re-narrate them):
-${introducedNPCsList.length > 0 ? `- NPCs already present and introduced: ${introducedNPCsList.join(', ')}` : ''}
-${completedActions.length > 0 ? `- Already happened: ${completedActions.join(', ')}` : ''}
-These are FACTS about the current state. Start your narration AFTER these events. Do NOT describe these actions happening again, even with different words.` : ''}
-
-${isRepeatedObservation ? `⚠️ PLAYER KEEPS OBSERVING — STOP describing physical details. Make the target REACT or something HAPPEN. Force the story forward.` : ''}
-${isNPCLoop ? `⚠️ NPC INTERACTION LOOP DETECTED with "${loopingNPCName}" — This NPC has dominated the last 3+ turns. You MUST either: (1) have this NPC leave/finish the conversation, (2) introduce a NEW character or event that interrupts, (3) move the scene to a different location, or (4) have something urgent happen that demands attention. The player needs VARIETY, not the same NPC interaction over and over.` : ''}
-
-CORE RULE: NEVER GO BACKWARD. Each turn must advance the story. Never re-narrate, re-describe, or re-introduce anything from previous turns — even with different words.
-
-${isNPCLoop ? `⚠️ "${loopingNPCName}" has been talking for 3+ turns. End this interaction or interrupt it NOW.` : ''}
-
-RULES:
-1. Each response must contain NEW information, NEW events, or NEW developments. If something was said/done/shown before, it's done — move on.
-2. Never re-describe an NPC's appearance or re-introduce them. They're already here.
-3. ${(worldState.active_quests || []).length > 0 ? `Active quests: ${(worldState.active_quests || []).join(', ')}. Do NOT create duplicate quests.` : 'No active quests.'}
-4. THE WORLD IS ALIVE: ${isStagnant || needsWorldEvent
-  ? 'INTRODUCE AN EXTERNAL EVENT NOW: NPC interrupts, danger approaches, weather changes, a quest develops, something unexpected happens. DO NOT wait for the player.'
-  : 'Proactively introduce world events: NPCs approach, weather shifts, sounds heard, time passes. Never let 3+ turns be only player-driven.'}
-7. ${turnsInCurrentLocation >= 4 ? `Player has been in "${currentScene}" for ${turnsInCurrentLocation} turns. Consider: move the plot forward, introduce a reason to leave, or have something arrive.` : 'Keep the current scene engaging with new details.'}
-8. ${ignoredQuests.length > 0 ? `Weave these forgotten quests back in: ${ignoredQuests.join(', ')}` : 'All quests are being addressed.'}
-9. Advance time naturally: morning→afternoon→evening→night. Don't stay frozen in the same moment.
-=== END PACING ===` : `=== RITMO NARRATIVO Y ANTI-REPETICIÓN ===
-ESTADO ACTUAL:
-- Turno ${totalTurns} de esta sesión
-- Turnos en "${currentScene}": ${turnsInCurrentLocation}
-- Acciones pasivas detectadas: ${passiveCount}
-${isStagnant ? '⚠️ ESTANCAMIENTO DETECTADO' : ''}
-${needsWorldEvent ? '🌍 EVENTO DEL MUNDO NECESARIO ESTE TURNO' : ''}
-${ignoredQuests.length > 0 ? `- Quests olvidadas: ${ignoredQuests.join(', ')}` : ''}
-
-${storySoFar ? `HISTORIA HASTA AHORA (NO repitas estas escenas/descripciones):
-${storySoFar}` : ''}
-
-${allKnownNPCs.length > 0 ? `## MEMORIA PERSISTENTE — NPCs que el jugador conoció en esta sesión:
-${allKnownNPCs.map(n => `- ${n.name} (${n.info})`).join('\n')}
-Estos personajes EXISTEN en el mundo y el jugador YA LOS CONOCE. Si reaparecen, NO los vuelvas a presentar — tratalos como familiares.
-` : ''}
-
-${lastDMNarration ? `TU ÚLTIMA NARRACIÓN (CONTINUÁ desde acá, NO re-describas esta escena):
-"${lastDMNarration}..."` : ''}
-
-${introducedNPCsList.length > 0 || completedActions.length > 0 ? `⚠️ ESTADO NARRATIVO (esto YA ES VERDAD — NO lo re-narres):
-${introducedNPCsList.length > 0 ? `- NPCs ya presentes y presentados: ${introducedNPCsList.join(', ')}` : ''}
-${completedActions.length > 0 ? `- Ya sucedió: ${completedActions.join(', ')}` : ''}
-Estos son HECHOS del estado actual. Empezá tu narración DESPUÉS de estos eventos. NO describas estas acciones ocurriendo de nuevo, ni siquiera con palabras diferentes.` : ''}
-
-${isRepeatedObservation ? `⚠️ JUGADOR SIGUE OBSERVANDO — DEJÁ de describir detalles físicos. Hacé que el objetivo REACCIONE o que algo PASE. Forzá el avance de la historia.` : ''}
-${isNPCLoop ? `⚠️ LOOP DE NPC DETECTADO con "${loopingNPCName}" — Este NPC dominó los últimos 3+ turnos. DEBÉS: (1) hacer que este NPC se vaya o termine la conversación, (2) introducir un NUEVO personaje o evento que interrumpa, (3) mover la escena a otro lugar, o (4) hacer que pase algo urgente. El jugador necesita VARIEDAD, no la misma interacción una y otra vez.` : ''}
-
-REGLA CENTRAL: NUNCA RETROCEDER. Cada turno debe avanzar la historia. Nunca re-narres, re-describas ni re-introduzcas nada de turnos anteriores — ni siquiera con palabras diferentes.
-
-${isNPCLoop ? `⚠️ "${loopingNPCName}" lleva hablando 3+ turnos. Terminá esta interacción o interrumpila AHORA.` : ''}
-
-REGLAS:
-1. Cada respuesta debe contener información NUEVA, eventos NUEVOS o desarrollos NUEVOS. Si algo se dijo/hizo/mostró antes, ya pasó — seguí adelante.
-2. Nunca re-describas la apariencia de un NPC ni lo re-introduzcas. Ya está ahí.
-3. ${(worldState.active_quests || []).length > 0 ? `Quests activas: ${(worldState.active_quests || []).join(', ')}. NO crees quests duplicadas.` : 'Sin quests activas.'}
-4. EL MUNDO ESTÁ VIVO: ${isStagnant || needsWorldEvent
-  ? 'INTRODUCÍ UN EVENTO EXTERNO AHORA: un NPC interrumpe, el peligro se acerca, el clima cambia, una quest avanza, algo inesperado pasa. NO esperes al jugador.'
-  : 'Introducí eventos del mundo proactivamente: NPCs se acercan, el clima cambia, se escuchan sonidos, el tiempo pasa. Nunca dejes pasar 3+ turnos sin eventos del mundo.'}
-7. ${turnsInCurrentLocation >= 4 ? `El jugador lleva ${turnsInCurrentLocation} turnos en "${currentScene}". Considerá: avanzar la trama, dar razón para irse, o que algo llegue.` : 'Mantené la escena actual interesante con nuevos detalles.'}
-8. ${ignoredQuests.length > 0 ? `Entretejé estas quests olvidadas: ${ignoredQuests.join(', ')}` : 'Todas las quests están siendo atendidas.'}
-8. Avanzá el tiempo naturalmente: mañana→tarde→noche→amanecer. No te quedes congelado en el mismo momento.
+${isEnglish ? `=== PACING ===
+Turn ${totalTurns}. In "${currentScene}" for ${turnsInCurrentLocation} turns.
+${storySoFar ? `STORY SO FAR: ${storySoFar}` : ''}
+${allKnownNPCs.length > 0 ? `KNOWN NPCs: ${allKnownNPCs.map(n => `${n.name} (${n.info})`).join('; ')}. Do NOT re-introduce them.` : ''}
+${lastDMNarration ? `LAST NARRATION (continue from here): "${lastDMNarration}..."` : ''}
+${introducedNPCsList.length > 0 ? `NPCs HERE NOW: ${introducedNPCsList.join(', ')} — already introduced, do NOT re-present.` : ''}
+${completedActions.length > 0 ? `ALREADY HAPPENED: ${completedActions.join(', ')} — do NOT re-narrate.` : ''}
+CORE RULES: Never go backward. Each turn = new content. Advance time naturally. The world is alive — introduce events proactively.
+${(worldState.active_quests || []).length > 0 ? `Active quests: ${(worldState.active_quests || []).join(', ')}. No duplicate quests.` : ''}
+${isStagnant ? '⚠️ STAGNATION — introduce an external event NOW.' : ''}
+${needsWorldEvent ? '🌍 WORLD EVENT NEEDED this turn.' : ''}
+${isNPCLoop ? `⚠️ NPC LOOP: "${loopingNPCName}" dominated 3+ turns. End or interrupt this interaction NOW.` : ''}
+${isRepeatedObservation ? '⚠️ Player keeps observing — make something HAPPEN.' : ''}
+${ignoredQuests.length > 0 ? `Forgotten quests: ${ignoredQuests.join(', ')} — weave back in.` : ''}
+${turnsInCurrentLocation >= 4 ? `Been here ${turnsInCurrentLocation} turns — consider advancing.` : ''}
+=== END PACING ===` : `=== RITMO ===
+Turno ${totalTurns}. En "${currentScene}" hace ${turnsInCurrentLocation} turnos.
+${storySoFar ? `HISTORIA HASTA AHORA: ${storySoFar}` : ''}
+${allKnownNPCs.length > 0 ? `NPCs CONOCIDOS: ${allKnownNPCs.map(n => `${n.name} (${n.info})`).join('; ')}. NO los re-presentes.` : ''}
+${lastDMNarration ? `ÚLTIMA NARRACIÓN (continuá desde acá): "${lastDMNarration}..."` : ''}
+${introducedNPCsList.length > 0 ? `NPCs AQUÍ AHORA: ${introducedNPCsList.join(', ')} — ya presentados, NO re-presentar.` : ''}
+${completedActions.length > 0 ? `YA PASÓ: ${completedActions.join(', ')} — NO re-narrar.` : ''}
+REGLAS: Nunca retroceder. Cada turno = contenido nuevo. Avanzar el tiempo. El mundo está vivo — introducir eventos proactivamente.
+${(worldState.active_quests || []).length > 0 ? `Quests activas: ${(worldState.active_quests || []).join(', ')}. No duplicar quests.` : ''}
+${isStagnant ? '⚠️ ESTANCAMIENTO — introducí un evento externo AHORA.' : ''}
+${needsWorldEvent ? '🌍 EVENTO DEL MUNDO NECESARIO este turno.' : ''}
+${isNPCLoop ? `⚠️ LOOP NPC: "${loopingNPCName}" dominó 3+ turnos. Terminá o interrumpí esta interacción AHORA.` : ''}
+${isRepeatedObservation ? '⚠️ Jugador sigue observando — hacé que algo PASE.' : ''}
+${ignoredQuests.length > 0 ? `Quests olvidadas: ${ignoredQuests.join(', ')} — entretejelas.` : ''}
+${turnsInCurrentLocation >= 4 ? `Lleva ${turnsInCurrentLocation} turnos acá — considerá avanzar.` : ''}
 === FIN RITMO ===`}
 
 ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
