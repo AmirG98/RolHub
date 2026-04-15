@@ -530,6 +530,53 @@ export const translations = {
       sheet: 'Hoja',
       characterSheet: 'Hoja de Personaje',
     },
+
+    // Pricing page
+    pricing: {
+      title: 'Elegí tu Aventura',
+      subtitle: 'Una sesión gratis al registrarte. Después, todo ilimitado.',
+      monthly: 'Mensual',
+      yearly: 'Anual',
+      yearlyDiscount: '2 meses gratis',
+      perMonth: '/mes',
+      perYear: '/año',
+      currentPlan: 'Plan actual',
+      subscribe: 'Comenzar Aventura',
+      trialBanner: 'Tu primera sesión es gratis — sin tarjeta de crédito',
+      features: {
+        allLores: 'Todos los mundos (10+)',
+        allEngines: 'Todos los motores de reglas',
+        unlimitedCampaigns: 'Campañas ilimitadas',
+        unlimitedSessions: 'Sesiones ilimitadas',
+        aiImages: 'Imágenes generadas por IA',
+        aiVoice: 'Narración con voz IA',
+        sfx: 'Efectos de sonido',
+        dice3d: 'Dados 3D',
+        journal: 'Diario y notas',
+        compendium: 'Compendio de objetos y criaturas',
+        fogOfWar: 'Niebla de guerra en mapas',
+        achievements: 'Logros y progresión',
+        priority: 'Respuesta prioritaria del DM',
+      },
+      faq: {
+        q1: '¿Qué incluye la sesión gratis?',
+        a1: 'Todo. Todos los mundos, todos los motores, imágenes, voz. La experiencia completa para que pruebes sin compromiso.',
+        q2: '¿Puedo cancelar cuando quiera?',
+        a2: 'Sí, cancelás en cualquier momento. Tu aventura se guarda y podés volver cuando quieras.',
+        q3: '¿Qué pasa con mis campañas si cancelo?',
+        a3: 'Tus campañas y personajes se guardan. Al re-suscribirte, seguís donde dejaste.',
+      },
+    },
+
+    // Upgrade prompts
+    upgrade: {
+      trialEnded: 'Tu capítulo de prueba ha terminado',
+      trialEndedSub: 'Tu aventura te espera. Suscribite para continuar la historia.',
+      expired: 'Tu suscripción ha expirado',
+      expiredSub: 'Renová para volver al reino.',
+      cta: 'Ver planes',
+      dismiss: 'Más tarde',
+    },
   },
 
   en: {
@@ -1060,6 +1107,53 @@ export const translations = {
       dice: 'Dice',
       sheet: 'Sheet',
       characterSheet: 'Character Sheet',
+    },
+
+    // Pricing page
+    pricing: {
+      title: 'Choose Your Adventure',
+      subtitle: 'One free session when you sign up. Then, everything unlimited.',
+      monthly: 'Monthly',
+      yearly: 'Yearly',
+      yearlyDiscount: '2 months free',
+      perMonth: '/mo',
+      perYear: '/yr',
+      currentPlan: 'Current plan',
+      subscribe: 'Start Your Adventure',
+      trialBanner: 'Your first session is free — no credit card required',
+      features: {
+        allLores: 'All worlds (10+)',
+        allEngines: 'All rule engines',
+        unlimitedCampaigns: 'Unlimited campaigns',
+        unlimitedSessions: 'Unlimited sessions',
+        aiImages: 'AI-generated images',
+        aiVoice: 'AI voice narration',
+        sfx: 'Sound effects',
+        dice3d: '3D dice',
+        journal: 'Journal & notes',
+        compendium: 'Item & creature compendium',
+        fogOfWar: 'Fog of war on maps',
+        achievements: 'Achievements & progression',
+        priority: 'Priority DM response',
+      },
+      faq: {
+        q1: 'What does the free session include?',
+        a1: 'Everything. All worlds, all engines, images, voice. The full experience so you can try without commitment.',
+        q2: 'Can I cancel anytime?',
+        a2: 'Yes, cancel anytime. Your adventure is saved and you can come back whenever you want.',
+        q3: 'What happens to my campaigns if I cancel?',
+        a3: 'Your campaigns and characters are saved. When you re-subscribe, you continue where you left off.',
+      },
+    },
+
+    // Upgrade prompts
+    upgrade: {
+      trialEnded: 'Your trial chapter has ended',
+      trialEndedSub: 'Your adventure awaits. Subscribe to continue the story.',
+      expired: 'Your subscription has expired',
+      expiredSub: 'Renew to return to the realm.',
+      cta: 'View plans',
+      dismiss: 'Maybe later',
     },
   },
 } as const

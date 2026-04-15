@@ -48,6 +48,7 @@ import {
 import { DeathSaveTracker } from '@/components/game/DeathSaveTracker'
 import { LevelUpModal } from '@/components/game/LevelUpModal'
 import { GameTutorialTour } from '@/components/game/GameTutorialTour'
+import { UpgradePrompt } from '@/components/billing/UpgradePrompt'
 import dynamic from 'next/dynamic'
 
 // Dynamic import for 3D orb (SSR-safe)
@@ -204,6 +205,9 @@ export default function GameSession({
   // Exit dialog
   const [showExitDialog, setShowExitDialog] = useState(false)
   const [pendingExitUrl, setPendingExitUrl] = useState<string | null>(null)
+
+  // Upgrade prompt (plan check failed)
+  const [showUpgradePrompt, setShowUpgradePrompt] = useState(false)
 
   // Interceptar TODAS las formas de salir de la partida
   useEffect(() => {
@@ -555,6 +559,10 @@ export default function GameSession({
           // 401/403/4xx permanentes: no retryear
           if (response.status === 401 || response.status === 403) {
             const d = await response.json().catch(() => ({}))
+            if (d.upgradeRequired) {
+              setShowUpgradePrompt(true)
+              return
+            }
             throw new Error(d.error || (locale === 'en' ? 'Not authorized' : 'No autorizado'))
           }
           if (response.status >= 400 && response.status < 500) {
@@ -916,6 +924,14 @@ export default function GameSession({
             </div>
           </div>
         </div>
+      )}
+
+      {/* Upgrade prompt — trial agotado o suscripción expirada */}
+      {showUpgradePrompt && (
+        <UpgradePrompt
+          variant="trial_ended"
+          onDismiss={() => setShowUpgradePrompt(false)}
+        />
       )}
 
       {/* Portrait Splash on session start */}

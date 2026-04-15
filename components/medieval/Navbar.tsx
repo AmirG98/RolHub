@@ -1,17 +1,28 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { UserButton, useUser } from '@clerk/nextjs'
 import Link from 'next/link'
 import { RunicButton } from './RunicButton'
 import { LanguageToggle } from '@/components/ui/LanguageToggle'
 import { useTranslations } from '@/lib/i18n'
 import { Menu, X, HelpCircle } from 'lucide-react'
+import { PlanBadge } from '@/components/billing/PlanBadge'
 
 export function Navbar() {
   const { isSignedIn } = useUser()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [userPlan, setUserPlan] = useState<string | null>(null)
   const t = useTranslations()
+
+  // Fetch plan del usuario
+  useEffect(() => {
+    if (!isSignedIn) return
+    fetch('/api/user/progress')
+      .then(r => r.ok ? r.json() : null)
+      .then(data => { if (data?.plan) setUserPlan(data.plan) })
+      .catch(() => {})
+  }, [isSignedIn])
 
   return (
     <nav className="glass-panel-dark border-b border-gold/20 sticky top-0 z-50">
@@ -69,6 +80,7 @@ export function Navbar() {
                   <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-neon-purple group-hover:w-full transition-all"></span>
                 </Link>
                 <LanguageToggle />
+                {userPlan && <PlanBadge plan={userPlan} />}
                 <UserButton />
               </>
             ) : (

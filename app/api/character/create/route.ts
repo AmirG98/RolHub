@@ -9,6 +9,7 @@ import { generateCharacterPortrait } from '@/lib/fal/character-portrait-gen'
 import { handleCachedSceneImageRequest } from '@/lib/fal/scene-image-gen'
 import { type Lore as LoreType } from '@/lib/types/lore'
 import { generateOpeningTurnWithClaude } from '@/lib/claude/opening-turn'
+import { canCreateNewSession } from '@/lib/plans/check-access'
 
 // Generar código de invitación único de 6 caracteres
 function generateInviteCode(): string {
@@ -337,6 +338,20 @@ export async function POST(req: NextRequest) {
         user = await tx.user.update({ where: { id: user.id }, data: { tutorialLevel } })
       }
 
+      // Plan check: verificar que el usuario puede crear una nueva sesión
+      // DESACTIVADO hasta que Stripe esté configurado y los usuarios puedan pagar
+      // if (user) {
+      //   const access = canCreateNewSession({
+      //     plan: user.plan,
+      //     trialSessionUsed: user.trialSessionUsed,
+      //     planExpiresAt: user.planExpiresAt,
+      //     stripeSubscriptionId: user.stripeSubscriptionId,
+      //   })
+      //   if (!access.allowed) {
+      //     throw new Error(`PLAN_BLOCKED:${access.reasonEs || access.reason}`)
+      //   }
+      // }
+
       // 1. Crear la campaña
       const campaign = await tx.campaign.create({
         data: {
@@ -404,6 +419,14 @@ export async function POST(req: NextRequest) {
           partyCheckLog: [],
         },
       })
+
+      // Marcar trial como usado para usuarios FREE (su sesión gratis se gastó)
+      if (user.plan === 'FREE' && !user.trialSessionUsed) {
+        await tx.user.update({
+          where: { id: user.id },
+          data: { trialSessionUsed: true },
+        })
+      }
 
       // 4. Crear el primer turn del sistema con contexto espacial inmersivo
       let introContent = ''
@@ -539,9 +562,17 @@ export async function POST(req: NextRequest) {
       isMultiplayer: isMultiplayer || false,
     })
   } catch (error) {
+    const msg = (error as Error).message || ''
+    // Plan blocked — trial agotado o suscripción expirada
+    if (msg.startsWith('PLAN_BLOCKED:')) {
+      return NextResponse.json(
+        { error: msg.replace('PLAN_BLOCKED:', ''), upgradeRequired: true },
+        { status: 403 }
+      )
+    }
     console.error('Error creating character:', error)
     return NextResponse.json(
-      { error: 'Error al crear el personaje', details: (error as Error).message },
+      { error: 'Error al crear el personaje', details: msg },
       { status: 500 }
     )
   }

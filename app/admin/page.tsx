@@ -719,12 +719,71 @@ export default function AdminPage() {
                   <div className="grid grid-cols-2 gap-3">
                     <div>
                       <span className="font-ui text-xs text-ink/50">Plan</span>
-                      <p className="font-heading text-ink">{userDetail.user.plan}</p>
+                      <p className="font-heading text-ink">
+                        <span className={`inline-block px-2 py-0.5 rounded text-xs font-heading ${
+                          userDetail.user.plan === 'PRO' ? 'bg-gold/20 text-gold' :
+                          userDetail.user.plan === 'GUILD' ? 'bg-emerald/20 text-emerald' :
+                          'bg-stone/30 text-ink/70'
+                        }`}>
+                          {userDetail.user.plan}
+                        </span>
+                      </p>
                     </div>
                     <div>
                       <span className="font-ui text-xs text-ink/50">Nivel</span>
                       <p className="font-heading text-ink">{userDetail.user.tutorialLevel}</p>
                     </div>
+                  </div>
+                  {/* Botón upgrade/downgrade manual */}
+                  <div className="flex gap-2 mt-2">
+                    {userDetail.user.plan !== 'PRO' && (
+                      <button
+                        onClick={async () => {
+                          if (!confirm(`¿Upgrade ${userDetail.user.username} a PRO?`)) return
+                          try {
+                            const res = await fetch(`/api/admin/users/${userDetail.user.id}`, {
+                              method: 'PATCH',
+                              headers: { 'Content-Type': 'application/json' },
+                              body: JSON.stringify({ plan: 'PRO' }),
+                            })
+                            if (res.ok) {
+                              const data = await res.json()
+                              setUserDetail((prev: typeof userDetail) => prev ? {
+                                ...prev,
+                                user: { ...prev.user, plan: data.user.plan, trialSessionUsed: data.user.trialSessionUsed }
+                              } : prev)
+                            }
+                          } catch (err) { console.error(err) }
+                        }}
+                        className="flex-1 px-3 py-1.5 bg-gold/20 border border-gold/40 rounded text-gold font-heading text-xs hover:bg-gold/30 transition-colors"
+                      >
+                        Upgrade a PRO
+                      </button>
+                    )}
+                    {userDetail.user.plan !== 'FREE' && (
+                      <button
+                        onClick={async () => {
+                          if (!confirm(`¿Downgrade ${userDetail.user.username} a FREE?`)) return
+                          try {
+                            const res = await fetch(`/api/admin/users/${userDetail.user.id}`, {
+                              method: 'PATCH',
+                              headers: { 'Content-Type': 'application/json' },
+                              body: JSON.stringify({ plan: 'FREE' }),
+                            })
+                            if (res.ok) {
+                              const data = await res.json()
+                              setUserDetail((prev: typeof userDetail) => prev ? {
+                                ...prev,
+                                user: { ...prev.user, plan: data.user.plan, trialSessionUsed: data.user.trialSessionUsed }
+                              } : prev)
+                            }
+                          } catch (err) { console.error(err) }
+                        }}
+                        className="flex-1 px-3 py-1.5 bg-blood/20 border border-blood/40 rounded text-blood font-heading text-xs hover:bg-blood/30 transition-colors"
+                      >
+                        Downgrade a FREE
+                      </button>
+                    )}
                   </div>
                 </div>
 

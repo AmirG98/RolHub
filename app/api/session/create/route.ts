@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@clerk/nextjs/server'
 import { prisma } from '@/lib/db/prisma'
+import { canStartSession } from '@/lib/plans/check-access'
 
 export async function POST(req: NextRequest) {
   try {
@@ -13,6 +14,21 @@ export async function POST(req: NextRequest) {
     if (!user) {
       return NextResponse.json({ error: 'Usuario no encontrado' }, { status: 404 })
     }
+
+    // Plan check
+    // DESACTIVADO hasta que Stripe esté configurado y los usuarios puedan pagar
+    // const access = canStartSession({
+    //   plan: user.plan,
+    //   trialSessionUsed: user.trialSessionUsed,
+    //   planExpiresAt: user.planExpiresAt,
+    //   stripeSubscriptionId: user.stripeSubscriptionId,
+    // })
+    // if (!access.allowed) {
+    //   return NextResponse.json(
+    //     { error: access.reasonEs || access.reason, upgradeRequired: true },
+    //     { status: 403 }
+    //   )
+    // }
 
     const body = await req.json()
     const { campaignId } = body

@@ -29,6 +29,11 @@ model User {
   totalTurns            Int                    @default(0)
   totalSessions         Int                    @default(0)
   completedCampaigns    Int                    @default(0)
+  // Billing / monetización
+  stripeCustomerId      String?                @unique
+  stripeSubscriptionId  String?                @unique
+  planExpiresAt         DateTime?
+  trialSessionUsed      Boolean                @default(false)
   campaigns             Campaign[]
   sessions              Session[]
   characters            Character[]

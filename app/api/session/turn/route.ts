@@ -16,6 +16,7 @@ import { calculateRelativePosition, normalizeLegacyCoordinates } from '@/lib/map
 import { type Quest, type QuestUpdate } from '@/lib/types/quest'
 import { generateSummaryCheckpoint } from '@/lib/claude/session-summarizer'
 import { updateUserProgress, type ProgressUpdate } from '@/lib/game/user-progress'
+import { canStartSession } from '@/lib/plans/check-access'
 // Regex consistente para detectar NPCs con diálogo (Nombre: o Nombre «)
 const NPC_DIALOGUE_REGEX = /([A-ZÁÉÍÓÚ][a-záéíóúñ]+(?:\s+[A-ZÁÉÍÓÚ]?[a-záéíóúñ]+)*)\s*[:«]/g
 
@@ -62,9 +63,21 @@ export async function POST(req: NextRequest) {
     const { userId: clerkUserId } = await auth()
     let authUserId: string | null = null
 
+    let authUserPlan: string | null = null
+    let authUserTrialUsed: boolean = false
+    let authUserPlanExpires: Date | null = null
+    let authUserStripeSubId: string | null = null
+
     if (clerkUserId) {
-      const user = await prisma.user.findUnique({ where: { clerkId: clerkUserId }, select: { id: true } })
+      const user = await prisma.user.findUnique({
+        where: { clerkId: clerkUserId },
+        select: { id: true, plan: true, trialSessionUsed: true, planExpiresAt: true, stripeSubscriptionId: true },
+      })
       authUserId = user?.id || null
+      authUserPlan = user?.plan || null
+      authUserTrialUsed = user?.trialSessionUsed || false
+      authUserPlanExpires = user?.planExpiresAt || null
+      authUserStripeSubId = user?.stripeSubscriptionId || null
     }
 
     if (!authUserId) {
@@ -80,6 +93,23 @@ export async function POST(req: NextRequest) {
     if (!authUserId) {
       return NextResponse.json({ error: 'No autorizado' }, { status: 401 })
     }
+
+    // Plan check: usuarios registrados (no guests) deben tener plan activo
+    // DESACTIVADO hasta que Stripe esté configurado y los usuarios puedan pagar
+    // if (authUserPlan !== null) {
+    //   const access = canStartSession({
+    //     plan: authUserPlan,
+    //     trialSessionUsed: authUserTrialUsed,
+    //     planExpiresAt: authUserPlanExpires,
+    //     stripeSubscriptionId: authUserStripeSubId,
+    //   })
+    //   if (!access.allowed) {
+    //     return NextResponse.json(
+    //       { error: access.reasonEs || access.reason, upgradeRequired: true },
+    //       { status: 403 }
+    //     )
+    //   }
+    // }
 
     const body = await req.json()
     const { sessionId, campaignId, action, actionType = 'talk', diceRoll, characterId, locale = 'es' } = body as {

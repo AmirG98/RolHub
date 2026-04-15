@@ -32,6 +32,8 @@ export async function GET() {
       select: {
         id: true,
         username: true,
+        plan: true,
+        trialSessionUsed: true,
         createdAt: true,
         xp: true,
         level: true,
@@ -136,6 +138,8 @@ export async function GET() {
     const daysSinceRegistered = Math.floor(msSinceRegister / (24 * 60 * 60 * 1000))
 
     return NextResponse.json({
+      plan: dbUser.plan,
+      trialSessionUsed: dbUser.trialSessionUsed,
       user: {
         username: dbUser.username,
         level: dbUser.level,
