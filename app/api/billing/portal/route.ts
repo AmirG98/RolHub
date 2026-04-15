@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@clerk/nextjs/server'
 import { prisma } from '@/lib/db/prisma'
-import { stripe } from '@/lib/stripe'
 
+// Paddle usa su propio portal de cancelación — retornamos la URL
+// Los usuarios gestionan su suscripción directamente en Paddle
 export async function POST(req: NextRequest) {
   try {
     const { userId: clerkId } = await auth()
@@ -11,22 +12,31 @@ export async function POST(req: NextRequest) {
     }
 
     const user = await prisma.user.findUnique({ where: { clerkId } })
-    if (!user || !user.stripeCustomerId) {
+    if (!user) {
+      return NextResponse.json({ error: 'Usuario no encontrado' }, { status: 400 })
+    }
+
+    if (!user.stripeSubscriptionId) {
       return NextResponse.json({ error: 'No tienes una suscripción activa' }, { status: 400 })
     }
 
-    const origin = req.headers.get('origin') || 'https://rol-hub.vercel.app'
+    // Paddle gestiona la cancelación via su propio portal
+    // El usuario puede cancelar desde el email de confirmación de Paddle
+    // o podemos cancelar programáticamente
+    const { getPaddle } = await import('@/lib/paddle')
+    const paddle = getPaddle()
 
-    const session = await stripe.billingPortal.sessions.create({
-      customer: user.stripeCustomerId,
-      return_url: `${origin}/`,
+    const subscription = await paddle.subscriptions.get(user.stripeSubscriptionId)
+
+    return NextResponse.json({
+      subscriptionId: subscription.id,
+      status: subscription.status,
+      managementUrls: subscription.managementUrls,
     })
-
-    return NextResponse.json({ url: session.url })
   } catch (error) {
     console.error('Portal error:', error)
     return NextResponse.json(
-      { error: 'Error al abrir portal de facturación' },
+      { error: 'Error al obtener info de suscripción' },
       { status: 500 }
     )
   }

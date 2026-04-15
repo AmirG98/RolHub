@@ -20,8 +20,8 @@ const isPublicRoute = createRouteMatcher([
   '/refunds',
   // Pricing - público para que cualquiera vea los planes
   '/pricing',
-  // Stripe webhook - no tiene auth de Clerk, usa su propia firma
-  '/api/webhooks/stripe',
+  // Paddle webhook - no tiene auth de Clerk, usa su propia firma
+  '/api/webhooks/paddle',
   // Guest routes - permiten jugar sin cuenta
   '/guest(.*)',
   '/play-guest(.*)',
