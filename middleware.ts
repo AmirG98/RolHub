@@ -17,6 +17,7 @@ const isPublicRoute = createRouteMatcher([
   '/robots.txt',
   '/privacy',
   '/terms',
+  '/refunds',
   // Pricing - público para que cualquiera vea los planes
   '/pricing',
   // Stripe webhook - no tiene auth de Clerk, usa su propia firma

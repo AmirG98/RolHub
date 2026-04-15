@@ -122,6 +122,10 @@ export default function HomePage() {
           <Link href="/privacy" className="hover:text-gold transition">{t.homeExtras.privacy}</Link>
           <span className="text-gold-dim/30">|</span>
           <Link href="/terms" className="hover:text-gold transition">{t.homeExtras.terms}</Link>
+          <span className="text-gold-dim/30">|</span>
+          <Link href="/refunds" className="hover:text-gold transition">Refunds</Link>
+          <span className="text-gold-dim/30">|</span>
+          <Link href="/pricing" className="hover:text-gold transition">Pricing</Link>
         </div>
       </div>
     </div>
