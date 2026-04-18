@@ -1,5 +1,7 @@
 // Tipos para el sistema de lores
 
+import type { AbilityTemplate } from './ability'
+
 // String localizable — puede ser un string plano (legacy, solo ES) o un objeto bilingüe.
 // Usar getLocalized() de lib/i18n/localize.ts para consumirlos de forma segura.
 export type LocalizedString = string | { es: string; en: string }
@@ -80,6 +82,9 @@ export interface Archetype {
   }
   starting_inventory: LocalizedString[]
   special_ability: string
+  // Lista opcional de habilidades concretas con tracking de uso.
+  // Si no está definida, se autogenera una desde special_ability vía deriveDefaultAbility().
+  abilities?: AbilityTemplate[]
 }
 
 export interface RollTableData {

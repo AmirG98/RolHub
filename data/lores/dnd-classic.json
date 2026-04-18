@@ -799,6 +799,38 @@
         {"es": "5 raciones de viaje", "en": "5 travel rations"}
       ],
       "special_ability": "Veterano de Mazmorras: Detectás trampas y emboscadas por instinto. Ventaja en tiradas de percepción dentro de estructuras subterráneas y ruinas",
+      "abilities": [
+        {
+          "id": "dungeon-sense",
+          "name": { "es": "Sentido de Mazmorra", "en": "Dungeon Sense" },
+          "description": { "es": "Detectás una trampa o emboscada dentro de 10 metros sin necesidad de tirada.", "en": "You detect a trap or ambush within 30 ft without needing a roll." },
+          "kind": "special",
+          "resource": "daily_uses",
+          "maxUses": 1,
+          "icon": "eye",
+          "tags": ["exploration", "utility"]
+        },
+        {
+          "id": "second-wind",
+          "name": { "es": "Segundo Aliento", "en": "Second Wind" },
+          "description": { "es": "Recuperás 1d10 + tu nivel de HP como acción bonus.", "en": "Regain 1d10 + your level HP as a bonus action." },
+          "kind": "special",
+          "resource": "daily_uses",
+          "maxUses": 1,
+          "icon": "heart",
+          "tags": ["healing", "combat"]
+        },
+        {
+          "id": "power-strike",
+          "name": { "es": "Golpe Poderoso", "en": "Power Strike" },
+          "description": { "es": "Tu próximo ataque cuerpo a cuerpo hace +1d8 de daño adicional.", "en": "Your next melee attack deals +1d8 extra damage." },
+          "kind": "special",
+          "resource": "daily_uses",
+          "maxUses": 2,
+          "icon": "sword",
+          "tags": ["combat"]
+        }
+      ],
       "advancement_paths": [
         "Capitán de Compañía — liderar tu propio grupo de aventureros",
         "Cazarrecompensas de Élite — especializarte en objetivos de alto valor",
@@ -833,6 +865,38 @@
         {"es": "15 monedas de oro", "en": "15 gold coins"}
       ],
       "special_ability": "Sentido Arcano: Podés detectar magia activa y residual, identificar el tipo de hechizo usado, y leer inscripciones mágicas en cualquier idioma",
+      "abilities": [
+        {
+          "id": "fireball",
+          "name": { "es": "Bola de Fuego", "en": "Fireball" },
+          "description": { "es": "Lanzás una esfera de fuego que detona, causando 8d6 de daño a todos en un radio de 6 metros.", "en": "You hurl a fiery sphere that explodes, dealing 8d6 damage to all within 20 ft." },
+          "kind": "spell",
+          "resource": "daily_uses",
+          "maxUses": 2,
+          "icon": "flame",
+          "tags": ["combat", "aoe"]
+        },
+        {
+          "id": "magic-missile",
+          "name": { "es": "Proyectil Mágico", "en": "Magic Missile" },
+          "description": { "es": "Lanzás tres dardos de fuerza que impactan automáticamente, cada uno causando 1d4+1.", "en": "You hurl three darts of force that hit automatically, each dealing 1d4+1." },
+          "kind": "spell",
+          "resource": "daily_uses",
+          "maxUses": 3,
+          "icon": "sparkles",
+          "tags": ["combat"]
+        },
+        {
+          "id": "arcane-sense",
+          "name": { "es": "Sentido Arcano", "en": "Arcane Sense" },
+          "description": { "es": "Detectás magia activa y residual, identificás el tipo de hechizo, y leés inscripciones mágicas.", "en": "Detect active and residual magic, identify the spell type, and read magical inscriptions." },
+          "kind": "special",
+          "resource": "daily_uses",
+          "maxUses": 2,
+          "icon": "eye",
+          "tags": ["utility", "lore"]
+        }
+      ],
       "advancement_paths": [
         "Archimago — dominar escuelas de magia superiores",
         "Investigador Arcano — descubrir nuevos hechizos y artefactos",
@@ -867,6 +931,38 @@
         {"es": "20 monedas de oro", "en": "20 gold coins"}
       ],
       "special_ability": "Sombra Urbana: Podés desaparecer en cualquier multitud o entorno urbano, abrir cerraduras comunes sin tirada, y siempre sabés la salida más rápida de un edificio",
+      "abilities": [
+        {
+          "id": "sneak-attack",
+          "name": { "es": "Ataque Furtivo", "en": "Sneak Attack" },
+          "description": { "es": "Si atacás con ventaja o con un aliado adyacente al objetivo, sumás +2d6 de daño al impacto.", "en": "When you hit with advantage or with an ally adjacent, deal +2d6 extra damage." },
+          "kind": "trick",
+          "resource": "daily_uses",
+          "maxUses": 3,
+          "icon": "sword",
+          "tags": ["combat"]
+        },
+        {
+          "id": "urban-shadow",
+          "name": { "es": "Sombra Urbana", "en": "Urban Shadow" },
+          "description": { "es": "Desaparecés en una multitud o entorno urbano sin tirada, perdiendo a cualquier perseguidor.", "en": "Disappear into a crowd or urban setting without a roll, losing any pursuer." },
+          "kind": "trick",
+          "resource": "daily_uses",
+          "maxUses": 2,
+          "icon": "moon",
+          "tags": ["stealth", "utility"]
+        },
+        {
+          "id": "cunning-action",
+          "name": { "es": "Acción Astuta", "en": "Cunning Action" },
+          "description": { "es": "Tu próximo chequeo de Destreza o sigilo lo tirás con ventaja.", "en": "Roll your next Dexterity or stealth check with advantage." },
+          "kind": "trick",
+          "resource": "daily_uses",
+          "maxUses": 2,
+          "icon": "sparkles",
+          "tags": ["utility"]
+        }
+      ],
       "advancement_paths": [
         "Maestro Ladrón — el mejor en tu oficio, capaz de robar cualquier cosa",
         "Espía de los Arpistas — usar tus habilidades para el bien mayor",

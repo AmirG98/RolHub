@@ -10,6 +10,8 @@ import { handleCachedSceneImageRequest } from '@/lib/fal/scene-image-gen'
 import { type Lore as LoreType } from '@/lib/types/lore'
 import { generateOpeningTurnWithClaude } from '@/lib/claude/opening-turn'
 import { canCreateNewSession } from '@/lib/plans/check-access'
+import { buildAbilitiesForArchetype, toRuntime } from '@/lib/game/abilities'
+import type { AbilityTemplate, AbilityRuntime } from '@/lib/types/ability'
 
 // Generar código de invitación único de 6 caracteres
 function generateInviteCode(): string {
@@ -102,6 +104,8 @@ export async function POST(req: NextRequest) {
     let charStats: any
     let charInventory: string[]
     let charLevel: number
+    let charAbilitiesTemplate: AbilityTemplate[] = []
+    let charAbilitiesRuntime: AbilityRuntime[] = []
 
     if (isDnD5eCharacter && dnd5eStats) {
       // Personaje D&D 5e creado con el creador completo
@@ -198,6 +202,10 @@ export async function POST(req: NextRequest) {
         charInventory = getLocalizedArray(archetypeData.starting_inventory, locale)
       }
       charLevel = 1
+
+      // Construir abilities del arquetipo según el engine (daily_uses para DnD, cooldown_turns para el resto)
+      charAbilitiesTemplate = buildAbilitiesForArchetype(archetypeData, engine)
+      charAbilitiesRuntime = charAbilitiesTemplate.map(toRuntime)
     }
 
     // Garantizar que todo personaje inicie con monedas y raciones (flavorizadas por lore e idioma)
@@ -260,6 +268,7 @@ export async function POST(req: NextRequest) {
           conditions: [] as string[],
           active_effects: [] as string[],
           inventory: charInventory,
+          abilities: charAbilitiesRuntime,
           relationships: {} as Record<string, string>,
           // D&D 5e specific stats (from full creator or from archetype dnd5e_stats)
           ...((isDnD5eCharacter || charStats.STR) && {
@@ -393,6 +402,7 @@ export async function POST(req: NextRequest) {
           inventory: charInventory,
           conditions: [],
           activeEffects: [],
+          abilities: charAbilitiesTemplate as unknown as Prisma.InputJsonValue,
           backstory: isDnD5eCharacter
             ? `${charStats.raceName} ${charStats.className} nivel ${charLevel}`
             : getLocalized(loreData.archetypes.find((a: any) => a.id === archetypeId)?.description, locale) || '',

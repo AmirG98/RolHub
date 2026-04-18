@@ -17,6 +17,18 @@ import { type Quest, type QuestUpdate } from '@/lib/types/quest'
 import { generateSummaryCheckpoint } from '@/lib/claude/session-summarizer'
 import { updateUserProgress, type ProgressUpdate } from '@/lib/game/user-progress'
 import { canStartSession } from '@/lib/plans/check-access'
+import {
+  buildAbilitiesForArchetype,
+  toRuntime,
+  tickCooldowns,
+  resetDailyUses,
+  applyAbilityUse,
+  findAbilityById,
+  canUseAbility,
+  ensureAbilities,
+} from '@/lib/game/abilities'
+import type { AbilityRuntime } from '@/lib/types/ability'
+import type { Archetype as LoreArchetype } from '@/lib/types/lore'
 // Regex consistente para detectar NPCs con diálogo (Nombre: o Nombre «)
 const NPC_DIALOGUE_REGEX = /([A-ZÁÉÍÓÚ][a-záéíóúñ]+(?:\s+[A-ZÁÉÍÓÚ]?[a-záéíóúñ]+)*)\s*[:«]/g
 
@@ -36,6 +48,19 @@ const LORE_JSON_DATA: Record<string, any> = {
   LOTR: lotrData, ZOMBIES: zombiesData, ISEKAI: isekaiData, VIKINGOS: vikingosData,
   STAR_WARS: starwarsData, CYBERPUNK: cyberpunkData, LOVECRAFT_HORROR: lovecraftData, DND_CLASSIC: dndClassicData,
   ROMANTASY: romantasyData, COZY_WITCH: cozyWitchData,
+}
+
+// Resuelve un archetype por id o por nombre localizado (ES/EN) — usado para backfill y lookup
+function resolveArchetype(loreKey: string, archetypeKey: string): LoreArchetype | undefined {
+  const data = LORE_JSON_DATA[loreKey]
+  if (!data || !Array.isArray(data.archetypes) || !archetypeKey) return undefined
+  const exact = data.archetypes.find((a: any) => a.id === archetypeKey)
+  if (exact) return exact as LoreArchetype
+  const lowered = archetypeKey.toLowerCase().trim()
+  return data.archetypes.find((a: any) => {
+    if (typeof a.name === 'string') return a.name.toLowerCase() === lowered
+    return (a.name?.es?.toLowerCase() === lowered) || (a.name?.en?.toLowerCase() === lowered)
+  }) as LoreArchetype | undefined
 }
 
 // Inicializar Claude
@@ -203,6 +228,43 @@ export async function POST(req: NextRequest) {
     // 2. Preparar contexto para Claude
     const worldState = session.campaign.worldState as any
     const character = actingCharacter
+
+    // === BACKFILL LAZY DE ABILITIES ===
+    // Para campañas existentes que aún no tienen party[name].abilities:
+    // materializar desde Character.abilities o, si falta, derivar del archetype.
+    // Idempotente — si ya hay abilities, no hace nada.
+    if (character && worldState) {
+      const partySlot = worldState.party?.[character.name]
+      const existingAbilities: AbilityRuntime[] | undefined = Array.isArray(partySlot?.abilities)
+        ? partySlot.abilities
+        : undefined
+      const hasRuntime = Array.isArray(existingAbilities) && existingAbilities.length > 0
+
+      if (!hasRuntime) {
+        const storedTemplate = Array.isArray((character as any).abilities)
+          ? ((character as any).abilities as any[])
+          : []
+        const archetypeData = resolveArchetype(session.campaign.lore, character.archetype)
+
+        let backfilledRuntime: AbilityRuntime[] = []
+        if (storedTemplate.length > 0) {
+          backfilledRuntime = storedTemplate.map((ab: any) => ({
+            ...ab,
+            usedToday: 0,
+            cooldownRemaining: 0,
+          }))
+        } else if (archetypeData) {
+          const tpl = buildAbilitiesForArchetype(archetypeData, session.campaign.engine)
+          backfilledRuntime = tpl.map(toRuntime)
+        }
+
+        if (backfilledRuntime.length > 0) {
+          if (!worldState.party) worldState.party = {}
+          if (!worldState.party[character.name]) worldState.party[character.name] = {}
+          worldState.party[character.name].abilities = backfilledRuntime
+        }
+      }
+    }
 
     // Detectar si el jugador quiere moverse (necesario antes de construir historial)
     // Detectar movimiento real (NO exploración in-situ como "exploro los alrededores")
@@ -1198,7 +1260,9 @@ ${isEnglish ? 'You must ALWAYS respond in JSON format with this exact structure'
   "mood_hint": null,
   "time_update": null,
   "weather_update": null,
-  "xp_reward": 0${isMultiplayer ? `,
+  "xp_reward": 0,
+  "ability_used": null,
+  "long_rest": false${isMultiplayer ? `,
   "other_party_effects": []` : ''}
 }
 ${isMultiplayer ? `
@@ -1465,14 +1529,66 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
   : 'Al introducir un NPC nuevo, siempre usa pronombres o descriptores de género claros (él/ella, la mujer/el hombre, la anciana/el anciano). Esto es crítico para que el sistema de voz asigne el género de voz correcto.'}
 `
 
-    console.log(`[DM] System prompt length: ${systemPrompt.length} chars, conversation: ${conversationHistory.length} messages`)
+    // === HABILIDADES DEL PERSONAJE (abilities — daily_uses o cooldown_turns) ===
+    // Inyectar lista con estado actual + instrucciones al DM para que marque ability_used.
+    const currentAbilities: AbilityRuntime[] =
+      (worldState.party?.[character.name]?.abilities as AbilityRuntime[]) || []
+    let abilitiesSection = ''
+    if (currentAbilities.length > 0) {
+      const isDnDEngine = session.campaign.engine === 'DND_5E'
+      const localeForAb = isEnglish ? 'en' : 'es'
+      const lines = currentAbilities.map((ab) => {
+        const abName = typeof ab.name === 'string' ? ab.name : (ab.name as any)[localeForAb] || (ab.name as any).es || ab.id
+        const abDesc = typeof ab.description === 'string' ? ab.description : (ab.description as any)[localeForAb] || (ab.description as any).es || ''
+        if (ab.resource === 'daily_uses') {
+          const remaining = (ab.maxUses ?? 0) - ab.usedToday
+          const state = remaining > 0 ? `${remaining}/${ab.maxUses} ${isEnglish ? 'AVAILABLE' : 'DISPONIBLE'}` : (isEnglish ? 'EXHAUSTED' : 'AGOTADA')
+          return `- [${ab.id}] ${abName} (${ab.kind}): ${abDesc} [${state}]`
+        }
+        const state = ab.cooldownRemaining > 0
+          ? (isEnglish ? `ON COOLDOWN (${ab.cooldownRemaining} turns left)` : `EN COOLDOWN (${ab.cooldownRemaining} turnos restantes)`)
+          : (isEnglish ? 'AVAILABLE' : 'DISPONIBLE')
+        return `- [${ab.id}] ${abName} (${ab.kind}): ${abDesc} [${state}, cooldown: ${ab.cooldownTurns}]`
+      }).join('\n')
+
+      abilitiesSection = isEnglish
+        ? `\n=== CHARACTER SPECIAL ABILITIES ===
+${isDnDEngine
+  ? 'Each ability has limited DAILY USES and refreshes on long rest.'
+  : 'Each ability has a COOLDOWN in turns after use.'}
+${lines}
+
+INSTRUCTIONS FOR ABILITIES:
+1. If the player explicitly mentions using an ability by name OR their action includes "[Use Ability: X]", set "ability_used": { "id": "exact_id_from_list", "reason": "brief narrative" } in your JSON. Use the id EXACTLY as shown in brackets above.
+2. If the ability is EXHAUSTED / ON COOLDOWN, narrate that the character cannot use it right now and DO NOT set ability_used.
+3. You MAY suggest using a fitting ability when tactically relevant ("you remember you could try your [name]...").
+4. ${isDnDEngine ? 'If the player camps, sleeps for 8+ hours, or takes a long rest, set "long_rest": true to refresh all daily uses.' : 'The cooldowns decrement automatically each player turn — do not track them yourself.'}
+=== END ABILITIES ===\n`
+        : `\n=== HABILIDADES ESPECIALES DEL PERSONAJE ===
+${isDnDEngine
+  ? 'Cada habilidad tiene USOS DIARIOS limitados y se recuperan con descanso largo.'
+  : 'Cada habilidad tiene un COOLDOWN en turnos después del uso.'}
+${lines}
+
+INSTRUCCIONES PARA HABILIDADES:
+1. Si el jugador menciona usar una habilidad por nombre O su acción incluye "[Uso Habilidad: X]", seteá "ability_used": { "id": "id_exacto_de_la_lista", "reason": "breve narración" } en el JSON. Usá el id EXACTO tal como aparece entre corchetes.
+2. Si la habilidad está AGOTADA / EN COOLDOWN, narrá que el personaje no puede usarla ahora y NO setees ability_used.
+3. PODÉS sugerir usar una habilidad cuando sea tácticamente relevante ("te acordás que podrías intentar tu [nombre]...").
+4. ${isDnDEngine ? 'Si el jugador acampa, duerme 8+ horas, o toma un descanso largo, seteá "long_rest": true para recuperar todos los usos diarios.' : 'Los cooldowns se decrementan automáticamente cada turno — no los rastrees vos mismo.'}
+=== FIN HABILIDADES ===\n`
+    }
+
+    // Prepend abilities section to system prompt
+    const finalSystemPrompt = systemPrompt + abilitiesSection
+
+    console.log(`[DM] System prompt length: ${finalSystemPrompt.length} chars, conversation: ${conversationHistory.length} messages`)
 
     let response
     try {
       response = await anthropic.messages.create({
         model: 'claude-sonnet-4-20250514',
         max_tokens: 1500,
-        system: systemPrompt,
+        system: finalSystemPrompt,
         messages: conversationHistory as any,
       })
     } catch (apiError: any) {
@@ -1586,6 +1702,10 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
         difficulty?: 'easy' | 'medium' | 'hard' | 'deadly'
         description?: string
       }
+      // Habilidad especial usada en este turno (gasta un uso diario o activa cooldown)
+      ability_used?: { id: string; reason?: string } | null
+      // Descanso largo (solo DND_5E): resetea los usos diarios de todas las abilities
+      long_rest?: boolean
     }
 
     try {
@@ -1876,6 +1996,85 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
       }
 
       worldStateUpdates.party[character.name].inventory = currentInventory
+    }
+
+    // === ABILITY USAGE + COOLDOWN TICK + LONG REST ===
+    // Siempre se ejecuta (incluso si el DM no marcó ability_used) porque el tick de cooldowns
+    // debe decrementarse cada turno del personaje acting. Idempotente respecto al worldState.
+    {
+      const abilitiesNow: AbilityRuntime[] =
+        (worldState.party?.[character.name]?.abilities as AbilityRuntime[]) || []
+
+      if (abilitiesNow.length > 0) {
+        // 1. Tick cooldowns (solo afecta cooldown_turns)
+        let updated = tickCooldowns(abilitiesNow)
+
+        // 2. Si el DM marcó ability_used, intentar aplicar
+        //    Fallback: si no marcó pero la acción del jugador o la narración
+        //    contiene "[Uso Habilidad: X]" / "[Use Ability: X]" / nombre exacto → aplicar igual.
+        let abilityIdToApply: string | null = dmResponse.ability_used?.id || null
+
+        // Fallback regex: detectar marcador manual en la acción del player o en la narración
+        const combinedTextForDetection = `${action || ''}\n${dmResponse.narration || ''}`
+        const markerMatch = combinedTextForDetection.match(
+          /\[(?:Uso\s+Habilidad|Use\s+Ability)\s*:\s*([^\]]+)\]/i
+        )
+        if (!abilityIdToApply && markerMatch) {
+          const typedName = markerMatch[1].trim().toLowerCase()
+          const byName = updated.find((ab) => {
+            const nameEs = typeof ab.name === 'string' ? ab.name.toLowerCase() : (ab.name as any).es?.toLowerCase()
+            const nameEn = typeof ab.name === 'string' ? ab.name.toLowerCase() : (ab.name as any).en?.toLowerCase()
+            return nameEs === typedName || nameEn === typedName
+          })
+          if (byName) {
+            abilityIdToApply = byName.id
+            console.log(`[Ability] Fallback marker detected: "${markerMatch[1]}" → id=${byName.id}`)
+          }
+        }
+
+        if (abilityIdToApply) {
+          const found = findAbilityById(updated, abilityIdToApply)
+          if (found && canUseAbility(found)) {
+            // Prevenir doble-aplicación en turnos consecutivos (idempotencia)
+            const alreadyUsedThisTurn = found.lastUsedAtTurn === totalTurns + 1
+            if (!alreadyUsedThisTurn) {
+              updated = updated.map((ab) =>
+                ab.id === found.id ? applyAbilityUse(ab, totalTurns + 1) : ab
+              )
+              console.log(`[Ability] Applied use of ${found.id} (${found.resource})`)
+            }
+          } else if (found && !canUseAbility(found)) {
+            console.warn(`[Ability] DM tried to use exhausted/cooldown ability: ${found.id}`)
+          } else {
+            console.warn(`[Ability] DM referenced unknown ability id: ${abilityIdToApply}`)
+          }
+        }
+
+        // 3. Long rest (solo DND_5E): resetear usos diarios de todas las abilities
+        const isDnDEngine = session.campaign.engine === 'DND_5E'
+        const LONG_REST_KEYWORDS = isEnglish
+          ? /\blong rest\b|sleep (?:for\s+)?(?:8|eight|several)\s+hours?|camp for the night|rest (?:until|for) (?:dawn|morning)/i
+          : /descanso\s+largo|dorm[íi][s]?\s+(?:8|ocho|varias)\s+horas|acamp[áa]mos\s+(?:la\s+noche|por\s+la\s+noche|para\s+descansar)|descans[áa]mos\s+hasta\s+(?:el\s+)?amanecer/i
+        const narrationForRest = dmResponse.narration || ''
+        const actionForRest = action || ''
+        const longRestDetected =
+          dmResponse.long_rest === true ||
+          LONG_REST_KEYWORDS.test(narrationForRest) ||
+          LONG_REST_KEYWORDS.test(actionForRest)
+
+        if (longRestDetected && isDnDEngine) {
+          updated = resetDailyUses(updated)
+          dmResponse.long_rest = true
+          console.log(`[Ability] Long rest applied — daily uses reset`)
+        }
+
+        // Persistir en worldStateUpdates
+        if (!worldStateUpdates.party) worldStateUpdates.party = { ...worldState.party }
+        if (!worldStateUpdates.party[character.name]) {
+          worldStateUpdates.party[character.name] = { ...worldState.party?.[character.name] }
+        }
+        worldStateUpdates.party[character.name].abilities = updated
+      }
     }
 
     // Update quests
@@ -2514,6 +2713,9 @@ ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
       // XP & Level up (del personaje)
       xpReward: dmResponse.xp_reward || 0,
       levelUp: levelUpData,
+      // Abilities — notificar uso/descanso al frontend
+      abilityUsed: dmResponse.ability_used?.id || null,
+      longRest: dmResponse.long_rest === true,
       // Progreso meta del usuario (Duolingo-style) — null para guests
       progressUpdate,
     })

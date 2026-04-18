@@ -136,6 +136,7 @@ model Character {
   inventory             Json
   conditions            String[]
   activeEffects         Json                  @default("[]")
+  abilities             Json                  @default("[]")
   backstory             String?
   avatarUrl             String?
   tokenUrl              String?

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { Sword, Scroll, CheckCircle, X, Package, Star, Zap, Trophy, Flame } from 'lucide-react'
+import { Sword, Scroll, CheckCircle, X, Package, Star, Zap, Trophy, Flame, Sparkles } from 'lucide-react'
 
 export type NotificationType =
   | 'new_item'
@@ -12,6 +12,7 @@ export type NotificationType =
   | 'level_up'
   | 'achievement_unlocked'
   | 'streak_milestone'
+  | 'long_rest'
 
 export interface GameNotificationData {
   id: string
@@ -35,6 +36,7 @@ const ICON_MAP: Record<NotificationType, typeof Sword> = {
   level_up: Star,
   achievement_unlocked: Trophy,
   streak_milestone: Flame,
+  long_rest: Sparkles,
 }
 
 const COLOR_MAP: Record<NotificationType, string> = {
@@ -46,6 +48,7 @@ const COLOR_MAP: Record<NotificationType, string> = {
   level_up: 'text-gold-bright',
   achievement_unlocked: 'text-gold-bright',
   streak_milestone: 'text-blood',
+  long_rest: 'text-emerald',
 }
 
 const BORDER_MAP: Record<NotificationType, string> = {
@@ -57,6 +60,7 @@ const BORDER_MAP: Record<NotificationType, string> = {
   level_up: 'border-gold-bright/60',
   achievement_unlocked: 'border-gold-bright/60',
   streak_milestone: 'border-blood/60',
+  long_rest: 'border-emerald/50',
 }
 
 export function GameNotifications({ notifications, onDismiss, locale = 'es' }: Props) {
@@ -236,5 +240,20 @@ export function createStreakNotification(days: number, locale: 'es' | 'en' = 'es
     subtitle: locale === 'en'
       ? 'Keep playing every day to keep your streak alive'
       : 'Seguí jugando todos los días para mantener tu racha',
+  }
+}
+
+/**
+ * Notificación cuando el personaje completa un descanso largo (DnD 5e) —
+ * todas las habilidades con usos diarios se restauran.
+ */
+export function createLongRestNotification(locale: 'es' | 'en' = 'es'): GameNotificationData {
+  return {
+    id: `notif_${Date.now()}_${notifCounter++}`,
+    type: 'long_rest',
+    text: locale === 'en' ? 'Long rest completed' : 'Descanso largo completado',
+    subtitle: locale === 'en'
+      ? 'All daily abilities have been restored'
+      : 'Todas las habilidades diarias se restauraron',
   }
 }

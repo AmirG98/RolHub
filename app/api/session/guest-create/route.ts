@@ -9,6 +9,7 @@ import { handleCachedSceneImageRequest } from '@/lib/fal/scene-image-gen'
 import { type Lore as LoreType } from '@/lib/types/lore'
 import { generateOpeningTurnWithClaude } from '@/lib/claude/opening-turn'
 import { cookies } from 'next/headers'
+import { buildAbilitiesForArchetype, toRuntime } from '@/lib/game/abilities'
 
 import lotrData from '@/data/lores/lotr.json'
 import zombiesData from '@/data/lores/zombies.json'
@@ -66,6 +67,10 @@ export async function POST(req: NextRequest) {
     const mode: GameMode = 'ONE_SHOT'
     const engine: GameEngine = 'STORY_MODE'
 
+    // Abilities del arquetipo (cooldown_turns para STORY_MODE)
+    const abilitiesTemplate = archetype ? buildAbilitiesForArchetype(archetype, engine) : []
+    const abilitiesRuntime = abilitiesTemplate.map(toRuntime)
+
     // World state inicial
     const mapLocations = getExampleMapData(lore as LoreType)
     const mapState = createCampaignMapState(lore as LoreType)
@@ -79,6 +84,7 @@ export async function POST(req: NextRequest) {
         [characterName]: {
           hp: `${maxHP}/${maxHP}`, level: 1, experience: 0,
           conditions: [], active_effects: [], inventory: charInventory,
+          abilities: abilitiesRuntime,
           relationships: {},
         },
       },
@@ -181,6 +187,7 @@ export async function POST(req: NextRequest) {
           level: 1, experience: 0,
           stats: { ...charStats, hp: maxHP, maxHp: maxHP } as Prisma.InputJsonValue,
           inventory: charInventory as Prisma.InputJsonValue,
+          abilities: abilitiesTemplate as unknown as Prisma.InputJsonValue,
           backstory: characterDescription || '',
         },
       })

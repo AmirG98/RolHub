@@ -202,7 +202,29 @@
         {"es": "Pañuelo bordado por tu abuela", "en": "A handkerchief embroidered by your grandmother"},
         {"es": "Una flor seca prensada entre las páginas del cuaderno", "en": "A dried flower pressed between the pages of your notebook"}
       ],
-      "special_ability": "Voz Verde: Las plantas te dicen qué necesitan y qué pueden ofrecer. Podés preparar curas para cualquier dolencia común con lo que encuentres a tu alrededor. El bosque te abre caminos cuando los necesitás."
+      "special_ability": "Voz Verde: Las plantas te dicen qué necesitan y qué pueden ofrecer. Podés preparar curas para cualquier dolencia común con lo que encuentres a tu alrededor. El bosque te abre caminos cuando los necesitás.",
+      "abilities": [
+        {
+          "id": "voz-verde",
+          "name": { "es": "Voz Verde", "en": "Green Voice" },
+          "description": { "es": "Las plantas te dicen qué necesitan. Preparás una cura rápida con hierbas cercanas y aliviás a quien la bebe.", "en": "Plants tell you what they need. You prepare a quick cure with nearby herbs that soothes whoever drinks it." },
+          "kind": "special",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 3,
+          "icon": "leaf",
+          "tags": ["healing", "utility"]
+        },
+        {
+          "id": "camino-bosque",
+          "name": { "es": "Camino del Bosque", "en": "Forest Path" },
+          "description": { "es": "El bosque te abre un sendero oculto o te esconde de una amenaza bajo hojas y sombras.", "en": "The forest opens a hidden path or hides you from a threat beneath leaves and shadows." },
+          "kind": "trick",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 4,
+          "icon": "leaf",
+          "tags": ["exploration", "stealth"]
+        }
+      ]
     },
     {
       "id": "bruja-hogar",
@@ -231,7 +253,29 @@
         {"es": "Llave vieja que abre cualquier puerta de Cala Quieta", "en": "An old key that opens any door in Cala Quieta"},
         {"es": "Una taza de cerámica con grietas reparadas con oro (kintsugi)", "en": "A ceramic cup with cracks mended in gold (kintsugi)"}
       ],
-      "special_ability": "Cocina con Intención: Cualquier comida que prepares con propósito puede aliviar emociones difíciles, abrir conversaciones bloqueadas, o hacer que un huésped se sienta en casa. Tu mesa nunca está sola por mucho tiempo."
+      "special_ability": "Cocina con Intención: Cualquier comida que prepares con propósito puede aliviar emociones difíciles, abrir conversaciones bloqueadas, o hacer que un huésped se sienta en casa. Tu mesa nunca está sola por mucho tiempo.",
+      "abilities": [
+        {
+          "id": "cocina-intencion",
+          "name": { "es": "Cocina con Intención", "en": "Cooking with Intention" },
+          "description": { "es": "Preparás un plato con propósito que alivia emociones difíciles o abre una conversación bloqueada.", "en": "You prepare a dish with purpose that eases difficult emotions or opens a blocked conversation." },
+          "kind": "special",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 3,
+          "icon": "heart",
+          "tags": ["social", "healing"]
+        },
+        {
+          "id": "mesa-abierta",
+          "name": { "es": "Mesa Abierta", "en": "Open Table" },
+          "description": { "es": "Un huésped se sienta a tu mesa y baja la guardia — revela un secreto o una verdad que necesitaba compartir.", "en": "A guest sits at your table and lowers their guard — revealing a secret or a truth they needed to share." },
+          "kind": "trick",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 4,
+          "icon": "sparkles",
+          "tags": ["social", "utility"]
+        }
+      ]
     },
     {
       "id": "bruja-mar",
@@ -260,7 +304,29 @@
         {"es": "Brújula heredada de tu abuela marinera", "en": "Compass inherited from your seafaring grandmother"},
         {"es": "Una piedra pulida por el mar que llevás siempre encima", "en": "A sea-polished stone you always carry with you"}
       ],
-      "special_ability": "Lectura de Mareas: Una vez por escena podés sacar una carta del oráculo y vislumbrar lo que se acerca - una llegada, una despedida, una decisión que hay que tomar. Tu intuición sobre el clima y el mar es casi infalible."
+      "special_ability": "Lectura de Mareas: Una vez por escena podés sacar una carta del oráculo y vislumbrar lo que se acerca - una llegada, una despedida, una decisión que hay que tomar. Tu intuición sobre el clima y el mar es casi infalible.",
+      "abilities": [
+        {
+          "id": "lectura-mareas",
+          "name": { "es": "Lectura de Mareas", "en": "Tide Reading" },
+          "description": { "es": "Sacás una carta del oráculo y vislumbrás lo que se acerca — una llegada, una despedida, una decisión.", "en": "You draw a card from the oracle and glimpse what's coming — an arrival, a farewell, a decision." },
+          "kind": "special",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 4,
+          "icon": "eye",
+          "tags": ["utility", "lore"]
+        },
+        {
+          "id": "voz-viento",
+          "name": { "es": "Voz del Viento", "en": "Wind Voice" },
+          "description": { "es": "Leés el clima con precisión: sabés con horas de anticipación si va a haber tormenta, niebla o calma.", "en": "You read the weather precisely: hours in advance you know if storm, fog or calm is coming." },
+          "kind": "trick",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 3,
+          "icon": "moon",
+          "tags": ["exploration", "utility"]
+        }
+      ]
     }
   ],
   "voice_id": "narrador_calido",

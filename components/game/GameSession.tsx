@@ -15,6 +15,9 @@ import { BookOpen, Heart, Scroll, Dices, Users, Wifi, Crown, Swords, MessageSqua
 import DMPanel from '@/components/game/DMPanel'
 import { GameMapPanel } from '@/components/game/GameMapPanel'
 import { InventoryPanel } from '@/components/game/InventoryPanel'
+import { AbilitiesPanel } from '@/components/game/AbilitiesPanel'
+import type { AbilityRuntime } from '@/lib/types/ability'
+import { getLocalized } from '@/lib/i18n/localize'
 import { type Lore as LoreType } from '@/lib/maps/map-config'
 import { VoicePlayerCompact, VoicePlayerAuto } from '@/components/game/VoicePlayer'
 // import { DynamicMusicPlayer, useDynamicMusic } from '@/components/audio/DynamicMusicPlayer' // DISABLED
@@ -44,6 +47,7 @@ import {
   createLevelUpNotification,
   createAchievementNotification,
   createStreakNotification,
+  createLongRestNotification,
 } from '@/components/game/GameNotification'
 import { DeathSaveTracker } from '@/components/game/DeathSaveTracker'
 import { LevelUpModal } from '@/components/game/LevelUpModal'
@@ -682,6 +686,9 @@ export default function GameSession({
       }
       if (data.xpReward && data.xpReward > 0) {
         setNotifications(prev => [...prev, createXPNotification(data.xpReward, locale)])
+      }
+      if (data.longRest === true) {
+        setNotifications(prev => [...prev, createLongRestNotification(locale)])
       }
       if (data.levelUp) {
         if (data.levelUp.needsChoice && data.levelUp.statOptions?.length > 0) {
@@ -1574,6 +1581,41 @@ export default function GameSession({
               />
             </div>
             </div>
+
+            {/* Habilidades */}
+            {(() => {
+              const abs: AbilityRuntime[] =
+                (worldState.party?.[characterName]?.abilities as AbilityRuntime[]) ||
+                ((character as any)?.abilities as AbilityRuntime[]) ||
+                []
+              if (!Array.isArray(abs) || abs.length === 0) return null
+              return (
+                <div id="abilities-panel">
+                  <h3 className="font-heading text-xs text-gold-dim uppercase tracking-widest mb-2 px-1">
+                    {t.game.abilities}
+                  </h3>
+                  <div className="glass-panel-dark rounded-lg border border-gold-dim/20">
+                    <AbilitiesPanel
+                      abilities={abs}
+                      engine={engine as any}
+                      locale={locale as 'es' | 'en'}
+                      onUseAbility={(ab) => {
+                        const label = locale === 'en' ? 'Use Ability' : 'Uso Habilidad'
+                        const abName = getLocalized(ab.name, locale as 'es' | 'en') || ab.id
+                        setPrefillAction(`[${label}: ${abName}] `)
+                      }}
+                      onLongRest={() => {
+                        const label = locale === 'en' ? 'Long Rest' : 'Descanso Largo'
+                        const msg = locale === 'en'
+                          ? `[${label}] We camp and sleep for 8 hours to recover.`
+                          : `[${label}] Acampamos y dormimos 8 horas para recuperarnos.`
+                        setPrefillAction(msg)
+                      }}
+                    />
+                  </div>
+                </div>
+              )
+            })()}
 
             {/* Quests Section */}
             <div id="quests-section" className="glass-panel-dark rounded-lg p-4 border border-gold-dim/20 scroll-mt-4">

@@ -1,6 +1,39 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@clerk/nextjs/server'
 import { prisma } from '@/lib/db/prisma'
+import { buildAbilitiesForArchetype, toRuntime } from '@/lib/game/abilities'
+import type { Archetype } from '@/lib/types/lore'
+
+import lotrData from '@/data/lores/lotr.json'
+import zombiesData from '@/data/lores/zombies.json'
+import isekaiData from '@/data/lores/isekai.json'
+import vikingosData from '@/data/lores/vikingos.json'
+import starwarsData from '@/data/lores/starwars.json'
+import cyberpunkData from '@/data/lores/cyberpunk.json'
+import lovecraftData from '@/data/lores/lovecraft.json'
+import dndClassicData from '@/data/lores/dnd-classic.json'
+import romantasyData from '@/data/lores/romantasy.json'
+import cozyWitchData from '@/data/lores/cozy-witch.json'
+
+const LORE_DATA_MAP: Record<string, any> = {
+  LOTR: lotrData, ZOMBIES: zombiesData, ISEKAI: isekaiData,
+  VIKINGOS: vikingosData, STAR_WARS: starwarsData, CYBERPUNK: cyberpunkData,
+  LOVECRAFT_HORROR: lovecraftData, DND_CLASSIC: dndClassicData,
+  ROMANTASY: romantasyData, COZY_WITCH: cozyWitchData,
+}
+
+// Buscar archetype por id exacto, o fallback a matching de name (caso en que archetype es el nombre localizado)
+function resolveArchetype(loreKey: string, archetypeKey: string): Archetype | undefined {
+  const data = LORE_DATA_MAP[loreKey]
+  if (!data || !Array.isArray(data.archetypes)) return undefined
+  const exactById = data.archetypes.find((a: any) => a.id === archetypeKey)
+  if (exactById) return exactById as Archetype
+  const lowered = archetypeKey.toLowerCase().trim()
+  return data.archetypes.find((a: any) => {
+    if (typeof a.name === 'string') return a.name.toLowerCase() === lowered
+    return (a.name?.es?.toLowerCase() === lowered) || (a.name?.en?.toLowerCase() === lowered)
+  }) as Archetype | undefined
+}
 
 export async function POST(req: NextRequest) {
   try {
@@ -78,6 +111,13 @@ export async function POST(req: NextRequest) {
       }
     }
 
+    // Resolve archetype para construir abilities según engine
+    const resolvedArchetype = resolveArchetype(campaign.lore, archetype)
+    const abilitiesTemplate = resolvedArchetype
+      ? buildAbilitiesForArchetype(resolvedArchetype, campaign.engine)
+      : []
+    const abilitiesRuntime = abilitiesTemplate.map(toRuntime)
+
     // Create character
     const character = await prisma.character.create({
       data: {
@@ -97,6 +137,7 @@ export async function POST(req: NextRequest) {
           lore: 2,
         },
         inventory: inventory || [],
+        abilities: abilitiesTemplate as any,
       },
     })
 
@@ -121,6 +162,7 @@ export async function POST(req: NextRequest) {
           conditions: [],
           active_effects: [],
           inventory: inventory || [],
+          abilities: abilitiesRuntime,
           relationships: {},
         },
       },
