@@ -22,6 +22,8 @@ const isPublicRoute = createRouteMatcher([
   '/pricing',
   // Paddle webhook - no tiene auth de Clerk, usa su propia firma
   '/api/webhooks/paddle',
+  // Cron de Vercel - protegido por CRON_SECRET dentro del route
+  '/api/cron(.*)',
   // Guest routes - permiten jugar sin cuenta
   '/guest(.*)',
   '/play-guest(.*)',

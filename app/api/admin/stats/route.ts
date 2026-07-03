@@ -1,22 +1,12 @@
-import { auth, clerkClient } from '@clerk/nextjs/server'
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/db/prisma'
-
-const ADMIN_EMAILS = ['amir.gomez.14@gmail.com', 'tokugagua@gmail.com']
+import { requireAdmin } from '@/lib/auth/admin'
 
 export async function GET() {
   try {
-    const { userId } = await auth()
-    if (!userId) {
-      return NextResponse.json({ error: 'No autorizado' }, { status: 401 })
-    }
-
-    const client = await clerkClient()
-    const clerkUser = await client.users.getUser(userId)
-    const userEmail = clerkUser.emailAddresses[0]?.emailAddress?.toLowerCase() || ''
-
-    if (!ADMIN_EMAILS.includes(userEmail)) {
-      return NextResponse.json({ error: 'No tienes permisos de admin' }, { status: 403 })
+    const admin = await requireAdmin()
+    if (!admin.ok) {
+      return NextResponse.json({ error: admin.error }, { status: admin.status })
     }
 
     const now = new Date()

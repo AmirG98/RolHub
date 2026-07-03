@@ -8,7 +8,7 @@ const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
 })
 
-const HAIKU_MODEL = 'claude-haiku-4-5-20251001'
+const HAIKU_MODEL = process.env.UTILITY_MODEL || 'claude-haiku-4-5-20251001'
 
 interface TurnForSummary {
   role: string

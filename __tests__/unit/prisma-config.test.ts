@@ -16,11 +16,12 @@ describe('Prisma Configuration Safety', () => {
     expect(prismaFile).toContain('globalForPrisma')
   })
 
-  it('does NOT hardcode port 6543 in code (only in comments is ok)', () => {
-    // Buscar 6543 fuera de comentarios
-    const codeLines = prismaFile.split('\n').filter(l => !l.trim().startsWith('//'))
-    const codeOnly = codeLines.join('\n')
-    expect(codeOnly).not.toContain('6543')
+  it('forces port 6543 (transaction pooler) in the URL builder', () => {
+    // Decisión deliberada: buildUrl() fuerza el puerto 6543 (Supabase transaction
+    // pooler) para todas las queries serverless. Session mode (5432) queda solo
+    // para migraciones vía directUrl. Este test protege esa decisión.
+    expect(prismaFile).toContain("parsed.port = '6543'")
+    expect(prismaFile).toContain('pgbouncer')
   })
 
   it('exports withRetry helper', () => {

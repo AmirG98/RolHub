@@ -85,6 +85,19 @@ model Session {
   summaryCheckpoints   SummaryCheckpoint[]
   startedAt            DateTime        @default(now())
   endedAt              DateTime?
+
+  @@index([campaignId])
+  @@index([userId])
+}
+
+// Rate limiting DB-backed (fixed window). Sin dependencias externas.
+// key ejemplos: "guest-create:190.190.x.x", "turn:usr_abc123"
+model RateLimit {
+  key         String   @id
+  count       Int      @default(1)
+  windowStart DateTime @default(now())
+
+  @@index([windowStart])
 }
 
 model SummaryCheckpoint {
@@ -119,6 +132,8 @@ model Turn {
   playerName       String?    // Player username for display
   turnOrder        Int?       // Order in combat
   createdAt        DateTime   @default(now())
+
+  @@index([sessionId, createdAt])
 }
 
 model Character {

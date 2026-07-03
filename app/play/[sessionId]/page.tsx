@@ -6,6 +6,7 @@ import GameSession from '@/components/game/GameSession'
 import { ErrorBoundary } from '@/components/ui/ErrorBoundary'
 import { createCampaignMapState } from '@/lib/maps/map-init'
 import { type Lore } from '@/lib/types/lore'
+import { verifyGuestCookie } from '@/lib/guest/cookie'
 
 interface PlayPageProps {
   params: Promise<{
@@ -28,7 +29,7 @@ export default async function PlayPage({ params }: PlayPageProps) {
   if (!dbUserId) {
     // Intentar cookie de guest
     const cookieStore = await cookies()
-    const guestUserId = cookieStore.get('guest_user_id')?.value
+    const guestUserId = verifyGuestCookie(cookieStore.get('guest_user_id')?.value)
     if (guestUserId) {
       dbUserId = guestUserId
     }

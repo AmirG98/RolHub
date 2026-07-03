@@ -17,6 +17,8 @@ import { type Quest, type QuestUpdate } from '@/lib/types/quest'
 import { generateSummaryCheckpoint } from '@/lib/claude/session-summarizer'
 import { updateUserProgress, type ProgressUpdate } from '@/lib/game/user-progress'
 import { canStartSession } from '@/lib/plans/check-access'
+import { rateLimit, rateLimitResponse } from '@/lib/rate-limit'
+import { verifyGuestCookie } from '@/lib/guest/cookie'
 import {
   buildAbilitiesForArchetype,
   toRuntime,
@@ -105,13 +107,15 @@ export async function POST(req: NextRequest) {
       authUserStripeSubId = user?.stripeSubscriptionId || null
     }
 
+    let isGuestUser = false
     if (!authUserId) {
-      // Intentar cookie de guest
+      // Intentar cookie de guest (firmada con HMAC — ver lib/guest/cookie.ts)
       const { cookies } = await import('next/headers')
       const cookieStore = await cookies()
-      const guestUserId = cookieStore.get('guest_user_id')?.value
+      const guestUserId = verifyGuestCookie(cookieStore.get('guest_user_id')?.value)
       if (guestUserId) {
         authUserId = guestUserId
+        isGuestUser = true
       }
     }
 
@@ -119,22 +123,38 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'No autorizado' }, { status: 401 })
     }
 
-    // Plan check: usuarios registrados (no guests) deben tener plan activo
-    // DESACTIVADO hasta que Stripe esté configurado y los usuarios puedan pagar
-    // if (authUserPlan !== null) {
-    //   const access = canStartSession({
-    //     plan: authUserPlan,
-    //     trialSessionUsed: authUserTrialUsed,
-    //     planExpiresAt: authUserPlanExpires,
-    //     stripeSubscriptionId: authUserStripeSubId,
-    //   })
-    //   if (!access.allowed) {
-    //     return NextResponse.json(
-    //       { error: access.reasonEs || access.reason, upgradeRequired: true },
-    //       { status: 403 }
-    //     )
-    //   }
-    // }
+    // === RATE LIMITING ===
+    // Cada turno es una llamada a Claude — proteger costos.
+    // Guests: 40 turnos/hora. Registrados: 120/hora (generoso, solo frena scripts).
+    const turnLimit = isGuestUser
+      ? await rateLimit(`turn:guest:${authUserId}`, 40, 60 * 60)
+      : await rateLimit(`turn:user:${authUserId}`, 120, 60 * 60)
+    if (!turnLimit.allowed) {
+      return rateLimitResponse(
+        turnLimit,
+        isGuestUser
+          ? 'Alcanzaste el límite de turnos por hora del modo invitado. Creá una cuenta gratis para seguir sin límites.'
+          : 'Demasiados turnos en poco tiempo. Esperá unos minutos e intentá de nuevo.'
+      )
+    }
+
+    // Plan check: usuarios registrados (no guests) deben tener plan activo.
+    // Controlado por env var — NO por código comentado. Para activar el
+    // enforcement de billing el día del launch: BILLING_ENFORCED=true en Vercel.
+    if (process.env.BILLING_ENFORCED === 'true' && authUserPlan !== null) {
+      const access = canStartSession({
+        plan: authUserPlan,
+        trialSessionUsed: authUserTrialUsed,
+        planExpiresAt: authUserPlanExpires,
+        stripeSubscriptionId: authUserStripeSubId,
+      })
+      if (!access.allowed) {
+        return NextResponse.json(
+          { error: access.reasonEs || access.reason, upgradeRequired: true },
+          { status: 403 }
+        )
+      }
+    }
 
     const body = await req.json()
     const { sessionId, campaignId, action, actionType = 'talk', diceRoll, characterId, locale = 'es' } = body as {
@@ -194,6 +214,27 @@ export async function POST(req: NextRequest) {
 
     if (!isOwner && !participant) {
       return NextResponse.json({ error: 'No autorizado' }, { status: 403 })
+    }
+
+    // === CAP DE TURNOS PARA GUESTS ===
+    // El modo invitado es una demo, no juego ilimitado gratis. Cap duro de
+    // turnos de jugador por sesión (configurable via GUEST_TURN_CAP).
+    if (isGuestUser) {
+      const guestTurnCap = parseInt(process.env.GUEST_TURN_CAP || '15', 10)
+      const playerTurnCount = await prisma.turn.count({
+        where: { sessionId: session.id, role: 'USER' },
+      })
+      if (playerTurnCount >= guestTurnCap) {
+        return NextResponse.json(
+          {
+            error: locale === 'en'
+              ? 'You reached the guest demo limit for this adventure. Create a free account to keep playing and save your progress!'
+              : '¡Llegaste al límite de la demo de invitado para esta aventura. Creá una cuenta gratis para seguir jugando y guardar tu progreso!',
+            guestLimitReached: true,
+          },
+          { status: 403 }
+        )
+      }
     }
 
     // Determine which character is acting
@@ -1586,7 +1627,8 @@ INSTRUCCIONES PARA HABILIDADES:
     let response
     try {
       response = await anthropic.messages.create({
-        model: 'claude-sonnet-4-20250514',
+        // Configurable sin deploy: DM_MODEL en env. Default: Sonnet 4.6.
+        model: process.env.DM_MODEL || 'claude-sonnet-4-6',
         max_tokens: 1500,
         system: finalSystemPrompt,
         messages: conversationHistory as any,

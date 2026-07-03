@@ -10,6 +10,8 @@ import { type Lore as LoreType } from '@/lib/types/lore'
 import { generateOpeningTurnWithClaude } from '@/lib/claude/opening-turn'
 import { cookies } from 'next/headers'
 import { buildAbilitiesForArchetype, toRuntime } from '@/lib/game/abilities'
+import { rateLimit, getClientIp, rateLimitResponse } from '@/lib/rate-limit'
+import { signGuestId, verifyGuestCookie } from '@/lib/guest/cookie'
 
 import lotrData from '@/data/lores/lotr.json'
 import zombiesData from '@/data/lores/zombies.json'
@@ -29,6 +31,34 @@ import cozyWitchData from '@/data/lores/cozy-witch.json'
  */
 export async function POST(req: NextRequest) {
   try {
+    // === PROTECCIÓN DE COSTOS ===
+    // Este endpoint es público y cada request dispara: creación de usuario +
+    // campaña + sesión + opening turn (Claude) + retrato + imagen de escena
+    // (fal.ai). Sin límites, es un vector de abuso de costos.
+    const clientIp = getClientIp(req)
+    const ipLimit = await rateLimit(`guest-create:${clientIp}`, 3, 60 * 60) // 3/hora por IP
+    if (!ipLimit.allowed) {
+      return rateLimitResponse(
+        ipLimit,
+        'Alcanzaste el límite de partidas de prueba por ahora. Creá una cuenta gratis para seguir jugando.'
+      )
+    }
+
+    // Si este navegador ya tiene un guest válido, limitar también por usuario
+    // (una IP compartida no debería castigar a todos, pero un mismo guest
+    // tampoco debería crear sesiones en loop).
+    const existingCookieStore = await cookies()
+    const existingGuestId = verifyGuestCookie(existingCookieStore.get('guest_user_id')?.value)
+    if (existingGuestId) {
+      const guestLimit = await rateLimit(`guest-create-user:${existingGuestId}`, 5, 60 * 60 * 24) // 5/día
+      if (!guestLimit.allowed) {
+        return rateLimitResponse(
+          guestLimit,
+          'Alcanzaste el límite diario de partidas de prueba. Creá una cuenta gratis para seguir jugando.'
+        )
+      }
+    }
+
     const body = await req.json()
     const { lore, archetypeId, characterName, characterDescription, locale: rawLocale } = body as {
       lore: Lore
@@ -263,7 +293,7 @@ export async function POST(req: NextRequest) {
 
     // Guardar guest user ID en cookie
     const cookieStore = await cookies()
-    cookieStore.set('guest_user_id', result.userId, {
+    cookieStore.set('guest_user_id', signGuestId(result.userId), {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',

@@ -15,7 +15,7 @@ const anthropic = new Anthropic({
 })
 
 // Modelo rápido y barato — esto no tiene que ser Sonnet
-const OPENING_MODEL = 'claude-haiku-4-5-20251001'
+const OPENING_MODEL = process.env.UTILITY_MODEL || 'claude-haiku-4-5-20251001'
 
 interface OpeningTurnContext {
   loreData: any

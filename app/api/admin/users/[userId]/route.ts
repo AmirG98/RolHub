@@ -1,20 +1,15 @@
 import { auth, clerkClient } from '@clerk/nextjs/server'
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/db/prisma'
+import { requireAdmin } from '@/lib/auth/admin'
 
-const ADMIN_EMAILS = ['amir.gomez.14@gmail.com', 'tokugagua@gmail.com']
 const VALID_PLANS = ['FREE', 'PRO', 'GUILD'] as const
 
-// Helper para validar admin
-async function validateAdmin(adminClerkId: string | null): Promise<{ isAdmin: boolean; error?: NextResponse }> {
-  if (!adminClerkId) {
-    return { isAdmin: false, error: NextResponse.json({ error: 'No autorizado' }, { status: 401 }) }
-  }
-  const client = await clerkClient()
-  const clerkUser = await client.users.getUser(adminClerkId)
-  const userEmail = clerkUser.emailAddresses[0]?.emailAddress?.toLowerCase() || ''
-  if (!ADMIN_EMAILS.includes(userEmail)) {
-    return { isAdmin: false, error: NextResponse.json({ error: 'No tienes permisos de admin' }, { status: 403 }) }
+// Helper para validar admin (delega en lib/auth/admin — emails desde ADMIN_EMAILS env)
+async function validateAdmin(_adminClerkId: string | null): Promise<{ isAdmin: boolean; error?: NextResponse }> {
+  const admin = await requireAdmin()
+  if (!admin.ok) {
+    return { isAdmin: false, error: NextResponse.json({ error: admin.error }, { status: admin.status }) }
   }
   return { isAdmin: true }
 }
