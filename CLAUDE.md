@@ -1217,9 +1217,39 @@ REGLA: Una feature no está terminada hasta que tiene:
 
 ## 20. ESTADO ACTUAL DEL PROYECTO
 
-Ultima actualizacion: 2026-04-07
-Fase actual:         2 — Onboarding + DM Basico (MVP COMPLETO) + expansion de lores
-Ultima sesion:       Agregado lore COZY_WITCH (Aquelarre del Eclipse) — 10 lores totales
+Ultima actualizacion: 2026-07-05
+Fase actual:         2+ — MVP + monetizacion (Paddle) + hardening de seguridad
+Ultima sesion:       Verificacion de branch security-hardening (local, sin commit)
+
+SESION 2026-07-05 — security-hardening verificada en local:
+  ✅ Branch security-hardening checkouteada, npm install, prisma db push OK
+     (tabla RateLimit + indices en Turn/Session creados en Supabase)
+  ✅ 9 env vars nuevas agregadas a .env.local (ADMIN_EMAILS, CRON_SECRET,
+     GUEST_COOKIE_SECRET, DM_MODEL, UTILITY_MODEL, BILLING_ENFORCED,
+     GUEST_TURN_CAP, GUEST_RETENTION_DAYS, GUEST_COOKIE_STRICT)
+  ✅ tsc 0 errores, vitest 13/13, health 200, cron auth OK (bearer→200, sin→401)
+  ✅ FIX aplicado (sin commitear): middleware.ts ahora devuelve 401 JSON para
+     rutas /api/* sin auth (antes 307 redirect a /login que enmascaraba errores
+     en fetch). Paginas de navegador siguen redirigiendo normal.
+  ✅ FIX aplicado (sin commitear): indice @@index([expiresAt]) en GeneratedAsset
+     (9k+ filas; protege el deleteMany del cron de cleanup). Ya pusheado a DB.
+  ✅ FIX CRITICO: rutas guest y combat usaban modelo hardcodeado
+     claude-sonnet-4-20250514 (RETIRADO — la API devuelve 404). En main
+     tambien lo usa turn/route.ts → PROD ESTABA ROTA para jugar. Ahora las
+     3 rutas usan process.env.DM_MODEL || 'claude-sonnet-4-6'.
+  ✅ FIX: loops infinitos de render (Maximum update depth) en InventoryPanel
+     (prevInventoryRef nunca se actualizaba con items nuevos) y TypewriterText
+     (efecto dependia de callbacks inline del padre). Tests de regresion en
+     __tests__/unit/components-loops.test.tsx.
+  ✅ Testing de componentes habilitado: jsdom + @testing-library/react como
+     devDeps, vitest.config incluye .tsx. Suite: 19/19.
+  ✅ Verificacion pre-prod: tsc 0 errores, build de produccion OK, smoke test
+     E2E del turno guest con API real de Claude (200 + narracion).
+  ⚠ NOTA: Prisma CLI no lee .env.local — cargar vars con
+     `set -a; . ./.env.local; set +a` antes de db push/migrate.
+  ⚠ NOTA: git log muestra features no documentadas aca: abilities system,
+     migracion Stripe→Paddle, legal pages, Trial+PRO $8.99/mo. Seccion 20
+     necesita una actualizacion completa en una proxima sesion.
 
 URL DE PRODUCCION: https://rol-hub.vercel.app (verificar en Vercel Dashboard)
 
