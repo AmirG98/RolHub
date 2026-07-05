@@ -7,6 +7,7 @@
 
 import type { SkillTree, SkillNodeState, MilestoneState } from '@/lib/types/skill-tree'
 import { checkUnlockCondition } from '@/lib/game/milestones'
+import { resolveArchetypeId } from '@/lib/game/archetype-resolver'
 
 // ── Imports estáticos de árboles (42, uno por arquetipo por lore) ──────────
 import cozyWitchBrujaHogar from '@/data/skill-trees/cozy-witch/bruja-hogar.json'
@@ -101,9 +102,16 @@ const byKey = new Map<string, SkillTree>(
   TREES.map((t) => [`${t.loreId}:${t.archetypeId}`, t])
 )
 
-/** Árbol para un lore+arquetipo, o null si (todavía) no existe. */
-export function getSkillTree(loreId: string, archetypeId: string): SkillTree | null {
-  return byKey.get(`${loreId}:${archetypeId}`) ?? null
+/**
+ * Árbol para un lore+arquetipo, o null si (todavía) no existe.
+ * Acepta tanto el id del arquetipo ("ranger") como el nombre localizado
+ * ("Montaraz"/"Ranger") — Character.archetype guarda el nombre, no el id.
+ */
+export function getSkillTree(loreId: string, archetypeKey: string): SkillTree | null {
+  const direct = byKey.get(`${loreId}:${archetypeKey}`)
+  if (direct) return direct
+  const resolvedId = resolveArchetypeId(loreId, archetypeKey)
+  return resolvedId ? byKey.get(`${loreId}:${resolvedId}`) ?? null : null
 }
 
 export function listSkillTrees(): SkillTree[] {

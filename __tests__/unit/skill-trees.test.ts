@@ -109,6 +109,14 @@ describe('skill-trees — registry y estados', () => {
     expect(getSkillTree('LOTR', 'no-existe')).toBeNull()
   })
 
+  it('resuelve el árbol por NOMBRE localizado, no solo por id', () => {
+    // Character.archetype guarda el nombre ("Montaraz"), no el id ("ranger").
+    // Regresión: getSkillTree debe resolver ambos.
+    expect(getSkillTree('LOTR', 'ranger')).not.toBeNull()
+    expect(getSkillTree('LOTR', 'Montaraz')?.archetypeId).toBe('ranger')
+    expect(getSkillTree('LOTR', 'Ranger')?.archetypeId).toBe('ranger') // nombre EN
+  })
+
   it('personaje nuevo: todo locked', () => {
     const states = computeNodeStatuses(tree, EMPTY_MILESTONES, [], 1)
     expect(states.every((s) => s.status === 'locked')).toBe(true)
