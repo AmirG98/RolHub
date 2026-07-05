@@ -1,0 +1,300 @@
+{
+  "loreId": "DND_CLASSIC",
+  "archetypeId": "street-rogue",
+  "name": {
+    "es": "Senda del Superviviente Callejero",
+    "en": "Path of the Street Survivor"
+  },
+  "nodes": [
+    {
+      "id": "pickpocket",
+      "name": {
+        "es": "Manos Ligeras",
+        "en": "Light Fingers"
+      },
+      "description": {
+        "es": "Robás un objeto de hasta tamaño mediano de una persona sin que lo note, sin necesidad de tirada.",
+        "en": "You steal an object up to medium size from a person without them noticing, no roll required."
+      },
+      "kind": "trick",
+      "resource": "daily_uses",
+      "maxUses": 3,
+      "icon": "sparkles",
+      "tags": [
+        "social",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "turns_played",
+        "count": 5
+      }
+    },
+    {
+      "id": "dirty-fighting",
+      "name": {
+        "es": "Pelea Sucia",
+        "en": "Dirty Fighting"
+      },
+      "description": {
+        "es": "Tirás arena, mordés o golpeás donde duele: el enemigo pierde su próxima acción de ataque.",
+        "en": "You throw dirt, bite, or hit where it hurts: the enemy loses their next attack action."
+      },
+      "kind": "trick",
+      "resource": "daily_uses",
+      "maxUses": 2,
+      "icon": "sword",
+      "tags": [
+        "combat"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "combats_won",
+        "count": 1
+      }
+    },
+    {
+      "id": "back-alley-contact",
+      "name": {
+        "es": "Contacto del Callejón",
+        "en": "Back Alley Contact"
+      },
+      "description": {
+        "es": "Encontrás a alguien de confianza en cualquier ciudad que te da información local o un favor menor.",
+        "en": "You find a reliable contact in any city who gives you local intel or a minor favor."
+      },
+      "kind": "special",
+      "resource": "daily_uses",
+      "maxUses": 2,
+      "icon": "eye",
+      "tags": [
+        "social",
+        "exploration"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 1
+      }
+    },
+    {
+      "id": "rooftop-escape",
+      "name": {
+        "es": "Escape por los Techos",
+        "en": "Rooftop Escape"
+      },
+      "description": {
+        "es": "Escalás y cruzás tejados o estructuras urbanas sin tirada, llevando a un aliado si querés.",
+        "en": "You scale and cross rooftops or urban structures without a roll, taking one ally if you choose."
+      },
+      "kind": "trick",
+      "resource": "daily_uses",
+      "maxUses": 2,
+      "icon": "moon",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "abilities_used",
+        "count": 2
+      }
+    },
+    {
+      "id": "shadow-step",
+      "name": {
+        "es": "Paso de Sombra",
+        "en": "Shadow Step"
+      },
+      "description": {
+        "es": "Te movés de una sombra a otra a hasta 9 metros sin ser visto, incluso durante el combate.",
+        "en": "You move from one shadow to another up to 9 meters away unseen, even during combat."
+      },
+      "kind": "special",
+      "resource": "daily_uses",
+      "maxUses": 2,
+      "icon": "moon",
+      "tags": [
+        "stealth",
+        "combat"
+      ],
+      "tier": 2,
+      "requires": [
+        "rooftop-escape"
+      ],
+      "unlock": {
+        "type": "combats_won",
+        "count": 3
+      }
+    },
+    {
+      "id": "silver-tongue",
+      "name": {
+        "es": "Lengua de Plata",
+        "en": "Silver Tongue"
+      },
+      "description": {
+        "es": "Con una historia bien armada convencés a un NPC de que sos alguien que no sos, sin tirada.",
+        "en": "With a well-crafted story you convince an NPC you are someone you are not, no roll required."
+      },
+      "kind": "trick",
+      "resource": "daily_uses",
+      "maxUses": 2,
+      "icon": "sparkles",
+      "tags": [
+        "social",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "back-alley-contact"
+      ],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 2
+      }
+    },
+    {
+      "id": "blade-dance",
+      "name": {
+        "es": "Danza de Dagas",
+        "en": "Blade Dance"
+      },
+      "description": {
+        "es": "Atacás dos veces con tus dagas en un mismo turno y el segundo impacto suma +1d6 de daño.",
+        "en": "You attack twice with your daggers in the same turn and the second hit deals +1d6 bonus damage."
+      },
+      "kind": "trick",
+      "resource": "daily_uses",
+      "maxUses": 2,
+      "icon": "sword",
+      "tags": [
+        "combat"
+      ],
+      "tier": 2,
+      "requires": [
+        "dirty-fighting"
+      ],
+      "unlock": {
+        "type": "level_reached",
+        "count": 3
+      }
+    },
+    {
+      "id": "street-medic",
+      "name": {
+        "es": "Médico de Callejón",
+        "en": "Street Medic"
+      },
+      "description": {
+        "es": "Usás lo que tenés a mano para estabilizar a un aliado caído y recuperar 1d8 HP.",
+        "en": "You use whatever is at hand to stabilize a downed ally and restore 1d8 HP."
+      },
+      "kind": "special",
+      "resource": "daily_uses",
+      "maxUses": 2,
+      "icon": "heart",
+      "tags": [
+        "healing",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "pickpocket"
+      ],
+      "unlock": {
+        "type": "deaths_survived",
+        "count": 1
+      }
+    },
+    {
+      "id": "phantom-presence",
+      "name": {
+        "es": "Presencia Fantasma",
+        "en": "Phantom Presence"
+      },
+      "description": {
+        "es": "Pasás una escena completa sin dejar rastro ni recuerdo en los testigos: nadie puede confirmar que estuviste ahí.",
+        "en": "You spend an entire scene without leaving a trace or memory in witnesses: no one can confirm you were there."
+      },
+      "kind": "special",
+      "resource": "daily_uses",
+      "maxUses": 1,
+      "icon": "eye",
+      "tags": [
+        "stealth",
+        "exploration"
+      ],
+      "tier": 3,
+      "requires": [
+        "shadow-step",
+        "silver-tongue"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 2
+      }
+    },
+    {
+      "id": "death-blow",
+      "name": {
+        "es": "Golpe Letal",
+        "en": "Death Blow"
+      },
+      "description": {
+        "es": "Un ataque preciso al punto débil que triplica el daño de Ataque Furtivo contra un enemigo que no te vea venir.",
+        "en": "A precise strike to the weak point that triples your Sneak Attack damage against an enemy who doesn't see you coming."
+      },
+      "kind": "special",
+      "resource": "daily_uses",
+      "maxUses": 1,
+      "icon": "flame",
+      "tags": [
+        "combat"
+      ],
+      "tier": 3,
+      "requires": [
+        "blade-dance",
+        "street-medic"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 2
+      }
+    },
+    {
+      "id": "king-of-shadows",
+      "name": {
+        "es": "Rey de las Sombras",
+        "en": "King of Shadows"
+      },
+      "description": {
+        "es": "Una vez por día te volvés intocable durante tres turnos: nada te puede detectar, dañar o retener mientras te movés como la oscuridad misma.",
+        "en": "Once per day you become untouchable for three turns: nothing can detect, harm, or hold you as you move like darkness itself."
+      },
+      "kind": "special",
+      "resource": "daily_uses",
+      "maxUses": 1,
+      "icon": "moon",
+      "tags": [
+        "stealth",
+        "combat",
+        "utility"
+      ],
+      "tier": 4,
+      "requires": [
+        "phantom-presence",
+        "death-blow"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 3
+      }
+    }
+  ]
+}

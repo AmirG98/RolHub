@@ -1,0 +1,277 @@
+{
+  "loreId": "LOTR",
+  "archetypeId": "scholar",
+  "name": {
+    "es": "Senda del Erudito",
+    "en": "Path of the Scholar"
+  },
+  "nodes": [
+    {
+      "id": "ancient-tongues",
+      "name": {
+        "es": "Lenguas Antiguas",
+        "en": "Ancient Tongues"
+      },
+      "description": {
+        "es": "Leés una inscripción, símbolo o texto en cualquier lengua antigua y obtenés información crucial sobre el lugar u objeto.",
+        "en": "You read an inscription, symbol, or text in any ancient tongue and gain crucial information about the place or object."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 2,
+      "icon": "eye",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "turns_played",
+        "count": 5
+      }
+    },
+    {
+      "id": "lore-of-ruins",
+      "name": {
+        "es": "Saber de Ruinas",
+        "en": "Lore of Ruins"
+      },
+      "description": {
+        "es": "Recordás leyendas sobre un lugar: el DM te revela una trampa oculta, un secreto arquitectónico o una debilidad del entorno.",
+        "en": "You recall legends about a location: the DM reveals a hidden trap, an architectural secret, or an environmental weakness."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "sparkles",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "abilities_used",
+        "count": 2
+      }
+    },
+    {
+      "id": "words-of-counsel",
+      "name": {
+        "es": "Palabras de Consejo",
+        "en": "Words of Counsel"
+      },
+      "description": {
+        "es": "Citás un proverbio o historia antigua que convence a un NPC indeciso de cooperar con tu causa.",
+        "en": "You quote a proverb or ancient tale that convinces a hesitant NPC to cooperate with your cause."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "moon",
+      "tags": [
+        "social",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 1
+      }
+    },
+    {
+      "id": "warding-inscription",
+      "name": {
+        "es": "Inscripción Protectora",
+        "en": "Warding Inscription"
+      },
+      "description": {
+        "es": "Trazás una inscripción antigua en una superficie que disuade a criaturas oscuras: ningún no-muerto ni espíritu puede cruzarla hasta que sean atacadas.",
+        "en": "You trace an ancient inscription on a surface that deters dark creatures: no undead or spirit can cross it until it is disturbed."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "shield",
+      "tags": [
+        "combat",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "combats_won",
+        "count": 1
+      }
+    },
+    {
+      "id": "voice-of-rivendell",
+      "name": {
+        "es": "Voz de Rivendel",
+        "en": "Voice of Rivendell"
+      },
+      "description": {
+        "es": "Invocás el peso de la historia élfica en tu discurso: todos los presentes quedan en silencio y escuchan tus palabras sin interrupciones ni hostilidad por un turno.",
+        "en": "You invoke the weight of Elvish history in your speech: all present fall silent and hear your words without interruption or hostility for one turn."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "sparkles",
+      "tags": [
+        "social",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "words-of-counsel",
+        "ancient-tongues"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 2
+      }
+    },
+    {
+      "id": "chronicle-of-weakness",
+      "name": {
+        "es": "Crónica de Debilidades",
+        "en": "Chronicle of Weaknesses"
+      },
+      "description": {
+        "es": "Recordás registros sobre un tipo de criatura y exponés su punto débil: el próximo ataque del grupo contra ella tiene ventaja y hace +1d6 de daño.",
+        "en": "You recall records about a creature type and expose its weak point: the party's next attack against it has advantage and deals +1d6 damage."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "flame",
+      "tags": [
+        "combat",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "lore-of-ruins",
+        "warding-inscription"
+      ],
+      "unlock": {
+        "type": "combats_won",
+        "count": 3
+      }
+    },
+    {
+      "id": "cartography-of-shadow",
+      "name": {
+        "es": "Cartografía de las Sombras",
+        "en": "Cartography of Shadow"
+      },
+      "description": {
+        "es": "Consultás tus mapas y pergaminos para revelar una ruta alternativa o un pasaje secreto que evita un peligro inmediato.",
+        "en": "You consult your maps and scrolls to reveal an alternate route or secret passage that bypasses an immediate danger."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "eye",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "lore-of-ruins"
+      ],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 2
+      }
+    },
+    {
+      "id": "scroll-of-binding",
+      "name": {
+        "es": "Pergamino de Ligadura",
+        "en": "Scroll of Binding"
+      },
+      "description": {
+        "es": "Leés en voz alta una fórmula antigua que inmoviliza a una criatura con lazos de luz por dos turnos.",
+        "en": "You read aloud an ancient formula that immobilizes one creature with bonds of light for two turns."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "zap",
+      "tags": [
+        "combat"
+      ],
+      "tier": 3,
+      "requires": [
+        "chronicle-of-weakness",
+        "warding-inscription"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 2
+      }
+    },
+    {
+      "id": "memory-of-the-eldar",
+      "name": {
+        "es": "Memoria de los Eldar",
+        "en": "Memory of the Eldar"
+      },
+      "description": {
+        "es": "Compartís recuerdos élficos ancestrales con un aliado herido: recupera 2d6 HP y se libera de veneno o miedo.",
+        "en": "You share ancestral Elvish memories with a wounded ally: they recover 2d6 HP and are freed from poison or fear."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "heart",
+      "tags": [
+        "healing",
+        "social"
+      ],
+      "tier": 3,
+      "requires": [
+        "voice-of-rivendell",
+        "cartography-of-shadow"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 3
+      }
+    },
+    {
+      "id": "flame-of-anor",
+      "name": {
+        "es": "Llama de Anor",
+        "en": "Flame of Anor"
+      },
+      "description": {
+        "es": "Invocás el conocimiento más profundo de las Edades: una vez por acto, pronunciás una verdad que destruye la voluntad de un enemigo o revela la solución a un enigma imposible.",
+        "en": "You invoke the deepest knowledge of the Ages: once per act, you speak a truth that breaks an enemy's will or reveals the solution to an impossible riddle."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "flame",
+      "tags": [
+        "combat",
+        "social",
+        "utility"
+      ],
+      "tier": 4,
+      "requires": [
+        "scroll-of-binding",
+        "memory-of-the-eldar"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 3
+      }
+    }
+  ]
+}

@@ -1,0 +1,276 @@
+{
+  "loreId": "ISEKAI",
+  "archetypeId": "beast_tamer",
+  "name": {
+    "es": "Senda del Domador",
+    "en": "Path of the Tamer"
+  },
+  "nodes": [
+    {
+      "id": "beast-sense",
+      "name": {
+        "es": "Sentido Bestial",
+        "en": "Beast Sense"
+      },
+      "description": {
+        "es": "Percibís las emociones de cualquier monstruo cercano, sabiendo si es agresivo, asustado o curioso antes de verlo.",
+        "en": "You sense the emotions of any nearby monster, knowing if it's aggressive, scared, or curious before seeing it."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 2,
+      "icon": "eye",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "turns_played",
+        "count": 5
+      }
+    },
+    {
+      "id": "calming-touch",
+      "name": {
+        "es": "Toque Apaciguador",
+        "en": "Calming Touch"
+      },
+      "description": {
+        "es": "Tocás a un monstruo hostil y reducís su agresividad, dándote una ronda extra para intentar domesticarlo.",
+        "en": "You touch a hostile monster and reduce its aggression, giving you an extra round to attempt taming."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "heart",
+      "tags": [
+        "combat",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "combats_won",
+        "count": 1
+      }
+    },
+    {
+      "id": "pack-bond",
+      "name": {
+        "es": "Vínculo de Manada",
+        "en": "Pack Bond"
+      },
+      "description": {
+        "es": "Tus monstruos compañeros actúan coordinados: cuando uno ataca, otro puede atacar al mismo objetivo sin usar su turno.",
+        "en": "Your companion monsters act in sync: when one attacks, another can strike the same target without spending its turn."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "zap",
+      "tags": [
+        "combat"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "abilities_used",
+        "count": 2
+      }
+    },
+    {
+      "id": "monster-tongue",
+      "name": {
+        "es": "Lengua Monstruosa",
+        "en": "Monster Tongue"
+      },
+      "description": {
+        "es": "Podés hablar con cualquier monstruo y pedirle información sobre el dungeon, sus debilidades o aliados cercanos.",
+        "en": "You can speak with any monster and ask it about the dungeon, its weaknesses, or nearby allies."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "sparkles",
+      "tags": [
+        "social",
+        "exploration"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 1
+      }
+    },
+    {
+      "id": "alpha-roar",
+      "name": {
+        "es": "Rugido Alfa",
+        "en": "Alpha Roar"
+      },
+      "description": {
+        "es": "Soltás un rugido que establece dominancia: los monstruos de rango menor se paralizan un turno y los domesticados ganan ventaja en sus ataques.",
+        "en": "You unleash a roar that establishes dominance: lower-rank monsters freeze for one turn and tamed ones gain advantage on attacks."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "flame",
+      "tags": [
+        "combat",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "calming-touch",
+        "pack-bond"
+      ],
+      "unlock": {
+        "type": "combats_won",
+        "count": 3
+      }
+    },
+    {
+      "id": "dungeon-scout",
+      "name": {
+        "es": "Explorador del Calabozo",
+        "en": "Dungeon Scout"
+      },
+      "description": {
+        "es": "Enviás a uno de tus monstruos compañeros a explorar una zona y te reporta lo que encuentra sin correr peligro.",
+        "en": "You send one of your companion monsters to scout an area and it reports back safely with what it found."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "eye",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "beast-sense",
+        "monster-tongue"
+      ],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 2
+      }
+    },
+    {
+      "id": "wild-medic",
+      "name": {
+        "es": "Médico Salvaje",
+        "en": "Wild Medic"
+      },
+      "description": {
+        "es": "Usás tu conexión bestial para curar a un monstruo compañero o a un aliado herido por 2d6 HP usando hierbas e instinto.",
+        "en": "You use your beast connection to heal a companion monster or wounded ally for 2d6 HP using herbs and instinct."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "leaf",
+      "tags": [
+        "healing",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "calming-touch"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 1
+      }
+    },
+    {
+      "id": "apex-taming",
+      "name": {
+        "es": "Doma Suprema",
+        "en": "Apex Taming"
+      },
+      "description": {
+        "es": "Intentás domesticar a un monstruo de élite o jefe reducido a menos de la mitad de HP, ignorando resistencias raciales.",
+        "en": "You attempt to tame an elite or boss monster reduced below half HP, bypassing racial resistances."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "moon",
+      "tags": [
+        "combat",
+        "utility"
+      ],
+      "tier": 3,
+      "requires": [
+        "alpha-roar",
+        "dungeon-scout"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 2
+      }
+    },
+    {
+      "id": "monster-general",
+      "name": {
+        "es": "General de Monstruos",
+        "en": "Monster General"
+      },
+      "description": {
+        "es": "Organizás a toda tu manada en formación táctica, permitiendo que todos ataquen en el mismo turno una vez por combate.",
+        "en": "You organize your whole pack into tactical formation, allowing all of them to attack on the same turn once per combat."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "shield",
+      "tags": [
+        "combat"
+      ],
+      "tier": 3,
+      "requires": [
+        "alpha-roar",
+        "wild-medic"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 2
+      }
+    },
+    {
+      "id": "king-of-beasts",
+      "name": {
+        "es": "Rey de las Bestias",
+        "en": "King of Beasts"
+      },
+      "description": {
+        "es": "Tu leyenda recorre los dungeon: cualquier monstruo que te vea puede elegir rendirse y ofrecerte lealtad, y tus compañeros actuales ganan +3 a todos sus ataques permanentemente.",
+        "en": "Your legend spreads through dungeons: any monster that sees you may choose to surrender and offer loyalty, and your current companions permanently gain +3 to all attacks."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "sparkles",
+      "tags": [
+        "combat",
+        "social",
+        "utility"
+      ],
+      "tier": 4,
+      "requires": [
+        "apex-taming",
+        "monster-general"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 3
+      }
+    }
+  ]
+}

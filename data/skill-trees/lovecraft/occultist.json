@@ -1,0 +1,276 @@
+{
+  "loreId": "LOVECRAFT_HORROR",
+  "archetypeId": "occultist",
+  "name": {
+    "es": "Senda del Conocimiento Prohibido",
+    "en": "Path of Forbidden Knowledge"
+  },
+  "nodes": [
+    {
+      "id": "sigil-reading",
+      "name": {
+        "es": "Lectura de Sigilos",
+        "en": "Sigil Reading"
+      },
+      "description": {
+        "es": "Analizás símbolos ocultos en la escena y el DM te revela el propósito o peligro que encierran.",
+        "en": "You analyze hidden symbols in the scene and the DM reveals their purpose or danger."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 2,
+      "icon": "eye",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "turns_played",
+        "count": 5
+      }
+    },
+    {
+      "id": "warding-circle",
+      "name": {
+        "es": "Círculo Protector",
+        "en": "Warding Circle"
+      },
+      "description": {
+        "es": "Trazás un círculo con tiza y sangre que impide la entrada de entidades sobrenaturales durante 2 turnos.",
+        "en": "You draw a circle with chalk and blood that blocks supernatural entities from entering for 2 turns."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "shield",
+      "tags": [
+        "combat",
+        "defense"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "combats_won",
+        "count": 1
+      }
+    },
+    {
+      "id": "eldritch-whisper",
+      "name": {
+        "es": "Susurro Éldritch",
+        "en": "Eldritch Whisper"
+      },
+      "description": {
+        "es": "Murmurás palabras en lenguas muertas que quiebran la compostura de un PNJ, haciéndolo más sugestionable.",
+        "en": "You murmur words in dead tongues that shatter an NPC's composure, making them more susceptible to persuasion."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "moon",
+      "tags": [
+        "social",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "abilities_used",
+        "count": 2
+      }
+    },
+    {
+      "id": "ritual-mending",
+      "name": {
+        "es": "Remiendo Ritual",
+        "en": "Ritual Mending"
+      },
+      "description": {
+        "es": "Realizás un ritual de curación menor con velas y sangre que restaura 1d6 HP a vos o a un aliado.",
+        "en": "You perform a minor healing ritual with candles and blood that restores 1d6 HP to yourself or an ally."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "heart",
+      "tags": [
+        "healing",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 1
+      }
+    },
+    {
+      "id": "mind-veil",
+      "name": {
+        "es": "Velo Mental",
+        "en": "Mind Veil"
+      },
+      "description": {
+        "es": "Proyectás una ilusión telepática que confunde a un enemigo, haciéndolo perder su próxima acción.",
+        "en": "You project a telepathic illusion that confuses an enemy, causing them to lose their next action."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "sparkles",
+      "tags": [
+        "combat",
+        "social"
+      ],
+      "tier": 2,
+      "requires": [
+        "eldritch-whisper"
+      ],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 2
+      }
+    },
+    {
+      "id": "dark-invocation",
+      "name": {
+        "es": "Invocación Oscura",
+        "en": "Dark Invocation"
+      },
+      "description": {
+        "es": "Invocás una presencia innombrable que ataca a todos los enemigos en la escena, costándote 5 puntos de Sanity.",
+        "en": "You invoke an unnamable presence that strikes all enemies in the scene, costing you 5 Sanity points."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "flame",
+      "tags": [
+        "combat"
+      ],
+      "tier": 2,
+      "requires": [
+        "warding-circle"
+      ],
+      "unlock": {
+        "type": "combats_won",
+        "count": 3
+      }
+    },
+    {
+      "id": "astral-reading",
+      "name": {
+        "es": "Lectura Astral",
+        "en": "Astral Reading"
+      },
+      "description": {
+        "es": "Entrás en trance y percibís los eventos pasados de un lugar, revelando una pista clave oculta en la escena.",
+        "en": "You enter a trance and perceive past events of a location, revealing a key hidden clue in the scene."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "eye",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "sigil-reading",
+        "ritual-mending"
+      ],
+      "unlock": {
+        "type": "level_reached",
+        "count": 3
+      }
+    },
+    {
+      "id": "sanity-anchor",
+      "name": {
+        "es": "Ancla de Cordura",
+        "en": "Sanity Anchor"
+      },
+      "description": {
+        "es": "Recitás una oración protectora que restaura 10 puntos de Sanity a vos o a un aliado al borde del colapso.",
+        "en": "You recite a protective prayer that restores 10 Sanity points to yourself or an ally on the verge of collapse."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "leaf",
+      "tags": [
+        "healing",
+        "utility"
+      ],
+      "tier": 3,
+      "requires": [
+        "ritual-mending",
+        "mind-veil"
+      ],
+      "unlock": {
+        "type": "deaths_survived",
+        "count": 1
+      }
+    },
+    {
+      "id": "curse-of-the-deep",
+      "name": {
+        "es": "Maldición de las Profundidades",
+        "en": "Curse of the Deep"
+      },
+      "description": {
+        "es": "Grabás una maldición en la carne de un enemigo que reduce a la mitad todos sus ataques y tiradas durante 3 turnos.",
+        "en": "You carve a curse into an enemy's flesh that halves all their attacks and rolls for 3 turns."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "zap",
+      "tags": [
+        "combat",
+        "utility"
+      ],
+      "tier": 3,
+      "requires": [
+        "dark-invocation",
+        "astral-reading"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 2
+      }
+    },
+    {
+      "id": "avatar-of-the-void",
+      "name": {
+        "es": "Avatar del Vacío",
+        "en": "Avatar of the Void"
+      },
+      "description": {
+        "es": "Te fusionás momentáneamente con el cosmos exterior: durante 2 turnos sos inmune al daño, tus hechizos no cuestan Sanity y tus palabras aterran a cualquier PNJ, pero al terminar perdés 20 puntos de Sanity.",
+        "en": "You momentarily merge with the outer cosmos: for 2 turns you are immune to damage, your spells cost no Sanity and your words terrorize any NPC, but when it ends you lose 20 Sanity points."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "moon",
+      "tags": [
+        "combat",
+        "social",
+        "utility"
+      ],
+      "tier": 4,
+      "requires": [
+        "sanity-anchor",
+        "curse-of-the-deep"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 3
+      }
+    }
+  ]
+}

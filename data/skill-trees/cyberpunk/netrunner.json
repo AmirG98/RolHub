@@ -1,0 +1,276 @@
+{
+  "loreId": "CYBERPUNK",
+  "archetypeId": "netrunner",
+  "name": {
+    "es": "Senda del Fantasma Digital",
+    "en": "Path of the Digital Ghost"
+  },
+  "nodes": [
+    {
+      "id": "ping-scan",
+      "name": {
+        "es": "Ping de Rastreo",
+        "en": "Trace Ping"
+      },
+      "description": {
+        "es": "Escaneás la red local y revelás todos los dispositivos conectados, cámaras y torretas en la escena.",
+        "en": "You scan the local network and reveal all connected devices, cameras, and turrets in the scene."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 2,
+      "icon": "eye",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "turns_played",
+        "count": 5
+      }
+    },
+    {
+      "id": "glitch-pulse",
+      "name": {
+        "es": "Pulso de Interferencia",
+        "en": "Glitch Pulse"
+      },
+      "description": {
+        "es": "Emitís una ráfaga de código corrupto que interrumpe implantes y electrónica enemiga por un turno.",
+        "en": "You emit a burst of corrupt code that disrupts enemy implants and electronics for one turn."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "zap",
+      "tags": [
+        "combat",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "combats_won",
+        "count": 1
+      }
+    },
+    {
+      "id": "ghost-id",
+      "name": {
+        "es": "ID Fantasma",
+        "en": "Ghost ID"
+      },
+      "description": {
+        "es": "Falsificás tu identidad digital en tiempo real, pasando controles de acceso y guardias con sistemas de verificación.",
+        "en": "You spoof your digital identity in real time, bypassing access controls and guards using verification systems."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "moon",
+      "tags": [
+        "social",
+        "exploration"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "abilities_used",
+        "count": 2
+      }
+    },
+    {
+      "id": "data-leech",
+      "name": {
+        "es": "Sanguijuela de Datos",
+        "en": "Data Leech"
+      },
+      "description": {
+        "es": "Te conectás a un sistema y extraés información confidencial que el GM puede usar como pista o ventaja de negociación.",
+        "en": "You jack into a system and extract confidential data the GM can use as a clue or negotiation leverage."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 2,
+      "icon": "sparkles",
+      "tags": [
+        "exploration",
+        "social"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 1
+      }
+    },
+    {
+      "id": "neural-spike",
+      "name": {
+        "es": "Pico Neural",
+        "en": "Neural Spike"
+      },
+      "description": {
+        "es": "Enviás un paquete de datos destructivo directamente al implante neural de un enemigo, causando daño mental directo.",
+        "en": "You send a destructive data packet directly to an enemy's neural implant, dealing direct mental damage."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "flame",
+      "tags": [
+        "combat"
+      ],
+      "tier": 2,
+      "requires": [
+        "glitch-pulse"
+      ],
+      "unlock": {
+        "type": "combats_won",
+        "count": 3
+      }
+    },
+    {
+      "id": "daemon-deploy",
+      "name": {
+        "es": "Despliegue de Daemon",
+        "en": "Daemon Deploy"
+      },
+      "description": {
+        "es": "Lanzás un programa autónomo que toma control de un dron o cámara enemiga y la usa a tu favor durante la escena.",
+        "en": "You launch an autonomous program that hijacks an enemy drone or camera and turns it to your advantage for the scene."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "shield",
+      "tags": [
+        "combat",
+        "exploration"
+      ],
+      "tier": 2,
+      "requires": [
+        "ping-scan"
+      ],
+      "unlock": {
+        "type": "level_reached",
+        "count": 3
+      }
+    },
+    {
+      "id": "social-engineer",
+      "name": {
+        "es": "Ingeniería Social",
+        "en": "Social Engineering"
+      },
+      "description": {
+        "es": "Manipulás los registros digitales de un NPC para que te deba un favor o revele información sin sospechar nada.",
+        "en": "You manipulate an NPC's digital records so they owe you a favor or reveal information without suspecting a thing."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "sparkles",
+      "tags": [
+        "social",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "ghost-id",
+        "data-leech"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 1
+      }
+    },
+    {
+      "id": "black-ice-wall",
+      "name": {
+        "es": "Muro de Black ICE",
+        "en": "Black ICE Wall"
+      },
+      "description": {
+        "es": "Desplegás un contraataque de ICE defensivo que daña a cualquier enemigo que intente hackear tus sistemas o atacarte con implantes.",
+        "en": "You deploy a defensive ICE counterstrike that damages any enemy attempting to hack your systems or attack you with implants."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "shield",
+      "tags": [
+        "combat",
+        "defense"
+      ],
+      "tier": 3,
+      "requires": [
+        "neural-spike",
+        "daemon-deploy"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 2
+      }
+    },
+    {
+      "id": "deep-dive",
+      "name": {
+        "es": "Inmersión Profunda",
+        "en": "Deep Dive"
+      },
+      "description": {
+        "es": "Te sumergís completamente en la red y tomás control total de un sistema complejo: edificio, vehículo o red corporativa.",
+        "en": "You fully immerse into the net and take complete control of a complex system: building, vehicle, or corporate network."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "moon",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 3,
+      "requires": [
+        "daemon-deploy",
+        "social-engineer"
+      ],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 3
+      }
+    },
+    {
+      "id": "god-mode",
+      "name": {
+        "es": "Modo Dios",
+        "en": "God Mode"
+      },
+      "description": {
+        "es": "Tu conciencia se expande por toda la red: tomás control simultáneo de todos los sistemas de la escena, hackeás mentes enemigas y hacés que el entorno trabaje para vos durante tres turnos.",
+        "en": "Your consciousness expands across the entire net: you simultaneously control every system in the scene, hack enemy minds, and make the environment work for you for three turns."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "sparkles",
+      "tags": [
+        "combat",
+        "exploration",
+        "utility"
+      ],
+      "tier": 4,
+      "requires": [
+        "black-ice-wall",
+        "deep-dive"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 3
+      }
+    }
+  ]
+}

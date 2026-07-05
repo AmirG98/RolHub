@@ -1,0 +1,275 @@
+{
+  "loreId": "COZY_WITCH",
+  "archetypeId": "bruja-mar",
+  "name": {
+    "es": "Senda de las Mareas",
+    "en": "Path of the Tides"
+  },
+  "nodes": [
+    {
+      "id": "susurro-caracola",
+      "name": {
+        "es": "Susurro de la Caracola",
+        "en": "Shell Whisper"
+      },
+      "description": {
+        "es": "Acercás una caracola al oído y escuchás ecos de conversaciones ocurridas cerca del mar en las últimas horas.",
+        "en": "You hold a shell to your ear and hear echoes of conversations that happened near the sea in the past few hours."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "moon",
+      "tags": [
+        "social",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "turns_played",
+        "count": 5
+      }
+    },
+    {
+      "id": "niebla-faro",
+      "name": {
+        "es": "Niebla del Faro",
+        "en": "Lighthouse Fog"
+      },
+      "description": {
+        "es": "Invocás una niebla salada y densa que cubre tu posición y la de tus aliados, dando desventaja a los ataques enemigos este turno.",
+        "en": "You summon a thick, salty fog that covers your position and your allies', giving disadvantage to enemy attacks this turn."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "sparkles",
+      "tags": [
+        "combat",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "combats_won",
+        "count": 1
+      }
+    },
+    {
+      "id": "carta-calma",
+      "name": {
+        "es": "Carta de la Calma",
+        "en": "Card of Calm"
+      },
+      "description": {
+        "es": "Sacás la carta de aguas tranquilas y la ponés frente a un NPC agitado, reduciéndolo a un estado de escucha receptiva.",
+        "en": "You lay the still-waters card before an agitated NPC, bringing them to a calm and receptive state."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "heart",
+      "tags": [
+        "social",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "abilities_used",
+        "count": 2
+      }
+    },
+    {
+      "id": "ojos-gaviota",
+      "name": {
+        "es": "Ojos de Gaviota",
+        "en": "Gull's Eyes"
+      },
+      "description": {
+        "es": "Tu visión se agudiza como la de un ave marina: podés leer señales, mapas o rostros a distancia de catalejo sin usarlo.",
+        "en": "Your vision sharpens like a seabird's: you can read signs, maps, or faces at spyglass distance without using one."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 2,
+      "icon": "eye",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 1
+      }
+    },
+    {
+      "id": "marea-alta",
+      "name": {
+        "es": "Marea Alta",
+        "en": "High Tide"
+      },
+      "description": {
+        "es": "Canalizás la fuerza de la marea y empujás a un enemigo hasta tres pasos atrás, interrumpiendo su acción.",
+        "en": "You channel the force of the tide and push an enemy up to three steps back, interrupting their action."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "zap",
+      "tags": [
+        "combat"
+      ],
+      "tier": 2,
+      "requires": [
+        "niebla-faro"
+      ],
+      "unlock": {
+        "type": "combats_won",
+        "count": 3
+      }
+    },
+    {
+      "id": "agua-lunar",
+      "name": {
+        "es": "Agua Lunar",
+        "en": "Moon Water"
+      },
+      "description": {
+        "es": "Usás el frasco de agua de luna llena para limpiar una herida o maldición leve, restaurando 1d6 HP a vos o a un aliado.",
+        "en": "You use the full-moon water jar to cleanse a wound or minor curse, restoring 1d6 HP to yourself or an ally."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "heart",
+      "tags": [
+        "healing",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "carta-calma"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 1
+      }
+    },
+    {
+      "id": "lectura-profunda",
+      "name": {
+        "es": "Lectura Profunda",
+        "en": "Deep Reading"
+      },
+      "description": {
+        "es": "Extendés tres cartas del oráculo y revelás un secreto que el DM debe confirmarte sobre el lugar, la persona o el evento que estás investigando.",
+        "en": "You lay out three oracle cards and reveal a secret the DM must confirm about the place, person, or event you're investigating."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "eye",
+      "tags": [
+        "lore",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "susurro-caracola",
+        "ojos-gaviota"
+      ],
+      "unlock": {
+        "type": "abilities_used",
+        "count": 5
+      }
+    },
+    {
+      "id": "sal-protectora",
+      "name": {
+        "es": "Sal Protectora",
+        "en": "Protective Salt"
+      },
+      "description": {
+        "es": "Trazás un círculo de sal marina alrededor de un área: nada hostil puede entrar sin sufrir daño y vos sabés si alguien lo cruza.",
+        "en": "You draw a circle of sea salt around an area: nothing hostile can enter without taking damage and you know if anyone crosses it."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "shield",
+      "tags": [
+        "combat",
+        "exploration"
+      ],
+      "tier": 3,
+      "requires": [
+        "marea-alta",
+        "lectura-profunda"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 2
+      }
+    },
+    {
+      "id": "voz-tormenta",
+      "name": {
+        "es": "Voz de la Tormenta",
+        "en": "Storm Voice"
+      },
+      "description": {
+        "es": "Tu voz adquiere el peso del trueno marino: un discurso tuyo convence a una multitud o paraliza de respeto a un enemigo durante un turno.",
+        "en": "Your voice carries the weight of sea thunder: a speech from you sways a crowd or freezes an enemy in awe for one turn."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "sparkles",
+      "tags": [
+        "social",
+        "combat"
+      ],
+      "tier": 3,
+      "requires": [
+        "agua-lunar",
+        "lectura-profunda"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 2
+      }
+    },
+    {
+      "id": "oraculo-del-abismo",
+      "name": {
+        "es": "Oráculo del Abismo",
+        "en": "Oracle of the Deep"
+      },
+      "description": {
+        "es": "El mar te revela una verdad absoluta sobre el futuro inmediato: nombrás un evento que ocurrirá en la escena y el DM debe incorporarlo.",
+        "en": "The sea reveals an absolute truth about the immediate future: you name one event that will occur this scene and the DM must incorporate it."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "moon",
+      "tags": [
+        "lore",
+        "utility"
+      ],
+      "tier": 4,
+      "requires": [
+        "sal-protectora",
+        "voz-tormenta"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 3
+      }
+    }
+  ]
+}

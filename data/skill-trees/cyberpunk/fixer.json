@@ -1,0 +1,303 @@
+{
+  "loreId": "CYBERPUNK",
+  "archetypeId": "fixer",
+  "name": {
+    "es": "Red de Influencias",
+    "en": "Network of Influence"
+  },
+  "nodes": [
+    {
+      "id": "llamada-al-contacto",
+      "name": {
+        "es": "Llamada al Contacto",
+        "en": "Call a Contact"
+      },
+      "description": {
+        "es": "Usás tu teléfono encriptado para conseguir info privilegiada: el GM te revela un dato oculto sobre la situación actual.",
+        "en": "You use your encrypted phone to get privileged info: the GM reveals a hidden detail about the current situation."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "sparkles",
+      "tags": [
+        "social",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "turns_played",
+        "count": 5
+      }
+    },
+    {
+      "id": "pistola-oculta",
+      "name": {
+        "es": "Pistola Oculta",
+        "en": "Concealed Pistol"
+      },
+      "description": {
+        "es": "Sacás tu arma cuando nadie lo espera: el primer disparo en un combate ignora la reacción del enemigo y tiene ventaja.",
+        "en": "You draw your weapon when no one expects it: the first shot in a combat ignores the enemy's reaction and has advantage."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "zap",
+      "tags": [
+        "combat"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "combats_won",
+        "count": 1
+      }
+    },
+    {
+      "id": "labia-de-calle",
+      "name": {
+        "es": "Labia de Calle",
+        "en": "Street Talk"
+      },
+      "description": {
+        "es": "Sabés cómo hablarle a cualquiera: convencés a un NPC hostil de bajar la guardia por un turno sin tirada.",
+        "en": "You know how to talk to anyone: you convince a hostile NPC to lower their guard for one turn without a roll."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "moon",
+      "tags": [
+        "social"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "abilities_used",
+        "count": 2
+      }
+    },
+    {
+      "id": "favor-pendiente",
+      "name": {
+        "es": "Favor Pendiente",
+        "en": "Pending Favor"
+      },
+      "description": {
+        "es": "Cobrás una deuda vieja: un NPC de cualquier facción te ayuda con una tarea concreta sin costo ni negociación.",
+        "en": "You cash in an old debt: an NPC from any faction helps you with a specific task at no cost or negotiation."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "eye",
+      "tags": [
+        "social",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 1
+      }
+    },
+    {
+      "id": "mercado-negro",
+      "name": {
+        "es": "Mercado Negro",
+        "en": "Black Market"
+      },
+      "description": {
+        "es": "Conseguís equipo ilegal o raro entre escenas: el GM te ofrece un ítem especial disponible para comprar a mitad de precio.",
+        "en": "You source illegal or rare gear between scenes: the GM offers you a special item available to buy at half price."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "leaf",
+      "tags": [
+        "utility",
+        "exploration"
+      ],
+      "tier": 2,
+      "requires": [
+        "llamada-al-contacto"
+      ],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 2
+      }
+    },
+    {
+      "id": "emboscada-pagada",
+      "name": {
+        "es": "Emboscada Pagada",
+        "en": "Paid Ambush"
+      },
+      "description": {
+        "es": "Activás un contacto armado: un aliado contratado aparece en escena y ataca al enemigo que elijas antes de desaparecer.",
+        "en": "You activate an armed contact: a hired ally appears in the scene and attacks your chosen enemy before vanishing."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "sword",
+      "tags": [
+        "combat"
+      ],
+      "tier": 2,
+      "requires": [
+        "pistola-oculta"
+      ],
+      "unlock": {
+        "type": "combats_won",
+        "count": 3
+      }
+    },
+    {
+      "id": "manipulacion-social",
+      "name": {
+        "es": "Manipulación Social",
+        "en": "Social Manipulation"
+      },
+      "description": {
+        "es": "Plantás información falsa con precisión quirúrgica: un NPC enemigo actúa contra los intereses de su propia facción durante la escena.",
+        "en": "You plant false information with surgical precision: an enemy NPC acts against their own faction's interests during the scene."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "moon",
+      "tags": [
+        "social",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "labia-de-calle",
+        "favor-pendiente"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 2
+      }
+    },
+    {
+      "id": "reparacion-rapida",
+      "name": {
+        "es": "Reparación Rápida",
+        "en": "Quick Patch"
+      },
+      "description": {
+        "es": "Usás el nano-botiquín con protocolo de emergencia: vos o un aliado recuperan 1d8+2 HP fuera de combate o 4 HP fijos en combate.",
+        "en": "You use the nano medkit on emergency protocol: you or an ally recover 1d8+2 HP out of combat or a flat 4 HP in combat."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "heart",
+      "tags": [
+        "healing",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "favor-pendiente"
+      ],
+      "unlock": {
+        "type": "deaths_survived",
+        "count": 1
+      }
+    },
+    {
+      "id": "intel-de-faccion",
+      "name": {
+        "es": "Intel de Facción",
+        "en": "Faction Intel"
+      },
+      "description": {
+        "es": "Accedés a información clasificada de una facción rival: el GM te revela su objetivo oculto en la misión actual y un punto débil explotable.",
+        "en": "You access classified information on a rival faction: the GM reveals their hidden objective in the current mission and an exploitable weakness."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "eye",
+      "tags": [
+        "exploration",
+        "social",
+        "utility"
+      ],
+      "tier": 3,
+      "requires": [
+        "mercado-negro",
+        "manipulacion-social"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 2
+      }
+    },
+    {
+      "id": "zona-neutral",
+      "name": {
+        "es": "Zona Neutral",
+        "en": "Neutral Zone"
+      },
+      "description": {
+        "es": "Declarás tu club o punto de encuentro como territorio libre: ningún NPC puede iniciar violencia en la escena actual sin consecuencias automáticas.",
+        "en": "You declare your club or meeting point as free territory: no NPC can initiate violence in the current scene without automatic consequences."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "shield",
+      "tags": [
+        "social",
+        "combat",
+        "utility"
+      ],
+      "tier": 3,
+      "requires": [
+        "emboscada-pagada",
+        "manipulacion-social"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 3
+      }
+    },
+    {
+      "id": "el-arquitecto",
+      "name": {
+        "es": "El Arquitecto",
+        "en": "The Architect"
+      },
+      "description": {
+        "es": "Sos el centro de la red: activás todos tus contactos simultáneamente para cambiar el resultado de una situación, forzando al GM a ofrecer una salida favorable que no existía antes.",
+        "en": "You are the center of the network: you activate all your contacts simultaneously to shift the outcome of a situation, forcing the GM to offer a favorable exit that didn't exist before."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "sparkles",
+      "tags": [
+        "social",
+        "utility",
+        "combat"
+      ],
+      "tier": 4,
+      "requires": [
+        "intel-de-faccion",
+        "zona-neutral"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 3
+      }
+    }
+  ]
+}

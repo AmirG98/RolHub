@@ -1,0 +1,328 @@
+{
+  "loreId": "STAR_WARS",
+  "archetypeId": "bounty_hunter",
+  "name": {
+    "es": "Senda del Cazador",
+    "en": "Path of the Hunter"
+  },
+  "nodes": [
+    {
+      "id": "blaster-precision",
+      "name": {
+        "es": "Puntería de Blaster",
+        "en": "Blaster Precision"
+      },
+      "description": {
+        "es": "Apuntás al punto débil del enemigo: tu próximo disparo ignora cobertura y tiene ventaja.",
+        "en": "You aim at the target's weak point: your next shot ignores cover and has advantage."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 2,
+      "icon": "zap",
+      "tags": [
+        "combat"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "combats_won",
+        "count": 1
+      }
+    },
+    {
+      "id": "tracker-sense",
+      "name": {
+        "es": "Olfato de Rastreador",
+        "en": "Tracker's Sense"
+      },
+      "description": {
+        "es": "Usás tus gadgets de rastreo para detectar la presencia y dirección de cualquier objetivo en la escena.",
+        "en": "You use your tracking gadgets to detect the presence and direction of any target in the scene."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "eye",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "turns_played",
+        "count": 5
+      }
+    },
+    {
+      "id": "capture-binders",
+      "name": {
+        "es": "Ataduras Relámpago",
+        "en": "Flash Binders"
+      },
+      "description": {
+        "es": "Lanzás tus ataduras de captura sobre un enemigo: queda inmovilizado un turno y no puede atacar.",
+        "en": "You throw your capture binders at a foe: they are immobilized for one turn and cannot attack."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "sword",
+      "tags": [
+        "combat",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "abilities_used",
+        "count": 2
+      }
+    },
+    {
+      "id": "guild-contacts",
+      "name": {
+        "es": "Contactos del Gremio",
+        "en": "Guild Contacts"
+      },
+      "description": {
+        "es": "Llamás a un contacto del Gremio de Cazarrecompensas para obtener información privilegiada sobre un NPC o lugar.",
+        "en": "You call on a Bounty Hunter Guild contact to get privileged intel on an NPC or location."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "sparkles",
+      "tags": [
+        "social",
+        "exploration"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 1
+      }
+    },
+    {
+      "id": "jetpack-boost",
+      "name": {
+        "es": "Impulso de Mochila Jet",
+        "en": "Jetpack Boost"
+      },
+      "description": {
+        "es": "Activás la mochila jet de tu armadura mandaloriana para reposicionarte al instante o esquivar un ataque.",
+        "en": "You fire your Mandalorian armor's jetpack to instantly reposition or dodge an incoming attack."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "flame",
+      "tags": [
+        "combat",
+        "exploration"
+      ],
+      "tier": 2,
+      "requires": [
+        "blaster-precision"
+      ],
+      "unlock": {
+        "type": "combats_won",
+        "count": 3
+      }
+    },
+    {
+      "id": "bounty-profile",
+      "name": {
+        "es": "Perfil del Objetivo",
+        "en": "Target Profile"
+      },
+      "description": {
+        "es": "Analizás a tu objetivo y revelás su punto débil: todos los ataques contra ese personaje tienen ventaja hasta el final del encuentro.",
+        "en": "You analyze your target and reveal their weak point: all attacks against that character have advantage until the end of the encounter."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "eye",
+      "tags": [
+        "combat",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "tracker-sense"
+      ],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 2
+      }
+    },
+    {
+      "id": "armor-resilience",
+      "name": {
+        "es": "Resiliencia de la Armadura",
+        "en": "Armor Resilience"
+      },
+      "description": {
+        "es": "Activás el refuerzo de tu armadura mandaloriana: reducís el daño del próximo ataque a la mitad y no sos derribado.",
+        "en": "You activate your Mandalorian armor's reinforcement: you halve the damage from the next attack and cannot be knocked down."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "shield",
+      "tags": [
+        "combat",
+        "defense"
+      ],
+      "tier": 2,
+      "requires": [
+        "capture-binders"
+      ],
+      "unlock": {
+        "type": "combats_won",
+        "count": 4
+      }
+    },
+    {
+      "id": "intimidation-rep",
+      "name": {
+        "es": "Reputación Intimidante",
+        "en": "Intimidating Reputation"
+      },
+      "description": {
+        "es": "Mencionás tu nombre y tu historial: un enemigo o NPC cede sin combate o revela información valiosa.",
+        "en": "You drop your name and record: an enemy or NPC backs down without a fight or reveals valuable information."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "moon",
+      "tags": [
+        "social",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "guild-contacts"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 1
+      }
+    },
+    {
+      "id": "flame-sweep",
+      "name": {
+        "es": "Barrido de Llamas",
+        "en": "Flame Sweep"
+      },
+      "description": {
+        "es": "Usás el lanzallamas de tu armadura para afectar a todos los enemigos en un arco, causando daño y desorientación.",
+        "en": "You use your armor's flamethrower to hit all enemies in an arc, dealing damage and disorienting them."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "flame",
+      "tags": [
+        "combat"
+      ],
+      "tier": 3,
+      "requires": [
+        "jetpack-boost",
+        "armor-resilience"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 2
+      }
+    },
+    {
+      "id": "dead-or-alive",
+      "name": {
+        "es": "Vivo o Muerto",
+        "en": "Dead or Alive"
+      },
+      "description": {
+        "es": "Designás a un objetivo como tu presa: cada turno que persiste la caza, tus ataques y rastreos contra él ganan bonificaciones acumulativas.",
+        "en": "You designate a target as your quarry: each turn the hunt continues, your attacks and tracking against them gain stacking bonuses."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "sword",
+      "tags": [
+        "combat",
+        "exploration"
+      ],
+      "tier": 3,
+      "requires": [
+        "bounty-profile",
+        "intimidation-rep"
+      ],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 4
+      }
+    },
+    {
+      "id": "field-medpac",
+      "name": {
+        "es": "Medpac de Campo",
+        "en": "Field Medpac"
+      },
+      "description": {
+        "es": "Aplicás tratamiento de emergencia en plena misión: recuperás 2d6 HP y eliminás un estado negativo tuyo o de un aliado.",
+        "en": "You apply emergency treatment mid-mission: restore 2d6 HP and remove one negative condition from yourself or an ally."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "heart",
+      "tags": [
+        "healing",
+        "utility"
+      ],
+      "tier": 3,
+      "requires": [
+        "armor-resilience"
+      ],
+      "unlock": {
+        "type": "deaths_survived",
+        "count": 1
+      }
+    },
+    {
+      "id": "the-best-there-is",
+      "name": {
+        "es": "El Mejor en lo Suyo",
+        "en": "The Best There Is"
+      },
+      "description": {
+        "es": "Tu leyenda alcanza su cénit: una vez por acto, capturás o neutralizás a cualquier objetivo sin tirada, o imponés rendición inmediata a un grupo enemigo.",
+        "en": "Your legend reaches its peak: once per act, you capture or neutralize any target without a roll, or force immediate surrender from an enemy group."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "sparkles",
+      "tags": [
+        "combat",
+        "social",
+        "utility"
+      ],
+      "tier": 4,
+      "requires": [
+        "flame-sweep",
+        "dead-or-alive"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 3
+      }
+    }
+  ]
+}

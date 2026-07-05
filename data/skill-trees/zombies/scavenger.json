@@ -1,0 +1,306 @@
+{
+  "loreId": "ZOMBIES",
+  "archetypeId": "scavenger",
+  "name": {
+    "es": "Senda del Saqueador",
+    "en": "Path of the Scavenger"
+  },
+  "nodes": [
+    {
+      "id": "ojo-de-cuervo",
+      "name": {
+        "es": "Ojo de Cuervo",
+        "en": "Crow's Eye"
+      },
+      "description": {
+        "es": "Escaneás un área y detectás automáticamente recursos ocultos, trampas y salidas de emergencia antes de entrar.",
+        "en": "You scan an area and automatically detect hidden resources, traps, and emergency exits before entering."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "eye",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "turns_played",
+        "count": 5
+      }
+    },
+    {
+      "id": "paso-silencioso",
+      "name": {
+        "es": "Paso Silencioso",
+        "en": "Silent Step"
+      },
+      "description": {
+        "es": "Te movés sin hacer ruido durante este turno: los zombies y enemigos humanos no pueden detectarte por sonido.",
+        "en": "You move without making noise this turn: zombies and human enemies cannot detect you by sound."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 2,
+      "icon": "moon",
+      "tags": [
+        "stealth",
+        "exploration"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "combats_won",
+        "count": 1
+      }
+    },
+    {
+      "id": "rebusque-rapido",
+      "name": {
+        "es": "Rebusque Rápido",
+        "en": "Quick Scrounge"
+      },
+      "description": {
+        "es": "Revolvés un espacio en segundos y encontrás un ítem útil extra que otros habrían ignorado.",
+        "en": "You rummage through a space in seconds and find an extra useful item others would have overlooked."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "leaf",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "abilities_used",
+        "count": 2
+      }
+    },
+    {
+      "id": "remiendo-de-campo",
+      "name": {
+        "es": "Remiendo de Campo",
+        "en": "Field Patch"
+      },
+      "description": {
+        "es": "Usás materiales improvisados para curar 1d6 HP a vos o a un aliado adyacente.",
+        "en": "You use improvised materials to heal 1d6 HP to yourself or an adjacent ally."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "heart",
+      "tags": [
+        "healing",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 1
+      }
+    },
+    {
+      "id": "sombra-urbana",
+      "name": {
+        "es": "Sombra Urbana",
+        "en": "Urban Shadow"
+      },
+      "description": {
+        "es": "Desaparecés entre escombros y sombras: quedás completamente oculto durante dos turnos consecutivos.",
+        "en": "You vanish among rubble and shadows: you remain completely hidden for two consecutive turns."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "moon",
+      "tags": [
+        "stealth",
+        "exploration"
+      ],
+      "tier": 2,
+      "requires": [
+        "paso-silencioso"
+      ],
+      "unlock": {
+        "type": "combats_won",
+        "count": 3
+      }
+    },
+    {
+      "id": "golpe-oportunista",
+      "name": {
+        "es": "Golpe Oportunista",
+        "en": "Opportunist Strike"
+      },
+      "description": {
+        "es": "Aprovechás una distracción o punto ciego para asestar un golpe crítico garantizado con lo que tengas a mano.",
+        "en": "You exploit a distraction or blind spot to deliver a guaranteed critical hit with whatever you have at hand."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "zap",
+      "tags": [
+        "combat",
+        "stealth"
+      ],
+      "tier": 2,
+      "requires": [
+        "paso-silencioso",
+        "ojo-de-cuervo"
+      ],
+      "unlock": {
+        "type": "combats_won",
+        "count": 4
+      }
+    },
+    {
+      "id": "conocedor-de-ruinas",
+      "name": {
+        "es": "Conocedor de Ruinas",
+        "en": "Ruin Savant"
+      },
+      "description": {
+        "es": "Tu experiencia en edificios abandonados te permite encontrar rutas alternativas y accesos secretos en cualquier estructura.",
+        "en": "Your experience in abandoned buildings lets you find alternate routes and secret access points in any structure."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "sparkles",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "ojo-de-cuervo",
+        "rebusque-rapido"
+      ],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 2
+      }
+    },
+    {
+      "id": "traficante-de-necesidad",
+      "name": {
+        "es": "Traficante de Necesidad",
+        "en": "Necessity Trader"
+      },
+      "description": {
+        "es": "Sabés exactamente qué necesita la gente: obtenés ventaja en cualquier negociación de intercambio o favor con un NPC.",
+        "en": "You know exactly what people need: you gain advantage on any trade negotiation or favor with an NPC."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "sparkles",
+      "tags": [
+        "social",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "rebusque-rapido",
+        "remiendo-de-campo"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 1
+      }
+    },
+    {
+      "id": "fantasma-del-apocalipsis",
+      "name": {
+        "es": "Fantasma del Apocalipsis",
+        "en": "Apocalypse Ghost"
+      },
+      "description": {
+        "es": "Te volvés prácticamente invisible en movimiento: podés atravesar zonas con zombies o enemigos sin ser detectado durante una escena entera.",
+        "en": "You become practically invisible while moving: you can cross zones with zombies or enemies undetected for an entire scene."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "moon",
+      "tags": [
+        "stealth",
+        "exploration"
+      ],
+      "tier": 3,
+      "requires": [
+        "sombra-urbana",
+        "golpe-oportunista"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 2
+      }
+    },
+    {
+      "id": "red-de-supervivientes",
+      "name": {
+        "es": "Red de Supervivientes",
+        "en": "Survivor Network"
+      },
+      "description": {
+        "es": "Tus conexiones en el apocalipsis te permiten obtener información clave, refugio o suministros de contactos en cualquier zona.",
+        "en": "Your apocalypse connections allow you to obtain key information, shelter, or supplies from contacts in any zone."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "shield",
+      "tags": [
+        "social",
+        "utility"
+      ],
+      "tier": 3,
+      "requires": [
+        "conocedor-de-ruinas",
+        "traficante-de-necesidad"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 3
+      }
+    },
+    {
+      "id": "rey-de-las-ruinas",
+      "name": {
+        "es": "Rey de las Ruinas",
+        "en": "King of the Ruins"
+      },
+      "description": {
+        "es": "Tu dominio sobre el mundo caído es absoluto: una vez por acto, convertís cualquier zona en tu territorio, controlando recursos, rutas y aliados locales a tu favor durante toda una sesión.",
+        "en": "Your mastery over the fallen world is absolute: once per act, you turn any zone into your territory, controlling resources, routes, and local allies in your favor for an entire session."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "flame",
+      "tags": [
+        "exploration",
+        "social",
+        "utility"
+      ],
+      "tier": 4,
+      "requires": [
+        "fantasma-del-apocalipsis",
+        "red-de-supervivientes"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 3
+      }
+    }
+  ]
+}

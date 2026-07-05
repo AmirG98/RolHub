@@ -1,0 +1,277 @@
+{
+  "loreId": "ZOMBIES",
+  "archetypeId": "medic",
+  "name": {
+    "es": "Senda del Último Sanador",
+    "en": "Path of the Last Healer"
+  },
+  "nodes": [
+    {
+      "id": "tourniquet",
+      "name": {
+        "es": "Torniquete de Emergencia",
+        "en": "Emergency Tourniquet"
+      },
+      "description": {
+        "es": "Aplicás un torniquete rápido y detenés el sangrado de un aliado, evitando que pierda HP adicional por heridas abiertas este turno.",
+        "en": "You apply a quick tourniquet and stop an ally's bleeding, preventing further HP loss from open wounds this turn."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 2,
+      "icon": "heart",
+      "tags": [
+        "healing",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "turns_played",
+        "count": 5
+      }
+    },
+    {
+      "id": "triage",
+      "name": {
+        "es": "Triage Rápido",
+        "en": "Quick Triage"
+      },
+      "description": {
+        "es": "Evaluás el estado de todo el grupo en segundos y determinás quién necesita atención urgente, revelando los HP actuales de todos los aliados.",
+        "en": "You assess the group's condition in seconds and determine who needs urgent care, revealing the current HP of all allies."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "eye",
+      "tags": [
+        "utility",
+        "exploration"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "abilities_used",
+        "count": 2
+      }
+    },
+    {
+      "id": "improvised-suture",
+      "name": {
+        "es": "Sutura Improvisada",
+        "en": "Improvised Suture"
+      },
+      "description": {
+        "es": "Usás lo que tenés a mano para cerrar una herida: restaurás 1d6+2 HP a un aliado sin gastar suministros del inventario.",
+        "en": "You use whatever is at hand to close a wound: restore 1d6+2 HP to an ally without spending inventory supplies."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "leaf",
+      "tags": [
+        "healing"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "combats_won",
+        "count": 1
+      }
+    },
+    {
+      "id": "calm-voice",
+      "name": {
+        "es": "Voz Tranquilizadora",
+        "en": "Calming Voice"
+      },
+      "description": {
+        "es": "Tu tono sereno y seguro calma a un aliado o NPC en pánico, permitiéndole actuar con normalidad el próximo turno en lugar de huir o quedar paralizado.",
+        "en": "Your calm and steady tone soothes a panicking ally or NPC, allowing them to act normally next turn instead of fleeing or freezing."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 2,
+      "icon": "sparkles",
+      "tags": [
+        "social",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 1
+      }
+    },
+    {
+      "id": "bite-protocol",
+      "name": {
+        "es": "Protocolo de Mordida",
+        "en": "Bite Protocol"
+      },
+      "description": {
+        "es": "Aplicás un tratamiento de emergencia sobre una mordida de zombie, extendiendo el tiempo antes de que la infección avance en 2d6 horas adicionales.",
+        "en": "You apply emergency treatment to a zombie bite, extending the time before infection progresses by an additional 2d6 hours."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "shield",
+      "tags": [
+        "healing",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "tourniquet",
+        "improvised-suture"
+      ],
+      "unlock": {
+        "type": "deaths_survived",
+        "count": 1
+      }
+    },
+    {
+      "id": "scavenge-meds",
+      "name": {
+        "es": "Rastreo de Suministros",
+        "en": "Med Scavenging"
+      },
+      "description": {
+        "es": "Buscás sistemáticamente en farmacias, hospitales o vehículos y encontrás 1d4 unidades de suministros médicos útiles que otros habrían pasado por alto.",
+        "en": "You systematically search pharmacies, hospitals, or vehicles and find 1d4 units of useful medical supplies others would have missed."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "leaf",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "triage"
+      ],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 2
+      }
+    },
+    {
+      "id": "adrenaline-shot",
+      "name": {
+        "es": "Inyección de Adrenalina",
+        "en": "Adrenaline Shot"
+      },
+      "description": {
+        "es": "Inyectás adrenalina a un aliado caído o exhausto, devolviéndole el conocimiento inmediatamente y otorgándole ventaja en todas sus acciones durante 1 turno.",
+        "en": "You inject adrenaline into a downed or exhausted ally, bringing them back to consciousness immediately and granting advantage on all their actions for 1 turn."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "zap",
+      "tags": [
+        "healing",
+        "combat"
+      ],
+      "tier": 2,
+      "requires": [
+        "calm-voice",
+        "tourniquet"
+      ],
+      "unlock": {
+        "type": "combats_won",
+        "count": 3
+      }
+    },
+    {
+      "id": "field-surgery",
+      "name": {
+        "es": "Cirugía de Campo",
+        "en": "Field Surgery"
+      },
+      "description": {
+        "es": "Realizás una operación improvisada en condiciones extremas, extrayendo fragmentos, reparando daño interno y restaurando 2d8+4 HP a un aliado crítico.",
+        "en": "You perform an improvised operation under extreme conditions, removing fragments, repairing internal damage, and restoring 2d8+4 HP to a critically injured ally."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "heart",
+      "tags": [
+        "healing"
+      ],
+      "tier": 3,
+      "requires": [
+        "bite-protocol",
+        "adrenaline-shot"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 2
+      }
+    },
+    {
+      "id": "viral-analysis",
+      "name": {
+        "es": "Análisis del Virus",
+        "en": "Viral Analysis"
+      },
+      "description": {
+        "es": "Estudiás muestras de infectados y compartís tus conclusiones con el grupo, otorgando a todos ventaja en acciones relacionadas con zombies durante la próxima escena.",
+        "en": "You study samples from infected and share your findings with the group, granting everyone advantage on zombie-related actions during the next scene."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "moon",
+      "tags": [
+        "utility",
+        "exploration",
+        "social"
+      ],
+      "tier": 3,
+      "requires": [
+        "scavenge-meds",
+        "bite-protocol"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 2
+      }
+    },
+    {
+      "id": "last-chance",
+      "name": {
+        "es": "Última Oportunidad",
+        "en": "Last Chance"
+      },
+      "description": {
+        "es": "En el momento más oscuro, tu experiencia y determinación te permiten estabilizar a todo el grupo simultáneamente, devolviendo a los aliados caídos a 1 HP y curando 1d6 HP a los que aún están en pie.",
+        "en": "In the darkest moment, your experience and determination let you stabilize the entire group simultaneously, returning downed allies to 1 HP and healing 1d6 HP to those still standing."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "sparkles",
+      "tags": [
+        "healing",
+        "social",
+        "combat"
+      ],
+      "tier": 4,
+      "requires": [
+        "field-surgery",
+        "viral-analysis"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 3
+      }
+    }
+  ]
+}

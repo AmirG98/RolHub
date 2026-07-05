@@ -1,0 +1,277 @@
+{
+  "loreId": "VIKINGOS",
+  "archetypeId": "skald",
+  "name": {
+    "es": "Senda del Cantor de Sagas",
+    "en": "Path of the Saga Singer"
+  },
+  "nodes": [
+    {
+      "id": "canto-de-batalla",
+      "name": {
+        "es": "Canto de Batalla",
+        "en": "Battle Chant"
+      },
+      "description": {
+        "es": "Entonás un verso de guerra y todos tus aliados ganan +1 a combate hasta el final del turno.",
+        "en": "You intone a verse of war and all your allies gain +1 to combat until end of turn."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "zap",
+      "tags": [
+        "combat",
+        "social"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "combats_won",
+        "count": 1
+      }
+    },
+    {
+      "id": "memoria-de-sagas",
+      "name": {
+        "es": "Memoria de Sagas",
+        "en": "Saga Memory"
+      },
+      "description": {
+        "es": "Recitás una saga relevante al lugar o situación: el DM te revela un dato de lore oculto o una ventaja narrativa.",
+        "en": "You recite a saga relevant to the place or situation: the DM reveals a hidden lore detail or narrative advantage."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 2,
+      "icon": "eye",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "turns_played",
+        "count": 5
+      }
+    },
+    {
+      "id": "lengua-afilada",
+      "name": {
+        "es": "Lengua Afilada",
+        "en": "Sharp Tongue"
+      },
+      "description": {
+        "es": "Lanzás un insulto incisivo que desconcentra a un enemigo, dándole desventaja en su próximo ataque.",
+        "en": "You hurl a cutting insult that rattles an enemy, giving them disadvantage on their next attack."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 2,
+      "icon": "flame",
+      "tags": [
+        "combat",
+        "social"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "abilities_used",
+        "count": 2
+      }
+    },
+    {
+      "id": "palabras-de-consuelo",
+      "name": {
+        "es": "Palabras de Consuelo",
+        "en": "Words of Comfort"
+      },
+      "description": {
+        "es": "Recitás un poema de los caídos gloriosos y un aliado herido recupera 1d4 HP y pierde el estado Asustado.",
+        "en": "You recite a poem of the glorious fallen and a wounded ally recovers 1d4 HP and loses the Frightened condition."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "heart",
+      "tags": [
+        "healing",
+        "social"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 1
+      }
+    },
+    {
+      "id": "nid",
+      "name": {
+        "es": "Nið (Poema de Vergüenza)",
+        "en": "Nið (Shame Poem)"
+      },
+      "description": {
+        "es": "Componés un verso devastador contra un PNJ: su reputación cae en picada y los aliados del enemigo dudan en ayudarlo.",
+        "en": "You compose a devastating verse against an NPC: their reputation plummets and the enemy's allies hesitate to help them."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "moon",
+      "tags": [
+        "social",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "lengua-afilada"
+      ],
+      "unlock": {
+        "type": "combats_won",
+        "count": 3
+      }
+    },
+    {
+      "id": "voz-del-trueno",
+      "name": {
+        "es": "Voz del Trueno",
+        "en": "Voice of Thunder"
+      },
+      "description": {
+        "es": "Tu canto retumba sobre el caos del combate: todos los aliados en la escena reciben tus beneficios de canto sin importar la distancia.",
+        "en": "Your chant thunders over battle chaos: all allies in the scene receive your chanting benefits regardless of distance."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "zap",
+      "tags": [
+        "combat",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "canto-de-batalla"
+      ],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 2
+      }
+    },
+    {
+      "id": "lector-de-runas",
+      "name": {
+        "es": "Lector de Runas",
+        "en": "Rune Reader"
+      },
+      "description": {
+        "es": "Leés inscripciones rúnicas antiguas y obtenés una pista o ventaja ligada al lugar donde se encuentran.",
+        "en": "You read ancient runic inscriptions and gain a clue or advantage tied to the location where they are found."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 2,
+      "icon": "sparkles",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "memoria-de-sagas"
+      ],
+      "unlock": {
+        "type": "level_reached",
+        "count": 3
+      }
+    },
+    {
+      "id": "inmortalizar",
+      "name": {
+        "es": "Inmortalizar",
+        "en": "Immortalize"
+      },
+      "description": {
+        "es": "Componés y recitás una estrofa sobre un aliado en el campo de batalla: ese aliado gana +2 a combate y no puede retirarse este turno.",
+        "en": "You compose and recite a stanza about an ally on the battlefield: that ally gains +2 to combat and cannot retreat this turn."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "sparkles",
+      "tags": [
+        "combat",
+        "social"
+      ],
+      "tier": 3,
+      "requires": [
+        "voz-del-trueno",
+        "nid"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 2
+      }
+    },
+    {
+      "id": "galdr",
+      "name": {
+        "es": "Galdr (Magia de Canto)",
+        "en": "Galdr (Song Magic)"
+      },
+      "description": {
+        "es": "Entonás un canto rúnico con poder sobrenatural que puede cegar a un enemigo, calmar una tormenta o abrir una puerta sellada.",
+        "en": "You intone a runic chant with supernatural power that can blind an enemy, calm a storm, or open a sealed door."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "moon",
+      "tags": [
+        "exploration",
+        "utility",
+        "combat"
+      ],
+      "tier": 3,
+      "requires": [
+        "lector-de-runas",
+        "palabras-de-consuelo"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 2
+      }
+    },
+    {
+      "id": "saga-eterna",
+      "name": {
+        "es": "Saga Eterna",
+        "en": "Eternal Saga"
+      },
+      "description": {
+        "es": "Recitás la saga de tu grupo con tal poder que todos los aliados recuperan 2d6 HP, ganan ventaja en todas las tiradas hasta el final de la escena, y cualquier PNJ neutral presente se une a vuestra causa.",
+        "en": "You recite your group's saga with such power that all allies recover 2d6 HP, gain advantage on all rolls until end of scene, and any neutral NPC present joins your cause."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "leaf",
+      "tags": [
+        "combat",
+        "healing",
+        "social"
+      ],
+      "tier": 4,
+      "requires": [
+        "inmortalizar",
+        "galdr"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 3
+      }
+    }
+  ]
+}

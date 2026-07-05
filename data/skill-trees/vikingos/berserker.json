@@ -1,0 +1,275 @@
+{
+  "loreId": "VIKINGOS",
+  "archetypeId": "berserker",
+  "name": {
+    "es": "Senda de la Furia Sagrada",
+    "en": "Path of Sacred Fury"
+  },
+  "nodes": [
+    {
+      "id": "trance-menor",
+      "name": {
+        "es": "Trance Menor",
+        "en": "Lesser Trance"
+      },
+      "description": {
+        "es": "Entrás en un estado de furia controlada y tu próximo ataque ignora cualquier penalización por heridas.",
+        "en": "You enter a state of controlled fury and your next attack ignores any wound penalties."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "flame",
+      "tags": [
+        "combat"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "combats_won",
+        "count": 1
+      }
+    },
+    {
+      "id": "piel-dura",
+      "name": {
+        "es": "Piel Dura",
+        "en": "Hardened Hide"
+      },
+      "description": {
+        "es": "La furia endurece tu cuerpo: reducís en 1 todo daño que recibís durante este turno.",
+        "en": "Fury toughens your body: you reduce all damage taken this turn by 1."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 2,
+      "icon": "shield",
+      "tags": [
+        "combat",
+        "defense"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "turns_played",
+        "count": 5
+      }
+    },
+    {
+      "id": "aullido-guerra",
+      "name": {
+        "es": "Aullido de Guerra",
+        "en": "War Howl"
+      },
+      "description": {
+        "es": "Lanzás un grito bestial que obliga a todos los enemigos cercanos a enfocarse en vos en lugar de tus aliados.",
+        "en": "You let out a bestial howl that forces all nearby enemies to focus on you instead of your allies."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "zap",
+      "tags": [
+        "combat",
+        "social"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "abilities_used",
+        "count": 2
+      }
+    },
+    {
+      "id": "sangre-llama",
+      "name": {
+        "es": "Sangre que Llama",
+        "en": "Blood Calls"
+      },
+      "description": {
+        "es": "Cada vez que recibís daño en combate, tus próximos ataques ganan un bonus acumulativo de +1 hasta el final del turno.",
+        "en": "Each time you take damage in combat, your next attacks gain a cumulative +1 bonus until end of turn."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "heart",
+      "tags": [
+        "combat"
+      ],
+      "tier": 2,
+      "requires": [
+        "trance-menor"
+      ],
+      "unlock": {
+        "type": "combats_won",
+        "count": 3
+      }
+    },
+    {
+      "id": "resistencia-frio",
+      "name": {
+        "es": "Calor de la Furia",
+        "en": "Fury's Warmth"
+      },
+      "description": {
+        "es": "La furia interior te protege del frío extremo: ignorás penalizaciones por clima y podés rastrear huellas en nieve.",
+        "en": "Your inner fury shields you from extreme cold: you ignore weather penalties and can track footprints in snow."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "leaf",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "piel-dura"
+      ],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 1
+      }
+    },
+    {
+      "id": "mirada-bestia",
+      "name": {
+        "es": "Mirada de la Bestia",
+        "en": "Beast's Gaze"
+      },
+      "description": {
+        "es": "Clavás los ojos en un NPC y sin decir una palabra lo intimidás tanto que revela información o cede terreno.",
+        "en": "You fix your eyes on an NPC and without a word intimidate them into revealing information or backing down."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "eye",
+      "tags": [
+        "social",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "aullido-guerra"
+      ],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 1
+      }
+    },
+    {
+      "id": "golpe-devastador",
+      "name": {
+        "es": "Golpe Devastador",
+        "en": "Devastating Strike"
+      },
+      "description": {
+        "es": "Un hachazo con toda la furia de Odín que dobla el daño base y puede derribar o mutilar al objetivo.",
+        "en": "An axe blow carrying Odin's full fury that doubles base damage and can knock down or maim the target."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "sword",
+      "tags": [
+        "combat"
+      ],
+      "tier": 3,
+      "requires": [
+        "sangre-llama",
+        "piel-dura"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 2
+      }
+    },
+    {
+      "id": "espiritu-oso",
+      "name": {
+        "es": "Espíritu del Oso",
+        "en": "Bear Spirit"
+      },
+      "description": {
+        "es": "Invocás el espíritu del oso que duerme en tu alma: recuperás 1d6 HP y no podés ser derribado durante 2 turnos.",
+        "en": "You invoke the bear spirit sleeping in your soul: you recover 1d6 HP and cannot be knocked down for 2 turns."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "moon",
+      "tags": [
+        "combat",
+        "healing"
+      ],
+      "tier": 3,
+      "requires": [
+        "resistencia-frio",
+        "sangre-llama"
+      ],
+      "unlock": {
+        "type": "deaths_survived",
+        "count": 1
+      }
+    },
+    {
+      "id": "terror-legendario",
+      "name": {
+        "es": "Terror Legendario",
+        "en": "Legendary Terror"
+      },
+      "description": {
+        "es": "Tu reputación te precede en cualquier mead hall: los enemigos que te reconocen deben superar una prueba o huyen sin pelear.",
+        "en": "Your reputation precedes you in any mead hall: enemies who recognize you must pass a test or flee without fighting."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "sparkles",
+      "tags": [
+        "social",
+        "combat"
+      ],
+      "tier": 3,
+      "requires": [
+        "mirada-bestia",
+        "aullido-guerra"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 2
+      }
+    },
+    {
+      "id": "forma-ulfhednar",
+      "name": {
+        "es": "Forma Ulfhednar",
+        "en": "Ulfhednar Form"
+      },
+      "description": {
+        "es": "Odín desciende sobre vos: entrás en transformación completa de lobo-guerrero, triplicás tu daño, ignorás todo dolor y sembrás terror absoluto en el campo de batalla durante 3 turnos.",
+        "en": "Odin descends upon you: you enter full wolf-warrior transformation, triple your damage, ignore all pain, and sow absolute terror across the battlefield for 3 turns."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "flame",
+      "tags": [
+        "combat",
+        "social"
+      ],
+      "tier": 4,
+      "requires": [
+        "golpe-devastador",
+        "espiritu-oso"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 3
+      }
+    }
+  ]
+}

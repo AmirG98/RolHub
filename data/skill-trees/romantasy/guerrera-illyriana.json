@@ -1,0 +1,299 @@
+{
+  "loreId": "ROMANTASY",
+  "archetypeId": "guerrera-illyriana",
+  "name": {
+    "es": "Senda de la Guardiana Alada",
+    "en": "Path of the Winged Guardian"
+  },
+  "nodes": [
+    {
+      "id": "danza-de-espadas",
+      "name": {
+        "es": "Danza de Espadas",
+        "en": "Blade Dance"
+      },
+      "description": {
+        "es": "Ejecutás una serie de golpes rápidos encadenados: infligís daño a un enemigo y lo dejás desestabilizado hasta su próximo turno.",
+        "en": "You execute a series of rapid chained strikes: you deal damage to one enemy and leave them off-balance until their next turn."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 2,
+      "icon": "sword",
+      "tags": [
+        "combat"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "combats_won",
+        "count": 1
+      }
+    },
+    {
+      "id": "ojo-del-cielo",
+      "name": {
+        "es": "Ojo del Cielo",
+        "en": "Sky Eye"
+      },
+      "description": {
+        "es": "Planeás en silencio sobre una zona y obtenés un mapa mental completo del terreno o estructura que sobrevolas.",
+        "en": "You glide silently over an area and gain a complete mental map of the terrain or structure below."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "eye",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "turns_played",
+        "count": 5
+      }
+    },
+    {
+      "id": "sigilo-alado",
+      "name": {
+        "es": "Sigilo Alado",
+        "en": "Winged Stealth"
+      },
+      "description": {
+        "es": "Usás las alas para amortiguar el sonido de tus pasos y movimientos: pasás desapercibida incluso ante guardias alertas.",
+        "en": "You use your wings to muffle your steps and movements: you pass unnoticed even by alert guards."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "moon",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "abilities_used",
+        "count": 2
+      }
+    },
+    {
+      "id": "lealtad-de-hierro",
+      "name": {
+        "es": "Lealtad de Hierro",
+        "en": "Iron Loyalty"
+      },
+      "description": {
+        "es": "Tu reputación como guerrera illyriana te precede: un NPC hostil o neutro te escucha sin atacar y puede bajar la guardia.",
+        "en": "Your reputation as an Illyrian warrior precedes you: a hostile or neutral NPC hears you out without attacking and may lower their guard."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "shield",
+      "tags": [
+        "social",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 1
+      }
+    },
+    {
+      "id": "descenso-devastador",
+      "name": {
+        "es": "Descenso Devastador",
+        "en": "Devastating Dive"
+      },
+      "description": {
+        "es": "Te lanzás en picada desde las alturas sobre un enemigo: el impacto ignora armadura y aturde al objetivo un turno completo.",
+        "en": "You dive from height onto a target: the impact ignores armor and stuns the target for a full turn."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "zap",
+      "tags": [
+        "combat"
+      ],
+      "tier": 2,
+      "requires": [
+        "danza-de-espadas"
+      ],
+      "unlock": {
+        "type": "combats_won",
+        "count": 3
+      }
+    },
+    {
+      "id": "sigil-de-proteccion",
+      "name": {
+        "es": "Sigil de Protección",
+        "en": "Protection Sigil"
+      },
+      "description": {
+        "es": "Activás los tatuajes mágicos de tu piel: absorbés el próximo golpe que te impacte sin recibir daño.",
+        "en": "You activate the magical tattoos on your skin: you absorb the next strike that hits you without taking damage."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "sparkles",
+      "tags": [
+        "combat",
+        "defense"
+      ],
+      "tier": 2,
+      "requires": [
+        "sigilo-alado"
+      ],
+      "unlock": {
+        "type": "deaths_survived",
+        "count": 1
+      }
+    },
+    {
+      "id": "flecha-runica",
+      "name": {
+        "es": "Flecha Rúnica",
+        "en": "Runed Arrow"
+      },
+      "description": {
+        "es": "Disparás una flecha imbuida de magia feérica que persigue al objetivo incluso si se cubre o corre.",
+        "en": "You fire an arrow imbued with fae magic that tracks the target even if they take cover or flee."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "flame",
+      "tags": [
+        "combat",
+        "exploration"
+      ],
+      "tier": 2,
+      "requires": [
+        "ojo-del-cielo"
+      ],
+      "unlock": {
+        "type": "abilities_used",
+        "count": 5
+      }
+    },
+    {
+      "id": "furia-illyriana",
+      "name": {
+        "es": "Furia Illyriana",
+        "en": "Illyrian Fury"
+      },
+      "description": {
+        "es": "Entrás en un estado de combate exaltado: durante tres turnos tus ataques hacen daño doble y no podés ser derribada.",
+        "en": "You enter a state of exalted combat: for three turns your attacks deal double damage and you cannot be knocked down."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "flame",
+      "tags": [
+        "combat"
+      ],
+      "tier": 3,
+      "requires": [
+        "descenso-devastador",
+        "flecha-runica"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 2
+      }
+    },
+    {
+      "id": "alas-de-tormenta",
+      "name": {
+        "es": "Alas de Tormenta",
+        "en": "Storm Wings"
+      },
+      "description": {
+        "es": "Batís las alas con fuerza brutal y generás una ráfaga que derriba a todos los enemigos cercanos y apaga antorchas y llamas.",
+        "en": "You beat your wings with brutal force and generate a gust that knocks down all nearby enemies and extinguishes torches and flames."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "zap",
+      "tags": [
+        "combat",
+        "exploration"
+      ],
+      "tier": 3,
+      "requires": [
+        "sigil-de-proteccion"
+      ],
+      "unlock": {
+        "type": "level_reached",
+        "count": 5
+      }
+    },
+    {
+      "id": "hermandad-illyriana",
+      "name": {
+        "es": "Hermandad Illyriana",
+        "en": "Illyrian Brotherhood"
+      },
+      "description": {
+        "es": "Invocás la deuda de sangre illyriana: un aliado caído recupera la mitad de su HP máximo y se pone de pie listo para combatir.",
+        "en": "You invoke the Illyrian blood debt: a fallen ally recovers half their max HP and rises ready to fight."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "heart",
+      "tags": [
+        "healing",
+        "social"
+      ],
+      "tier": 3,
+      "requires": [
+        "lealtad-de-hierro",
+        "sigil-de-proteccion"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 2
+      }
+    },
+    {
+      "id": "reina-del-cielo",
+      "name": {
+        "es": "Reina del Cielo",
+        "en": "Queen of the Sky"
+      },
+      "description": {
+        "es": "Tu leyenda illyriana alcanza su cima: combinás vuelo, furia y sigils en un único ataque devastador que daña a todos los enemigos en la escena e infunde miedo permanente en los supervivientes.",
+        "en": "Your Illyrian legend reaches its peak: you combine flight, fury, and sigils into a single devastating strike that damages every enemy in the scene and instills permanent fear in any survivors."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "sparkles",
+      "tags": [
+        "combat",
+        "social"
+      ],
+      "tier": 4,
+      "requires": [
+        "furia-illyriana",
+        "alas-de-tormenta"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 3
+      }
+    }
+  ]
+}

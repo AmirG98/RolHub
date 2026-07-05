@@ -1,0 +1,276 @@
+{
+  "loreId": "COZY_WITCH",
+  "archetypeId": "bruja-verde",
+  "name": {
+    "es": "Sendero de la Raíz y la Hoja",
+    "en": "Path of Root and Leaf"
+  },
+  "nodes": [
+    {
+      "id": "infusion-rapida",
+      "name": {
+        "es": "Infusión Rápida",
+        "en": "Quick Infusion"
+      },
+      "description": {
+        "es": "Preparás un té curativo en segundos con hierbas de tu mochila: quien lo bebe recupera 1d4 HP.",
+        "en": "You brew a healing tea in seconds from your satchel: whoever drinks it regains 1d4 HP."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 2,
+      "icon": "leaf",
+      "tags": [
+        "healing",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "abilities_used",
+        "count": 2
+      }
+    },
+    {
+      "id": "lectura-del-suelo",
+      "name": {
+        "es": "Lectura del Suelo",
+        "en": "Reading the Ground"
+      },
+      "description": {
+        "es": "Tocás la tierra y sabés si hay agua, veneno, criaturas enterradas o senderos ocultos en un radio cercano.",
+        "en": "You touch the earth and sense water, poison, buried creatures, or hidden paths in a nearby radius."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "eye",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "turns_played",
+        "count": 5
+      }
+    },
+    {
+      "id": "susurro-vegetal",
+      "name": {
+        "es": "Susurro Vegetal",
+        "en": "Plant Whisper"
+      },
+      "description": {
+        "es": "Le preguntás a una planta cercana qué vio pasar: obtenés una pista o dato sobre la escena actual.",
+        "en": "You ask a nearby plant what it witnessed: you gain a clue or piece of information about the current scene."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "sparkles",
+      "tags": [
+        "social",
+        "exploration"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 1
+      }
+    },
+    {
+      "id": "espinas-defensivas",
+      "name": {
+        "es": "Espinas Defensivas",
+        "en": "Defensive Thorns"
+      },
+      "description": {
+        "es": "Invocás un brote de espinas alrededor tuyo: el próximo enemigo que te ataque recibe 1d6 de daño de vuelta.",
+        "en": "You summon a burst of thorns around you: the next enemy that strikes you takes 1d6 damage in return."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "shield",
+      "tags": [
+        "combat",
+        "defense"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "combats_won",
+        "count": 1
+      }
+    },
+    {
+      "id": "tintura-del-animo",
+      "name": {
+        "es": "Tintura del Ánimo",
+        "en": "Mood Tincture"
+      },
+      "description": {
+        "es": "Ofrecés una tintura a un NPC que calma su hostilidad o tristeza, abriéndote una opción de diálogo antes cerrada.",
+        "en": "You offer a tincture to an NPC that soothes their hostility or sorrow, unlocking a previously closed dialogue option."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "heart",
+      "tags": [
+        "social",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "infusion-rapida"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 1
+      }
+    },
+    {
+      "id": "manto-de-follaje",
+      "name": {
+        "es": "Manto de Follaje",
+        "en": "Foliage Cloak"
+      },
+      "description": {
+        "es": "Las plantas del entorno te envuelven y te volvés invisible a ojos no mágicos mientras no te mováis.",
+        "en": "The surrounding plants wrap around you, making you invisible to non-magical eyes as long as you stay still."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "moon",
+      "tags": [
+        "exploration",
+        "stealth"
+      ],
+      "tier": 2,
+      "requires": [
+        "lectura-del-suelo"
+      ],
+      "unlock": {
+        "type": "turns_played",
+        "count": 15
+      }
+    },
+    {
+      "id": "veneno-adormecedor",
+      "name": {
+        "es": "Veneno Adormecedor",
+        "en": "Drowsing Poison"
+      },
+      "description": {
+        "es": "Aplicás un extracto a tu cuchillo o a una bebida: el objetivo cae dormido por 2 turnos si falla su resistencia.",
+        "en": "You apply an extract to your knife or a drink: the target falls asleep for 2 turns if they fail their resistance."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "zap",
+      "tags": [
+        "combat",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "espinas-defensivas"
+      ],
+      "unlock": {
+        "type": "combats_won",
+        "count": 3
+      }
+    },
+    {
+      "id": "jardin-emergente",
+      "name": {
+        "es": "Jardín Emergente",
+        "en": "Emerging Garden"
+      },
+      "description": {
+        "es": "Hacés brotar plantas medicinales en el lugar donde estás: cualquier aliado que descanse aquí recupera 2d6 HP al final del turno.",
+        "en": "You cause medicinal plants to sprout where you stand: any ally who rests here recovers 2d6 HP at the end of the turn."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "sparkles",
+      "tags": [
+        "healing",
+        "utility"
+      ],
+      "tier": 3,
+      "requires": [
+        "tintura-del-animo",
+        "manto-de-follaje"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 2
+      }
+    },
+    {
+      "id": "raiz-atrapante",
+      "name": {
+        "es": "Raíz Atrapante",
+        "en": "Grasping Root"
+      },
+      "description": {
+        "es": "Golpeás el suelo y raíces brotan para inmovilizar a todos los enemigos en la escena durante 1 turno.",
+        "en": "You strike the ground and roots erupt to immobilize every enemy in the scene for 1 turn."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "zap",
+      "tags": [
+        "combat",
+        "exploration"
+      ],
+      "tier": 3,
+      "requires": [
+        "veneno-adormecedor",
+        "manto-de-follaje"
+      ],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 3
+      }
+    },
+    {
+      "id": "corazon-del-bosque",
+      "name": {
+        "es": "Corazón del Bosque",
+        "en": "Heart of the Forest"
+      },
+      "description": {
+        "es": "Te fundís con la vida vegetal del lugar: curás a todos los aliados presentes de cualquier dolencia, maldición leve o veneno, y el bosque expulsa a tus enemigos por una escena entera.",
+        "en": "You merge with the plant life of the area: you cleanse all present allies of any ailment, minor curse, or poison, and the forest drives your enemies away for an entire scene."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "heart",
+      "tags": [
+        "healing",
+        "combat",
+        "utility"
+      ],
+      "tier": 4,
+      "requires": [
+        "jardin-emergente",
+        "raiz-atrapante"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 3
+      }
+    }
+  ]
+}

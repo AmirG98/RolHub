@@ -1,0 +1,273 @@
+{
+  "loreId": "LOTR",
+  "archetypeId": "dwarf",
+  "name": {
+    "es": "Senda del Hijo de Durin",
+    "en": "Path of the Son of Durin"
+  },
+  "nodes": [
+    {
+      "id": "axe-fury",
+      "name": {
+        "es": "Furia del Hacha",
+        "en": "Axe Fury"
+      },
+      "description": {
+        "es": "Descargás un tajo brutal con tu hacha: el próximo golpe que conectés hace el doble de daño.",
+        "en": "You unleash a brutal swing with your axe: the next hit you land deals double damage."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "sword",
+      "tags": [
+        "combat"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "combats_won",
+        "count": 1
+      }
+    },
+    {
+      "id": "stone-sense",
+      "name": {
+        "es": "Sentido de la Piedra",
+        "en": "Stone Sense"
+      },
+      "description": {
+        "es": "Apoyás la mano en la roca y percibís pasajes ocultos, grietas estructurales o presencias al otro lado del muro.",
+        "en": "You press your hand to rock and sense hidden passages, structural cracks, or presences beyond the wall."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 2,
+      "icon": "eye",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "turns_played",
+        "count": 5
+      }
+    },
+    {
+      "id": "runic-temper",
+      "name": {
+        "es": "Temple Rúnico",
+        "en": "Runic Temper"
+      },
+      "description": {
+        "es": "Grabás runas de protección en un arma o pieza de armadura aliada, otorgándole +1 al daño o a la CA hasta el próximo descanso.",
+        "en": "You engrave protective runes on an ally's weapon or armor piece, granting +1 to damage or AC until next rest."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "sparkles",
+      "tags": [
+        "crafting",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "abilities_used",
+        "count": 2
+      }
+    },
+    {
+      "id": "dwarven-stubbornness",
+      "name": {
+        "es": "Terquedad Enana",
+        "en": "Dwarven Stubbornness"
+      },
+      "description": {
+        "es": "Cuando te reducen a 0 PV, podés hacer una tirada de CON: si la pasás, quedás en 1 PV y seguís de pie.",
+        "en": "When reduced to 0 HP, you can make a CON roll: if you pass, you stay at 1 HP and keep standing."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "shield",
+      "tags": [
+        "combat",
+        "defense"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 1
+      }
+    },
+    {
+      "id": "orc-bane",
+      "name": {
+        "es": "Flagelo de Orcos",
+        "en": "Orc Bane"
+      },
+      "description": {
+        "es": "Tus ataques contra orcos, trasgos y bestias oscuras tienen ventaja y hacen 1d6 de daño extra.",
+        "en": "Your attacks against orcs, goblins, and dark beasts have advantage and deal an extra 1d6 damage."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "flame",
+      "tags": [
+        "combat"
+      ],
+      "tier": 2,
+      "requires": [
+        "axe-fury"
+      ],
+      "unlock": {
+        "type": "combats_won",
+        "count": 3
+      }
+    },
+    {
+      "id": "tunnel-master",
+      "name": {
+        "es": "Maestro de Túneles",
+        "en": "Tunnel Master"
+      },
+      "description": {
+        "es": "Guiás al grupo a través de cuevas y minas sin mapa: jamás se pierden bajo tierra y evitan encuentros aleatorios.",
+        "en": "You guide the group through caves and mines without a map: they never get lost underground and avoid random encounters."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 2,
+      "icon": "moon",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "stone-sense"
+      ],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 2
+      }
+    },
+    {
+      "id": "ale-and-iron",
+      "name": {
+        "es": "Cerveza y Hierro",
+        "en": "Ale and Iron"
+      },
+      "description": {
+        "es": "Compartís un barril de cerveza enana con el grupo: todos recuperan 1d8 PV y ganan ventaja en la próxima tirada de salvación.",
+        "en": "You share a cask of dwarven ale with the group: everyone recovers 1d8 HP and gains advantage on their next saving throw."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "heart",
+      "tags": [
+        "healing",
+        "social"
+      ],
+      "tier": 2,
+      "requires": [
+        "dwarven-stubbornness"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 1
+      }
+    },
+    {
+      "id": "grudge-keeper",
+      "name": {
+        "es": "Guardián del Rencor",
+        "en": "Grudge Keeper"
+      },
+      "description": {
+        "es": "Declarás una Deuda de Sangre contra un enemigo que te hirió o mató a un aliado: tus ataques contra ese objetivo ignoran su resistencia al daño.",
+        "en": "You declare a Blood Debt against a foe who hurt you or killed an ally: your attacks against that target ignore their damage resistance."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "zap",
+      "tags": [
+        "combat",
+        "utility"
+      ],
+      "tier": 3,
+      "requires": [
+        "orc-bane",
+        "tunnel-master"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 2
+      }
+    },
+    {
+      "id": "master-smith",
+      "name": {
+        "es": "Maestro de la Forja",
+        "en": "Master Smith"
+      },
+      "description": {
+        "es": "Con las herramientas adecuadas, forjás o reparás un arma o armadura en horas, añadiendo una propiedad mágica menor elegida por vos.",
+        "en": "Given proper tools, you forge or repair a weapon or armor in hours, adding a minor magical property of your choice."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "sparkles",
+      "tags": [
+        "crafting",
+        "utility"
+      ],
+      "tier": 3,
+      "requires": [
+        "ale-and-iron",
+        "tunnel-master"
+      ],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 4
+      }
+    },
+    {
+      "id": "heir-of-durin",
+      "name": {
+        "es": "Heredero de Durin",
+        "en": "Heir of Durin"
+      },
+      "description": {
+        "es": "Tu linaje despierta: una vez por acto, te volvés imparable durante 3 turnos, ignorando todo daño inferior a 10 y aterrorizando a criaturas de oscuridad.",
+        "en": "Your lineage awakens: once per act, you become unstoppable for 3 turns, ignoring all damage below 10 and terrifying creatures of darkness."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "flame",
+      "tags": [
+        "combat",
+        "defense"
+      ],
+      "tier": 4,
+      "requires": [
+        "grudge-keeper",
+        "master-smith"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 3
+      }
+    }
+  ]
+}
