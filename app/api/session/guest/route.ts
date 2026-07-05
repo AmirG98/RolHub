@@ -312,7 +312,7 @@ ${labels.important}:
 - ${diceRoll ? `${labels.diceInterpret} (${diceRoll.result}): 1-5 ${labels.failure}, 6-10 ${labels.partialSuccess}, 11-15 ${labels.success}, 16-20 ${labels.criticalSuccess}` : labels.noDice}`
 
     const response = await anthropic.messages.create({
-      model: 'claude-sonnet-4-20250514',
+      model: process.env.DM_MODEL || 'claude-sonnet-4-6',
       max_tokens: 1000,
       system: systemPrompt,
       messages: conversationHistory as any,

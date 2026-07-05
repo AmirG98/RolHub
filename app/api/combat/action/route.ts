@@ -120,7 +120,7 @@ export async function POST(req: NextRequest): Promise<NextResponse<CombatActionA
     const userPrompt = buildCombatActionPrompt(context)
 
     const message = await anthropic.messages.create({
-      model: 'claude-sonnet-4-20250514',
+      model: process.env.DM_MODEL || 'claude-sonnet-4-6',
       max_tokens: 800,
       system: systemPrompt,
       messages: [
