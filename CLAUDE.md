@@ -1251,7 +1251,22 @@ SESION 2026-07-05 — security-hardening verificada en local:
      migracion Stripe→Paddle, legal pages, Trial+PRO $8.99/mo. Seccion 20
      necesita una actualizacion completa en una proxima sesion.
 
-URL DE PRODUCCION: https://rol-hub.vercel.app (verificar en Vercel Dashboard)
+URL DE PRODUCCION: https://rol-hub.com (alias: rolhub.vercel.app)
+  OJO: rol-hub.vercel.app NO existe (404) — el proyecto Vercel se llama "rolhub".
+
+DEPLOY (verificado 2026-07-05):
+  - Vercel deploya automatico al pushear a main.
+  - GOTCHA RESUELTO: entre 2026-04-15 y 2026-07-05 TODOS los deploys se
+    cancelaban al instante ("Canceled from the Vercel Dashboard") porque
+    Vercel estaba configurado para deployar SOLO commits verificados/firmados
+    y los commits locales no van firmados. Se desactivo esa opcion.
+    Prod estuvo congelada en el commit 4157b54 (15 abr) todo ese tiempo.
+  - Deploy 2eb132d live y verificado E2E: DM narra en prod, 401 para APIs
+    sin auth, health 200.
+  - PENDIENTE en Vercel: agregar env vars CRON_SECRET (sin ella el cron
+    diario de cleanup no corre), ADMIN_EMAILS, GUEST_COOKIE_SECRET,
+    DM_MODEL, UTILITY_MODEL (valores en .env.local local). Todas tienen
+    fallback seguro salvo que el cron queda inactivo sin CRON_SECRET.
 
 COMPLETADO - FASE 1 (Cimientos):
   ✅ Setup Next.js 14 con TypeScript + Tailwind CSS
