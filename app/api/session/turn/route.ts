@@ -16,6 +16,9 @@ import { calculateRelativePosition, normalizeLegacyCoordinates } from '@/lib/map
 import { type Quest, type QuestUpdate } from '@/lib/types/quest'
 import { generateSummaryCheckpoint } from '@/lib/claude/session-summarizer'
 import { updateUserProgress, type ProgressUpdate } from '@/lib/game/user-progress'
+import { normalizeMilestones, recordMilestoneEvent, detectNewUnlockables } from '@/lib/game/milestones'
+import { getSkillTree } from '@/lib/game/skill-trees'
+import type { MilestoneState } from '@/lib/types/skill-tree'
 import { canStartSession } from '@/lib/plans/check-access'
 import { rateLimit, rateLimitResponse } from '@/lib/rate-limit'
 import { verifyGuestCookie } from '@/lib/guest/cookie'
@@ -2043,6 +2046,7 @@ INSTRUCCIONES PARA HABILIDADES:
     // === ABILITY USAGE + COOLDOWN TICK + LONG REST ===
     // Siempre se ejecuta (incluso si el DM no marcó ability_used) porque el tick de cooldowns
     // debe decrementarse cada turno del personaje acting. Idempotente respecto al worldState.
+    let abilityUseApplied = false // alimenta el contador de milestones abilities_used
     {
       const abilitiesNow: AbilityRuntime[] =
         (worldState.party?.[character.name]?.abilities as AbilityRuntime[]) || []
@@ -2083,6 +2087,7 @@ INSTRUCCIONES PARA HABILIDADES:
               updated = updated.map((ab) =>
                 ab.id === found.id ? applyAbilityUse(ab, totalTurns + 1) : ab
               )
+              abilityUseApplied = true
               console.log(`[Ability] Applied use of ${found.id} (${found.resource})`)
             }
           } else if (found && !canUseAbility(found)) {
@@ -2235,6 +2240,100 @@ INSTRUCCIONES PARA HABILIDADES:
 
         levelUpData = { newLevel, hpIncrease, statOptions, statBonus, needsChoice }
       }
+    }
+
+    // === MILESTONES & SKILL TREE UNLOCKS ===
+    // Acumula contadores de logros del personaje (fuente del árbol de habilidades).
+    // Espejo de sesión en worldState.party[char].milestones; Character.milestones
+    // (Prisma, source of truth) se flushea en la transacción de persistencia.
+    // Los guests también acumulan (si se registran conservan el progreso), pero
+    // los skill_unlocks solo se emiten para usuarios registrados.
+    let skillUnlocks: Array<{ nodeId: string; name: unknown; tier: number }> | null = null
+    let milestonesAfter: MilestoneState | null = null
+    try {
+      const milestonesBefore = normalizeMilestones(
+        worldState.party?.[character.name]?.milestones ?? (character as any).milestones
+      )
+      let after = recordMilestoneEvent(milestonesBefore, { type: 'turn_played' })
+
+      if (dmResponse.quest_completed) {
+        after = recordMilestoneEvent(after, { type: 'quest_completed' })
+      }
+      if (abilityUseApplied) {
+        after = recordMilestoneEvent(after, { type: 'ability_used' })
+      }
+
+      // Combate ganado: estábamos bajo lock de combate y este turno lo libera
+      // con el personaje vivo (detección determinística vía navigation lock).
+      const wasInCombat =
+        worldState.map_state?.navigationLocked === true &&
+        worldState.map_state?.lockReason === 'combat'
+      const characterDied = worldStateUpdates._zeroHpEvent?.type === 'death'
+      if (wasInCombat && dmResponse.navigation_locked === false && !characterDied) {
+        after = recordMilestoneEvent(after, { type: 'combat_won' })
+      }
+
+      // Sobrevivir a la muerte (death saves estabilizados, nat 20, o rescate narrativo)
+      const zeroType = worldStateUpdates._zeroHpEvent?.type
+      if (zeroType === 'nat20_recovery' || zeroType === 'stabilized' || zeroType === 'rescue') {
+        after = recordMilestoneEvent(after, { type: 'death_survived' })
+      }
+
+      // Vínculo con NPC: transición a status de aliado/amigo (no re-cuenta)
+      if (dmResponse.npc_update) {
+        const npcList = Array.isArray(dmResponse.npc_update)
+          ? dmResponse.npc_update
+          : [dmResponse.npc_update]
+        const BOND_RE = /\b(ally|allied|aliado|aliada|friend|amigo|amiga)\b/i
+        for (const u of npcList) {
+          if (!u?.name || !u?.status) continue
+          const prevStatus = worldState.npc_states?.[u.name]?.status || ''
+          if (BOND_RE.test(u.status) && !BOND_RE.test(prevStatus)) {
+            after = recordMilestoneEvent(after, { type: 'npc_bond' })
+          }
+        }
+      }
+
+      // Acto y anchors narrativos (monotónicos — idempotente re-registrarlos)
+      const actNow = Number(worldStateUpdates.act ?? worldState.act) || 1
+      after = recordMilestoneEvent(after, { type: 'act_reached', act: actNow })
+      for (const anchor of worldState.narrative_anchors_hit || []) {
+        if (typeof anchor === 'string') {
+          after = recordMilestoneEvent(after, { type: 'narrative_anchor', anchor })
+        }
+      }
+
+      // Espejo en worldState para lectura barata durante la sesión
+      if (!worldStateUpdates.party) worldStateUpdates.party = { ...worldState.party }
+      if (!worldStateUpdates.party[character.name]) {
+        worldStateUpdates.party[character.name] = { ...worldState.party?.[character.name] }
+      }
+      worldStateUpdates.party[character.name].milestones = after
+      milestonesAfter = after
+
+      // Nodos del árbol que se volvieron desbloqueables ESTE turno → toast.
+      // Solo registrados: los guests ven el teaser, no reciben unlocks.
+      if (clerkUserId) {
+        const tree = getSkillTree(session.campaign.lore, character.archetype)
+        if (tree) {
+          const learnedIds: string[] = Array.isArray((character as any).unlockedSkills)
+            ? ((character as any).unlockedSkills as string[])
+            : []
+          const levelNow =
+            worldStateUpdates.party[character.name].level ||
+            worldState.party?.[character.name]?.level ||
+            character.level ||
+            1
+          const nuevos = detectNewUnlockables(tree, milestonesBefore, after, learnedIds, levelNow)
+          if (nuevos.length > 0) {
+            skillUnlocks = nuevos.map((n) => ({ nodeId: n.id, name: n.name, tier: n.tier }))
+            console.log(`[Skills] Unlockable nodes this turn: ${nuevos.map((n) => n.id).join(', ')}`)
+          }
+        }
+      }
+    } catch (err) {
+      // Los milestones nunca bloquean el turno del jugador
+      console.error('[Skills] milestone tracking failed:', err)
     }
 
     // Update time of day and weather if DM changed them
@@ -2657,6 +2756,13 @@ INSTRUCCIONES PARA HABILIDADES:
       ...(campaignUpdateData
         ? [prisma.campaign.update({ where: { id: session.campaignId }, data: campaignUpdateData })]
         : []),
+      // Flush de milestones del personaje (source of truth para el skill tree)
+      ...(milestonesAfter
+        ? [prisma.character.update({
+            where: { id: character.id },
+            data: { milestones: milestonesAfter as any },
+          })]
+        : []),
     ]))
 
     // 4.4 Actualizar progreso meta del usuario (streak, XP, achievements).
@@ -2760,6 +2866,8 @@ INSTRUCCIONES PARA HABILIDADES:
       longRest: dmResponse.long_rest === true,
       // Progreso meta del usuario (Duolingo-style) — null para guests
       progressUpdate,
+      // Nodos del skill tree que se volvieron desbloqueables este turno (toast) — null para guests
+      skillUnlocks,
     })
   } catch (error) {
     console.error('Error processing turn:', error)

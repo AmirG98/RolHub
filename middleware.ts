@@ -43,7 +43,9 @@ export default clerkMiddleware(async (auth, request) => {
   if (!userId) {
     const guestCookie = request.cookies.get('guest_user_id')?.value
     // Permitir acceso a /play/* y /api/session/turn si tiene cookie guest
-    if (guestCookie && (pathname.startsWith('/play/') || pathname.startsWith('/api/session/turn') || pathname.startsWith('/api/voice') || pathname.startsWith('/api/images') || pathname.startsWith('/api/sfx'))) {
+    if (guestCookie && (pathname.startsWith('/play/') || pathname.startsWith('/api/session/turn') || pathname.startsWith('/api/voice') || pathname.startsWith('/api/images') || pathname.startsWith('/api/sfx') || (pathname.startsWith('/api/characters/') && pathname.endsWith('/skill-tree')))) {
+      // Nota: /api/characters/[id]/skill-tree (GET) permite guests para el
+      // teaser del árbol; el POST /learn rechaza guests dentro del handler.
       return NextResponse.next()
     }
 
