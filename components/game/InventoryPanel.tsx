@@ -61,17 +61,26 @@ export function InventoryPanel({ inventory, characterName, locale = 'es', classN
   // encontrados en el lookup (loot del DM) pasan sin cambios.
   const normalizedInventory: string[] = flatInventory.map(i => translateInventoryItem(i, locale))
 
-  // Detectar items nuevos para highlight
+  // Detectar items nuevos para highlight.
+  // normalizedInventory es un array NUEVO en cada render (se recrea con .map),
+  // así que el efecto depende de la key serializada — solo corre cuando cambia
+  // el contenido real del inventario.
+  const inventoryKey = normalizedInventory.join('\u0000')
   useEffect(() => {
     const prev = new Set(prevInventoryRef.current)
     const added = normalizedInventory.filter(item => !prev.has(item))
+    // Actualizar la ref SIEMPRE, antes del early return. Antes solo se
+    // actualizaba cuando no había items nuevos → los mismos items se
+    // re-detectaban en cada render y setNewItems entraba en loop infinito
+    // (Maximum update depth exceeded).
+    prevInventoryRef.current = [...normalizedInventory]
     if (added.length > 0) {
       setNewItems(new Set(added))
       const timer = setTimeout(() => setNewItems(new Set()), 3000)
       return () => clearTimeout(timer)
     }
-    prevInventoryRef.current = [...normalizedInventory]
-  }, [normalizedInventory])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inventoryKey])
 
   const grouped = groupItems(normalizedInventory)
 

@@ -65,6 +65,16 @@ export function TypewriterText({
   const indexRef = useRef(0)
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
 
+  // Callbacks en refs: si el padre pasa arrows inline, su identidad cambia en
+  // cada render y reiniciaría el efecto de animación constantemente (y bajo
+  // renders frecuentes del padre puede escalar a "Maximum update depth")
+  const onCompleteRef = useRef(onComplete)
+  const onUpdateRef = useRef(onUpdate)
+  useEffect(() => {
+    onCompleteRef.current = onComplete
+    onUpdateRef.current = onUpdate
+  })
+
   const effectiveSpeed = speed ?? VARIANT_SPEEDS[variant]
 
   // Función para calcular delay del siguiente caracter
@@ -106,7 +116,7 @@ export function TypewriterText({
     const typeNextChar = () => {
       if (indexRef.current >= text.length) {
         setIsComplete(true)
-        onComplete?.()
+        onCompleteRef.current?.()
         return
       }
 
@@ -116,7 +126,7 @@ export function TypewriterText({
 
       setDisplayedText(text.slice(0, currentIndex + 1))
       indexRef.current += 1
-      onUpdate?.()
+      onUpdateRef.current?.()
 
       const delay = getNextDelay(char, remainingText)
       timeoutRef.current = setTimeout(typeNextChar, delay)
@@ -127,7 +137,7 @@ export function TypewriterText({
     return () => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current)
     }
-  }, [isStarted, isComplete, text, effectiveSpeed, onComplete, onUpdate, getNextDelay])
+  }, [isStarted, isComplete, text, effectiveSpeed, getNextDelay])
 
   // Skip animation on click
   const handleClick = useCallback(() => {
