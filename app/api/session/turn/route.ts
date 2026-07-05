@@ -126,12 +126,19 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'No autorizado' }, { status: 401 })
     }
 
+    // Bypass para los agentes de playtesting (header con secreto exacto).
+    const isPlaytest =
+      !!process.env.PLAYTEST_BYPASS_TOKEN &&
+      req.headers.get('x-playtest-token') === process.env.PLAYTEST_BYPASS_TOKEN
+
     // === RATE LIMITING ===
     // Cada turno es una llamada a Claude — proteger costos.
     // Guests: 40 turnos/hora. Registrados: 120/hora (generoso, solo frena scripts).
-    const turnLimit = isGuestUser
-      ? await rateLimit(`turn:guest:${authUserId}`, 40, 60 * 60)
-      : await rateLimit(`turn:user:${authUserId}`, 120, 60 * 60)
+    const turnLimit = isPlaytest
+      ? { allowed: true, remaining: 999, retryAfterSeconds: 0 }
+      : isGuestUser
+        ? await rateLimit(`turn:guest:${authUserId}`, 40, 60 * 60)
+        : await rateLimit(`turn:user:${authUserId}`, 120, 60 * 60)
     if (!turnLimit.allowed) {
       return rateLimitResponse(
         turnLimit,
@@ -222,7 +229,7 @@ export async function POST(req: NextRequest) {
     // === CAP DE TURNOS PARA GUESTS ===
     // El modo invitado es una demo, no juego ilimitado gratis. Cap duro de
     // turnos de jugador por sesión (configurable via GUEST_TURN_CAP).
-    if (isGuestUser) {
+    if (isGuestUser && !isPlaytest) {
       const guestTurnCap = parseInt(process.env.GUEST_TURN_CAP || '15', 10)
       const playerTurnCount = await prisma.turn.count({
         where: { sessionId: session.id, role: 'USER' },

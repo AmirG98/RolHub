@@ -18,6 +18,13 @@ export interface GuestSession {
 
 const DEFAULT_TIMEOUT_MS = 60_000
 
+// Header de bypass de rate limit (solo si el server tiene el mismo secreto).
+// Permite al nightly correr desde una IP fija sin chocar con los caps de guest.
+function playtestHeaders(): Record<string, string> {
+  const token = process.env.PLAYTEST_BYPASS_TOKEN
+  return token ? { 'x-playtest-token': token } : {}
+}
+
 async function fetchWithTimeout(
   url: string,
   init: RequestInit,
@@ -55,7 +62,7 @@ export async function createGuestSession(
   try {
     res = await fetchWithTimeout(`${baseUrl}/api/session/guest-create`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', ...playtestHeaders() },
       body: JSON.stringify({
         lore: opts.lore,
         archetypeId: opts.archetypeId,
@@ -114,6 +121,7 @@ export async function playTurn(
       headers: {
         'Content-Type': 'application/json',
         Cookie: session.cookie,
+        ...playtestHeaders(),
       },
       body: JSON.stringify({
         sessionId: session.sessionId,
