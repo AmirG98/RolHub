@@ -15,7 +15,11 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-      - run: npm ci
+      # npm install (no npm ci): el lock se genera en macOS y no incluye las
+      # deps opcionales de Linux de sharp (@img/sharp-wasm32 → @emnapi/*), asi
+      # que npm ci —que es estricto— falla en el runner. npm install las
+      # resuelve para la plataforma del runner.
+      - run: npm install --no-audit --no-fund
       - name: Type check
         run: npx tsc --noEmit
       - name: Run tests
