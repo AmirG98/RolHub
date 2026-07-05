@@ -2353,10 +2353,17 @@ INSTRUCCIONES PARA HABILIDADES:
         worldState.current_scene?.toLowerCase().includes(l.name?.toLowerCase()) ||
         l.name?.toLowerCase().includes(worldState.current_scene?.toLowerCase()?.split(',')[0]?.trim())
       )
-      const matchedSubLoc = currentLoreLoc?.sub_locations?.find((sl: any) =>
-        dmResponse.scene_change!.toLowerCase().includes(sl.name.toLowerCase()) ||
-        sl.name.toLowerCase().includes(dmResponse.scene_change!.toLowerCase())
-      )
+      const sceneLower = dmResponse.scene_change!.toLowerCase()
+      const matchedSubLoc = currentLoreLoc?.sub_locations?.find((sl: any) => {
+        // sl.name puede ser string o LocalizedString {es,en} según el lore JSON.
+        const slName =
+          typeof sl.name === 'string'
+            ? sl.name
+            : sl.name?.es || sl.name?.en || ''
+        if (!slName) return false
+        const slLower = slName.toLowerCase()
+        return sceneLower.includes(slLower) || slLower.includes(sceneLower)
+      })
       if (matchedSubLoc) {
         worldStateUpdates.current_sub_location = matchedSubLoc.id
       } else {
