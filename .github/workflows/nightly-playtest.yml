@@ -1,0 +1,86 @@
+name: Nightly Playtest
+
+# Agentes que juegan el juego contra prod, detectan bugs, abren issues y
+# (job autofix) intentan un fix en branch dejando PR draft para revisión.
+# Ver scripts/playtest/ y el plan en el repo.
+
+on:
+  schedule:
+    - cron: '0 6 * * *'   # 06:00 UTC = 03:00 ART (tráfico real mínimo)
+  workflow_dispatch:      # correr a mano desde la pestaña Actions
+    inputs:
+      profiles:
+        description: 'Perfiles a correr (coma-separados)'
+        default: 'normal,chaotic,hostile'
+      max_turns:
+        description: 'Máx turnos por sesión'
+        default: '14'
+      base_url:
+        description: 'URL objetivo'
+        default: 'https://rol-hub.com'
+
+concurrency:
+  group: nightly-playtest
+  cancel-in-progress: false
+
+jobs:
+  playtest:
+    runs-on: ubuntu-latest
+    outputs:
+      has_findings: ${{ steps.run.outputs.has_findings }}
+      autofixable_count: ${{ steps.run.outputs.autofixable_count }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - name: Run playtest
+        id: run
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          PLAYTEST_BYPASS_TOKEN: ${{ secrets.PLAYTEST_BYPASS_TOKEN }}
+          UTILITY_MODEL: ${{ vars.UTILITY_MODEL || 'claude-haiku-4-5-20251001' }}
+        run: |
+          npx tsx scripts/playtest/run.ts \
+            --base-url "${{ github.event.inputs.base_url || 'https://rol-hub.com' }}" \
+            --profiles "${{ github.event.inputs.profiles || 'normal,chaotic,hostile' }}" \
+            --max-turns "${{ github.event.inputs.max_turns || '14' }}" \
+            --out-dir playtest-results
+      - name: Upload report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playtest-report
+          path: playtest-results/
+          retention-days: 30
+
+  file-issues:
+    needs: playtest
+    if: needs.playtest.outputs.has_findings == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    outputs:
+      autofixable: ${{ steps.file.outputs.autofixable }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with:
+          name: playtest-report
+          path: playtest-results/
+      - name: File / dedup issues
+        id: file
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          MAX_NEW_ISSUES: '5'
+        run: npx tsx scripts/playtest/file-issues.ts playtest-results/report.json
+
+  # El job autofix se agrega en F2.4 (usa claude-code headless + AUTOFIX_PAT).
