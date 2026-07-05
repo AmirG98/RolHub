@@ -392,6 +392,7 @@ model GeneratedAsset {
   @@unique([type, key])
   @@index([type, key])
   @@index([lore])
+  @@index([expiresAt]) // para el cron de limpieza (deleteMany por expiración)
 }
 
 enum AssetType {

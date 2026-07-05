@@ -47,6 +47,13 @@ export default clerkMiddleware(async (auth, request) => {
       return NextResponse.next()
     }
 
+    // Rutas API sin auth → 401 JSON. Un redirect a /login no sirve para fetch:
+    // el cliente lo sigue, recibe el HTML del login con status 200 y el error
+    // real queda enmascarado. Las páginas de navegador sí redirigen.
+    if (pathname.startsWith('/api/')) {
+      return NextResponse.json({ error: 'No autorizado' }, { status: 401 })
+    }
+
     const signInUrl = new URL('/login', request.url)
     signInUrl.searchParams.set('redirect_url', pathname)
     return NextResponse.redirect(signInUrl)
