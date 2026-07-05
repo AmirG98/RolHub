@@ -19,6 +19,7 @@ import { updateUserProgress, type ProgressUpdate } from '@/lib/game/user-progres
 import { normalizeMilestones, recordMilestoneEvent, detectNewUnlockables } from '@/lib/game/milestones'
 import { getSkillTree } from '@/lib/game/skill-trees'
 import type { MilestoneState } from '@/lib/types/skill-tree'
+import { validateDMResponse } from '@/lib/validation/dm-response.schema'
 import { canStartSession } from '@/lib/plans/check-access'
 import { rateLimit, rateLimitResponse } from '@/lib/rate-limit'
 import { verifyGuestCookie } from '@/lib/guest/cookie'
@@ -1770,6 +1771,19 @@ INSTRUCCIONES PARA HABILIDADES:
       }
     } catch {
       dmResponse = { narration: rawResponse }
+    }
+
+    // Validación del contrato del DM contra el schema Zod (modo warning).
+    // No bloquea el turno — solo loggea violaciones para observabilidad y
+    // para que el playtest/monitoreo las detecte. El enforcement duro puede
+    // activarse más adelante viendo la tasa real de violaciones en prod.
+    try {
+      const validation = validateDMResponse(dmResponse)
+      if (!validation.ok) {
+        console.warn(`[DM] Respuesta viola el schema: ${validation.issues.slice(0, 5).join(' | ')}`)
+      }
+    } catch {
+      // la validación jamás debe romper el turno
     }
 
     // Calculate world state updates
