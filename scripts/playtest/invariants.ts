@@ -103,6 +103,16 @@ export function checkTurn(
 
   // ── Contrato de la respuesta ─────────────────────────────────────
   const narration: string = typeof body?.narration === 'string' ? body.narration : ''
+
+  // JSON crudo filtrado en la narración (bug de parseo truncado). Determinístico.
+  if (/"narration"\s*:|","character_name"|","hp_change"/.test(narration)) {
+    findings.push(
+      finding(tracker, turnIndex, 'P0', 'raw_json_in_narration',
+        'La narración contiene JSON crudo — el parseo de la respuesta del DM falló',
+        ev, ['app/api/session/turn/route.ts', 'lib/claude/parse-dm-response.ts'], true)
+    )
+  }
+
   if (narration.trim().length < 40) {
     findings.push(
       finding(tracker, turnIndex, 'P1', 'narration_too_short',

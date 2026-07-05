@@ -20,6 +20,7 @@ import { normalizeMilestones, recordMilestoneEvent, detectNewUnlockables } from 
 import { getSkillTree } from '@/lib/game/skill-trees'
 import type { MilestoneState } from '@/lib/types/skill-tree'
 import { validateDMResponse } from '@/lib/validation/dm-response.schema'
+import { parseDMResponse } from '@/lib/claude/parse-dm-response'
 import { canStartSession } from '@/lib/plans/check-access'
 import { rateLimit, rateLimitResponse } from '@/lib/rate-limit'
 import { verifyGuestCookie } from '@/lib/guest/cookie'
@@ -1640,7 +1641,9 @@ INSTRUCCIONES PARA HABILIDADES:
       response = await anthropic.messages.create({
         // Configurable sin deploy: DM_MODEL en env. Default: Sonnet 4.6.
         model: process.env.DM_MODEL || 'claude-sonnet-4-6',
-        max_tokens: 1500,
+        // 2500 (antes 1500): con narraciones largas + diálogos escapados + todos
+        // los campos JSON, 1500 truncaba la respuesta y el JSON quedaba cortado.
+        max_tokens: 2500,
         system: finalSystemPrompt,
         messages: conversationHistory as any,
       })
@@ -1761,16 +1764,14 @@ INSTRUCCIONES PARA HABILIDADES:
       long_rest?: boolean
     }
 
-    try {
-      // Try to parse as JSON, fallback to raw text
-      const jsonMatch = rawResponse.match(/\{[\s\S]*\}/)
-      if (jsonMatch) {
-        dmResponse = JSON.parse(jsonMatch[0])
-      } else {
-        dmResponse = { narration: rawResponse }
+    // Parseo robusto: si el JSON viene truncado (max_tokens) o malformado,
+    // extrae SOLO la narración en vez de filtrar el JSON crudo al jugador.
+    {
+      const parsed = parseDMResponse(rawResponse)
+      dmResponse = parsed.data as typeof dmResponse
+      if (!parsed.fullParse) {
+        console.warn('[DM] JSON incompleto/truncado — se degradó a solo narración')
       }
-    } catch {
-      dmResponse = { narration: rawResponse }
     }
 
     // Validación del contrato del DM contra el schema Zod (modo warning).

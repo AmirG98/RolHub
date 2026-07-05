@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
 import { getEngineConfig, GameEngine, Locale, EngineContext, DiceRoll as EngineDiceRoll } from '@/lib/engines'
+import { parseDMResponse } from '@/lib/claude/parse-dm-response'
 
 // Initialize Claude
 const anthropic = new Anthropic({
@@ -313,33 +314,23 @@ ${labels.important}:
 
     const response = await anthropic.messages.create({
       model: process.env.DM_MODEL || 'claude-sonnet-4-6',
-      max_tokens: 1000,
+      // 2000 (antes 1000): evita que el JSON se trunque con narraciones largas.
+      max_tokens: 2000,
       system: systemPrompt,
       messages: conversationHistory as any,
     })
 
     const rawResponse = response.content[0].type === 'text' ? response.content[0].text : ''
 
-    // Parse JSON response
-    let dmResponse: {
-      narration: string
+    // Parse robusto: si el JSON viene truncado/malformado, extrae solo la
+    // narración en vez de filtrar el JSON crudo al jugador.
+    const dmResponse = parseDMResponse<{
       hp_change?: number
       new_item?: string | null
       scene_change?: string | null
       new_quest?: string | null
       suggested_actions?: string[]
-    }
-
-    try {
-      const jsonMatch = rawResponse.match(/\{[\s\S]*\}/)
-      if (jsonMatch) {
-        dmResponse = JSON.parse(jsonMatch[0])
-      } else {
-        dmResponse = { narration: rawResponse }
-      }
-    } catch {
-      dmResponse = { narration: rawResponse }
-    }
+    }>(rawResponse).data
 
     // Calculate world state updates for guest (returned to client, not persisted)
     const worldStateUpdates: Record<string, any> = {}
