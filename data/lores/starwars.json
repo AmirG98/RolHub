@@ -1,7 +1,13 @@
 {
   "id": "STAR_WARS",
-  "name": { "es": "Guerra de las Galaxias", "en": "Star Wars" },
-  "tagline": { "es": "Una galaxia muy, muy lejana llena de aventura", "en": "A galaxy far, far away full of adventure" },
+  "name": {
+    "es": "Guerra de las Galaxias",
+    "en": "Star Wars"
+  },
+  "tagline": {
+    "es": "Una galaxia muy, muy lejana llena de aventura",
+    "en": "A galaxy far, far away full of adventure"
+  },
   "tone": [
     "épico",
     "espacial",
@@ -68,27 +74,51 @@
       "sub_locations": [
         {
           "id": "cantina-chalmun",
-          "name": {"es": "Cantina de Chalmun", "en": "Chalmun's Cantina"},
+          "name": {
+            "es": "Cantina de Chalmun",
+            "en": "Chalmun's Cantina"
+          },
           "type": "tavern",
-          "description": {"es": "El bar más infame del Borde Exterior, donde pilotos y criminales cierran tratos", "en": "The most infamous bar in the Outer Rim, where pilots and criminals cut their deals"}
+          "description": {
+            "es": "El bar más infame del Borde Exterior, donde pilotos y criminales cierran tratos",
+            "en": "The most infamous bar in the Outer Rim, where pilots and criminals cut their deals"
+          }
         },
         {
           "id": "bahia-atraque-94",
-          "name": {"es": "Bahía de Atraque 94", "en": "Docking Bay 94"},
+          "name": {
+            "es": "Bahía de Atraque 94",
+            "en": "Docking Bay 94"
+          },
           "type": "hangar",
-          "description": {"es": "Hangar donde se estacionan naves de contrabandistas y viajeros", "en": "A hangar where smugglers and travelers dock their ships"}
+          "description": {
+            "es": "Hangar donde se estacionan naves de contrabandistas y viajeros",
+            "en": "A hangar where smugglers and travelers dock their ships"
+          }
         },
         {
           "id": "mercado-jawa",
-          "name": {"es": "Mercado Jawa", "en": "Jawa Market"},
+          "name": {
+            "es": "Mercado Jawa",
+            "en": "Jawa Market"
+          },
           "type": "market",
-          "description": {"es": "Droides y chatarra robada vendidos por los pequeños Jawas encapuchados", "en": "Droids and stolen scrap sold by the hooded little Jawas"}
+          "description": {
+            "es": "Droides y chatarra robada vendidos por los pequeños Jawas encapuchados",
+            "en": "Droids and stolen scrap sold by the hooded little Jawas"
+          }
         },
         {
           "id": "oficina-imperial",
-          "name": {"es": "Oficina de Control Imperial", "en": "Imperial Control Office"},
+          "name": {
+            "es": "Oficina de Control Imperial",
+            "en": "Imperial Control Office"
+          },
           "type": "gate",
-          "description": {"es": "Checkpoint de Stormtroopers que revisan identificaciones y carga", "en": "A Stormtrooper checkpoint inspecting IDs and cargo"}
+          "description": {
+            "es": "Checkpoint de Stormtroopers que revisan identificaciones y carga",
+            "en": "A Stormtrooper checkpoint inspecting IDs and cargo"
+          }
         }
       ]
     },
@@ -138,33 +168,63 @@
       "sub_locations": [
         {
           "id": "senado-galactico",
-          "name": {"es": "Senado Galáctico", "en": "Galactic Senate"},
+          "name": {
+            "es": "Senado Galáctico",
+            "en": "Galactic Senate"
+          },
           "type": "palace",
-          "description": {"es": "El enorme edificio donde el Emperador dicta la ley galáctica", "en": "The massive building where the Emperor dictates galactic law"}
+          "description": {
+            "es": "El enorme edificio donde el Emperador dicta la ley galáctica",
+            "en": "The massive building where the Emperor dictates galactic law"
+          }
         },
         {
           "id": "distrito-entretenimiento",
-          "name": {"es": "Distrito de Entretenimiento", "en": "Entertainment District"},
+          "name": {
+            "es": "Distrito de Entretenimiento",
+            "en": "Entertainment District"
+          },
           "type": "plaza",
-          "description": {"es": "Niveles medios llenos de cantinas, casinos y espectáculos para toda la galaxia", "en": "Middle levels crammed with cantinas, casinos and shows for the whole galaxy"}
+          "description": {
+            "es": "Niveles medios llenos de cantinas, casinos y espectáculos para toda la galaxia",
+            "en": "Middle levels crammed with cantinas, casinos and shows for the whole galaxy"
+          }
         },
         {
           "id": "mercado-niveles-bajos",
-          "name": {"es": "Mercado de los Niveles Bajos", "en": "Lower Levels Market"},
+          "name": {
+            "es": "Mercado de los Niveles Bajos",
+            "en": "Lower Levels Market"
+          },
           "type": "market",
-          "description": {"es": "Comercio clandestino en los suburbios oscuros bajo la superficie brillante", "en": "Clandestine trade in the dark underbelly beneath the shining surface"}
+          "description": {
+            "es": "Comercio clandestino en los suburbios oscuros bajo la superficie brillante",
+            "en": "Clandestine trade in the dark underbelly beneath the shining surface"
+          }
         },
         {
           "id": "templo-jedi",
-          "name": {"es": "Ruinas del Templo Jedi", "en": "Jedi Temple Ruins"},
+          "name": {
+            "es": "Ruinas del Templo Jedi",
+            "en": "Jedi Temple Ruins"
+          },
           "type": "temple",
-          "description": {"es": "Antiguo centro de la Orden Jedi, ahora sellado y custodiado por el Imperio", "en": "The ancient seat of the Jedi Order, now sealed and guarded by the Empire"}
+          "description": {
+            "es": "Antiguo centro de la Orden Jedi, ahora sellado y custodiado por el Imperio",
+            "en": "The ancient seat of the Jedi Order, now sealed and guarded by the Empire"
+          }
         },
         {
           "id": "base-imperial",
-          "name": {"es": "Cuartel General Imperial", "en": "Imperial Headquarters"},
+          "name": {
+            "es": "Cuartel General Imperial",
+            "en": "Imperial Headquarters"
+          },
           "type": "prison",
-          "description": {"es": "Centro de operaciones militares y celdas de detención para prisioneros políticos", "en": "Military operations center and detention cells for political prisoners"}
+          "description": {
+            "es": "Centro de operaciones militares y celdas de detención para prisioneros políticos",
+            "en": "Military operations center and detention cells for political prisoners"
+          }
         }
       ]
     },
@@ -188,9 +248,18 @@
   "archetypes": [
     {
       "id": "smuggler",
-      "name": { "es": "Contrabandista", "en": "Smuggler" },
-      "description": { "es": "Piloto astuto con nave rápida y problemas con el Imperio", "en": "A cunning pilot with a fast ship and trouble with the Empire" },
-      "simple_description": { "es": "Piloteás tu propia nave. Conocés rutas secretas. Debés dinero a gente peligrosa pero siempre te las arreglás.", "en": "You fly your own ship. You know the secret routes. You owe money to dangerous people, but somehow you always pull through." },
+      "name": {
+        "es": "Contrabandista",
+        "en": "Smuggler"
+      },
+      "description": {
+        "es": "Piloto astuto con nave rápida y problemas con el Imperio",
+        "en": "A cunning pilot with a fast ship and trouble with the Empire"
+      },
+      "simple_description": {
+        "es": "Piloteás tu propia nave. Conocés rutas secretas. Debés dinero a gente peligrosa pero siempre te las arreglás.",
+        "en": "You fly your own ship. You know the secret routes. You owe money to dangerous people, but somehow you always pull through."
+      },
       "starting_stats": {
         "hp": 18,
         "maxHp": 18,
@@ -200,26 +269,129 @@
         "lore": 1
       },
       "starting_inventory": [
-        {"es": "Blaster rápido", "en": "Quick-draw blaster"},
-        {"es": "Nave carguera", "en": "Light freighter"},
-        {"es": "Dados de Sabacc", "en": "Sabacc dice"},
-        {"es": "Deuda de 10,000 créditos", "en": "10,000 credit debt"},
-        {"es": "Droide astromecánico", "en": "Astromech droid"},
-        {"es": "Mochila de campo", "en": "Field backpack"},
-        {"es": "3 raciones de campaña", "en": "3 ration packs"},
-        {"es": "Cantimplora térmica", "en": "Thermal canteen"},
-        {"es": "Cuerda sintética (15m)", "en": "Synthetic rope (15m)"},
-        {"es": "Linterna de bolsillo", "en": "Pocket glowrod"},
-        {"es": "Medpac básico", "en": "Basic medpac"},
-        {"es": "Créditos galácticos (50)", "en": "Galactic credits (50)"}
+        {
+          "es": "Blaster rápido",
+          "en": "Quick-draw blaster"
+        },
+        {
+          "es": "Nave carguera",
+          "en": "Light freighter"
+        },
+        {
+          "es": "Dados de Sabacc",
+          "en": "Sabacc dice"
+        },
+        {
+          "es": "Deuda de 10,000 créditos",
+          "en": "10,000 credit debt"
+        },
+        {
+          "es": "Droide astromecánico",
+          "en": "Astromech droid"
+        },
+        {
+          "es": "Mochila de campo",
+          "en": "Field backpack"
+        },
+        {
+          "es": "3 raciones de campaña",
+          "en": "3 ration packs"
+        },
+        {
+          "es": "Cantimplora térmica",
+          "en": "Thermal canteen"
+        },
+        {
+          "es": "Cuerda sintética (15m)",
+          "en": "Synthetic rope (15m)"
+        },
+        {
+          "es": "Linterna de bolsillo",
+          "en": "Pocket glowrod"
+        },
+        {
+          "es": "Medpac básico",
+          "en": "Basic medpac"
+        },
+        {
+          "es": "Créditos galácticos (50)",
+          "en": "Galactic credits (50)"
+        }
       ],
-      "special_ability": "Suerte del Contrabandista: Una vez por sesión, convertí un fallo crítico en éxito. Tu nave tiene escondites secretos"
+      "special_ability": "Suerte del Contrabandista: Una vez por sesión, convertí un fallo crítico en éxito. Tu nave tiene escondites secretos",
+      "abilities": [
+        {
+          "id": "suerte-del-contrabandista",
+          "name": {
+            "es": "Suerte del Contrabandista",
+            "en": "Smuggler's Luck"
+          },
+          "description": {
+            "es": "Una vez por sesión, convertí un fallo crítico en éxito. Tu nave tiene escondites secretos.",
+            "en": "Once per session, convert a critical failure into a success. Your ship has secret hiding spots."
+          },
+          "kind": "special",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 5,
+          "icon": "sparkles",
+          "tags": [
+            "utility"
+          ]
+        },
+        {
+          "id": "maniobra-evasiva",
+          "name": {
+            "es": "Maniobra Evasiva",
+            "en": "Evasive Maneuver"
+          },
+          "description": {
+            "es": "Usás tu instinto de piloto para esquivar un ataque o bloqueo enemigo. Tirá exploración y, si tenés éxito, eludís el obstáculo sin recibir daño.",
+            "en": "You use your pilot instinct to dodge an enemy attack or blockade. Roll exploration and, on success, you evade the obstacle without taking damage."
+          },
+          "kind": "trick",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 3,
+          "icon": "zap",
+          "tags": [
+            "combat",
+            "exploration"
+          ]
+        },
+        {
+          "id": "palabras-de-cantina",
+          "name": {
+            "es": "Palabras de Cantina",
+            "en": "Cantina Talk"
+          },
+          "description": {
+            "es": "Sabés cómo hablar con la gente equivocada en el momento justo. Tirá social para conseguir información, un favor o bajar la guardia de un contacto del mercado negro.",
+            "en": "You know how to talk to the wrong people at the right moment. Roll social to obtain information, a favor, or lower the guard of a black market contact."
+          },
+          "kind": "trick",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 2,
+          "icon": "eye",
+          "tags": [
+            "social",
+            "stealth"
+          ]
+        }
+      ]
     },
     {
       "id": "force_sensitive",
-      "name": { "es": "Sensible a la Fuerza", "en": "Force Sensitive" },
-      "description": { "es": "Tenés poderes que no comprendés - el legado Jedi vive en vos", "en": "You have powers you don't understand — the Jedi legacy lives in you" },
-      "simple_description": { "es": "Podés mover objetos con la mente. Sentís peligros antes de que pasen. Un anciano te dejó un sable de luz.", "en": "You can move objects with your mind. You sense danger before it strikes. An old stranger left you a lightsaber." },
+      "name": {
+        "es": "Sensible a la Fuerza",
+        "en": "Force Sensitive"
+      },
+      "description": {
+        "es": "Tenés poderes que no comprendés - el legado Jedi vive en vos",
+        "en": "You have powers you don't understand — the Jedi legacy lives in you"
+      },
+      "simple_description": {
+        "es": "Podés mover objetos con la mente. Sentís peligros antes de que pasen. Un anciano te dejó un sable de luz.",
+        "en": "You can move objects with your mind. You sense danger before it strikes. An old stranger left you a lightsaber."
+      },
       "starting_stats": {
         "hp": 16,
         "maxHp": 16,
@@ -229,26 +401,129 @@
         "lore": 5
       },
       "starting_inventory": [
-        {"es": "Sable de luz heredado", "en": "Inherited lightsaber"},
-        {"es": "Holocrón Jedi", "en": "Jedi holocron"},
-        {"es": "Túnica simple", "en": "Simple tunic"},
-        {"es": "Manual Jedi antiguo", "en": "Ancient Jedi manual"},
-        {"es": "Cristal Kyber", "en": "Kyber crystal"},
-        {"es": "Mochila de campo", "en": "Field backpack"},
-        {"es": "3 raciones de campaña", "en": "3 ration packs"},
-        {"es": "Cantimplora térmica", "en": "Thermal canteen"},
-        {"es": "Cuerda sintética (15m)", "en": "Synthetic rope (15m)"},
-        {"es": "Medpac básico", "en": "Basic medpac"},
-        {"es": "Créditos galácticos (50)", "en": "Galactic credits (50)"},
-        {"es": "Herramienta multiuso", "en": "Multi-tool"}
+        {
+          "es": "Sable de luz heredado",
+          "en": "Inherited lightsaber"
+        },
+        {
+          "es": "Holocrón Jedi",
+          "en": "Jedi holocron"
+        },
+        {
+          "es": "Túnica simple",
+          "en": "Simple tunic"
+        },
+        {
+          "es": "Manual Jedi antiguo",
+          "en": "Ancient Jedi manual"
+        },
+        {
+          "es": "Cristal Kyber",
+          "en": "Kyber crystal"
+        },
+        {
+          "es": "Mochila de campo",
+          "en": "Field backpack"
+        },
+        {
+          "es": "3 raciones de campaña",
+          "en": "3 ration packs"
+        },
+        {
+          "es": "Cantimplora térmica",
+          "en": "Thermal canteen"
+        },
+        {
+          "es": "Cuerda sintética (15m)",
+          "en": "Synthetic rope (15m)"
+        },
+        {
+          "es": "Medpac básico",
+          "en": "Basic medpac"
+        },
+        {
+          "es": "Créditos galácticos (50)",
+          "en": "Galactic credits (50)"
+        },
+        {
+          "es": "Herramienta multiuso",
+          "en": "Multi-tool"
+        }
       ],
-      "special_ability": "La Fuerza: Podés usar telequinesis, sentir presencias y tener visiones. Tu conexión crece con el tiempo"
+      "special_ability": "La Fuerza: Podés usar telequinesis, sentir presencias y tener visiones. Tu conexión crece con el tiempo",
+      "abilities": [
+        {
+          "id": "la-fuerza",
+          "name": {
+            "es": "La Fuerza",
+            "en": "The Force"
+          },
+          "description": {
+            "es": "Podés usar telequinesis, sentir presencias y tener visiones. Tu conexión crece con el tiempo.",
+            "en": "You can use telekinesis, sense presences, and have visions. Your connection grows over time."
+          },
+          "kind": "special",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 3,
+          "icon": "sparkles",
+          "tags": [
+            "utility",
+            "exploration"
+          ]
+        },
+        {
+          "id": "empuje-de-fuerza",
+          "name": {
+            "es": "Empuje de Fuerza",
+            "en": "Force Push"
+          },
+          "description": {
+            "es": "Canalizás la Fuerza y la liberás en una onda expansiva que derriba a tus enemigos y los empuja lejos de vos.",
+            "en": "You channel the Force and release it in a shockwave that knocks down your enemies and pushes them away from you."
+          },
+          "kind": "spell",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 2,
+          "icon": "zap",
+          "tags": [
+            "combat"
+          ]
+        },
+        {
+          "id": "vision-de-la-fuerza",
+          "name": {
+            "es": "Visión de la Fuerza",
+            "en": "Force Vision"
+          },
+          "description": {
+            "es": "Cerrás los ojos y dejás que la Fuerza te guíe: percibís peligros ocultos, trampas cercanas y la intención de quienes te rodean.",
+            "en": "You close your eyes and let the Force guide you: you perceive hidden dangers, nearby traps, and the intentions of those around you."
+          },
+          "kind": "spell",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 4,
+          "icon": "eye",
+          "tags": [
+            "exploration",
+            "utility"
+          ]
+        }
+      ]
     },
     {
       "id": "bounty_hunter",
-      "name": { "es": "Cazarrecompensas", "en": "Bounty Hunter" },
-      "description": { "es": "Profesional que captura objetivos por dinero - sin preguntas", "en": "A professional who captures targets for credits — no questions asked" },
-      "simple_description": { "es": "Rastreás personas por recompensas. Tu armadura mandaloriana te protege. Sos el mejor en lo que hacés.", "en": "You track people for bounties. Your Mandalorian armor protects you. You're the best at what you do." },
+      "name": {
+        "es": "Cazarrecompensas",
+        "en": "Bounty Hunter"
+      },
+      "description": {
+        "es": "Profesional que captura objetivos por dinero - sin preguntas",
+        "en": "A professional who captures targets for credits — no questions asked"
+      },
+      "simple_description": {
+        "es": "Rastreás personas por recompensas. Tu armadura mandaloriana te protege. Sos el mejor en lo que hacés.",
+        "en": "You track people for bounties. Your Mandalorian armor protects you. You're the best at what you do."
+      },
       "starting_stats": {
         "hp": 22,
         "maxHp": 22,
@@ -258,20 +533,115 @@
         "lore": 2
       },
       "starting_inventory": [
-        {"es": "Rifle blaster", "en": "Blaster rifle"},
-        {"es": "Armadura mandaloriana", "en": "Mandalorian armor"},
-        {"es": "Gadgets de rastreo", "en": "Tracking gadgets"},
-        {"es": "Nave de combate", "en": "Combat ship"},
-        {"es": "Ataduras de captura", "en": "Capture binders"},
-        {"es": "Mochila de campo", "en": "Field backpack"},
-        {"es": "3 raciones de campaña", "en": "3 ration packs"},
-        {"es": "Cantimplora térmica", "en": "Thermal canteen"},
-        {"es": "Cuerda sintética (15m)", "en": "Synthetic rope (15m)"},
-        {"es": "Linterna de bolsillo", "en": "Pocket glowrod"},
-        {"es": "Medpac básico", "en": "Basic medpac"},
-        {"es": "Créditos galácticos (50)", "en": "Galactic credits (50)"}
+        {
+          "es": "Rifle blaster",
+          "en": "Blaster rifle"
+        },
+        {
+          "es": "Armadura mandaloriana",
+          "en": "Mandalorian armor"
+        },
+        {
+          "es": "Gadgets de rastreo",
+          "en": "Tracking gadgets"
+        },
+        {
+          "es": "Nave de combate",
+          "en": "Combat ship"
+        },
+        {
+          "es": "Ataduras de captura",
+          "en": "Capture binders"
+        },
+        {
+          "es": "Mochila de campo",
+          "en": "Field backpack"
+        },
+        {
+          "es": "3 raciones de campaña",
+          "en": "3 ration packs"
+        },
+        {
+          "es": "Cantimplora térmica",
+          "en": "Thermal canteen"
+        },
+        {
+          "es": "Cuerda sintética (15m)",
+          "en": "Synthetic rope (15m)"
+        },
+        {
+          "es": "Linterna de bolsillo",
+          "en": "Pocket glowrod"
+        },
+        {
+          "es": "Medpac básico",
+          "en": "Basic medpac"
+        },
+        {
+          "es": "Créditos galácticos (50)",
+          "en": "Galactic credits (50)"
+        }
       ],
-      "special_ability": "Rastreador Experto: Siempre encontrás a tu objetivo. Tenés contactos en el Gremio para info privilegiada"
+      "special_ability": "Rastreador Experto: Siempre encontrás a tu objetivo. Tenés contactos en el Gremio para info privilegiada",
+      "abilities": [
+        {
+          "id": "rastreador-experto",
+          "name": {
+            "es": "Rastreador Experto",
+            "en": "Expert Tracker"
+          },
+          "description": {
+            "es": "Siempre encontrás a tu objetivo. Tenés contactos en el Gremio para info privilegiada.",
+            "en": "You always find your target. You have contacts in the Guild for privileged information."
+          },
+          "kind": "special",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 3,
+          "icon": "eye",
+          "tags": [
+            "exploration",
+            "utility"
+          ]
+        },
+        {
+          "id": "disparo-paralizante",
+          "name": {
+            "es": "Disparo Paralizante",
+            "en": "Stun Shot"
+          },
+          "description": {
+            "es": "Disparás un cartucho de iones o dardo sedante que inmoviliza al objetivo por un turno. Útil cuando necesitás capturar en lugar de matar.",
+            "en": "You fire an ion cartridge or sedative dart that immobilizes the target for one turn. Useful when you need to capture rather than kill."
+          },
+          "kind": "trick",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 4,
+          "icon": "zap",
+          "tags": [
+            "combat",
+            "utility"
+          ]
+        },
+        {
+          "id": "precio-por-tu-cabeza",
+          "name": {
+            "es": "Precio por tu Cabeza",
+            "en": "Price on Your Head"
+          },
+          "description": {
+            "es": "Revelás que el objetivo tiene una recompensa activa en el Gremio. Los mercenarios o delatores cercanos pueden cambiar de bando o revelar información para quedarse con parte del crédito.",
+            "en": "You reveal that the target has an active bounty in the Guild. Nearby mercenaries or informants may switch sides or reveal information to claim part of the reward."
+          },
+          "kind": "trick",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 5,
+          "icon": "sparkles",
+          "tags": [
+            "social",
+            "stealth"
+          ]
+        }
+      ]
     }
   ],
   "voice_id": "épico_espacial",

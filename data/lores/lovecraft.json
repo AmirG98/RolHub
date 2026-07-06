@@ -1,7 +1,13 @@
 {
   "id": "LOVECRAFT_HORROR",
-  "name": { "es": "Horrores Cósmicos", "en": "Cosmic Horrors" },
-  "tagline": { "es": "Hay cosas que la humanidad no debe saber", "en": "There are things humanity was never meant to know" },
+  "name": {
+    "es": "Horrores Cósmicos",
+    "en": "Cosmic Horrors"
+  },
+  "tagline": {
+    "es": "Hay cosas que la humanidad no debe saber",
+    "en": "There are things humanity was never meant to know"
+  },
   "tone": [
     "terrorífico",
     "cósmico",
@@ -57,33 +63,63 @@
       "sub_locations": [
         {
           "id": "universidad-miskatonic",
-          "name": {"es": "Campus de la Universidad Miskatonic", "en": "Miskatonic University Campus"},
+          "name": {
+            "es": "Campus de la Universidad Miskatonic",
+            "en": "Miskatonic University Campus"
+          },
           "type": "library",
-          "description": {"es": "Edificios académicos de ladrillo rojo donde se investigan ciencias prohibidas", "en": "Red-brick academic buildings where forbidden sciences are studied"}
+          "description": {
+            "es": "Edificios académicos de ladrillo rojo donde se investigan ciencias prohibidas",
+            "en": "Red-brick academic buildings where forbidden sciences are studied"
+          }
         },
         {
           "id": "comisaria-arkham",
-          "name": {"es": "Comisaría de Arkham", "en": "Arkham Police Station"},
+          "name": {
+            "es": "Comisaría de Arkham",
+            "en": "Arkham Police Station"
+          },
           "type": "prison",
-          "description": {"es": "Estación de policía donde los agentes prefieren no creer en lo sobrenatural", "en": "A police station where the officers would rather not believe in the supernatural"}
+          "description": {
+            "es": "Estación de policía donde los agentes prefieren no creer en lo sobrenatural",
+            "en": "A police station where the officers would rather not believe in the supernatural"
+          }
         },
         {
           "id": "mercado-arkham",
-          "name": {"es": "Mercado de Church Street", "en": "Church Street Market"},
+          "name": {
+            "es": "Mercado de Church Street",
+            "en": "Church Street Market"
+          },
           "type": "market",
-          "description": {"es": "Calle comercial con tiendas de antigüedades y una librería de libros raros", "en": "A commercial street lined with antique shops and a rare-books dealer"}
+          "description": {
+            "es": "Calle comercial con tiendas de antigüedades y una librería de libros raros",
+            "en": "A commercial street lined with antique shops and a rare-books dealer"
+          }
         },
         {
           "id": "taberna-velvet",
-          "name": {"es": "Taberna The Velvet", "en": "The Velvet Tavern"},
+          "name": {
+            "es": "Taberna The Velvet",
+            "en": "The Velvet Tavern"
+          },
           "type": "tavern",
-          "description": {"es": "Bar oscuro donde los investigadores comparten rumores sobre fenómenos inexplicables", "en": "A dim bar where investigators trade rumors about inexplicable phenomena"}
+          "description": {
+            "es": "Bar oscuro donde los investigadores comparten rumores sobre fenómenos inexplicables",
+            "en": "A dim bar where investigators trade rumors about inexplicable phenomena"
+          }
         },
         {
           "id": "estacion-tren",
-          "name": {"es": "Estación de Tren de Arkham", "en": "Arkham Train Station"},
+          "name": {
+            "es": "Estación de Tren de Arkham",
+            "en": "Arkham Train Station"
+          },
           "type": "gate",
-          "description": {"es": "Pequeña estación que conecta con Boston y las ciudades costeras de Nueva Inglaterra", "en": "A small station that connects to Boston and the coastal towns of New England"}
+          "description": {
+            "es": "Pequeña estación que conecta con Boston y las ciudades costeras de Nueva Inglaterra",
+            "en": "A small station that connects to Boston and the coastal towns of New England"
+          }
         }
       ]
     },
@@ -111,27 +147,51 @@
       "sub_locations": [
         {
           "id": "hotel-gilman",
-          "name": {"es": "Hotel Gilman", "en": "Gilman House"},
+          "name": {
+            "es": "Hotel Gilman",
+            "en": "Gilman House"
+          },
           "type": "tavern",
-          "description": {"es": "Posada decrépita con habitaciones húmedas y huéspedes de aspecto inquietante", "en": "A decrepit inn with damp rooms and unsettling guests"}
+          "description": {
+            "es": "Posada decrépita con habitaciones húmedas y huéspedes de aspecto inquietante",
+            "en": "A decrepit inn with damp rooms and unsettling guests"
+          }
         },
         {
           "id": "templo-orden-dagon",
-          "name": {"es": "Templo de la Orden Esotérica de Dagón", "en": "Temple of the Esoteric Order of Dagon"},
+          "name": {
+            "es": "Templo de la Orden Esotérica de Dagón",
+            "en": "Temple of the Esoteric Order of Dagon"
+          },
           "type": "temple",
-          "description": {"es": "Iglesia reconvertida donde los Profundos realizan sus ritos oscuros", "en": "A converted church where the Deep Ones perform their dark rites"}
+          "description": {
+            "es": "Iglesia reconvertida donde los Profundos realizan sus ritos oscuros",
+            "en": "A converted church where the Deep Ones perform their dark rites"
+          }
         },
         {
           "id": "muelle-innsmouth",
-          "name": {"es": "Muelles de Innsmouth", "en": "Innsmouth Docks"},
+          "name": {
+            "es": "Muelles de Innsmouth",
+            "en": "Innsmouth Docks"
+          },
           "type": "dock",
-          "description": {"es": "Puerto abandonado donde barcas podridas se mecen y figuras emergen del agua de noche", "en": "An abandoned harbor where rotted boats sway and figures emerge from the water at night"}
+          "description": {
+            "es": "Puerto abandonado donde barcas podridas se mecen y figuras emergen del agua de noche",
+            "en": "An abandoned harbor where rotted boats sway and figures emerge from the water at night"
+          }
         },
         {
           "id": "almacen-marsh",
-          "name": {"es": "Refinería Marsh", "en": "Marsh Refinery"},
+          "name": {
+            "es": "Refinería Marsh",
+            "en": "Marsh Refinery"
+          },
           "type": "workshop",
-          "description": {"es": "Fábrica en ruinas propiedad de la familia Marsh, llena de oro de origen sospechoso", "en": "A ruined factory owned by the Marsh family, piled with gold of dubious origin"}
+          "description": {
+            "es": "Fábrica en ruinas propiedad de la familia Marsh, llena de oro de origen sospechoso",
+            "en": "A ruined factory owned by the Marsh family, piled with gold of dubious origin"
+          }
         }
       ]
     },
@@ -169,21 +229,39 @@
       "sub_locations": [
         {
           "id": "ala-comun",
-          "name": {"es": "Ala de Pacientes Comunes", "en": "General Patient Ward"},
+          "name": {
+            "es": "Ala de Pacientes Comunes",
+            "en": "General Patient Ward"
+          },
           "type": "hospital",
-          "description": {"es": "Salas con camas donde los internados susurran sobre cosas que vieron", "en": "Rooms of beds where the inmates whisper about things they have seen"}
+          "description": {
+            "es": "Salas con camas donde los internados susurran sobre cosas que vieron",
+            "en": "Rooms of beds where the inmates whisper about things they have seen"
+          }
         },
         {
           "id": "ala-restringida",
-          "name": {"es": "Ala Restringida", "en": "Restricted Ward"},
+          "name": {
+            "es": "Ala Restringida",
+            "en": "Restricted Ward"
+          },
           "type": "prison",
-          "description": {"es": "Celdas acolchadas para los casos más extremos, con gritos que no cesan de noche", "en": "Padded cells for the most extreme cases, screams that never stop at night"}
+          "description": {
+            "es": "Celdas acolchadas para los casos más extremos, con gritos que no cesan de noche",
+            "en": "Padded cells for the most extreme cases, screams that never stop at night"
+          }
         },
         {
           "id": "jardin-sanatorio",
-          "name": {"es": "Jardín del Sanatorio", "en": "Sanatorium Garden"},
+          "name": {
+            "es": "Jardín del Sanatorio",
+            "en": "Sanatorium Garden"
+          },
           "type": "garden",
-          "description": {"es": "Patio cercado donde los pacientes caminan en círculos murmurando en lenguas muertas", "en": "A fenced courtyard where patients walk in circles murmuring in dead tongues"}
+          "description": {
+            "es": "Patio cercado donde los pacientes caminan en círculos murmurando en lenguas muertas",
+            "en": "A fenced courtyard where patients walk in circles murmuring in dead tongues"
+          }
         }
       ]
     },
@@ -212,9 +290,18 @@
   "archetypes": [
     {
       "id": "professor",
-      "name": { "es": "Profesor", "en": "Professor" },
-      "description": { "es": "Académico que busca conocimiento peligroso", "en": "An academic who seeks dangerous knowledge" },
-      "simple_description": { "es": "Tu intelecto es tu arma. Traducís lenguas muertas. Cada libro te acerca más a la verdad... y a la locura.", "en": "Your intellect is your weapon. You translate dead languages. Every book brings you closer to the truth... and to madness." },
+      "name": {
+        "es": "Profesor",
+        "en": "Professor"
+      },
+      "description": {
+        "es": "Académico que busca conocimiento peligroso",
+        "en": "An academic who seeks dangerous knowledge"
+      },
+      "simple_description": {
+        "es": "Tu intelecto es tu arma. Traducís lenguas muertas. Cada libro te acerca más a la verdad... y a la locura.",
+        "en": "Your intellect is your weapon. You translate dead languages. Every book brings you closer to the truth... and to madness."
+      },
       "starting_stats": {
         "hp": 12,
         "maxHp": 12,
@@ -226,26 +313,129 @@
         "maxSanity": 100
       },
       "starting_inventory": [
-        {"es": "Ejemplar del Necronomicón (peligroso)", "en": "Copy of the Necronomicon (dangerous)"},
-        {"es": "Lupa", "en": "Magnifying glass"},
-        {"es": "Diario de investigación", "en": "Research journal"},
-        {"es": "Contactos académicos", "en": "Academic contacts"},
-        {"es": "Linterna", "en": "Lantern"},
-        {"es": "Maletín de cuero", "en": "Leather briefcase"},
-        {"es": "3 raciones enlatadas", "en": "3 canned rations"},
-        {"es": "Cantimplora de latón", "en": "Brass canteen"},
-        {"es": "Cuerda resistente (15m)", "en": "Sturdy rope (15m)"},
-        {"es": "Cerillas y encendedor", "en": "Matches and lighter"},
-        {"es": "Botiquín de primeros auxilios", "en": "First aid kit"},
-        {"es": "Billetera con 25 dólares", "en": "Wallet with 25 dollars"}
+        {
+          "es": "Ejemplar del Necronomicón (peligroso)",
+          "en": "Copy of the Necronomicon (dangerous)"
+        },
+        {
+          "es": "Lupa",
+          "en": "Magnifying glass"
+        },
+        {
+          "es": "Diario de investigación",
+          "en": "Research journal"
+        },
+        {
+          "es": "Contactos académicos",
+          "en": "Academic contacts"
+        },
+        {
+          "es": "Linterna",
+          "en": "Lantern"
+        },
+        {
+          "es": "Maletín de cuero",
+          "en": "Leather briefcase"
+        },
+        {
+          "es": "3 raciones enlatadas",
+          "en": "3 canned rations"
+        },
+        {
+          "es": "Cantimplora de latón",
+          "en": "Brass canteen"
+        },
+        {
+          "es": "Cuerda resistente (15m)",
+          "en": "Sturdy rope (15m)"
+        },
+        {
+          "es": "Cerillas y encendedor",
+          "en": "Matches and lighter"
+        },
+        {
+          "es": "Botiquín de primeros auxilios",
+          "en": "First aid kit"
+        },
+        {
+          "es": "Billetera con 25 dólares",
+          "en": "Wallet with 25 dollars"
+        }
       ],
-      "special_ability": "Erudición Oscura: Podés leer textos prohibidos. Cada lectura te da +1 Lore pero -10 Sanity"
+      "special_ability": "Erudición Oscura: Podés leer textos prohibidos. Cada lectura te da +1 Lore pero -10 Sanity",
+      "abilities": [
+        {
+          "id": "erudicion-oscura",
+          "name": {
+            "es": "Erudición Oscura",
+            "en": "Dark Erudition"
+          },
+          "description": {
+            "es": "Podés leer textos prohibidos. Cada lectura te da +1 Lore pero -10 Sanity.",
+            "en": "You can read forbidden texts. Each reading grants +1 Lore but -10 Sanity."
+          },
+          "kind": "special",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 3,
+          "icon": "eye",
+          "tags": [
+            "utility"
+          ]
+        },
+        {
+          "id": "memoria-abismal",
+          "name": {
+            "es": "Memoria Abismal",
+            "en": "Abyssal Memory"
+          },
+          "description": {
+            "es": "Rebuscás en los rincones más oscuros de tu mente para recordar un dato crucial sobre una entidad o lugar. Obtenés +2 a tu próxima tirada de exploración o lore.",
+            "en": "You dig into the darkest corners of your mind to recall a crucial detail about an entity or place. Gain +2 to your next exploration or lore roll."
+          },
+          "kind": "special",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 2,
+          "icon": "sparkles",
+          "tags": [
+            "utility",
+            "exploration"
+          ]
+        },
+        {
+          "id": "palabras-que-quiebran",
+          "name": {
+            "es": "Palabras que Quiebran",
+            "en": "Words That Break"
+          },
+          "description": {
+            "es": "Recitás fragmentos de un conjuro aprendido en textos malditos. El objetivo pierde 1 turno paralizado por el horror de lo que escucha.",
+            "en": "You recite fragments of a spell learned from cursed texts. The target loses 1 turn paralyzed by the horror of what they hear."
+          },
+          "kind": "spell",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 4,
+          "icon": "moon",
+          "tags": [
+            "combat",
+            "utility"
+          ]
+        }
+      ]
     },
     {
       "id": "detective",
-      "name": { "es": "Detective Privado", "en": "Private Detective" },
-      "description": { "es": "Investigador que siguió el caso equivocado", "en": "An investigator who followed the wrong case" },
-      "simple_description": { "es": "Sabés seguir pistas. Tu instinto te mantiene vivo. Has visto cosas que no deberías.", "en": "You know how to follow a trail. Your instincts keep you alive. You've seen things you shouldn't have." },
+      "name": {
+        "es": "Detective Privado",
+        "en": "Private Detective"
+      },
+      "description": {
+        "es": "Investigador que siguió el caso equivocado",
+        "en": "An investigator who followed the wrong case"
+      },
+      "simple_description": {
+        "es": "Sabés seguir pistas. Tu instinto te mantiene vivo. Has visto cosas que no deberías.",
+        "en": "You know how to follow a trail. Your instincts keep you alive. You've seen things you shouldn't have."
+      },
       "starting_stats": {
         "hp": 16,
         "maxHp": 16,
@@ -257,26 +447,130 @@
         "maxSanity": 100
       },
       "starting_inventory": [
-        {"es": "Revólver .38", "en": ".38 revolver"},
-        {"es": "Insignia de detective", "en": "Detective's badge"},
-        {"es": "Notas del caso", "en": "Case notes"},
-        {"es": "Contacto en la policía", "en": "Police contact"},
-        {"es": "Cámara", "en": "Camera"},
-        {"es": "Maletín de cuero", "en": "Leather briefcase"},
-        {"es": "3 raciones enlatadas", "en": "3 canned rations"},
-        {"es": "Cantimplora de latón", "en": "Brass canteen"},
-        {"es": "Cuerda resistente (15m)", "en": "Sturdy rope (15m)"},
-        {"es": "Linterna de mano con pilas", "en": "Handheld flashlight with batteries"},
-        {"es": "Cerillas y encendedor", "en": "Matches and lighter"},
-        {"es": "Billetera con 25 dólares", "en": "Wallet with 25 dollars"}
+        {
+          "es": "Revólver .38",
+          "en": ".38 revolver"
+        },
+        {
+          "es": "Insignia de detective",
+          "en": "Detective's badge"
+        },
+        {
+          "es": "Notas del caso",
+          "en": "Case notes"
+        },
+        {
+          "es": "Contacto en la policía",
+          "en": "Police contact"
+        },
+        {
+          "es": "Cámara",
+          "en": "Camera"
+        },
+        {
+          "es": "Maletín de cuero",
+          "en": "Leather briefcase"
+        },
+        {
+          "es": "3 raciones enlatadas",
+          "en": "3 canned rations"
+        },
+        {
+          "es": "Cantimplora de latón",
+          "en": "Brass canteen"
+        },
+        {
+          "es": "Cuerda resistente (15m)",
+          "en": "Sturdy rope (15m)"
+        },
+        {
+          "es": "Linterna de mano con pilas",
+          "en": "Handheld flashlight with batteries"
+        },
+        {
+          "es": "Cerillas y encendedor",
+          "en": "Matches and lighter"
+        },
+        {
+          "es": "Billetera con 25 dólares",
+          "en": "Wallet with 25 dollars"
+        }
       ],
-      "special_ability": "Olfato para el Peligro: Detectás emboscadas y trampas. Primer ataque sorpresa siempre falla contra vos"
+      "special_ability": "Olfato para el Peligro: Detectás emboscadas y trampas. Primer ataque sorpresa siempre falla contra vos",
+      "abilities": [
+        {
+          "id": "olfato-para-el-peligro",
+          "name": {
+            "es": "Olfato para el Peligro",
+            "en": "Danger Instinct"
+          },
+          "description": {
+            "es": "Detectás emboscadas y trampas. El primer ataque sorpresa siempre falla contra vos.",
+            "en": "You detect ambushes and traps. The first surprise attack always fails against you."
+          },
+          "kind": "special",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 3,
+          "icon": "eye",
+          "tags": [
+            "combat",
+            "utility"
+          ]
+        },
+        {
+          "id": "hilvanar-pistas",
+          "name": {
+            "es": "Hilvanar Pistas",
+            "en": "Connect the Dots"
+          },
+          "description": {
+            "es": "Repasás mentalmente todo lo que viste y encontrás una conexión que los demás pasaron por alto. Obtenés una pista oculta o ventaja en tu próxima tirada de exploración.",
+            "en": "You mentally review everything you've seen and find a connection others missed. You gain a hidden clue or advantage on your next exploration roll."
+          },
+          "kind": "trick",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 4,
+          "icon": "sparkles",
+          "tags": [
+            "exploration",
+            "utility"
+          ]
+        },
+        {
+          "id": "mirada-que-cala",
+          "name": {
+            "es": "Mirada que Cala",
+            "en": "Piercing Stare"
+          },
+          "description": {
+            "es": "Con una mirada fría y calculadora desarmás a tu interlocutor. Lo intimidás o lo hacés hablar más de lo que quería, ganando ventaja en tu próxima tirada social.",
+            "en": "With a cold, calculating stare you unsettle your target. You intimidate them or make them talk more than intended, gaining advantage on your next social roll."
+          },
+          "kind": "trick",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 2,
+          "icon": "moon",
+          "tags": [
+            "social",
+            "utility"
+          ]
+        }
+      ]
     },
     {
       "id": "occultist",
-      "name": { "es": "Ocultista", "en": "Occultist" },
-      "description": { "es": "Practicante de artes místicas - conocés rituales", "en": "A practitioner of the mystical arts — you know the rituals" },
-      "simple_description": { "es": "Podés realizar rituales antiguos. Entendés símbolos que otros no ven. La magia tiene precio.", "en": "You can perform ancient rituals. You read symbols others cannot see. Magic always comes at a price." },
+      "name": {
+        "es": "Ocultista",
+        "en": "Occultist"
+      },
+      "description": {
+        "es": "Practicante de artes místicas - conocés rituales",
+        "en": "A practitioner of the mystical arts — you know the rituals"
+      },
+      "simple_description": {
+        "es": "Podés realizar rituales antiguos. Entendés símbolos que otros no ven. La magia tiene precio.",
+        "en": "You can perform ancient rituals. You read symbols others cannot see. Magic always comes at a price."
+      },
       "starting_stats": {
         "hp": 14,
         "maxHp": 14,
@@ -288,20 +582,115 @@
         "maxSanity": 100
       },
       "starting_inventory": [
-        {"es": "Grimorio personal", "en": "Personal grimoire"},
-        {"es": "Velas rituales", "en": "Ritual candles"},
-        {"es": "Sangre de cordero", "en": "Lamb's blood"},
-        {"es": "Amuleto protector", "en": "Protective amulet"},
-        {"es": "Tiza para círculos", "en": "Chalk for drawing circles"},
-        {"es": "Maletín de cuero", "en": "Leather briefcase"},
-        {"es": "3 raciones enlatadas", "en": "3 canned rations"},
-        {"es": "Cantimplora de latón", "en": "Brass canteen"},
-        {"es": "Cuerda resistente (15m)", "en": "Sturdy rope (15m)"},
-        {"es": "Linterna de mano con pilas", "en": "Handheld flashlight with batteries"},
-        {"es": "Botiquín de primeros auxilios", "en": "First aid kit"},
-        {"es": "Billetera con 25 dólares", "en": "Wallet with 25 dollars"}
+        {
+          "es": "Grimorio personal",
+          "en": "Personal grimoire"
+        },
+        {
+          "es": "Velas rituales",
+          "en": "Ritual candles"
+        },
+        {
+          "es": "Sangre de cordero",
+          "en": "Lamb's blood"
+        },
+        {
+          "es": "Amuleto protector",
+          "en": "Protective amulet"
+        },
+        {
+          "es": "Tiza para círculos",
+          "en": "Chalk for drawing circles"
+        },
+        {
+          "es": "Maletín de cuero",
+          "en": "Leather briefcase"
+        },
+        {
+          "es": "3 raciones enlatadas",
+          "en": "3 canned rations"
+        },
+        {
+          "es": "Cantimplora de latón",
+          "en": "Brass canteen"
+        },
+        {
+          "es": "Cuerda resistente (15m)",
+          "en": "Sturdy rope (15m)"
+        },
+        {
+          "es": "Linterna de mano con pilas",
+          "en": "Handheld flashlight with batteries"
+        },
+        {
+          "es": "Botiquín de primeros auxilios",
+          "en": "First aid kit"
+        },
+        {
+          "es": "Billetera con 25 dólares",
+          "en": "Wallet with 25 dollars"
+        }
       ],
-      "special_ability": "Magia Ritual: Podés lanzar hechizos prohibidos. Cada hechizo cuesta Sanity pero puede salvar vidas"
+      "special_ability": "Magia Ritual: Podés lanzar hechizos prohibidos. Cada hechizo cuesta Sanity pero puede salvar vidas",
+      "abilities": [
+        {
+          "id": "magia-ritual",
+          "name": {
+            "es": "Magia Ritual",
+            "en": "Ritual Magic"
+          },
+          "description": {
+            "es": "Podés lanzar hechizos prohibidos. Cada hechizo cuesta Sanity pero puede salvar vidas.",
+            "en": "You can cast forbidden spells. Each spell costs Sanity but can save lives."
+          },
+          "kind": "spell",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 3,
+          "icon": "flame",
+          "tags": [
+            "combat",
+            "utility"
+          ]
+        },
+        {
+          "id": "velo-de-lo-innombrable",
+          "name": {
+            "es": "Velo de lo Innombrable",
+            "en": "Veil of the Unnameable"
+          },
+          "description": {
+            "es": "Invocás una ilusión de horror cósmico que paraliza a tus enemigos por un turno, llenando su mente de visiones que no deberían existir.",
+            "en": "You conjure an illusion of cosmic horror that paralyzes your enemies for one turn, flooding their minds with visions that should not exist."
+          },
+          "kind": "spell",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 4,
+          "icon": "eye",
+          "tags": [
+            "combat",
+            "utility"
+          ]
+        },
+        {
+          "id": "susurros-del-mas-alla",
+          "name": {
+            "es": "Susurros del Más Allá",
+            "en": "Whispers from Beyond"
+          },
+          "description": {
+            "es": "Abrís tu mente a entidades de otros planos para obtener conocimiento oculto sobre el lugar, enemigo o situación que enfrentás. El precio es una fracción de tu cordura.",
+            "en": "You open your mind to entities from other planes to gain hidden knowledge about the place, enemy, or situation you face. The price is a fraction of your sanity."
+          },
+          "kind": "special",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 2,
+          "icon": "moon",
+          "tags": [
+            "exploration",
+            "utility"
+          ]
+        }
+      ]
     }
   ],
   "voice_id": "susurrante_inquietante",

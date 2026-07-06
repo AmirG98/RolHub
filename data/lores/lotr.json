@@ -1,10 +1,20 @@
 {
   "id": "LOTR",
-  "name": { "es": "Tierra Media", "en": "Middle-earth" },
-  "tagline": { "es": "Un mundo de magia antigua, pueblos nobles y la lucha eterna contra la oscuridad", "en": "A world of ancient magic, noble peoples, and the eternal struggle against the shadow" },
-  "tone": ["épico", "heroico", "melancólico", "esperanzador"],
+  "name": {
+    "es": "Tierra Media",
+    "en": "Middle-earth"
+  },
+  "tagline": {
+    "es": "Un mundo de magia antigua, pueblos nobles y la lucha eterna contra la oscuridad",
+    "en": "A world of ancient magic, noble peoples, and the eternal struggle against the shadow"
+  },
+  "tone": [
+    "épico",
+    "heroico",
+    "melancólico",
+    "esperanzador"
+  ],
   "world_summary": "La Tierra Media es un vasto continente donde humanos, elfos, enanos y hobbits conviven bajo la amenaza constante de fuerzas oscuras. Es una era de magia decadente, donde los grandes poderes del pasado se desvanecen lentamente. Los elfos parten hacia el oeste, los enanos se refugian en sus montañas, y los humanos heredan un mundo que apenas comprenden. Antiguas fortalezas yacen en ruinas, bosques inmortales guardan secretos olvidados, y en las sombras, sirvientes del mal conspiran para sumir al mundo en tinieblas eternas. Es un tiempo donde pequeños actos de valentía pueden cambiar el destino de naciones enteras.",
-
   "detailed_history": {
     "ages": [
       {
@@ -22,7 +32,6 @@
     ],
     "current_situation": "Han pasado casi tres mil años desde la caída de Sauron. Gondor resiste sin rey, Rohan enfrenta amenazas en sus fronteras, el Bosque Negro se ha corrompido, y rumores de sombras crecientes llegan desde el este. Los magos Istari caminan la tierra, pero sus propósitos son inciertos. Es una época de transición: el final de un era y el comienzo de otra."
   },
-
   "factions": [
     {
       "name": "Los Pueblos Libres",
@@ -30,8 +39,17 @@
       "alignment": "Bueno",
       "influence": 2,
       "detailed_description": "Una coalición nacida de la necesidad más que de la amistad. Los elfos de Lothlórien y Rivendel mantienen contacto con los Dúnedain, los últimos herederos de Númenor. Los enanos comercian cuando les conviene pero prefieren su aislamiento. Los hobbits ignoran felizmente los asuntos del mundo exterior. Sin embargo, cuando la sombra crece, estos pueblos recuerdan que juntos derrotaron al enemigo en el pasado.",
-      "key_figures": ["Elrond de Rivendel", "Galadriel de Lothlórien", "Thranduil del Bosque Negro", "Dáin Pie de Hierro"],
-      "goals": ["Preservar la paz y la libertad", "Resistir la corrupción de la sombra", "Proteger los tesoros y conocimientos antiguos"]
+      "key_figures": [
+        "Elrond de Rivendel",
+        "Galadriel de Lothlórien",
+        "Thranduil del Bosque Negro",
+        "Dáin Pie de Hierro"
+      ],
+      "goals": [
+        "Preservar la paz y la libertad",
+        "Resistir la corrupción de la sombra",
+        "Proteger los tesoros y conocimientos antiguos"
+      ]
     },
     {
       "name": "Las Fuerzas de la Sombra",
@@ -39,8 +57,16 @@
       "alignment": "Malvado",
       "influence": 1,
       "detailed_description": "Desde las profundidades de Mordor y las montañas nubladas, las criaturas de la oscuridad se multiplican. Los orcos, corrompidos hace eones de elfos capturados, son la infantería del mal. Los trolls, bestias de piedra y odio, sirven como arietes vivientes. Los espectros del anillo, antiguos reyes corrompidos, cabalgan como heraldos del terror. Y detrás de todo, una voluntad oscura orquesta la destrucción de todo lo que es bueno.",
-      "key_figures": ["El Rey Brujo de Angmar", "Los Nueve Nazgûl", "Capitanes orcos de las Montañas Nubladas"],
-      "goals": ["Encontrar el Anillo Único", "Destruir los reinos de los hombres", "Sumir al mundo en oscuridad eterna"]
+      "key_figures": [
+        "El Rey Brujo de Angmar",
+        "Los Nueve Nazgûl",
+        "Capitanes orcos de las Montañas Nubladas"
+      ],
+      "goals": [
+        "Encontrar el Anillo Único",
+        "Destruir los reinos de los hombres",
+        "Sumir al mundo en oscuridad eterna"
+      ]
     },
     {
       "name": "Los Istari",
@@ -48,8 +74,16 @@
       "alignment": "Neutral Bueno",
       "influence": 1,
       "detailed_description": "Cinco magos llegaron del oeste hace casi dos mil años, enviados por los Valar para contrarrestar la creciente amenaza de Sauron. Gandalf el Gris viaja sin descanso, aconsejando y observando. Saruman el Blanco se ha recluido en Isengard, estudiando al enemigo. Radagast el Pardo prefiere la compañía de animales. Los dos magos azules partieron al este y no se ha sabido más de ellos. Sus poderes son grandes pero limitados por su misión: deben guiar, no dominar.",
-      "key_figures": ["Gandalf el Gris", "Saruman el Blanco", "Radagast el Pardo"],
-      "goals": ["Contrarrestar la influencia de Sauron", "Unir a los pueblos libres", "Encontrar y destruir el Anillo"]
+      "key_figures": [
+        "Gandalf el Gris",
+        "Saruman el Blanco",
+        "Radagast el Pardo"
+      ],
+      "goals": [
+        "Contrarrestar la influencia de Sauron",
+        "Unir a los pueblos libres",
+        "Encontrar y destruir el Anillo"
+      ]
     },
     {
       "name": "Los Reinos de los Hombres",
@@ -57,8 +91,16 @@
       "alignment": "Bueno",
       "influence": 1,
       "detailed_description": "Gondor, el mayor reino de los hombres, no ha tenido rey en casi mil años. Sus senescales gobiernan con mano firme pero sin la autoridad de antaño. Rohan, tierra de los señores de los caballos, enfrenta incursiones constantes de Dunland y orcos. Más al norte, Dale y Erebor prosperan gracias a la alianza entre hombres y enanos. Pero en general, los días de gloria de los hombres parecen haber quedado atrás.",
-      "key_figures": ["Denethor, Senescal de Gondor", "Théoden Rey de Rohan", "Brand, Rey de Dale"],
-      "goals": ["Defender sus fronteras", "Mantener el orden y la paz", "Sobrevivir a los tiempos oscuros que se avecinan"]
+      "key_figures": [
+        "Denethor, Senescal de Gondor",
+        "Théoden Rey de Rohan",
+        "Brand, Rey de Dale"
+      ],
+      "goals": [
+        "Defender sus fronteras",
+        "Mantener el orden y la paz",
+        "Sobrevivir a los tiempos oscuros que se avecinan"
+      ]
     },
     {
       "name": "Los Dúnedain del Norte",
@@ -66,11 +108,18 @@
       "alignment": "Bueno",
       "influence": 0,
       "detailed_description": "Son pocos, menos de mil, pero su linaje se remonta a los reyes de Númenor. Vagan por Eriador como cazadores y guardianes, protegiendo a pueblos que ni siquiera saben de su existencia. Los hobbits de la Comarca viven en paz gracias a su vigilancia silenciosa. Su jefe es descendiente directo de Isildur, y en secreto, porta la espada que fue quebrada. Algún día, un rey volverá a reclamar el trono de sus ancestros.",
-      "key_figures": ["El Capitán de los Montaraces", "Halbarad", "Los hermanos de Rivendel"],
-      "goals": ["Proteger a los inocentes", "Preservar el linaje de Isildur", "Esperar el momento de reclamar el trono"]
+      "key_figures": [
+        "El Capitán de los Montaraces",
+        "Halbarad",
+        "Los hermanos de Rivendel"
+      ],
+      "goals": [
+        "Proteger a los inocentes",
+        "Preservar el linaje de Isildur",
+        "Esperar el momento de reclamar el trono"
+      ]
     }
   ],
-
   "locations": [
     {
       "name": "La Comarca",
@@ -78,8 +127,17 @@
       "type": "asentamiento",
       "danger_level": 0,
       "detailed_description": "Cuatro farthings de colinas ondulantes, campos cultivados y agujeros hobbit acogedores. El humo de las pipas se eleva perezosamente sobre Hobbiton. El Puente de Brandy cruza el Brandivino hacia Buckland. La Posada del Dragón Verde sirve la mejor cerveza al este del mar. Los hobbits viven ajenos a los peligros del mundo, preocupados solo por la próxima comida, el jardín y los cotilleos del vecindario. Pero incluso aquí, sombras comienzan a arrastrarse.",
-      "notable_npcs": ["Bilbo Bolsón", "Frodo Bolsón", "Samsagaz Gamyi", "El Tío de los Gamyi"],
-      "available_services": ["Posada del Dragón Verde", "Mercado de Hobbiton", "Taller de Sandyman"],
+      "notable_npcs": [
+        "Bilbo Bolsón",
+        "Frodo Bolsón",
+        "Samsagaz Gamyi",
+        "El Tío de los Gamyi"
+      ],
+      "available_services": [
+        "Posada del Dragón Verde",
+        "Mercado de Hobbiton",
+        "Taller de Sandyman"
+      ],
       "plot_hooks": [
         "Extraños en capucha han sido vistos preguntando por 'Bolsón'",
         "Mercaderes enanos necesitan escolta hacia las Montañas Azules",
@@ -119,11 +177,66 @@
         "Bree": "1 día a pie, 4 horas a caballo"
       },
       "sub_locations": [
-        {"id": "hobbiton-plaza", "name": {"es": "Plaza de Hobbiton", "en": "Hobbiton Square"}, "type": "plaza", "description": {"es": "Centro de la vida hobbit, con el árbol festivo y bancas de piedra", "en": "The heart of hobbit life, with the Party Tree and stone benches"}},
-        {"id": "dragon-verde", "name": {"es": "Posada del Dragón Verde", "en": "The Green Dragon Inn"}, "type": "tavern", "description": {"es": "La mejor cerveza de la Comarca, punto de reunión de hobbits chismosos", "en": "The best ale in the Shire, gathering place of gossiping hobbits"}},
-        {"id": "bolson-cerrado", "name": {"es": "Bolsón Cerrado", "en": "Bag End"}, "type": "residence", "description": {"es": "La famosa cueva-hogar de los Bolsón, en la cima de la colina", "en": "The famous hobbit-hole of the Baggins family, atop the hill"}},
-        {"id": "mercado-hobbiton", "name": {"es": "Mercado de Hobbiton", "en": "Hobbiton Market"}, "type": "market", "description": {"es": "Frutas, verduras, semillas y pipas de los mejores granjeros hobbits", "en": "Fruits, vegetables, seeds and pipes from the finest hobbit farmers"}},
-        {"id": "molino-sandyman", "name": {"es": "Molino de Sandyman", "en": "Sandyman's Mill"}, "type": "workshop", "description": {"es": "El viejo molino junto al río, donde Ted Sandyman muele el grano", "en": "The old mill by the river, where Ted Sandyman grinds the grain"}}
+        {
+          "id": "hobbiton-plaza",
+          "name": {
+            "es": "Plaza de Hobbiton",
+            "en": "Hobbiton Square"
+          },
+          "type": "plaza",
+          "description": {
+            "es": "Centro de la vida hobbit, con el árbol festivo y bancas de piedra",
+            "en": "The heart of hobbit life, with the Party Tree and stone benches"
+          }
+        },
+        {
+          "id": "dragon-verde",
+          "name": {
+            "es": "Posada del Dragón Verde",
+            "en": "The Green Dragon Inn"
+          },
+          "type": "tavern",
+          "description": {
+            "es": "La mejor cerveza de la Comarca, punto de reunión de hobbits chismosos",
+            "en": "The best ale in the Shire, gathering place of gossiping hobbits"
+          }
+        },
+        {
+          "id": "bolson-cerrado",
+          "name": {
+            "es": "Bolsón Cerrado",
+            "en": "Bag End"
+          },
+          "type": "residence",
+          "description": {
+            "es": "La famosa cueva-hogar de los Bolsón, en la cima de la colina",
+            "en": "The famous hobbit-hole of the Baggins family, atop the hill"
+          }
+        },
+        {
+          "id": "mercado-hobbiton",
+          "name": {
+            "es": "Mercado de Hobbiton",
+            "en": "Hobbiton Market"
+          },
+          "type": "market",
+          "description": {
+            "es": "Frutas, verduras, semillas y pipas de los mejores granjeros hobbits",
+            "en": "Fruits, vegetables, seeds and pipes from the finest hobbit farmers"
+          }
+        },
+        {
+          "id": "molino-sandyman",
+          "name": {
+            "es": "Molino de Sandyman",
+            "en": "Sandyman's Mill"
+          },
+          "type": "workshop",
+          "description": {
+            "es": "El viejo molino junto al río, donde Ted Sandyman muele el grano",
+            "en": "The old mill by the river, where Ted Sandyman grinds the grain"
+          }
+        }
       ]
     },
     {
@@ -132,16 +245,32 @@
       "type": "ciudad",
       "danger_level": 1,
       "detailed_description": "Bree es la ciudad más grande entre la Comarca y Rivendel. Aquí conviven hombres y hobbits en relativa armonía. Es un punto de encuentro para viajeros, comerciantes y extraños de todas las razas. Los caminos del norte y del este se cruzan aquí.",
-      "notable_npcs": ["Cebadilla Mantecona", "Guardias de Bree"],
-      "available_services": ["Posada del Pony Pisador", "Mercado", "Herrería", "Establo"],
+      "notable_npcs": [
+        "Cebadilla Mantecona",
+        "Guardias de Bree"
+      ],
+      "available_services": [
+        "Posada del Pony Pisador",
+        "Mercado",
+        "Herrería",
+        "Establo"
+      ],
       "plot_hooks": [
         "Extraños encapuchados preguntan por hobbits llamados 'Bolsón'",
         "Mercaderes necesitan escolta para caravanas al este",
         "Los guardias reportan avistamientos de lobos en los caminos"
       ],
       "secrets": [
-        {"id": "bree-secret-1", "content": "Los Montaraces vigilan Bree en secreto, protegiendo a los viajeros inocentes", "reveal_condition": "npc_talk"},
-        {"id": "bree-secret-2", "content": "Hay túneles antiguos bajo la posada que conectan con las afueras de la ciudad", "reveal_condition": "investigate"}
+        {
+          "id": "bree-secret-1",
+          "content": "Los Montaraces vigilan Bree en secreto, protegiendo a los viajeros inocentes",
+          "reveal_condition": "npc_talk"
+        },
+        {
+          "id": "bree-secret-2",
+          "content": "Hay túneles antiguos bajo la posada que conectan con las afueras de la ciudad",
+          "reveal_condition": "investigate"
+        }
       ],
       "rumors": [
         "Un Montaraz llamado Trancos ha sido visto últimamente por la posada",
@@ -154,12 +283,78 @@
         "Las Montañas Nubladas": "10 días a pie, 4 días a caballo"
       },
       "sub_locations": [
-        {"id": "pony-pisador", "name": {"es": "Posada del Pony Pisador", "en": "The Prancing Pony"}, "type": "tavern", "description": {"es": "La posada más famosa de Bree, regentada por Cebadilla Mantecona. Fuego cálido, cerveza de cebada y estofado de cordero", "en": "The most famous inn in Bree, run by Barliman Butterbur. A warm hearth, barley ale and mutton stew"}},
-        {"id": "mercado-bree", "name": {"es": "Mercado de Bree", "en": "Bree Market"}, "type": "market", "description": {"es": "Plaza central donde comerciantes de todas las razas intercambian mercancías. Enanos con gemas, hobbits con pipas, hombres con armas", "en": "The central square where merchants of every race trade goods. Dwarves with gems, hobbits with pipes, men with weapons"}},
-        {"id": "porton-sur", "name": {"es": "Portón Sur", "en": "South Gate"}, "type": "gate", "description": {"es": "La puerta principal hacia el Camino Verde y las tierras del sur", "en": "The main gate toward the Greenway and the lands of the south"}},
-        {"id": "porton-este", "name": {"es": "Portón Este", "en": "East Gate"}, "type": "gate", "description": {"es": "Salida hacia el Camino del Este, Rivendel y las tierras lejanas", "en": "The way out toward the East Road, Rivendell and distant lands"}},
-        {"id": "herreria-bree", "name": {"es": "Herrería de Bree", "en": "Bree Smithy"}, "type": "workshop", "description": {"es": "Forja donde se reparan armas y herramientas. El herrero es un hombre corpulento y silencioso", "en": "A forge where weapons and tools are mended. The blacksmith is a broad, silent man"}},
-        {"id": "establo-bree", "name": {"es": "Establos de Bree", "en": "Bree Stables"}, "type": "stable", "description": {"es": "Donde los viajeros guardan sus monturas. Ponys de la Comarca y caballos del norte", "en": "Where travelers keep their mounts. Shire ponies and horses from the North"}}
+        {
+          "id": "pony-pisador",
+          "name": {
+            "es": "Posada del Pony Pisador",
+            "en": "The Prancing Pony"
+          },
+          "type": "tavern",
+          "description": {
+            "es": "La posada más famosa de Bree, regentada por Cebadilla Mantecona. Fuego cálido, cerveza de cebada y estofado de cordero",
+            "en": "The most famous inn in Bree, run by Barliman Butterbur. A warm hearth, barley ale and mutton stew"
+          }
+        },
+        {
+          "id": "mercado-bree",
+          "name": {
+            "es": "Mercado de Bree",
+            "en": "Bree Market"
+          },
+          "type": "market",
+          "description": {
+            "es": "Plaza central donde comerciantes de todas las razas intercambian mercancías. Enanos con gemas, hobbits con pipas, hombres con armas",
+            "en": "The central square where merchants of every race trade goods. Dwarves with gems, hobbits with pipes, men with weapons"
+          }
+        },
+        {
+          "id": "porton-sur",
+          "name": {
+            "es": "Portón Sur",
+            "en": "South Gate"
+          },
+          "type": "gate",
+          "description": {
+            "es": "La puerta principal hacia el Camino Verde y las tierras del sur",
+            "en": "The main gate toward the Greenway and the lands of the south"
+          }
+        },
+        {
+          "id": "porton-este",
+          "name": {
+            "es": "Portón Este",
+            "en": "East Gate"
+          },
+          "type": "gate",
+          "description": {
+            "es": "Salida hacia el Camino del Este, Rivendel y las tierras lejanas",
+            "en": "The way out toward the East Road, Rivendell and distant lands"
+          }
+        },
+        {
+          "id": "herreria-bree",
+          "name": {
+            "es": "Herrería de Bree",
+            "en": "Bree Smithy"
+          },
+          "type": "workshop",
+          "description": {
+            "es": "Forja donde se reparan armas y herramientas. El herrero es un hombre corpulento y silencioso",
+            "en": "A forge where weapons and tools are mended. The blacksmith is a broad, silent man"
+          }
+        },
+        {
+          "id": "establo-bree",
+          "name": {
+            "es": "Establos de Bree",
+            "en": "Bree Stables"
+          },
+          "type": "stable",
+          "description": {
+            "es": "Donde los viajeros guardan sus monturas. Ponys de la Comarca y caballos del norte",
+            "en": "Where travelers keep their mounts. Shire ponies and horses from the North"
+          }
+        }
       ]
     },
     {
@@ -168,8 +363,18 @@
       "type": "ciudad",
       "danger_level": 0,
       "detailed_description": "El Último Hogar al Este del Mar. Cascadas cristalinas caen junto a torres de piedra blanca cubiertas de hiedra. Cantos élficos resuenan en el aire perfumado de flores eternas. Elrond Medio-elfo ha regido aquí durante más de seis mil años, aconsejando a reyes y refugiando a los perseguidos. Sus salones albergan la mayor biblioteca de la Tierra Media. Aquí se forjaron las grandes alianzas del pasado, y quizás, las del futuro.",
-      "notable_npcs": ["Elrond Medio-elfo", "Arwen Undómiel", "Glorfindel", "Erestor"],
-      "available_services": ["Sanación élfica", "Biblioteca de conocimiento antiguo", "Consejo de los sabios", "Forja de armas élficas"],
+      "notable_npcs": [
+        "Elrond Medio-elfo",
+        "Arwen Undómiel",
+        "Glorfindel",
+        "Erestor"
+      ],
+      "available_services": [
+        "Sanación élfica",
+        "Biblioteca de conocimiento antiguo",
+        "Consejo de los sabios",
+        "Forja de armas élficas"
+      ],
       "plot_hooks": [
         "Elrond convoca un consejo secreto - todos los pueblos libres están invitados",
         "Un pergamino antiguo revela la ubicación de un artefacto perdido",
@@ -216,11 +421,66 @@
         "Moria": "5 días a pie (entrada oeste)"
       },
       "sub_locations": [
-        {"id": "casa-elrond", "name": {"es": "Casa de Elrond", "en": "The House of Elrond"}, "type": "palace", "description": {"es": "Salones de piedra blanca con cascadas, donde el Señor de Rivendel recibe a sus huéspedes", "en": "White stone halls flanked by waterfalls, where the Lord of Rivendell welcomes his guests"}},
-        {"id": "biblioteca-rivendel", "name": {"es": "Gran Biblioteca", "en": "The Great Library"}, "type": "library", "description": {"es": "La mayor colección de conocimiento de la Tierra Media. Pergaminos en todas las lenguas", "en": "The greatest collection of knowledge in Middle-earth. Scrolls in every tongue"}},
-        {"id": "forja-elfos", "name": {"es": "Forja Élfica", "en": "The Elven Forge"}, "type": "workshop", "description": {"es": "Donde los herreros élficos crean armas y armaduras de incomparable belleza", "en": "Where elven smiths craft weapons and armor of unmatched beauty"}},
-        {"id": "jardines-rivendel", "name": {"es": "Jardines de Rivendel", "en": "The Gardens of Rivendell"}, "type": "garden", "description": {"es": "Terrazas con flores eternas sobre las cascadas. Lugar de meditación y sanación", "en": "Terraces of everlasting flowers above the waterfalls. A place of meditation and healing"}},
-        {"id": "salon-fuego", "name": {"es": "Salón del Fuego", "en": "The Hall of Fire"}, "type": "hall", "description": {"es": "Donde los elfos cantan y cuentan historias por las noches. Aquí se celebran los consejos", "en": "Where the elves sing and tell tales at night. Councils are held here"}}
+        {
+          "id": "casa-elrond",
+          "name": {
+            "es": "Casa de Elrond",
+            "en": "The House of Elrond"
+          },
+          "type": "palace",
+          "description": {
+            "es": "Salones de piedra blanca con cascadas, donde el Señor de Rivendel recibe a sus huéspedes",
+            "en": "White stone halls flanked by waterfalls, where the Lord of Rivendell welcomes his guests"
+          }
+        },
+        {
+          "id": "biblioteca-rivendel",
+          "name": {
+            "es": "Gran Biblioteca",
+            "en": "The Great Library"
+          },
+          "type": "library",
+          "description": {
+            "es": "La mayor colección de conocimiento de la Tierra Media. Pergaminos en todas las lenguas",
+            "en": "The greatest collection of knowledge in Middle-earth. Scrolls in every tongue"
+          }
+        },
+        {
+          "id": "forja-elfos",
+          "name": {
+            "es": "Forja Élfica",
+            "en": "The Elven Forge"
+          },
+          "type": "workshop",
+          "description": {
+            "es": "Donde los herreros élficos crean armas y armaduras de incomparable belleza",
+            "en": "Where elven smiths craft weapons and armor of unmatched beauty"
+          }
+        },
+        {
+          "id": "jardines-rivendel",
+          "name": {
+            "es": "Jardines de Rivendel",
+            "en": "The Gardens of Rivendell"
+          },
+          "type": "garden",
+          "description": {
+            "es": "Terrazas con flores eternas sobre las cascadas. Lugar de meditación y sanación",
+            "en": "Terraces of everlasting flowers above the waterfalls. A place of meditation and healing"
+          }
+        },
+        {
+          "id": "salon-fuego",
+          "name": {
+            "es": "Salón del Fuego",
+            "en": "The Hall of Fire"
+          },
+          "type": "hall",
+          "description": {
+            "es": "Donde los elfos cantan y cuentan historias por las noches. Aquí se celebran los consejos",
+            "en": "Where the elves sing and tell tales at night. Councils are held here"
+          }
+        }
       ]
     },
     {
@@ -229,8 +489,18 @@
       "type": "ciudad",
       "danger_level": 1,
       "detailed_description": "La Ciudad Blanca, Torre de la Guardia, orgullo de los hombres del oeste. Siete murallas concéntricas ascienden por la ladera del Monte Mindolluin. En su cima, la Torre de Ecthelion brilla como una aguja de perla y plata. Pero los niveles superiores se vacían mientras la población disminuye. Los jardines de los reyes están abandonados. El Árbol Blanco murió hace generaciones. Solo el senescal Denethor gobierna, sin corona, desde un trono que no le pertenece.",
-      "notable_npcs": ["Denethor II", "Boromir", "Faramir", "Beregond de la Guardia"],
-      "available_services": ["Armería del reino", "Archivos de Minas Tirith", "Casas de curación", "Mercado de los siete niveles"],
+      "notable_npcs": [
+        "Denethor II",
+        "Boromir",
+        "Faramir",
+        "Beregond de la Guardia"
+      ],
+      "available_services": [
+        "Armería del reino",
+        "Archivos de Minas Tirith",
+        "Casas de curación",
+        "Mercado de los siete niveles"
+      ],
       "plot_hooks": [
         "Los vigías reportan movimientos en Mordor - se necesitan exploradores",
         "Denethor busca un artefacto perdido que podría restaurar la esperanza",
@@ -241,11 +511,66 @@
         "Mordor": "5 días a pie (ruta peligrosa)"
       },
       "sub_locations": [
-        {"id": "ciudadela", "name": {"es": "La Ciudadela (Nivel 7)", "en": "The Citadel (Level 7)"}, "type": "palace", "description": {"es": "La cima de Minas Tirith. La Torre de Ecthelion, el Trono del Senescal y el Árbol Blanco muerto", "en": "The summit of Minas Tirith. The Tower of Ecthelion, the Steward's Throne, and the withered White Tree"}},
-        {"id": "casas-curacion", "name": {"es": "Casas de Curación (Nivel 6)", "en": "Houses of Healing (Level 6)"}, "type": "hospital", "description": {"es": "Donde los heridos son atendidos con hierbas y artes antiguas de sanación", "en": "Where the wounded are tended with herbs and ancient healing arts"}},
-        {"id": "archivos", "name": {"es": "Archivos de Minas Tirith (Nivel 5)", "en": "Archives of Minas Tirith (Level 5)"}, "type": "library", "description": {"es": "Registros de miles de años de historia de Gondor. Mapas, genealogías, crónicas", "en": "Records of thousands of years of Gondor's history. Maps, genealogies, chronicles"}},
-        {"id": "mercado-siete-niveles", "name": {"es": "Mercado de los Niveles (Nivel 3)", "en": "Market of the Levels (Level 3)"}, "type": "market", "description": {"es": "Comerciantes de todo Gondor venden armas, armaduras, provisiones y lujos", "en": "Merchants from across Gondor sell weapons, armor, provisions and luxuries"}},
-        {"id": "puerta-grande", "name": {"es": "Gran Puerta (Nivel 1)", "en": "The Great Gate (Level 1)"}, "type": "gate", "description": {"es": "La entrada principal de Minas Tirith, con puertas de hierro y acero. Guardias de la Torre Blanca", "en": "The main entrance to Minas Tirith, with doors of iron and steel. Guards of the White Tower stand watch"}}
+        {
+          "id": "ciudadela",
+          "name": {
+            "es": "La Ciudadela (Nivel 7)",
+            "en": "The Citadel (Level 7)"
+          },
+          "type": "palace",
+          "description": {
+            "es": "La cima de Minas Tirith. La Torre de Ecthelion, el Trono del Senescal y el Árbol Blanco muerto",
+            "en": "The summit of Minas Tirith. The Tower of Ecthelion, the Steward's Throne, and the withered White Tree"
+          }
+        },
+        {
+          "id": "casas-curacion",
+          "name": {
+            "es": "Casas de Curación (Nivel 6)",
+            "en": "Houses of Healing (Level 6)"
+          },
+          "type": "hospital",
+          "description": {
+            "es": "Donde los heridos son atendidos con hierbas y artes antiguas de sanación",
+            "en": "Where the wounded are tended with herbs and ancient healing arts"
+          }
+        },
+        {
+          "id": "archivos",
+          "name": {
+            "es": "Archivos de Minas Tirith (Nivel 5)",
+            "en": "Archives of Minas Tirith (Level 5)"
+          },
+          "type": "library",
+          "description": {
+            "es": "Registros de miles de años de historia de Gondor. Mapas, genealogías, crónicas",
+            "en": "Records of thousands of years of Gondor's history. Maps, genealogies, chronicles"
+          }
+        },
+        {
+          "id": "mercado-siete-niveles",
+          "name": {
+            "es": "Mercado de los Niveles (Nivel 3)",
+            "en": "Market of the Levels (Level 3)"
+          },
+          "type": "market",
+          "description": {
+            "es": "Comerciantes de todo Gondor venden armas, armaduras, provisiones y lujos",
+            "en": "Merchants from across Gondor sell weapons, armor, provisions and luxuries"
+          }
+        },
+        {
+          "id": "puerta-grande",
+          "name": {
+            "es": "Gran Puerta (Nivel 1)",
+            "en": "The Great Gate (Level 1)"
+          },
+          "type": "gate",
+          "description": {
+            "es": "La entrada principal de Minas Tirith, con puertas de hierro y acero. Guardias de la Torre Blanca",
+            "en": "The main entrance to Minas Tirith, with doors of iron and steel. Guards of the White Tower stand watch"
+          }
+        }
       ]
     },
     {
@@ -254,8 +579,15 @@
       "type": "bosque",
       "danger_level": 3,
       "detailed_description": "Alguna vez llamado el Gran Bosque Verde, ahora una maraña de sombras y telarañas. Los elfos de Thranduil resisten en el norte, pero el sur ha caído bajo la influencia de Dol Guldur, la fortaleza del Nigromante. Arañas del tamaño de caballos acechan entre los árboles enfermos. El aire es pesado, soporífero, engañoso. Los viajeros que se desvían del camino rara vez regresan. Pero entre las sombras, aún quedan claros de luz donde los elfos mantienen su vigilia eterna.",
-      "notable_npcs": ["Thranduil el Rey Élfico", "Legolas Hojaverde", "El Nigromante de Dol Guldur"],
-      "available_services": ["Comercio con elfos silvanos (si logras llegar)", "Guías que conocen el Camino del Bosque"],
+      "notable_npcs": [
+        "Thranduil el Rey Élfico",
+        "Legolas Hojaverde",
+        "El Nigromante de Dol Guldur"
+      ],
+      "available_services": [
+        "Comercio con elfos silvanos (si logras llegar)",
+        "Guías que conocen el Camino del Bosque"
+      ],
       "plot_hooks": [
         "Una compañía de enanos necesita atravesar el bosque hacia Erebor",
         "Los elfos silvanos buscan guerreros para atacar una madriguera de arañas",
@@ -268,8 +600,14 @@
       "type": "mazmorra",
       "danger_level": 4,
       "detailed_description": "Khazad-dûm, la más grande de las mansiones enanas, donde brillaba el mithril y los martillos resonaban día y noche. Ahora solo hay silencio y oscuridad. Hace doscientos años los enanos despertaron algo terrible en las profundidades: un Balrog, demonio de la Primera Edad. Los orcos ocuparon los salones superiores. Los enanos que intentaron reclamar su hogar no regresaron. Solo los más desesperados o valientes se atreven a cruzar por el Camino Oscuro.",
-      "notable_npcs": ["Espíritus de enanos caídos", "El señor de los orcos de Moria", "La criatura en el agua"],
-      "available_services": ["Ninguno - solo muerte espera aquí"],
+      "notable_npcs": [
+        "Espíritus de enanos caídos",
+        "El señor de los orcos de Moria",
+        "La criatura en el agua"
+      ],
+      "available_services": [
+        "Ninguno - solo muerte espera aquí"
+      ],
       "plot_hooks": [
         "Se necesita encontrar el Libro de Mazarbul - registro del último intento de colonización",
         "Un pasadizo secreto a través de Moria es la única ruta disponible",
@@ -322,8 +660,17 @@
       "type": "región",
       "danger_level": 2,
       "detailed_description": "El Mar de Hierba, hogar de los Rohirrim, los mejores jinetes del mundo. Desde Edoras, su capital de madera dorada en las colinas, los señores de los caballos vigilan sus tierras. Sus caballos mearan son la envidia de todos los reinos. Pero las fronteras oeste sufren incursiones de Dunland, y los orcos bajan de las montañas con frecuencia creciente. El rey Théoden envejece, y algunos susurran que su consejero Gríma tiene demasiada influencia.",
-      "notable_npcs": ["Théoden Rey", "Éomer Mariscal", "Éowyn Dama Blanca", "Gríma Lengua de Serpiente"],
-      "available_services": ["Compra de caballos", "Hospedaje en Meduseld", "Herreros de Rohan"],
+      "notable_npcs": [
+        "Théoden Rey",
+        "Éomer Mariscal",
+        "Éowyn Dama Blanca",
+        "Gríma Lengua de Serpiente"
+      ],
+      "available_services": [
+        "Compra de caballos",
+        "Hospedaje en Meduseld",
+        "Herreros de Rohan"
+      ],
       "plot_hooks": [
         "Los Dunlendinos han atacado aldeas en el Folde Oeste",
         "Extraños jinetes negros han sido vistos cruzando Rohan",
@@ -336,8 +683,14 @@
       "type": "fortaleza",
       "danger_level": 3,
       "detailed_description": "Orthanc, la torre de piedra negra indestructible, se alza en el centro de un círculo de murallas. Antaño puesto de vigilancia de Gondor, ahora hogar de Saruman el Blanco, jefe del Concilio de los Magos. El mago ha cerrado sus puertas al mundo, y quienes se acercan reportan humo negro y ruidos de forja. Los árboles del valle han sido talados. Algunos dicen que Saruman estudia al enemigo demasiado de cerca. Otros temen que ya sea demasiado tarde.",
-      "notable_npcs": ["Saruman el Blanco", "Gríma Lengua de Serpiente", "Los uruk-hai"],
-      "available_services": ["Ninguno - las puertas están cerradas"],
+      "notable_npcs": [
+        "Saruman el Blanco",
+        "Gríma Lengua de Serpiente",
+        "Los uruk-hai"
+      ],
+      "available_services": [
+        "Ninguno - las puertas están cerradas"
+      ],
       "plot_hooks": [
         "Gandalf ha ido a consultar a Saruman y no ha regresado",
         "Los Ents del Bosque de Fangorn murmuran sobre la destrucción de sus árboles",
@@ -350,8 +703,14 @@
       "type": "región",
       "danger_level": 5,
       "detailed_description": "Detrás de las Montañas de la Sombra y las Montañas de Ceniza yace la tierra sin vida. Barad-dûr, la torre de Sauron, se reconstruye lentamente sobre sus cimientos indestructibles. El Monte del Destino humea, las llanuras de Gorgoroth son ceniza y roca. Ejércitos de orcos llenan las fortalezas. Nadie entra a Mordor sin que el Ojo lo sepa. Y sin embargo, hay un camino secreto, olvidado, que sube por las escaleras de Cirith Ungol...",
-      "notable_npcs": ["Sauron el Señor Oscuro", "La Boca de Sauron", "Ella-Laraña"],
-      "available_services": ["Solo esclavitud y muerte"],
+      "notable_npcs": [
+        "Sauron el Señor Oscuro",
+        "La Boca de Sauron",
+        "Ella-Laraña"
+      ],
+      "available_services": [
+        "Solo esclavitud y muerte"
+      ],
       "plot_hooks": [
         "Solo un camino existe para destruir el mal de raíz",
         "Gollum conoce pasajes secretos que nadie más recuerda",
@@ -364,8 +723,16 @@
       "type": "ciudad",
       "danger_level": 1,
       "detailed_description": "Hace décadas, el dragón Smaug fue derrotado y los enanos recuperaron su hogar ancestral. Bajo el reinado de Dáin Pie de Hierro, Erebor ha vuelto a prosperar. Los martillos resuenan en las forjas, el oro fluye hacia Dale, y los enanos vuelven a cantar en sus salones. Pero la riqueza atrae miradas codiciosas, y los enanos recuerdan demasiado bien cómo perdieron su hogar la primera vez.",
-      "notable_npcs": ["Dáin II Pie de Hierro", "Glóin padre de Gimli", "Maestros forjadores enanos"],
-      "available_services": ["Forja de armas y armaduras superiores", "Comercio de gemas y metales", "Cerveza enana"],
+      "notable_npcs": [
+        "Dáin II Pie de Hierro",
+        "Glóin padre de Gimli",
+        "Maestros forjadores enanos"
+      ],
+      "available_services": [
+        "Forja de armas y armaduras superiores",
+        "Comercio de gemas y metales",
+        "Cerveza enana"
+      ],
       "plot_hooks": [
         "Los enanos han encontrado algo extraño en las profundidades",
         "Se necesitan guardias para una caravana hacia las Montañas Azules",
@@ -378,8 +745,16 @@
       "type": "bosque",
       "danger_level": 0,
       "detailed_description": "Los mellyrn, árboles de plata y oro, crecen solo aquí. Los elfos de Lórien viven en flets, plataformas entre las ramas, y su luz plateada ilumina el bosque por la noche. Galadriel, la más poderosa de los elfos que permanecen en la Tierra Media, protege este lugar con su anillo. El tiempo fluye diferente aquí; los viajeros que salen sienten que han pasado años cuando solo fueron días. Es un lugar de paz absoluta, pero también de poder terrible.",
-      "notable_npcs": ["Galadriel la Dama Blanca", "Celeborn el Sabio", "Haldir de Lórien"],
-      "available_services": ["Descanso y curación", "Consejo de Galadriel", "Regalos élficos para viajeros"],
+      "notable_npcs": [
+        "Galadriel la Dama Blanca",
+        "Celeborn el Sabio",
+        "Haldir de Lórien"
+      ],
+      "available_services": [
+        "Descanso y curación",
+        "Consejo de Galadriel",
+        "Regalos élficos para viajeros"
+      ],
       "plot_hooks": [
         "Galadriel tiene una visión que debe compartir",
         "Los bordes de Lórien están siendo probados por fuerzas oscuras",
@@ -392,8 +767,14 @@
       "type": "montañas",
       "danger_level": 3,
       "detailed_description": "De norte a sur, las Montañas Nubladas dividen las tierras del oeste. Los pasos son traicioneros: tormentas, avalanchas, gigantes de piedra. Pero el mayor peligro son los habitantes: miles de orcos ocupan cuevas y túneles, liderados por el Gran Goblin. Solo tres cruces son relativamente seguros: el Paso Alto, el Paso del Cuerno Rojo, y el camino subterráneo de Moria. Cada uno tiene sus propios peligros.",
-      "notable_npcs": ["El Gran Goblin", "Jefes orcos tribales", "Águilas gigantes en los picos"],
-      "available_services": ["Ninguno seguro"],
+      "notable_npcs": [
+        "El Gran Goblin",
+        "Jefes orcos tribales",
+        "Águilas gigantes en los picos"
+      ],
+      "available_services": [
+        "Ninguno seguro"
+      ],
       "plot_hooks": [
         "Las Águilas han visto movimientos sospechosos de orcos",
         "Un paso secreto se ha descubierto, pero algo lo vigila",
@@ -406,8 +787,14 @@
       "type": "bosque",
       "danger_level": 2,
       "detailed_description": "Árboles que recuerdan cuando los elfos les enseñaron a hablar. Huorn que caminan cuando nadie mira. En lo profundo del bosque viven los Ents, pastores de árboles, los seres más antiguos que aún caminan bajo el sol. Son lentos para actuar pero terribles en su ira. Últimamente murmuran sobre orcos que talan árboles cerca de Isengard. Si los Ents despiertan de su letargo, el mundo temblará.",
-      "notable_npcs": ["Bárbol (Fangorn)", "Otros Ents antiguos", "Los Huorn"],
-      "available_services": ["Ninguno - los Ents no reciben visitantes"],
+      "notable_npcs": [
+        "Bárbol (Fangorn)",
+        "Otros Ents antiguos",
+        "Los Huorn"
+      ],
+      "available_services": [
+        "Ninguno - los Ents no reciben visitantes"
+      ],
       "plot_hooks": [
         "Los Ents buscan a las Ent-mujeres perdidas hace tiempo",
         "Algo está haciendo que los árboles estén más despiertos",
@@ -415,13 +802,21 @@
       ]
     }
   ],
-
   "archetypes": [
     {
       "id": "ranger",
-      "name": { "es": "Montaraz", "en": "Ranger" },
-      "description": { "es": "Explorador y guerrero que protege las fronteras salvajes", "en": "Scout and warrior who guards the wild borders" },
-      "simple_description": { "es": "Conoces los bosques y caminos secretos. Eres hábil con la espada y el arco. Proteges a los inocentes desde las sombras.", "en": "You know the forests and hidden paths. You're skilled with sword and bow. You protect the innocent from the shadows." },
+      "name": {
+        "es": "Montaraz",
+        "en": "Ranger"
+      },
+      "description": {
+        "es": "Explorador y guerrero que protege las fronteras salvajes",
+        "en": "Scout and warrior who guards the wild borders"
+      },
+      "simple_description": {
+        "es": "Conoces los bosques y caminos secretos. Eres hábil con la espada y el arco. Proteges a los inocentes desde las sombras.",
+        "en": "You know the forests and hidden paths. You're skilled with sword and bow. You protect the innocent from the shadows."
+      },
       "detailed_background": "Los Montaraces son los últimos Dúnedain del Norte, herederos del reino perdido de Arnor. Vagan por las tierras salvajes como cazadores y guardianes, vestidos de gris y verde para fundirse con los bosques. La gente común los ve como vagabundos peligrosos, sin saber que estos guerreros errantes son todo lo que se interpone entre ellos y los horrores de la noche. Cada Montaraz lleva la carga de su linaje: sangre de reyes, pero sin reino que gobernar.",
       "starting_stats": {
         "hp": 20,
@@ -432,17 +827,50 @@
         "lore": 2
       },
       "starting_inventory": [
-        {"es": "Espada larga forjada en el oeste", "en": "Longsword forged in the West"},
-        {"es": "Arco largo de tejo y 20 flechas", "en": "Yew longbow and 20 arrows"},
-        {"es": "Capa élfica que oculta del enemigo", "en": "Elven cloak that hides you from enemies"},
-        {"es": "Pipa de fumar y hierba del sur", "en": "Smoking pipe and pipe-weed from the South"},
-        {"es": "Mapa de las Tierras Salvajes", "en": "Map of the Wild"},
-        {"es": "Hierbas medicinales (athelas)", "en": "Medicinal herbs (athelas)"},
-        {"es": "Saco de dormir de lana", "en": "Wool sleeping roll"},
-        {"es": "3 raciones de viaje", "en": "3 travel rations"},
-        {"es": "Odre de agua", "en": "Waterskin"},
-        {"es": "Cuerda de cáñamo (15m)", "en": "Hemp rope (15m)"},
-        {"es": "Pedernal y acero", "en": "Flint and steel"}
+        {
+          "es": "Espada larga forjada en el oeste",
+          "en": "Longsword forged in the West"
+        },
+        {
+          "es": "Arco largo de tejo y 20 flechas",
+          "en": "Yew longbow and 20 arrows"
+        },
+        {
+          "es": "Capa élfica que oculta del enemigo",
+          "en": "Elven cloak that hides you from enemies"
+        },
+        {
+          "es": "Pipa de fumar y hierba del sur",
+          "en": "Smoking pipe and pipe-weed from the South"
+        },
+        {
+          "es": "Mapa de las Tierras Salvajes",
+          "en": "Map of the Wild"
+        },
+        {
+          "es": "Hierbas medicinales (athelas)",
+          "en": "Medicinal herbs (athelas)"
+        },
+        {
+          "es": "Saco de dormir de lana",
+          "en": "Wool sleeping roll"
+        },
+        {
+          "es": "3 raciones de viaje",
+          "en": "3 travel rations"
+        },
+        {
+          "es": "Odre de agua",
+          "en": "Waterskin"
+        },
+        {
+          "es": "Cuerda de cáñamo (15m)",
+          "en": "Hemp rope (15m)"
+        },
+        {
+          "es": "Pedernal y acero",
+          "en": "Flint and steel"
+        }
       ],
       "special_ability": "Rastreador Experto: Siempre sabes qué criaturas han pasado por un lugar, cuándo, y hacia dónde fueron",
       "advancement_paths": [
@@ -481,22 +909,122 @@
         "hitDiceRemaining": 1,
         "experience": 0,
         "experienceToNext": 300,
-        "savingThrowProficiencies": ["STR", "DEX"],
-        "skillProficiencies": ["Survival", "Stealth", "Perception", "Nature", "Investigation"],
-        "features": [
-          { "name": "Enemigo Predilecto", "description": "Orcos y Trolls. Ventaja en tiradas de Sabiduría (Supervivencia) para rastrearlos y en tiradas de Inteligencia para recordar información sobre ellos.", "source": "Ranger 1" },
-          { "name": "Explorador Natural", "description": "Tierras Salvajes. Mientras viajas por este terreno: el terreno difícil no ralentiza al grupo, no puedes perderte excepto por medios mágicos, y permaneces alerta ante peligros.", "source": "Ranger 1" }
+        "savingThrowProficiencies": [
+          "STR",
+          "DEX"
         ],
-        "traits": ["Visión en la oscuridad (herencia Dúnedain)", "Vida longeva"],
-        "languages": ["Común", "Sindarin", "Oestron"],
-        "equipment": ["Espada larga", "Arco largo", "20 flechas", "Armadura de cuero", "Capa élfica", "Mapa de las Tierras Salvajes", "Hierbas medicinales (athelas)", "3 raciones de viaje"]
-      }
+        "skillProficiencies": [
+          "Survival",
+          "Stealth",
+          "Perception",
+          "Nature",
+          "Investigation"
+        ],
+        "features": [
+          {
+            "name": "Enemigo Predilecto",
+            "description": "Orcos y Trolls. Ventaja en tiradas de Sabiduría (Supervivencia) para rastrearlos y en tiradas de Inteligencia para recordar información sobre ellos.",
+            "source": "Ranger 1"
+          },
+          {
+            "name": "Explorador Natural",
+            "description": "Tierras Salvajes. Mientras viajas por este terreno: el terreno difícil no ralentiza al grupo, no puedes perderte excepto por medios mágicos, y permaneces alerta ante peligros.",
+            "source": "Ranger 1"
+          }
+        ],
+        "traits": [
+          "Visión en la oscuridad (herencia Dúnedain)",
+          "Vida longeva"
+        ],
+        "languages": [
+          "Común",
+          "Sindarin",
+          "Oestron"
+        ],
+        "equipment": [
+          "Espada larga",
+          "Arco largo",
+          "20 flechas",
+          "Armadura de cuero",
+          "Capa élfica",
+          "Mapa de las Tierras Salvajes",
+          "Hierbas medicinales (athelas)",
+          "3 raciones de viaje"
+        ]
+      },
+      "abilities": [
+        {
+          "id": "rastreador-experto",
+          "name": {
+            "es": "Rastreador Experto",
+            "en": "Expert Tracker"
+          },
+          "description": {
+            "es": "Siempre sabes qué criaturas han pasado por un lugar, cuándo, y hacia dónde fueron.",
+            "en": "You always know what creatures have passed through a place, when, and where they went."
+          },
+          "kind": "special",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 2,
+          "icon": "eye",
+          "tags": [
+            "exploration",
+            "utility"
+          ]
+        },
+        {
+          "id": "flecha-del-norte",
+          "name": {
+            "es": "Flecha del Norte",
+            "en": "Arrow of the North"
+          },
+          "description": {
+            "es": "Disparás una flecha certera que ignora la primera cobertura del objetivo. Si el blanco es un servidor del Enemigo, el daño se duplica.",
+            "en": "You fire a precise arrow that ignores the target's first cover. If the target serves the Enemy, the damage is doubled."
+          },
+          "kind": "trick",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 3,
+          "icon": "zap",
+          "tags": [
+            "combat"
+          ]
+        },
+        {
+          "id": "sombra-del-bosque",
+          "name": {
+            "es": "Sombra del Bosque",
+            "en": "Forest Shadow"
+          },
+          "description": {
+            "es": "Te fundís con el entorno natural y pasás desapercibido durante varios turnos. Los enemigos no pueden detectarte a menos que los toques o hables.",
+            "en": "You blend into the natural surroundings and go unnoticed for several turns. Enemies cannot detect you unless you touch them or speak."
+          },
+          "kind": "trick",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 4,
+          "icon": "moon",
+          "tags": [
+            "stealth",
+            "exploration"
+          ]
+        }
+      ]
     },
     {
       "id": "scholar",
-      "name": { "es": "Erudito", "en": "Scholar" },
-      "description": { "es": "Sabio que estudia la historia antigua y las lenguas olvidadas", "en": "Sage who studies ancient history and forgotten tongues" },
-      "simple_description": { "es": "Has dedicado tu vida al estudio de textos antiguos. Conoces historias y leyendas que otros han olvidado. Tu sabiduría puede revelar secretos cruciales.", "en": "You have devoted your life to ancient texts. You know stories and legends others have long forgotten. Your wisdom can reveal crucial secrets." },
+      "name": {
+        "es": "Erudito",
+        "en": "Scholar"
+      },
+      "description": {
+        "es": "Sabio que estudia la historia antigua y las lenguas olvidadas",
+        "en": "Sage who studies ancient history and forgotten tongues"
+      },
+      "simple_description": {
+        "es": "Has dedicado tu vida al estudio de textos antiguos. Conoces historias y leyendas que otros han olvidado. Tu sabiduría puede revelar secretos cruciales.",
+        "en": "You have devoted your life to ancient texts. You know stories and legends others have long forgotten. Your wisdom can reveal crucial secrets."
+      },
       "detailed_background": "En Rivendel, Minas Tirith o las bibliotecas de los enanos, siempre hay quienes dedican sus vidas al conocimiento. Has pasado años descifrando pergaminos amarillentos, aprendiendo lenguas muertas y memorizando genealogías de reyes olvidados. Donde otros ven ruinas, tú ves historia. Donde otros ven símbolos, tú lees advertencias. El conocimiento es poder, y en una era donde mucho se ha olvidado, tu memoria puede ser la diferencia entre el triunfo y la catástrofe.",
       "starting_stats": {
         "hp": 14,
@@ -507,17 +1035,50 @@
         "lore": 5
       },
       "starting_inventory": [
-        {"es": "Bastón de madera con inscripciones", "en": "Wooden staff carved with inscriptions"},
-        {"es": "Libro de crónicas antiguas", "en": "Book of ancient chronicles"},
-        {"es": "Kit de escritura con tinta especial", "en": "Writing kit with special ink"},
-        {"es": "Lupa de cristal enano", "en": "Dwarven crystal magnifying glass"},
-        {"es": "Pergaminos en quenya y sindarin", "en": "Scrolls in Quenya and Sindarin"},
-        {"es": "Mapas de ruinas conocidas", "en": "Maps of known ruins"},
-        {"es": "Saco de dormir de lana", "en": "Wool sleeping roll"},
-        {"es": "3 raciones de viaje", "en": "3 travel rations"},
-        {"es": "Odre de agua", "en": "Waterskin"},
-        {"es": "Antorchas (2)", "en": "Torches (2)"},
-        {"es": "15 monedas de plata", "en": "15 silver coins"}
+        {
+          "es": "Bastón de madera con inscripciones",
+          "en": "Wooden staff carved with inscriptions"
+        },
+        {
+          "es": "Libro de crónicas antiguas",
+          "en": "Book of ancient chronicles"
+        },
+        {
+          "es": "Kit de escritura con tinta especial",
+          "en": "Writing kit with special ink"
+        },
+        {
+          "es": "Lupa de cristal enano",
+          "en": "Dwarven crystal magnifying glass"
+        },
+        {
+          "es": "Pergaminos en quenya y sindarin",
+          "en": "Scrolls in Quenya and Sindarin"
+        },
+        {
+          "es": "Mapas de ruinas conocidas",
+          "en": "Maps of known ruins"
+        },
+        {
+          "es": "Saco de dormir de lana",
+          "en": "Wool sleeping roll"
+        },
+        {
+          "es": "3 raciones de viaje",
+          "en": "3 travel rations"
+        },
+        {
+          "es": "Odre de agua",
+          "en": "Waterskin"
+        },
+        {
+          "es": "Antorchas (2)",
+          "en": "Torches (2)"
+        },
+        {
+          "es": "15 monedas de plata",
+          "en": "15 silver coins"
+        }
       ],
       "special_ability": "Conocimiento Antiguo: Puedes leer cualquier lengua antigua y recordar leyendas relevantes sobre lugares, objetos y criaturas",
       "advancement_paths": [
@@ -556,30 +1117,132 @@
         "hitDiceRemaining": 1,
         "experience": 0,
         "experienceToNext": 300,
-        "savingThrowProficiencies": ["INT", "WIS"],
-        "skillProficiencies": ["Arcana", "History", "Investigation", "Insight"],
-        "features": [
-          { "name": "Recuperar Arcanos", "description": "Una vez al día durante un descanso corto, puedes recuperar espacios de conjuro con un nivel combinado igual o menor a la mitad de tu nivel de mago.", "source": "Wizard 1" },
-          { "name": "Libro de Conjuros", "description": "Contiene 6 conjuros de nivel 1. Puedes preparar un número de conjuros igual a tu modificador de INT + nivel de mago.", "source": "Wizard 1" }
+        "savingThrowProficiencies": [
+          "INT",
+          "WIS"
         ],
-        "traits": ["Visión en la oscuridad (60 pies)", "Resistencia a encantamientos", "Versatilidad de habilidades"],
-        "languages": ["Común", "Sindarin", "Quenya", "Adûnaico"],
-        "equipment": ["Bastón arcano", "Libro de conjuros", "Bolsa de componentes", "Pergaminos de estudio", "Kit de escritura", "3 raciones de viaje"],
+        "skillProficiencies": [
+          "Arcana",
+          "History",
+          "Investigation",
+          "Insight"
+        ],
+        "features": [
+          {
+            "name": "Recuperar Arcanos",
+            "description": "Una vez al día durante un descanso corto, puedes recuperar espacios de conjuro con un nivel combinado igual o menor a la mitad de tu nivel de mago.",
+            "source": "Wizard 1"
+          },
+          {
+            "name": "Libro de Conjuros",
+            "description": "Contiene 6 conjuros de nivel 1. Puedes preparar un número de conjuros igual a tu modificador de INT + nivel de mago.",
+            "source": "Wizard 1"
+          }
+        ],
+        "traits": [
+          "Visión en la oscuridad (60 pies)",
+          "Resistencia a encantamientos",
+          "Versatilidad de habilidades"
+        ],
+        "languages": [
+          "Común",
+          "Sindarin",
+          "Quenya",
+          "Adûnaico"
+        ],
+        "equipment": [
+          "Bastón arcano",
+          "Libro de conjuros",
+          "Bolsa de componentes",
+          "Pergaminos de estudio",
+          "Kit de escritura",
+          "3 raciones de viaje"
+        ],
         "spellcasting": {
           "ability": "INT",
           "spellSaveDC": 13,
           "spellAttackBonus": 5,
           "cantripsKnown": 3,
           "spellsKnown": 6,
-          "spellSlots": { "1": 2 }
+          "spellSlots": {
+            "1": 2
+          }
         }
-      }
+      },
+      "abilities": [
+        {
+          "id": "conocimiento-antiguo",
+          "name": {
+            "es": "Conocimiento Antiguo",
+            "en": "Ancient Knowledge"
+          },
+          "description": {
+            "es": "Puedes leer cualquier lengua antigua y recordar leyendas relevantes sobre lugares, objetos y criaturas.",
+            "en": "You can read any ancient tongue and recall relevant legends about places, objects, and creatures."
+          },
+          "kind": "special",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 2,
+          "icon": "eye",
+          "tags": [
+            "utility",
+            "exploration"
+          ]
+        },
+        {
+          "id": "cronicas-de-los-reyes",
+          "name": {
+            "es": "Crónicas de los Reyes",
+            "en": "Chronicles of the Kings"
+          },
+          "description": {
+            "es": "Relatás gestas de los reyes de antaño para inspirar a tus aliados, otorgándoles coraje frente a la adversidad.",
+            "en": "You recount the deeds of ancient kings to inspire your allies, granting them courage in the face of adversity."
+          },
+          "kind": "spell",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 4,
+          "icon": "sparkles",
+          "tags": [
+            "social",
+            "utility"
+          ]
+        },
+        {
+          "id": "debilidad-revelada",
+          "name": {
+            "es": "Debilidad Revelada",
+            "en": "Revealed Weakness"
+          },
+          "description": {
+            "es": "Usás tu vasto saber sobre criaturas y enemigos para identificar un punto vulnerable, exponiendo una falla crítica que tus aliados pueden aprovechar.",
+            "en": "You use your vast knowledge of creatures and foes to identify a vulnerability, exposing a critical flaw your allies can exploit."
+          },
+          "kind": "trick",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 3,
+          "icon": "moon",
+          "tags": [
+            "combat",
+            "utility"
+          ]
+        }
+      ]
     },
     {
       "id": "warrior",
-      "name": { "es": "Guerrero", "en": "Warrior" },
-      "description": { "es": "Combatiente valiente entrenado en las artes de la guerra", "en": "Brave fighter trained in the arts of war" },
-      "simple_description": { "es": "Has sido entrenado en el combate desde joven. Tu valor en batalla es legendario. Defiendes a los débiles con tu acero.", "en": "You've been trained in combat since childhood. Your courage in battle is legendary. You defend the weak with steel in hand." },
+      "name": {
+        "es": "Guerrero",
+        "en": "Warrior"
+      },
+      "description": {
+        "es": "Combatiente valiente entrenado en las artes de la guerra",
+        "en": "Brave fighter trained in the arts of war"
+      },
+      "simple_description": {
+        "es": "Has sido entrenado en el combate desde joven. Tu valor en batalla es legendario. Defiendes a los débiles con tu acero.",
+        "en": "You've been trained in combat since childhood. Your courage in battle is legendary. You defend the weak with steel in hand."
+      },
       "detailed_background": "Ya sea un soldado de Gondor, un jinete de Rohan o un guardia enano, has dedicado tu vida al arte de la guerra. Has visto batallas y sobrevivido. Conoces el peso de la responsabilidad de proteger a los débiles. Tu espada ha probado sangre de orco, y tu escudo lleva las marcas de cien combates. En tiempos de paz serías un simple guardia o mercenario, pero los tiempos de paz han terminado.",
       "starting_stats": {
         "hp": 25,
@@ -590,18 +1253,54 @@
         "lore": 1
       },
       "starting_inventory": [
-        {"es": "Espada ancha de acero gondoriano", "en": "Broadsword of Gondorian steel"},
-        {"es": "Escudo con emblema de tu casa", "en": "Shield bearing your house's crest"},
-        {"es": "Armadura de mallas reforzada", "en": "Reinforced chain mail"},
-        {"es": "Cuerno de guerra", "en": "War horn"},
-        {"es": "Estandarte de tu unidad", "en": "Banner of your unit"},
-        {"es": "Saco de dormir de lana", "en": "Wool sleeping roll"},
-        {"es": "3 raciones de viaje", "en": "3 travel rations"},
-        {"es": "Odre de agua", "en": "Waterskin"},
-        {"es": "Cuerda de cáñamo (15m)", "en": "Hemp rope (15m)"},
-        {"es": "Antorchas (2)", "en": "Torches (2)"},
-        {"es": "Pedernal y acero", "en": "Flint and steel"},
-        {"es": "15 monedas de plata", "en": "15 silver coins"}
+        {
+          "es": "Espada ancha de acero gondoriano",
+          "en": "Broadsword of Gondorian steel"
+        },
+        {
+          "es": "Escudo con emblema de tu casa",
+          "en": "Shield bearing your house's crest"
+        },
+        {
+          "es": "Armadura de mallas reforzada",
+          "en": "Reinforced chain mail"
+        },
+        {
+          "es": "Cuerno de guerra",
+          "en": "War horn"
+        },
+        {
+          "es": "Estandarte de tu unidad",
+          "en": "Banner of your unit"
+        },
+        {
+          "es": "Saco de dormir de lana",
+          "en": "Wool sleeping roll"
+        },
+        {
+          "es": "3 raciones de viaje",
+          "en": "3 travel rations"
+        },
+        {
+          "es": "Odre de agua",
+          "en": "Waterskin"
+        },
+        {
+          "es": "Cuerda de cáñamo (15m)",
+          "en": "Hemp rope (15m)"
+        },
+        {
+          "es": "Antorchas (2)",
+          "en": "Torches (2)"
+        },
+        {
+          "es": "Pedernal y acero",
+          "en": "Flint and steel"
+        },
+        {
+          "es": "15 monedas de plata",
+          "en": "15 silver coins"
+        }
       ],
       "special_ability": "Protector: Puedes interponerte para recibir daño en lugar de un aliado, reduciendo el daño a la mitad",
       "advancement_paths": [
@@ -640,22 +1339,115 @@
         "hitDiceRemaining": 1,
         "experience": 0,
         "experienceToNext": 300,
-        "savingThrowProficiencies": ["STR", "CON"],
-        "skillProficiencies": ["Athletics", "Intimidation", "Perception"],
-        "features": [
-          { "name": "Estilo de Combate: Defensa", "description": "Mientras lleves armadura, obtienes +1 a la CA.", "source": "Fighter 1" },
-          { "name": "Segundo Aliento", "description": "Una vez entre descansos, puedes usar una acción bonus para recuperar 1d10 + nivel de Fighter PV.", "source": "Fighter 1" }
+        "savingThrowProficiencies": [
+          "STR",
+          "CON"
         ],
-        "traits": ["Determinación humana (+1 a todas las habilidades)"],
-        "languages": ["Común", "Oestron"],
-        "equipment": ["Espada ancha de acero gondoriano", "Escudo con emblema", "Cota de mallas", "Cuerno de guerra", "3 raciones de viaje"]
-      }
+        "skillProficiencies": [
+          "Athletics",
+          "Intimidation",
+          "Perception"
+        ],
+        "features": [
+          {
+            "name": "Estilo de Combate: Defensa",
+            "description": "Mientras lleves armadura, obtienes +1 a la CA.",
+            "source": "Fighter 1"
+          },
+          {
+            "name": "Segundo Aliento",
+            "description": "Una vez entre descansos, puedes usar una acción bonus para recuperar 1d10 + nivel de Fighter PV.",
+            "source": "Fighter 1"
+          }
+        ],
+        "traits": [
+          "Determinación humana (+1 a todas las habilidades)"
+        ],
+        "languages": [
+          "Común",
+          "Oestron"
+        ],
+        "equipment": [
+          "Espada ancha de acero gondoriano",
+          "Escudo con emblema",
+          "Cota de mallas",
+          "Cuerno de guerra",
+          "3 raciones de viaje"
+        ]
+      },
+      "abilities": [
+        {
+          "id": "protector",
+          "name": {
+            "es": "Protector",
+            "en": "Protector"
+          },
+          "description": {
+            "es": "Puedes interponerte para recibir daño en lugar de un aliado, reduciendo el daño a la mitad.",
+            "en": "You can step in to take damage instead of an ally, reducing the damage by half."
+          },
+          "kind": "special",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 3,
+          "icon": "shield",
+          "tags": [
+            "combat",
+            "utility"
+          ]
+        },
+        {
+          "id": "golpe-devastador",
+          "name": {
+            "es": "Golpe Devastador",
+            "en": "Devastating Strike"
+          },
+          "description": {
+            "es": "Concentrás toda tu fuerza en un único ataque brutal que ignora parte de la defensa del enemigo.",
+            "en": "You focus all your strength into a single brutal strike that ignores part of the enemy's defense."
+          },
+          "kind": "special",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 4,
+          "icon": "sword",
+          "tags": [
+            "combat"
+          ]
+        },
+        {
+          "id": "grito-de-guerra",
+          "name": {
+            "es": "Grito de Guerra",
+            "en": "Battle Cry"
+          },
+          "description": {
+            "es": "Lanzás un grito feroz que infunde coraje en tus aliados, otorgándoles un bonus en su próxima tirada de combate.",
+            "en": "You let out a fierce cry that fills your allies with courage, granting them a bonus on their next combat roll."
+          },
+          "kind": "trick",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 3,
+          "icon": "zap",
+          "tags": [
+            "combat",
+            "utility"
+          ]
+        }
+      ]
     },
     {
       "id": "hobbit",
-      "name": { "es": "Hobbit Aventurero", "en": "Adventurous Hobbit" },
-      "description": { "es": "Pequeño pero valiente, con una resistencia sorprendente al mal", "en": "Small but brave, with a surprising resistance to evil" },
-      "simple_description": { "es": "Eres un hobbit que ha dejado la comodidad de la Comarca. Pequeño y subestimado, pero posees una fuerza interior que los grandes no comprenden.", "en": "You're a hobbit who left the comfort of the Shire. Small and underestimated, yet you carry an inner strength the Big Folk cannot understand." },
+      "name": {
+        "es": "Hobbit Aventurero",
+        "en": "Adventurous Hobbit"
+      },
+      "description": {
+        "es": "Pequeño pero valiente, con una resistencia sorprendente al mal",
+        "en": "Small but brave, with a surprising resistance to evil"
+      },
+      "simple_description": {
+        "es": "Eres un hobbit que ha dejado la comodidad de la Comarca. Pequeño y subestimado, pero posees una fuerza interior que los grandes no comprenden.",
+        "en": "You're a hobbit who left the comfort of the Shire. Small and underestimated, yet you carry an inner strength the Big Folk cannot understand."
+      },
       "detailed_background": "La mayoría de los hobbits nunca pasan del Puente de Brandy. Pero algo te llamó: historias de Bilbo, sueños de tierras lejanas, o simplemente un deseo de ver montañas. Los Grandes te subestiman, y eso es tu ventaja. Donde un guerrero es obvio, tú pasas desapercibido. Donde la sombra corrompe a los poderosos, tu simple corazón hobbit resiste. Algunos destinados para la grandeza no la buscaron.",
       "starting_stats": {
         "hp": 12,
@@ -668,17 +1460,50 @@
         "corruption_resistance": 5
       },
       "starting_inventory": [
-        {"es": "Daga corta (espada para un hobbit)", "en": "Short dagger (a sword for a hobbit)"},
-        {"es": "Capa de viaje de la Comarca", "en": "Shire travelling cloak"},
-        {"es": "Pipa y hierba para pipa", "en": "Pipe and pipe-weed"},
-        {"es": "5 raciones de viaje", "en": "5 travel rations"},
-        {"es": "Cuerda élfica", "en": "Elven rope"},
-        {"es": "Pañuelo bordado (importante)", "en": "Embroidered handkerchief (important)"},
-        {"es": "Saco de dormir de lana", "en": "Wool sleeping roll"},
-        {"es": "Odre de agua", "en": "Waterskin"},
-        {"es": "Pedernal y acero", "en": "Flint and steel"},
-        {"es": "15 monedas de plata", "en": "15 silver coins"},
-        {"es": "Hierbas curativas básicas", "en": "Basic healing herbs"}
+        {
+          "es": "Daga corta (espada para un hobbit)",
+          "en": "Short dagger (a sword for a hobbit)"
+        },
+        {
+          "es": "Capa de viaje de la Comarca",
+          "en": "Shire travelling cloak"
+        },
+        {
+          "es": "Pipa y hierba para pipa",
+          "en": "Pipe and pipe-weed"
+        },
+        {
+          "es": "5 raciones de viaje",
+          "en": "5 travel rations"
+        },
+        {
+          "es": "Cuerda élfica",
+          "en": "Elven rope"
+        },
+        {
+          "es": "Pañuelo bordado (importante)",
+          "en": "Embroidered handkerchief (important)"
+        },
+        {
+          "es": "Saco de dormir de lana",
+          "en": "Wool sleeping roll"
+        },
+        {
+          "es": "Odre de agua",
+          "en": "Waterskin"
+        },
+        {
+          "es": "Pedernal y acero",
+          "en": "Flint and steel"
+        },
+        {
+          "es": "15 monedas de plata",
+          "en": "15 silver coins"
+        },
+        {
+          "es": "Hierbas curativas básicas",
+          "en": "Basic healing herbs"
+        }
       ],
       "special_ability": "Corazón Inquebrantable: Tienes resistencia natural a la corrupción y el miedo mágico. Los anillos de poder tienen menos efecto sobre ti",
       "advancement_paths": [
@@ -717,23 +1542,127 @@
         "hitDiceRemaining": 1,
         "experience": 0,
         "experienceToNext": 300,
-        "savingThrowProficiencies": ["DEX", "INT"],
-        "skillProficiencies": ["Stealth", "Sleight of Hand", "Perception", "Insight"],
-        "features": [
-          { "name": "Experiencia", "description": "Duplicas tu bonificador de competencia en dos habilidades en las que seas competente (Stealth y Perception).", "source": "Rogue 1" },
-          { "name": "Ataque Furtivo", "description": "1d6 de daño extra una vez por turno cuando tienes ventaja o un aliado a 5 pies del enemigo.", "source": "Rogue 1" },
-          { "name": "Jerga de Ladrones", "description": "Conoces el lenguaje secreto de los pícaros y señales ocultas.", "source": "Rogue 1" }
+        "savingThrowProficiencies": [
+          "DEX",
+          "INT"
         ],
-        "traits": ["Suertudo (repetir 1 natural)", "Valentía (ventaja contra miedo)", "Ágil (moverte a través de criaturas más grandes)", "Sigiloso por naturaleza"],
-        "languages": ["Común", "Hobbitish"],
-        "equipment": ["Daga corta", "Arco corto", "20 flechas", "Armadura de cuero", "Herramientas de ladrón", "Capa de viaje", "Cuerda élfica", "5 raciones de viaje"]
-      }
+        "skillProficiencies": [
+          "Stealth",
+          "Sleight of Hand",
+          "Perception",
+          "Insight"
+        ],
+        "features": [
+          {
+            "name": "Experiencia",
+            "description": "Duplicas tu bonificador de competencia en dos habilidades en las que seas competente (Stealth y Perception).",
+            "source": "Rogue 1"
+          },
+          {
+            "name": "Ataque Furtivo",
+            "description": "1d6 de daño extra una vez por turno cuando tienes ventaja o un aliado a 5 pies del enemigo.",
+            "source": "Rogue 1"
+          },
+          {
+            "name": "Jerga de Ladrones",
+            "description": "Conoces el lenguaje secreto de los pícaros y señales ocultas.",
+            "source": "Rogue 1"
+          }
+        ],
+        "traits": [
+          "Suertudo (repetir 1 natural)",
+          "Valentía (ventaja contra miedo)",
+          "Ágil (moverte a través de criaturas más grandes)",
+          "Sigiloso por naturaleza"
+        ],
+        "languages": [
+          "Común",
+          "Hobbitish"
+        ],
+        "equipment": [
+          "Daga corta",
+          "Arco corto",
+          "20 flechas",
+          "Armadura de cuero",
+          "Herramientas de ladrón",
+          "Capa de viaje",
+          "Cuerda élfica",
+          "5 raciones de viaje"
+        ]
+      },
+      "abilities": [
+        {
+          "id": "corazon-inquebrantable",
+          "name": {
+            "es": "Corazón Inquebrantable",
+            "en": "Unbreakable Heart"
+          },
+          "description": {
+            "es": "Tienes resistencia natural a la corrupción y el miedo mágico. Los anillos de poder tienen menos efecto sobre ti.",
+            "en": "You have a natural resistance to corruption and magical fear. Rings of power have less effect on you."
+          },
+          "kind": "special",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 3,
+          "icon": "heart",
+          "tags": [
+            "utility"
+          ]
+        },
+        {
+          "id": "paso-silencioso",
+          "name": {
+            "es": "Paso Silencioso",
+            "en": "Silent Step"
+          },
+          "description": {
+            "es": "Los pies descalzos de los hobbits no hacen ruido alguno. Podés moverte sin ser detectado incluso en terrenos difíciles, ganando ventaja en tu próxima acción de sigilo.",
+            "en": "Hobbit bare feet make no sound at all. You can move undetected even in difficult terrain, gaining advantage on your next stealth action."
+          },
+          "kind": "trick",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 2,
+          "icon": "eye",
+          "tags": [
+            "stealth",
+            "exploration"
+          ]
+        },
+        {
+          "id": "coraje-inesperado",
+          "name": {
+            "es": "Coraje Inesperado",
+            "en": "Unexpected Courage"
+          },
+          "description": {
+            "es": "Cuando todo parece perdido, algo dentro tuyo se despierta. Superás tu propio miedo y realizás una acción de combate con un bonus igual a tu resistencia a la corrupción.",
+            "en": "When all seems lost, something inside you awakens. You overcome your own fear and perform a combat action with a bonus equal to your corruption resistance."
+          },
+          "kind": "special",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 4,
+          "icon": "sparkles",
+          "tags": [
+            "combat",
+            "utility"
+          ]
+        }
+      ]
     },
     {
       "id": "elf",
-      "name": { "es": "Elfo Errante", "en": "Wandering Elf" },
-      "description": { "es": "Inmortal que ha elegido caminar entre los mortales antes de partir al oeste", "en": "An immortal who chose to walk among mortals before sailing West" },
-      "simple_description": { "es": "Has vivido siglos y visto reinos nacer y morir. Pronto partirás al oeste, pero antes, tienes una última tarea en la Tierra Media.", "en": "You have lived for centuries and watched kingdoms rise and fall. Soon you will sail West, but first there's one last task for you in Middle-earth." },
+      "name": {
+        "es": "Elfo Errante",
+        "en": "Wandering Elf"
+      },
+      "description": {
+        "es": "Inmortal que ha elegido caminar entre los mortales antes de partir al oeste",
+        "en": "An immortal who chose to walk among mortals before sailing West"
+      },
+      "simple_description": {
+        "es": "Has vivido siglos y visto reinos nacer y morir. Pronto partirás al oeste, pero antes, tienes una última tarea en la Tierra Media.",
+        "en": "You have lived for centuries and watched kingdoms rise and fall. Soon you will sail West, but first there's one last task for you in Middle-earth."
+      },
       "detailed_background": "Has visto las estrellas cuando eran jóvenes. Recuerdas la luz de los Árboles en el oeste. Has amado y perdido más veces de las que puedes contar. La mayoría de tu pueblo parte hacia Valinor, cansados de un mundo que ya no les pertenece. Pero tú te quedas. Hay algo que debes hacer, alguien a quien proteger, o simplemente no estás listo para abandonar estas tierras que has conocido durante eras.",
       "starting_stats": {
         "hp": 16,
@@ -744,16 +1673,46 @@
         "lore": 4
       },
       "starting_inventory": [
-        {"es": "Arco élfico de Lothlórien", "en": "Elven bow of Lothlórien"},
-        {"es": "Espada larga forjada en la Primera Edad", "en": "Longsword forged in the First Age"},
-        {"es": "Capa élfica que oculta y protege", "en": "Elven cloak that hides and protects"},
-        {"es": "Pan de viaje (lembas)", "en": "Lembas waybread"},
-        {"es": "Cuerda élfica", "en": "Elven rope"},
-        {"es": "Fial con luz de estrella", "en": "Phial filled with starlight"},
-        {"es": "Odre de agua élfico", "en": "Elven waterskin"},
-        {"es": "Hierbas curativas básicas", "en": "Basic healing herbs"},
-        {"es": "Saco de dormir de seda élfica", "en": "Elven silk sleeping roll"},
-        {"es": "15 monedas de plata", "en": "15 silver coins"}
+        {
+          "es": "Arco élfico de Lothlórien",
+          "en": "Elven bow of Lothlórien"
+        },
+        {
+          "es": "Espada larga forjada en la Primera Edad",
+          "en": "Longsword forged in the First Age"
+        },
+        {
+          "es": "Capa élfica que oculta y protege",
+          "en": "Elven cloak that hides and protects"
+        },
+        {
+          "es": "Pan de viaje (lembas)",
+          "en": "Lembas waybread"
+        },
+        {
+          "es": "Cuerda élfica",
+          "en": "Elven rope"
+        },
+        {
+          "es": "Fial con luz de estrella",
+          "en": "Phial filled with starlight"
+        },
+        {
+          "es": "Odre de agua élfico",
+          "en": "Elven waterskin"
+        },
+        {
+          "es": "Hierbas curativas básicas",
+          "en": "Basic healing herbs"
+        },
+        {
+          "es": "Saco de dormir de seda élfica",
+          "en": "Elven silk sleeping roll"
+        },
+        {
+          "es": "15 monedas de plata",
+          "en": "15 silver coins"
+        }
       ],
       "special_ability": "Vista de las Estrellas: Ves en la oscuridad como de día, detectas magia y corrupción, y puedes comunicarte con animales del bosque",
       "advancement_paths": [
@@ -792,22 +1751,125 @@
         "hitDiceRemaining": 1,
         "experience": 0,
         "experienceToNext": 300,
-        "savingThrowProficiencies": ["STR", "DEX"],
-        "skillProficiencies": ["Perception", "Nature", "Stealth", "Survival"],
-        "features": [
-          { "name": "Enemigo Predilecto", "description": "Orcos y criaturas de la sombra. Ventaja en tiradas de rastreo y para recordar información sobre ellos.", "source": "Ranger 1" },
-          { "name": "Explorador Natural", "description": "Bosques. El terreno difícil no ralentiza al grupo, no puedes perderte, y permaneces alerta.", "source": "Ranger 1" }
+        "savingThrowProficiencies": [
+          "STR",
+          "DEX"
         ],
-        "traits": ["Visión en la oscuridad (60 pies)", "Sentidos agudizados (competencia en Percepción)", "Ancestro feérico (ventaja contra encantamiento)", "Trance (4 horas de meditación en lugar de 8 de sueño)", "Máscara de la naturaleza (esconderse en fenómenos naturales)"],
-        "languages": ["Común", "Sindarin", "Quenya", "Silvano"],
-        "equipment": ["Arco élfico largo", "Espada larga élfica", "20 flechas", "Armadura de cuero", "Capa élfica", "Lembas", "Cuerda élfica", "Fial de luz estelar"]
-      }
+        "skillProficiencies": [
+          "Perception",
+          "Nature",
+          "Stealth",
+          "Survival"
+        ],
+        "features": [
+          {
+            "name": "Enemigo Predilecto",
+            "description": "Orcos y criaturas de la sombra. Ventaja en tiradas de rastreo y para recordar información sobre ellos.",
+            "source": "Ranger 1"
+          },
+          {
+            "name": "Explorador Natural",
+            "description": "Bosques. El terreno difícil no ralentiza al grupo, no puedes perderte, y permaneces alerta.",
+            "source": "Ranger 1"
+          }
+        ],
+        "traits": [
+          "Visión en la oscuridad (60 pies)",
+          "Sentidos agudizados (competencia en Percepción)",
+          "Ancestro feérico (ventaja contra encantamiento)",
+          "Trance (4 horas de meditación en lugar de 8 de sueño)",
+          "Máscara de la naturaleza (esconderse en fenómenos naturales)"
+        ],
+        "languages": [
+          "Común",
+          "Sindarin",
+          "Quenya",
+          "Silvano"
+        ],
+        "equipment": [
+          "Arco élfico largo",
+          "Espada larga élfica",
+          "20 flechas",
+          "Armadura de cuero",
+          "Capa élfica",
+          "Lembas",
+          "Cuerda élfica",
+          "Fial de luz estelar"
+        ]
+      },
+      "abilities": [
+        {
+          "id": "vista-de-las-estrellas",
+          "name": {
+            "es": "Vista de las Estrellas",
+            "en": "Star Sight"
+          },
+          "description": {
+            "es": "Ves en la oscuridad como de día, detectas magia y corrupción, y puedes comunicarte con animales del bosque.",
+            "en": "You see in the dark as if it were day, detect magic and corruption, and can communicate with forest animals."
+          },
+          "kind": "special",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 3,
+          "icon": "eye",
+          "tags": [
+            "exploration",
+            "utility"
+          ]
+        },
+        {
+          "id": "flecha-del-ocaso",
+          "name": {
+            "es": "Flecha del Ocaso",
+            "en": "Dusk Arrow"
+          },
+          "description": {
+            "es": "Canalizás siglos de precisión élfica en un único disparo certero. El proyectil vuela guiado por tu voluntad y nunca yerra a quien lleva oscuridad en el corazón.",
+            "en": "You channel centuries of elven precision into a single unerring shot. The arrow flies guided by your will and never misses one who carries darkness in their heart."
+          },
+          "kind": "spell",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 4,
+          "icon": "zap",
+          "tags": [
+            "combat"
+          ]
+        },
+        {
+          "id": "memoria-de-edades",
+          "name": {
+            "es": "Memoria de Edades",
+            "en": "Memory of Ages"
+          },
+          "description": {
+            "es": "Cerrás los ojos y dejás que los siglos hablen. Recordás eventos, caminos o secretos de eras pasadas que los mortales olvidaron hace mucho.",
+            "en": "You close your eyes and let the centuries speak. You recall events, paths, or secrets from ages long forgotten by mortal memory."
+          },
+          "kind": "trick",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 2,
+          "icon": "moon",
+          "tags": [
+            "exploration",
+            "utility"
+          ]
+        }
+      ]
     },
     {
       "id": "dwarf",
-      "name": { "es": "Enano de las Montañas", "en": "Mountain Dwarf" },
-      "description": { "es": "Guerrero y artesano de las profundidades, leal y obstinado", "en": "Warrior and craftsman of the deep halls, loyal and stubborn" },
-      "simple_description": { "es": "Vienes de los salones bajo la montaña. Eres terco, leal y formidable en batalla. Tu hacha ha probado sangre de orco.", "en": "You come from the halls beneath the mountain. You're stubborn, loyal, and formidable in battle. Your axe has tasted orc blood." },
+      "name": {
+        "es": "Enano de las Montañas",
+        "en": "Mountain Dwarf"
+      },
+      "description": {
+        "es": "Guerrero y artesano de las profundidades, leal y obstinado",
+        "en": "Warrior and craftsman of the deep halls, loyal and stubborn"
+      },
+      "simple_description": {
+        "es": "Vienes de los salones bajo la montaña. Eres terco, leal y formidable en batalla. Tu hacha ha probado sangre de orco.",
+        "en": "You come from the halls beneath the mountain. You're stubborn, loyal, and formidable in battle. Your axe has tasted orc blood."
+      },
       "detailed_background": "Los enanos fueron creados para resistir. Resistir el tiempo, resistir la oscuridad, resistir el enemigo. Has trabajado en las forjas desde que tus manos pudieron sostener un martillo. Has marchado a la guerra cuando tu rey lo ordenó. Pero el mundo sobre la tierra te llama ahora. Quizás buscas riqueza, o venganza contra los orcos, o simplemente la gloria que cantarán en los salones de tus ancestros.",
       "starting_stats": {
         "hp": 22,
@@ -819,18 +1881,54 @@
         "crafting": 4
       },
       "starting_inventory": [
-        {"es": "Hacha de guerra enana", "en": "Dwarven war axe"},
-        {"es": "Armadura de placas enana", "en": "Dwarven plate armor"},
-        {"es": "Casco con runas de protección", "en": "Helmet carved with runes of protection"},
-        {"es": "Kit de herramientas de forja", "en": "Smith's toolkit"},
-        {"es": "Cerveza enana (varios barriles pequeños)", "en": "Dwarven ale (several small casks)"},
-        {"es": "Mapa de túneles conocidos", "en": "Map of known tunnels"},
-        {"es": "Saco de dormir de lana gruesa", "en": "Thick wool sleeping roll"},
-        {"es": "3 raciones de viaje", "en": "3 travel rations"},
-        {"es": "Odre de agua", "en": "Waterskin"},
-        {"es": "Cuerda de cáñamo (15m)", "en": "Hemp rope (15m)"},
-        {"es": "Pedernal y acero", "en": "Flint and steel"},
-        {"es": "15 monedas de plata", "en": "15 silver coins"}
+        {
+          "es": "Hacha de guerra enana",
+          "en": "Dwarven war axe"
+        },
+        {
+          "es": "Armadura de placas enana",
+          "en": "Dwarven plate armor"
+        },
+        {
+          "es": "Casco con runas de protección",
+          "en": "Helmet carved with runes of protection"
+        },
+        {
+          "es": "Kit de herramientas de forja",
+          "en": "Smith's toolkit"
+        },
+        {
+          "es": "Cerveza enana (varios barriles pequeños)",
+          "en": "Dwarven ale (several small casks)"
+        },
+        {
+          "es": "Mapa de túneles conocidos",
+          "en": "Map of known tunnels"
+        },
+        {
+          "es": "Saco de dormir de lana gruesa",
+          "en": "Thick wool sleeping roll"
+        },
+        {
+          "es": "3 raciones de viaje",
+          "en": "3 travel rations"
+        },
+        {
+          "es": "Odre de agua",
+          "en": "Waterskin"
+        },
+        {
+          "es": "Cuerda de cáñamo (15m)",
+          "en": "Hemp rope (15m)"
+        },
+        {
+          "es": "Pedernal y acero",
+          "en": "Flint and steel"
+        },
+        {
+          "es": "15 monedas de plata",
+          "en": "15 silver coins"
+        }
       ],
       "special_ability": "Hijo de la Piedra: Nunca te pierdes bajo tierra, resistes magia de forma natural, y detectas trampas y pasajes secretos en la roca",
       "advancement_paths": [
@@ -869,19 +1967,106 @@
         "hitDiceRemaining": 1,
         "experience": 0,
         "experienceToNext": 300,
-        "savingThrowProficiencies": ["STR", "CON"],
-        "skillProficiencies": ["Athletics", "Perception", "Smith's Tools"],
-        "features": [
-          { "name": "Estilo de Combate: Gran Arma", "description": "Cuando sacas 1 o 2 en un dado de daño con un arma a dos manos, puedes volver a tirar ese dado.", "source": "Fighter 1" },
-          { "name": "Segundo Aliento", "description": "Una vez entre descansos, puedes usar una acción bonus para recuperar 1d10 + nivel de Fighter PV.", "source": "Fighter 1" }
+        "savingThrowProficiencies": [
+          "STR",
+          "CON"
         ],
-        "traits": ["Visión en la oscuridad (60 pies)", "Resistencia enana (ventaja contra veneno)", "Dureza enana (+1 PV por nivel)", "Competencia con armaduras ligeras y medias"],
-        "languages": ["Común", "Khuzdul (Enano)"],
-        "equipment": ["Hacha de guerra enana", "Escudo con runas", "Cota de mallas", "Kit de herramientas de forja", "Cerveza enana", "3 raciones de viaje"]
-      }
+        "skillProficiencies": [
+          "Athletics",
+          "Perception",
+          "Smith's Tools"
+        ],
+        "features": [
+          {
+            "name": "Estilo de Combate: Gran Arma",
+            "description": "Cuando sacas 1 o 2 en un dado de daño con un arma a dos manos, puedes volver a tirar ese dado.",
+            "source": "Fighter 1"
+          },
+          {
+            "name": "Segundo Aliento",
+            "description": "Una vez entre descansos, puedes usar una acción bonus para recuperar 1d10 + nivel de Fighter PV.",
+            "source": "Fighter 1"
+          }
+        ],
+        "traits": [
+          "Visión en la oscuridad (60 pies)",
+          "Resistencia enana (ventaja contra veneno)",
+          "Dureza enana (+1 PV por nivel)",
+          "Competencia con armaduras ligeras y medias"
+        ],
+        "languages": [
+          "Común",
+          "Khuzdul (Enano)"
+        ],
+        "equipment": [
+          "Hacha de guerra enana",
+          "Escudo con runas",
+          "Cota de mallas",
+          "Kit de herramientas de forja",
+          "Cerveza enana",
+          "3 raciones de viaje"
+        ]
+      },
+      "abilities": [
+        {
+          "id": "hijo-de-la-piedra",
+          "name": {
+            "es": "Hijo de la Piedra",
+            "en": "Son of Stone"
+          },
+          "description": {
+            "es": "Nunca te perdés bajo tierra, resistís la magia de forma natural y detectás trampas y pasajes secretos en la roca.",
+            "en": "You never get lost underground, you naturally resist magic, and you detect traps and secret passages in the rock."
+          },
+          "kind": "special",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 3,
+          "icon": "eye",
+          "tags": [
+            "exploration",
+            "utility"
+          ]
+        },
+        {
+          "id": "furia-ancestral",
+          "name": {
+            "es": "Furia Ancestral",
+            "en": "Ancestral Fury"
+          },
+          "description": {
+            "es": "Invocás la rabia de tus antepasados de Erebor y descargás un golpe brutal con tu hacha. Causás daño adicional igual a tu stat de combate.",
+            "en": "You channel the rage of your Erebor ancestors and deliver a brutal axe strike, dealing bonus damage equal to your combat stat."
+          },
+          "kind": "trick",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 4,
+          "icon": "sword",
+          "tags": [
+            "combat"
+          ]
+        },
+        {
+          "id": "forja-de-emergencia",
+          "name": {
+            "es": "Forja de Emergencia",
+            "en": "Emergency Forge"
+          },
+          "description": {
+            "es": "Con lo que tenés a mano reparás un arma o armadura dañada, restaurando parte de su efectividad. Tu habilidad como artesano enano no conoce límites ni talleres.",
+            "en": "Using whatever you have at hand, you repair a damaged weapon or armor, restoring part of its effectiveness. Your dwarven craftsmanship knows no limits or workshops."
+          },
+          "kind": "trick",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 5,
+          "icon": "sparkles",
+          "tags": [
+            "utility",
+            "combat"
+          ]
+        }
+      ]
     }
   ],
-
   "notable_npcs": [
     {
       "name": "Gandalf el Gris",
@@ -962,7 +2147,6 @@
       ]
     }
   ],
-
   "voice_id": "grave_pausado",
   "npc_voices": {
     "elfo": "etéreo_sabio",
@@ -974,120 +2158,598 @@
   },
   "music_mood": "exploration_calm",
   "art_style": "fantasy oil painting, Tolkien illustrated style, dramatic lighting, Middle-earth aesthetic",
-
   "roll_tables": {
     "encounters": {
       "formula": "1d20",
       "results": [
-        { "range": [1, 2], "result": "Viajeros amistosos ofrecen compartir su fuego y cuentan noticias del camino" },
-        { "range": [3, 4], "result": "Una familia de hobbits perdida necesita ayuda para encontrar el camino a casa" },
-        { "range": [5, 6], "result": "Rastros de orcos - son recientes pero no te han visto todavía" },
-        { "range": [7, 8], "result": "Encontrás ruinas antiguas con inscripciones élficas que cuentan una leyenda olvidada" },
-        { "range": [9, 10], "result": "Un mercader enano ofrece comerciar - tiene objetos inusuales" },
-        { "range": [11, 12], "result": "Lobos huargos te acechan desde la distancia, esperando que baje tu guardia" },
-        { "range": [13, 14], "result": "Grupo de orcos en patrulla - conflicto inevitable a menos que te escondas" },
-        { "range": [15, 16], "result": "Encontrás un artefacto mágico menor entre los arbustos - pero algo lo custodiaba" },
-        { "range": [17, 18], "result": "Un elfo solitario aparece con un mensaje urgente de su señor" },
-        { "range": [19, 19], "result": "Las Águilas vuelan sobre ti - si las necesitas, vendrán" },
-        { "range": [20, 20], "result": "Un Nazgûl pasa volando - te has escondido a tiempo, pero sabe que estás cerca" }
+        {
+          "range": [
+            1,
+            2
+          ],
+          "result": "Viajeros amistosos ofrecen compartir su fuego y cuentan noticias del camino"
+        },
+        {
+          "range": [
+            3,
+            4
+          ],
+          "result": "Una familia de hobbits perdida necesita ayuda para encontrar el camino a casa"
+        },
+        {
+          "range": [
+            5,
+            6
+          ],
+          "result": "Rastros de orcos - son recientes pero no te han visto todavía"
+        },
+        {
+          "range": [
+            7,
+            8
+          ],
+          "result": "Encontrás ruinas antiguas con inscripciones élficas que cuentan una leyenda olvidada"
+        },
+        {
+          "range": [
+            9,
+            10
+          ],
+          "result": "Un mercader enano ofrece comerciar - tiene objetos inusuales"
+        },
+        {
+          "range": [
+            11,
+            12
+          ],
+          "result": "Lobos huargos te acechan desde la distancia, esperando que baje tu guardia"
+        },
+        {
+          "range": [
+            13,
+            14
+          ],
+          "result": "Grupo de orcos en patrulla - conflicto inevitable a menos que te escondas"
+        },
+        {
+          "range": [
+            15,
+            16
+          ],
+          "result": "Encontrás un artefacto mágico menor entre los arbustos - pero algo lo custodiaba"
+        },
+        {
+          "range": [
+            17,
+            18
+          ],
+          "result": "Un elfo solitario aparece con un mensaje urgente de su señor"
+        },
+        {
+          "range": [
+            19,
+            19
+          ],
+          "result": "Las Águilas vuelan sobre ti - si las necesitas, vendrán"
+        },
+        {
+          "range": [
+            20,
+            20
+          ],
+          "result": "Un Nazgûl pasa volando - te has escondido a tiempo, pero sabe que estás cerca"
+        }
       ]
     },
     "weather": {
       "formula": "1d12",
       "results": [
-        { "range": [1, 2], "result": "Cielo despejado, luz dorada filtrándose entre los árboles. Día perfecto para viajar." },
-        { "range": [3, 4], "result": "Nubes ligeras, brisa fresca del oeste. El clima de la Comarca." },
-        { "range": [5, 6], "result": "Niebla densa que reduce la visibilidad. Es fácil perderse." },
-        { "range": [7, 8], "result": "Lluvia persistente que dificulta el viaje y empapa todo." },
-        { "range": [9, 10], "result": "Viento frío que baja de las montañas. Se acerca el invierno." },
-        { "range": [11, 11], "result": "Tormenta con truenos - los caballos están nerviosos, hay que buscar refugio." },
-        { "range": [12, 12], "result": "Oscuridad antinatural se extiende desde el este. Algo maligno está cerca." }
+        {
+          "range": [
+            1,
+            2
+          ],
+          "result": "Cielo despejado, luz dorada filtrándose entre los árboles. Día perfecto para viajar."
+        },
+        {
+          "range": [
+            3,
+            4
+          ],
+          "result": "Nubes ligeras, brisa fresca del oeste. El clima de la Comarca."
+        },
+        {
+          "range": [
+            5,
+            6
+          ],
+          "result": "Niebla densa que reduce la visibilidad. Es fácil perderse."
+        },
+        {
+          "range": [
+            7,
+            8
+          ],
+          "result": "Lluvia persistente que dificulta el viaje y empapa todo."
+        },
+        {
+          "range": [
+            9,
+            10
+          ],
+          "result": "Viento frío que baja de las montañas. Se acerca el invierno."
+        },
+        {
+          "range": [
+            11,
+            11
+          ],
+          "result": "Tormenta con truenos - los caballos están nerviosos, hay que buscar refugio."
+        },
+        {
+          "range": [
+            12,
+            12
+          ],
+          "result": "Oscuridad antinatural se extiende desde el este. Algo maligno está cerca."
+        }
       ]
     },
     "loot": {
       "formula": "1d20",
       "results": [
-        { "range": [1, 3], "result": "Raciones élficas (lembas) - un bocado alimenta por un día" },
-        { "range": [4, 5], "result": "Cuerda élfica - 50 pies, ligera como seda pero fuerte como acero" },
-        { "range": [6, 7], "result": "Hierbas medicinales (athelas) - curan heridas y enfermedades" },
-        { "range": [8, 9], "result": "Daga enana finamente forjada con runas de poder" },
-        { "range": [10, 11], "result": "Mapa antiguo que muestra un camino olvidado" },
-        { "range": [12, 13], "result": "Gemas enanas - valiosas para comerciar" },
-        { "range": [14, 15], "result": "Capa élfica - ayuda a ocultarse y protege del frío" },
-        { "range": [16, 17], "result": "Fial de cristal que brilla con luz propia en la oscuridad" },
-        { "range": [18, 19], "result": "Espada con inscripciones élficas - brilla cuando hay orcos cerca" },
-        { "range": [20, 20], "result": "Anillo menor con inscripciones - su función es un misterio" }
+        {
+          "range": [
+            1,
+            3
+          ],
+          "result": "Raciones élficas (lembas) - un bocado alimenta por un día"
+        },
+        {
+          "range": [
+            4,
+            5
+          ],
+          "result": "Cuerda élfica - 50 pies, ligera como seda pero fuerte como acero"
+        },
+        {
+          "range": [
+            6,
+            7
+          ],
+          "result": "Hierbas medicinales (athelas) - curan heridas y enfermedades"
+        },
+        {
+          "range": [
+            8,
+            9
+          ],
+          "result": "Daga enana finamente forjada con runas de poder"
+        },
+        {
+          "range": [
+            10,
+            11
+          ],
+          "result": "Mapa antiguo que muestra un camino olvidado"
+        },
+        {
+          "range": [
+            12,
+            13
+          ],
+          "result": "Gemas enanas - valiosas para comerciar"
+        },
+        {
+          "range": [
+            14,
+            15
+          ],
+          "result": "Capa élfica - ayuda a ocultarse y protege del frío"
+        },
+        {
+          "range": [
+            16,
+            17
+          ],
+          "result": "Fial de cristal que brilla con luz propia en la oscuridad"
+        },
+        {
+          "range": [
+            18,
+            19
+          ],
+          "result": "Espada con inscripciones élficas - brilla cuando hay orcos cerca"
+        },
+        {
+          "range": [
+            20,
+            20
+          ],
+          "result": "Anillo menor con inscripciones - su función es un misterio"
+        }
       ]
     },
     "npc_names": {
       "formula": "1d20",
       "results": [
-        { "range": [1, 1], "result": "Aldor el Viejo" },
-        { "range": [2, 2], "result": "Beorn el Cambiapiel" },
-        { "range": [3, 3], "result": "Celeborn el Sabio" },
-        { "range": [4, 4], "result": "Denethor el Amargo" },
-        { "range": [5, 5], "result": "Elrohir el Vengador" },
-        { "range": [6, 6], "result": "Faramir el Noble" },
-        { "range": [7, 7], "result": "Galadhon el Antiguo" },
-        { "range": [8, 8], "result": "Halbarad el Leal" },
-        { "range": [9, 9], "result": "Imrahil el Príncipe" },
-        { "range": [10, 10], "result": "Legolas Hojaverde" },
-        { "range": [11, 11], "result": "Meriadoc el Valiente" },
-        { "range": [12, 12], "result": "Peregrin el Alocado" },
-        { "range": [13, 13], "result": "Radagast el Pardo" },
-        { "range": [14, 14], "result": "Saradoc el Granjero" },
-        { "range": [15, 15], "result": "Théoden el Rey" },
-        { "range": [16, 16], "result": "Ulfang el Negro" },
-        { "range": [17, 17], "result": "Voronwë el Marinero" },
-        { "range": [18, 18], "result": "Wulfgar el Jinete" },
-        { "range": [19, 19], "result": "Yavanna la Dadora" },
-        { "range": [20, 20], "result": "Zimrahin el Perdido" }
+        {
+          "range": [
+            1,
+            1
+          ],
+          "result": "Aldor el Viejo"
+        },
+        {
+          "range": [
+            2,
+            2
+          ],
+          "result": "Beorn el Cambiapiel"
+        },
+        {
+          "range": [
+            3,
+            3
+          ],
+          "result": "Celeborn el Sabio"
+        },
+        {
+          "range": [
+            4,
+            4
+          ],
+          "result": "Denethor el Amargo"
+        },
+        {
+          "range": [
+            5,
+            5
+          ],
+          "result": "Elrohir el Vengador"
+        },
+        {
+          "range": [
+            6,
+            6
+          ],
+          "result": "Faramir el Noble"
+        },
+        {
+          "range": [
+            7,
+            7
+          ],
+          "result": "Galadhon el Antiguo"
+        },
+        {
+          "range": [
+            8,
+            8
+          ],
+          "result": "Halbarad el Leal"
+        },
+        {
+          "range": [
+            9,
+            9
+          ],
+          "result": "Imrahil el Príncipe"
+        },
+        {
+          "range": [
+            10,
+            10
+          ],
+          "result": "Legolas Hojaverde"
+        },
+        {
+          "range": [
+            11,
+            11
+          ],
+          "result": "Meriadoc el Valiente"
+        },
+        {
+          "range": [
+            12,
+            12
+          ],
+          "result": "Peregrin el Alocado"
+        },
+        {
+          "range": [
+            13,
+            13
+          ],
+          "result": "Radagast el Pardo"
+        },
+        {
+          "range": [
+            14,
+            14
+          ],
+          "result": "Saradoc el Granjero"
+        },
+        {
+          "range": [
+            15,
+            15
+          ],
+          "result": "Théoden el Rey"
+        },
+        {
+          "range": [
+            16,
+            16
+          ],
+          "result": "Ulfang el Negro"
+        },
+        {
+          "range": [
+            17,
+            17
+          ],
+          "result": "Voronwë el Marinero"
+        },
+        {
+          "range": [
+            18,
+            18
+          ],
+          "result": "Wulfgar el Jinete"
+        },
+        {
+          "range": [
+            19,
+            19
+          ],
+          "result": "Yavanna la Dadora"
+        },
+        {
+          "range": [
+            20,
+            20
+          ],
+          "result": "Zimrahin el Perdido"
+        }
       ]
     },
     "events": {
       "formula": "1d20",
       "results": [
-        { "range": [1, 1], "result": "Se avistan señales de humo en la distancia - alguien pide ayuda" },
-        { "range": [2, 2], "result": "Escuchás un cuerno de guerra resonando en las colinas" },
-        { "range": [3, 3], "result": "Bandada de cuervos vuela hacia el sur - espías del enemigo" },
-        { "range": [4, 4], "result": "Encontrás un campamento abandonado apresuradamente - señales de lucha" },
-        { "range": [5, 5], "result": "Un mensajero herido colapsa frente a vos con un mensaje urgente" },
-        { "range": [6, 6], "result": "Extrañas luces danzan en el bosque de noche - magia élfica o trampa" },
-        { "range": [7, 7], "result": "Se oyen cantos élficos a lo lejos - hay refugio cerca" },
-        { "range": [8, 8], "result": "El camino está bloqueado por un árbol caído - ¿accidente o emboscada?" },
-        { "range": [9, 9], "result": "Encontrás una tumba antigua con inscripciones de advertencia" },
-        { "range": [10, 10], "result": "Un águila gigante pasa volando muy bajo - parece observarte" },
-        { "range": [11, 11], "result": "El río ha crecido y el vado es imposible de cruzar" },
-        { "range": [12, 12], "result": "Encuentras huellas de trolls - grandes y recientes" },
-        { "range": [13, 13], "result": "Una antigua torre de vigilancia ofrece refugio pero parece habitada" },
-        { "range": [14, 14], "result": "Lobos aúllan más cerca cada noche - algo los dirige" },
-        { "range": [15, 15], "result": "Encontrás los restos de una batalla reciente - no hubo supervivientes" },
-        { "range": [16, 16], "result": "Un viejo ermitaño ofrece refugio a cambio de una historia" },
-        { "range": [17, 17], "result": "La luna se oscurece brevemente - mal augurio" },
-        { "range": [18, 18], "result": "Encuentras un pony perdido con alforjas llenas de provisiones" },
-        { "range": [19, 19], "result": "Un enano herido pide ayuda - fue emboscado por orcos" },
-        { "range": [20, 20], "result": "Gandalf aparece en el camino - 'te esperaba'" }
+        {
+          "range": [
+            1,
+            1
+          ],
+          "result": "Se avistan señales de humo en la distancia - alguien pide ayuda"
+        },
+        {
+          "range": [
+            2,
+            2
+          ],
+          "result": "Escuchás un cuerno de guerra resonando en las colinas"
+        },
+        {
+          "range": [
+            3,
+            3
+          ],
+          "result": "Bandada de cuervos vuela hacia el sur - espías del enemigo"
+        },
+        {
+          "range": [
+            4,
+            4
+          ],
+          "result": "Encontrás un campamento abandonado apresuradamente - señales de lucha"
+        },
+        {
+          "range": [
+            5,
+            5
+          ],
+          "result": "Un mensajero herido colapsa frente a vos con un mensaje urgente"
+        },
+        {
+          "range": [
+            6,
+            6
+          ],
+          "result": "Extrañas luces danzan en el bosque de noche - magia élfica o trampa"
+        },
+        {
+          "range": [
+            7,
+            7
+          ],
+          "result": "Se oyen cantos élficos a lo lejos - hay refugio cerca"
+        },
+        {
+          "range": [
+            8,
+            8
+          ],
+          "result": "El camino está bloqueado por un árbol caído - ¿accidente o emboscada?"
+        },
+        {
+          "range": [
+            9,
+            9
+          ],
+          "result": "Encontrás una tumba antigua con inscripciones de advertencia"
+        },
+        {
+          "range": [
+            10,
+            10
+          ],
+          "result": "Un águila gigante pasa volando muy bajo - parece observarte"
+        },
+        {
+          "range": [
+            11,
+            11
+          ],
+          "result": "El río ha crecido y el vado es imposible de cruzar"
+        },
+        {
+          "range": [
+            12,
+            12
+          ],
+          "result": "Encuentras huellas de trolls - grandes y recientes"
+        },
+        {
+          "range": [
+            13,
+            13
+          ],
+          "result": "Una antigua torre de vigilancia ofrece refugio pero parece habitada"
+        },
+        {
+          "range": [
+            14,
+            14
+          ],
+          "result": "Lobos aúllan más cerca cada noche - algo los dirige"
+        },
+        {
+          "range": [
+            15,
+            15
+          ],
+          "result": "Encontrás los restos de una batalla reciente - no hubo supervivientes"
+        },
+        {
+          "range": [
+            16,
+            16
+          ],
+          "result": "Un viejo ermitaño ofrece refugio a cambio de una historia"
+        },
+        {
+          "range": [
+            17,
+            17
+          ],
+          "result": "La luna se oscurece brevemente - mal augurio"
+        },
+        {
+          "range": [
+            18,
+            18
+          ],
+          "result": "Encuentras un pony perdido con alforjas llenas de provisiones"
+        },
+        {
+          "range": [
+            19,
+            19
+          ],
+          "result": "Un enano herido pide ayuda - fue emboscado por orcos"
+        },
+        {
+          "range": [
+            20,
+            20
+          ],
+          "result": "Gandalf aparece en el camino - 'te esperaba'"
+        }
       ]
     },
     "tavern_rumors": {
       "formula": "1d12",
       "results": [
-        { "range": [1, 1], "result": "Dicen que los Montaraces están más activos que nunca - algo se acerca" },
-        { "range": [2, 2], "result": "Un dragón ha sido visto sobrevolando las Montañas Grises" },
-        { "range": [3, 3], "result": "Los elfos están abandonando el Bosque Negro - mal presagio" },
-        { "range": [4, 4], "result": "Hay recompensa por información sobre un pequeño ladrón que robó a Smaug" },
-        { "range": [5, 5], "result": "Los enanos de Erebor buscan mercenarios para una misión secreta" },
-        { "range": [6, 6], "result": "Extraños jinetes negros han sido vistos preguntando por 'Bolsón'" },
-        { "range": [7, 7], "result": "El Senescal de Gondor ha enviado exploradores al norte" },
-        { "range": [8, 8], "result": "Saruman el Blanco no ha sido visto en meses" },
-        { "range": [9, 9], "result": "Los orcos se están organizando - tienen un nuevo líder" },
-        { "range": [10, 10], "result": "Han encontrado mithril en una mina olvidada - pero está maldita" },
-        { "range": [11, 11], "result": "Un hobbit loco recorre los caminos buscando su 'precioso'" },
-        { "range": [12, 12], "result": "Gandalf el Gris fue visto entrando a la Comarca - algo importante pasa" }
+        {
+          "range": [
+            1,
+            1
+          ],
+          "result": "Dicen que los Montaraces están más activos que nunca - algo se acerca"
+        },
+        {
+          "range": [
+            2,
+            2
+          ],
+          "result": "Un dragón ha sido visto sobrevolando las Montañas Grises"
+        },
+        {
+          "range": [
+            3,
+            3
+          ],
+          "result": "Los elfos están abandonando el Bosque Negro - mal presagio"
+        },
+        {
+          "range": [
+            4,
+            4
+          ],
+          "result": "Hay recompensa por información sobre un pequeño ladrón que robó a Smaug"
+        },
+        {
+          "range": [
+            5,
+            5
+          ],
+          "result": "Los enanos de Erebor buscan mercenarios para una misión secreta"
+        },
+        {
+          "range": [
+            6,
+            6
+          ],
+          "result": "Extraños jinetes negros han sido vistos preguntando por 'Bolsón'"
+        },
+        {
+          "range": [
+            7,
+            7
+          ],
+          "result": "El Senescal de Gondor ha enviado exploradores al norte"
+        },
+        {
+          "range": [
+            8,
+            8
+          ],
+          "result": "Saruman el Blanco no ha sido visto en meses"
+        },
+        {
+          "range": [
+            9,
+            9
+          ],
+          "result": "Los orcos se están organizando - tienen un nuevo líder"
+        },
+        {
+          "range": [
+            10,
+            10
+          ],
+          "result": "Han encontrado mithril en una mina olvidada - pero está maldita"
+        },
+        {
+          "range": [
+            11,
+            11
+          ],
+          "result": "Un hobbit loco recorre los caminos buscando su 'precioso'"
+        },
+        {
+          "range": [
+            12,
+            12
+          ],
+          "result": "Gandalf el Gris fue visto entrando a la Comarca - algo importante pasa"
+        }
       ]
     }
   },
-
   "active_effects_pool": [
     {
       "id": "inspirado",
@@ -1095,7 +2757,10 @@
       "description": "Los cantos élficos han renovado tu espíritu",
       "type": "buff",
       "duration": 3,
-      "effects": { "combat": 1, "social": 1 }
+      "effects": {
+        "combat": 1,
+        "social": 1
+      }
     },
     {
       "id": "envenenado",
@@ -1103,7 +2768,10 @@
       "description": "Veneno de orco corre por tus venas",
       "type": "debuff",
       "duration": 2,
-      "effects": { "combat": -2, "hp_per_turn": -2 }
+      "effects": {
+        "combat": -2,
+        "hp_per_turn": -2
+      }
     },
     {
       "id": "bendecido",
@@ -1111,7 +2779,9 @@
       "description": "Una bendición élfica te protege",
       "type": "buff",
       "duration": 5,
-      "effects": { "defense": 2 }
+      "effects": {
+        "defense": 2
+      }
     },
     {
       "id": "exhausto",
@@ -1119,7 +2789,10 @@
       "description": "Has marchado demasiado sin descanso",
       "type": "debuff",
       "duration": 1,
-      "effects": { "combat": -1, "exploration": -1 }
+      "effects": {
+        "combat": -1,
+        "exploration": -1
+      }
     },
     {
       "id": "aterrorizado",
@@ -1127,7 +2800,11 @@
       "description": "El miedo de los Nazgûl te paraliza",
       "type": "debuff",
       "duration": 2,
-      "effects": { "combat": -2, "social": -2, "flee_chance": 0.3 }
+      "effects": {
+        "combat": -2,
+        "social": -2,
+        "flee_chance": 0.3
+      }
     },
     {
       "id": "furia_enana",
@@ -1135,7 +2812,10 @@
       "description": "La ira de tus ancestros arde en ti",
       "type": "buff",
       "duration": 2,
-      "effects": { "combat": 3, "defense": -1 }
+      "effects": {
+        "combat": 3,
+        "defense": -1
+      }
     },
     {
       "id": "ojos_elficos",
@@ -1143,7 +2823,10 @@
       "description": "Tu vista se agudiza sobrenaturalmente",
       "type": "buff",
       "duration": 4,
-      "effects": { "exploration": 2, "ranged_combat": 2 }
+      "effects": {
+        "exploration": 2,
+        "ranged_combat": 2
+      }
     },
     {
       "id": "herida_morgul",
@@ -1151,7 +2834,11 @@
       "description": "Una hoja maldita te ha tocado - necesitas curación élfica urgente",
       "type": "debuff",
       "duration": 10,
-      "effects": { "hp_per_turn": -1, "max_hp": -5, "corruption": 1 }
+      "effects": {
+        "hp_per_turn": -1,
+        "max_hp": -5,
+        "corruption": 1
+      }
     },
     {
       "id": "luz_earendil",
@@ -1159,7 +2846,10 @@
       "description": "La luz de la estrella más brillante te protege",
       "type": "buff",
       "duration": 6,
-      "effects": { "corruption_resistance": 5, "fear_immunity": true }
+      "effects": {
+        "corruption_resistance": 5,
+        "fear_immunity": true
+      }
     },
     {
       "id": "alimentado_lembas",
@@ -1167,10 +2857,12 @@
       "description": "El pan élfico te da fuerzas para continuar",
       "type": "buff",
       "duration": 3,
-      "effects": { "fatigue_immunity": true, "hp_per_turn": 1 }
+      "effects": {
+        "fatigue_immunity": true,
+        "hp_per_turn": 1
+      }
     }
   ],
-
   "narrative_skeleton": {
     "act_1": {
       "name": "El Llamado a la Aventura",
@@ -1180,7 +2872,10 @@
         "Se revela una amenaza creciente",
         "Debe abandonar su hogar para un viaje peligroso"
       ],
-      "typical_scenes": ["La Comarca", "Rivendel"],
+      "typical_scenes": [
+        "La Comarca",
+        "Rivendel"
+      ],
       "mood": "exploration_calm",
       "sample_events": [
         "Un mensajero llega con noticias terribles",
@@ -1197,7 +2892,11 @@
         "Se forman alianzas inesperadas",
         "Descubrimiento de la magnitud real de la amenaza"
       ],
-      "typical_scenes": ["Bosque Negro", "Moria", "Rohan"],
+      "typical_scenes": [
+        "Bosque Negro",
+        "Moria",
+        "Rohan"
+      ],
       "mood": "drama_tense",
       "sample_events": [
         "Emboscada en el camino",
@@ -1214,7 +2913,10 @@
         "La esperanza parece desvanecerse",
         "Decisión crucial que definirá el destino"
       ],
-      "typical_scenes": ["Isengard", "Fronteras de Mordor"],
+      "typical_scenes": [
+        "Isengard",
+        "Fronteras de Mordor"
+      ],
       "mood": "horror_ambient",
       "sample_events": [
         "Un compañero cae o es capturado",
@@ -1231,7 +2933,10 @@
         "Aliados acuden en el momento crítico",
         "Victoria o derrota - el destino se decide"
       ],
-      "typical_scenes": ["Minas Tirith", "Mordor"],
+      "typical_scenes": [
+        "Minas Tirith",
+        "Mordor"
+      ],
       "mood": "combat_epic",
       "sample_events": [
         "Batalla a gran escala",
@@ -1248,7 +2953,11 @@
         "El personaje regresa diferente",
         "Nuevo equilibrio en el mundo - para bien o mal"
       ],
-      "typical_scenes": ["La Comarca", "Rivendel", "Minas Tirith"],
+      "typical_scenes": [
+        "La Comarca",
+        "Rivendel",
+        "Minas Tirith"
+      ],
       "mood": "rest_peaceful",
       "sample_events": [
         "Celebración de la victoria",
@@ -1258,7 +2967,6 @@
       ]
     }
   },
-
   "one_shot_hooks": [
     {
       "title": "El Mensajero Herido",
@@ -1309,7 +3017,6 @@
       "difficulty": "Muy Difícil"
     }
   ],
-
   "opening_scene": {
     "location_id": "bree-inn",
     "location_name": "La Posada del Pony Pisador, Bree",
@@ -1340,7 +3047,6 @@
     ],
     "closing_prompt": "La noche se cierne sobre Bree. ¿Qué deseas hacer?"
   },
-
   "opening_scenes": [
     {
       "id": "default",
@@ -1348,10 +3054,22 @@
       "location_name": "La Posada del Pony Pisador, Bree",
       "description": "Te encuentras en la Posada del Pony Pisador, el corazón de Bree. El fuego crepita suavemente en la gran chimenea de piedra mientras los últimos rayos del atardecer se filtran por las ventanas empañadas. El aroma a estofado de cordero y cerveza de cebada llena el aire. A tu alrededor, viajeros de todas las razas comparten historias en voz baja: hobbits de la Comarca, enanos camino a las Montañas Azules, y uno que otro Montaraz de mirada penetrante.",
       "visible_directions": [
-        { "direction": "norte", "landmark": "el Camino Verde serpentea hacia las Colinas de los Vientos, donde dicen que aún quedan ruinas de la antigua Arnor" },
-        { "direction": "este", "landmark": "los siniestros Túmulos de los Reyes se recortan contra el horizonte crepuscular, evitados por los lugareños" },
-        { "direction": "sur", "landmark": "el camino comercial lleva hacia el Puente de Brandy y, más allá, las verdes colinas de la Comarca" },
-        { "direction": "oeste", "landmark": "el Bosque Viejo se extiende denso y misterioso, hogar de árboles que algunos juran pueden caminar" }
+        {
+          "direction": "norte",
+          "landmark": "el Camino Verde serpentea hacia las Colinas de los Vientos, donde dicen que aún quedan ruinas de la antigua Arnor"
+        },
+        {
+          "direction": "este",
+          "landmark": "los siniestros Túmulos de los Reyes se recortan contra el horizonte crepuscular, evitados por los lugareños"
+        },
+        {
+          "direction": "sur",
+          "landmark": "el camino comercial lleva hacia el Puente de Brandy y, más allá, las verdes colinas de la Comarca"
+        },
+        {
+          "direction": "oeste",
+          "landmark": "el Bosque Viejo se extiende denso y misterioso, hogar de árboles que algunos juran pueden caminar"
+        }
       ],
       "ambient_rumors": [
         "un mercader enano busca escolta para su caravana hacia las Montañas Azules",
@@ -1367,10 +3085,22 @@
       "location_name": "La Posada del Pony Pisador, Bree",
       "description": "La lluvia golpea sin piedad los postigos de la Posada del Pony Pisador, y cada ráfaga de viento trae consigo el olor a barro y hojas empapadas. Adentro, la chimenea lucha contra la humedad que se cuela por cada rendija. Los pocos viajeros que lograron llegar antes de la tormenta se apiñan cerca del fuego, con las capas chorreando charcos sobre el suelo de madera. Un relámpago ilumina la sala y por un instante ves la silueta de un jinete encapuchado detenido frente a la puerta, inmóvil bajo el diluvio.",
       "visible_directions": [
-        { "direction": "norte", "landmark": "el Camino Verde serpentea hacia las Colinas de los Vientos, donde dicen que aún quedan ruinas de la antigua Arnor" },
-        { "direction": "este", "landmark": "los siniestros Túmulos de los Reyes se recortan contra el horizonte crepuscular, evitados por los lugareños" },
-        { "direction": "sur", "landmark": "el camino comercial lleva hacia el Puente de Brandy y, más allá, las verdes colinas de la Comarca" },
-        { "direction": "oeste", "landmark": "el Bosque Viejo se extiende denso y misterioso, hogar de árboles que algunos juran pueden caminar" }
+        {
+          "direction": "norte",
+          "landmark": "el Camino Verde serpentea hacia las Colinas de los Vientos, donde dicen que aún quedan ruinas de la antigua Arnor"
+        },
+        {
+          "direction": "este",
+          "landmark": "los siniestros Túmulos de los Reyes se recortan contra el horizonte crepuscular, evitados por los lugareños"
+        },
+        {
+          "direction": "sur",
+          "landmark": "el camino comercial lleva hacia el Puente de Brandy y, más allá, las verdes colinas de la Comarca"
+        },
+        {
+          "direction": "oeste",
+          "landmark": "el Bosque Viejo se extiende denso y misterioso, hogar de árboles que algunos juran pueden caminar"
+        }
       ],
       "ambient_rumors": [
         "un mercader enano busca escolta para su caravana hacia las Montañas Azules",
@@ -1386,10 +3116,22 @@
       "location_name": "La Posada del Pony Pisador, Bree",
       "description": "Es día de mercado en Bree y la Posada del Pony Pisador rebosa de vida. El sol de mediodía entra a raudales por las ventanas abiertas, trayendo el bullicio de comerciantes que pregonan sus mercancías en la plaza. Dentro, las mesas están repletas de mercaderes enanos desplegando gemas sobre paños de terciopelo, hobbits regateando por semillas de la Comarca y un bardo elfo que afina su laúd en la esquina. El aroma de empanadas recién horneadas compite con el de la hierba para pipa del Cuaderno Sur que fuma un viejo Montaraz junto a la barra.",
       "visible_directions": [
-        { "direction": "norte", "landmark": "el Camino Verde serpentea hacia las Colinas de los Vientos, donde dicen que aún quedan ruinas de la antigua Arnor" },
-        { "direction": "este", "landmark": "los siniestros Túmulos de los Reyes se recortan contra el horizonte crepuscular, evitados por los lugareños" },
-        { "direction": "sur", "landmark": "el camino comercial lleva hacia el Puente de Brandy y, más allá, las verdes colinas de la Comarca" },
-        { "direction": "oeste", "landmark": "el Bosque Viejo se extiende denso y misterioso, hogar de árboles que algunos juran pueden caminar" }
+        {
+          "direction": "norte",
+          "landmark": "el Camino Verde serpentea hacia las Colinas de los Vientos, donde dicen que aún quedan ruinas de la antigua Arnor"
+        },
+        {
+          "direction": "este",
+          "landmark": "los siniestros Túmulos de los Reyes se recortan contra el horizonte crepuscular, evitados por los lugareños"
+        },
+        {
+          "direction": "sur",
+          "landmark": "el camino comercial lleva hacia el Puente de Brandy y, más allá, las verdes colinas de la Comarca"
+        },
+        {
+          "direction": "oeste",
+          "landmark": "el Bosque Viejo se extiende denso y misterioso, hogar de árboles que algunos juran pueden caminar"
+        }
       ],
       "ambient_rumors": [
         "un mercader enano busca escolta para su caravana hacia las Montañas Azules",
@@ -1400,40 +3142,45 @@
       "closing_prompt": "El mercado de Bree bulle de actividad y oportunidades. ¿Qué deseas hacer?"
     }
   ],
-
   "initial_missions": [
     {
       "id": "escort_merchant",
       "title": "El Mercader de Bree",
       "description": "Un mercader enano necesita escolta hasta Bree. El camino es corto pero peligroso - se rumorea que hay bandidos en el Camino Verde.",
       "difficulty": "easy",
-      "tags": ["combat", "exploration"]
+      "tags": [
+        "combat",
+        "exploration"
+      ]
     },
     {
       "id": "investigate_barrows",
       "title": "Los Túmulos Encantados",
       "description": "Luces extrañas se ven en los Túmulos de los Reyes. Los aldeanos de Bree temen lo peor y buscan a alguien valiente que investigue.",
       "difficulty": "medium",
-      "tags": ["exploration", "mystery"]
+      "tags": [
+        "exploration",
+        "mystery"
+      ]
     },
     {
       "id": "find_artifact",
       "title": "La Daga de Westernesse",
       "description": "Un erudito de Rivendel busca una daga élfica perdida en ruinas cercanas al Bosque Viejo. Paga bien, pero otros también la buscan.",
       "difficulty": "hard",
-      "tags": ["exploration", "combat"]
+      "tags": [
+        "exploration",
+        "combat"
+      ]
     }
   ],
-
   "engine_notes": {
     "story_mode": "Enfocarse en decisiones morales y consecuencias narrativas. Las batallas son rápidas y cinematográficas. La atmósfera y descripción son prioritarias. El fallo siempre avanza la historia de forma interesante.",
     "pbta": "Usar movimientos como 'Desafiar el Peligro' y 'Discernir Realidades'. Los fallos parciales (7-9) crean complicaciones interesantes, no bloqueos. La comunidad y las relaciones son importantes.",
     "year_zero": "Recursos escasos: raciones, flechas, antorchas. El estrés aumenta en lugares corrompidos como Mordor o Moria. Empujar dados = arriesgar equipo o salud. El viaje es tan importante como el destino.",
     "dnd_5e": "Usar clases estándar pero con flavor de Tierra Media. Magos son raros y poderosos (solo NPCs como Gandalf tienen magia real). Foco en habilidades de supervivencia y conocimiento. Rangers son Dúnedain."
   },
-
   "tutorial_notes": "Para jugadores NOVICE: Comenzar en La Comarca con una misión simple de escolta a Bree. Introducir mecánicas gradualmente: exploración primero, combate después (y que sea ganable). Usar NPCs amigables como un Montaraz misterioso o un enano simpático para guiar sutilmente. Evitar términos como 'tirada' o 'check' - usar lenguaje natural como 'vamos a ver si lo logras'.",
-
   "glossary": {
     "Hobbit": "Gente pequeña y pacífica que vive en La Comarca, amantes de la comodidad, la buena comida y la hierba para pipa",
     "Elfo": "Seres inmortales de gran sabiduría y belleza, maestros de la magia y las artes. Muchos parten hacia el oeste",
@@ -1452,7 +3199,6 @@
     "Balrog": "Demonio de fuego y sombra de la Primera Edad. Uno habita en las profundidades de Moria",
     "Ent": "Pastores de árboles, los seres más antiguos de la Tierra Media. Lentos pero terribles en su ira"
   },
-
   "legends_and_myths": [
     {
       "title": "La Caída de Númenor",

@@ -24,17 +24,29 @@ export function toRuntime(ab: AbilityTemplate): AbilityRuntime {
 
 export function deriveDefaultAbility(archetype: Archetype, engine: GameEngine): AbilityTemplate {
   const isDnD = engine === 'DND_5E'
-  const special = archetype.special_ability || ''
-
-  // Intentar separar "Nombre: descripción" — común en los JSON actuales
-  const colonIdx = special.indexOf(':')
-  const nameRaw = colonIdx > 0 ? special.slice(0, colonIdx).trim() : 'Habilidad Especial'
-  const descRaw = colonIdx > 0 ? special.slice(colonIdx + 1).trim() : special
+  // special_ability puede ser string (legacy, español-only) o {es,en}.
+  // NOTA: este derive es solo el fallback de último recurso (lore CUSTOM o
+  // archetype sin abilities) — todos los lores estándar tienen abilities
+  // explícitas bilingües en data/lores/*.json.
+  const rawSpecial = archetype.special_ability as unknown
+  const splitSpecial = (s: string) => {
+    const colonIdx = s.indexOf(':')
+    return {
+      name: colonIdx > 0 ? s.slice(0, colonIdx).trim() : 'Habilidad Especial',
+      desc: colonIdx > 0 ? s.slice(colonIdx + 1).trim() : s,
+    }
+  }
+  const es = splitSpecial(
+    typeof rawSpecial === 'string' ? rawSpecial : (rawSpecial as any)?.es || ''
+  )
+  const en = splitSpecial(
+    typeof rawSpecial === 'string' ? rawSpecial : (rawSpecial as any)?.en || (rawSpecial as any)?.es || ''
+  )
 
   return {
     id: `${archetype.id}-signature`,
-    name: { es: nameRaw, en: nameRaw },
-    description: { es: descRaw, en: descRaw },
+    name: { es: es.name, en: en.name },
+    description: { es: es.desc, en: en.desc },
     kind: 'special',
     resource: isDnD ? 'daily_uses' : 'cooldown_turns',
     maxUses: isDnD ? DEFAULT_DAILY_USES : undefined,

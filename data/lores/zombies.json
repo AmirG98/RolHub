@@ -1,7 +1,13 @@
 {
   "id": "ZOMBIES",
-  "name": { "es": "Apocalipsis Zombie", "en": "Zombie Apocalypse" },
-  "tagline": { "es": "Sobrevivir un día más en un mundo muerto", "en": "Survive one more day in a dead world" },
+  "name": {
+    "es": "Apocalipsis Zombie",
+    "en": "Zombie Apocalypse"
+  },
+  "tagline": {
+    "es": "Sobrevivir un día más en un mundo muerto",
+    "en": "Survive one more day in a dead world"
+  },
   "tone": [
     "desesperado",
     "tenso",
@@ -275,27 +281,51 @@
       "sub_locations": [
         {
           "id": "enfermeria-campamento",
-          "name": {"es": "Enfermería del Campamento", "en": "Camp Infirmary"},
+          "name": {
+            "es": "Enfermería del Campamento",
+            "en": "Camp Infirmary"
+          },
           "type": "hospital",
-          "description": {"es": "Caravana adaptada donde Abuela Rosa cura heridos con lo que tiene a mano", "en": "A converted trailer where Granny Rosa treats the wounded with whatever she has on hand"}
+          "description": {
+            "es": "Caravana adaptada donde Abuela Rosa cura heridos con lo que tiene a mano",
+            "en": "A converted trailer where Granny Rosa treats the wounded with whatever she has on hand"
+          }
         },
         {
           "id": "puesto-guardia",
-          "name": {"es": "Puesto de Guardia Norte", "en": "North Watchpost"},
+          "name": {
+            "es": "Puesto de Guardia Norte",
+            "en": "North Watchpost"
+          },
           "type": "gate",
-          "description": {"es": "Torre improvisada con un vigía permanente que vigila el perímetro", "en": "A makeshift tower with a permanent lookout scanning the perimeter"}
+          "description": {
+            "es": "Torre improvisada con un vigía permanente que vigila el perímetro",
+            "en": "A makeshift tower with a permanent lookout scanning the perimeter"
+          }
         },
         {
           "id": "almacen-comunitario",
-          "name": {"es": "Almacén Comunitario", "en": "Communal Stockpile"},
+          "name": {
+            "es": "Almacén Comunitario",
+            "en": "Communal Stockpile"
+          },
           "type": "market",
-          "description": {"es": "Tienda de campaña donde se guardan y reparten los suministros del grupo", "en": "A tent where the group's supplies are stored and rationed out"}
+          "description": {
+            "es": "Tienda de campaña donde se guardan y reparten los suministros del grupo",
+            "en": "A tent where the group's supplies are stored and rationed out"
+          }
         },
         {
           "id": "fogata-central",
-          "name": {"es": "Fogata Central", "en": "Central Campfire"},
+          "name": {
+            "es": "Fogata Central",
+            "en": "Central Campfire"
+          },
           "type": "plaza",
-          "description": {"es": "Punto de reunión donde Marcus da las noticias y se toman decisiones colectivas", "en": "The gathering spot where Marcus shares news and the group makes decisions together"}
+          "description": {
+            "es": "Punto de reunión donde Marcus da las noticias y se toman decisiones colectivas",
+            "en": "The gathering spot where Marcus shares news and the group makes decisions together"
+          }
         }
       ]
     },
@@ -506,27 +536,51 @@
       "sub_locations": [
         {
           "id": "bloque-celdas-a",
-          "name": {"es": "Bloque de Celdas A", "en": "Cell Block A"},
+          "name": {
+            "es": "Bloque de Celdas A",
+            "en": "Cell Block A"
+          },
           "type": "residence",
-          "description": {"es": "Celdas reconvertidas en dormitorios para los civiles bajo el mando del Alcaide", "en": "Cells turned into dormitories for the civilians under the Warden's command"}
+          "description": {
+            "es": "Celdas reconvertidas en dormitorios para los civiles bajo el mando del Alcaide",
+            "en": "Cells turned into dormitories for the civilians under the Warden's command"
+          }
         },
         {
           "id": "patio-prision",
-          "name": {"es": "Patio Central", "en": "Central Yard"},
+          "name": {
+            "es": "Patio Central",
+            "en": "Central Yard"
+          },
           "type": "plaza",
-          "description": {"es": "Espacio abierto donde se reúnen los habitantes y se realizan trueques", "en": "Open ground where the residents gather and barter with one another"}
+          "description": {
+            "es": "Espacio abierto donde se reúnen los habitantes y se realizan trueques",
+            "en": "Open ground where the residents gather and barter with one another"
+          }
         },
         {
           "id": "torreon-vigilancia",
-          "name": {"es": "Torreón de Vigilancia", "en": "Watchtower"},
+          "name": {
+            "es": "Torreón de Vigilancia",
+            "en": "Watchtower"
+          },
           "type": "gate",
-          "description": {"es": "Torre elevada con vista a los alrededores y un rifle de francotirador", "en": "A raised tower with a clear view of the surroundings and a sniper rifle on hand"}
+          "description": {
+            "es": "Torre elevada con vista a los alrededores y un rifle de francotirador",
+            "en": "A raised tower with a clear view of the surroundings and a sniper rifle on hand"
+          }
         },
         {
           "id": "cocina-prision",
-          "name": {"es": "Cocina Industrial", "en": "Industrial Kitchen"},
+          "name": {
+            "es": "Cocina Industrial",
+            "en": "Industrial Kitchen"
+          },
           "type": "workshop",
-          "description": {"es": "Cocina de la prisión donde se preparan las raciones diarias para todos", "en": "The prison kitchen where daily rations are prepared for everyone"}
+          "description": {
+            "es": "Cocina de la prisión donde se preparan las raciones diarias para todos",
+            "en": "The prison kitchen where daily rations are prepared for everyone"
+          }
         }
       ]
     },
@@ -568,9 +622,18 @@
   "archetypes": [
     {
       "id": "medic",
-      "name": { "es": "Paramédico", "en": "Paramedic" },
-      "description": { "es": "Salvaste vidas antes - ahora salvas lo que queda de humanidad", "en": "You saved lives before — now you save what's left of humanity" },
-      "simple_description": { "es": "Sabés primeros auxilios y cómo curar heridas. Tu conocimiento médico mantiene vivo al grupo. Cada vida salvada es una pequeña victoria.", "en": "You know first aid and how to treat wounds. Your medical knowledge keeps the group alive. Every life saved is a small victory." },
+      "name": {
+        "es": "Paramédico",
+        "en": "Paramedic"
+      },
+      "description": {
+        "es": "Salvaste vidas antes - ahora salvas lo que queda de humanidad",
+        "en": "You saved lives before — now you save what's left of humanity"
+      },
+      "simple_description": {
+        "es": "Sabés primeros auxilios y cómo curar heridas. Tu conocimiento médico mantiene vivo al grupo. Cada vida salvada es una pequeña victoria.",
+        "en": "You know first aid and how to treat wounds. Your medical knowledge keeps the group alive. Every life saved is a small victory."
+      },
       "detailed_background": "Eras paramédico cuando todo empezó. El Día Cero estabas en la ambulancia, respondiendo a llamadas que nunca terminaban. Viste morir a tu compañero. Viste a los muertos levantarse. Sobreviviste porque sabías cuándo correr y cuándo luchar. Ahora tu conocimiento médico es más valioso que el oro. Pero cada paciente que pierdes te recuerda a los que no pudiste salvar.",
       "starting_stats": {
         "hp": 16,
@@ -582,31 +645,135 @@
         "medical": 5
       },
       "starting_inventory": [
-        {"es": "Botiquín médico completo", "en": "Full medical kit"},
-        {"es": "Bisturí (arma improvisada)", "en": "Scalpel (improvised weapon)"},
-        {"es": "Antibióticos (3 dosis)", "en": "Antibiotics (3 doses)"},
-        {"es": "Vendas y gasas", "en": "Bandages and gauze"},
-        {"es": "Linterna de mano", "en": "Hand flashlight"},
-        {"es": "Manual de primeros auxilios", "en": "First aid manual"},
-        {"es": "Adrenalina (1 dosis de emergencia)", "en": "Adrenaline (1 emergency dose)"},
-        {"es": "Mochila resistente", "en": "Heavy-duty backpack"},
-        {"es": "Botella de agua reutilizable", "en": "Reusable water bottle"},
-        {"es": "Barras energéticas (3 días)", "en": "Energy bars (3 days)"},
-        {"es": "Encendedor", "en": "Lighter"},
-        {"es": "Cuerda de nylon (15m)", "en": "Nylon rope (15m)"}
+        {
+          "es": "Botiquín médico completo",
+          "en": "Full medical kit"
+        },
+        {
+          "es": "Bisturí (arma improvisada)",
+          "en": "Scalpel (improvised weapon)"
+        },
+        {
+          "es": "Antibióticos (3 dosis)",
+          "en": "Antibiotics (3 doses)"
+        },
+        {
+          "es": "Vendas y gasas",
+          "en": "Bandages and gauze"
+        },
+        {
+          "es": "Linterna de mano",
+          "en": "Hand flashlight"
+        },
+        {
+          "es": "Manual de primeros auxilios",
+          "en": "First aid manual"
+        },
+        {
+          "es": "Adrenalina (1 dosis de emergencia)",
+          "en": "Adrenaline (1 emergency dose)"
+        },
+        {
+          "es": "Mochila resistente",
+          "en": "Heavy-duty backpack"
+        },
+        {
+          "es": "Botella de agua reutilizable",
+          "en": "Reusable water bottle"
+        },
+        {
+          "es": "Barras energéticas (3 días)",
+          "en": "Energy bars (3 days)"
+        },
+        {
+          "es": "Encendedor",
+          "en": "Lighter"
+        },
+        {
+          "es": "Cuerda de nylon (15m)",
+          "en": "Nylon rope (15m)"
+        }
       ],
       "special_ability": "Primeros Auxilios Expertos: Podés estabilizar heridas graves y curar el doble con suministros médicos. Podés retrasar la infección por mordida 1d6 horas extra",
       "advancement_paths": [
         "Cirujano de Campo - operaciones complejas sin hospital",
         "Investigador del Virus - entender la infección",
         "Líder de Comunidad - tu valor te hace respetado"
+      ],
+      "abilities": [
+        {
+          "id": "primeros-auxilios-expertos",
+          "name": {
+            "es": "Primeros Auxilios Expertos",
+            "en": "Expert First Aid"
+          },
+          "description": {
+            "es": "Podés estabilizar heridas graves y curar el doble con suministros médicos. Podés retrasar la infección por mordida 1d6 horas extra.",
+            "en": "You can stabilize severe wounds and heal double with medical supplies. You can delay bite infection by an extra 1d6 hours."
+          },
+          "kind": "special",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 3,
+          "icon": "heart",
+          "tags": [
+            "healing",
+            "utility"
+          ]
+        },
+        {
+          "id": "triage-de-campo",
+          "name": {
+            "es": "Triage de Campo",
+            "en": "Field Triage"
+          },
+          "description": {
+            "es": "Evaluás rápidamente el estado de todos los aliados visibles y determinás quién necesita atención urgente. El siguiente efecto de curación que apliques en este turno no consume suministros médicos.",
+            "en": "You quickly assess the condition of all visible allies and determine who needs urgent attention. The next healing effect you apply this turn does not consume medical supplies."
+          },
+          "kind": "trick",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 2,
+          "icon": "eye",
+          "tags": [
+            "healing",
+            "utility"
+          ]
+        },
+        {
+          "id": "inyeccion-de-adrenalina",
+          "name": {
+            "es": "Inyección de Adrenalina",
+            "en": "Adrenaline Shot"
+          },
+          "description": {
+            "es": "Aplicás una dosis de adrenalina a un aliado caído o exhausto. El objetivo se recupera inmediatamente, gana +2 a combate y exploración durante 2 turnos, pero al terminar el efecto queda con 1 HP si no recibió curación adicional.",
+            "en": "You inject a downed or exhausted ally with adrenaline. The target immediately recovers, gaining +2 to combat and exploration for 2 turns, but when the effect ends they are left with 1 HP if they received no additional healing."
+          },
+          "kind": "spell",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 4,
+          "icon": "zap",
+          "tags": [
+            "healing",
+            "combat"
+          ]
+        }
       ]
     },
     {
       "id": "soldier",
-      "name": { "es": "Ex-Militar", "en": "Ex-Military" },
-      "description": { "es": "Fuiste entrenado para la guerra - esto es peor", "en": "You were trained for war — this is worse" },
-      "simple_description": { "es": "Sabés usar armas y tácticas de combate. Tu entrenamiento te mantiene con vida. Protegés a los que no pueden defenderse.", "en": "You know weapons and combat tactics. Your training keeps you alive. You protect those who can't defend themselves." },
+      "name": {
+        "es": "Ex-Militar",
+        "en": "Ex-Military"
+      },
+      "description": {
+        "es": "Fuiste entrenado para la guerra - esto es peor",
+        "en": "You were trained for war — this is worse"
+      },
+      "simple_description": {
+        "es": "Sabés usar armas y tácticas de combate. Tu entrenamiento te mantiene con vida. Protegés a los que no pueden defenderse.",
+        "en": "You know weapons and combat tactics. Your training keeps you alive. You protect those who can't defend themselves."
+      },
       "detailed_background": "Dos tours en Afganistán te enseñaron a sobrevivir en el infierno. Pero nada te preparó para esto. Los zombies no negocian, no se rinden, no sienten miedo. Tu unidad cayó en los primeros días protegiendo civiles. Ahora estás solo, con las habilidades para sobrevivir pero el peso de todos los que no pudiste salvar. La guerra nunca terminó para ti; solo cambió el enemigo.",
       "starting_stats": {
         "hp": 22,
@@ -618,31 +785,134 @@
         "tactics": 4
       },
       "starting_inventory": [
-        {"es": "Rifle de asalto M4 (30 balas)", "en": "M4 assault rifle (30 rounds)"},
-        {"es": "Pistola Glock 17 (15 balas)", "en": "Glock 17 pistol (15 rounds)"},
-        {"es": "Chaleco antibalas nivel III", "en": "Level III bulletproof vest"},
-        {"es": "Cuchillo de combate Ka-Bar", "en": "Ka-Bar combat knife"},
-        {"es": "Brújula y mapa topográfico", "en": "Compass and topographic map"},
-        {"es": "Cantimplora militar", "en": "Military canteen"},
-        {"es": "3 raciones de supervivencia", "en": "3 survival rations"},
-        {"es": "Mochila resistente", "en": "Heavy-duty backpack"},
-        {"es": "Linterna con baterías de repuesto", "en": "Flashlight with spare batteries"},
-        {"es": "Cinta adhesiva", "en": "Duct tape"},
-        {"es": "Cuerda de nylon (15m)", "en": "Nylon rope (15m)"},
-        {"es": "Encendedor", "en": "Lighter"}
+        {
+          "es": "Rifle de asalto M4 (30 balas)",
+          "en": "M4 assault rifle (30 rounds)"
+        },
+        {
+          "es": "Pistola Glock 17 (15 balas)",
+          "en": "Glock 17 pistol (15 rounds)"
+        },
+        {
+          "es": "Chaleco antibalas nivel III",
+          "en": "Level III bulletproof vest"
+        },
+        {
+          "es": "Cuchillo de combate Ka-Bar",
+          "en": "Ka-Bar combat knife"
+        },
+        {
+          "es": "Brújula y mapa topográfico",
+          "en": "Compass and topographic map"
+        },
+        {
+          "es": "Cantimplora militar",
+          "en": "Military canteen"
+        },
+        {
+          "es": "3 raciones de supervivencia",
+          "en": "3 survival rations"
+        },
+        {
+          "es": "Mochila resistente",
+          "en": "Heavy-duty backpack"
+        },
+        {
+          "es": "Linterna con baterías de repuesto",
+          "en": "Flashlight with spare batteries"
+        },
+        {
+          "es": "Cinta adhesiva",
+          "en": "Duct tape"
+        },
+        {
+          "es": "Cuerda de nylon (15m)",
+          "en": "Nylon rope (15m)"
+        },
+        {
+          "es": "Encendedor",
+          "en": "Lighter"
+        }
       ],
       "special_ability": "Tácticas de Combate: Podés planear emboscadas perfectas y tu daño es crítico contra grupos. En combate, siempre actuás primero",
       "advancement_paths": [
         "Comandante - liderar grupos de supervivientes",
         "Francotirador - eliminar amenazas a distancia",
         "Instructor - enseñar a otros a sobrevivir"
+      ],
+      "abilities": [
+        {
+          "id": "tacticas-de-combate",
+          "name": {
+            "es": "Tácticas de Combate",
+            "en": "Combat Tactics"
+          },
+          "description": {
+            "es": "Podés planear emboscadas perfectas y tu daño es crítico contra grupos. En combate, siempre actuás primero.",
+            "en": "You can plan perfect ambushes and your damage is critical against groups. In combat, you always act first."
+          },
+          "kind": "special",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 3,
+          "icon": "sword",
+          "tags": [
+            "combat"
+          ]
+        },
+        {
+          "id": "zona-de-fuego",
+          "name": {
+            "es": "Zona de Fuego",
+            "en": "Fire Zone"
+          },
+          "description": {
+            "es": "Designás un área del mapa como zona de supresión. Cualquier zombie que entre recibe daño automático al inicio de su turno durante 2 rondas.",
+            "en": "You designate a map area as a suppression zone. Any zombie that enters takes automatic damage at the start of their turn for 2 rounds."
+          },
+          "kind": "spell",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 4,
+          "icon": "flame",
+          "tags": [
+            "combat",
+            "utility"
+          ]
+        },
+        {
+          "id": "evacuar-ya",
+          "name": {
+            "es": "Evacuar Ya",
+            "en": "Evacuate Now"
+          },
+          "description": {
+            "es": "Con una orden corta y precisa, organizás la retirada del grupo. Todos los aliados pueden moverse antes de que los zombies reaccionen, y evitás que nadie quede rezagado.",
+            "en": "With a short, precise order, you organize the group's retreat. All allies can move before the zombies react, preventing anyone from being left behind."
+          },
+          "kind": "trick",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 5,
+          "icon": "zap",
+          "tags": [
+            "utility",
+            "exploration"
+          ]
+        }
       ]
     },
     {
       "id": "scavenger",
-      "name": { "es": "Saqueador", "en": "Scavenger" },
-      "description": { "es": "Sobrevivías en las calles antes del apocalipsis - ahora sos experto", "en": "You survived the streets before the apocalypse — now you're an expert" },
-      "simple_description": { "es": "Sabés encontrar cosas donde otros ven nada. Moverte sigilosamente es tu fuerte. Los edificios abandonados son tu territorio.", "en": "You find things where others see nothing. Moving silently is your strength. Abandoned buildings are your territory." },
+      "name": {
+        "es": "Saqueador",
+        "en": "Scavenger"
+      },
+      "description": {
+        "es": "Sobrevivías en las calles antes del apocalipsis - ahora sos experto",
+        "en": "You survived the streets before the apocalypse — now you're an expert"
+      },
+      "simple_description": {
+        "es": "Sabés encontrar cosas donde otros ven nada. Moverte sigilosamente es tu fuerte. Los edificios abandonados son tu territorio.",
+        "en": "You find things where others see nothing. Moving silently is your strength. Abandoned buildings are your territory."
+      },
       "detailed_background": "La vida te enseñó a sobrevivir con nada mucho antes del apocalipsis. Vivías en las calles, conocías cada callejón, cada escondite, cada truco. Cuando el mundo cayó, simplemente seguiste haciendo lo que siempre hiciste: encontrar recursos donde otros no miran, moverte sin ser visto, sobrevivir un día más. La diferencia es que ahora todos necesitan tus habilidades.",
       "starting_stats": {
         "hp": 18,
@@ -654,31 +924,135 @@
         "stealth": 4
       },
       "starting_inventory": [
-        {"es": "Palanca", "en": "Crowbar"},
-        {"es": "Mochila grande reforzada", "en": "Large reinforced backpack"},
-        {"es": "Ganzúas profesionales", "en": "Professional lockpicks"},
-        {"es": "Cuerda de escalada (50ft)", "en": "Climbing rope (50 ft)"},
-        {"es": "Comida enlatada (5 latas)", "en": "Canned food (5 cans)"},
-        {"es": "Walkie-talkie (sin baterías)", "en": "Walkie-talkie (no batteries)"},
-        {"es": "Navaja multiusos", "en": "Multi-tool knife"},
-        {"es": "Linterna con baterías de repuesto", "en": "Flashlight with spare batteries"},
-        {"es": "Botella de agua reutilizable", "en": "Reusable water bottle"},
-        {"es": "Encendedor", "en": "Lighter"},
-        {"es": "Cinta adhesiva", "en": "Duct tape"},
-        {"es": "Botiquín básico de primeros auxilios", "en": "Basic first aid kit"}
+        {
+          "es": "Palanca",
+          "en": "Crowbar"
+        },
+        {
+          "es": "Mochila grande reforzada",
+          "en": "Large reinforced backpack"
+        },
+        {
+          "es": "Ganzúas profesionales",
+          "en": "Professional lockpicks"
+        },
+        {
+          "es": "Cuerda de escalada (50ft)",
+          "en": "Climbing rope (50 ft)"
+        },
+        {
+          "es": "Comida enlatada (5 latas)",
+          "en": "Canned food (5 cans)"
+        },
+        {
+          "es": "Walkie-talkie (sin baterías)",
+          "en": "Walkie-talkie (no batteries)"
+        },
+        {
+          "es": "Navaja multiusos",
+          "en": "Multi-tool knife"
+        },
+        {
+          "es": "Linterna con baterías de repuesto",
+          "en": "Flashlight with spare batteries"
+        },
+        {
+          "es": "Botella de agua reutilizable",
+          "en": "Reusable water bottle"
+        },
+        {
+          "es": "Encendedor",
+          "en": "Lighter"
+        },
+        {
+          "es": "Cinta adhesiva",
+          "en": "Duct tape"
+        },
+        {
+          "es": "Botiquín básico de primeros auxilios",
+          "en": "Basic first aid kit"
+        }
       ],
       "special_ability": "Buscador Nato: Siempre encontrás recursos extra cuando saqueas. Podés abrir cualquier cerradura y detectar trampas antes de activarlas",
       "advancement_paths": [
         "Fantasma - moverte completamente invisible",
         "Comerciante - conocer el valor de todo",
         "Cartógrafo - mapear rutas seguras"
+      ],
+      "abilities": [
+        {
+          "id": "buscador-nato",
+          "name": {
+            "es": "Buscador Nato",
+            "en": "Natural Finder"
+          },
+          "description": {
+            "es": "Siempre encontrás recursos extra cuando saqueas. Podés abrir cualquier cerradura y detectar trampas antes de activarlas.",
+            "en": "You always find extra resources when looting. You can open any lock and detect traps before triggering them."
+          },
+          "kind": "special",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 3,
+          "icon": "sparkles",
+          "tags": [
+            "exploration",
+            "utility"
+          ]
+        },
+        {
+          "id": "sombra-urbana",
+          "name": {
+            "es": "Sombra Urbana",
+            "en": "Urban Shadow"
+          },
+          "description": {
+            "es": "Te fundís con los escombros y la oscuridad del entorno. Los zombies cercanos pierden tu rastro y podés reposicionarte sin ser detectado.",
+            "en": "You blend into the rubble and darkness around you. Nearby zombies lose your trail and you can reposition without being detected."
+          },
+          "kind": "trick",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 4,
+          "icon": "moon",
+          "tags": [
+            "stealth",
+            "exploration"
+          ]
+        },
+        {
+          "id": "golpe-improvisado",
+          "name": {
+            "es": "Golpe Improvisado",
+            "en": "Improvised Strike"
+          },
+          "description": {
+            "es": "Agarrás lo que tenés a mano —una pata de silla, un caño, lo que sea— y lo usás para asestar un golpe brutal que desestabiliza al objetivo.",
+            "en": "You grab whatever is at hand and use it to land a brutal blow that staggers your target."
+          },
+          "kind": "trick",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 2,
+          "icon": "sword",
+          "tags": [
+            "combat",
+            "utility"
+          ]
+        }
       ]
     },
     {
       "id": "mechanic",
-      "name": { "es": "Mecánico", "en": "Mechanic" },
-      "description": { "es": "Si tiene motor, podés hacerlo funcionar. Si no lo tiene, podés agregárselo.", "en": "If it has an engine, you can make it run. If it doesn't, you can bolt one on." },
-      "simple_description": { "es": "Sabés reparar vehículos y máquinas. Tus manos crean herramientas de supervivencia. Un auto funcionando vale más que oro.", "en": "You can fix vehicles and machines. Your hands turn junk into survival tools. A working car is worth more than gold." },
+      "name": {
+        "es": "Mecánico",
+        "en": "Mechanic"
+      },
+      "description": {
+        "es": "Si tiene motor, podés hacerlo funcionar. Si no lo tiene, podés agregárselo.",
+        "en": "If it has an engine, you can make it run. If it doesn't, you can bolt one on."
+      },
+      "simple_description": {
+        "es": "Sabés reparar vehículos y máquinas. Tus manos crean herramientas de supervivencia. Un auto funcionando vale más que oro.",
+        "en": "You can fix vehicles and machines. Your hands turn junk into survival tools. A working car is worth more than gold."
+      },
       "detailed_background": "Trabajabas en el taller de tu padre desde los 14. Motores, transmisiones, electricidad - todo tiene sentido para vos. Cuando el mundo cayó, descubriste que tus habilidades valían más que nunca. Un auto funcionando puede significar escape. Un generador reparado puede significar luz y calor. Ahora sos el tipo de persona que todos quieren en su grupo.",
       "starting_stats": {
         "hp": 20,
@@ -690,31 +1064,134 @@
         "crafting": 5
       },
       "starting_inventory": [
-        {"es": "Caja de herramientas completa", "en": "Full toolbox"},
-        {"es": "Llave inglesa grande (arma)", "en": "Large wrench (weapon)"},
-        {"es": "Sifón de combustible", "en": "Fuel siphon"},
-        {"es": "Cinta americana y WD-40", "en": "Duct tape and WD-40"},
-        {"es": "Radio de auto modificada", "en": "Modified car radio"},
-        {"es": "Guantes de trabajo", "en": "Work gloves"},
-        {"es": "Manual de reparación de autos", "en": "Car repair manual"},
-        {"es": "Mochila resistente", "en": "Heavy-duty backpack"},
-        {"es": "Linterna con baterías de repuesto", "en": "Flashlight with spare batteries"},
-        {"es": "Botella de agua reutilizable", "en": "Reusable water bottle"},
-        {"es": "Barras energéticas (3 días)", "en": "Energy bars (3 days)"},
-        {"es": "Encendedor", "en": "Lighter"}
+        {
+          "es": "Caja de herramientas completa",
+          "en": "Full toolbox"
+        },
+        {
+          "es": "Llave inglesa grande (arma)",
+          "en": "Large wrench (weapon)"
+        },
+        {
+          "es": "Sifón de combustible",
+          "en": "Fuel siphon"
+        },
+        {
+          "es": "Cinta americana y WD-40",
+          "en": "Duct tape and WD-40"
+        },
+        {
+          "es": "Radio de auto modificada",
+          "en": "Modified car radio"
+        },
+        {
+          "es": "Guantes de trabajo",
+          "en": "Work gloves"
+        },
+        {
+          "es": "Manual de reparación de autos",
+          "en": "Car repair manual"
+        },
+        {
+          "es": "Mochila resistente",
+          "en": "Heavy-duty backpack"
+        },
+        {
+          "es": "Linterna con baterías de repuesto",
+          "en": "Flashlight with spare batteries"
+        },
+        {
+          "es": "Botella de agua reutilizable",
+          "en": "Reusable water bottle"
+        },
+        {
+          "es": "Barras energéticas (3 días)",
+          "en": "Energy bars (3 days)"
+        },
+        {
+          "es": "Encendedor",
+          "en": "Lighter"
+        }
       ],
       "special_ability": "Ingeniero Improvizado: Podés reparar cualquier vehículo o máquina con los materiales disponibles. Podés crear armas y herramientas improvisadas",
       "advancement_paths": [
         "Maestro Mecánico - reparar cualquier cosa",
         "Armero Improvizado - crear armas letales",
         "Ingeniero de Fortificaciones - construir defensas"
+      ],
+      "abilities": [
+        {
+          "id": "ingeniero-improvizado",
+          "name": {
+            "es": "Ingeniero Improvizado",
+            "en": "Improvised Engineer"
+          },
+          "description": {
+            "es": "Podés reparar cualquier vehículo o máquina con los materiales disponibles. Podés crear armas y herramientas improvisadas.",
+            "en": "You can repair any vehicle or machine with available materials. You can craft improvised weapons and tools."
+          },
+          "kind": "special",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 3,
+          "icon": "zap",
+          "tags": [
+            "utility"
+          ]
+        },
+        {
+          "id": "trampa-de-chatarra",
+          "name": {
+            "es": "Trampa de Chatarra",
+            "en": "Scrap Trap"
+          },
+          "description": {
+            "es": "Armás una trampa con piezas metálicas y restos del entorno. El próximo enemigo que pise la zona recibe daño y queda inmovilizado por un turno.",
+            "en": "You assemble a trap from metal scraps and environmental debris. The next enemy to enter the area takes damage and is immobilized for one turn."
+          },
+          "kind": "trick",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 4,
+          "icon": "shield",
+          "tags": [
+            "combat",
+            "utility"
+          ]
+        },
+        {
+          "id": "arranque-de-emergencia",
+          "name": {
+            "es": "Arranque de Emergencia",
+            "en": "Emergency Start"
+          },
+          "description": {
+            "es": "Con cables pelados y pura maña, forzás el arranque de cualquier vehículo abandonado en segundos. Ideal para escapar cuando los zombies te están pisando los talones.",
+            "en": "With bare wires and sheer skill, you hotwire any abandoned vehicle in seconds. Perfect for escaping when the undead are right on your heels."
+          },
+          "kind": "trick",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 5,
+          "icon": "sparkles",
+          "tags": [
+            "exploration",
+            "utility"
+          ]
+        }
       ]
     },
     {
       "id": "hunter",
-      "name": { "es": "Cazador", "en": "Hunter" },
-      "description": { "es": "El bosque era tu hogar. Ahora todo el mundo es tu territorio de caza.", "en": "The forest was your home. Now the whole world is your hunting ground." },
-      "simple_description": { "es": "Sabés rastrear, cazar y sobrevivir en la naturaleza. Tu arco es silencioso y mortal. Donde otros ven peligro, vos ves oportunidad.", "en": "You can track, hunt, and survive in the wild. Your bow is silent and deadly. Where others see danger, you see opportunity." },
+      "name": {
+        "es": "Cazador",
+        "en": "Hunter"
+      },
+      "description": {
+        "es": "El bosque era tu hogar. Ahora todo el mundo es tu territorio de caza.",
+        "en": "The forest was your home. Now the whole world is your hunting ground."
+      },
+      "simple_description": {
+        "es": "Sabés rastrear, cazar y sobrevivir en la naturaleza. Tu arco es silencioso y mortal. Donde otros ven peligro, vos ves oportunidad.",
+        "en": "You can track, hunt, and survive in the wild. Your bow is silent and deadly. Where others see danger, you see opportunity."
+      },
       "detailed_background": "Creciste cazando con tu abuelo en los bosques del norte. Aprendiste a rastrear, a esperar, a matar limpiamente. Cuando las ciudades cayeron, te fuiste al bosque. Sobreviviste meses solo antes de encontrar otros. Tu habilidad con el arco es invaluable: silenciosa, no gasta munición, mortal. Y sabés leer el terreno como un libro abierto.",
       "starting_stats": {
         "hp": 19,
@@ -726,31 +1203,134 @@
         "tracking": 4
       },
       "starting_inventory": [
-        {"es": "Arco compuesto (20 flechas)", "en": "Compound bow (20 arrows)"},
-        {"es": "Cuchillo de caza", "en": "Hunting knife"},
-        {"es": "Rifle de caza con mira (10 balas)", "en": "Scoped hunting rifle (10 rounds)"},
-        {"es": "Tienda de campaña compacta", "en": "Compact tent"},
-        {"es": "Kit de supervivencia", "en": "Survival kit"},
-        {"es": "5 raciones de supervivencia", "en": "5 survival rations"},
-        {"es": "Poncho impermeable", "en": "Waterproof poncho"},
-        {"es": "Botella de agua reutilizable", "en": "Reusable water bottle"},
-        {"es": "Cuerda de nylon (15m)", "en": "Nylon rope (15m)"},
-        {"es": "Encendedor", "en": "Lighter"},
-        {"es": "Linterna con baterías de repuesto", "en": "Flashlight with spare batteries"},
-        {"es": "Botiquín básico de primeros auxilios", "en": "Basic first aid kit"}
+        {
+          "es": "Arco compuesto (20 flechas)",
+          "en": "Compound bow (20 arrows)"
+        },
+        {
+          "es": "Cuchillo de caza",
+          "en": "Hunting knife"
+        },
+        {
+          "es": "Rifle de caza con mira (10 balas)",
+          "en": "Scoped hunting rifle (10 rounds)"
+        },
+        {
+          "es": "Tienda de campaña compacta",
+          "en": "Compact tent"
+        },
+        {
+          "es": "Kit de supervivencia",
+          "en": "Survival kit"
+        },
+        {
+          "es": "5 raciones de supervivencia",
+          "en": "5 survival rations"
+        },
+        {
+          "es": "Poncho impermeable",
+          "en": "Waterproof poncho"
+        },
+        {
+          "es": "Botella de agua reutilizable",
+          "en": "Reusable water bottle"
+        },
+        {
+          "es": "Cuerda de nylon (15m)",
+          "en": "Nylon rope (15m)"
+        },
+        {
+          "es": "Encendedor",
+          "en": "Lighter"
+        },
+        {
+          "es": "Linterna con baterías de repuesto",
+          "en": "Flashlight with spare batteries"
+        },
+        {
+          "es": "Botiquín básico de primeros auxilios",
+          "en": "Basic first aid kit"
+        }
       ],
       "special_ability": "Cazador Silencioso: Tus ataques con arco no atraen zombies. Podés rastrear cualquier cosa y siempre sabés dónde está el norte",
       "advancement_paths": [
         "Rastreador Maestro - encontrar cualquier persona o cosa",
         "Trampero - crear trampas letales",
         "Guía del Yermo - conocer todas las rutas seguras"
+      ],
+      "abilities": [
+        {
+          "id": "cazador-silencioso",
+          "name": {
+            "es": "Cazador Silencioso",
+            "en": "Silent Hunter"
+          },
+          "description": {
+            "es": "Tus ataques con arco no atraen zombies. Podés rastrear cualquier cosa y siempre sabés dónde está el norte.",
+            "en": "Your bow attacks don't attract zombies. You can track anything and always know which way is north."
+          },
+          "kind": "special",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 3,
+          "icon": "eye",
+          "tags": [
+            "stealth",
+            "exploration"
+          ]
+        },
+        {
+          "id": "flecha-certera",
+          "name": {
+            "es": "Flecha Certera",
+            "en": "True Arrow"
+          },
+          "description": {
+            "es": "Tomás un segundo para apuntar bien y disparás una flecha que ignora la primera cobertura del objetivo. Si el blanco es un zombie, hacés daño doble.",
+            "en": "You take a moment to aim carefully and fire an arrow that ignores the target's first layer of cover. If the target is a zombie, you deal double damage."
+          },
+          "kind": "trick",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 4,
+          "icon": "sword",
+          "tags": [
+            "combat"
+          ]
+        },
+        {
+          "id": "trampa-de-crisis",
+          "name": {
+            "es": "Trampa de Crisis",
+            "en": "Crisis Trap"
+          },
+          "description": {
+            "es": "Con lo que tenés a mano armás una trampa improvisada en el lugar donde estás. El próximo zombie o enemigo que entre a esa zona queda inmovilizado por un turno.",
+            "en": "Using whatever you have on hand, you set up an improvised trap on the spot. The next zombie or enemy that enters that zone is immobilized for one turn."
+          },
+          "kind": "trick",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 5,
+          "icon": "leaf",
+          "tags": [
+            "utility",
+            "combat"
+          ]
+        }
       ]
     },
     {
       "id": "leader",
-      "name": { "es": "Líder Nato", "en": "Natural Leader" },
-      "description": { "es": "La gente te sigue porque les das esperanza en un mundo sin ella.", "en": "People follow you because you give them hope in a world that has none." },
-      "simple_description": { "es": "Sabés inspirar y organizar a las personas. Tu carisma mantiene unidos a los grupos. En el apocalipsis, la moral es tan vital como la comida.", "en": "You inspire and organize people. Your charisma holds groups together. In the apocalypse, morale is as vital as food." },
+      "name": {
+        "es": "Líder Nato",
+        "en": "Natural Leader"
+      },
+      "description": {
+        "es": "La gente te sigue porque les das esperanza en un mundo sin ella.",
+        "en": "People follow you because you give them hope in a world that has none."
+      },
+      "simple_description": {
+        "es": "Sabés inspirar y organizar a las personas. Tu carisma mantiene unidos a los grupos. En el apocalipsis, la moral es tan vital como la comida.",
+        "en": "You inspire and organize people. Your charisma holds groups together. In the apocalypse, morale is as vital as food."
+      },
       "detailed_background": "Eras gerente, entrenador, político local - no importa. Lo que importa es que siempre supiste cómo hacer que la gente trabaje junta. Cuando todo cayó, te encontraste liderando un grupo de supervivientes sin siquiera proponértelo. La gente necesita esperanza, dirección, alguien que les diga que van a sobrevivir. Ese alguien sos vos.",
       "starting_stats": {
         "hp": 17,
@@ -762,24 +1342,119 @@
         "leadership": 4
       },
       "starting_inventory": [
-        {"es": "Pistola con silenciador (12 balas)", "en": "Silenced pistol (12 rounds)"},
-        {"es": "Megáfono portátil", "en": "Portable megaphone"},
-        {"es": "Libreta y bolígrafo", "en": "Notebook and pen"},
-        {"es": "Radio de largo alcance", "en": "Long-range radio"},
-        {"es": "Mapa de la región con notas", "en": "Regional map with handwritten notes"},
-        {"es": "4 raciones de supervivencia", "en": "4 survival rations"},
-        {"es": "Botiquín básico", "en": "Basic first aid kit"},
-        {"es": "Mochila resistente", "en": "Heavy-duty backpack"},
-        {"es": "Linterna con baterías de repuesto", "en": "Flashlight with spare batteries"},
-        {"es": "Botella de agua reutilizable", "en": "Reusable water bottle"},
-        {"es": "Cuerda de nylon (15m)", "en": "Nylon rope (15m)"},
-        {"es": "Encendedor", "en": "Lighter"}
+        {
+          "es": "Pistola con silenciador (12 balas)",
+          "en": "Silenced pistol (12 rounds)"
+        },
+        {
+          "es": "Megáfono portátil",
+          "en": "Portable megaphone"
+        },
+        {
+          "es": "Libreta y bolígrafo",
+          "en": "Notebook and pen"
+        },
+        {
+          "es": "Radio de largo alcance",
+          "en": "Long-range radio"
+        },
+        {
+          "es": "Mapa de la región con notas",
+          "en": "Regional map with handwritten notes"
+        },
+        {
+          "es": "4 raciones de supervivencia",
+          "en": "4 survival rations"
+        },
+        {
+          "es": "Botiquín básico",
+          "en": "Basic first aid kit"
+        },
+        {
+          "es": "Mochila resistente",
+          "en": "Heavy-duty backpack"
+        },
+        {
+          "es": "Linterna con baterías de repuesto",
+          "en": "Flashlight with spare batteries"
+        },
+        {
+          "es": "Botella de agua reutilizable",
+          "en": "Reusable water bottle"
+        },
+        {
+          "es": "Cuerda de nylon (15m)",
+          "en": "Nylon rope (15m)"
+        },
+        {
+          "es": "Encendedor",
+          "en": "Lighter"
+        }
       ],
       "special_ability": "Inspiración: Podés dar bonificaciones a los aliados con tus palabras. Una vez por sesión, podés convencer a un NPC hostil de escucharte",
       "advancement_paths": [
         "Fundador de Comunidad - crear un refugio permanente",
         "Diplomático - negociar con cualquier facción",
         "Estratega - planificar operaciones complejas"
+      ],
+      "abilities": [
+        {
+          "id": "inspiracion",
+          "name": {
+            "es": "Inspiración",
+            "en": "Inspiration"
+          },
+          "description": {
+            "es": "Podés dar bonificaciones a los aliados con tus palabras. Una vez por sesión, podés convencer a un NPC hostil de escucharte.",
+            "en": "You can give bonuses to allies with your words. Once per session, you can convince a hostile NPC to listen to you."
+          },
+          "kind": "special",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 3,
+          "icon": "sparkles",
+          "tags": [
+            "social",
+            "utility"
+          ]
+        },
+        {
+          "id": "ultimo-aliento",
+          "name": {
+            "es": "Último Aliento",
+            "en": "Last Breath"
+          },
+          "description": {
+            "es": "Cuando un aliado cae al borde de la muerte, tu voz lo trae de vuelta. Lo estabilizás y le restaurás 3 HP. La desesperación no se instala mientras estés vos.",
+            "en": "When an ally falls to the brink of death, your voice brings them back. You stabilize them and restore 3 HP. Despair finds no ground while you stand."
+          },
+          "kind": "special",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 4,
+          "icon": "heart",
+          "tags": [
+            "healing",
+            "social"
+          ]
+        },
+        {
+          "id": "orden-de-retirada",
+          "name": {
+            "es": "Orden de Retirada",
+            "en": "Retreat Order"
+          },
+          "description": {
+            "es": "Con un grito preciso, coordinás a tu grupo para escapar de una situación táctica crítica. Todos los aliados pueden moverse inmediatamente sin provocar ataques de oportunidad.",
+            "en": "With a precise shout, you coordinate your group to escape a critical tactical situation. All allies may move immediately without provoking opportunity attacks."
+          },
+          "kind": "trick",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 5,
+          "icon": "shield",
+          "tags": [
+            "utility",
+            "combat"
+          ]
+        }
       ]
     }
   ],

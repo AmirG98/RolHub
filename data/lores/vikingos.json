@@ -1,7 +1,13 @@
 {
   "id": "VIKINGOS",
-  "name": { "es": "Saga Vikinga", "en": "Viking Saga" },
-  "tagline": { "es": "Conquista, gloria y el favor de los dioses", "en": "Conquest, glory, and the favor of the gods" },
+  "name": {
+    "es": "Saga Vikinga",
+    "en": "Viking Saga"
+  },
+  "tagline": {
+    "es": "Conquista, gloria y el favor de los dioses",
+    "en": "Conquest, glory, and the favor of the gods"
+  },
   "tone": [
     "épico",
     "brutal",
@@ -537,33 +543,63 @@
       "sub_locations": [
         {
           "id": "gran-salon-bjorn",
-          "name": {"es": "Gran Salón de Bjorn", "en": "Bjorn's Great Hall"},
+          "name": {
+            "es": "Gran Salón de Bjorn",
+            "en": "Bjorn's Great Hall"
+          },
           "type": "hall",
-          "description": {"es": "Longhouse central donde el jarl celebra festines, juzga disputas y planifica incursiones", "en": "The central longhouse where the jarl holds feasts, judges disputes, and plans raids"}
+          "description": {
+            "es": "Longhouse central donde el jarl celebra festines, juzga disputas y planifica incursiones",
+            "en": "The central longhouse where the jarl holds feasts, judges disputes, and plans raids"
+          }
         },
         {
           "id": "puerto-lobos",
-          "name": {"es": "Puerto de los Lobos", "en": "Harbor of the Wolves"},
+          "name": {
+            "es": "Puerto de los Lobos",
+            "en": "Harbor of the Wolves"
+          },
           "type": "dock",
-          "description": {"es": "Embarcadero natural donde descansan los drakkars del Clan del Lobo", "en": "A natural harbor where the Wolf Clan's drakkars are moored"}
+          "description": {
+            "es": "Embarcadero natural donde descansan los drakkars del Clan del Lobo",
+            "en": "A natural harbor where the Wolf Clan's drakkars are moored"
+          }
         },
         {
           "id": "forja-gunnar",
-          "name": {"es": "Forja de Gunnar", "en": "Gunnar's Forge"},
+          "name": {
+            "es": "Forja de Gunnar",
+            "en": "Gunnar's Forge"
+          },
           "type": "workshop",
-          "description": {"es": "Herrería del mejor forjador del norte, donde se crean armas y herramientas", "en": "The smithy of the north's finest blacksmith, where weapons and tools are forged"}
+          "description": {
+            "es": "Herrería del mejor forjador del norte, donde se crean armas y herramientas",
+            "en": "The smithy of the north's finest blacksmith, where weapons and tools are forged"
+          }
         },
         {
           "id": "arbol-ancestros",
-          "name": {"es": "Árbol de los Ancestros", "en": "Tree of the Ancestors"},
+          "name": {
+            "es": "Árbol de los Ancestros",
+            "en": "Tree of the Ancestors"
+          },
           "type": "temple",
-          "description": {"es": "Roble sagrado cubierto de ofrendas donde se honra a los muertos del clan", "en": "A sacred oak hung with offerings where the clan honors its dead"}
+          "description": {
+            "es": "Roble sagrado cubierto de ofrendas donde se honra a los muertos del clan",
+            "en": "A sacred oak hung with offerings where the clan honors its dead"
+          }
         },
         {
           "id": "campo-entrenamiento-ulfsfjord",
-          "name": {"es": "Campos de Entrenamiento", "en": "Training Grounds"},
+          "name": {
+            "es": "Campos de Entrenamiento",
+            "en": "Training Grounds"
+          },
           "type": "arena",
-          "description": {"es": "Explanada donde los jóvenes aprenden a luchar con hacha, espada y escudo", "en": "An open field where the young learn to fight with axe, sword and shield"}
+          "description": {
+            "es": "Explanada donde los jóvenes aprenden a luchar con hacha, espada y escudo",
+            "en": "An open field where the young learn to fight with axe, sword and shield"
+          }
         }
       ]
     },
@@ -695,27 +731,51 @@
       "sub_locations": [
         {
           "id": "gran-templo",
-          "name": {"es": "Gran Templo de los Æsir", "en": "Great Temple of the Æsir"},
+          "name": {
+            "es": "Gran Templo de los Æsir",
+            "en": "Great Temple of the Æsir"
+          },
           "type": "temple",
-          "description": {"es": "Santuario principal con estatuas de Odín, Thor y Freyr bañadas en sangre de sacrificios", "en": "The main sanctuary with statues of Odin, Thor and Freyr stained with sacrificial blood"}
+          "description": {
+            "es": "Santuario principal con estatuas de Odín, Thor y Freyr bañadas en sangre de sacrificios",
+            "en": "The main sanctuary with statues of Odin, Thor and Freyr stained with sacrificial blood"
+          }
         },
         {
           "id": "casa-volvas",
-          "name": {"es": "Casa de las Völvas", "en": "House of the Völvas"},
+          "name": {
+            "es": "Casa de las Völvas",
+            "en": "House of the Völvas"
+          },
           "type": "residence",
-          "description": {"es": "Morada de las videntes más poderosas del norte, rodeada de humo de hierbas", "en": "Home of the most powerful seeresses of the North, wreathed in herb smoke"}
+          "description": {
+            "es": "Morada de las videntes más poderosas del norte, rodeada de humo de hierbas",
+            "en": "Home of the most powerful seeresses of the North, wreathed in herb smoke"
+          }
         },
         {
           "id": "mercado-sagrado",
-          "name": {"es": "Mercado Sagrado", "en": "Sacred Market"},
+          "name": {
+            "es": "Mercado Sagrado",
+            "en": "Sacred Market"
+          },
           "type": "market",
-          "description": {"es": "Feria temporal que acompaña las celebraciones, con armas, amuletos y esclavos", "en": "A temporary fair that accompanies the rites, trading weapons, amulets and thralls"}
+          "description": {
+            "es": "Feria temporal que acompaña las celebraciones, con armas, amuletos y esclavos",
+            "en": "A temporary fair that accompanies the rites, trading weapons, amulets and thralls"
+          }
         },
         {
           "id": "bosque-sacrificios",
-          "name": {"es": "Bosque de los Sacrificios", "en": "Sacrificial Grove"},
+          "name": {
+            "es": "Bosque de los Sacrificios",
+            "en": "Sacrificial Grove"
+          },
           "type": "garden",
-          "description": {"es": "Arboleda sagrada donde cuelgan los cuerpos de animales y hombres ofrecidos a los dioses", "en": "A sacred grove where the bodies of beasts and men offered to the gods are hung"}
+          "description": {
+            "es": "Arboleda sagrada donde cuelgan los cuerpos de animales y hombres ofrecidos a los dioses",
+            "en": "A sacred grove where the bodies of beasts and men offered to the gods are hung"
+          }
         }
       ]
     },
@@ -787,33 +847,63 @@
       "sub_locations": [
         {
           "id": "hipódromo",
-          "name": {"es": "Hipódromo", "en": "The Hippodrome"},
+          "name": {
+            "es": "Hipódromo",
+            "en": "The Hippodrome"
+          },
           "type": "arena",
-          "description": {"es": "Estadio colosal donde miles de bizantinos rugen ante las carreras de carros", "en": "A colossal stadium where thousands of Byzantines roar at the chariot races"}
+          "description": {
+            "es": "Estadio colosal donde miles de bizantinos rugen ante las carreras de carros",
+            "en": "A colossal stadium where thousands of Byzantines roar at the chariot races"
+          }
         },
         {
           "id": "santa-sofia",
-          "name": {"es": "Santa Sofía", "en": "Hagia Sophia"},
+          "name": {
+            "es": "Santa Sofía",
+            "en": "Hagia Sophia"
+          },
           "type": "temple",
-          "description": {"es": "La iglesia más grande del mundo, con cúpula dorada que deslumbra a los nórdicos", "en": "The largest church in the world, its golden dome dazzling every northman who enters"}
+          "description": {
+            "es": "La iglesia más grande del mundo, con cúpula dorada que deslumbra a los nórdicos",
+            "en": "The largest church in the world, its golden dome dazzling every northman who enters"
+          }
         },
         {
           "id": "gran-bazar",
-          "name": {"es": "Gran Bazar", "en": "Grand Bazaar"},
+          "name": {
+            "es": "Gran Bazar",
+            "en": "Grand Bazaar"
+          },
           "type": "market",
-          "description": {"es": "Mercado laberíntico donde se vende seda, especias, joyas y artefactos de todo el mundo", "en": "A labyrinthine market selling silk, spices, jewels and artifacts from every corner of the world"}
+          "description": {
+            "es": "Mercado laberíntico donde se vende seda, especias, joyas y artefactos de todo el mundo",
+            "en": "A labyrinthine market selling silk, spices, jewels and artifacts from every corner of the world"
+          }
         },
         {
           "id": "cuartel-varangio",
-          "name": {"es": "Cuartel de la Guardia Varangia", "en": "Varangian Guard Barracks"},
+          "name": {
+            "es": "Cuartel de la Guardia Varangia",
+            "en": "Varangian Guard Barracks"
+          },
           "type": "hall",
-          "description": {"es": "Barracas donde los vikingos imperiales viven, entrenan y cobran en oro bizantino", "en": "The barracks where the imperial Vikings live, train, and are paid in Byzantine gold"}
+          "description": {
+            "es": "Barracas donde los vikingos imperiales viven, entrenan y cobran en oro bizantino",
+            "en": "The barracks where the imperial Vikings live, train, and are paid in Byzantine gold"
+          }
         },
         {
           "id": "puerto-dorado",
-          "name": {"es": "Puerto Dorado", "en": "The Golden Horn"},
+          "name": {
+            "es": "Puerto Dorado",
+            "en": "The Golden Horn"
+          },
           "type": "dock",
-          "description": {"es": "Entrada marítima a la ciudad, custodiada por cadenas gigantes y barcos de guerra", "en": "The city's sea gate, guarded by giant chains and warships"}
+          "description": {
+            "es": "Entrada marítima a la ciudad, custodiada por cadenas gigantes y barcos de guerra",
+            "en": "The city's sea gate, guarded by giant chains and warships"
+          }
         }
       ]
     },
@@ -851,27 +941,51 @@
       "sub_locations": [
         {
           "id": "jorvik-centro",
-          "name": {"es": "Jorvik (York)", "en": "Jorvik (York)"},
+          "name": {
+            "es": "Jorvik (York)",
+            "en": "Jorvik (York)"
+          },
           "type": "plaza",
-          "description": {"es": "Capital del Danelaw, ciudad bulliciosa donde vikingos y sajones coexisten tensamente", "en": "The capital of the Danelaw, a bustling city where Vikings and Saxons coexist uneasily"}
+          "description": {
+            "es": "Capital del Danelaw, ciudad bulliciosa donde vikingos y sajones coexisten tensamente",
+            "en": "The capital of the Danelaw, a bustling city where Vikings and Saxons coexist uneasily"
+          }
         },
         {
           "id": "mercado-jorvik",
-          "name": {"es": "Mercado de Jorvik", "en": "Jorvik Market"},
+          "name": {
+            "es": "Mercado de Jorvik",
+            "en": "Jorvik Market"
+          },
           "type": "market",
-          "description": {"es": "Feria permanente donde se comercia ámbar, pieles, armas y esclavos", "en": "A permanent fair trading amber, furs, weapons and thralls"}
+          "description": {
+            "es": "Feria permanente donde se comercia ámbar, pieles, armas y esclavos",
+            "en": "A permanent fair trading amber, furs, weapons and thralls"
+          }
         },
         {
           "id": "gran-salon-jorvik",
-          "name": {"es": "Gran Salón del Jarl", "en": "Jarl's Great Hall"},
+          "name": {
+            "es": "Gran Salón del Jarl",
+            "en": "Jarl's Great Hall"
+          },
           "type": "hall",
-          "description": {"es": "Sede del poder vikingo en Inglaterra, donde el jarl local administra justicia", "en": "Seat of Viking power in England, where the local jarl dispenses justice"}
+          "description": {
+            "es": "Sede del poder vikingo en Inglaterra, donde el jarl local administra justicia",
+            "en": "Seat of Viking power in England, where the local jarl dispenses justice"
+          }
         },
         {
           "id": "templo-convertido",
-          "name": {"es": "Templo Reconvertido", "en": "Reconsecrated Temple"},
+          "name": {
+            "es": "Templo Reconvertido",
+            "en": "Reconsecrated Temple"
+          },
           "type": "temple",
-          "description": {"es": "Antigua iglesia sajona transformada en santuario a Thor y Odín", "en": "An old Saxon church reshaped into a sanctuary of Thor and Odin"}
+          "description": {
+            "es": "Antigua iglesia sajona transformada en santuario a Thor y Odín",
+            "en": "An old Saxon church reshaped into a sanctuary of Thor and Odin"
+          }
         }
       ]
     },
@@ -941,9 +1055,18 @@
   "archetypes": [
     {
       "id": "berserker",
-      "name": { "es": "Berserker", "en": "Berserker" },
-      "description": { "es": "Guerrero que pelea con furia divina sin sentir dolor. Bendecido (o maldecido) por Odín, entras en un trance de batalla donde no conoces miedo ni piedad. Los enemigos huyen ante tu presencia. Tus aliados te respetan... y te temen.", "en": "A warrior who fights with divine fury and feels no pain. Blessed (or cursed) by Odin, you enter a battle trance where you know neither fear nor mercy. Enemies flee before you. Allies respect you... and fear you." },
-      "simple_description": { "es": "En batalla, entrás en frenesí sagrado. No sentís dolor. Tu furia es legendaria. Los enemigos te temen.", "en": "In battle you enter a sacred frenzy. You feel no pain. Your fury is legendary. Enemies fear you." },
+      "name": {
+        "es": "Berserker",
+        "en": "Berserker"
+      },
+      "description": {
+        "es": "Guerrero que pelea con furia divina sin sentir dolor. Bendecido (o maldecido) por Odín, entras en un trance de batalla donde no conoces miedo ni piedad. Los enemigos huyen ante tu presencia. Tus aliados te respetan... y te temen.",
+        "en": "A warrior who fights with divine fury and feels no pain. Blessed (or cursed) by Odin, you enter a battle trance where you know neither fear nor mercy. Enemies flee before you. Allies respect you... and fear you."
+      },
+      "simple_description": {
+        "es": "En batalla, entrás en frenesí sagrado. No sentís dolor. Tu furia es legendaria. Los enemigos te temen.",
+        "en": "In battle you enter a sacred frenzy. You feel no pain. Your fury is legendary. Enemies fear you."
+      },
       "starting_stats": {
         "hp": 28,
         "maxHp": 28,
@@ -953,17 +1076,50 @@
         "lore": 1
       },
       "starting_inventory": [
-        {"es": "Hacha de guerra danesa", "en": "Dane war axe"},
-        {"es": "Piel de oso", "en": "Bear pelt"},
-        {"es": "Amuleto de Odín", "en": "Amulet of Odin"},
-        {"es": "Cuerno de hidromiel", "en": "Drinking horn of mead"},
-        {"es": "Pintura de guerra", "en": "War paint"},
-        {"es": "Saco de dormir de piel", "en": "Fur bedroll"},
-        {"es": "Carne seca y pan de viaje (3 días)", "en": "Dried meat and travel bread (3 days)"},
-        {"es": "Cuerda trenzada (15m)", "en": "Braided rope (15m)"},
-        {"es": "Antorcha de resina (2)", "en": "Resin torches (2)"},
-        {"es": "Pedernal y yesca", "en": "Flint and tinder"},
-        {"es": "Ungüento curativo", "en": "Healing salve"}
+        {
+          "es": "Hacha de guerra danesa",
+          "en": "Dane war axe"
+        },
+        {
+          "es": "Piel de oso",
+          "en": "Bear pelt"
+        },
+        {
+          "es": "Amuleto de Odín",
+          "en": "Amulet of Odin"
+        },
+        {
+          "es": "Cuerno de hidromiel",
+          "en": "Drinking horn of mead"
+        },
+        {
+          "es": "Pintura de guerra",
+          "en": "War paint"
+        },
+        {
+          "es": "Saco de dormir de piel",
+          "en": "Fur bedroll"
+        },
+        {
+          "es": "Carne seca y pan de viaje (3 días)",
+          "en": "Dried meat and travel bread (3 days)"
+        },
+        {
+          "es": "Cuerda trenzada (15m)",
+          "en": "Braided rope (15m)"
+        },
+        {
+          "es": "Antorcha de resina (2)",
+          "en": "Resin torches (2)"
+        },
+        {
+          "es": "Pedernal y yesca",
+          "en": "Flint and tinder"
+        },
+        {
+          "es": "Ungüento curativo",
+          "en": "Healing salve"
+        }
       ],
       "special_ability": "Furia Berserker: En combate, no podés morir hasta que termine (quedás con 1 HP). Después colapsás exhausto",
       "background": {
@@ -1011,13 +1167,79 @@
         "Kveldulf - El abuelo de Egil, poeta y berserker. Podía transformarse en lobo.",
         "Arngrim - Berserker de doce brazos que servía al rey de Garðaríki.",
         "Hjalti - Que luchó solo contra cien hombres en Fyrisvellir."
+      ],
+      "abilities": [
+        {
+          "id": "furia-berserker",
+          "name": {
+            "es": "Furia Berserker",
+            "en": "Berserker Fury"
+          },
+          "description": {
+            "es": "En combate, no podés morir hasta que termine (quedás con 1 HP). Después colapsás exhausto.",
+            "en": "In combat, you cannot die until it ends (you remain at 1 HP). Afterwards you collapse exhausted."
+          },
+          "kind": "special",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 5,
+          "icon": "flame",
+          "tags": [
+            "combat"
+          ]
+        },
+        {
+          "id": "rugido-de-guerra",
+          "name": {
+            "es": "Rugido de Guerra",
+            "en": "War Roar"
+          },
+          "description": {
+            "es": "Soltás un grito feroz que hiela la sangre. Todos los enemigos cercanos pierden su próxima acción por el miedo que les metés en el cuerpo.",
+            "en": "You let out a ferocious war cry that freezes the blood. All nearby enemies lose their next action from the terror you instill."
+          },
+          "kind": "special",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 3,
+          "icon": "zap",
+          "tags": [
+            "combat",
+            "utility"
+          ]
+        },
+        {
+          "id": "piel-de-oso",
+          "name": {
+            "es": "Piel de Oso",
+            "en": "Bear Skin"
+          },
+          "description": {
+            "es": "Invocás la bestia interior que Odín puso en vos. Tu piel se endurece como cuero curtido y recibís la mitad del daño hasta tu próximo turno.",
+            "en": "You invoke the inner beast Odin placed within you. Your skin hardens like tanned leather and you take half damage until your next turn."
+          },
+          "kind": "spell",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 4,
+          "icon": "shield",
+          "tags": [
+            "combat"
+          ]
+        }
       ]
     },
     {
       "id": "skald",
-      "name": { "es": "Skald (Bardo)", "en": "Skald (Bard)" },
-      "description": { "es": "Poeta, cantor e historiador. Tus palabras tienen poder: podés inmortalizar o destruir la reputación de un guerrero. Los skalds recuerdan las sagas, componen nuevas, y su lengua afilada puede ser más letal que cualquier espada. En una cultura donde la fama eterna importa más que la vida, vos controlás quién será recordado.", "en": "Poet, singer, and historian. Your words hold power: you can immortalize or destroy a warrior's reputation. Skalds remember the sagas, compose new ones, and their sharp tongue can be deadlier than any sword. In a culture where eternal fame matters more than life, you decide who will be remembered." },
-      "simple_description": { "es": "Tus palabras inspiran a guerreros. Conocés las sagas antiguas. Tu lengua es tan poderosa como cualquier espada.", "en": "Your words inspire warriors. You know the ancient sagas. Your tongue is as powerful as any blade." },
+      "name": {
+        "es": "Skald (Bardo)",
+        "en": "Skald (Bard)"
+      },
+      "description": {
+        "es": "Poeta, cantor e historiador. Tus palabras tienen poder: podés inmortalizar o destruir la reputación de un guerrero. Los skalds recuerdan las sagas, componen nuevas, y su lengua afilada puede ser más letal que cualquier espada. En una cultura donde la fama eterna importa más que la vida, vos controlás quién será recordado.",
+        "en": "Poet, singer, and historian. Your words hold power: you can immortalize or destroy a warrior's reputation. Skalds remember the sagas, compose new ones, and their sharp tongue can be deadlier than any sword. In a culture where eternal fame matters more than life, you decide who will be remembered."
+      },
+      "simple_description": {
+        "es": "Tus palabras inspiran a guerreros. Conocés las sagas antiguas. Tu lengua es tan poderosa como cualquier espada.",
+        "en": "Your words inspire warriors. You know the ancient sagas. Your tongue is as powerful as any blade."
+      },
       "starting_stats": {
         "hp": 16,
         "maxHp": 16,
@@ -1027,17 +1249,50 @@
         "lore": 4
       },
       "starting_inventory": [
-        {"es": "Lira de madera", "en": "Wooden lyre"},
-        {"es": "Pergaminos de sagas", "en": "Scrolls of sagas"},
-        {"es": "Ropa fina", "en": "Fine clothes"},
-        {"es": "Anillo de plata", "en": "Silver ring"},
-        {"es": "Favor de un jarl", "en": "Favor owed by a jarl"},
-        {"es": "Saco de dormir de piel", "en": "Fur bedroll"},
-        {"es": "Carne seca y pan de viaje (3 días)", "en": "Dried meat and travel bread (3 days)"},
-        {"es": "Odre de hidromiel", "en": "Mead skin"},
-        {"es": "Cuerda trenzada (15m)", "en": "Braided rope (15m)"},
-        {"es": "Antorcha de resina (2)", "en": "Resin torches (2)"},
-        {"es": "Bolsa con 10 piezas de plata", "en": "Pouch of 10 silver pieces"}
+        {
+          "es": "Lira de madera",
+          "en": "Wooden lyre"
+        },
+        {
+          "es": "Pergaminos de sagas",
+          "en": "Scrolls of sagas"
+        },
+        {
+          "es": "Ropa fina",
+          "en": "Fine clothes"
+        },
+        {
+          "es": "Anillo de plata",
+          "en": "Silver ring"
+        },
+        {
+          "es": "Favor de un jarl",
+          "en": "Favor owed by a jarl"
+        },
+        {
+          "es": "Saco de dormir de piel",
+          "en": "Fur bedroll"
+        },
+        {
+          "es": "Carne seca y pan de viaje (3 días)",
+          "en": "Dried meat and travel bread (3 days)"
+        },
+        {
+          "es": "Odre de hidromiel",
+          "en": "Mead skin"
+        },
+        {
+          "es": "Cuerda trenzada (15m)",
+          "en": "Braided rope (15m)"
+        },
+        {
+          "es": "Antorcha de resina (2)",
+          "en": "Resin torches (2)"
+        },
+        {
+          "es": "Bolsa con 10 piezas de plata",
+          "en": "Pouch of 10 silver pieces"
+        }
       ],
       "special_ability": "Canto de Batalla: Tus aliados reciben +2 a combate mientras cantás. Podés desmoralizar enemigos con insultos épicos",
       "background": {
@@ -1085,13 +1340,81 @@
         "Bragi Boddason - El primer skald, ahora dios de la poesía.",
         "Egil Skallagrímsson - Poeta, guerrero, berserker y mago. El skald más famoso.",
         "Sigvatr Þórðarson - Skald del rey Olaf, que salvó su vida con un poema."
+      ],
+      "abilities": [
+        {
+          "id": "canto-de-batalla",
+          "name": {
+            "es": "Canto de Batalla",
+            "en": "Battle Song"
+          },
+          "description": {
+            "es": "Tus aliados reciben +2 a combate mientras cantás. Podés desmoralizar enemigos con insultos épicos.",
+            "en": "Your allies receive +2 to combat while you sing. You can demoralize enemies with epic insults."
+          },
+          "kind": "special",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 3,
+          "icon": "zap",
+          "tags": [
+            "combat",
+            "social"
+          ]
+        },
+        {
+          "id": "saga-del-heroe",
+          "name": {
+            "es": "Saga del Héroe",
+            "en": "Hero's Saga"
+          },
+          "description": {
+            "es": "Recitás las hazañas de un aliado en plena batalla, recordándole quién es. Ese aliado recupera 4 HP y gana +1 a su próxima tirada de combate. La fama es el mejor remedio.",
+            "en": "You recite an ally's deeds in the heat of battle, reminding them of who they are. That ally recovers 4 HP and gains +1 to their next combat roll. Fame is the best remedy."
+          },
+          "kind": "spell",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 4,
+          "icon": "heart",
+          "tags": [
+            "healing",
+            "social"
+          ]
+        },
+        {
+          "id": "lengua-de-nithing",
+          "name": {
+            "es": "Lengua de Nithing",
+            "en": "Nithing's Tongue"
+          },
+          "description": {
+            "es": "Lanzás una maldición poética sobre un enemigo, declarándolo cobarde y sin honor ante todos los presentes. El objetivo sufre -2 a combate y social durante 2 turnos. En la cultura nórdica, no hay insulto más letal que la deshonra pública.",
+            "en": "You hurl a poetic curse upon an enemy, declaring them a coward and dishonorable before all present. The target suffers -2 to combat and social for 2 turns. In Norse culture, there is no deadlier insult than public disgrace."
+          },
+          "kind": "trick",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 5,
+          "icon": "moon",
+          "tags": [
+            "social",
+            "combat"
+          ]
+        }
       ]
     },
     {
       "id": "shieldmaiden",
-      "name": { "es": "Doncella Escudera (Skjaldmær)", "en": "Shieldmaiden (Skjaldmær)" },
-      "description": { "es": "Guerrera que ha demostrado su valía en combate. En una sociedad donde los hombres guerrean, elegiste tomar el escudo y la espada. Tuviste que ser el doble de buena para ganar la mitad del respeto, pero ahora nadie cuestiona tu lugar en el muro de escudos.", "en": "A warrior who has proven her worth in combat. In a society where men make war, you chose to take up shield and sword. You had to be twice as good to earn half the respect, but now no one questions your place in the shield wall." },
-      "simple_description": { "es": "Luchás tan bien como cualquier hombre. Tu escudo protege a tus compañeros. Has ganado tu lugar en el salón.", "en": "You fight as well as any man. Your shield protects your companions. You have earned your place in the hall." },
+      "name": {
+        "es": "Doncella Escudera (Skjaldmær)",
+        "en": "Shieldmaiden (Skjaldmær)"
+      },
+      "description": {
+        "es": "Guerrera que ha demostrado su valía en combate. En una sociedad donde los hombres guerrean, elegiste tomar el escudo y la espada. Tuviste que ser el doble de buena para ganar la mitad del respeto, pero ahora nadie cuestiona tu lugar en el muro de escudos.",
+        "en": "A warrior who has proven her worth in combat. In a society where men make war, you chose to take up shield and sword. You had to be twice as good to earn half the respect, but now no one questions your place in the shield wall."
+      },
+      "simple_description": {
+        "es": "Luchás tan bien como cualquier hombre. Tu escudo protege a tus compañeros. Has ganado tu lugar en el salón.",
+        "en": "You fight as well as any man. Your shield protects your companions. You have earned your place in the hall."
+      },
       "starting_stats": {
         "hp": 22,
         "maxHp": 22,
@@ -1101,17 +1424,50 @@
         "lore": 2
       },
       "starting_inventory": [
-        {"es": "Espada y escudo", "en": "Sword and shield"},
-        {"es": "Cota de mallas", "en": "Chain mail"},
-        {"es": "Lanza de caza", "en": "Hunting spear"},
-        {"es": "Cuchillo de sacrificio", "en": "Sacrificial knife"},
-        {"es": "Amuleto de Freyja", "en": "Amulet of Freyja"},
-        {"es": "Saco de dormir de piel", "en": "Fur bedroll"},
-        {"es": "Carne seca y pan de viaje (3 días)", "en": "Dried meat and travel bread (3 days)"},
-        {"es": "Odre de hidromiel", "en": "Mead skin"},
-        {"es": "Cuerda trenzada (15m)", "en": "Braided rope (15m)"},
-        {"es": "Pedernal y yesca", "en": "Flint and tinder"},
-        {"es": "Ungüento curativo", "en": "Healing salve"}
+        {
+          "es": "Espada y escudo",
+          "en": "Sword and shield"
+        },
+        {
+          "es": "Cota de mallas",
+          "en": "Chain mail"
+        },
+        {
+          "es": "Lanza de caza",
+          "en": "Hunting spear"
+        },
+        {
+          "es": "Cuchillo de sacrificio",
+          "en": "Sacrificial knife"
+        },
+        {
+          "es": "Amuleto de Freyja",
+          "en": "Amulet of Freyja"
+        },
+        {
+          "es": "Saco de dormir de piel",
+          "en": "Fur bedroll"
+        },
+        {
+          "es": "Carne seca y pan de viaje (3 días)",
+          "en": "Dried meat and travel bread (3 days)"
+        },
+        {
+          "es": "Odre de hidromiel",
+          "en": "Mead skin"
+        },
+        {
+          "es": "Cuerda trenzada (15m)",
+          "en": "Braided rope (15m)"
+        },
+        {
+          "es": "Pedernal y yesca",
+          "en": "Flint and tinder"
+        },
+        {
+          "es": "Ungüento curativo",
+          "en": "Healing salve"
+        }
       ],
       "special_ability": "Muro de Escudos: Podés proteger a aliados adyacentes. Los ataques a ellos te afectan a vos en su lugar",
       "background": {
@@ -1160,13 +1516,80 @@
         "Lagertha - Esposa de Ragnar Lodbrok, guerrera legendaria.",
         "Hervor - Que reclamó la espada maldita Tyrfing de la tumba de su padre.",
         "Freydís Eiríksdóttir - Hija de Erik el Rojo, que aterrorizó Vinland."
+      ],
+      "abilities": [
+        {
+          "id": "muro-de-escudos",
+          "name": {
+            "es": "Muro de Escudos",
+            "en": "Shield Wall"
+          },
+          "description": {
+            "es": "Podés proteger a aliados adyacentes. Los ataques a ellos te afectan a vos en su lugar.",
+            "en": "You can protect adjacent allies. Attacks aimed at them affect you instead."
+          },
+          "kind": "special",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 3,
+          "icon": "shield",
+          "tags": [
+            "combat",
+            "utility"
+          ]
+        },
+        {
+          "id": "furia-de-valquiria",
+          "name": {
+            "es": "Furia de Valquiria",
+            "en": "Valkyrie's Fury"
+          },
+          "description": {
+            "es": "Invocás el espíritu de las elegidas de Odín y descargás una serie de golpes imparables. Tu próximo ataque ignora la defensa del enemigo y hacés el doble de daño.",
+            "en": "You invoke the spirit of Odin's chosen and unleash a series of unstoppable blows. Your next attack ignores the enemy's defense and deals double damage."
+          },
+          "kind": "special",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 4,
+          "icon": "zap",
+          "tags": [
+            "combat"
+          ]
+        },
+        {
+          "id": "grito-de-guerra",
+          "name": {
+            "es": "Grito de Guerra",
+            "en": "War Cry"
+          },
+          "description": {
+            "es": "Lanzás un rugido que heló la sangre de más de un enemigo. Todos los aliados que te escuchan ganan confianza y su próximo ataque suma +2, mientras que los enemigos cercanos deben superar su miedo para actuar.",
+            "en": "You let out a roar that has frozen more than one enemy in their tracks. All allies who hear you gain confidence and their next attack gains +2, while nearby enemies must overcome their fear to act."
+          },
+          "kind": "trick",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 3,
+          "icon": "sword",
+          "tags": [
+            "combat",
+            "social"
+          ]
+        }
       ]
     },
     {
       "id": "volva",
-      "name": { "es": "Völva (Vidente)", "en": "Völva (Seer)" },
-      "description": { "es": "Practicante de seiðr, la magia de la visión y el destino. Podés ver el futuro, hablar con los muertos, y maldecir a tus enemigos. Tu poder viene con un precio: la magia te cambia, y la sociedad te mira con mezcla de reverencia y miedo.", "en": "A practitioner of seiðr, the magic of vision and fate. You can glimpse the future, speak with the dead, and curse your enemies. Your power comes at a price: magic changes you, and society watches you with a mix of reverence and fear." },
-      "simple_description": { "es": "Ves el futuro en las runas. Los espíritus te hablan. Tu magia puede bendecir o maldecir.", "en": "You read the future in the runes. The spirits speak to you. Your magic can bless or curse." },
+      "name": {
+        "es": "Völva (Vidente)",
+        "en": "Völva (Seer)"
+      },
+      "description": {
+        "es": "Practicante de seiðr, la magia de la visión y el destino. Podés ver el futuro, hablar con los muertos, y maldecir a tus enemigos. Tu poder viene con un precio: la magia te cambia, y la sociedad te mira con mezcla de reverencia y miedo.",
+        "en": "A practitioner of seiðr, the magic of vision and fate. You can glimpse the future, speak with the dead, and curse your enemies. Your power comes at a price: magic changes you, and society watches you with a mix of reverence and fear."
+      },
+      "simple_description": {
+        "es": "Ves el futuro en las runas. Los espíritus te hablan. Tu magia puede bendecir o maldecir.",
+        "en": "You read the future in the runes. The spirits speak to you. Your magic can bless or curse."
+      },
       "starting_stats": {
         "hp": 14,
         "maxHp": 14,
@@ -1176,17 +1599,50 @@
         "lore": 6
       },
       "starting_inventory": [
-        {"es": "Báculo tallado con runas", "en": "Staff carved with runes"},
-        {"es": "Bolsa de runas divinatorias", "en": "Bag of divination runes"},
-        {"es": "Capa de plumas", "en": "Feather cloak"},
-        {"es": "Hierbas rituales", "en": "Ritual herbs"},
-        {"es": "Cráneo ancestral", "en": "Ancestor's skull"},
-        {"es": "Saco de dormir de piel", "en": "Fur bedroll"},
-        {"es": "Carne seca y pan de viaje (3 días)", "en": "Dried meat and travel bread (3 days)"},
-        {"es": "Odre de hidromiel", "en": "Mead skin"},
-        {"es": "Antorcha de resina (2)", "en": "Resin torches (2)"},
-        {"es": "Pedernal y yesca", "en": "Flint and tinder"},
-        {"es": "Ungüento curativo", "en": "Healing salve"}
+        {
+          "es": "Báculo tallado con runas",
+          "en": "Staff carved with runes"
+        },
+        {
+          "es": "Bolsa de runas divinatorias",
+          "en": "Bag of divination runes"
+        },
+        {
+          "es": "Capa de plumas",
+          "en": "Feather cloak"
+        },
+        {
+          "es": "Hierbas rituales",
+          "en": "Ritual herbs"
+        },
+        {
+          "es": "Cráneo ancestral",
+          "en": "Ancestor's skull"
+        },
+        {
+          "es": "Saco de dormir de piel",
+          "en": "Fur bedroll"
+        },
+        {
+          "es": "Carne seca y pan de viaje (3 días)",
+          "en": "Dried meat and travel bread (3 days)"
+        },
+        {
+          "es": "Odre de hidromiel",
+          "en": "Mead skin"
+        },
+        {
+          "es": "Antorcha de resina (2)",
+          "en": "Resin torches (2)"
+        },
+        {
+          "es": "Pedernal y yesca",
+          "en": "Flint and tinder"
+        },
+        {
+          "es": "Ungüento curativo",
+          "en": "Healing salve"
+        }
       ],
       "special_ability": "Visión del Destino: Una vez por sesión, podés ver un fragmento del futuro. El DM te da una pista críptica pero útil",
       "background": {
@@ -1234,13 +1690,80 @@
         "La Völva del Völuspá - Que profetizó Ragnarök a Odín mismo.",
         "Þorbjörg lítilvölva - Vidente de Groenlandia que predijo el fin del invierno.",
         "Heide - Völva viajera que aparece en múltiples sagas."
+      ],
+      "abilities": [
+        {
+          "id": "vision-del-destino",
+          "name": {
+            "es": "Visión del Destino",
+            "en": "Vision of Fate"
+          },
+          "description": {
+            "es": "Una vez por sesión, podés ver un fragmento del futuro. El DM te da una pista críptica pero útil.",
+            "en": "Once per session, you can glimpse a fragment of the future. The DM gives you a cryptic but useful hint."
+          },
+          "kind": "special",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 5,
+          "icon": "eye",
+          "tags": [
+            "utility"
+          ]
+        },
+        {
+          "id": "susurro-de-los-muertos",
+          "name": {
+            "es": "Susurro de los Muertos",
+            "en": "Whisper of the Dead"
+          },
+          "description": {
+            "es": "Invocás el espíritu de alguien fallecido cercano al lugar donde estás. Podés hacerle una pregunta y recibir una respuesta, aunque los muertos hablan con sus propias palabras y no siempre dicen lo que querés escuchar.",
+            "en": "You summon the spirit of someone who died near your current location. You can ask it one question and receive an answer, though the dead speak in their own words and don't always say what you want to hear."
+          },
+          "kind": "spell",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 4,
+          "icon": "moon",
+          "tags": [
+            "utility",
+            "social"
+          ]
+        },
+        {
+          "id": "maldicion-del-seidr",
+          "name": {
+            "es": "Maldición del Seiðr",
+            "en": "Seiðr Curse"
+          },
+          "description": {
+            "es": "Tejés la magia del destino alrededor de un enemigo visible. Hasta tu próximo turno, cada vez que ese enemigo ataque o actúe, sufre una penalidad de -2 en su tirada. El peso del hado se le pone en contra.",
+            "en": "You weave fate-magic around a visible enemy. Until your next turn, every time that enemy attacks or acts, they suffer a -2 penalty to their roll. The weight of wyrd turns against them."
+          },
+          "kind": "spell",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 3,
+          "icon": "sparkles",
+          "tags": [
+            "combat",
+            "utility"
+          ]
+        }
       ]
     },
     {
       "id": "jarl_heir",
-      "name": { "es": "Heredero de Jarl", "en": "Jarl's Heir" },
-      "description": { "es": "Hijo o hija de un líder del clan. Naciste con privilegios pero también con expectativas imposibles. Debés demostrar que merecés liderar por tus propios méritos, no solo por tu sangre. El trono te espera... si sobrevivís.", "en": "Son or daughter of a clan leader. Born with privilege but also with impossible expectations. You must prove you deserve to lead by your own merit, not just your blood. The throne is waiting... if you survive." },
-      "simple_description": { "es": "Sangre noble corre por tus venas. Debés demostrar que merecés liderar. El clan te observa.", "en": "Noble blood runs in your veins. You must prove you deserve to lead. The clan is watching." },
+      "name": {
+        "es": "Heredero de Jarl",
+        "en": "Jarl's Heir"
+      },
+      "description": {
+        "es": "Hijo o hija de un líder del clan. Naciste con privilegios pero también con expectativas imposibles. Debés demostrar que merecés liderar por tus propios méritos, no solo por tu sangre. El trono te espera... si sobrevivís.",
+        "en": "Son or daughter of a clan leader. Born with privilege but also with impossible expectations. You must prove you deserve to lead by your own merit, not just your blood. The throne is waiting... if you survive."
+      },
+      "simple_description": {
+        "es": "Sangre noble corre por tus venas. Debés demostrar que merecés liderar. El clan te observa.",
+        "en": "Noble blood runs in your veins. You must prove you deserve to lead. The clan is watching."
+      },
       "starting_stats": {
         "hp": 20,
         "maxHp": 20,
@@ -1250,17 +1773,50 @@
         "lore": 3
       },
       "starting_inventory": [
-        { "es": "Espada ancestral de la familia", "en": "Ancestral family sword" },
-        { "es": "Armadura de calidad", "en": "Quality armor" },
-        { "es": "Anillo de sello del clan", "en": "Clan signet ring" },
-        { "es": "Capa de piel fina", "en": "Fine fur cloak" },
-        { "es": "Mapa de territorios del clan", "en": "Map of clan territories" },
-        { "es": "Saco de dormir de piel", "en": "Fur sleeping bag" },
-        { "es": "Carne seca y pan de viaje (3 días)", "en": "Dried meat and travel bread (3 days)" },
-        { "es": "Odre de hidromiel", "en": "Waterskin of mead" },
-        { "es": "Cuerda trenzada (15m)", "en": "Braided rope (15m)" },
-        { "es": "Pedernal y yesca", "en": "Flint and tinder" },
-        { "es": "Bolsa con 10 piezas de plata", "en": "Pouch with 10 silver pieces" }
+        {
+          "es": "Espada ancestral de la familia",
+          "en": "Ancestral family sword"
+        },
+        {
+          "es": "Armadura de calidad",
+          "en": "Quality armor"
+        },
+        {
+          "es": "Anillo de sello del clan",
+          "en": "Clan signet ring"
+        },
+        {
+          "es": "Capa de piel fina",
+          "en": "Fine fur cloak"
+        },
+        {
+          "es": "Mapa de territorios del clan",
+          "en": "Map of clan territories"
+        },
+        {
+          "es": "Saco de dormir de piel",
+          "en": "Fur sleeping bag"
+        },
+        {
+          "es": "Carne seca y pan de viaje (3 días)",
+          "en": "Dried meat and travel bread (3 days)"
+        },
+        {
+          "es": "Odre de hidromiel",
+          "en": "Waterskin of mead"
+        },
+        {
+          "es": "Cuerda trenzada (15m)",
+          "en": "Braided rope (15m)"
+        },
+        {
+          "es": "Pedernal y yesca",
+          "en": "Flint and tinder"
+        },
+        {
+          "es": "Bolsa con 10 piezas de plata",
+          "en": "Pouch with 10 silver pieces"
+        }
       ],
       "special_ability": "Autoridad de Sangre: Podés invocar el nombre de tu familia para obtener respeto, recursos o paso seguro en territorio amigo",
       "background": {
@@ -1309,13 +1865,80 @@
         "Ivar el Deshuesado - Hijo de Ragnar que conquistó reinos.",
         "Harald Cabello Hermoso - Que unificó Noruega.",
         "Sigurd Serpiente en el Ojo - Cuyo ojo tenía la marca de Ouroboros."
+      ],
+      "abilities": [
+        {
+          "id": "autoridad-de-sangre",
+          "name": {
+            "es": "Autoridad de Sangre",
+            "en": "Blood Authority"
+          },
+          "description": {
+            "es": "Podés invocar el nombre de tu familia para obtener respeto, recursos o paso seguro en territorio amigo.",
+            "en": "You can invoke your family's name to gain respect, resources, or safe passage in friendly territory."
+          },
+          "kind": "special",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 3,
+          "icon": "sparkles",
+          "tags": [
+            "social",
+            "utility"
+          ]
+        },
+        {
+          "id": "arenga-del-caudillo",
+          "name": {
+            "es": "Arenga del Caudillo",
+            "en": "Warlord's Rally"
+          },
+          "description": {
+            "es": "Con una voz que aprendiste desde niño en el salón del jarl, galvanizás a tus aliados antes del combate. Todos los que te escuchan ganan confianza y actúan con mayor decisión en el próximo turno.",
+            "en": "With a voice honed since childhood in the jarl's hall, you rally your allies before battle. All who hear you gain confidence and act with greater resolve on the next turn."
+          },
+          "kind": "special",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 4,
+          "icon": "zap",
+          "tags": [
+            "social",
+            "combat"
+          ]
+        },
+        {
+          "id": "peso-de-la-corona",
+          "name": {
+            "es": "Peso de la Corona",
+            "en": "Weight of the Crown"
+          },
+          "description": {
+            "es": "Cargás con las enseñanzas de tus ancestros como un escudo invisible. Cuando todo parece perdido, invocás esa memoria para resistir el miedo, el dolor o la presión social y mantenerte firme ante cualquier amenaza.",
+            "en": "You carry your ancestors' teachings like an invisible shield. When all seems lost, you invoke that memory to resist fear, pain, or social pressure and stand firm against any threat."
+          },
+          "kind": "trick",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 5,
+          "icon": "shield",
+          "tags": [
+            "utility"
+          ]
+        }
       ]
     },
     {
       "id": "thrall_freed",
-      "name": { "es": "Esclavo Liberado", "en": "Freed Thrall" },
-      "description": { "es": "Naciste o fuiste capturado como thrall (esclavo). Contra toda probabilidad, ganaste tu libertad - por valor en batalla, compra, o servicio excepcional. Ahora debés construir una nueva identidad. No tenés linaje, pero tenés determinación.", "en": "You were born or captured as a thrall (slave). Against all odds, you earned your freedom — through valor in battle, purchase, or exceptional service. Now you must build a new identity. You have no lineage, but you have iron will." },
-      "simple_description": { "es": "Fuiste esclavo. Ahora sos libre. No tenés linaje pero tenés voluntad de hierro.", "en": "You were a thrall. Now you are free. You have no lineage, but your will is iron." },
+      "name": {
+        "es": "Esclavo Liberado",
+        "en": "Freed Thrall"
+      },
+      "description": {
+        "es": "Naciste o fuiste capturado como thrall (esclavo). Contra toda probabilidad, ganaste tu libertad - por valor en batalla, compra, o servicio excepcional. Ahora debés construir una nueva identidad. No tenés linaje, pero tenés determinación.",
+        "en": "You were born or captured as a thrall (slave). Against all odds, you earned your freedom — through valor in battle, purchase, or exceptional service. Now you must build a new identity. You have no lineage, but you have iron will."
+      },
+      "simple_description": {
+        "es": "Fuiste esclavo. Ahora sos libre. No tenés linaje pero tenés voluntad de hierro.",
+        "en": "You were a thrall. Now you are free. You have no lineage, but your will is iron."
+      },
       "starting_stats": {
         "hp": 18,
         "maxHp": 18,
@@ -1325,17 +1948,50 @@
         "lore": 3
       },
       "starting_inventory": [
-        { "es": "Cuchillo de trabajo (ahora arma)", "en": "Work knife (now a weapon)" },
-        { "es": "Ropas simples de hombre libre", "en": "Simple freeman's clothes" },
-        { "es": "Documento de liberación", "en": "Manumission document" },
-        { "es": "Herramientas de oficio", "en": "Trade tools" },
-        { "es": "Pequeño ahorro de plata", "en": "Small silver savings" },
-        { "es": "Saco de dormir de piel", "en": "Fur sleeping bag" },
-        { "es": "Carne seca y pan de viaje (3 días)", "en": "Dried meat and travel bread (3 days)" },
-        { "es": "Odre de hidromiel", "en": "Waterskin of mead" },
-        { "es": "Cuerda trenzada (15m)", "en": "Braided rope (15m)" },
-        { "es": "Antorcha de resina (2)", "en": "Resin torch (2)" },
-        { "es": "Pedernal y yesca", "en": "Flint and tinder" }
+        {
+          "es": "Cuchillo de trabajo (ahora arma)",
+          "en": "Work knife (now a weapon)"
+        },
+        {
+          "es": "Ropas simples de hombre libre",
+          "en": "Simple freeman's clothes"
+        },
+        {
+          "es": "Documento de liberación",
+          "en": "Manumission document"
+        },
+        {
+          "es": "Herramientas de oficio",
+          "en": "Trade tools"
+        },
+        {
+          "es": "Pequeño ahorro de plata",
+          "en": "Small silver savings"
+        },
+        {
+          "es": "Saco de dormir de piel",
+          "en": "Fur sleeping bag"
+        },
+        {
+          "es": "Carne seca y pan de viaje (3 días)",
+          "en": "Dried meat and travel bread (3 days)"
+        },
+        {
+          "es": "Odre de hidromiel",
+          "en": "Waterskin of mead"
+        },
+        {
+          "es": "Cuerda trenzada (15m)",
+          "en": "Braided rope (15m)"
+        },
+        {
+          "es": "Antorcha de resina (2)",
+          "en": "Resin torch (2)"
+        },
+        {
+          "es": "Pedernal y yesca",
+          "en": "Flint and tinder"
+        }
       ],
       "special_ability": "Superviviente: Has sobrevivido lo peor. Tiradas de supervivencia y resistencia +2. Nunca te rendís",
       "background": {
@@ -1383,6 +2039,63 @@
         "Ketill Flatnose - De esclavo a rey de las Hébridas.",
         "Varios berserkers - Que ganaron libertad en batalla.",
         "Artesanos famosos - Que compraron su libertad con sus habilidades."
+      ],
+      "abilities": [
+        {
+          "id": "superviviente",
+          "name": {
+            "es": "Superviviente",
+            "en": "Survivor"
+          },
+          "description": {
+            "es": "Has sobrevivido lo peor. Tiradas de supervivencia y resistencia +2. Nunca te rendís.",
+            "en": "You have survived the worst. Survival and endurance rolls +2. You never give up."
+          },
+          "kind": "special",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 3,
+          "icon": "heart",
+          "tags": [
+            "utility"
+          ]
+        },
+        {
+          "id": "furia-encadenada",
+          "name": {
+            "es": "Furia Encadenada",
+            "en": "Chained Fury"
+          },
+          "description": {
+            "es": "Años de humillación se convierten en poder bruto. Desatás toda tu rabia acumulada en un golpe devastador que ignora la armadura del enemigo.",
+            "en": "Years of humiliation become raw power. You unleash your pent-up rage in a devastating strike that ignores the enemy's armor."
+          },
+          "kind": "special",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 4,
+          "icon": "zap",
+          "tags": [
+            "combat"
+          ]
+        },
+        {
+          "id": "sombra-del-esclavo",
+          "name": {
+            "es": "Sombra del Esclavo",
+            "en": "Thrall's Shadow"
+          },
+          "description": {
+            "es": "Aprendiste a moverte sin ser visto en la casa del amo. Te fundís con las sombras y pasás desapercibido ante guardias o enemigos que te superan en número.",
+            "en": "You learned to move unseen in your master's hall. You blend into the shadows and slip past guards or enemies that outnumber you."
+          },
+          "kind": "trick",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 3,
+          "icon": "moon",
+          "tags": [
+            "stealth",
+            "exploration"
+          ]
+        }
       ]
     }
   ],
