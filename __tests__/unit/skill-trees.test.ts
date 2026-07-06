@@ -172,6 +172,27 @@ describe('detectNewUnlockables — para el toast in-game', () => {
     expect(detectNewUnlockables(tree, before, after, [], 1)).toEqual([])
   })
 
+  it('detecta nodo level_reached al subir de nivel ESTE turno (regresión A1)', () => {
+    // crushing-blow: unlock level_reached:3, requires iron-grip.
+    // El jugador sube 2→3 este turno con iron-grip ya aprendido.
+    // Sin levelBefore, wasMet===isMet (ambos con level 3) → nunca se detecta.
+    const ms = { ...EMPTY_MILESTONES } // milestones no cambian, solo el nivel
+    const nuevos = detectNewUnlockables(tree, ms, ms, ['iron-grip'], 3, 2)
+    expect(nuevos.map((n) => n.id)).toContain('crushing-blow')
+  })
+
+  it('NO detecta level_reached si el nivel no cambió este turno', () => {
+    const ms = { ...EMPTY_MILESTONES }
+    // ya estaba en nivel 3 desde antes (levelBefore = levelNow = 3)
+    expect(detectNewUnlockables(tree, ms, ms, ['iron-grip'], 3, 3)).toEqual([])
+  })
+
+  it('sin levelBefore usa characterLevel para ambos (backward compat)', () => {
+    const ms = { ...EMPTY_MILESTONES }
+    // llamada vieja de 5 args: level 3 en ambos → no detecta level_reached
+    expect(detectNewUnlockables(tree, ms, ms, ['iron-grip'], 3)).toEqual([])
+  })
+
   it('no detecta nodos con requires pendientes (no accionables)', () => {
     const before = { ...EMPTY_MILESTONES, combats_won: 2 }
     const after = { ...before, combats_won: 3 }

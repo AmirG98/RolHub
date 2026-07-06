@@ -100,13 +100,17 @@ export function detectNewUnlockables(
   before: MilestoneState,
   after: MilestoneState,
   learnedIds: string[],
-  characterLevel: number
+  characterLevel: number,
+  // Nivel PRE level-up. Si el jugador sube de nivel este turno, characterLevel
+  // (post) difiere de levelBefore; sin esto, un nodo gateado por level_reached
+  // nunca se detecta como recién desbloqueado (wasMet === isMet siempre).
+  levelBefore: number = characterLevel
 ): SkillTreeNode[] {
   const learned = new Set(learnedIds)
   return tree.nodes.filter((node) => {
     if (learned.has(node.id)) return false
     if (!node.requires.every((r) => learned.has(r))) return false
-    const wasMet = checkUnlockCondition(node.unlock, before, characterLevel)
+    const wasMet = checkUnlockCondition(node.unlock, before, levelBefore)
     const isMet = checkUnlockCondition(node.unlock, after, characterLevel)
     return !wasMet && isMet
   })

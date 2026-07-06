@@ -1216,11 +1216,15 @@ ${(() => {
   // Sub-locación actual
   const currentSubLocId = worldState.current_sub_location || null
   const currentSubLoc = currentLocationData?.sub_locations?.find((sl: any) => sl.id === currentSubLocId)
+  // sl.name / sl.description son LocalizedString {es,en} en los lore JSON —
+  // hay que localizarlos o el template interpola '[object Object]' en el prompt.
+  const loc = isEnglish ? 'en' : 'es'
+  const locName = (v: any) => (typeof v === 'string' ? v : v?.[loc] || v?.es || v?.en || '')
   const locationDisplay = currentSubLoc
-    ? `${currentLocationData?.name || worldState.current_scene} > ${currentSubLoc.name}`
+    ? `${locName(currentLocationData?.name) || worldState.current_scene} > ${locName(currentSubLoc.name)}`
     : worldState.current_scene || (isEnglish ? 'Unknown' : 'Desconocida')
   const subLocs = currentLocationData?.sub_locations || []
-  const subLocList = subLocs.map((sl: any) => `- ${sl.name} (${sl.type}): ${sl.description}`).join('\n')
+  const subLocList = subLocs.map((sl: any) => `- ${locName(sl.name)} (${sl.type}): ${locName(sl.description)}`).join('\n')
 
   const justArrived = turnsInCurrentLocation <= 1
   const locationStatus = isEnglish
@@ -2309,7 +2313,11 @@ INSTRUCCIONES PARA HABILIDADES:
         const BOND_RE = /\b(ally|allied|aliado|aliada|friend|amigo|amiga)\b/i
         for (const u of npcList) {
           if (!u?.name || !u?.status) continue
-          const prevStatus = worldState.npc_states?.[u.name]?.status || ''
+          // npc_states puede guardar el status como objeto {status,...} o como
+          // string plano (formato legacy). Sin manejar ambos, un NPC legacy
+          // ya-aliado re-cuenta npc_bond cada turno (contador inflado).
+          const prevRaw = worldState.npc_states?.[u.name]
+          const prevStatus = typeof prevRaw === 'string' ? prevRaw : (prevRaw?.status || '')
           if (BOND_RE.test(u.status) && !BOND_RE.test(prevStatus)) {
             after = recordMilestoneEvent(after, { type: 'npc_bond' })
           }
@@ -2341,12 +2349,13 @@ INSTRUCCIONES PARA HABILIDADES:
           const learnedIds: string[] = Array.isArray((character as any).unlockedSkills)
             ? ((character as any).unlockedSkills as string[])
             : []
+          // Nivel PRE level-up (para detectar nodos level_reached que se
+          // desbloquean justo en el turno del level-up) vs POST.
+          const levelBefore =
+            worldState.party?.[character.name]?.level || character.level || 1
           const levelNow =
-            worldStateUpdates.party[character.name].level ||
-            worldState.party?.[character.name]?.level ||
-            character.level ||
-            1
-          const nuevos = detectNewUnlockables(tree, milestonesBefore, after, learnedIds, levelNow)
+            worldStateUpdates.party[character.name].level || levelBefore
+          const nuevos = detectNewUnlockables(tree, milestonesBefore, after, learnedIds, levelNow, levelBefore)
           if (nuevos.length > 0) {
             skillUnlocks = nuevos.map((n) => ({ nodeId: n.id, name: n.name, tier: n.tier }))
             console.log(`[Skills] Unlockable nodes this turn: ${nuevos.map((n) => n.id).join(', ')}`)
