@@ -1,7 +1,13 @@
 {
   "id": "ISEKAI",
-  "name": { "es": "Mundo Mágico Isekai", "en": "Isekai World" },
-  "tagline": { "es": "Fuiste transportado a un mundo de fantasía - tu aventura comienza ahora", "en": "You were transported to a world of fantasy — your adventure begins now" },
+  "name": {
+    "es": "Mundo Mágico Isekai",
+    "en": "Isekai World"
+  },
+  "tagline": {
+    "es": "Fuiste transportado a un mundo de fantasía - tu aventura comienza ahora",
+    "en": "You were transported to a world of fantasy — your adventure begins now"
+  },
   "tone": [
     "aventurero",
     "mágico",
@@ -274,33 +280,63 @@
       "sub_locations": [
         {
           "id": "gremio-aventureros-central",
-          "name": { "es": "Sede Central del Gremio de Aventureros", "en": "Adventurers Guild Headquarters" },
+          "name": {
+            "es": "Sede Central del Gremio de Aventureros",
+            "en": "Adventurers Guild Headquarters"
+          },
           "type": "hall",
-          "description": { "es": "Edificio enorme con tablón de misiones, mostrador de recepción y arena de entrenamiento", "en": "Enormous building with a quest board, reception desk, and training arena" }
+          "description": {
+            "es": "Edificio enorme con tablón de misiones, mostrador de recepción y arena de entrenamiento",
+            "en": "Enormous building with a quest board, reception desk, and training arena"
+          }
         },
         {
           "id": "palacio-real",
-          "name": { "es": "Palacio Real de Astraea", "en": "Royal Palace of Astraea" },
+          "name": {
+            "es": "Palacio Real de Astraea",
+            "en": "Royal Palace of Astraea"
+          },
           "type": "palace",
-          "description": { "es": "Castillo de cristal mágico donde el Rey Aldric III gobierna con sabiduría", "en": "Magical crystal castle where King Aldric III rules with wisdom" }
+          "description": {
+            "es": "Castillo de cristal mágico donde el Rey Aldric III gobierna con sabiduría",
+            "en": "Magical crystal castle where King Aldric III rules with wisdom"
+          }
         },
         {
           "id": "mercado-luminaria",
-          "name": { "es": "Gran Mercado de Luminaria", "en": "Grand Market of Luminaria" },
+          "name": {
+            "es": "Gran Mercado de Luminaria",
+            "en": "Grand Market of Luminaria"
+          },
           "type": "market",
-          "description": { "es": "Plaza comercial con tiendas de pociones, armas, armaduras y objetos mágicos", "en": "Commercial plaza with shops for potions, weapons, armor, and magical items" }
+          "description": {
+            "es": "Plaza comercial con tiendas de pociones, armas, armaduras y objetos mágicos",
+            "en": "Commercial plaza with shops for potions, weapons, armor, and magical items"
+          }
         },
         {
           "id": "templo-todos-dioses",
-          "name": { "es": "Templo de Todos los Dioses", "en": "Temple of All Gods" },
+          "name": {
+            "es": "Templo de Todos los Dioses",
+            "en": "Temple of All Gods"
+          },
           "type": "temple",
-          "description": { "es": "Santuario ecuménico donde se puede rezar a cualquiera de las siete deidades mayores", "en": "Ecumenical sanctuary where one can pray to any of the seven major deities" }
+          "description": {
+            "es": "Santuario ecuménico donde se puede rezar a cualquiera de las siete deidades mayores",
+            "en": "Ecumenical sanctuary where one can pray to any of the seven major deities"
+          }
         },
         {
           "id": "barrios-bajos",
-          "name": { "es": "Barrios Bajos", "en": "Slums" },
+          "name": {
+            "es": "Barrios Bajos",
+            "en": "Slums"
+          },
           "type": "residence",
-          "description": { "es": "Zona pobre de la ciudad donde se esconden ladrones y se consigue información", "en": "Poor district where thieves hide and information can be bought" }
+          "description": {
+            "es": "Zona pobre de la ciudad donde se esconden ladrones y se consigue información",
+            "en": "Poor district where thieves hide and information can be bought"
+          }
         }
       ]
     },
@@ -431,27 +467,51 @@
       "sub_locations": [
         {
           "id": "posada-luna-llena",
-          "name": { "es": "Posada de la Luna Llena", "en": "Full Moon Inn" },
+          "name": {
+            "es": "Posada de la Luna Llena",
+            "en": "Full Moon Inn"
+          },
           "type": "tavern",
-          "description": { "es": "Posada acogedora de la posadera María, con estofado caliente y camas limpias", "en": "Cozy inn run by Innkeeper María, with hot stew and clean beds" }
+          "description": {
+            "es": "Posada acogedora de la posadera María, con estofado caliente y camas limpias",
+            "en": "Cozy inn run by Innkeeper María, with hot stew and clean beds"
+          }
         },
         {
           "id": "herreria-jack",
-          "name": { "es": "Herrería de Jack", "en": "Jack's Smithy" },
+          "name": {
+            "es": "Herrería de Jack",
+            "en": "Jack's Smithy"
+          },
           "type": "workshop",
-          "description": { "es": "Pequeña forja donde el aprendiz Jack sueña con aventuras mientras martilla metal", "en": "Small forge where apprentice Jack dreams of adventure while hammering metal" }
+          "description": {
+            "es": "Pequeña forja donde el aprendiz Jack sueña con aventuras mientras martilla metal",
+            "en": "Small forge where apprentice Jack dreams of adventure while hammering metal"
+          }
         },
         {
           "id": "capilla-aldea",
-          "name": { "es": "Capilla de Solarius", "en": "Chapel of Solarius" },
+          "name": {
+            "es": "Capilla de Solarius",
+            "en": "Chapel of Solarius"
+          },
           "type": "temple",
-          "description": { "es": "Pequeña iglesia dedicada al dios creador de los humanos, con un sacerdote amable", "en": "Small church dedicated to the creator god of humans, with a kind priest" }
+          "description": {
+            "es": "Pequeña iglesia dedicada al dios creador de los humanos, con un sacerdote amable",
+            "en": "Small church dedicated to the creator god of humans, with a kind priest"
+          }
         },
         {
           "id": "tienda-provisiones",
-          "name": { "es": "Tienda de Provisiones", "en": "Provisions Shop" },
+          "name": {
+            "es": "Tienda de Provisiones",
+            "en": "Provisions Shop"
+          },
           "type": "market",
-          "description": { "es": "Negocio general con equipo básico para aventureros principiantes", "en": "General store with basic gear for beginner adventurers" }
+          "description": {
+            "es": "Negocio general con equipo básico para aventureros principiantes",
+            "en": "General store with basic gear for beginner adventurers"
+          }
         }
       ]
     },
@@ -549,27 +609,51 @@
       "sub_locations": [
         {
           "id": "muelle-principal",
-          "name": { "es": "Muelle Principal", "en": "Main Docks" },
+          "name": {
+            "es": "Muelle Principal",
+            "en": "Main Docks"
+          },
           "type": "dock",
-          "description": { "es": "Puerto bullicioso donde barcos de todas las naciones descargan mercancías exóticas", "en": "Bustling harbor where ships from all nations unload exotic goods" }
+          "description": {
+            "es": "Puerto bullicioso donde barcos de todas las naciones descargan mercancías exóticas",
+            "en": "Bustling harbor where ships from all nations unload exotic goods"
+          }
         },
         {
           "id": "taberna-ancla-dorada",
-          "name": { "es": "Taberna del Ancla Dorada", "en": "The Golden Anchor Tavern" },
+          "name": {
+            "es": "Taberna del Ancla Dorada",
+            "en": "The Golden Anchor Tavern"
+          },
           "type": "tavern",
-          "description": { "es": "Bar de marineros y piratas reformados donde se consiguen misiones marítimas", "en": "Bar of sailors and reformed pirates where maritime quests are found" }
+          "description": {
+            "es": "Bar de marineros y piratas reformados donde se consiguen misiones marítimas",
+            "en": "Bar of sailors and reformed pirates where maritime quests are found"
+          }
         },
         {
           "id": "mercado-negro-mareas",
-          "name": { "es": "Mercado Negro de Mareas", "en": "Tides Black Market" },
+          "name": {
+            "es": "Mercado Negro de Mareas",
+            "en": "Tides Black Market"
+          },
           "type": "market",
-          "description": { "es": "Zona oculta donde se venden objetos prohibidos y se compra información", "en": "Hidden area where forbidden items are sold and information is bought" }
+          "description": {
+            "es": "Zona oculta donde se venden objetos prohibidos y se compra información",
+            "en": "Hidden area where forbidden items are sold and information is bought"
+          }
         },
         {
           "id": "oficina-gobernador",
-          "name": { "es": "Oficina del Gobernador Barbanegra", "en": "Governor Blackbeard's Office" },
+          "name": {
+            "es": "Oficina del Gobernador Barbanegra",
+            "en": "Governor Blackbeard's Office"
+          },
           "type": "palace",
-          "description": { "es": "Edificio portuario desde donde el ex-pirata mantiene el orden con puño de hierro", "en": "Harbor building from which the ex-pirate keeps order with an iron fist" }
+          "description": {
+            "es": "Edificio portuario desde donde el ex-pirata mantiene el orden con puño de hierro",
+            "en": "Harbor building from which the ex-pirate keeps order with an iron fist"
+          }
         }
       ]
     },
@@ -635,21 +719,39 @@
       "sub_locations": [
         {
           "id": "tienda-jefe-lobo",
-          "name": { "es": "Tienda del Jefe Lobo", "en": "Wolf Chieftain's Tent" },
+          "name": {
+            "es": "Tienda del Jefe Lobo",
+            "en": "Wolf Chieftain's Tent"
+          },
           "type": "hall",
-          "description": { "es": "Gran tienda central donde Fenrir celebra consejos con los líderes tribales", "en": "Great central tent where Fenrir holds councils with tribal leaders" }
+          "description": {
+            "es": "Gran tienda central donde Fenrir celebra consejos con los líderes tribales",
+            "en": "Great central tent where Fenrir holds councils with tribal leaders"
+          }
         },
         {
           "id": "campo-entrenamiento",
-          "name": { "es": "Campo de Entrenamiento", "en": "Training Grounds" },
+          "name": {
+            "es": "Campo de Entrenamiento",
+            "en": "Training Grounds"
+          },
           "type": "arena",
-          "description": { "es": "Claro donde los guerreros de todas las tribus entrenan y compiten", "en": "Clearing where warriors from all tribes train and compete" }
+          "description": {
+            "es": "Claro donde los guerreros de todas las tribus entrenan y compiten",
+            "en": "Clearing where warriors from all tribes train and compete"
+          }
         },
         {
           "id": "choza-sacerdotisa",
-          "name": { "es": "Choza de la Sacerdotisa Luna", "en": "Priestess Luna's Hut" },
+          "name": {
+            "es": "Choza de la Sacerdotisa Luna",
+            "en": "Priestess Luna's Hut"
+          },
           "type": "temple",
-          "description": { "es": "Refugio espiritual donde la sacerdotisa coneja lee el futuro en las estrellas", "en": "Spiritual refuge where the rabbit priestess reads the future in the stars" }
+          "description": {
+            "es": "Refugio espiritual donde la sacerdotisa coneja lee el futuro en las estrellas",
+            "en": "Spiritual refuge where the rabbit priestess reads the future in the stars"
+          }
         }
       ]
     }
@@ -657,9 +759,18 @@
   "archetypes": [
     {
       "id": "summoned_hero",
-      "name": { "es": "Héroe Invocado", "en": "Summoned Hero" },
-      "description": { "es": "Fuiste traído específicamente para salvar este mundo", "en": "You were brought here specifically to save this world" },
-      "simple_description": { "es": "Tenés un poder especial: una habilidad única de tu mundo. La gente espera grandes cosas de vos. Tu destino es salvar el reino.", "en": "You have a special power: a unique ability from your world. People expect great things from you. Your destiny is to save the kingdom." },
+      "name": {
+        "es": "Héroe Invocado",
+        "en": "Summoned Hero"
+      },
+      "description": {
+        "es": "Fuiste traído específicamente para salvar este mundo",
+        "en": "You were brought here specifically to save this world"
+      },
+      "simple_description": {
+        "es": "Tenés un poder especial: una habilidad única de tu mundo. La gente espera grandes cosas de vos. Tu destino es salvar el reino.",
+        "en": "You have a special power: a unique ability from your world. People expect great things from you. Your destiny is to save the kingdom."
+      },
       "detailed_background": "Un día normal en la Tierra: ibas a la escuela, al trabajo, o simplemente caminabas por la calle. Una luz te envolvió. Voces antiguas susurraron tu nombre. Despertaste en un altar rodeado de sacerdotes que te llamaban 'Salvador'. Los dioses te eligieron. Tienes el poder de ver el 'Sistema' - estadísticas, niveles, habilidades - como un videojuego. Creces diez veces más rápido que los nativos. El reino te venera. Pero la presión de ser el 'Elegido' pesa. ¿Realmente puedes salvar un mundo que apenas conoces?",
       "starting_stats": {
         "hp": 20,
@@ -671,18 +782,54 @@
         "growth_rate": 10
       },
       "starting_inventory": [
-        { "es": "Espada Sagrada Excalion (crece contigo, actualmente +1)", "en": "Holy Sword Excalion (grows with you, currently +1)" },
-        { "es": "Armadura Ligera de Héroe (regenera lentamente)", "en": "Hero's Light Armor (slowly regenerates)" },
-        { "es": "Piedra de Traducción (entiendes todos los idiomas)", "en": "Translation Stone (you understand all languages)" },
-        { "es": "Mochila Dimensional (50 slots de inventario)", "en": "Dimensional Backpack (50 inventory slots)" },
-        { "es": "Manual del Héroe (explica el Sistema)", "en": "Hero's Manual (explains the System)" },
-        { "es": "1000 monedas de oro (regalo del reino)", "en": "1000 gold coins (gift from the kingdom)" },
-        { "es": "Cantimplora mágica", "en": "Magical waterskin" },
-        { "es": "3 raciones de viaje", "en": "3 travel rations" },
-        { "es": "Saco de dormir ligero", "en": "Light sleeping bag" },
-        { "es": "Piedra de luz (iluminación mágica)", "en": "Light stone (magical illumination)" },
-        { "es": "Poción de curación menor", "en": "Minor healing potion" },
-        { "es": "Cuerda resistente (15m)", "en": "Sturdy rope (15m)" }
+        {
+          "es": "Espada Sagrada Excalion (crece contigo, actualmente +1)",
+          "en": "Holy Sword Excalion (grows with you, currently +1)"
+        },
+        {
+          "es": "Armadura Ligera de Héroe (regenera lentamente)",
+          "en": "Hero's Light Armor (slowly regenerates)"
+        },
+        {
+          "es": "Piedra de Traducción (entiendes todos los idiomas)",
+          "en": "Translation Stone (you understand all languages)"
+        },
+        {
+          "es": "Mochila Dimensional (50 slots de inventario)",
+          "en": "Dimensional Backpack (50 inventory slots)"
+        },
+        {
+          "es": "Manual del Héroe (explica el Sistema)",
+          "en": "Hero's Manual (explains the System)"
+        },
+        {
+          "es": "1000 monedas de oro (regalo del reino)",
+          "en": "1000 gold coins (gift from the kingdom)"
+        },
+        {
+          "es": "Cantimplora mágica",
+          "en": "Magical waterskin"
+        },
+        {
+          "es": "3 raciones de viaje",
+          "en": "3 travel rations"
+        },
+        {
+          "es": "Saco de dormir ligero",
+          "en": "Light sleeping bag"
+        },
+        {
+          "es": "Piedra de luz (iluminación mágica)",
+          "en": "Light stone (magical illumination)"
+        },
+        {
+          "es": "Poción de curación menor",
+          "en": "Minor healing potion"
+        },
+        {
+          "es": "Cuerda resistente (15m)",
+          "en": "Sturdy rope (15m)"
+        }
       ],
       "special_ability": "Vista del Sistema: Ves estadísticas de personas, monstruos y objetos. Creces 10 veces más rápido que los nativos. Puedes 'guardar' antes de momentos peligrosos (1 vez por día).",
       "advancement_paths": [
@@ -690,13 +837,79 @@
         "Héroe Mágico - despertar todos los elementos",
         "Héroe del Pueblo - carisma y liderazgo",
         "Héroe Oscuro - poderes prohibidos para el bien mayor"
+      ],
+      "abilities": [
+        {
+          "id": "vista-del-sistema",
+          "name": {
+            "es": "Vista del Sistema",
+            "en": "System View"
+          },
+          "description": {
+            "es": "Ves estadísticas de personas, monstruos y objetos. Crecés 10 veces más rápido que los nativos. Podés 'guardar' antes de momentos peligrosos (1 vez por día).",
+            "en": "You see the stats of people, monsters and objects. You grow 10 times faster than natives. You can 'save' before dangerous moments (once per day)."
+          },
+          "kind": "special",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 2,
+          "icon": "eye",
+          "tags": [
+            "utility"
+          ]
+        },
+        {
+          "id": "destino-del-heroe",
+          "name": {
+            "es": "Destino del Héroe",
+            "en": "Hero's Destiny"
+          },
+          "description": {
+            "es": "El mundo mismo te respalda: cuando estás al borde de la derrota, sentís una fuerza inexplicable y recuperás 6 HP. Solo funciona cuando tenés 5 HP o menos.",
+            "en": "The world itself backs you: when you're on the verge of defeat, you feel an inexplicable force and recover 6 HP. Only works when you have 5 HP or less."
+          },
+          "kind": "special",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 4,
+          "icon": "heart",
+          "tags": [
+            "healing"
+          ]
+        },
+        {
+          "id": "habilidad-prestada",
+          "name": {
+            "es": "Habilidad Prestada",
+            "en": "Borrowed Skill"
+          },
+          "description": {
+            "es": "Imitás una habilidad que viste usar recientemente. Copiás el último truco o ataque que un aliado o enemigo usó contra vos o cerca tuyo, aplicándolo con tu propio poder.",
+            "en": "You mimic a skill you recently witnessed. You copy the last trick or attack used by an ally or enemy near you, applying it with your own power."
+          },
+          "kind": "trick",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 3,
+          "icon": "sparkles",
+          "tags": [
+            "combat",
+            "utility"
+          ]
+        }
       ]
     },
     {
       "id": "merchant_traveler",
-      "name": { "es": "Comerciante Viajero", "en": "Traveling Merchant" },
-      "description": { "es": "Tenés conocimientos de tu mundo que aquí son revolucionarios", "en": "You carry knowledge from your world that is revolutionary here" },
-      "simple_description": { "es": "Conocés tecnología y conceptos que aquí parecen mágicos. Podés comerciar y negociar como nadie. Tu ingenio es tu mejor arma.", "en": "You know technology and ideas that look like magic here. You trade and negotiate like no one else. Your wit is your best weapon." },
+      "name": {
+        "es": "Comerciante Viajero",
+        "en": "Traveling Merchant"
+      },
+      "description": {
+        "es": "Tenés conocimientos de tu mundo que aquí son revolucionarios",
+        "en": "You carry knowledge from your world that is revolutionary here"
+      },
+      "simple_description": {
+        "es": "Conocés tecnología y conceptos que aquí parecen mágicos. Podés comerciar y negociar como nadie. Tu ingenio es tu mejor arma.",
+        "en": "You know technology and ideas that look like magic here. You trade and negotiate like no one else. Your wit is your best weapon."
+      },
       "detailed_background": "Eras emprendedor, estudiante de negocios, o simplemente alguien que entendía cómo funciona el mundo moderno. Cuando llegaste a Aetheria, te diste cuenta de algo: conocimientos básicos de tu mundo aquí son revolucionarios. Contabilidad, marketing, preservación de alimentos, conceptos de higiene. Podrías hacerte rico fácilmente. Pero también podrías cambiar este mundo para mejor. La Alianza de Comerciantes te observa con interés... y preocupación.",
       "starting_stats": {
         "hp": 16,
@@ -708,18 +921,54 @@
         "business": 5
       },
       "starting_inventory": [
-        { "es": "Carrito de Comerciante con Espacio Expandido", "en": "Merchant cart with expanded space" },
-        { "es": "5000 monedas de oro (capital inicial)", "en": "5000 gold coins (starting capital)" },
-        { "es": "Libreta de Negocios (registro de contactos y precios)", "en": "Business ledger (contacts and prices)" },
-        { "es": "Balanza de Precisión mágica", "en": "Magical precision scale" },
-        { "es": "Muestras de productos únicos de la Tierra (ideas)", "en": "Samples of unique Earth products (ideas)" },
-        { "es": "Contrato en blanco mágico (se auto-ejecuta)", "en": "Blank magical contract (self-enforcing)" },
-        { "es": "Daga oculta (por si acaso)", "en": "Hidden dagger (just in case)" },
-        { "es": "Cantimplora mágica", "en": "Magical waterskin" },
-        { "es": "3 raciones de viaje", "en": "3 travel rations" },
-        { "es": "Saco de dormir ligero", "en": "Light sleeping bag" },
-        { "es": "Piedra de luz (iluminación mágica)", "en": "Light stone (magical illumination)" },
-        { "es": "Cuerda resistente (15m)", "en": "Sturdy rope (15m)" }
+        {
+          "es": "Carrito de Comerciante con Espacio Expandido",
+          "en": "Merchant cart with expanded space"
+        },
+        {
+          "es": "5000 monedas de oro (capital inicial)",
+          "en": "5000 gold coins (starting capital)"
+        },
+        {
+          "es": "Libreta de Negocios (registro de contactos y precios)",
+          "en": "Business ledger (contacts and prices)"
+        },
+        {
+          "es": "Balanza de Precisión mágica",
+          "en": "Magical precision scale"
+        },
+        {
+          "es": "Muestras de productos únicos de la Tierra (ideas)",
+          "en": "Samples of unique Earth products (ideas)"
+        },
+        {
+          "es": "Contrato en blanco mágico (se auto-ejecuta)",
+          "en": "Blank magical contract (self-enforcing)"
+        },
+        {
+          "es": "Daga oculta (por si acaso)",
+          "en": "Hidden dagger (just in case)"
+        },
+        {
+          "es": "Cantimplora mágica",
+          "en": "Magical waterskin"
+        },
+        {
+          "es": "3 raciones de viaje",
+          "en": "3 travel rations"
+        },
+        {
+          "es": "Saco de dormir ligero",
+          "en": "Light sleeping bag"
+        },
+        {
+          "es": "Piedra de luz (iluminación mágica)",
+          "en": "Light stone (magical illumination)"
+        },
+        {
+          "es": "Cuerda resistente (15m)",
+          "en": "Sturdy rope (15m)"
+        }
       ],
       "special_ability": "Ingenio Terrenal: Puedes crear 'inventos' basados en conocimientos de la Tierra. Los NPCs pagan 50% más por tus productos. Detectas valor oculto en objetos que otros ignoran.",
       "advancement_paths": [
@@ -727,13 +976,80 @@
         "Inventor - revolucionar el mundo con tecnología",
         "Diplomático - usar riqueza para influencia política",
         "Filántropo - mejorar la vida de los comunes"
+      ],
+      "abilities": [
+        {
+          "id": "ingenio-terrenal",
+          "name": {
+            "es": "Ingenio Terrenal",
+            "en": "Earthly Ingenuity"
+          },
+          "description": {
+            "es": "Puedes crear 'inventos' basados en conocimientos de la Tierra. Los NPCs pagan 50% más por tus productos. Detectas valor oculto en objetos que otros ignoran.",
+            "en": "You can create 'inventions' based on knowledge from Earth. NPCs pay 50% more for your products. You detect hidden value in objects others overlook."
+          },
+          "kind": "special",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 3,
+          "icon": "sparkles",
+          "tags": [
+            "social",
+            "utility"
+          ]
+        },
+        {
+          "id": "lectura-de-mercado",
+          "name": {
+            "es": "Lectura de Mercado",
+            "en": "Market Reading"
+          },
+          "description": {
+            "es": "Con una mirada rápida al entorno, analizás la oferta y demanda como si fuera un Excel del otro mundo. Obtenés información sobre precios, escasez y oportunidades comerciales de la zona antes de que cualquier otro comerciante se entere.",
+            "en": "With a quick look around, you analyze supply and demand as if reading a spreadsheet from another world. You gain information about prices, scarcity, and trade opportunities in the area before any other merchant catches on."
+          },
+          "kind": "trick",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 2,
+          "icon": "eye",
+          "tags": [
+            "utility",
+            "exploration"
+          ]
+        },
+        {
+          "id": "palabras-que-venden",
+          "name": {
+            "es": "Palabras que Venden",
+            "en": "Words That Sell"
+          },
+          "description": {
+            "es": "Usás técnicas de ventas y persuasión de tu mundo para convencer a quien tenés enfrente. El objetivo baja sus defensas y se muestra más dispuesto a negociar, colaborar o revelar información que normalmente guardaría.",
+            "en": "You use sales and persuasion techniques from your world to win over whoever stands before you. The target lowers their guard and becomes more willing to negotiate, cooperate, or reveal information they would normally keep to themselves."
+          },
+          "kind": "spell",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 4,
+          "icon": "moon",
+          "tags": [
+            "social"
+          ]
+        }
       ]
     },
     {
       "id": "magic_student",
-      "name": { "es": "Estudiante de Magia", "en": "Magic Student" },
-      "description": { "es": "Despertaste con un grimorio misterioso y potencial mágico infinito", "en": "You woke up holding a mysterious grimoire and boundless magical potential" },
-      "simple_description": { "es": "Podés aprender cualquier tipo de magia. Tu grimorio registra todos los hechizos que ves. Tu potencial mágico es ilimitado.", "en": "You can learn any kind of magic. Your grimoire records every spell you witness. Your magical potential is limitless." },
+      "name": {
+        "es": "Estudiante de Magia",
+        "en": "Magic Student"
+      },
+      "description": {
+        "es": "Despertaste con un grimorio misterioso y potencial mágico infinito",
+        "en": "You woke up holding a mysterious grimoire and boundless magical potential"
+      },
+      "simple_description": {
+        "es": "Podés aprender cualquier tipo de magia. Tu grimorio registra todos los hechizos que ves. Tu potencial mágico es ilimitado.",
+        "en": "You can learn any kind of magic. Your grimoire records every spell you witness. Your magical potential is limitless."
+      },
       "detailed_background": "Te encantaban las historias de magia en tu mundo anterior. Cuando llegaste a Aetheria, un grimorio apareció en tus manos como si siempre hubiera estado esperándote. Descubriste que podías aprender cualquier magia que vieras, sin importar afinidad elemental. El Archimago de la Academia te quiere como estudiante. Los dioses parecen haber apostado todo tu poder en la magia en lugar del combate físico. Sos frágil pero tu potencial es literalmente infinito.",
       "starting_stats": {
         "hp": 14,
@@ -745,18 +1061,54 @@
         "mana": 100
       },
       "starting_inventory": [
-        { "es": "Grimorio Infinito (registra y aprende hechizos)", "en": "Infinite Grimoire (records and learns spells)" },
-        { "es": "Vara Mágica +2 (amplifica hechizos)", "en": "Magic Wand +2 (amplifies spells)" },
-        { "es": "Túnica de Aprendiz (reduce costo de mana 10%)", "en": "Apprentice Robes (reduces mana cost 10%)" },
-        { "es": "Pociones de Mana x10", "en": "Mana potions x10" },
-        { "es": "Libro de Hechizos Básicos (10 hechizos iniciales)", "en": "Basic Spellbook (10 starting spells)" },
-        { "es": "Cristal de Comunicación (contacto con la Academia)", "en": "Communication crystal (contact with the Academy)" },
-        { "es": "500 monedas de oro", "en": "500 gold coins" },
-        { "es": "Mochila de aventurero", "en": "Adventurer's backpack" },
-        { "es": "Cantimplora mágica", "en": "Magical waterskin" },
-        { "es": "3 raciones de viaje", "en": "3 travel rations" },
-        { "es": "Saco de dormir ligero", "en": "Light sleeping bag" },
-        { "es": "Poción de curación menor", "en": "Minor healing potion" }
+        {
+          "es": "Grimorio Infinito (registra y aprende hechizos)",
+          "en": "Infinite Grimoire (records and learns spells)"
+        },
+        {
+          "es": "Vara Mágica +2 (amplifica hechizos)",
+          "en": "Magic Wand +2 (amplifies spells)"
+        },
+        {
+          "es": "Túnica de Aprendiz (reduce costo de mana 10%)",
+          "en": "Apprentice Robes (reduces mana cost 10%)"
+        },
+        {
+          "es": "Pociones de Mana x10",
+          "en": "Mana potions x10"
+        },
+        {
+          "es": "Libro de Hechizos Básicos (10 hechizos iniciales)",
+          "en": "Basic Spellbook (10 starting spells)"
+        },
+        {
+          "es": "Cristal de Comunicación (contacto con la Academia)",
+          "en": "Communication crystal (contact with the Academy)"
+        },
+        {
+          "es": "500 monedas de oro",
+          "en": "500 gold coins"
+        },
+        {
+          "es": "Mochila de aventurero",
+          "en": "Adventurer's backpack"
+        },
+        {
+          "es": "Cantimplora mágica",
+          "en": "Magical waterskin"
+        },
+        {
+          "es": "3 raciones de viaje",
+          "en": "3 travel rations"
+        },
+        {
+          "es": "Saco de dormir ligero",
+          "en": "Light sleeping bag"
+        },
+        {
+          "es": "Poción de curación menor",
+          "en": "Minor healing potion"
+        }
       ],
       "special_ability": "Aprendizaje Infinito: Puedes copiar cualquier magia que veas al Grimorio. Mana se regenera el doble de rápido. Sin límite de elementos mágicos.",
       "advancement_paths": [
@@ -764,13 +1116,80 @@
         "Sabio - descubrir magia perdida de eras antiguas",
         "Nigromante Blanco - usar magia prohibida para el bien",
         "Avatar Elemental - fundirte con los elementos mismos"
+      ],
+      "abilities": [
+        {
+          "id": "aprendizaje-infinito",
+          "name": {
+            "es": "Aprendizaje Infinito",
+            "en": "Infinite Learning"
+          },
+          "description": {
+            "es": "Podés copiar cualquier magia que veas al Grimorio. El mana se regenera el doble de rápido. Sin límite de elementos mágicos.",
+            "en": "You can copy any magic you see into the Grimoire. Mana regenerates twice as fast. No limit on magical elements."
+          },
+          "kind": "special",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 2,
+          "icon": "sparkles",
+          "tags": [
+            "utility"
+          ]
+        },
+        {
+          "id": "pagina-sellada",
+          "name": {
+            "es": "Página Sellada",
+            "en": "Sealed Page"
+          },
+          "description": {
+            "es": "Abrís el grimorio en una página que nunca viste antes y canalizás un hechizo desconocido. El efecto es impredecible pero siempre poderoso.",
+            "en": "You open the grimoire to a page you have never seen before and channel an unknown spell. The effect is unpredictable but always powerful."
+          },
+          "kind": "spell",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 4,
+          "icon": "moon",
+          "tags": [
+            "combat",
+            "utility"
+          ]
+        },
+        {
+          "id": "lectura-arcana",
+          "name": {
+            "es": "Lectura Arcana",
+            "en": "Arcane Reading"
+          },
+          "description": {
+            "es": "Pasás los dedos sobre un objeto, texto o criatura y el grimorio te revela su naturaleza mágica oculta. Obtenés ventaja en tiradas de lore relacionadas.",
+            "en": "You run your fingers over an object, text or creature and the grimoire reveals its hidden magical nature. You gain advantage on related lore rolls."
+          },
+          "kind": "trick",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 3,
+          "icon": "eye",
+          "tags": [
+            "exploration",
+            "utility"
+          ]
+        }
       ]
     },
     {
       "id": "beast_tamer",
-      "name": { "es": "Domador de Bestias", "en": "Beast Tamer" },
-      "description": { "es": "Los monstruos te siguen en lugar de atacarte", "en": "Monsters follow you instead of attacking" },
-      "simple_description": { "es": "Podés domesticar monstruos y hacerlos tus aliados. Tu ejército personal crece con cada calabozo que visitas.", "en": "You can tame monsters and turn them into allies. Your personal army grows with every dungeon you visit." },
+      "name": {
+        "es": "Domador de Bestias",
+        "en": "Beast Tamer"
+      },
+      "description": {
+        "es": "Los monstruos te siguen en lugar de atacarte",
+        "en": "Monsters follow you instead of attacking"
+      },
+      "simple_description": {
+        "es": "Podés domesticar monstruos y hacerlos tus aliados. Tu ejército personal crece con cada calabozo que visitas.",
+        "en": "You can tame monsters and turn them into allies. Your personal army grows with every dungeon you visit."
+      },
       "detailed_background": "Siempre tuviste afinidad con los animales en la Tierra. Aquí, esa afinidad se amplificó mil veces. Los monstruos que deberían atacarte se detienen, confundidos. Puedes comunicarte con ellos, entender sus emociones, y eventualmente, hacerlos tus compañeros. Un slime fue tu primer amigo en este mundo. Ahora viajas con una familia de monstruos leales. Los aventureros te miran raro, pero los resultados hablan solos.",
       "starting_stats": {
         "hp": 18,
@@ -782,18 +1201,54 @@
         "taming": 5
       },
       "starting_inventory": [
-        { "es": "Collar de Vinculación x5 (domestica monstruos)", "en": "Binding Collar x5 (tames monsters)" },
-        { "es": "Slime Compañero (mascota inicial, sorprendentemente útil)", "en": "Slime companion (starter pet, surprisingly useful)" },
-        { "es": "Flauta de Bestias (calma monstruos hostiles)", "en": "Beast Flute (calms hostile monsters)" },
-        { "es": "Manual de Monstruos (información de especies)", "en": "Monster Manual (species information)" },
-        { "es": "Comida especial para monstruos x20", "en": "Special monster food x20" },
-        { "es": "Armadura ligera de explorador", "en": "Explorer's light armor" },
-        { "es": "300 monedas de oro", "en": "300 gold coins" },
-        { "es": "Mochila de aventurero", "en": "Adventurer's backpack" },
-        { "es": "Cantimplora mágica", "en": "Magical waterskin" },
-        { "es": "3 raciones de viaje", "en": "3 travel rations" },
-        { "es": "Saco de dormir ligero", "en": "Light sleeping bag" },
-        { "es": "Cuerda resistente (15m)", "en": "Sturdy rope (15m)" }
+        {
+          "es": "Collar de Vinculación x5 (domestica monstruos)",
+          "en": "Binding Collar x5 (tames monsters)"
+        },
+        {
+          "es": "Slime Compañero (mascota inicial, sorprendentemente útil)",
+          "en": "Slime companion (starter pet, surprisingly useful)"
+        },
+        {
+          "es": "Flauta de Bestias (calma monstruos hostiles)",
+          "en": "Beast Flute (calms hostile monsters)"
+        },
+        {
+          "es": "Manual de Monstruos (información de especies)",
+          "en": "Monster Manual (species information)"
+        },
+        {
+          "es": "Comida especial para monstruos x20",
+          "en": "Special monster food x20"
+        },
+        {
+          "es": "Armadura ligera de explorador",
+          "en": "Explorer's light armor"
+        },
+        {
+          "es": "300 monedas de oro",
+          "en": "300 gold coins"
+        },
+        {
+          "es": "Mochila de aventurero",
+          "en": "Adventurer's backpack"
+        },
+        {
+          "es": "Cantimplora mágica",
+          "en": "Magical waterskin"
+        },
+        {
+          "es": "3 raciones de viaje",
+          "en": "3 travel rations"
+        },
+        {
+          "es": "Saco de dormir ligero",
+          "en": "Light sleeping bag"
+        },
+        {
+          "es": "Cuerda resistente (15m)",
+          "en": "Sturdy rope (15m)"
+        }
       ],
       "special_ability": "Corazón de Bestia: Puedes domesticar cualquier monstruo si reduces su HP sin matarlo. Máximo 6 monstruos activos, infinitos en reserva. Los monstruos te obedecen y crecen contigo.",
       "advancement_paths": [
@@ -801,13 +1256,80 @@
         "Compañero de Dragón - domesticar un dragón verdadero",
         "Ecologista - cambiar la relación entre humanos y monstruos",
         "General de Monstruos - usar monstruos en guerra organizada"
+      ],
+      "abilities": [
+        {
+          "id": "corazon-de-bestia",
+          "name": {
+            "es": "Corazón de Bestia",
+            "en": "Beast Heart"
+          },
+          "description": {
+            "es": "Puedes domesticar cualquier monstruo si reduces su HP sin matarlo. Máximo 6 monstruos activos, infinitos en reserva. Los monstruos te obedecen y crecen contigo.",
+            "en": "You can tame any monster by reducing its HP without killing it. Maximum 6 active monsters, unlimited in reserve. Monsters obey you and grow alongside you."
+          },
+          "kind": "special",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 4,
+          "icon": "heart",
+          "tags": [
+            "utility",
+            "combat"
+          ]
+        },
+        {
+          "id": "rugido-de-manda",
+          "name": {
+            "es": "Rugido de Manda",
+            "en": "Pack Roar"
+          },
+          "description": {
+            "es": "Emitís un rugido profundo que sincroniza a todos tus monstruos activos. En el próximo turno, cada uno de ellos actúa con ventaja en sus ataques.",
+            "en": "You let out a deep roar that synchronizes all your active monsters. On the next turn, each of them acts with advantage on their attacks."
+          },
+          "kind": "spell",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 3,
+          "icon": "zap",
+          "tags": [
+            "combat"
+          ]
+        },
+        {
+          "id": "olfato-salvaje",
+          "name": {
+            "es": "Olfato Salvaje",
+            "en": "Wild Sense"
+          },
+          "description": {
+            "es": "Agudizás tus sentidos como los de una bestia. Detectás criaturas ocultas, trampas y rastros en un radio amplio, y sabés si los monstruos cercanos son domesticables.",
+            "en": "You sharpen your senses like those of a beast. You detect hidden creatures, traps and tracks in a wide radius, and know whether nearby monsters can be tamed."
+          },
+          "kind": "trick",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 2,
+          "icon": "eye",
+          "tags": [
+            "exploration",
+            "utility"
+          ]
+        }
       ]
     },
     {
       "id": "reincarnated_sage",
-      "name": { "es": "Sabio Reencarnado", "en": "Reincarnated Sage" },
-      "description": { "es": "Moriste en la Tierra pero renaciste aquí con todos tus recuerdos", "en": "You died on Earth but were reborn here with all your memories intact" },
-      "simple_description": { "es": "Empezás desde bebé pero con la mente de un adulto. 18 años de preparación te han hecho un prodigio en todo.", "en": "You started as a baby but with an adult mind. Eighteen years of preparation have made you a prodigy at everything." },
+      "name": {
+        "es": "Sabio Reencarnado",
+        "en": "Reincarnated Sage"
+      },
+      "description": {
+        "es": "Moriste en la Tierra pero renaciste aquí con todos tus recuerdos",
+        "en": "You died on Earth but were reborn here with all your memories intact"
+      },
+      "simple_description": {
+        "es": "Empezás desde bebé pero con la mente de un adulto. 18 años de preparación te han hecho un prodigio en todo.",
+        "en": "You started as a baby but with an adult mind. Eighteen years of preparation have made you a prodigy at everything."
+      },
       "detailed_background": "No fuiste invocado; reencarnaste. Moriste en la Tierra (accidente, enfermedad, lo que sea) y despertaste como bebé en Aetheria. Con la mente de un adulto en un cuerpo infantil, aprovechaste cada momento. Aprendiste a caminar en semanas, a hablar en meses, magia a los 5 años. Ahora tienes 18 y eres considerado un genio. Nadie sabe tu secreto. Has tenido tiempo de estudiar este mundo a fondo y tienes planes.",
       "starting_stats": {
         "hp": 17,
@@ -819,17 +1341,50 @@
         "preparation": 5
       },
       "starting_inventory": [
-        { "es": "Equipo personalizado (diseñaste cada pieza)", "en": "Custom gear (you designed every piece)" },
-        { "es": "Espada encantada por ti mismo", "en": "Sword you enchanted yourself" },
-        { "es": "Grimorio con 20 años de investigación", "en": "Grimoire with 20 years of research" },
-        { "es": "Red de contactos (preparada durante años)", "en": "Network of contacts (prepared over years)" },
-        { "es": "Base secreta (ubicación oculta)", "en": "Secret base (hidden location)" },
-        { "es": "3000 monedas de oro (ahorros)", "en": "3000 gold coins (savings)" },
-        { "es": "Plan detallado para 'arreglar este mundo'", "en": "Detailed plan to 'fix this world'" },
-        { "es": "Cantimplora mágica", "en": "Magical waterskin" },
-        { "es": "3 raciones de viaje", "en": "3 travel rations" },
-        { "es": "Piedra de luz (iluminación mágica)", "en": "Light stone (magical illumination)" },
-        { "es": "Poción de curación menor", "en": "Minor healing potion" }
+        {
+          "es": "Equipo personalizado (diseñaste cada pieza)",
+          "en": "Custom gear (you designed every piece)"
+        },
+        {
+          "es": "Espada encantada por ti mismo",
+          "en": "Sword you enchanted yourself"
+        },
+        {
+          "es": "Grimorio con 20 años de investigación",
+          "en": "Grimoire with 20 years of research"
+        },
+        {
+          "es": "Red de contactos (preparada durante años)",
+          "en": "Network of contacts (prepared over years)"
+        },
+        {
+          "es": "Base secreta (ubicación oculta)",
+          "en": "Secret base (hidden location)"
+        },
+        {
+          "es": "3000 monedas de oro (ahorros)",
+          "en": "3000 gold coins (savings)"
+        },
+        {
+          "es": "Plan detallado para 'arreglar este mundo'",
+          "en": "Detailed plan to 'fix this world'"
+        },
+        {
+          "es": "Cantimplora mágica",
+          "en": "Magical waterskin"
+        },
+        {
+          "es": "3 raciones de viaje",
+          "en": "3 travel rations"
+        },
+        {
+          "es": "Piedra de luz (iluminación mágica)",
+          "en": "Light stone (magical illumination)"
+        },
+        {
+          "es": "Poción de curación menor",
+          "en": "Minor healing potion"
+        }
       ],
       "special_ability": "18 Años de Preparación: Tienes contactos, bases, equipo y planes. Puedes declarar 'Ya lo había previsto' una vez por sesión para revelar una preparación conveniente.",
       "advancement_paths": [
@@ -837,13 +1392,80 @@
         "Revolucionario - cambiar la estructura del mundo",
         "Héroe Reluctante - actuar cuando ya no hay opción",
         "Villano Benevolente - hacer el mal por el bien mayor"
+      ],
+      "abilities": [
+        {
+          "id": "18-anos-de-preparacion",
+          "name": {
+            "es": "18 Años de Preparación",
+            "en": "18 Years of Preparation"
+          },
+          "description": {
+            "es": "Tenés contactos, bases, equipo y planes. Podés declarar 'Ya lo había previsto' una vez por sesión para revelar una preparación conveniente.",
+            "en": "You have contacts, bases, equipment and plans. You can declare 'I already anticipated this' once per session to reveal a convenient preparation."
+          },
+          "kind": "special",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 3,
+          "icon": "sparkles",
+          "tags": [
+            "utility"
+          ]
+        },
+        {
+          "id": "memoria-del-otro-mundo",
+          "name": {
+            "es": "Memoria del Otro Mundo",
+            "en": "Memory of Another World"
+          },
+          "description": {
+            "es": "Rebuscás en tus recuerdos de la Tierra y encontrás un dato clave: ciencia, historia o tecnología que nadie en este mundo conoce. El DM te revela una pista oculta o una debilidad del enemigo.",
+            "en": "You dig through your memories of Earth and find a crucial piece of knowledge: science, history or technology that no one in this world knows. The GM reveals a hidden clue or an enemy weakness."
+          },
+          "kind": "spell",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 4,
+          "icon": "eye",
+          "tags": [
+            "utility",
+            "exploration"
+          ]
+        },
+        {
+          "id": "protocolo-de-contingencia",
+          "name": {
+            "es": "Protocolo de Contingencia",
+            "en": "Contingency Protocol"
+          },
+          "description": {
+            "es": "Cuando las cosas se ponen feas, activás un plan de escape que preparaste con anticipación. Vos y tus aliados adyacentes pueden retirarse del combate sin recibir ataques de oportunidad.",
+            "en": "When things go south, you activate an escape plan you prepared in advance. You and adjacent allies can disengage from combat without provoking opportunity attacks."
+          },
+          "kind": "trick",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 5,
+          "icon": "shield",
+          "tags": [
+            "utility",
+            "combat"
+          ]
+        }
       ]
     },
     {
       "id": "op_support",
-      "name": { "es": "Soporte Overpowered", "en": "Overpowered Support" },
-      "description": { "es": "No podés pelear pero tus buffs hacen invencible a cualquiera", "en": "You can't fight, but your buffs make anyone invincible" },
-      "simple_description": { "es": "Tu magia de apoyo no tiene límites. Curación infinita, buffs absurdos, resurreción. Tu party nunca perderá.", "en": "Your support magic has no limits. Infinite healing, absurd buffs, resurrection. Your party will never lose." },
+      "name": {
+        "es": "Soporte Overpowered",
+        "en": "Overpowered Support"
+      },
+      "description": {
+        "es": "No podés pelear pero tus buffs hacen invencible a cualquiera",
+        "en": "You can't fight, but your buffs make anyone invincible"
+      },
+      "simple_description": {
+        "es": "Tu magia de apoyo no tiene límites. Curación infinita, buffs absurdos, resurreción. Tu party nunca perderá.",
+        "en": "Your support magic has no limits. Infinite healing, absurd buffs, resurrection. Your party will never lose."
+      },
       "detailed_background": "Los dioses te dieron poder, pero de forma extraña. No podés hacer daño. Literalmente. Tus ataques hacen 0 de daño sin importar qué. Pero tu magia de apoyo es ridículamente poderosa. Puedes curar heridas mortales, dar buffs que triplican estadísticas, incluso revivir a los recién muertos. Nadie te quería en su party al principio. Ahora todos pelean por tenerte.",
       "starting_stats": {
         "hp": 12,
@@ -855,18 +1477,54 @@
         "support": 6
       },
       "starting_inventory": [
-        { "es": "Báculo de Sanación Infinita", "en": "Staff of Infinite Healing" },
-        { "es": "Togas del Santo (protección pasiva)", "en": "Saint's Robes (passive protection)" },
-        { "es": "Biblia de Buffs (todos los hechizos de apoyo)", "en": "Bible of Buffs (all support spells)" },
-        { "es": "Incienso de Resurreción x3", "en": "Resurrection incense x3" },
-        { "es": "Kit de primeros auxilios mágico", "en": "Magical first-aid kit" },
-        { "es": "Contrato de Party (beneficios legales)", "en": "Party contract (legal benefits)" },
-        { "es": "800 monedas de oro", "en": "800 gold coins" },
-        { "es": "Mochila de aventurero", "en": "Adventurer's backpack" },
-        { "es": "Cantimplora mágica", "en": "Magical waterskin" },
-        { "es": "3 raciones de viaje", "en": "3 travel rations" },
-        { "es": "Saco de dormir ligero", "en": "Light sleeping bag" },
-        { "es": "Piedra de luz (iluminación mágica)", "en": "Light stone (magical illumination)" }
+        {
+          "es": "Báculo de Sanación Infinita",
+          "en": "Staff of Infinite Healing"
+        },
+        {
+          "es": "Togas del Santo (protección pasiva)",
+          "en": "Saint's Robes (passive protection)"
+        },
+        {
+          "es": "Biblia de Buffs (todos los hechizos de apoyo)",
+          "en": "Bible of Buffs (all support spells)"
+        },
+        {
+          "es": "Incienso de Resurreción x3",
+          "en": "Resurrection incense x3"
+        },
+        {
+          "es": "Kit de primeros auxilios mágico",
+          "en": "Magical first-aid kit"
+        },
+        {
+          "es": "Contrato de Party (beneficios legales)",
+          "en": "Party contract (legal benefits)"
+        },
+        {
+          "es": "800 monedas de oro",
+          "en": "800 gold coins"
+        },
+        {
+          "es": "Mochila de aventurero",
+          "en": "Adventurer's backpack"
+        },
+        {
+          "es": "Cantimplora mágica",
+          "en": "Magical waterskin"
+        },
+        {
+          "es": "3 raciones de viaje",
+          "en": "3 travel rations"
+        },
+        {
+          "es": "Saco de dormir ligero",
+          "en": "Light sleeping bag"
+        },
+        {
+          "es": "Piedra de luz (iluminación mágica)",
+          "en": "Light stone (magical illumination)"
+        }
       ],
       "special_ability": "Apoyo Absoluto: Curación y buffs no tienen límite de uso. Puedes revivir a alguien que murió en los últimos 10 minutos (1 vez por día). No puedes hacer daño directo.",
       "advancement_paths": [
@@ -874,6 +1532,65 @@
         "Buffer Supremo - hacer temporalmente rango SS a cualquiera",
         "Resurrector - traer de vuelta incluso a los muertos hace tiempo",
         "Pacifista Absoluto - aura que impide combate en un área"
+      ],
+      "abilities": [
+        {
+          "id": "apoyo-absoluto",
+          "name": {
+            "es": "Apoyo Absoluto",
+            "en": "Absolute Support"
+          },
+          "description": {
+            "es": "Curación y buffs no tienen límite de uso. Podés revivir a alguien que murió en los últimos 10 minutos (1 vez por día). No podés hacer daño directo.",
+            "en": "Healing and buffs have no usage limit. You can revive someone who died in the last 10 minutes (once per day). You cannot deal direct damage."
+          },
+          "kind": "special",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 2,
+          "icon": "heart",
+          "tags": [
+            "healing",
+            "utility"
+          ]
+        },
+        {
+          "id": "aura-de-campeones",
+          "name": {
+            "es": "Aura de Campeones",
+            "en": "Champions' Aura"
+          },
+          "description": {
+            "es": "Envolvés a todos tus aliados en un campo de energía dorada. Por 3 turnos, cada uno de ellos tiene sus estadísticas de combate duplicadas y no puede ser derribado de un solo golpe.",
+            "en": "You envelop all your allies in a golden energy field. For 3 turns, each of them has their combat stats doubled and cannot be knocked down in a single hit."
+          },
+          "kind": "spell",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 5,
+          "icon": "sparkles",
+          "tags": [
+            "utility",
+            "combat"
+          ]
+        },
+        {
+          "id": "vinculo-de-alma",
+          "name": {
+            "es": "Vínculo de Alma",
+            "en": "Soul Bond"
+          },
+          "description": {
+            "es": "Establecés una conexión mística con un aliado. Mientras dure el vínculo, cualquier daño que él reciba se reduce a la mitad y vos lo sentís como una leve presión. Si cae inconsciente, se activa una curación de emergencia automática.",
+            "en": "You establish a mystical connection with an ally. While the bond lasts, any damage they receive is halved and you feel it as a mild pressure. If they fall unconscious, an emergency heal triggers automatically."
+          },
+          "kind": "spell",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 4,
+          "icon": "shield",
+          "tags": [
+            "healing",
+            "utility"
+          ]
+        }
       ]
     }
   ],

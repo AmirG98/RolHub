@@ -1,7 +1,13 @@
 {
   "id": "ROMANTASY",
-  "name": { "es": "Romance Fantasía", "en": "Romance Fantasy" },
-  "tagline": { "es": "Donde la política feérica y el deseo prohibido tejen el destino", "en": "Where fae politics and forbidden desire weave fate" },
+  "name": {
+    "es": "Romance Fantasía",
+    "en": "Romance Fantasy"
+  },
+  "tagline": {
+    "es": "Donde la política feérica y el deseo prohibido tejen el destino",
+    "en": "Where fae politics and forbidden desire weave fate"
+  },
   "tone": [
     "romántico",
     "épico",
@@ -55,27 +61,51 @@
       "sub_locations": [
         {
           "id": "salon-rosas",
-          "name": {"es": "Salón de las Rosas", "en": "The Hall of Roses"},
+          "name": {
+            "es": "Salón de las Rosas",
+            "en": "The Hall of Roses"
+          },
           "type": "throne_room",
-          "description": {"es": "Sala del trono donde el Alto Señor recibe a sus invitados entre columnas envueltas en enredaderas vivas", "en": "The throne hall where the High Lord receives his guests between columns wreathed in living vines"}
+          "description": {
+            "es": "Sala del trono donde el Alto Señor recibe a sus invitados entre columnas envueltas en enredaderas vivas",
+            "en": "The throne hall where the High Lord receives his guests between columns wreathed in living vines"
+          }
         },
         {
           "id": "jardin-eterno",
-          "name": {"es": "Jardín Eterno", "en": "The Eternal Garden"},
+          "name": {
+            "es": "Jardín Eterno",
+            "en": "The Eternal Garden"
+          },
           "type": "garden",
-          "description": {"es": "Laberinto de setos mágicos donde las flores nunca mueren y los secretos siempre se susurran", "en": "A maze of enchanted hedges where the flowers never wither and the secrets are always whispered"}
+          "description": {
+            "es": "Laberinto de setos mágicos donde las flores nunca mueren y los secretos siempre se susurran",
+            "en": "A maze of enchanted hedges where the flowers never wither and the secrets are always whispered"
+          }
         },
         {
           "id": "biblioteca-cristal",
-          "name": {"es": "Biblioteca de Cristal", "en": "The Crystal Library"},
+          "name": {
+            "es": "Biblioteca de Cristal",
+            "en": "The Crystal Library"
+          },
           "type": "library",
-          "description": {"es": "Torre de cristal con tomos prohibidos sobre magia antigua y pactos rotos", "en": "A crystal tower holding forbidden tomes on ancient magic and broken pacts"}
+          "description": {
+            "es": "Torre de cristal con tomos prohibidos sobre magia antigua y pactos rotos",
+            "en": "A crystal tower holding forbidden tomes on ancient magic and broken pacts"
+          }
         },
         {
           "id": "alcobas-doradas",
-          "name": {"es": "Alcobas Doradas", "en": "The Gilded Bedchambers"},
+          "name": {
+            "es": "Alcobas Doradas",
+            "en": "The Gilded Bedchambers"
+          },
           "type": "residence",
-          "description": {"es": "Habitaciones de invitados forradas en seda dorada donde más de un destino se ha sellado en la oscuridad", "en": "Guest rooms lined with gold silk where more than one fate has been sealed in the dark"}
+          "description": {
+            "es": "Habitaciones de invitados forradas en seda dorada donde más de un destino se ha sellado en la oscuridad",
+            "en": "Guest rooms lined with gold silk where more than one fate has been sealed in the dark"
+          }
         }
       ]
     },
@@ -92,27 +122,51 @@
       "sub_locations": [
         {
           "id": "casa-viento-estrellas",
-          "name": {"es": "Casa del Viento y las Estrellas", "en": "The House of Wind and Stars"},
+          "name": {
+            "es": "Casa del Viento y las Estrellas",
+            "en": "The House of Wind and Stars"
+          },
           "type": "residence",
-          "description": {"es": "Torre flotante donde reside el Círculo Interno - vistas imposibles sobre la ciudad nocturna", "en": "A floating tower where the Inner Circle dwells — impossible views over the night city"}
+          "description": {
+            "es": "Torre flotante donde reside el Círculo Interno - vistas imposibles sobre la ciudad nocturna",
+            "en": "A floating tower where the Inner Circle dwells — impossible views over the night city"
+          }
         },
         {
           "id": "rito-libreria",
-          "name": {"es": "Librería del Rito", "en": "The Rite Bookshop"},
+          "name": {
+            "es": "Librería del Rito",
+            "en": "The Rite Bookshop"
+          },
           "type": "library",
-          "description": {"es": "Tienda de libros raros y manuscritos prohibidos, regenteada por una fae con secretos propios", "en": "A shop of rare books and forbidden manuscripts, run by a fae with secrets of her own"}
+          "description": {
+            "es": "Tienda de libros raros y manuscritos prohibidos, regenteada por una fae con secretos propios",
+            "en": "A shop of rare books and forbidden manuscripts, run by a fae with secrets of her own"
+          }
         },
         {
           "id": "puente-estrellas",
-          "name": {"es": "Puente de las Estrellas", "en": "The Bridge of Stars"},
+          "name": {
+            "es": "Puente de las Estrellas",
+            "en": "The Bridge of Stars"
+          },
           "type": "landmark",
-          "description": {"es": "Puente de luz pura que cruza el río Sidra - dicen que dos amantes que lo crucen juntos quedan atados para siempre", "en": "A bridge of pure light crossing the River Sidra — they say two lovers who cross it together are bound forever"}
+          "description": {
+            "es": "Puente de luz pura que cruza el río Sidra - dicen que dos amantes que lo crucen juntos quedan atados para siempre",
+            "en": "A bridge of pure light crossing the River Sidra — they say two lovers who cross it together are bound forever"
+          }
         },
         {
           "id": "muelle-rainbow",
-          "name": {"es": "Muelle Arcoíris", "en": "The Rainbow Quay"},
+          "name": {
+            "es": "Muelle Arcoíris",
+            "en": "The Rainbow Quay"
+          },
           "type": "market",
-          "description": {"es": "Mercado de artesanos donde los pintores fae venden cuadros que cambian con el ánimo de quien los mira", "en": "An artisans' market where fae painters sell canvases that shift with the mood of whoever looks at them"}
+          "description": {
+            "es": "Mercado de artesanos donde los pintores fae venden cuadros que cambian con el ánimo de quien los mira",
+            "en": "An artisans' market where fae painters sell canvases that shift with the mood of whoever looks at them"
+          }
         }
       ]
     },
@@ -174,9 +228,18 @@
   "archetypes": [
     {
       "id": "cortesano",
-      "name": { "es": "Cortesano (Maestre del Juego)", "en": "Courtier (Master of the Game)" },
-      "description": { "es": "Diplomático y manipulador entre las Cortes feéricas", "en": "Diplomat and manipulator among the fae Courts" },
-      "simple_description": { "es": "Tu arma es la palabra. Conocés cada baile, cada protocolo, cada secreto familiar. En la Corte sobreviven los que saben sonreír mientras envenenan la copa del rival.", "en": "Your weapon is your words. You know every dance, every protocol, every family secret. In the Court, only those who can smile while poisoning a rival's cup survive." },
+      "name": {
+        "es": "Cortesano (Maestre del Juego)",
+        "en": "Courtier (Master of the Game)"
+      },
+      "description": {
+        "es": "Diplomático y manipulador entre las Cortes feéricas",
+        "en": "Diplomat and manipulator among the fae Courts"
+      },
+      "simple_description": {
+        "es": "Tu arma es la palabra. Conocés cada baile, cada protocolo, cada secreto familiar. En la Corte sobreviven los que saben sonreír mientras envenenan la copa del rival.",
+        "en": "Your weapon is your words. You know every dance, every protocol, every family secret. In the Court, only those who can smile while poisoning a rival's cup survive."
+      },
       "starting_stats": {
         "hp": 16,
         "maxHp": 16,
@@ -186,26 +249,129 @@
         "lore": 4
       },
       "starting_inventory": [
-        {"es": "Vestimentas de seda con bordados de la Corte", "en": "Silk garments embroidered with the Court's sigils"},
-        {"es": "Daga ceremonial de plata (legal en banquetes)", "en": "Silver ceremonial dagger (permitted at banquets)"},
-        {"es": "Anillo con sello familiar", "en": "Signet ring of your family"},
-        {"es": "Carta sellada de invitación", "en": "Sealed letter of invitation"},
-        {"es": "Frasco con perfume embrujado", "en": "Vial of enchanted perfume"},
-        {"es": "Pañuelo con monograma", "en": "Monogrammed handkerchief"},
-        {"es": "Bolsa de monedas de oro", "en": "Purse of gold coins"},
-        {"es": "Libro de etiqueta cortesana", "en": "Book of courtly etiquette"},
-        {"es": "Espejo de mano encantado (ve mentiras)", "en": "Enchanted hand mirror (reveals lies)"},
-        {"es": "Joyero portátil con piezas de cambio", "en": "Portable jewelry box with trade pieces"},
-        {"es": "Botiquín de hierbas finas", "en": "Kit of rare healing herbs"},
-        {"es": "Pluma y pergamino sellado", "en": "Quill and sealed parchment"}
+        {
+          "es": "Vestimentas de seda con bordados de la Corte",
+          "en": "Silk garments embroidered with the Court's sigils"
+        },
+        {
+          "es": "Daga ceremonial de plata (legal en banquetes)",
+          "en": "Silver ceremonial dagger (permitted at banquets)"
+        },
+        {
+          "es": "Anillo con sello familiar",
+          "en": "Signet ring of your family"
+        },
+        {
+          "es": "Carta sellada de invitación",
+          "en": "Sealed letter of invitation"
+        },
+        {
+          "es": "Frasco con perfume embrujado",
+          "en": "Vial of enchanted perfume"
+        },
+        {
+          "es": "Pañuelo con monograma",
+          "en": "Monogrammed handkerchief"
+        },
+        {
+          "es": "Bolsa de monedas de oro",
+          "en": "Purse of gold coins"
+        },
+        {
+          "es": "Libro de etiqueta cortesana",
+          "en": "Book of courtly etiquette"
+        },
+        {
+          "es": "Espejo de mano encantado (ve mentiras)",
+          "en": "Enchanted hand mirror (reveals lies)"
+        },
+        {
+          "es": "Joyero portátil con piezas de cambio",
+          "en": "Portable jewelry box with trade pieces"
+        },
+        {
+          "es": "Botiquín de hierbas finas",
+          "en": "Kit of rare healing herbs"
+        },
+        {
+          "es": "Pluma y pergamino sellado",
+          "en": "Quill and sealed parchment"
+        }
       ],
-      "special_ability": "Voz de Miel: Podés detectar mentiras en una conversación y persuadir a NPCs hostiles cuando hay testigos. Las Cortes te abren las puertas que cierran a otros."
+      "special_ability": "Voz de Miel: Podés detectar mentiras en una conversación y persuadir a NPCs hostiles cuando hay testigos. Las Cortes te abren las puertas que cierran a otros.",
+      "abilities": [
+        {
+          "id": "voz-de-miel",
+          "name": {
+            "es": "Voz de Miel",
+            "en": "Honey Voice"
+          },
+          "description": {
+            "es": "Podés detectar mentiras en una conversación y persuadir a NPCs hostiles cuando hay testigos. Las Cortes te abren las puertas que cierran a otros.",
+            "en": "You can detect lies in a conversation and persuade hostile NPCs when witnesses are present. The Courts open doors to you that they close to others."
+          },
+          "kind": "special",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 3,
+          "icon": "sparkles",
+          "tags": [
+            "social"
+          ]
+        },
+        {
+          "id": "rumor-envenenado",
+          "name": {
+            "es": "Rumor Envenenado",
+            "en": "Poisoned Rumor"
+          },
+          "description": {
+            "es": "Sembrás una mentira cuidadosamente tejida sobre un enemigo. Hasta que no se descubra la verdad, ese PNJ pierde credibilidad ante los demás y no puede pedirle ayuda a aliados.",
+            "en": "You plant a carefully crafted lie about an enemy. Until the truth is uncovered, that NPC loses credibility among others and cannot call upon allies for aid."
+          },
+          "kind": "trick",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 4,
+          "icon": "moon",
+          "tags": [
+            "social",
+            "utility"
+          ]
+        },
+        {
+          "id": "gracia-cortesana",
+          "name": {
+            "es": "Gracia Cortesana",
+            "en": "Courtly Grace"
+          },
+          "description": {
+            "es": "Con un gesto elegante y unas palabras precisas, desviás la atención de todos hacia vos, dándole a un aliado la oportunidad de actuar sin ser observado durante un turno.",
+            "en": "With an elegant gesture and well-chosen words, you draw everyone's attention to yourself, giving an ally the chance to act unobserved for one turn."
+          },
+          "kind": "trick",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 2,
+          "icon": "eye",
+          "tags": [
+            "stealth",
+            "social"
+          ]
+        }
+      ]
     },
     {
       "id": "guerrera-illyriana",
-      "name": { "es": "Guerrera Illyriana (Guardiana Alada)", "en": "Illyrian Warrior (Winged Guardian)" },
-      "description": { "es": "Combatiente de élite con alas de murciélago y disciplina feroz", "en": "Elite fighter with bat-like wings and fierce discipline" },
-      "simple_description": { "es": "Sangre Illyriana corre en tus venas. Naciste con alas y entrenaste desde que aprendiste a caminar. Tu lealtad es de hierro, tu furia es legendaria, y nadie sobrevive a tu danza de espadas.", "en": "Illyrian blood runs through your veins. You were born with wings and you've trained since the moment you could walk. Your loyalty is iron, your fury is legendary, and no one survives your blade dance." },
+      "name": {
+        "es": "Guerrera Illyriana (Guardiana Alada)",
+        "en": "Illyrian Warrior (Winged Guardian)"
+      },
+      "description": {
+        "es": "Combatiente de élite con alas de murciélago y disciplina feroz",
+        "en": "Elite fighter with bat-like wings and fierce discipline"
+      },
+      "simple_description": {
+        "es": "Sangre Illyriana corre en tus venas. Naciste con alas y entrenaste desde que aprendiste a caminar. Tu lealtad es de hierro, tu furia es legendaria, y nadie sobrevive a tu danza de espadas.",
+        "en": "Illyrian blood runs through your veins. You were born with wings and you've trained since the moment you could walk. Your loyalty is iron, your fury is legendary, and no one survives your blade dance."
+      },
       "starting_stats": {
         "hp": 24,
         "maxHp": 24,
@@ -215,26 +381,128 @@
         "lore": 1
       },
       "starting_inventory": [
-        {"es": "Cuero de batalla Illyriano con sigilos", "en": "Illyrian battle leathers carved with sigils"},
-        {"es": "Espada larga de acero feérico", "en": "Longsword of fae-forged steel"},
-        {"es": "Arco corto y carcaj de flechas rúnicas", "en": "Shortbow and quiver of runed arrows"},
-        {"es": "Daga oculta en la bota", "en": "Dagger hidden in the boot"},
-        {"es": "Tatuajes mágicos (sigil de protección)", "en": "Magical tattoos (sigils of protection)"},
-        {"es": "Capa con capucha de viajero", "en": "Hooded traveller's cloak"},
-        {"es": "Mochila de cuero curtido", "en": "Tanned leather backpack"},
-        {"es": "Raciones secas (5 días)", "en": "Dried rations (5 days)"},
-        {"es": "Cantimplora reforzada", "en": "Reinforced canteen"},
-        {"es": "Cuerda trenzada (20m)", "en": "Braided rope (20m)"},
-        {"es": "Linterna de aceite con cristal", "en": "Oil lantern with crystal pane"},
-        {"es": "Saco de dormir liviano", "en": "Lightweight bedroll"}
+        {
+          "es": "Cuero de batalla Illyriano con sigilos",
+          "en": "Illyrian battle leathers carved with sigils"
+        },
+        {
+          "es": "Espada larga de acero feérico",
+          "en": "Longsword of fae-forged steel"
+        },
+        {
+          "es": "Arco corto y carcaj de flechas rúnicas",
+          "en": "Shortbow and quiver of runed arrows"
+        },
+        {
+          "es": "Daga oculta en la bota",
+          "en": "Dagger hidden in the boot"
+        },
+        {
+          "es": "Tatuajes mágicos (sigil de protección)",
+          "en": "Magical tattoos (sigils of protection)"
+        },
+        {
+          "es": "Capa con capucha de viajero",
+          "en": "Hooded traveller's cloak"
+        },
+        {
+          "es": "Mochila de cuero curtido",
+          "en": "Tanned leather backpack"
+        },
+        {
+          "es": "Raciones secas (5 días)",
+          "en": "Dried rations (5 days)"
+        },
+        {
+          "es": "Cantimplora reforzada",
+          "en": "Reinforced canteen"
+        },
+        {
+          "es": "Cuerda trenzada (20m)",
+          "en": "Braided rope (20m)"
+        },
+        {
+          "es": "Linterna de aceite con cristal",
+          "en": "Oil lantern with crystal pane"
+        },
+        {
+          "es": "Saco de dormir liviano",
+          "en": "Lightweight bedroll"
+        }
       ],
-      "special_ability": "Vuelo de Combate: Podés volar distancias cortas y atacar desde el aire. En combate, tus golpes ignoran armadura ligera. Ningún Illyriano huye de una pelea."
+      "special_ability": "Vuelo de Combate: Podés volar distancias cortas y atacar desde el aire. En combate, tus golpes ignoran armadura ligera. Ningún Illyriano huye de una pelea.",
+      "abilities": [
+        {
+          "id": "vuelo-de-combate",
+          "name": {
+            "es": "Vuelo de Combate",
+            "en": "Combat Flight"
+          },
+          "description": {
+            "es": "Podés volar distancias cortas y atacar desde el aire. En combate, tus golpes ignoran armadura ligera. Ningún Illyriano huye de una pelea.",
+            "en": "You can fly short distances and attack from the air. In combat, your strikes ignore light armor. No Illyrian runs from a fight."
+          },
+          "kind": "special",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 3,
+          "icon": "zap",
+          "tags": [
+            "combat"
+          ]
+        },
+        {
+          "id": "descenso-en-picada",
+          "name": {
+            "es": "Descenso en Picada",
+            "en": "Diving Strike"
+          },
+          "description": {
+            "es": "Te lanzás desde las alturas con las alas plegadas y golpeás con toda tu velocidad. El impacto aturde al objetivo por un turno y lo empuja hacia atrás.",
+            "en": "You plunge from above with wings folded and strike with full momentum, stunning the target for one turn and knocking them back."
+          },
+          "kind": "special",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 4,
+          "icon": "sword",
+          "tags": [
+            "combat"
+          ]
+        },
+        {
+          "id": "sombra-de-alas",
+          "name": {
+            "es": "Sombra de Alas",
+            "en": "Wing Shadow"
+          },
+          "description": {
+            "es": "Extendés las alas para cubrirte a vos o a un aliado, bloqueando proyectiles y ataques a distancia hasta tu próximo turno. La disciplina Illyriana protege a los suyos.",
+            "en": "You spread your wings to cover yourself or an ally, blocking ranged attacks and projectiles until your next turn."
+          },
+          "kind": "trick",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 3,
+          "icon": "shield",
+          "tags": [
+            "combat",
+            "utility"
+          ]
+        }
+      ]
     },
     {
       "id": "alta-dama",
-      "name": { "es": "Alta Dama (Hechicera de las Estrellas)", "en": "High Lady (Starborn Sorceress)" },
-      "description": { "es": "Maga poderosa con conexión a la magia ancestral", "en": "Powerful sorceress bound to ancient magic" },
-      "simple_description": { "es": "La magia te eligió. Ves los hilos del destino, hablás con las estrellas, y tu sola presencia hace que las llamas se inclinen. Pero el poder atrae miradas, y no todas son benévolas.", "en": "Magic chose you. You see the threads of fate, speak with the stars, and your mere presence bends the flames. But power draws attention, and not all eyes are kind." },
+      "name": {
+        "es": "Alta Dama (Hechicera de las Estrellas)",
+        "en": "High Lady (Starborn Sorceress)"
+      },
+      "description": {
+        "es": "Maga poderosa con conexión a la magia ancestral",
+        "en": "Powerful sorceress bound to ancient magic"
+      },
+      "simple_description": {
+        "es": "La magia te eligió. Ves los hilos del destino, hablás con las estrellas, y tu sola presencia hace que las llamas se inclinen. Pero el poder atrae miradas, y no todas son benévolas.",
+        "en": "Magic chose you. You see the threads of fate, speak with the stars, and your mere presence bends the flames. But power draws attention, and not all eyes are kind."
+      },
       "starting_stats": {
         "hp": 14,
         "maxHp": 14,
@@ -244,20 +512,114 @@
         "lore": 7
       },
       "starting_inventory": [
-        {"es": "Túnica ceremonial bordada con runas", "en": "Ceremonial robe embroidered with runes"},
-        {"es": "Báculo de cristal de cuarzo lunar", "en": "Staff of moon quartz crystal"},
-        {"es": "Grimorio personal con hechizos antiguos", "en": "Personal grimoire of ancient spells"},
-        {"es": "Amuleto del Tercer Ojo", "en": "Amulet of the Third Eye"},
-        {"es": "Cartas del destino (oráculo)", "en": "Oracle cards of fate"},
-        {"es": "Saquito de hierbas rituales", "en": "Pouch of ritual herbs"},
-        {"es": "Frasco con tinta de estrella", "en": "Vial of starlight ink"},
-        {"es": "Vela negra para invocaciones", "en": "Black candle for invocations"},
-        {"es": "Daga ritual de plata", "en": "Silver ritual dagger"},
-        {"es": "Cristales de poder (3 colores)", "en": "Power crystals (3 colors)"},
-        {"es": "Mochila de cuero curtido", "en": "Tanned leather backpack"},
-        {"es": "Pergaminos en blanco", "en": "Blank scrolls"}
+        {
+          "es": "Túnica ceremonial bordada con runas",
+          "en": "Ceremonial robe embroidered with runes"
+        },
+        {
+          "es": "Báculo de cristal de cuarzo lunar",
+          "en": "Staff of moon quartz crystal"
+        },
+        {
+          "es": "Grimorio personal con hechizos antiguos",
+          "en": "Personal grimoire of ancient spells"
+        },
+        {
+          "es": "Amuleto del Tercer Ojo",
+          "en": "Amulet of the Third Eye"
+        },
+        {
+          "es": "Cartas del destino (oráculo)",
+          "en": "Oracle cards of fate"
+        },
+        {
+          "es": "Saquito de hierbas rituales",
+          "en": "Pouch of ritual herbs"
+        },
+        {
+          "es": "Frasco con tinta de estrella",
+          "en": "Vial of starlight ink"
+        },
+        {
+          "es": "Vela negra para invocaciones",
+          "en": "Black candle for invocations"
+        },
+        {
+          "es": "Daga ritual de plata",
+          "en": "Silver ritual dagger"
+        },
+        {
+          "es": "Cristales de poder (3 colores)",
+          "en": "Power crystals (3 colors)"
+        },
+        {
+          "es": "Mochila de cuero curtido",
+          "en": "Tanned leather backpack"
+        },
+        {
+          "es": "Pergaminos en blanco",
+          "en": "Blank scrolls"
+        }
       ],
-      "special_ability": "Visión del Destino: Una vez por escena podés vislumbrar el futuro inmediato y reaccionar antes de que pase. Tu magia puede sanar, sellar pactos o romper cadenas mágicas."
+      "special_ability": "Visión del Destino: Una vez por escena podés vislumbrar el futuro inmediato y reaccionar antes de que pase. Tu magia puede sanar, sellar pactos o romper cadenas mágicas.",
+      "abilities": [
+        {
+          "id": "vision-del-destino",
+          "name": {
+            "es": "Visión del Destino",
+            "en": "Vision of Fate"
+          },
+          "description": {
+            "es": "Una vez por escena podés vislumbrar el futuro inmediato y reaccionar antes de que pase. Tu magia puede sanar, sellar pactos o romper cadenas mágicas.",
+            "en": "Once per scene you can glimpse the immediate future and react before it happens. Your magic can heal, seal pacts, or break magical chains."
+          },
+          "kind": "special",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 3,
+          "icon": "eye",
+          "tags": [
+            "utility"
+          ]
+        },
+        {
+          "id": "manto-estelar",
+          "name": {
+            "es": "Manto Estelar",
+            "en": "Starlit Mantle"
+          },
+          "description": {
+            "es": "Invocás la luz de las estrellas ancestrales para envolverte en un escudo de energía cósmica. Reducís el daño que recibís en tu próximo turno y enceguecés a quien intente atacarte de cerca.",
+            "en": "You summon the light of ancient stars to wrap yourself in a shield of cosmic energy. You reduce incoming damage on your next turn and blind anyone who tries to strike you at close range."
+          },
+          "kind": "spell",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 4,
+          "icon": "sparkles",
+          "tags": [
+            "utility",
+            "combat"
+          ]
+        },
+        {
+          "id": "susurro-de-constelaciones",
+          "name": {
+            "es": "Susurro de Constelaciones",
+            "en": "Whisper of Constellations"
+          },
+          "description": {
+            "es": "Canalizás la sabiduría de los cielos nocturnos para revelar verdades ocultas o persuadir a quienes te escuchan. Tu voz resuena con autoridad mágica: nadie puede mentirte mientras hables bajo las estrellas.",
+            "en": "You channel the wisdom of the night skies to reveal hidden truths or persuade those who listen. Your voice resonates with magical authority: no one can lie to you while you speak beneath the stars."
+          },
+          "kind": "trick",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 2,
+          "icon": "moon",
+          "tags": [
+            "social",
+            "utility"
+          ]
+        }
+      ]
     }
   ],
   "voice_id": "cálido_seductor",
@@ -274,31 +636,52 @@
       "formula": "1d20",
       "results": [
         {
-          "range": [1, 4],
+          "range": [
+            1,
+            4
+          ],
           "result": "Un cortesano misterioso te invita a un baile privado con segundas intenciones"
         },
         {
-          "range": [5, 8],
+          "range": [
+            5,
+            8
+          ],
           "result": "Emisario de otra Corte con un mensaje que no debe ser leído por nadie más"
         },
         {
-          "range": [9, 12],
+          "range": [
+            9,
+            12
+          ],
           "result": "Bestia del Bosque de Espinas atacando viajeros - testigo desesperado pide ayuda"
         },
         {
-          "range": [13, 15],
+          "range": [
+            13,
+            15
+          ],
           "result": "Asesino enmascarado intentando colarse en una recepción cortesana"
         },
         {
-          "range": [16, 17],
+          "range": [
+            16,
+            17
+          ],
           "result": "Antiguo amor reaparece con una propuesta peligrosa"
         },
         {
-          "range": [18, 19],
+          "range": [
+            18,
+            19
+          ],
           "result": "Profecía recitada por una vidente ciega en el mercado - te incluye"
         },
         {
-          "range": [20, 20],
+          "range": [
+            20,
+            20
+          ],
           "result": "Pacto mágico se activa - sentís el lazo del destino tirando de vos"
         }
       ]
@@ -307,23 +690,38 @@
       "formula": "1d10",
       "results": [
         {
-          "range": [1, 3],
+          "range": [
+            1,
+            3
+          ],
           "result": "Joya cortesana - 1d6 x 50 monedas de oro"
         },
         {
-          "range": [4, 5],
+          "range": [
+            4,
+            5
+          ],
           "result": "Carta de amor sellada con secretos políticos"
         },
         {
-          "range": [6, 7],
+          "range": [
+            6,
+            7
+          ],
           "result": "Frasco con esencia mágica (cura, sueño o verdad)"
         },
         {
-          "range": [8, 9],
+          "range": [
+            8,
+            9
+          ],
           "result": "Arma feérica antigua con runa propia"
         },
         {
-          "range": [10, 10],
+          "range": [
+            10,
+            10
+          ],
           "result": "Reliquia élfica con poder de pacto - cambia destinos"
         }
       ]

@@ -1,7 +1,13 @@
 {
   "id": "CYBERPUNK",
-  "name": { "es": "Neón y Cromo", "en": "Neon and Chrome" },
-  "tagline": { "es": "Alta tecnología, baja vida en la ciudad del futuro", "en": "High tech, low life in the city of the future" },
+  "name": {
+    "es": "Neón y Cromo",
+    "en": "Neon and Chrome"
+  },
+  "tagline": {
+    "es": "Alta tecnología, baja vida en la ciudad del futuro",
+    "en": "High tech, low life in the city of the future"
+  },
   "tone": [
     "oscuro",
     "tech-noir",
@@ -56,27 +62,51 @@
       "sub_locations": [
         {
           "id": "plaza-corporativa",
-          "name": {"es": "Plaza Corporativa", "en": "Corporate Plaza"},
+          "name": {
+            "es": "Plaza Corporativa",
+            "en": "Corporate Plaza"
+          },
           "type": "plaza",
-          "description": {"es": "Centro neurálgico de rascacielos de cristal con pantallas holográficas gigantes", "en": "A nerve center of glass skyscrapers wrapped in giant holographic screens"}
+          "description": {
+            "es": "Centro neurálgico de rascacielos de cristal con pantallas holográficas gigantes",
+            "en": "A nerve center of glass skyscrapers wrapped in giant holographic screens"
+          }
         },
         {
           "id": "centro-comercial-neon",
-          "name": {"es": "Centro Comercial Neón", "en": "Neon Mall"},
+          "name": {
+            "es": "Centro Comercial Neón",
+            "en": "Neon Mall"
+          },
           "type": "market",
-          "description": {"es": "Shopping vertical de 50 pisos con tiendas de implantes, armas y moda tech", "en": "A 50-story vertical mall crammed with implant clinics, weapon shops and tech fashion"}
+          "description": {
+            "es": "Shopping vertical de 50 pisos con tiendas de implantes, armas y moda tech",
+            "en": "A 50-story vertical mall crammed with implant clinics, weapon shops and tech fashion"
+          }
         },
         {
           "id": "hospital-trauma-team",
-          "name": {"es": "Hospital de Trauma Team", "en": "Trauma Team Hospital"},
+          "name": {
+            "es": "Hospital de Trauma Team",
+            "en": "Trauma Team Hospital"
+          },
           "type": "hospital",
-          "description": {"es": "Centro médico premium donde solo atienden a clientes con seguro corporativo", "en": "A premium medical center that only treats clients with corporate insurance"}
+          "description": {
+            "es": "Centro médico premium donde solo atienden a clientes con seguro corporativo",
+            "en": "A premium medical center that only treats clients with corporate insurance"
+          }
         },
         {
           "id": "estacion-ncart",
-          "name": {"es": "Estación NCART Central", "en": "NCART Central Station"},
+          "name": {
+            "es": "Estación NCART Central",
+            "en": "NCART Central Station"
+          },
           "type": "gate",
-          "description": {"es": "Nodo principal del tren urbano de Night City, siempre atestado de gente", "en": "The main hub of Night City's urban rail, always packed with people"}
+          "description": {
+            "es": "Nodo principal del tren urbano de Night City, siempre atestado de gente",
+            "en": "The main hub of Night City's urban rail, always packed with people"
+          }
         }
       ]
     },
@@ -94,27 +124,51 @@
       "sub_locations": [
         {
           "id": "bloque-megaedificio",
-          "name": {"es": "Megaedificio H10", "en": "Megabuilding H10"},
+          "name": {
+            "es": "Megaedificio H10",
+            "en": "Megabuilding H10"
+          },
           "type": "residence",
-          "description": {"es": "Colmena vertical de apartamentos diminutos donde viven miles de personas hacinadas", "en": "A vertical hive of tiny apartments where thousands of people live crammed together"}
+          "description": {
+            "es": "Colmena vertical de apartamentos diminutos donde viven miles de personas hacinadas",
+            "en": "A vertical hive of tiny apartments where thousands of people live crammed together"
+          }
         },
         {
           "id": "puesto-comida-callejera",
-          "name": {"es": "Puestos de Comida Callejera", "en": "Street Food Stalls"},
+          "name": {
+            "es": "Puestos de Comida Callejera",
+            "en": "Street Food Stalls"
+          },
           "type": "market",
-          "description": {"es": "Hilera de vendedores ambulantes con fideos sintéticos y cerveza barata", "en": "A row of vendors peddling synthetic noodles and cheap beer"}
+          "description": {
+            "es": "Hilera de vendedores ambulantes con fideos sintéticos y cerveza barata",
+            "en": "A row of vendors peddling synthetic noodles and cheap beer"
+          }
         },
         {
           "id": "taller-mecanico",
-          "name": {"es": "Taller Mecánico de Vic", "en": "Vic's Auto Shop"},
+          "name": {
+            "es": "Taller Mecánico de Vic",
+            "en": "Vic's Auto Shop"
+          },
           "type": "workshop",
-          "description": {"es": "Garaje clandestino donde se modifican vehículos y se esconden cargamentos", "en": "A clandestine garage where vehicles get modded and cargo gets hidden"}
+          "description": {
+            "es": "Garaje clandestino donde se modifican vehículos y se esconden cargamentos",
+            "en": "A clandestine garage where vehicles get modded and cargo gets hidden"
+          }
         },
         {
           "id": "arena-subterranea",
-          "name": {"es": "Arena Subterránea", "en": "Underground Arena"},
+          "name": {
+            "es": "Arena Subterránea",
+            "en": "Underground Arena"
+          },
           "type": "arena",
-          "description": {"es": "Ring de peleas ilegales donde los Solos apuestan su vida por créditos", "en": "An illegal fight ring where Solos bet their lives for eddies"}
+          "description": {
+            "es": "Ring de peleas ilegales donde los Solos apuestan su vida por créditos",
+            "en": "An illegal fight ring where Solos bet their lives for eddies"
+          }
         }
       ]
     },
@@ -186,9 +240,18 @@
   "archetypes": [
     {
       "id": "solo",
-      "name": { "es": "Solo (Mercenario)", "en": "Solo (Merc)" },
-      "description": { "es": "Guerrero cibernético con reflejos mejorados", "en": "Cybernetic warrior with enhanced reflexes" },
-      "simple_description": { "es": "Tus implantes te hacen más rápido y mortal. Sos músculo de alquiler. Sobrevivís por tu arma y tus reflejos.", "en": "Your implants make you faster and deadlier. You're muscle for hire. You survive on your weapon and your reflexes." },
+      "name": {
+        "es": "Solo (Mercenario)",
+        "en": "Solo (Merc)"
+      },
+      "description": {
+        "es": "Guerrero cibernético con reflejos mejorados",
+        "en": "Cybernetic warrior with enhanced reflexes"
+      },
+      "simple_description": {
+        "es": "Tus implantes te hacen más rápido y mortal. Sos músculo de alquiler. Sobrevivís por tu arma y tus reflejos.",
+        "en": "Your implants make you faster and deadlier. You're muscle for hire. You survive on your weapon and your reflexes."
+      },
       "starting_stats": {
         "hp": 24,
         "maxHp": 24,
@@ -198,26 +261,128 @@
         "lore": 1
       },
       "starting_inventory": [
-        {"es": "Pistola inteligente", "en": "Smart pistol"},
-        {"es": "Mantis blades (implante)", "en": "Mantis blades (cyberware)"},
-        {"es": "Jacket antibalas", "en": "Bulletproof jacket"},
-        {"es": "Estimulantes de combate", "en": "Combat stims"},
-        {"es": "Kontrato actual", "en": "Current contract"},
-        {"es": "Mochila urbana reforzada", "en": "Reinforced urban backpack"},
-        {"es": "Barras nutricionales (3 días)", "en": "Nutrient bars (3 days)"},
-        {"es": "Botella de agua con filtro", "en": "Filtered water bottle"},
-        {"es": "Cuerda sintética (15m)", "en": "Synthetic rope (15m)"},
-        {"es": "Linterna táctica", "en": "Tactical flashlight"},
-        {"es": "Nano-botiquín", "en": "Nano medkit"},
-        {"es": "Credstick con 200 eurodólares", "en": "Credstick loaded with 200 eurodollars"}
+        {
+          "es": "Pistola inteligente",
+          "en": "Smart pistol"
+        },
+        {
+          "es": "Mantis blades (implante)",
+          "en": "Mantis blades (cyberware)"
+        },
+        {
+          "es": "Jacket antibalas",
+          "en": "Bulletproof jacket"
+        },
+        {
+          "es": "Estimulantes de combate",
+          "en": "Combat stims"
+        },
+        {
+          "es": "Kontrato actual",
+          "en": "Current contract"
+        },
+        {
+          "es": "Mochila urbana reforzada",
+          "en": "Reinforced urban backpack"
+        },
+        {
+          "es": "Barras nutricionales (3 días)",
+          "en": "Nutrient bars (3 days)"
+        },
+        {
+          "es": "Botella de agua con filtro",
+          "en": "Filtered water bottle"
+        },
+        {
+          "es": "Cuerda sintética (15m)",
+          "en": "Synthetic rope (15m)"
+        },
+        {
+          "es": "Linterna táctica",
+          "en": "Tactical flashlight"
+        },
+        {
+          "es": "Nano-botiquín",
+          "en": "Nano medkit"
+        },
+        {
+          "es": "Credstick con 200 eurodólares",
+          "en": "Credstick loaded with 200 eurodollars"
+        }
       ],
-      "special_ability": "Reflejos Mejorados: Actúas primero en combate. Tus ataques cuerpo a cuerpo son críticos frecuentemente"
+      "special_ability": "Reflejos Mejorados: Actúas primero en combate. Tus ataques cuerpo a cuerpo son críticos frecuentemente",
+      "abilities": [
+        {
+          "id": "reflejos-mejorados",
+          "name": {
+            "es": "Reflejos Mejorados",
+            "en": "Enhanced Reflexes"
+          },
+          "description": {
+            "es": "Actuás primero en combate. Tus ataques cuerpo a cuerpo son críticos frecuentemente.",
+            "en": "You act first in combat. Your melee attacks critically hit frequently."
+          },
+          "kind": "special",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 3,
+          "icon": "zap",
+          "tags": [
+            "combat"
+          ]
+        },
+        {
+          "id": "rafaga-tactica",
+          "name": {
+            "es": "Ráfaga Táctica",
+            "en": "Tactical Burst"
+          },
+          "description": {
+            "es": "Descargás una serie de disparos calculados contra un objetivo. Tenés alta probabilidad de penetrar blindajes ligeros y causar daño adicional.",
+            "en": "You unleash a calculated burst of fire at a target, with high chance to pierce light armor and deal bonus damage."
+          },
+          "kind": "spell",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 4,
+          "icon": "sword",
+          "tags": [
+            "combat"
+          ]
+        },
+        {
+          "id": "modo-sombra",
+          "name": {
+            "es": "Modo Sombra",
+            "en": "Shadow Mode"
+          },
+          "description": {
+            "es": "Activás tus implantes de camuflaje óptico y te movés sin ser detectado. Podés reposicionarte o escapar de una situación sin que nadie lo note.",
+            "en": "You activate your optical camouflage implants and move undetected, allowing you to reposition or escape without being noticed."
+          },
+          "kind": "trick",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 5,
+          "icon": "moon",
+          "tags": [
+            "stealth",
+            "utility"
+          ]
+        }
+      ]
     },
     {
       "id": "netrunner",
-      "name": { "es": "Netrunner (Hacker)", "en": "Netrunner (Hacker)" },
-      "description": { "es": "Pirata informático que ataca desde el ciberespacio", "en": "A hacker who attacks from cyberspace" },
-      "simple_description": { "es": "Tu mente se conecta a la Red. Hackeás sistemas, robás data, fríes cerebros. El ciberespacio es tu arma.", "en": "Your mind jacks into the Net. You hack systems, steal data, fry brains. Cyberspace is your weapon." },
+      "name": {
+        "es": "Netrunner (Hacker)",
+        "en": "Netrunner (Hacker)"
+      },
+      "description": {
+        "es": "Pirata informático que ataca desde el ciberespacio",
+        "en": "A hacker who attacks from cyberspace"
+      },
+      "simple_description": {
+        "es": "Tu mente se conecta a la Red. Hackeás sistemas, robás data, fríes cerebros. El ciberespacio es tu arma.",
+        "en": "Your mind jacks into the Net. You hack systems, steal data, fry brains. Cyberspace is your weapon."
+      },
       "starting_stats": {
         "hp": 14,
         "maxHp": 14,
@@ -227,26 +392,129 @@
         "lore": 6
       },
       "starting_inventory": [
-        {"es": "Cyberdeck militar", "en": "Military-grade cyberdeck"},
-        {"es": "Silla de inmersión", "en": "Immersion chair"},
-        {"es": "ICE breakers", "en": "ICE breakers"},
-        {"es": "Data robada valiosa", "en": "Valuable stolen data"},
-        {"es": "Firewall personal", "en": "Personal firewall"},
-        {"es": "Mochila urbana reforzada", "en": "Reinforced urban backpack"},
-        {"es": "Barras nutricionales (3 días)", "en": "Nutrient bars (3 days)"},
-        {"es": "Botella de agua con filtro", "en": "Filtered water bottle"},
-        {"es": "Linterna táctica", "en": "Tactical flashlight"},
-        {"es": "Nano-botiquín", "en": "Nano medkit"},
-        {"es": "Credstick con 200 eurodólares", "en": "Credstick loaded with 200 eurodollars"},
-        {"es": "Multitool electrónica", "en": "Electronic multi-tool"}
+        {
+          "es": "Cyberdeck militar",
+          "en": "Military-grade cyberdeck"
+        },
+        {
+          "es": "Silla de inmersión",
+          "en": "Immersion chair"
+        },
+        {
+          "es": "ICE breakers",
+          "en": "ICE breakers"
+        },
+        {
+          "es": "Data robada valiosa",
+          "en": "Valuable stolen data"
+        },
+        {
+          "es": "Firewall personal",
+          "en": "Personal firewall"
+        },
+        {
+          "es": "Mochila urbana reforzada",
+          "en": "Reinforced urban backpack"
+        },
+        {
+          "es": "Barras nutricionales (3 días)",
+          "en": "Nutrient bars (3 days)"
+        },
+        {
+          "es": "Botella de agua con filtro",
+          "en": "Filtered water bottle"
+        },
+        {
+          "es": "Linterna táctica",
+          "en": "Tactical flashlight"
+        },
+        {
+          "es": "Nano-botiquín",
+          "en": "Nano medkit"
+        },
+        {
+          "es": "Credstick con 200 eurodólares",
+          "en": "Credstick loaded with 200 eurodollars"
+        },
+        {
+          "es": "Multitool electrónica",
+          "en": "Electronic multi-tool"
+        }
       ],
-      "special_ability": "Hackear: Podés tomar control de sistemas, drones, implantes enemigos. En combate, dañás directamente la mente"
+      "special_ability": "Hackear: Podés tomar control de sistemas, drones, implantes enemigos. En combate, dañás directamente la mente",
+      "abilities": [
+        {
+          "id": "hackear",
+          "name": {
+            "es": "Hackear",
+            "en": "Hack"
+          },
+          "description": {
+            "es": "Podés tomar control de sistemas, drones, implantes enemigos. En combate, dañás directamente la mente.",
+            "en": "You can take control of systems, drones, enemy implants. In combat, you damage the mind directly."
+          },
+          "kind": "special",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 3,
+          "icon": "zap",
+          "tags": [
+            "combat",
+            "utility"
+          ]
+        },
+        {
+          "id": "fantasma-digital",
+          "name": {
+            "es": "Fantasma Digital",
+            "en": "Digital Ghost"
+          },
+          "description": {
+            "es": "Te ocultás en la red y borrás tu rastro electrónico. Los sistemas de seguridad y los rastreadores enemigos no pueden detectarte durante un tiempo.",
+            "en": "You vanish into the net and erase your electronic trail. Security systems and enemy trackers cannot detect you for a while."
+          },
+          "kind": "trick",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 4,
+          "icon": "eye",
+          "tags": [
+            "stealth",
+            "utility"
+          ]
+        },
+        {
+          "id": "sobrecarga-neural",
+          "name": {
+            "es": "Sobrecarga Neural",
+            "en": "Neural Overload"
+          },
+          "description": {
+            "es": "Enviás un pulso de datos corruptos directo al sistema nervioso de un objetivo con implantes cibernéticos, dejándolo aturdido y sin poder actuar por un turno.",
+            "en": "You send a burst of corrupt data straight into the nervous system of a target with cybernetic implants, stunning them and preventing action for one turn."
+          },
+          "kind": "spell",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 5,
+          "icon": "sparkles",
+          "tags": [
+            "combat"
+          ]
+        }
+      ]
     },
     {
       "id": "fixer",
-      "name": { "es": "Fixer (Intermediario)", "en": "Fixer (Middleman)" },
-      "description": { "es": "Conocés gente, conseguís cosas, hacés que sucedan", "en": "You know people, you get things, you make things happen" },
-      "simple_description": { "es": "Tu red de contactos es tu poder. Conocés a todos. Podés conseguir cualquier cosa por el precio correcto.", "en": "Your network is your power. You know everyone. You can get anything for the right price." },
+      "name": {
+        "es": "Fixer (Intermediario)",
+        "en": "Fixer (Middleman)"
+      },
+      "description": {
+        "es": "Conocés gente, conseguís cosas, hacés que sucedan",
+        "en": "You know people, you get things, you make things happen"
+      },
+      "simple_description": {
+        "es": "Tu red de contactos es tu poder. Conocés a todos. Podés conseguir cualquier cosa por el precio correcto.",
+        "en": "Your network is your power. You know everyone. You can get anything for the right price."
+      },
       "starting_stats": {
         "hp": 16,
         "maxHp": 16,
@@ -256,20 +524,114 @@
         "lore": 3
       },
       "starting_inventory": [
-        {"es": "Pistola oculta", "en": "Concealed pistol"},
-        {"es": "Teléfono encriptado", "en": "Encrypted phone"},
-        {"es": "Contactos en todas las facciones", "en": "Contacts in every faction"},
-        {"es": "Club nocturno propio", "en": "Your own nightclub"},
-        {"es": "Deudas que cobrar", "en": "Debts to collect"},
-        {"es": "Mochila urbana reforzada", "en": "Reinforced urban backpack"},
-        {"es": "Barras nutricionales (3 días)", "en": "Nutrient bars (3 days)"},
-        {"es": "Botella de agua con filtro", "en": "Filtered water bottle"},
-        {"es": "Cuerda sintética (15m)", "en": "Synthetic rope (15m)"},
-        {"es": "Linterna táctica", "en": "Tactical flashlight"},
-        {"es": "Nano-botiquín", "en": "Nano medkit"},
-        {"es": "Credstick con 200 eurodólares", "en": "Credstick loaded with 200 eurodollars"}
+        {
+          "es": "Pistola oculta",
+          "en": "Concealed pistol"
+        },
+        {
+          "es": "Teléfono encriptado",
+          "en": "Encrypted phone"
+        },
+        {
+          "es": "Contactos en todas las facciones",
+          "en": "Contacts in every faction"
+        },
+        {
+          "es": "Club nocturno propio",
+          "en": "Your own nightclub"
+        },
+        {
+          "es": "Deudas que cobrar",
+          "en": "Debts to collect"
+        },
+        {
+          "es": "Mochila urbana reforzada",
+          "en": "Reinforced urban backpack"
+        },
+        {
+          "es": "Barras nutricionales (3 días)",
+          "en": "Nutrient bars (3 days)"
+        },
+        {
+          "es": "Botella de agua con filtro",
+          "en": "Filtered water bottle"
+        },
+        {
+          "es": "Cuerda sintética (15m)",
+          "en": "Synthetic rope (15m)"
+        },
+        {
+          "es": "Linterna táctica",
+          "en": "Tactical flashlight"
+        },
+        {
+          "es": "Nano-botiquín",
+          "en": "Nano medkit"
+        },
+        {
+          "es": "Credstick con 200 eurodólares",
+          "en": "Credstick loaded with 200 eurodollars"
+        }
       ],
-      "special_ability": "Conexiones: Siempre conocés alguien que puede ayudar. Los NPCs te deben favores. Tenés intel privilegiada"
+      "special_ability": "Conexiones: Siempre conocés alguien que puede ayudar. Los NPCs te deben favores. Tenés intel privilegiada",
+      "abilities": [
+        {
+          "id": "conexiones",
+          "name": {
+            "es": "Conexiones",
+            "en": "Connections"
+          },
+          "description": {
+            "es": "Siempre conocés alguien que puede ayudar. Los NPCs te deben favores. Tenés intel privilegiada.",
+            "en": "You always know someone who can help. NPCs owe you favors. You have privileged intel."
+          },
+          "kind": "special",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 3,
+          "icon": "sparkles",
+          "tags": [
+            "social",
+            "utility"
+          ]
+        },
+        {
+          "id": "mercado-negro",
+          "name": {
+            "es": "Mercado Negro",
+            "en": "Black Market"
+          },
+          "description": {
+            "es": "Sabés dónde conseguir lo que nadie vende de forma legal. Accedés a equipo, datos o recursos raros antes que cualquier otro.",
+            "en": "You know where to get what no one sells legally. You access rare gear, data, or resources before anyone else."
+          },
+          "kind": "trick",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 4,
+          "icon": "eye",
+          "tags": [
+            "utility",
+            "exploration"
+          ]
+        },
+        {
+          "id": "lengua-de-plata",
+          "name": {
+            "es": "Lengua de Plata",
+            "en": "Silver Tongue"
+          },
+          "description": {
+            "es": "Con las palabras justas y el momento correcto, convencés hasta al más escéptico. Usás tu red de contactos para respaldar cada palabra que decís.",
+            "en": "With the right words at the right moment, you convince even the most skeptical. You use your contact network to back up every word you say."
+          },
+          "kind": "trick",
+          "resource": "cooldown_turns",
+          "cooldownTurns": 2,
+          "icon": "zap",
+          "tags": [
+            "social"
+          ]
+        }
+      ]
     }
   ],
   "voice_id": "áspero_urbano",
