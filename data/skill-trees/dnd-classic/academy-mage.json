@@ -1,0 +1,302 @@
+{
+  "loreId": "DND_CLASSIC",
+  "archetypeId": "academy-mage",
+  "name": {
+    "es": "Senda del Arquimago",
+    "en": "Path of the Archmage"
+  },
+  "nodes": [
+    {
+      "id": "spell-surge",
+      "name": {
+        "es": "Oleada Arcana",
+        "en": "Arcane Surge"
+      },
+      "description": {
+        "es": "Canalizás energía extra en un hechizo: el próximo conjuro que lanzás este turno hace el doble de dados de daño.",
+        "en": "You channel extra energy into a spell: the next spell you cast this turn rolls double the damage dice."
+      },
+      "kind": "spell",
+      "resource": "daily_uses",
+      "maxUses": 2,
+      "icon": "zap",
+      "tags": [
+        "combat"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "combats_won",
+        "count": 1
+      }
+    },
+    {
+      "id": "rune-reading",
+      "name": {
+        "es": "Lectura de Runas",
+        "en": "Rune Reading"
+      },
+      "description": {
+        "es": "Examinás cualquier inscripción o artefacto y el DM te revela su función, origen y posibles peligros.",
+        "en": "You examine any inscription or artifact and the DM reveals its function, origin, and possible dangers."
+      },
+      "kind": "special",
+      "resource": "daily_uses",
+      "maxUses": 2,
+      "icon": "eye",
+      "tags": [
+        "exploration",
+        "lore"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "turns_played",
+        "count": 5
+      }
+    },
+    {
+      "id": "mage-armor",
+      "name": {
+        "es": "Armadura Mágica",
+        "en": "Mage Armor"
+      },
+      "description": {
+        "es": "Tejés un escudo invisible alrededor tuyo que reduce todo el daño que recibís en 3 puntos hasta tu próximo descanso.",
+        "en": "You weave an invisible shield around yourself that reduces all damage you take by 3 until your next rest."
+      },
+      "kind": "spell",
+      "resource": "daily_uses",
+      "maxUses": 2,
+      "icon": "shield",
+      "tags": [
+        "combat",
+        "defense"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "abilities_used",
+        "count": 2
+      }
+    },
+    {
+      "id": "academy-charm",
+      "name": {
+        "es": "Encanto Académico",
+        "en": "Academic Charm"
+      },
+      "description": {
+        "es": "Invocás el prestigio de Blackstaff para impresionar a un NPC: te trata como aliado confiable durante esta escena.",
+        "en": "You invoke Blackstaff's prestige to impress an NPC: they treat you as a trusted ally for this scene."
+      },
+      "kind": "special",
+      "resource": "daily_uses",
+      "maxUses": 2,
+      "icon": "sparkles",
+      "tags": [
+        "social",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 1
+      }
+    },
+    {
+      "id": "chain-lightning",
+      "name": {
+        "es": "Rayo en Cadena",
+        "en": "Chain Lightning"
+      },
+      "description": {
+        "es": "Lanzás un rayo que salta entre hasta tres enemigos, causando 3d6 de daño eléctrico a cada uno.",
+        "en": "You hurl a bolt that arcs between up to three enemies, dealing 3d6 lightning damage to each."
+      },
+      "kind": "spell",
+      "resource": "daily_uses",
+      "maxUses": 2,
+      "icon": "zap",
+      "tags": [
+        "combat",
+        "aoe"
+      ],
+      "tier": 2,
+      "requires": [
+        "spell-surge"
+      ],
+      "unlock": {
+        "type": "combats_won",
+        "count": 3
+      }
+    },
+    {
+      "id": "arcane-eye",
+      "name": {
+        "es": "Ojo Arcano",
+        "en": "Arcane Eye"
+      },
+      "description": {
+        "es": "Creás un ojo invisible que explora hasta 30 metros a tu alrededor, revelando trampas, criaturas ocultas y secretos.",
+        "en": "You create an invisible eye that scouts up to 30 meters around you, revealing traps, hidden creatures, and secrets."
+      },
+      "kind": "spell",
+      "resource": "daily_uses",
+      "maxUses": 2,
+      "icon": "eye",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "rune-reading"
+      ],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 2
+      }
+    },
+    {
+      "id": "counterspell",
+      "name": {
+        "es": "Contraconjuro",
+        "en": "Counterspell"
+      },
+      "description": {
+        "es": "Interrumpís un hechizo enemigo en el momento exacto en que es lanzado, anulándolo por completo.",
+        "en": "You interrupt an enemy spell at the exact moment it is cast, negating it entirely."
+      },
+      "kind": "spell",
+      "resource": "daily_uses",
+      "maxUses": 2,
+      "icon": "moon",
+      "tags": [
+        "combat",
+        "defense"
+      ],
+      "tier": 2,
+      "requires": [
+        "mage-armor"
+      ],
+      "unlock": {
+        "type": "level_reached",
+        "count": 3
+      }
+    },
+    {
+      "id": "arcane-mending",
+      "name": {
+        "es": "Restauración Arcana",
+        "en": "Arcane Mending"
+      },
+      "description": {
+        "es": "Canalizás energía mágica curativa sobre un aliado, restaurándole 2d6 puntos de golpe.",
+        "en": "You channel healing magical energy onto an ally, restoring 2d6 hit points."
+      },
+      "kind": "spell",
+      "resource": "daily_uses",
+      "maxUses": 2,
+      "icon": "heart",
+      "tags": [
+        "healing",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "academy-charm"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 1
+      }
+    },
+    {
+      "id": "spell-weaving",
+      "name": {
+        "es": "Entretejido de Conjuros",
+        "en": "Spell Weaving"
+      },
+      "description": {
+        "es": "Combinás dos hechizos en uno: podés lanzar dos conjuros distintos en el mismo turno sin penalización.",
+        "en": "You combine two spells into one: you may cast two different spells in the same turn without penalty."
+      },
+      "kind": "special",
+      "resource": "daily_uses",
+      "maxUses": 1,
+      "icon": "sparkles",
+      "tags": [
+        "combat",
+        "utility"
+      ],
+      "tier": 3,
+      "requires": [
+        "chain-lightning",
+        "counterspell"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 2
+      }
+    },
+    {
+      "id": "veil-of-minds",
+      "name": {
+        "es": "Velo de Mentes",
+        "en": "Veil of Minds"
+      },
+      "description": {
+        "es": "Proyectás una ilusión perfecta y leés los pensamientos superficiales de todos en la escena, obteniendo su mayor secreto o motivación.",
+        "en": "You project a perfect illusion and read the surface thoughts of everyone in the scene, learning their greatest secret or motivation."
+      },
+      "kind": "spell",
+      "resource": "daily_uses",
+      "maxUses": 1,
+      "icon": "moon",
+      "tags": [
+        "social",
+        "exploration"
+      ],
+      "tier": 3,
+      "requires": [
+        "arcane-eye",
+        "arcane-mending"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 2
+      }
+    },
+    {
+      "id": "blackstaff-ascendant",
+      "name": {
+        "es": "Ascensión de Blackstaff",
+        "en": "Blackstaff Ascendant"
+      },
+      "description": {
+        "es": "Desatás todo el poder de la Academia: durante una escena completa, tus hechizos no gastan usos, ignorás resistencias mágicas y tu presencia impone ventaja en todas las interacciones.",
+        "en": "You unleash the full power of the Academy: for one entire scene, your spells cost no uses, you ignore magical resistances, and your presence grants advantage on all interactions."
+      },
+      "kind": "special",
+      "resource": "daily_uses",
+      "maxUses": 1,
+      "icon": "flame",
+      "tags": [
+        "combat",
+        "social",
+        "utility"
+      ],
+      "tier": 4,
+      "requires": [
+        "spell-weaving",
+        "veil-of-minds"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 3
+      }
+    }
+  ]
+}

@@ -1,0 +1,303 @@
+{
+  "loreId": "COZY_WITCH",
+  "archetypeId": "bruja-hogar",
+  "name": {
+    "es": "Sendero del Fogón Sagrado",
+    "en": "Path of the Sacred Hearth"
+  },
+  "nodes": [
+    {
+      "id": "calido-bienvenida",
+      "name": {
+        "es": "Caldo de Bienvenida",
+        "en": "Welcome Broth"
+      },
+      "description": {
+        "es": "Servís un caldo simple con intención: el que lo toma recupera 1d4 HP y pierde un estado de ansiedad o miedo.",
+        "en": "You serve a simple broth with intention: whoever drinks it recovers 1d4 HP and loses one anxiety or fear condition."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 2,
+      "icon": "heart",
+      "tags": [
+        "healing",
+        "social"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "turns_played",
+        "count": 5
+      }
+    },
+    {
+      "id": "sal-proteccion",
+      "name": {
+        "es": "Sal en el Umbral",
+        "en": "Salt at the Threshold"
+      },
+      "description": {
+        "es": "Trazás una línea de sal bendecida en una entrada: ningún enemigo puede cruzarla durante 2 turnos sin recibir daño mágico.",
+        "en": "You draw a line of blessed salt at an entrance: no enemy can cross it for 2 turns without taking magic damage."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "shield",
+      "tags": [
+        "combat",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "combats_won",
+        "count": 1
+      }
+    },
+    {
+      "id": "receta-memoria",
+      "name": {
+        "es": "Receta de la Memoria",
+        "en": "Memory Recipe"
+      },
+      "description": {
+        "es": "Consultás tu cuaderno manchado y recordás un detalle clave sobre un lugar, personaje o evento que el grupo había olvidado.",
+        "en": "You consult your stained notebook and recall a key detail about a place, character, or event the group had forgotten."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "eye",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "abilities_used",
+        "count": 2
+      }
+    },
+    {
+      "id": "pan-valor",
+      "name": {
+        "es": "Pan con Valor",
+        "en": "Courage Bread"
+      },
+      "description": {
+        "es": "Compartís el pan recién horneado antes de una situación difícil: todos los que coman tienen ventaja en su próxima tirada social o de exploración.",
+        "en": "You share fresh-baked bread before a tense moment: everyone who eats has advantage on their next social or exploration roll."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "sparkles",
+      "tags": [
+        "social",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 1
+      }
+    },
+    {
+      "id": "te-confesion",
+      "name": {
+        "es": "Té de Confesión",
+        "en": "Confession Tea"
+      },
+      "description": {
+        "es": "Preparás una infusión con cardamomo y anís que suaviza la lengua: un NPC comparte información que normalmente ocultaría.",
+        "en": "You brew an infusion with cardamom and anise that loosens the tongue: an NPC shares information they would normally withhold."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "moon",
+      "tags": [
+        "social",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "calido-bienvenida",
+        "pan-valor"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 1
+      }
+    },
+    {
+      "id": "hogar-protegido",
+      "name": {
+        "es": "Hogar Protegido",
+        "en": "Protected Hearth"
+      },
+      "description": {
+        "es": "Consagrás un espacio con sal, vela y cuchara: cualquier aliado que descanse ahí recupera el máximo posible de HP y se cura de un veneno menor.",
+        "en": "You consecrate a space with salt, candle, and spoon: any ally who rests there recovers the maximum possible HP and is cured of one minor poison."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "flame",
+      "tags": [
+        "healing",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "sal-proteccion"
+      ],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 2
+      }
+    },
+    {
+      "id": "hierbas-camino",
+      "name": {
+        "es": "Hierbas del Camino",
+        "en": "Wayfarer's Herbs"
+      },
+      "description": {
+        "es": "Identificás plantas y hongos en el entorno para preparar un remedio en el momento: neutralizás un veneno o aliviás una herida de exploración.",
+        "en": "You identify plants and fungi in the environment to brew an on-the-spot remedy: you neutralize a poison or soothe an exploration wound."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "leaf",
+      "tags": [
+        "exploration",
+        "healing"
+      ],
+      "tier": 2,
+      "requires": [
+        "receta-memoria"
+      ],
+      "unlock": {
+        "type": "turns_played",
+        "count": 15
+      }
+    },
+    {
+      "id": "fuego-encendido",
+      "name": {
+        "es": "Fuego que No Se Apaga",
+        "en": "Fire That Won't Die"
+      },
+      "description": {
+        "es": "Encendés la llama de tu olla con intención combativa: lanzás una llamarada que hace 2d6 de daño a un enemigo y lo deja aturdido un turno.",
+        "en": "You light the flame of your pot with combative intent: you launch a burst of fire dealing 2d6 damage to one enemy and stunning them for one turn."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "flame",
+      "tags": [
+        "combat"
+      ],
+      "tier": 2,
+      "requires": [
+        "sal-proteccion"
+      ],
+      "unlock": {
+        "type": "combats_won",
+        "count": 3
+      }
+    },
+    {
+      "id": "miel-perdon",
+      "name": {
+        "es": "Miel del Perdón",
+        "en": "Forgiveness Honey"
+      },
+      "description": {
+        "es": "Usás la miel del solsticio para mediar entre dos personas o facciones en conflicto: ambas partes aceptan escucharse y la hostilidad baja un grado.",
+        "en": "You use the solstice honey to mediate between two people or factions in conflict: both parties agree to listen and hostility drops one level."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "sparkles",
+      "tags": [
+        "social",
+        "utility"
+      ],
+      "tier": 3,
+      "requires": [
+        "te-confesion",
+        "hogar-protegido"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 3
+      }
+    },
+    {
+      "id": "kintsugi-alma",
+      "name": {
+        "es": "Kintsugi del Alma",
+        "en": "Soul Kintsugi"
+      },
+      "description": {
+        "es": "Tomás tu taza reparada con oro y canalizás su magia: restaurás a un aliado caído a 1 HP y le otorgás ventaja en todas sus tiradas durante el próximo turno.",
+        "en": "You hold your gold-mended cup and channel its magic: you restore a fallen ally to 1 HP and grant them advantage on all rolls for the next turn."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "heart",
+      "tags": [
+        "healing",
+        "social"
+      ],
+      "tier": 3,
+      "requires": [
+        "hierbas-camino",
+        "fuego-encendido"
+      ],
+      "unlock": {
+        "type": "deaths_survived",
+        "count": 1
+      }
+    },
+    {
+      "id": "banquete-brujas",
+      "name": {
+        "es": "El Gran Banquete de las Brujas",
+        "en": "The Grand Witches' Feast"
+      },
+      "description": {
+        "es": "Preparás un festín ritual con todo lo que tenés: cada aliado recupera todos sus HP, pierde todas las condiciones negativas y obtiene una bendición de tu elección que dura hasta el próximo descanso.",
+        "en": "You prepare a ritual feast with everything you have: each ally recovers all their HP, loses all negative conditions, and gains a blessing of your choice lasting until the next rest."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "moon",
+      "tags": [
+        "healing",
+        "social",
+        "utility"
+      ],
+      "tier": 4,
+      "requires": [
+        "miel-perdon",
+        "kintsugi-alma"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 3
+      }
+    }
+  ]
+}

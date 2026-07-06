@@ -1,0 +1,304 @@
+{
+  "loreId": "ROMANTASY",
+  "archetypeId": "cortesano",
+  "name": {
+    "es": "Senda del Juego de Tronos",
+    "en": "Path of the Throne Game"
+  },
+  "nodes": [
+    {
+      "id": "sonrisa-de-seda",
+      "name": {
+        "es": "Sonrisa de Seda",
+        "en": "Silk Smile"
+      },
+      "description": {
+        "es": "Desplegás tu encanto con una sonrisa calculada: el próximo NPC hostil baja su guardia y no puede atacarte este turno.",
+        "en": "You deploy your charm with a calculated smile: the next hostile NPC lowers their guard and cannot attack you this turn."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "sparkles",
+      "tags": [
+        "social",
+        "combat"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "turns_played",
+        "count": 5
+      }
+    },
+    {
+      "id": "rumor-envenenado",
+      "name": {
+        "es": "Rumor Envenenado",
+        "en": "Poisoned Rumor"
+      },
+      "description": {
+        "es": "Susurrás una mentira estratégica que siembra desconfianza entre dos NPCs, impidiéndoles actuar juntos por el resto de la escena.",
+        "en": "You whisper a strategic lie that sows distrust between two NPCs, preventing them from acting together for the rest of the scene."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "moon",
+      "tags": [
+        "social",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "abilities_used",
+        "count": 2
+      }
+    },
+    {
+      "id": "protocolo-de-corte",
+      "name": {
+        "es": "Protocolo de Corte",
+        "en": "Court Protocol"
+      },
+      "description": {
+        "es": "Invocás las normas de etiqueta feérica para exigir acceso a un lugar o audiencia con un personaje importante que de otro modo te estaría vedado.",
+        "en": "You invoke fae etiquette rules to demand access to a location or audience with an important character otherwise barred to you."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "eye",
+      "tags": [
+        "exploration",
+        "social"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 1
+      }
+    },
+    {
+      "id": "daga-en-la-manga",
+      "name": {
+        "es": "Daga en la Manga",
+        "en": "Dagger up the Sleeve"
+      },
+      "description": {
+        "es": "Sacás tu daga ceremonial en el momento menos esperado: el primer golpe de combate que des en una escena social ignora toda resistencia y hace daño máximo.",
+        "en": "You draw your ceremonial dagger at the least expected moment: the first combat strike in a social scene ignores all resistance and deals maximum damage."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "sword",
+      "tags": [
+        "combat"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "combats_won",
+        "count": 1
+      }
+    },
+    {
+      "id": "perfume-de-influencia",
+      "name": {
+        "es": "Perfume de Influencia",
+        "en": "Perfume of Influence"
+      },
+      "description": {
+        "es": "Usás tu frasco de perfume embrujado para hacer que un NPC revele un secreto o favor que guardaría celosamente.",
+        "en": "You use your enchanted perfume vial to make an NPC reveal a secret or favor they would normally guard jealously."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "leaf",
+      "tags": [
+        "social",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "sonrisa-de-seda",
+        "rumor-envenenado"
+      ],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 2
+      }
+    },
+    {
+      "id": "red-de-deudas",
+      "name": {
+        "es": "Red de Deudas",
+        "en": "Web of Debts"
+      },
+      "description": {
+        "es": "Recordás en voz alta los favores que te deben: un NPC aliado o neutral actúa inmediatamente en tu beneficio sin coste adicional.",
+        "en": "You vocally remind others of debts owed: an allied or neutral NPC immediately acts in your favor at no additional cost."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "zap",
+      "tags": [
+        "social",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "rumor-envenenado"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 2
+      }
+    },
+    {
+      "id": "escudo-de-protocolo",
+      "name": {
+        "es": "Escudo de Protocolo",
+        "en": "Protocol Shield"
+      },
+      "description": {
+        "es": "Invocás las leyes de hospitalidad feérica para que ningún ser de la Corte pueda hacerte daño físico mientras estés en un espacio neutral o de banquete.",
+        "en": "You invoke fae hospitality laws so no Court being can deal physical harm to you while in a neutral or banquet space."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "shield",
+      "tags": [
+        "combat",
+        "defense"
+      ],
+      "tier": 2,
+      "requires": [
+        "protocolo-de-corte",
+        "daga-en-la-manga"
+      ],
+      "unlock": {
+        "type": "combats_won",
+        "count": 3
+      }
+    },
+    {
+      "id": "balsamo-de-hierbas-finas",
+      "name": {
+        "es": "Bálsamo de Hierbas Finas",
+        "en": "Rare Herb Balm"
+      },
+      "description": {
+        "es": "Usás tu botiquín de hierbas para estabilizar a un aliado caído y restaurarle 1d8 HP mientras disimulás el gesto como un simple saludo cortesano.",
+        "en": "You use your herb kit to stabilize a fallen ally and restore 1d8 HP while disguising the gesture as a simple courtly greeting."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "heart",
+      "tags": [
+        "healing",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "protocolo-de-corte"
+      ],
+      "unlock": {
+        "type": "deaths_survived",
+        "count": 1
+      }
+    },
+    {
+      "id": "espejo-de-verdades",
+      "name": {
+        "es": "Espejo de Verdades",
+        "en": "Mirror of Truths"
+      },
+      "description": {
+        "es": "Usás tu espejo encantado para exponer la mentira de un NPC ante todos los presentes, quitándole toda credibilidad en la escena.",
+        "en": "You use your enchanted mirror to expose an NPC's lie before all present, stripping them of all credibility in the scene."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "eye",
+      "tags": [
+        "social",
+        "utility"
+      ],
+      "tier": 3,
+      "requires": [
+        "perfume-de-influencia",
+        "red-de-deudas"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 2
+      }
+    },
+    {
+      "id": "jugada-maestra",
+      "name": {
+        "es": "Jugada Maestra",
+        "en": "Master Move"
+      },
+      "description": {
+        "es": "Ejecutás un plan de manipulación elaborado en silencio: revelás que ya moviste piezas a tu favor, convirtiendo el resultado de un conflicto social o político en tu victoria sin importar los dados previos.",
+        "en": "You execute a manipulation plan crafted in silence: you reveal you already moved pieces in your favor, turning the outcome of any social or political conflict into your victory regardless of prior rolls."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "flame",
+      "tags": [
+        "social",
+        "utility"
+      ],
+      "tier": 3,
+      "requires": [
+        "red-de-deudas",
+        "escudo-de-protocolo"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 4
+      }
+    },
+    {
+      "id": "soberano-del-juego",
+      "name": {
+        "es": "Soberano del Juego",
+        "en": "Sovereign of the Game"
+      },
+      "description": {
+        "es": "Tu nombre resuena en todas las Cortes feéricas: una vez por acto, podés declarar una Deuda de Sangre sobre cualquier NPC, obligándolo a obedecer una orden o perder su posición social para siempre.",
+        "en": "Your name resonates across all fae Courts: once per act, you can declare a Blood Debt upon any NPC, compelling them to obey one order or lose their social standing forever."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "sparkles",
+      "tags": [
+        "social",
+        "utility",
+        "combat"
+      ],
+      "tier": 4,
+      "requires": [
+        "espejo-de-verdades",
+        "jugada-maestra"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 3
+      }
+    }
+  ]
+}

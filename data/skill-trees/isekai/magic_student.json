@@ -1,0 +1,301 @@
+{
+  "loreId": "ISEKAI",
+  "archetypeId": "magic_student",
+  "name": {
+    "es": "Senda del Grimorio Infinito",
+    "en": "Path of the Infinite Grimoire"
+  },
+  "nodes": [
+    {
+      "id": "spark-bolt",
+      "name": {
+        "es": "Chispa Arcana",
+        "en": "Arcane Spark"
+      },
+      "description": {
+        "es": "Lanzás un destello de energía pura que hace 1d6 de daño mágico a un enemigo cercano.",
+        "en": "You hurl a burst of pure energy that deals 1d6 magic damage to a nearby enemy."
+      },
+      "kind": "spell",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 2,
+      "icon": "zap",
+      "tags": [
+        "combat"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "combats_won",
+        "count": 1
+      }
+    },
+    {
+      "id": "grimoire-scan",
+      "name": {
+        "es": "Lectura del Grimorio",
+        "en": "Grimoire Scan"
+      },
+      "description": {
+        "es": "Tu grimorio analiza el entorno y te revela propiedades mágicas ocultas de objetos, personas o lugares.",
+        "en": "Your grimoire analyzes the surroundings and reveals hidden magical properties of objects, people, or places."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "eye",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "turns_played",
+        "count": 5
+      }
+    },
+    {
+      "id": "mana-shield",
+      "name": {
+        "es": "Escudo de Maná",
+        "en": "Mana Shield"
+      },
+      "description": {
+        "es": "Condensás maná alrededor tuyo formando una barrera que absorbe hasta 8 puntos de daño antes de romperse.",
+        "en": "You condense mana around yourself forming a barrier that absorbs up to 8 damage before shattering."
+      },
+      "kind": "spell",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "shield",
+      "tags": [
+        "combat",
+        "defense"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "abilities_used",
+        "count": 2
+      }
+    },
+    {
+      "id": "copy-spell",
+      "name": {
+        "es": "Copia Arcana",
+        "en": "Arcane Copy"
+      },
+      "description": {
+        "es": "Al ver un hechizo lanzado por cualquier criatura, tu grimorio lo registra y podés usarlo una vez de inmediato sin costo.",
+        "en": "Upon witnessing any spell cast by any creature, your grimoire records it and you can use it once immediately at no cost."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "sparkles",
+      "tags": [
+        "combat",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 1
+      }
+    },
+    {
+      "id": "elemental-burst",
+      "name": {
+        "es": "Explosión Elemental",
+        "en": "Elemental Burst"
+      },
+      "description": {
+        "es": "Elegís fuego, hielo o rayo y desatás una explosión que afecta a todos los enemigos en el área por 2d6 de daño.",
+        "en": "You choose fire, ice, or lightning and unleash an explosion hitting all enemies in the area for 2d6 damage."
+      },
+      "kind": "spell",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "flame",
+      "tags": [
+        "combat"
+      ],
+      "tier": 2,
+      "requires": [
+        "spark-bolt"
+      ],
+      "unlock": {
+        "type": "combats_won",
+        "count": 3
+      }
+    },
+    {
+      "id": "magic-sense",
+      "name": {
+        "es": "Sentido Mágico",
+        "en": "Magic Sense"
+      },
+      "description": {
+        "es": "Expandís tu percepción arcana para detectar trampas mágicas, portales ocultos y auras de criaturas en un radio amplio.",
+        "en": "You expand your arcane perception to detect magical traps, hidden portals, and creature auras in a wide radius."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "moon",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "grimoire-scan"
+      ],
+      "unlock": {
+        "type": "turns_played",
+        "count": 15
+      }
+    },
+    {
+      "id": "mana-surge",
+      "name": {
+        "es": "Oleada de Maná",
+        "en": "Mana Surge"
+      },
+      "description": {
+        "es": "Canalizás un torrente de maná puro que empuja a todos los enemigos cercanos y los deja aturdidos por un turno.",
+        "en": "You channel a torrent of pure mana that pushes all nearby enemies away and leaves them stunned for one turn."
+      },
+      "kind": "spell",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "zap",
+      "tags": [
+        "combat",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "mana-shield"
+      ],
+      "unlock": {
+        "type": "abilities_used",
+        "count": 8
+      }
+    },
+    {
+      "id": "arcane-tongue",
+      "name": {
+        "es": "Lengua Arcana",
+        "en": "Arcane Tongue"
+      },
+      "description": {
+        "es": "Tu conocimiento mágico te permite comunicarte con cualquier ser mágico o leer cualquier idioma antiguo sin restricciones.",
+        "en": "Your magical knowledge lets you communicate with any magical being or read any ancient language without restriction."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 2,
+      "icon": "leaf",
+      "tags": [
+        "social",
+        "exploration"
+      ],
+      "tier": 2,
+      "requires": [
+        "copy-spell"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 1
+      }
+    },
+    {
+      "id": "spell-weaving",
+      "name": {
+        "es": "Tejido de Hechizos",
+        "en": "Spell Weaving"
+      },
+      "description": {
+        "es": "Combinás dos hechizos conocidos en uno solo, potenciando sus efectos y aplicando ambos simultáneamente con un único lanzamiento.",
+        "en": "You combine two known spells into one, enhancing both effects and applying them simultaneously with a single cast."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "sparkles",
+      "tags": [
+        "combat",
+        "utility"
+      ],
+      "tier": 3,
+      "requires": [
+        "elemental-burst",
+        "mana-surge"
+      ],
+      "unlock": {
+        "type": "level_reached",
+        "count": 5
+      }
+    },
+    {
+      "id": "arcane-restoration",
+      "name": {
+        "es": "Restauración Arcana",
+        "en": "Arcane Restoration"
+      },
+      "description": {
+        "es": "Canalizás energía mágica curativa sobre un aliado, restaurándole 2d8 HP y eliminando cualquier efecto de estado negativo.",
+        "en": "You channel healing magical energy into an ally, restoring 2d8 HP and removing any negative status effects."
+      },
+      "kind": "spell",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "heart",
+      "tags": [
+        "healing",
+        "social"
+      ],
+      "tier": 3,
+      "requires": [
+        "magic-sense",
+        "arcane-tongue"
+      ],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 3
+      }
+    },
+    {
+      "id": "infinite-grimoire-awakening",
+      "name": {
+        "es": "Despertar del Grimorio Infinito",
+        "en": "Infinite Grimoire Awakening"
+      },
+      "description": {
+        "es": "Tu grimorio alcanza su forma verdadera: podés lanzar cualquier hechizo registrado sin costo de maná y tu maná se regenera completamente al inicio de cada escena.",
+        "en": "Your grimoire reaches its true form: you can cast any recorded spell at no mana cost and your mana fully regenerates at the start of every scene."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "sparkles",
+      "tags": [
+        "combat",
+        "utility",
+        "exploration"
+      ],
+      "tier": 4,
+      "requires": [
+        "spell-weaving",
+        "arcane-restoration"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 3
+      }
+    }
+  ]
+}

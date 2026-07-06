@@ -13,6 +13,7 @@ export type NotificationType =
   | 'achievement_unlocked'
   | 'streak_milestone'
   | 'long_rest'
+  | 'skill_unlockable'
 
 export interface GameNotificationData {
   id: string
@@ -37,6 +38,7 @@ const ICON_MAP: Record<NotificationType, typeof Sword> = {
   achievement_unlocked: Trophy,
   streak_milestone: Flame,
   long_rest: Sparkles,
+  skill_unlockable: Star,
 }
 
 const COLOR_MAP: Record<NotificationType, string> = {
@@ -49,6 +51,7 @@ const COLOR_MAP: Record<NotificationType, string> = {
   achievement_unlocked: 'text-gold-bright',
   streak_milestone: 'text-blood',
   long_rest: 'text-emerald',
+  skill_unlockable: 'text-gold-bright',
 }
 
 const BORDER_MAP: Record<NotificationType, string> = {
@@ -61,6 +64,7 @@ const BORDER_MAP: Record<NotificationType, string> = {
   achievement_unlocked: 'border-gold-bright/60',
   streak_milestone: 'border-blood/60',
   long_rest: 'border-emerald/50',
+  skill_unlockable: 'border-gold-bright/60',
 }
 
 export function GameNotifications({ notifications, onDismiss, locale = 'es' }: Props) {
@@ -226,6 +230,23 @@ export function createAchievementNotification(
     type: 'achievement_unlocked',
     text: locale === 'en' ? `🏆 Achievement unlocked: ${name}` : `🏆 ¡Logro desbloqueado: ${name}!`,
     subtitle: `${desc} · +${xpBonus} XP`,
+  }
+}
+
+/**
+ * Notificación cuando un nodo del árbol de habilidades se vuelve desbloqueable.
+ */
+export function createSkillUnlockNotification(
+  skillName: string,
+  locale: 'es' | 'en' = 'es'
+): GameNotificationData {
+  return {
+    id: `notif_${Date.now()}_${notifCounter++}`,
+    type: 'skill_unlockable',
+    text: locale === 'en' ? `🌟 New skill available: ${skillName}` : `🌟 Nueva habilidad disponible: ${skillName}`,
+    subtitle: locale === 'en'
+      ? 'Open your skill tree to learn it'
+      : 'Abrí tu árbol de habilidades para aprenderla',
   }
 }
 

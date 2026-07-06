@@ -1,0 +1,275 @@
+{
+  "loreId": "LOTR",
+  "archetypeId": "warrior",
+  "name": {
+    "es": "Senda del Guerrero de la Tercera Edad",
+    "en": "Path of the Third Age Warrior"
+  },
+  "nodes": [
+    {
+      "id": "escudo-firme",
+      "name": {
+        "es": "Escudo Firme",
+        "en": "Steady Shield"
+      },
+      "description": {
+        "es": "Plantás el escudo y absorbés el próximo golpe recibido, reduciendo su daño a cero.",
+        "en": "You plant your shield and absorb the next incoming blow, reducing its damage to zero."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "shield",
+      "tags": [
+        "combat",
+        "defense"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "combats_won",
+        "count": 1
+      }
+    },
+    {
+      "id": "grito-de-guerra",
+      "name": {
+        "es": "Grito de Guerra",
+        "en": "War Cry"
+      },
+      "description": {
+        "es": "Lanzás un rugido feroz que otorga a todos tus aliados visibles ventaja en su próximo ataque.",
+        "en": "You let out a fierce roar that grants all visible allies advantage on their next attack."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "zap",
+      "tags": [
+        "combat",
+        "social"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "turns_played",
+        "count": 5
+      }
+    },
+    {
+      "id": "lectura-del-terreno",
+      "name": {
+        "es": "Lectura del Terreno",
+        "en": "Read the Field"
+      },
+      "description": {
+        "es": "Estudiás el campo de batalla y el DM te revela la posición de todos los enemigos ocultos en la escena.",
+        "en": "You study the battlefield and the DM reveals the position of every hidden enemy in the scene."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "eye",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "abilities_used",
+        "count": 2
+      }
+    },
+    {
+      "id": "palabras-del-soldado",
+      "name": {
+        "es": "Palabras del Soldado",
+        "en": "Soldier's Word"
+      },
+      "description": {
+        "es": "Tu porte marcial y tu cicatrices hablan por vos: convencés a un NPC militar o guardia de colaborar sin necesidad de tirada.",
+        "en": "Your martial bearing and scars speak for you: you convince a military NPC or guard to cooperate without a roll."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "sparkles",
+      "tags": [
+        "social",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 1
+      }
+    },
+    {
+      "id": "muro-de-escudos",
+      "name": {
+        "es": "Muro de Escudos",
+        "en": "Shield Wall"
+      },
+      "description": {
+        "es": "Te formás junto a un aliado adyacente y ambos reciben la mitad del daño durante este turno y el siguiente.",
+        "en": "You form up with an adjacent ally and both of you take half damage this turn and the next."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "shield",
+      "tags": [
+        "combat",
+        "defense"
+      ],
+      "tier": 2,
+      "requires": [
+        "escudo-firme",
+        "grito-de-guerra"
+      ],
+      "unlock": {
+        "type": "combats_won",
+        "count": 3
+      }
+    },
+    {
+      "id": "golpe-devastador",
+      "name": {
+        "es": "Golpe Devastador",
+        "en": "Devastating Strike"
+      },
+      "description": {
+        "es": "Concentrás toda tu fuerza en un único tajo que ignora la armadura del objetivo y lo deja aturdido un turno.",
+        "en": "You channel all your strength into a single slash that ignores the target's armor and leaves them stunned for one turn."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "sword",
+      "tags": [
+        "combat"
+      ],
+      "tier": 2,
+      "requires": [
+        "escudo-firme"
+      ],
+      "unlock": {
+        "type": "combats_won",
+        "count": 4
+      }
+    },
+    {
+      "id": "conocimiento-de-rutas",
+      "name": {
+        "es": "Conocimiento de Rutas",
+        "en": "Route Knowledge"
+      },
+      "description": {
+        "es": "Tu experiencia en campañas militares te permite trazar el camino más seguro: el grupo evita un encuentro aleatorio en el próximo viaje.",
+        "en": "Your experience in military campaigns lets you chart the safest path: the group avoids one random encounter on the next journey."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "leaf",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "lectura-del-terreno"
+      ],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 2
+      }
+    },
+    {
+      "id": "inspiracion-del-capitan",
+      "name": {
+        "es": "Inspiración del Capitán",
+        "en": "Captain's Inspiration"
+      },
+      "description": {
+        "es": "Alzás la voz y el estandarte en el momento más oscuro: todos los aliados recuperan 1d8 HP y se sacuden cualquier efecto de miedo o parálisis.",
+        "en": "You raise your voice and banner in the darkest moment: all allies regain 1d8 HP and shake off any fear or paralysis effect."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "heart",
+      "tags": [
+        "healing",
+        "social"
+      ],
+      "tier": 3,
+      "requires": [
+        "muro-de-escudos",
+        "palabras-del-soldado"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 2
+      }
+    },
+    {
+      "id": "furia-sin-descanso",
+      "name": {
+        "es": "Furia Sin Descanso",
+        "en": "Relentless Fury"
+      },
+      "description": {
+        "es": "Entrás en un estado de combate imparable: realizás dos ataques adicionales este turno y no podés ser derribado mientras tengas PV positivos.",
+        "en": "You enter an unstoppable combat state: you make two extra attacks this turn and cannot be knocked prone while you have positive HP."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "flame",
+      "tags": [
+        "combat"
+      ],
+      "tier": 3,
+      "requires": [
+        "golpe-devastador",
+        "conocimiento-de-rutas"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 2
+      }
+    },
+    {
+      "id": "heroe-de-la-tercera-edad",
+      "name": {
+        "es": "Héroe de la Tercera Edad",
+        "en": "Hero of the Third Age"
+      },
+      "description": {
+        "es": "Tu leyenda resuena en toda la Tierra Media: una vez por sesión, podés cambiar el resultado de cualquier tirada propia o aliada a un éxito automático, y tu sola presencia hace que los enemigos menores huyan.",
+        "en": "Your legend resonates across Middle-earth: once per session, you may turn any roll of yours or an ally's into an automatic success, and your mere presence causes lesser enemies to flee."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "sparkles",
+      "tags": [
+        "combat",
+        "social",
+        "utility"
+      ],
+      "tier": 4,
+      "requires": [
+        "inspiracion-del-capitan",
+        "furia-sin-descanso"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 3
+      }
+    }
+  ]
+}

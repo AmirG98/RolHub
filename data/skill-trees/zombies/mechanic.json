@@ -1,0 +1,277 @@
+{
+  "loreId": "ZOMBIES",
+  "archetypeId": "mechanic",
+  "name": {
+    "es": "Senda del Ingeniero Superviviente",
+    "en": "Path of the Survivor Engineer"
+  },
+  "nodes": [
+    {
+      "id": "quick-fix",
+      "name": {
+        "es": "Reparación Rápida",
+        "en": "Quick Fix"
+      },
+      "description": {
+        "es": "Arreglás un vehículo o máquina averiada en minutos usando lo que tenés a mano.",
+        "en": "You repair a broken vehicle or machine in minutes using whatever is at hand."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "zap",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "turns_played",
+        "count": 5
+      }
+    },
+    {
+      "id": "scrap-weapon",
+      "name": {
+        "es": "Arma de Chatarra",
+        "en": "Scrap Weapon"
+      },
+      "description": {
+        "es": "Fabricás un arma improvisada con piezas sueltas que inflige daño extra en el próximo ataque.",
+        "en": "You craft an improvised weapon from loose parts that deals extra damage on the next attack."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "sword",
+      "tags": [
+        "combat",
+        "crafting"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "combats_won",
+        "count": 1
+      }
+    },
+    {
+      "id": "fuel-siphon",
+      "name": {
+        "es": "Sifonear Combustible",
+        "en": "Fuel Siphon"
+      },
+      "description": {
+        "es": "Extraés combustible de cualquier vehículo abandonado para usarlo como recurso o explosivo improvisado.",
+        "en": "You extract fuel from any abandoned vehicle to use as a resource or improvised explosive."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 2,
+      "icon": "flame",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "abilities_used",
+        "count": 2
+      }
+    },
+    {
+      "id": "makeshift-trap",
+      "name": {
+        "es": "Trampa Artesanal",
+        "en": "Makeshift Trap"
+      },
+      "description": {
+        "es": "Instalás una trampa mecánica en una zona que inmoviliza al primer zombie o enemigo que la pisa.",
+        "en": "You set a mechanical trap in an area that immobilizes the first zombie or enemy that triggers it."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "shield",
+      "tags": [
+        "combat",
+        "exploration"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 1
+      }
+    },
+    {
+      "id": "armored-vehicle",
+      "name": {
+        "es": "Vehículo Blindado",
+        "en": "Armored Vehicle"
+      },
+      "description": {
+        "es": "Reforzás un vehículo con placas de metal, dándole resistencia a impactos y protegiéndo a todos los pasajeros.",
+        "en": "You reinforce a vehicle with metal plates, giving it impact resistance and protecting all passengers."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "shield",
+      "tags": [
+        "exploration",
+        "defense"
+      ],
+      "tier": 2,
+      "requires": [
+        "quick-fix",
+        "fuel-siphon"
+      ],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 2
+      }
+    },
+    {
+      "id": "nail-bomb",
+      "name": {
+        "es": "Bomba de Clavos",
+        "en": "Nail Bomb"
+      },
+      "description": {
+        "es": "Construís un explosivo casero que daña a todos los enemigos en un radio al detonarse.",
+        "en": "You build a homemade explosive that damages all enemies in a radius when detonated."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "flame",
+      "tags": [
+        "combat"
+      ],
+      "tier": 2,
+      "requires": [
+        "scrap-weapon",
+        "makeshift-trap"
+      ],
+      "unlock": {
+        "type": "combats_won",
+        "count": 3
+      }
+    },
+    {
+      "id": "generator-repair",
+      "name": {
+        "es": "Reparar Generador",
+        "en": "Generator Repair"
+      },
+      "description": {
+        "es": "Ponés en marcha un generador eléctrico que alimenta luces, alarmas o trampas eléctricas en la zona.",
+        "en": "You start up an electric generator that powers lights, alarms, or electric traps in the area."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "zap",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "quick-fix"
+      ],
+      "unlock": {
+        "type": "level_reached",
+        "count": 3
+      }
+    },
+    {
+      "id": "war-rig",
+      "name": {
+        "es": "Máquina de Guerra",
+        "en": "War Rig"
+      },
+      "description": {
+        "es": "Convertís un vehículo en una máquina de combate con armas montadas que podés usar durante un encuentro.",
+        "en": "You convert a vehicle into a combat machine with mounted weapons you can use during an encounter."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "sword",
+      "tags": [
+        "combat",
+        "crafting"
+      ],
+      "tier": 3,
+      "requires": [
+        "armored-vehicle",
+        "nail-bomb"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 2
+      }
+    },
+    {
+      "id": "field-medic-kit",
+      "name": {
+        "es": "Kit Médico de Campo",
+        "en": "Field Medic Kit"
+      },
+      "description": {
+        "es": "Fabricás un botiquín improvisado con materiales del entorno que restaura HP a vos o a un aliado.",
+        "en": "You craft an improvised first aid kit from surrounding materials that restores HP to you or an ally."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "heart",
+      "tags": [
+        "healing",
+        "crafting"
+      ],
+      "tier": 3,
+      "requires": [
+        "generator-repair",
+        "armored-vehicle"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 2
+      }
+    },
+    {
+      "id": "master-engineer",
+      "name": {
+        "es": "Ingeniero Maestro",
+        "en": "Master Engineer"
+      },
+      "description": {
+        "es": "Tu dominio de la mecánica es absoluto: reparás, construís o saboteás cualquier máquina instantáneamente y tus creaciones duran el doble.",
+        "en": "Your mastery of mechanics is absolute: you repair, build, or sabotage any machine instantly and your creations last twice as long."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "sparkles",
+      "tags": [
+        "combat",
+        "exploration",
+        "crafting"
+      ],
+      "tier": 4,
+      "requires": [
+        "war-rig",
+        "field-medic-kit"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 3
+      }
+    }
+  ]
+}

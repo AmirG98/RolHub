@@ -1,0 +1,274 @@
+{
+  "loreId": "ISEKAI",
+  "archetypeId": "summoned_hero",
+  "name": {
+    "es": "Senda del Elegido",
+    "en": "Path of the Chosen One"
+  },
+  "nodes": [
+    {
+      "id": "system-sight",
+      "name": {
+        "es": "Visión del Sistema",
+        "en": "System Sight"
+      },
+      "description": {
+        "es": "Activás la Vista del Sistema y ves las estadísticas completas de un enemigo, NPC u objeto en la escena.",
+        "en": "You activate System Sight and see the full stats of one enemy, NPC, or object in the scene."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 2,
+      "icon": "eye",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "turns_played",
+        "count": 5
+      }
+    },
+    {
+      "id": "hero-slash",
+      "name": {
+        "es": "Tajo del Héroe",
+        "en": "Hero's Slash"
+      },
+      "description": {
+        "es": "Canalizás la energía sagrada de Excalion en un golpe que inflige daño adicional igual a tu nivel.",
+        "en": "You channel Excalion's holy energy into a strike that deals bonus damage equal to your level."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "sword",
+      "tags": [
+        "combat"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "combats_won",
+        "count": 1
+      }
+    },
+    {
+      "id": "chosen-aura",
+      "name": {
+        "es": "Aura del Elegido",
+        "en": "Chosen One's Aura"
+      },
+      "description": {
+        "es": "Tu presencia como Héroe Invocado impresiona a cualquier nativo: el próximo chequeo social con un NPC del reino tiene ventaja.",
+        "en": "Your presence as Summoned Hero impresses any native: your next social check with a kingdom NPC has advantage."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "sparkles",
+      "tags": [
+        "social",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "abilities_used",
+        "count": 2
+      }
+    },
+    {
+      "id": "quick-save",
+      "name": {
+        "es": "Guardado Rápido",
+        "en": "Quick Save"
+      },
+      "description": {
+        "es": "Guardás el estado actual antes de una acción arriesgada: si el resultado es desastroso, revertís al momento previo.",
+        "en": "You save your current state before a risky action: if the outcome is disastrous, you revert to the prior moment."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "moon",
+      "tags": [
+        "utility",
+        "exploration"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 1
+      }
+    },
+    {
+      "id": "level-burst",
+      "name": {
+        "es": "Explosión de Nivel",
+        "en": "Level Burst"
+      },
+      "description": {
+        "es": "Canalizás tu crecimiento acelerado en un instante: ganás una acción adicional este turno y tu próximo ataque tiene ventaja.",
+        "en": "You channel your accelerated growth in a flash: you gain an extra action this turn and your next attack has advantage."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "zap",
+      "tags": [
+        "combat",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "hero-slash"
+      ],
+      "unlock": {
+        "type": "combats_won",
+        "count": 3
+      }
+    },
+    {
+      "id": "stat-weakness",
+      "name": {
+        "es": "Punto Débil",
+        "en": "Weak Point Analysis"
+      },
+      "description": {
+        "es": "Usás la Vista del Sistema para identificar la vulnerabilidad crítica de un enemigo y el próximo golpe ignora su defensa.",
+        "en": "You use System Sight to pinpoint a foe's critical weakness, and the next strike ignores their defense."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "eye",
+      "tags": [
+        "combat",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "system-sight"
+      ],
+      "unlock": {
+        "type": "level_reached",
+        "count": 3
+      }
+    },
+    {
+      "id": "rally-the-hopeless",
+      "name": {
+        "es": "Esperanza del Salvador",
+        "en": "Savior's Hope"
+      },
+      "description": {
+        "es": "Tus palabras como Héroe Invocado restauran la moral: todos los aliados recuperan 1d8 HP y pierden cualquier estado negativo de miedo o desesperación.",
+        "en": "Your words as Summoned Hero restore morale: all allies regain 1d8 HP and lose any fear or despair conditions."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "heart",
+      "tags": [
+        "healing",
+        "social"
+      ],
+      "tier": 2,
+      "requires": [
+        "chosen-aura"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 2
+      }
+    },
+    {
+      "id": "holy-blade-awakening",
+      "name": {
+        "es": "Despertar de Excalion",
+        "en": "Excalion's Awakening"
+      },
+      "description": {
+        "es": "Excalion resuena con tu poder y libera una onda de luz sagrada que daña a todos los enemigos en la zona y purifica maldiciones.",
+        "en": "Excalion resonates with your power and releases a holy light wave that damages all enemies in the area and purifies curses."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "flame",
+      "tags": [
+        "combat"
+      ],
+      "tier": 3,
+      "requires": [
+        "level-burst",
+        "stat-weakness"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 2
+      }
+    },
+    {
+      "id": "party-system",
+      "name": {
+        "es": "Sistema de Grupo",
+        "en": "Party System"
+      },
+      "description": {
+        "es": "Usás el Sistema para vincular a tus aliados: compartís tu bonificación de crecimiento acelerado con todo el grupo hasta el final de la escena.",
+        "en": "You use the System to link your allies: you share your accelerated growth bonus with the entire party until the end of the scene."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "shield",
+      "tags": [
+        "utility",
+        "social"
+      ],
+      "tier": 3,
+      "requires": [
+        "rally-the-hopeless",
+        "stat-weakness"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 3
+      }
+    },
+    {
+      "id": "true-hero",
+      "name": {
+        "es": "Héroe Verdadero",
+        "en": "True Hero"
+      },
+      "description": {
+        "es": "Tu destino se cumple: una vez por acto, declarás 'Este es mi momento' y todos tus dados explotan, tus aliados actúan antes que los enemigos y cualquier NPC presente jura lealtad a tu causa.",
+        "en": "Your destiny is fulfilled: once per act, you declare 'This is my moment' and all your dice explode, your allies act before enemies, and any NPC present swears loyalty to your cause."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "sparkles",
+      "tags": [
+        "combat",
+        "social",
+        "utility"
+      ],
+      "tier": 4,
+      "requires": [
+        "holy-blade-awakening",
+        "party-system"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 3
+      }
+    }
+  ]
+}

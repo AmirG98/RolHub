@@ -1,0 +1,154 @@
+{
+  "loreId": "DND_CLASSIC",
+  "archetypeId": "guild-adventurer",
+  "name": {
+    "es": "Senda del Veterano",
+    "en": "Path of the Veteran"
+  },
+  "nodes": [
+    {
+      "id": "battle-cry",
+      "name": { "es": "Grito de Batalla", "en": "Battle Cry" },
+      "description": {
+        "es": "Un rugido que intimida a tus enemigos: el próximo ataque contra vos tiene desventaja.",
+        "en": "A roar that intimidates your foes: the next attack against you has disadvantage."
+      },
+      "kind": "trick",
+      "resource": "daily_uses",
+      "maxUses": 2,
+      "icon": "zap",
+      "tags": ["combat"],
+      "tier": 1,
+      "requires": [],
+      "unlock": { "type": "combats_won", "count": 1 }
+    },
+    {
+      "id": "trap-eye",
+      "name": { "es": "Ojo para Trampas", "en": "Trap Eye" },
+      "description": {
+        "es": "Examinás una habitación y detectás automáticamente todos los mecanismos ocultos.",
+        "en": "You scan a room and automatically detect every hidden mechanism."
+      },
+      "kind": "special",
+      "resource": "daily_uses",
+      "maxUses": 2,
+      "icon": "eye",
+      "tags": ["exploration", "utility"],
+      "tier": 1,
+      "requires": [],
+      "unlock": { "type": "turns_played", "count": 5 }
+    },
+    {
+      "id": "iron-grip",
+      "name": { "es": "Puño de Hierro", "en": "Iron Grip" },
+      "description": {
+        "es": "Tu agarre es inquebrantable: no podés ser desarmado y tus forcejeos tienen ventaja.",
+        "en": "Your grip is unbreakable: you cannot be disarmed and your grapples have advantage."
+      },
+      "kind": "trick",
+      "resource": "daily_uses",
+      "maxUses": 2,
+      "icon": "sword",
+      "tags": ["combat", "utility"],
+      "tier": 1,
+      "requires": [],
+      "unlock": { "type": "abilities_used", "count": 2 }
+    },
+    {
+      "id": "shield-wall",
+      "name": { "es": "Muro de Escudos", "en": "Shield Wall" },
+      "description": {
+        "es": "Te plantás en formación defensiva: vos y un aliado adyacente reciben la mitad del daño este turno.",
+        "en": "You plant into defensive formation: you and an adjacent ally take half damage this turn."
+      },
+      "kind": "special",
+      "resource": "daily_uses",
+      "maxUses": 1,
+      "icon": "shield",
+      "tags": ["combat", "defense"],
+      "tier": 2,
+      "requires": ["battle-cry"],
+      "unlock": { "type": "combats_won", "count": 3 }
+    },
+    {
+      "id": "scavenger",
+      "name": { "es": "Rebuscador", "en": "Scavenger" },
+      "description": {
+        "es": "Encontrás algo útil donde otros solo ven escombros: el DM te revela un objeto o pista extra en la escena.",
+        "en": "You find something useful where others see rubble: the DM reveals an extra item or clue in the scene."
+      },
+      "kind": "trick",
+      "resource": "daily_uses",
+      "maxUses": 2,
+      "icon": "leaf",
+      "tags": ["exploration", "utility"],
+      "tier": 2,
+      "requires": ["trap-eye"],
+      "unlock": { "type": "quests_completed", "count": 1 }
+    },
+    {
+      "id": "crushing-blow",
+      "name": { "es": "Golpe Demoledor", "en": "Crushing Blow" },
+      "description": {
+        "es": "Un golpe devastador que ignora armadura y rompe escudos, puertas o cordura enemiga.",
+        "en": "A devastating strike that ignores armor and breaks shields, doors, or enemy resolve."
+      },
+      "kind": "special",
+      "resource": "daily_uses",
+      "maxUses": 1,
+      "icon": "sword",
+      "tags": ["combat"],
+      "tier": 2,
+      "requires": ["iron-grip"],
+      "unlock": { "type": "level_reached", "count": 3 }
+    },
+    {
+      "id": "veterans-instinct",
+      "name": { "es": "Instinto del Veterano", "en": "Veteran's Instinct" },
+      "description": {
+        "es": "Presentís el peligro antes de que ocurra: actuás primero en cualquier emboscada y no podés ser sorprendido.",
+        "en": "You sense danger before it strikes: you act first in any ambush and cannot be surprised."
+      },
+      "kind": "special",
+      "resource": "daily_uses",
+      "maxUses": 1,
+      "icon": "eye",
+      "tags": ["combat", "exploration"],
+      "tier": 3,
+      "requires": ["shield-wall", "scavenger"],
+      "unlock": { "type": "act_reached", "count": 2 }
+    },
+    {
+      "id": "rally-company",
+      "name": { "es": "Reagrupar la Compañía", "en": "Rally the Company" },
+      "description": {
+        "es": "Tus palabras devuelven el coraje: todos los aliados recuperan 1d6 HP y se sacuden el miedo.",
+        "en": "Your words restore courage: all allies regain 1d6 HP and shake off fear."
+      },
+      "kind": "special",
+      "resource": "daily_uses",
+      "maxUses": 1,
+      "icon": "heart",
+      "tags": ["healing", "social"],
+      "tier": 3,
+      "requires": ["crushing-blow"],
+      "unlock": { "type": "npc_bond", "count": 2 }
+    },
+    {
+      "id": "guild-captain",
+      "name": { "es": "Capitán del Gremio", "en": "Guild Captain" },
+      "description": {
+        "es": "Tu leyenda te precede: una vez por día, un NPC neutral se pone de tu lado en un conflicto.",
+        "en": "Your legend precedes you: once per day, a neutral NPC takes your side in a conflict."
+      },
+      "kind": "special",
+      "resource": "daily_uses",
+      "maxUses": 1,
+      "icon": "sparkles",
+      "tags": ["social", "utility"],
+      "tier": 4,
+      "requires": ["veterans-instinct", "rally-company"],
+      "unlock": { "type": "act_reached", "count": 3 }
+    }
+  ]
+}

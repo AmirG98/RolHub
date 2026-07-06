@@ -1,0 +1,274 @@
+{
+  "loreId": "ROMANTASY",
+  "archetypeId": "alta-dama",
+  "name": {
+    "es": "Senda de la Hechicera Estelar",
+    "en": "Path of the Starborn Sorceress"
+  },
+  "nodes": [
+    {
+      "id": "hilo-del-destino",
+      "name": {
+        "es": "Hilo del Destino",
+        "en": "Thread of Fate"
+      },
+      "description": {
+        "es": "Tirás del hilo invisible entre vos y otra persona: el DM te revela si ese NPC es un aliado, enemigo o variable en la escena actual.",
+        "en": "You pull the invisible thread between you and another: the DM reveals whether that NPC is ally, enemy, or wild card in the current scene."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "eye",
+      "tags": [
+        "social",
+        "exploration"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "turns_played",
+        "count": 5
+      }
+    },
+    {
+      "id": "chispa-estelar",
+      "name": {
+        "es": "Chispa Estelar",
+        "en": "Stellar Spark"
+      },
+      "description": {
+        "es": "Lanzás un destello de luz concentrada de las estrellas que enceguece a un enemigo y le impide atacar en su próximo turno.",
+        "en": "You hurl a focused burst of starlight that blinds one enemy and prevents them from attacking on their next turn."
+      },
+      "kind": "spell",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 2,
+      "icon": "sparkles",
+      "tags": [
+        "combat"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "combats_won",
+        "count": 1
+      }
+    },
+    {
+      "id": "susurro-del-grimorio",
+      "name": {
+        "es": "Susurro del Grimorio",
+        "en": "Grimoire's Whisper"
+      },
+      "description": {
+        "es": "Consultás tu grimorio y obtenés ventaja en la próxima tirada de Lore, revelando información oculta o un punto débil del obstáculo actual.",
+        "en": "You consult your grimoire and gain advantage on the next Lore roll, revealing hidden information or a weakness in the current obstacle."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 2,
+      "icon": "moon",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "abilities_used",
+        "count": 2
+      }
+    },
+    {
+      "id": "toque-sanador",
+      "name": {
+        "es": "Toque Sanador de Luna",
+        "en": "Moonlit Healing Touch"
+      },
+      "description": {
+        "es": "Canalizás energía lunar a través de tu mano y restaurás 1d6+2 HP a vos o a un aliado adyacente.",
+        "en": "You channel lunar energy through your hand and restore 1d6+2 HP to yourself or an adjacent ally."
+      },
+      "kind": "spell",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "heart",
+      "tags": [
+        "healing"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 1
+      }
+    },
+    {
+      "id": "pacto-de-estrellas",
+      "name": {
+        "es": "Pacto de Estrellas",
+        "en": "Starbound Pact"
+      },
+      "description": {
+        "es": "Sellás un pacto mágico con un NPC: mientras dure, ese personaje no puede mentirte ni traicionarte sin sufrir consecuencias mágicas visibles.",
+        "en": "You seal a magical pact with an NPC: while it holds, that character cannot lie to or betray you without visible magical consequences."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "sparkles",
+      "tags": [
+        "social",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "hilo-del-destino"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 2
+      }
+    },
+    {
+      "id": "escudo-de-runas",
+      "name": {
+        "es": "Escudo de Runas",
+        "en": "Runic Ward"
+      },
+      "description": {
+        "es": "Activás las runas de tu túnica y creás una barrera mágica que absorbe el próximo golpe recibido, anulando todo su daño.",
+        "en": "You activate the runes on your robe and raise a magical barrier that absorbs the next hit you receive, negating all its damage."
+      },
+      "kind": "spell",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "shield",
+      "tags": [
+        "combat",
+        "defense"
+      ],
+      "tier": 2,
+      "requires": [
+        "chispa-estelar"
+      ],
+      "unlock": {
+        "type": "combats_won",
+        "count": 3
+      }
+    },
+    {
+      "id": "lectura-del-oraculo",
+      "name": {
+        "es": "Lectura del Oráculo",
+        "en": "Oracle Reading"
+      },
+      "description": {
+        "es": "Tirás las cartas del destino y el DM te adelanta una consecuencia probable del camino que están por tomar, permitiéndote cambiar el enfoque del grupo.",
+        "en": "You lay out the oracle cards and the DM reveals one likely consequence of the path ahead, letting you redirect the group's approach."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "eye",
+      "tags": [
+        "exploration",
+        "social"
+      ],
+      "tier": 2,
+      "requires": [
+        "susurro-del-grimorio"
+      ],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 2
+      }
+    },
+    {
+      "id": "cadenas-de-luz",
+      "name": {
+        "es": "Cadenas de Luz Estelar",
+        "en": "Starlight Chains"
+      },
+      "description": {
+        "es": "Invocás cadenas de energía pura que inmovilizan a un enemigo durante dos turnos y anulan cualquier hechizo activo sobre él.",
+        "en": "You summon chains of pure energy that immobilize one enemy for two turns and dispel any active magic affecting them."
+      },
+      "kind": "spell",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "zap",
+      "tags": [
+        "combat",
+        "utility"
+      ],
+      "tier": 3,
+      "requires": [
+        "escudo-de-runas",
+        "pacto-de-estrellas"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 2
+      }
+    },
+    {
+      "id": "velo-de-la-alta-dama",
+      "name": {
+        "es": "Velo de la Alta Dama",
+        "en": "High Lady's Veil"
+      },
+      "description": {
+        "es": "Tu presencia se expande como un manto de poder: todos en la escena sienten tu autoridad y los enemigos deben superar una prueba social para atacarte.",
+        "en": "Your presence expands like a mantle of power: everyone in the scene feels your authority and enemies must pass a social check before they can attack you."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "flame",
+      "tags": [
+        "social",
+        "combat"
+      ],
+      "tier": 3,
+      "requires": [
+        "lectura-del-oraculo",
+        "toque-sanador"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 3
+      }
+    },
+    {
+      "id": "ascension-estelar",
+      "name": {
+        "es": "Ascensión Estelar",
+        "en": "Stellar Ascension"
+      },
+      "description": {
+        "es": "Tu forma física se transforma por un instante en pura energía cósmica: sanás completamente a todos tus aliados, eliminás toda magia enemiga en la escena y tu próximo hechizo no tiene cooldown.",
+        "en": "Your form briefly transforms into pure cosmic energy: you fully heal all allies, strip all enemy magic from the scene, and your next spell has no cooldown."
+      },
+      "kind": "spell",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "sparkles",
+      "tags": [
+        "combat",
+        "healing",
+        "utility"
+      ],
+      "tier": 4,
+      "requires": [
+        "cadenas-de-luz",
+        "velo-de-la-alta-dama"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 3
+      }
+    }
+  ]
+}

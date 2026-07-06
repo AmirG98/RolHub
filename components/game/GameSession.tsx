@@ -48,6 +48,7 @@ import {
   createAchievementNotification,
   createStreakNotification,
   createLongRestNotification,
+  createSkillUnlockNotification,
 } from '@/components/game/GameNotification'
 import { DeathSaveTracker } from '@/components/game/DeathSaveTracker'
 import { LevelUpModal } from '@/components/game/LevelUpModal'
@@ -714,6 +715,14 @@ export default function GameSession({
         // Notificación de milestone de racha
         if (pu.streakContinued && [3, 7, 14, 30, 60, 100].includes(pu.newStreakDays)) {
           setNotifications(prev => [...prev, createStreakNotification(pu.newStreakDays, locale as 'es' | 'en')])
+        }
+      }
+
+      // Skill tree: nodos que se volvieron desbloqueables este turno (solo registrados)
+      if (Array.isArray(data.skillUnlocks) && data.skillUnlocks.length > 0) {
+        for (const u of data.skillUnlocks) {
+          const skillName = getLocalized(u.name, locale as 'es' | 'en')
+          setNotifications(prev => [...prev, createSkillUnlockNotification(skillName, locale as 'es' | 'en')])
         }
       }
 
@@ -1591,9 +1600,21 @@ export default function GameSession({
               if (!Array.isArray(abs) || abs.length === 0) return null
               return (
                 <div id="abilities-panel">
-                  <h3 className="font-heading text-xs text-gold-dim uppercase tracking-widest mb-2 px-1">
-                    {t.game.abilities}
-                  </h3>
+                  <div className="flex items-center justify-between mb-2 px-1">
+                    <h3 className="font-heading text-xs text-gold-dim uppercase tracking-widest">
+                      {t.game.abilities}
+                    </h3>
+                    {character?.id && (
+                      <a
+                        href={`/characters/${character.id}/skills`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[10px] font-heading uppercase tracking-wide text-gold-bright hover:text-gold transition"
+                      >
+                        🌟 {locale === 'en' ? 'Skill Tree' : 'Árbol'}
+                      </a>
+                    )}
+                  </div>
                   <div className="glass-panel-dark rounded-lg border border-gold-dim/20">
                     <AbilitiesPanel
                       abilities={abs}

@@ -1,0 +1,273 @@
+{
+  "loreId": "STAR_WARS",
+  "archetypeId": "smuggler",
+  "name": {
+    "es": "Senda del Contrabandista",
+    "en": "Path of the Smuggler"
+  },
+  "nodes": [
+    {
+      "id": "quick-draw",
+      "name": {
+        "es": "Desenfunde Rápido",
+        "en": "Quick Draw"
+      },
+      "description": {
+        "es": "Desenfundás más rápido que tu sombra: actuás primero en cualquier enfrentamiento y tu primer disparo tiene ventaja.",
+        "en": "You draw faster than your shadow: you act first in any confrontation and your first shot has advantage."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 2,
+      "icon": "zap",
+      "tags": [
+        "combat"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "combats_won",
+        "count": 1
+      }
+    },
+    {
+      "id": "ruta-secreta",
+      "name": {
+        "es": "Ruta Secreta",
+        "en": "Secret Route"
+      },
+      "description": {
+        "es": "Conocés un camino que nadie más conoce: el grupo evita un obstáculo o perseguidor sin tirada.",
+        "en": "You know a path nobody else does: the group bypasses an obstacle or pursuer without a roll."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "eye",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "turns_played",
+        "count": 5
+      }
+    },
+    {
+      "id": "lengua-de-plata",
+      "name": {
+        "es": "Lengua de Plata",
+        "en": "Silver Tongue"
+      },
+      "description": {
+        "es": "Con una sonrisa y dos mentiras bien dichas, convencés a un NPC de que sos exactamente quien necesita.",
+        "en": "With a smile and two well-placed lies, you convince an NPC you are exactly who they need."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "sparkles",
+      "tags": [
+        "social"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "abilities_used",
+        "count": 2
+      }
+    },
+    {
+      "id": "escondite-de-nave",
+      "name": {
+        "es": "Escondite de Nave",
+        "en": "Ship Stash"
+      },
+      "description": {
+        "es": "Sacás del compartimento oculto de tu nave un objeto de contrabando útil para la situación actual.",
+        "en": "You pull from your ship's hidden compartment a contraband item useful for the current situation."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "leaf",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 1
+      }
+    },
+    {
+      "id": "disparo-sucio",
+      "name": {
+        "es": "Disparo Sucio",
+        "en": "Dirty Shot"
+      },
+      "description": {
+        "es": "Disparás al piso, a una lámpara o a cualquier distracción cercana para desorientar a tu objetivo por un turno.",
+        "en": "You shoot the floor, a lamp, or any nearby distraction to disorient your target for one turn."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "sword",
+      "tags": [
+        "combat",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "quick-draw"
+      ],
+      "unlock": {
+        "type": "combats_won",
+        "count": 3
+      }
+    },
+    {
+      "id": "salto-al-hiperespacio",
+      "name": {
+        "es": "Salto al Hiperespacio",
+        "en": "Hyperspace Jump"
+      },
+      "description": {
+        "es": "Tu droide calcula una ruta de escape en segundos: el grupo huye de cualquier situación sin consecuencias inmediatas.",
+        "en": "Your droid calculates an escape route in seconds: the group flees any situation without immediate consequences."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "moon",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "ruta-secreta"
+      ],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 2
+      }
+    },
+    {
+      "id": "red-de-contactos",
+      "name": {
+        "es": "Red de Contactos",
+        "en": "Contact Network"
+      },
+      "description": {
+        "es": "Llamás a un viejo favor en el bajo mundo: un contacto te provee información, refugio o equipo en cualquier planeta.",
+        "en": "You call in an old favor from the underworld: a contact provides information, shelter, or gear on any planet."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "sparkles",
+      "tags": [
+        "social",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "lengua-de-plata"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 2
+      }
+    },
+    {
+      "id": "parche-de-campo",
+      "name": {
+        "es": "Parche de Campo",
+        "en": "Field Patch"
+      },
+      "description": {
+        "es": "Sacás el medpac y arreglás lo que se pueda: vos o un aliado adyacente recuperan 1d6+2 HP.",
+        "en": "You pull out the medpac and fix what you can: you or an adjacent ally recover 1d6+2 HP."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "heart",
+      "tags": [
+        "healing"
+      ],
+      "tier": 3,
+      "requires": [
+        "disparo-sucio",
+        "salto-al-hiperespacio"
+      ],
+      "unlock": {
+        "type": "deaths_survived",
+        "count": 1
+      }
+    },
+    {
+      "id": "jugada-arriesgada",
+      "name": {
+        "es": "Jugada Arriesgada",
+        "en": "Risky Gambit"
+      },
+      "description": {
+        "es": "Apostás todo en una sola movida: si tenés éxito, el efecto se duplica; si fallás, sufrís las consecuencias del doble.",
+        "en": "You bet everything on one move: if you succeed, the effect doubles; if you fail, you suffer double consequences."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "flame",
+      "tags": [
+        "combat",
+        "social",
+        "utility"
+      ],
+      "tier": 3,
+      "requires": [
+        "red-de-contactos"
+      ],
+      "unlock": {
+        "type": "abilities_used",
+        "count": 8
+      }
+    },
+    {
+      "id": "leyenda-del-borde-exterior",
+      "name": {
+        "es": "Leyenda del Borde Exterior",
+        "en": "Outer Rim Legend"
+      },
+      "description": {
+        "es": "Tu fama en los márgenes de la galaxia te precede: una vez por acto, convertís a un enemigo o neutral en aliado permanente y tu nave se vuelve indetectable por sensores imperiales.",
+        "en": "Your fame on the galaxy's fringes precedes you: once per act, turn an enemy or neutral into a permanent ally and your ship becomes undetectable by Imperial sensors."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "shield",
+      "tags": [
+        "social",
+        "exploration",
+        "utility"
+      ],
+      "tier": 4,
+      "requires": [
+        "parche-de-campo",
+        "jugada-arriesgada"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 3
+      }
+    }
+  ]
+}

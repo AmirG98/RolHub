@@ -1,0 +1,276 @@
+{
+  "loreId": "ISEKAI",
+  "archetypeId": "reincarnated_sage",
+  "name": {
+    "es": "Senda del Sabio Reencarnado",
+    "en": "Path of the Reincarnated Sage"
+  },
+  "nodes": [
+    {
+      "id": "already-knew",
+      "name": {
+        "es": "Ya Lo Sabía",
+        "en": "Already Knew That"
+      },
+      "description": {
+        "es": "Usás tu conocimiento del mundo anterior para anticipar un dato clave: el DM te revela una debilidad, secreto o dato crucial del enemigo o situación actual.",
+        "en": "You use knowledge from your previous life to anticipate a key fact: the DM reveals a weakness, secret, or crucial detail about the current enemy or situation."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "eye",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "turns_played",
+        "count": 5
+      }
+    },
+    {
+      "id": "enchanted-edge",
+      "name": {
+        "es": "Filo Encantado",
+        "en": "Enchanted Edge"
+      },
+      "description": {
+        "es": "Activás los encantamientos de tu espada propia: tu próximo ataque ignora resistencias mágicas y hace daño adicional.",
+        "en": "You activate your self-made sword enchantments: your next attack ignores magical resistances and deals bonus damage."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 2,
+      "icon": "sword",
+      "tags": [
+        "combat"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "combats_won",
+        "count": 1
+      }
+    },
+    {
+      "id": "contact-network",
+      "name": {
+        "es": "Red de Contactos",
+        "en": "Contact Network"
+      },
+      "description": {
+        "es": "Llamás a uno de tus contactos preparados de antemano para obtener un favor: información, refugio, recursos o una distracción oportuna.",
+        "en": "You call on one of your pre-established contacts to obtain a favor: information, shelter, resources, or a timely distraction."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "sparkles",
+      "tags": [
+        "social",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "abilities_used",
+        "count": 2
+      }
+    },
+    {
+      "id": "grimoire-formula",
+      "name": {
+        "es": "Fórmula del Grimorio",
+        "en": "Grimoire Formula"
+      },
+      "description": {
+        "es": "Consultás tu grimorio de 20 años y lanzás un hechizo específico para el obstáculo actual, resolviendo un problema de exploración o combate con magia preparada.",
+        "en": "You consult your two-decade grimoire and cast a spell tailored to the current obstacle, solving an exploration or combat problem with prepared magic."
+      },
+      "kind": "spell",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "flame",
+      "tags": [
+        "combat",
+        "exploration"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 1
+      }
+    },
+    {
+      "id": "contingency-plan",
+      "name": {
+        "es": "Plan de Contingencia",
+        "en": "Contingency Plan"
+      },
+      "description": {
+        "es": "Revelás una trampa, ruta de escape o recurso escondido que 'ya habías preparado' en esta ubicación, cambiando el curso de la escena a tu favor.",
+        "en": "You reveal a trap, escape route, or hidden resource you 'already prepared' in this location, shifting the scene in your favor."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "moon",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "already-knew",
+        "contact-network"
+      ],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 2
+      }
+    },
+    {
+      "id": "runic-barrier",
+      "name": {
+        "es": "Barrera Rúnica",
+        "en": "Runic Barrier"
+      },
+      "description": {
+        "es": "Activás runas grabadas en tu equipo personalizado que generan un escudo mágico: vos y un aliado adyacente reducen a la mitad el próximo daño recibido.",
+        "en": "You activate runes engraved on your custom gear, generating a magic shield: you and an adjacent ally halve the next damage you receive."
+      },
+      "kind": "spell",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "shield",
+      "tags": [
+        "combat",
+        "defense"
+      ],
+      "tier": 2,
+      "requires": [
+        "enchanted-edge"
+      ],
+      "unlock": {
+        "type": "combats_won",
+        "count": 3
+      }
+    },
+    {
+      "id": "subtle-manipulation",
+      "name": {
+        "es": "Manipulación Sutil",
+        "en": "Subtle Manipulation"
+      },
+      "description": {
+        "es": "Usando psicología del mundo anterior, guiás la conversación para que un NPC tome exactamente la decisión que necesitás sin darse cuenta de que lo manipulaste.",
+        "en": "Using psychology from your previous world, you guide a conversation so an NPC makes exactly the decision you need without realizing they were manipulated."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "eye",
+      "tags": [
+        "social"
+      ],
+      "tier": 2,
+      "requires": [
+        "contact-network",
+        "grimoire-formula"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 2
+      }
+    },
+    {
+      "id": "secret-base-recall",
+      "name": {
+        "es": "Retiro a la Base Secreta",
+        "en": "Secret Base Recall"
+      },
+      "description": {
+        "es": "Activás un portal rúnico preinstalado que teletransporta a todo el grupo a tu base secreta, permitiendo recuperar 3 HP cada uno y reabastecerse.",
+        "en": "You activate a pre-installed runic portal that teleports the whole group to your secret base, allowing everyone to recover 3 HP and resupply."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "heart",
+      "tags": [
+        "healing",
+        "utility"
+      ],
+      "tier": 3,
+      "requires": [
+        "contingency-plan",
+        "runic-barrier"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 2
+      }
+    },
+    {
+      "id": "gray-eminence",
+      "name": {
+        "es": "Eminencia Gris",
+        "en": "Gray Eminence"
+      },
+      "description": {
+        "es": "Revelás que llevas meses orquestando este momento: un evento mayor del escenario (una alianza, traición o recurso) resulta haber sido preparado por vos, beneficiando al grupo.",
+        "en": "You reveal you have spent months orchestrating this moment: a major scenario event (an alliance, betrayal, or resource) turns out to have been arranged by you, benefiting the group."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "moon",
+      "tags": [
+        "social",
+        "utility"
+      ],
+      "tier": 3,
+      "requires": [
+        "subtle-manipulation",
+        "contingency-plan"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 3
+      }
+    },
+    {
+      "id": "world-rewrite",
+      "name": {
+        "es": "Reescribir el Mundo",
+        "en": "Rewrite the World"
+      },
+      "description": {
+        "es": "Ejecutás la fase central de tu plan maestro: declarás un cambio estructural permanente en el mundo (una ley abolida, una organización fundada, un enemigo convertido en aliado) que el DM debe incorporar a la narrativa.",
+        "en": "You execute the central phase of your master plan: you declare a permanent structural change to the world (a law abolished, an organization founded, an enemy turned ally) that the DM must incorporate into the narrative."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "sparkles",
+      "tags": [
+        "social",
+        "utility",
+        "exploration"
+      ],
+      "tier": 4,
+      "requires": [
+        "secret-base-recall",
+        "gray-eminence"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 3
+      }
+    }
+  ]
+}

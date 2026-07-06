@@ -1218,8 +1218,51 @@ REGLA: Una feature no está terminada hasta que tiene:
 ## 20. ESTADO ACTUAL DEL PROYECTO
 
 Ultima actualizacion: 2026-07-05
-Fase actual:         2+ — MVP + monetizacion (Paddle) + hardening de seguridad
-Ultima sesion:       Verificacion de branch security-hardening (local, sin commit)
+Fase actual:         3 — Skill trees + playtesting automatizado
+Ultima sesion:       Arbol de habilidades + agentes de playtest (branch feature/skills-and-playtest)
+
+SESION 2026-07-05 (tarde) — feature/skills-and-playtest (SIN mergear aun):
+  ARBOL DE HABILIDADES (por logros/milestones, por arquetipo por lore):
+  ✅ lib/types/skill-tree.ts, lib/validation/skill-tree.schema.ts (Zod),
+     lib/game/milestones.ts (motor), lib/game/skill-trees.ts (registry)
+  ✅ Character.milestones + Character.unlockedSkills (Prisma, ya en DB)
+  ✅ Turn route: hooks de milestones (combat/quest/ability/act/anchor/npc_bond/
+     death) + flush + skillUnlocks en respuesta (toast, solo registrados)
+  ✅ Endpoints GET /api/characters/[id]/skill-tree (+ teaser guest) y .../learn
+  ✅ UI: pagina /characters/[id]/skills, SkillTreeView (SVG connections),
+     SkillNodeCard, SkillTreeTeaser, toast in-game, links en cards y AbilitiesPanel
+  ✅ 42 ARBOLES generados (scripts/generate-skill-trees/) — todos los arquetipos
+     de los 10 lores, validados por schema
+  ✅ FIX: getSkillTree resuelve por NOMBRE de arquetipo, no solo id
+     (Character.archetype guarda 'Montaraz', no 'ranger') — lib/game/archetype-resolver.ts
+
+  PLAYTESTING AUTOMATIZADO (nightly cron + autofix):
+  ✅ scripts/playtest/: agente jugador (Haiku) con perfiles normal/chaotic/hostile,
+     invariantes deterministicas, reporte JSON+md con fingerprints
+  ✅ lib/validation/dm-response.schema.ts (Zod del DMResponse, compartido) +
+     enforcement en warning mode en el turn route
+  ✅ .github/workflows/nightly-playtest.yml: job playtest (contra rol-hub.com) →
+     file-issues (dedup por fingerprint, cap 5/noche) → autofix (claude-code
+     headless, PR draft, cap 2/noche, nunca mergea)
+  ✅ Bypass de rate limit para playtest: header x-playtest-token vs env
+     PLAYTEST_BYPASS_TOKEN (en guest-create y turn route)
+
+  BUGS PREEXISTENTES ENCONTRADOS Y ARREGLADOS por el agente de playtest:
+  ✅ turn route ~2357: sl.name.toLowerCase() reventaba (500) con sub-locaciones
+     de nombre LocalizedString — bug en vivo en prod, ahora con guarda defensiva
+
+  VERIFICADO: tsc 0 errores, 125 tests, build de produccion OK, E2E completo
+  (jugar → milestones en DB → resolver arbol → nodo desbloqueable).
+
+  PENDIENTE:
+  - Mergear feature/skills-and-playtest a main (revisar primero)
+  - Secrets en GitHub repo para el nightly: ANTHROPIC_API_KEY, PLAYTEST_BYPASS_TOKEN,
+    AUTOFIX_PAT (PAT para que los PRs de autofix disparen CI)
+  - Env PLAYTEST_BYPASS_TOKEN en Vercel (mismo valor que en .env.local)
+  - Nota: el enforcement del DMResponse schema esta en WARNING mode; endurecer
+    tras ver la tasa de violaciones real en prod
+
+SESION 2026-07-05 (manana) — security-hardening verificada en local:
 
 SESION 2026-07-05 — security-hardening verificada en local:
   ✅ Branch security-hardening checkouteada, npm install, prisma db push OK

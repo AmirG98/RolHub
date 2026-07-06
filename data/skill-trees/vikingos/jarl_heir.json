@@ -1,0 +1,302 @@
+{
+  "loreId": "VIKINGOS",
+  "archetypeId": "jarl_heir",
+  "name": {
+    "es": "Senda del Heredero",
+    "en": "Path of the Heir"
+  },
+  "nodes": [
+    {
+      "id": "blood-authority",
+      "name": {
+        "es": "Autoridad de Sangre",
+        "en": "Blood Authority"
+      },
+      "description": {
+        "es": "Invocás el nombre de tu familia para exigir respeto: un NPC hostil o neutral te trata con deferencia este turno.",
+        "en": "You invoke your family name to command respect: a hostile or neutral NPC treats you with deference this turn."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "sparkles",
+      "tags": [
+        "social",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "turns_played",
+        "count": 5
+      }
+    },
+    {
+      "id": "ancestral-strike",
+      "name": {
+        "es": "Golpe Ancestral",
+        "en": "Ancestral Strike"
+      },
+      "description": {
+        "es": "Canalizás el linaje de guerreros que te preceden: tu próximo ataque con espada inflige daño adicional e ignora armadura ligera.",
+        "en": "You channel the lineage of warriors before you: your next sword attack deals bonus damage and ignores light armor."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "sword",
+      "tags": [
+        "combat"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "combats_won",
+        "count": 1
+      }
+    },
+    {
+      "id": "read-the-room",
+      "name": {
+        "es": "Leer el Salón",
+        "en": "Read the Hall"
+      },
+      "description": {
+        "es": "Tu crianza entre consejeros y espías te permite detectar quién miente, quién conspira y quién es leal en cualquier reunión.",
+        "en": "Your upbringing among advisors and spies lets you detect who is lying, conspiring, or loyal in any gathering."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "eye",
+      "tags": [
+        "social",
+        "exploration"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "abilities_used",
+        "count": 2
+      }
+    },
+    {
+      "id": "heir-s-resilience",
+      "name": {
+        "es": "Resiliencia del Heredero",
+        "en": "Heir's Resilience"
+      },
+      "description": {
+        "es": "Creciste sabiendo que el poder tiene precio: cuando caés por debajo de la mitad del HP, recuperás 4 puntos de vida de inmediato.",
+        "en": "You grew up knowing power has a cost: when you drop below half HP, you immediately recover 4 hit points."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "heart",
+      "tags": [
+        "healing",
+        "defense"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 1
+      }
+    },
+    {
+      "id": "clan-network",
+      "name": {
+        "es": "Red del Clan",
+        "en": "Clan Network"
+      },
+      "description": {
+        "es": "Activás tus contactos en clanes vecinos para obtener información, refugio o un favor en la región actual.",
+        "en": "You activate your contacts in neighboring clans to obtain information, shelter, or a favor in the current region."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "moon",
+      "tags": [
+        "social",
+        "exploration"
+      ],
+      "tier": 2,
+      "requires": [
+        "blood-authority"
+      ],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 2
+      }
+    },
+    {
+      "id": "shield-commander",
+      "name": {
+        "es": "Comandante de Escudos",
+        "en": "Shield Commander"
+      },
+      "description": {
+        "es": "Emitís órdenes claras en el fragor de batalla: un aliado adyacente puede atacar o defenderse inmediatamente como reacción fuera de su turno.",
+        "en": "You issue clear commands in the heat of battle: an adjacent ally can immediately attack or defend as a reaction outside their turn."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "shield",
+      "tags": [
+        "combat",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "ancestral-strike"
+      ],
+      "unlock": {
+        "type": "combats_won",
+        "count": 3
+      }
+    },
+    {
+      "id": "territorial-knowledge",
+      "name": {
+        "es": "Conocimiento del Territorio",
+        "en": "Territorial Knowledge"
+      },
+      "description": {
+        "es": "Consultás el mapa del clan para revelar rutas ocultas, recursos o peligros de la zona antes de avanzar.",
+        "en": "You consult the clan map to reveal hidden routes, resources, or dangers in the area before moving forward."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "leaf",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "read-the-room"
+      ],
+      "unlock": {
+        "type": "turns_played",
+        "count": 15
+      }
+    },
+    {
+      "id": "iron-will",
+      "name": {
+        "es": "Voluntad de Hierro",
+        "en": "Iron Will"
+      },
+      "description": {
+        "es": "Te negás a caer frente a tu clan: una vez, cuando un golpe te llevaría a 0 HP, quedás en 1 HP y seguís en pie.",
+        "en": "You refuse to fall before your clan: once, when a blow would bring you to 0 HP, you stay at 1 HP and remain standing."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "zap",
+      "tags": [
+        "combat",
+        "defense"
+      ],
+      "tier": 2,
+      "requires": [
+        "heir-s-resilience"
+      ],
+      "unlock": {
+        "type": "deaths_survived",
+        "count": 1
+      }
+    },
+    {
+      "id": "war-leader",
+      "name": {
+        "es": "Líder de Guerra",
+        "en": "War Leader"
+      },
+      "description": {
+        "es": "Tu presencia en el campo galvaniza a los tuyos: todos los aliados obtienen ventaja en sus próximas tiradas de combate durante este encuentro.",
+        "en": "Your presence on the field galvanizes your allies: all allies gain advantage on their next combat rolls during this encounter."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "flame",
+      "tags": [
+        "combat",
+        "social"
+      ],
+      "tier": 3,
+      "requires": [
+        "shield-commander",
+        "clan-network"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 2
+      }
+    },
+    {
+      "id": "diplomatic-seal",
+      "name": {
+        "es": "Sello Diplomático",
+        "en": "Diplomatic Seal"
+      },
+      "description": {
+        "es": "Usás el anillo de sello del clan para negociar un pacto vinculante: un NPC o facción enemiga acepta una tregua o intercambio que de otro modo rechazaría.",
+        "en": "You use the clan signet ring to broker a binding pact: an enemy NPC or faction accepts a truce or exchange they would otherwise refuse."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "sparkles",
+      "tags": [
+        "social",
+        "utility"
+      ],
+      "tier": 3,
+      "requires": [
+        "territorial-knowledge",
+        "clan-network"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 2
+      }
+    },
+    {
+      "id": "saga-of-the-heir",
+      "name": {
+        "es": "Saga del Heredero",
+        "en": "Saga of the Heir"
+      },
+      "description": {
+        "es": "Tu nombre ya es leyenda: una vez por encuentro, podés invocar tus hazañas para que todos los presentes, amigos y enemigos, reconozcan tu derecho a liderar y obedezcan una orden tuya sin resistencia.",
+        "en": "Your name is already legend: once per encounter, you can invoke your deeds so that all present, friend and foe alike, acknowledge your right to lead and obey one of your commands without resistance."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "moon",
+      "tags": [
+        "social",
+        "combat",
+        "utility"
+      ],
+      "tier": 4,
+      "requires": [
+        "war-leader",
+        "diplomatic-seal"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 3
+      }
+    }
+  ]
+}

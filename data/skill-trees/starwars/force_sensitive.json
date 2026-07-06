@@ -1,0 +1,302 @@
+{
+  "loreId": "STAR_WARS",
+  "archetypeId": "force_sensitive",
+  "name": {
+    "es": "Sendero de la Fuerza",
+    "en": "Path of the Force"
+  },
+  "nodes": [
+    {
+      "id": "telekinesis",
+      "name": {
+        "es": "Telequinesis",
+        "en": "Telekinesis"
+      },
+      "description": {
+        "es": "Movés un objeto o enemigo con la mente: empujás, atraés o levantás algo a distancia sin tocarlo.",
+        "en": "You move an object or enemy with your mind: push, pull, or lift something at range without touching it."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 2,
+      "icon": "sparkles",
+      "tags": [
+        "combat",
+        "exploration"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "turns_played",
+        "count": 5
+      }
+    },
+    {
+      "id": "force-sense",
+      "name": {
+        "es": "Sentido de la Fuerza",
+        "en": "Force Sense"
+      },
+      "description": {
+        "es": "Percibís presencias vivas y amenazas ocultas en la zona: el DM te revela si hay enemigos o trampas cercanas.",
+        "en": "You perceive living presences and hidden threats nearby: the DM reveals if there are enemies or traps close by."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "eye",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "abilities_used",
+        "count": 2
+      }
+    },
+    {
+      "id": "saber-deflect",
+      "name": {
+        "es": "Desvío con Sable",
+        "en": "Saber Deflect"
+      },
+      "description": {
+        "es": "Usás tu sable de luz para desviar un proyectil enemigo, anulando por completo el daño del ataque.",
+        "en": "You use your lightsaber to deflect an incoming projectile, completely negating the attack's damage."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "shield",
+      "tags": [
+        "combat",
+        "defense"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "combats_won",
+        "count": 1
+      }
+    },
+    {
+      "id": "force-vision",
+      "name": {
+        "es": "Visión de la Fuerza",
+        "en": "Force Vision"
+      },
+      "description": {
+        "es": "Meditás y recibís una visión del pasado o futuro inmediato de un lugar o persona que tocás.",
+        "en": "You meditate and receive a vision of the past or immediate future of a place or person you touch."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "moon",
+      "tags": [
+        "exploration",
+        "social"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 1
+      }
+    },
+    {
+      "id": "force-push",
+      "name": {
+        "es": "Empuje de la Fuerza",
+        "en": "Force Push"
+      },
+      "description": {
+        "es": "Liberás una onda expansiva de energía que derriba a todos los enemigos en un cono frente a vos.",
+        "en": "You release a shockwave of energy that knocks down every enemy in a cone in front of you."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "zap",
+      "tags": [
+        "combat"
+      ],
+      "tier": 2,
+      "requires": [
+        "telekinesis"
+      ],
+      "unlock": {
+        "type": "combats_won",
+        "count": 3
+      }
+    },
+    {
+      "id": "force-cloak",
+      "name": {
+        "es": "Velo de la Fuerza",
+        "en": "Force Cloak"
+      },
+      "description": {
+        "es": "Te fundís con la Fuerza y pasás desapercibido: los enemigos no Force-sensitivos no pueden detectarte durante un turno.",
+        "en": "You blend into the Force and go unnoticed: non-Force-sensitive enemies cannot detect you for one turn."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "moon",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "force-sense"
+      ],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 2
+      }
+    },
+    {
+      "id": "force-heal",
+      "name": {
+        "es": "Sanación con la Fuerza",
+        "en": "Force Heal"
+      },
+      "description": {
+        "es": "Canalizás la Fuerza en vos mismo o un aliado adyacente, restaurando 1d8+2 HP al instante.",
+        "en": "You channel the Force into yourself or an adjacent ally, instantly restoring 1d8+2 HP."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "heart",
+      "tags": [
+        "healing",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "saber-deflect"
+      ],
+      "unlock": {
+        "type": "deaths_survived",
+        "count": 1
+      }
+    },
+    {
+      "id": "mind-trick",
+      "name": {
+        "es": "Truco Mental",
+        "en": "Mind Trick"
+      },
+      "description": {
+        "es": "Susurrás una sugestión sutil y un NPC de mente débil acepta tu pedido como si fuera su propia idea.",
+        "en": "You whisper a subtle suggestion and a weak-minded NPC accepts your request as if it were their own idea."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "sparkles",
+      "tags": [
+        "social",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "force-vision"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 1
+      }
+    },
+    {
+      "id": "saber-mastery",
+      "name": {
+        "es": "Maestría con el Sable",
+        "en": "Saber Mastery"
+      },
+      "description": {
+        "es": "Tu vínculo con el sable se vuelve instintivo: cada ataque cuerpo a cuerpo inflige daño adicional y bloquea en el mismo movimiento.",
+        "en": "Your bond with the saber becomes instinctive: every melee attack deals bonus damage and parries in the same motion."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "sword",
+      "tags": [
+        "combat"
+      ],
+      "tier": 3,
+      "requires": [
+        "force-push",
+        "force-heal"
+      ],
+      "unlock": {
+        "type": "combats_won",
+        "count": 6
+      }
+    },
+    {
+      "id": "force-bond",
+      "name": {
+        "es": "Vínculo de la Fuerza",
+        "en": "Force Bond"
+      },
+      "description": {
+        "es": "Establecés una conexión telepática con un aliado: podés comunicarte en silencio y compartir la mitad del daño recibido por cualquiera de los dos.",
+        "en": "You establish a telepathic connection with an ally: you can communicate silently and split any damage either of you receives."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "leaf",
+      "tags": [
+        "social",
+        "utility",
+        "defense"
+      ],
+      "tier": 3,
+      "requires": [
+        "force-cloak",
+        "mind-trick"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 2
+      }
+    },
+    {
+      "id": "one-with-the-force",
+      "name": {
+        "es": "Uno con la Fuerza",
+        "en": "One with the Force"
+      },
+      "description": {
+        "es": "Trascendés los límites del cuerpo: por un turno completo sos inmune al daño, tus poderes no tienen cooldown y sentís todo lo que ocurre en la escena.",
+        "en": "You transcend the limits of the body: for one full turn you are immune to damage, your powers have no cooldown, and you sense everything happening in the scene."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "flame",
+      "tags": [
+        "combat",
+        "exploration",
+        "utility"
+      ],
+      "tier": 4,
+      "requires": [
+        "saber-mastery",
+        "force-bond"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 3
+      }
+    }
+  ]
+}

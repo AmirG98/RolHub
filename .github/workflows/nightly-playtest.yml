@@ -1,0 +1,121 @@
+name: Nightly Playtest
+
+# Agentes que juegan el juego contra prod, detectan bugs, abren issues y
+# (job autofix) intentan un fix en branch dejando PR draft para revisión.
+# Ver scripts/playtest/ y el plan en el repo.
+
+on:
+  schedule:
+    - cron: '0 6 * * *'   # 06:00 UTC = 03:00 ART (tráfico real mínimo)
+  workflow_dispatch:      # correr a mano desde la pestaña Actions
+    inputs:
+      profiles:
+        description: 'Perfiles a correr (coma-separados)'
+        default: 'normal,chaotic,hostile'
+      max_turns:
+        description: 'Máx turnos por sesión'
+        default: '14'
+      base_url:
+        description: 'URL objetivo'
+        default: 'https://rol-hub.com'
+
+concurrency:
+  group: nightly-playtest
+  cancel-in-progress: false
+
+jobs:
+  playtest:
+    runs-on: ubuntu-latest
+    outputs:
+      has_findings: ${{ steps.run.outputs.has_findings }}
+      autofixable_count: ${{ steps.run.outputs.autofixable_count }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm install --no-audit --no-fund
+      - name: Run playtest
+        id: run
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          PLAYTEST_BYPASS_TOKEN: ${{ secrets.PLAYTEST_BYPASS_TOKEN }}
+          UTILITY_MODEL: ${{ vars.UTILITY_MODEL || 'claude-haiku-4-5-20251001' }}
+        run: |
+          npx tsx scripts/playtest/run.ts \
+            --base-url "${{ github.event.inputs.base_url || 'https://rol-hub.com' }}" \
+            --profiles "${{ github.event.inputs.profiles || 'normal,chaotic,hostile' }}" \
+            --max-turns "${{ github.event.inputs.max_turns || '14' }}" \
+            --out-dir playtest-results
+      - name: Upload report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playtest-report
+          path: playtest-results/
+          retention-days: 30
+
+  file-issues:
+    needs: playtest
+    if: needs.playtest.outputs.has_findings == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    outputs:
+      autofixable: ${{ steps.file.outputs.autofixable }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm install --no-audit --no-fund
+      - uses: actions/download-artifact@v4
+        with:
+          name: playtest-report
+          path: playtest-results/
+      - name: File / dedup issues
+        id: file
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          MAX_NEW_ISSUES: '5'
+        run: npx tsx scripts/playtest/file-issues.ts playtest-results/report.json
+
+  autofix:
+    needs: file-issues
+    if: needs.file-issues.outputs.autofixable != '' && needs.file-issues.outputs.autofixable != '[]'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    strategy:
+      max-parallel: 1
+      matrix:
+        # Cap de 2 intentos de autofix por noche (los primeros 2 del array).
+        # El script filtra por índice para respetar el límite.
+        index: [0, 1]
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.AUTOFIX_PAT }}   # PAT para que el PR dispare CI
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm install --no-audit --no-fund
+      - uses: actions/download-artifact@v4
+        with:
+          name: playtest-report
+          path: playtest-results/
+      - name: Autofix attempt
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.AUTOFIX_PAT }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          AUTOFIXABLE_JSON: ${{ needs.file-issues.outputs.autofixable }}
+          FINDING_INDEX: ${{ matrix.index }}
+        run: bash scripts/playtest/autofix.sh

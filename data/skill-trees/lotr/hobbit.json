@@ -1,0 +1,303 @@
+{
+  "loreId": "LOTR",
+  "archetypeId": "hobbit",
+  "name": {
+    "es": "Senda del Hobbit Aventurero",
+    "en": "Path of the Adventurous Hobbit"
+  },
+  "nodes": [
+    {
+      "id": "pies-silenciosos",
+      "name": {
+        "es": "Pies Silenciosos",
+        "en": "Silent Feet"
+      },
+      "description": {
+        "es": "Te movés sin hacer ruido: ignorás las tiradas de detección pasiva de los enemigos durante un turno.",
+        "en": "You move without a sound: you ignore passive detection checks from enemies for one turn."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 2,
+      "icon": "moon",
+      "tags": [
+        "stealth",
+        "exploration"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "turns_played",
+        "count": 5
+      }
+    },
+    {
+      "id": "corazon-comarcano",
+      "name": {
+        "es": "Corazón Comarcano",
+        "en": "Shire Heart"
+      },
+      "description": {
+        "es": "Recordás la calidez del hogar y recuperás 1d4 HP, además de eliminar un nivel de miedo o corrupción.",
+        "en": "You recall the warmth of home and recover 1d4 HP, also removing one level of fear or corruption."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "heart",
+      "tags": [
+        "healing",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "combats_won",
+        "count": 1
+      }
+    },
+    {
+      "id": "subestimado",
+      "name": {
+        "es": "Subestimado",
+        "en": "Underestimated"
+      },
+      "description": {
+        "es": "Los enemigos te ignoran como amenaza: el primer ataque que hacés en un combate tiene ventaja automática.",
+        "en": "Enemies dismiss you as a threat: the first attack you make in a combat has automatic advantage."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "eye",
+      "tags": [
+        "combat",
+        "stealth"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "abilities_used",
+        "count": 2
+      }
+    },
+    {
+      "id": "hospitalidad-hobbit",
+      "name": {
+        "es": "Hospitalidad Hobbit",
+        "en": "Hobbit Hospitality"
+      },
+      "description": {
+        "es": "Ofrecés comida y conversación: un NPC hostil o neutral baja la guardia y te da información o un favor menor.",
+        "en": "You offer food and conversation: a hostile or neutral NPC lowers their guard and gives you information or a minor favor."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "sparkles",
+      "tags": [
+        "social",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 1
+      }
+    },
+    {
+      "id": "sombra-entre-sombras",
+      "name": {
+        "es": "Sombra entre Sombras",
+        "en": "Shadow Among Shadows"
+      },
+      "description": {
+        "es": "Te fundís con el entorno durante hasta 3 turnos, volviéndote indetectable mientras no atacás ni hablás.",
+        "en": "You blend into the environment for up to 3 turns, becoming undetectable as long as you don't attack or speak."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "moon",
+      "tags": [
+        "stealth",
+        "exploration"
+      ],
+      "tier": 2,
+      "requires": [
+        "pies-silenciosos"
+      ],
+      "unlock": {
+        "type": "combats_won",
+        "count": 3
+      }
+    },
+    {
+      "id": "resistencia-interior",
+      "name": {
+        "es": "Resistencia Interior",
+        "en": "Inner Resistance"
+      },
+      "description": {
+        "es": "Tu corazón simple rechaza la magia oscura: negás automáticamente el próximo efecto de miedo, corrupción o control mental.",
+        "en": "Your simple heart rejects dark magic: you automatically negate the next fear, corruption, or mind control effect."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "shield",
+      "tags": [
+        "defense",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "corazon-comarcano"
+      ],
+      "unlock": {
+        "type": "deaths_survived",
+        "count": 1
+      }
+    },
+    {
+      "id": "golpe-inesperado",
+      "name": {
+        "es": "Golpe Inesperado",
+        "en": "Unexpected Strike"
+      },
+      "description": {
+        "es": "Aprovechás tu tamaño para atacar desde un ángulo imposible: causás 2d6 de daño adicional y el enemigo pierde su reacción este turno.",
+        "en": "You exploit your size to strike from an impossible angle: you deal 2d6 extra damage and the enemy loses their reaction this turn."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "sword",
+      "tags": [
+        "combat"
+      ],
+      "tier": 2,
+      "requires": [
+        "subestimado"
+      ],
+      "unlock": {
+        "type": "level_reached",
+        "count": 3
+      }
+    },
+    {
+      "id": "palabras-de-la-comarca",
+      "name": {
+        "es": "Palabras de la Comarca",
+        "en": "Words of the Shire"
+      },
+      "description": {
+        "es": "Contás una historia o canción hobbit que inspira a tus aliados: todos ganan ventaja en su próxima tirada de salvación contra miedo.",
+        "en": "You tell a hobbit story or song that inspires your allies: everyone gains advantage on their next saving throw against fear."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "sparkles",
+      "tags": [
+        "social",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "hospitalidad-hobbit"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 2
+      }
+    },
+    {
+      "id": "portador-de-carga",
+      "name": {
+        "es": "Portador de Carga",
+        "en": "Burden Bearer"
+      },
+      "description": {
+        "es": "Asumís el peso de un objeto maldito, anillo u objeto de poder aliviando a un aliado: vos absorbés sus efectos negativos por 2 turnos sin sufrir daño de corrupción.",
+        "en": "You take on the weight of a cursed item, ring, or object of power relieving an ally: you absorb its negative effects for 2 turns without suffering corruption damage."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "shield",
+      "tags": [
+        "defense",
+        "utility"
+      ],
+      "tier": 3,
+      "requires": [
+        "sombra-entre-sombras",
+        "resistencia-interior"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 2
+      }
+    },
+    {
+      "id": "heroe-improbable",
+      "name": {
+        "es": "Héroe Improbable",
+        "en": "Unlikely Hero"
+      },
+      "description": {
+        "es": "En el momento más oscuro, tu coraje inspira a todos: los aliados que estén derrotados o asustados recuperan 1d8 HP y se levantan con ventaja en todos sus ataques este turno.",
+        "en": "In the darkest moment, your courage inspires everyone: downed or frightened allies regain 1d8 HP and rise with advantage on all attacks this turn."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "zap",
+      "tags": [
+        "combat",
+        "healing",
+        "social"
+      ],
+      "tier": 3,
+      "requires": [
+        "golpe-inesperado",
+        "palabras-de-la-comarca"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 2
+      }
+    },
+    {
+      "id": "voluntad-del-pueblo-llano",
+      "name": {
+        "es": "Voluntad del Pueblo Llano",
+        "en": "Will of the Common Folk"
+      },
+      "description": {
+        "es": "Tu espíritu hobbit trasciende todo poder oscuro: por el resto del encuentro sos inmune a corrupción, miedo y control mental, y cada ataque tuyo que impacte restaura 1d4 HP a un aliado de tu elección.",
+        "en": "Your hobbit spirit transcends all dark power: for the rest of the encounter you are immune to corruption, fear, and mind control, and each attack you land restores 1d4 HP to an ally of your choice."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "leaf",
+      "tags": [
+        "combat",
+        "defense",
+        "healing"
+      ],
+      "tier": 4,
+      "requires": [
+        "portador-de-carga",
+        "heroe-improbable"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 3
+      }
+    }
+  ]
+}

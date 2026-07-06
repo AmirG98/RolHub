@@ -1,0 +1,278 @@
+{
+  "loreId": "ZOMBIES",
+  "archetypeId": "leader",
+  "name": {
+    "es": "Senda del Líder Nato",
+    "en": "Path of the Natural Leader"
+  },
+  "nodes": [
+    {
+      "id": "palabras-de-aliento",
+      "name": {
+        "es": "Palabras de Aliento",
+        "en": "Words of Encouragement"
+      },
+      "description": {
+        "es": "Le decís exactamente lo que un aliado necesita escuchar: recupera 3 HP y su próxima acción tiene ventaja.",
+        "en": "You say exactly what an ally needs to hear: they recover 3 HP and their next action has advantage."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "heart",
+      "tags": [
+        "social",
+        "healing"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "turns_played",
+        "count": 5
+      }
+    },
+    {
+      "id": "orden-de-evacuacion",
+      "name": {
+        "es": "Orden de Evacuación",
+        "en": "Evacuation Order"
+      },
+      "description": {
+        "es": "Con una señal clara, todos los aliados en la escena se replegan a una posición segura sin gastar su turno.",
+        "en": "With a clear signal, all allies in the scene fall back to a safe position without spending their turn."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "zap",
+      "tags": [
+        "combat",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "combats_won",
+        "count": 1
+      }
+    },
+    {
+      "id": "leer-el-terreno",
+      "name": {
+        "es": "Leer el Terreno",
+        "en": "Read the Terrain"
+      },
+      "description": {
+        "es": "Analizás el entorno y el DM te revela las rutas de escape, posibles emboscadas o recursos ocultos en la zona.",
+        "en": "You analyze the surroundings and the DM reveals escape routes, possible ambushes, or hidden resources in the area."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "eye",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 1
+      }
+    },
+    {
+      "id": "voz-de-mando",
+      "name": {
+        "es": "Voz de Mando",
+        "en": "Voice of Command"
+      },
+      "description": {
+        "es": "Usás el megáfono o tu voz potente para paralizar a un grupo de zombies por un turno mientras tus aliados actúan.",
+        "en": "You use the megaphone or your booming voice to freeze a group of zombies for one turn while your allies act."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "sparkles",
+      "tags": [
+        "combat",
+        "social"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "abilities_used",
+        "count": 2
+      }
+    },
+    {
+      "id": "plan-de-contingencia",
+      "name": {
+        "es": "Plan de Contingencia",
+        "en": "Contingency Plan"
+      },
+      "description": {
+        "es": "Antes de una misión, establecés un plan B: si algo sale mal, todos los aliados tienen ventaja en sus primeras acciones de escape.",
+        "en": "Before a mission, you set a fallback plan: if things go wrong, all allies have advantage on their first escape actions."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "shield",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "leer-el-terreno",
+        "orden-de-evacuacion"
+      ],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 2
+      }
+    },
+    {
+      "id": "discurso-motivacional",
+      "name": {
+        "es": "Discurso Motivacional",
+        "en": "Motivational Speech"
+      },
+      "description": {
+        "es": "Das un breve discurso que sube la moral del grupo: todos los aliados ganan +2 a sus tiradas durante los próximos 3 turnos.",
+        "en": "You deliver a brief speech that boosts group morale: all allies gain +2 to their rolls for the next 3 turns."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "sparkles",
+      "tags": [
+        "social",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "palabras-de-aliento",
+        "voz-de-mando"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 2
+      }
+    },
+    {
+      "id": "negociador-de-crisis",
+      "name": {
+        "es": "Negociador de Crisis",
+        "en": "Crisis Negotiator"
+      },
+      "description": {
+        "es": "En situaciones de alta tensión con otros supervivientes, podés detener un conflicto y forzar una tregua temporal sin tirar dados.",
+        "en": "In high-tension situations with other survivors, you can stop a conflict and force a temporary truce without rolling dice."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "moon",
+      "tags": [
+        "social",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "palabras-de-aliento"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 1
+      }
+    },
+    {
+      "id": "red-de-contactos",
+      "name": {
+        "es": "Red de Contactos",
+        "en": "Network of Contacts"
+      },
+      "description": {
+        "es": "Tu reputación llega lejos: cuando llegás a un nuevo asentamiento, al menos un NPC ya oyó hablar bien de vos y te ayuda sin costo.",
+        "en": "Your reputation travels far: when you arrive at a new settlement, at least one NPC has already heard good things about you and helps you at no cost."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "leaf",
+      "tags": [
+        "social",
+        "exploration"
+      ],
+      "tier": 3,
+      "requires": [
+        "negociador-de-crisis",
+        "discurso-motivacional"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 2
+      }
+    },
+    {
+      "id": "operacion-coordinada",
+      "name": {
+        "es": "Operación Coordinada",
+        "en": "Coordinated Operation"
+      },
+      "description": {
+        "es": "Planificás un ataque o incursión con tal precisión que todos los aliados actúan en el mismo turno sin penalización por acciones simultáneas.",
+        "en": "You plan an attack or raid with such precision that all allies act in the same turn without penalty for simultaneous actions."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "zap",
+      "tags": [
+        "combat",
+        "utility"
+      ],
+      "tier": 3,
+      "requires": [
+        "plan-de-contingencia",
+        "discurso-motivacional"
+      ],
+      "unlock": {
+        "type": "combats_won",
+        "count": 5
+      }
+    },
+    {
+      "id": "fundador-del-refugio",
+      "name": {
+        "es": "Fundador del Refugio",
+        "en": "Shelter Founder"
+      },
+      "description": {
+        "es": "Tu liderazgo forja una comunidad real: establecés un refugio permanente que provee recursos, aliados y un punto de retorno para todo el grupo.",
+        "en": "Your leadership forges a real community: you establish a permanent shelter that provides resources, allies, and a return point for the entire group."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "sparkles",
+      "tags": [
+        "social",
+        "utility",
+        "exploration"
+      ],
+      "tier": 4,
+      "requires": [
+        "red-de-contactos",
+        "operacion-coordinada"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 3
+      }
+    }
+  ]
+}

@@ -1,0 +1,274 @@
+{
+  "loreId": "ZOMBIES",
+  "archetypeId": "soldier",
+  "name": {
+    "es": "Senda del Ex-Militar",
+    "en": "Path of the Ex-Military"
+  },
+  "nodes": [
+    {
+      "id": "supresion-de-fuego",
+      "name": {
+        "es": "Supresión de Fuego",
+        "en": "Suppressing Fire"
+      },
+      "description": {
+        "es": "Disparás en ráfagas cortas y controladas: todos los enemigos en tu zona no pueden avanzar hacia vos este turno.",
+        "en": "You fire in short controlled bursts: all enemies in your zone cannot advance toward you this turn."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "zap",
+      "tags": [
+        "combat"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "combats_won",
+        "count": 1
+      }
+    },
+    {
+      "id": "lectura-de-terreno",
+      "name": {
+        "es": "Lectura de Terreno",
+        "en": "Terrain Reading"
+      },
+      "description": {
+        "es": "Evaluás rápidamente una zona y el DM te revela salidas, coberturas y peligros ocultos de la escena.",
+        "en": "You quickly assess an area and the DM reveals exits, cover spots, and hidden dangers in the scene."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 2,
+      "icon": "eye",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "turns_played",
+        "count": 5
+      }
+    },
+    {
+      "id": "torniquete-de-campo",
+      "name": {
+        "es": "Torniquete de Campo",
+        "en": "Field Tourniquet"
+      },
+      "description": {
+        "es": "Aplicás primeros auxilios de emergencia con lo que tenés a mano: estabilizás a un aliado derribado o recuperás 4 HP propios.",
+        "en": "You apply emergency first aid with whatever's on hand: stabilize a downed ally or recover 4 HP yourself."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "heart",
+      "tags": [
+        "healing",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "abilities_used",
+        "count": 2
+      }
+    },
+    {
+      "id": "modo-francotirador",
+      "name": {
+        "es": "Modo Francotirador",
+        "en": "Sniper Mode"
+      },
+      "description": {
+        "es": "Te tomás un turno para apuntar con calma y tu siguiente disparo es crítico automático contra un objetivo a distancia.",
+        "en": "You take a turn to carefully aim and your next shot is an automatic critical hit against a ranged target."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "moon",
+      "tags": [
+        "combat"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 1
+      }
+    },
+    {
+      "id": "emboscada-perfecta",
+      "name": {
+        "es": "Emboscada Perfecta",
+        "en": "Perfect Ambush"
+      },
+      "description": {
+        "es": "Coordinás un ataque sorpresa: vos y hasta dos aliados atacan simultáneamente antes de que los enemigos puedan reaccionar.",
+        "en": "You coordinate a surprise attack: you and up to two allies strike simultaneously before enemies can react."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "sword",
+      "tags": [
+        "combat",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "supresion-de-fuego",
+        "lectura-de-terreno"
+      ],
+      "unlock": {
+        "type": "combats_won",
+        "count": 4
+      }
+    },
+    {
+      "id": "ruta-de-escape",
+      "name": {
+        "es": "Ruta de Escape",
+        "en": "Escape Route"
+      },
+      "description": {
+        "es": "Trazás una salida rápida del área: vos y todos tus aliados pueden retirarse de cualquier combate sin recibir daño de oportunidad.",
+        "en": "You map a quick exit from the area: you and all allies can disengage from any combat without taking opportunity damage."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "leaf",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "lectura-de-terreno"
+      ],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 2
+      }
+    },
+    {
+      "id": "discurso-de-sargento",
+      "name": {
+        "es": "Discurso de Sargento",
+        "en": "Sergeant's Speech"
+      },
+      "description": {
+        "es": "Tu autoridad militar convence a supervivientes asustados: un NPC hostil o neutral pasa a cooperar con el grupo.",
+        "en": "Your military authority convinces frightened survivors: a hostile or neutral NPC becomes cooperative with the group."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "sparkles",
+      "tags": [
+        "social",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "torniquete-de-campo"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 1
+      }
+    },
+    {
+      "id": "posicion-defensiva",
+      "name": {
+        "es": "Posición Defensiva",
+        "en": "Defensive Position"
+      },
+      "description": {
+        "es": "Convertís cualquier espacio en una posición fortificada: el grupo recibe cobertura y vos absorbés el primer golpe de cada ronda.",
+        "en": "You turn any space into a fortified position: the group gains cover and you absorb the first hit each round."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "shield",
+      "tags": [
+        "combat",
+        "defense"
+      ],
+      "tier": 3,
+      "requires": [
+        "emboscada-perfecta",
+        "ruta-de-escape"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 2
+      }
+    },
+    {
+      "id": "instructor-de-campo",
+      "name": {
+        "es": "Instructor de Campo",
+        "en": "Field Instructor"
+      },
+      "description": {
+        "es": "Entrenás rápidamente a un aliado: ese personaje sube temporalmente 2 puntos en combate o exploración hasta el final de la sesión.",
+        "en": "You quickly train an ally: that character temporarily gains 2 points in combat or exploration until end of session."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "flame",
+      "tags": [
+        "social",
+        "utility"
+      ],
+      "tier": 3,
+      "requires": [
+        "discurso-de-sargento",
+        "ruta-de-escape"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 3
+      }
+    },
+    {
+      "id": "ultimo-hombre-en-pie",
+      "name": {
+        "es": "Último Hombre en Pie",
+        "en": "Last Man Standing"
+      },
+      "description": {
+        "es": "Cuando el grupo está al límite, activás tu entrenamiento extremo: durante tres turnos no podés caer por debajo de 1 HP y tu daño se duplica.",
+        "en": "When the group is at its limit, you activate extreme training: for three turns you cannot drop below 1 HP and your damage doubles."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "sparkles",
+      "tags": [
+        "combat",
+        "defense"
+      ],
+      "tier": 4,
+      "requires": [
+        "posicion-defensiva",
+        "instructor-de-campo"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 3
+      }
+    }
+  ]
+}

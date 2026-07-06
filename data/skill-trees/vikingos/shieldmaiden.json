@@ -1,0 +1,302 @@
+{
+  "loreId": "VIKINGOS",
+  "archetypeId": "shieldmaiden",
+  "name": {
+    "es": "Senda de la Skjaldmær",
+    "en": "Path of the Skjaldmær"
+  },
+  "nodes": [
+    {
+      "id": "shield-bash",
+      "name": {
+        "es": "Golpe de Escudo",
+        "en": "Shield Bash"
+      },
+      "description": {
+        "es": "Usás el borde de tu escudo como arma: el objetivo pierde su próxima acción y retrocede un paso.",
+        "en": "You use your shield's edge as a weapon: the target loses their next action and is pushed back one step."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "shield",
+      "tags": [
+        "combat"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "combats_won",
+        "count": 1
+      }
+    },
+    {
+      "id": "war-read",
+      "name": {
+        "es": "Lectura del Campo",
+        "en": "Read the Field"
+      },
+      "description": {
+        "es": "Evaluás el terreno antes de una batalla y revelás la posición de todos los enemigos visibles al grupo.",
+        "en": "You assess the terrain before a fight and reveal the position of all visible enemies to your group."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "eye",
+      "tags": [
+        "exploration",
+        "combat"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "turns_played",
+        "count": 5
+      }
+    },
+    {
+      "id": "freyja-favor",
+      "name": {
+        "es": "Favor de Freyja",
+        "en": "Freyja's Favor"
+      },
+      "description": {
+        "es": "Invocás a tu patrona antes del combate: recuperás 4 HP y tu próximo ataque tiene ventaja.",
+        "en": "You invoke your patron before battle: you recover 4 HP and your next attack has advantage."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "sparkles",
+      "tags": [
+        "healing",
+        "combat"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "abilities_used",
+        "count": 2
+      }
+    },
+    {
+      "id": "iron-resolve",
+      "name": {
+        "es": "Voluntad de Hierro",
+        "en": "Iron Resolve"
+      },
+      "description": {
+        "es": "Te negás a ceder: ignorás el próximo efecto de miedo, aturdimiento o rendición que te afecte.",
+        "en": "You refuse to yield: you ignore the next fear, stun, or surrender effect that targets you."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "zap",
+      "tags": [
+        "combat",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 1
+      }
+    },
+    {
+      "id": "shield-wall-form",
+      "name": {
+        "es": "Formación de Escudos",
+        "en": "Shield Wall Formation"
+      },
+      "description": {
+        "es": "Te plantás junto a un aliado: ambos reciben la mitad del daño físico durante dos turnos completos.",
+        "en": "You stand beside an ally: both of you take half physical damage for two full turns."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "shield",
+      "tags": [
+        "combat",
+        "defense"
+      ],
+      "tier": 2,
+      "requires": [
+        "shield-bash"
+      ],
+      "unlock": {
+        "type": "combats_won",
+        "count": 3
+      }
+    },
+    {
+      "id": "valkyrie-eye",
+      "name": {
+        "es": "Ojo de Valquiria",
+        "en": "Valkyrie's Eye"
+      },
+      "description": {
+        "es": "Reconocés señales de debilidad y trampa en el entorno: el DM revela una amenaza oculta o ruta segura.",
+        "en": "You read signs of weakness and danger in your surroundings: the DM reveals a hidden threat or safe route."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "eye",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "war-read"
+      ],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 2
+      }
+    },
+    {
+      "id": "battle-sister",
+      "name": {
+        "es": "Hermana de Batalla",
+        "en": "Battle Sister"
+      },
+      "description": {
+        "es": "Compartís tu fuerza con un aliado caído: lo estabilizás y le devolvés 3 HP con palabras y ungüento.",
+        "en": "You share your strength with a fallen ally: you stabilize them and restore 3 HP with words and salve."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "heart",
+      "tags": [
+        "healing",
+        "social"
+      ],
+      "tier": 2,
+      "requires": [
+        "freyja-favor"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 1
+      }
+    },
+    {
+      "id": "double-proof",
+      "name": {
+        "es": "El Doble de Buena",
+        "en": "Twice as Good"
+      },
+      "description": {
+        "es": "Cuando alguien duda de tu valía, podés desafiarlo en público: la victoria te da ventaja en todas las tiradas sociales con ese grupo por el resto de la sesión.",
+        "en": "When someone doubts your worth, you can challenge them publicly: victory gives you advantage on all social rolls with that group for the rest of the session."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "sword",
+      "tags": [
+        "social",
+        "combat"
+      ],
+      "tier": 2,
+      "requires": [
+        "iron-resolve"
+      ],
+      "unlock": {
+        "type": "deaths_survived",
+        "count": 1
+      }
+    },
+    {
+      "id": "chosen-of-freyja",
+      "name": {
+        "es": "Elegida de Freyja",
+        "en": "Chosen of Freyja"
+      },
+      "description": {
+        "es": "La diosa habla a través tuyo: podés exigir una tregua en combate y los enemigos deben escucharte durante un turno completo.",
+        "en": "The goddess speaks through you: you can demand a ceasefire in combat and enemies must listen for one full turn."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "moon",
+      "tags": [
+        "social",
+        "combat"
+      ],
+      "tier": 3,
+      "requires": [
+        "shield-wall-form",
+        "battle-sister"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 2
+      }
+    },
+    {
+      "id": "northern-trail",
+      "name": {
+        "es": "Rastro del Norte",
+        "en": "Northern Trail"
+      },
+      "description": {
+        "es": "Guiás al grupo por terreno hostil sin perderse y evitando una emboscada que de otro modo sería inevitable.",
+        "en": "You guide the group through hostile terrain without getting lost and avoiding one otherwise inevitable ambush."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "leaf",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 3,
+      "requires": [
+        "valkyrie-eye",
+        "double-proof"
+      ],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 3
+      }
+    },
+    {
+      "id": "semivalkyrie",
+      "name": {
+        "es": "Semivalquiria",
+        "en": "Half-Valkyrie"
+      },
+      "description": {
+        "es": "Freyja te ha marcado: una vez por escena, podés absorber el golpe mortal destinado a cualquier aliado y reducirlo a daño mínimo, sobreviviendo vos con 1 HP si el daño habría sido letal.",
+        "en": "Freyja has marked you: once per scene, you can absorb a killing blow meant for any ally and reduce it to minimum damage, surviving with 1 HP if the blow would have been lethal."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "sparkles",
+      "tags": [
+        "combat",
+        "defense",
+        "healing"
+      ],
+      "tier": 4,
+      "requires": [
+        "chosen-of-freyja",
+        "northern-trail"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 3
+      }
+    }
+  ]
+}

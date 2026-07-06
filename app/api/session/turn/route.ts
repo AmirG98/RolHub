@@ -16,6 +16,11 @@ import { calculateRelativePosition, normalizeLegacyCoordinates } from '@/lib/map
 import { type Quest, type QuestUpdate } from '@/lib/types/quest'
 import { generateSummaryCheckpoint } from '@/lib/claude/session-summarizer'
 import { updateUserProgress, type ProgressUpdate } from '@/lib/game/user-progress'
+import { normalizeMilestones, recordMilestoneEvent, detectNewUnlockables } from '@/lib/game/milestones'
+import { getSkillTree } from '@/lib/game/skill-trees'
+import type { MilestoneState } from '@/lib/types/skill-tree'
+import { validateDMResponse } from '@/lib/validation/dm-response.schema'
+import { parseDMResponse } from '@/lib/claude/parse-dm-response'
 import { canStartSession } from '@/lib/plans/check-access'
 import { rateLimit, rateLimitResponse } from '@/lib/rate-limit'
 import { verifyGuestCookie } from '@/lib/guest/cookie'
@@ -123,12 +128,19 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'No autorizado' }, { status: 401 })
     }
 
+    // Bypass para los agentes de playtesting (header con secreto exacto).
+    const isPlaytest =
+      !!process.env.PLAYTEST_BYPASS_TOKEN &&
+      req.headers.get('x-playtest-token') === process.env.PLAYTEST_BYPASS_TOKEN
+
     // === RATE LIMITING ===
     // Cada turno es una llamada a Claude — proteger costos.
     // Guests: 40 turnos/hora. Registrados: 120/hora (generoso, solo frena scripts).
-    const turnLimit = isGuestUser
-      ? await rateLimit(`turn:guest:${authUserId}`, 40, 60 * 60)
-      : await rateLimit(`turn:user:${authUserId}`, 120, 60 * 60)
+    const turnLimit = isPlaytest
+      ? { allowed: true, remaining: 999, retryAfterSeconds: 0 }
+      : isGuestUser
+        ? await rateLimit(`turn:guest:${authUserId}`, 40, 60 * 60)
+        : await rateLimit(`turn:user:${authUserId}`, 120, 60 * 60)
     if (!turnLimit.allowed) {
       return rateLimitResponse(
         turnLimit,
@@ -219,7 +231,7 @@ export async function POST(req: NextRequest) {
     // === CAP DE TURNOS PARA GUESTS ===
     // El modo invitado es una demo, no juego ilimitado gratis. Cap duro de
     // turnos de jugador por sesión (configurable via GUEST_TURN_CAP).
-    if (isGuestUser) {
+    if (isGuestUser && !isPlaytest) {
       const guestTurnCap = parseInt(process.env.GUEST_TURN_CAP || '15', 10)
       const playerTurnCount = await prisma.turn.count({
         where: { sessionId: session.id, role: 'USER' },
@@ -1204,11 +1216,15 @@ ${(() => {
   // Sub-locación actual
   const currentSubLocId = worldState.current_sub_location || null
   const currentSubLoc = currentLocationData?.sub_locations?.find((sl: any) => sl.id === currentSubLocId)
+  // sl.name / sl.description son LocalizedString {es,en} en los lore JSON —
+  // hay que localizarlos o el template interpola '[object Object]' en el prompt.
+  const loc = isEnglish ? 'en' : 'es'
+  const locName = (v: any) => (typeof v === 'string' ? v : v?.[loc] || v?.es || v?.en || '')
   const locationDisplay = currentSubLoc
-    ? `${currentLocationData?.name || worldState.current_scene} > ${currentSubLoc.name}`
+    ? `${locName(currentLocationData?.name) || worldState.current_scene} > ${locName(currentSubLoc.name)}`
     : worldState.current_scene || (isEnglish ? 'Unknown' : 'Desconocida')
   const subLocs = currentLocationData?.sub_locations || []
-  const subLocList = subLocs.map((sl: any) => `- ${sl.name} (${sl.type}): ${sl.description}`).join('\n')
+  const subLocList = subLocs.map((sl: any) => `- ${locName(sl.name)} (${sl.type}): ${locName(sl.description)}`).join('\n')
 
   const justArrived = turnsInCurrentLocation <= 1
   const locationStatus = isEnglish
@@ -1629,7 +1645,9 @@ INSTRUCCIONES PARA HABILIDADES:
       response = await anthropic.messages.create({
         // Configurable sin deploy: DM_MODEL en env. Default: Sonnet 4.6.
         model: process.env.DM_MODEL || 'claude-sonnet-4-6',
-        max_tokens: 1500,
+        // 2500 (antes 1500): con narraciones largas + diálogos escapados + todos
+        // los campos JSON, 1500 truncaba la respuesta y el JSON quedaba cortado.
+        max_tokens: 2500,
         system: finalSystemPrompt,
         messages: conversationHistory as any,
       })
@@ -1750,16 +1768,27 @@ INSTRUCCIONES PARA HABILIDADES:
       long_rest?: boolean
     }
 
+    // Parseo robusto: si el JSON viene truncado (max_tokens) o malformado,
+    // extrae SOLO la narración en vez de filtrar el JSON crudo al jugador.
+    {
+      const parsed = parseDMResponse(rawResponse)
+      dmResponse = parsed.data as typeof dmResponse
+      if (!parsed.fullParse) {
+        console.warn('[DM] JSON incompleto/truncado — se degradó a solo narración')
+      }
+    }
+
+    // Validación del contrato del DM contra el schema Zod (modo warning).
+    // No bloquea el turno — solo loggea violaciones para observabilidad y
+    // para que el playtest/monitoreo las detecte. El enforcement duro puede
+    // activarse más adelante viendo la tasa real de violaciones en prod.
     try {
-      // Try to parse as JSON, fallback to raw text
-      const jsonMatch = rawResponse.match(/\{[\s\S]*\}/)
-      if (jsonMatch) {
-        dmResponse = JSON.parse(jsonMatch[0])
-      } else {
-        dmResponse = { narration: rawResponse }
+      const validation = validateDMResponse(dmResponse)
+      if (!validation.ok) {
+        console.warn(`[DM] Respuesta viola el schema: ${validation.issues.slice(0, 5).join(' | ')}`)
       }
     } catch {
-      dmResponse = { narration: rawResponse }
+      // la validación jamás debe romper el turno
     }
 
     // Calculate world state updates
@@ -2043,6 +2072,7 @@ INSTRUCCIONES PARA HABILIDADES:
     // === ABILITY USAGE + COOLDOWN TICK + LONG REST ===
     // Siempre se ejecuta (incluso si el DM no marcó ability_used) porque el tick de cooldowns
     // debe decrementarse cada turno del personaje acting. Idempotente respecto al worldState.
+    let abilityUseApplied = false // alimenta el contador de milestones abilities_used
     {
       const abilitiesNow: AbilityRuntime[] =
         (worldState.party?.[character.name]?.abilities as AbilityRuntime[]) || []
@@ -2083,6 +2113,7 @@ INSTRUCCIONES PARA HABILIDADES:
               updated = updated.map((ab) =>
                 ab.id === found.id ? applyAbilityUse(ab, totalTurns + 1) : ab
               )
+              abilityUseApplied = true
               console.log(`[Ability] Applied use of ${found.id} (${found.resource})`)
             }
           } else if (found && !canUseAbility(found)) {
@@ -2237,6 +2268,105 @@ INSTRUCCIONES PARA HABILIDADES:
       }
     }
 
+    // === MILESTONES & SKILL TREE UNLOCKS ===
+    // Acumula contadores de logros del personaje (fuente del árbol de habilidades).
+    // Espejo de sesión en worldState.party[char].milestones; Character.milestones
+    // (Prisma, source of truth) se flushea en la transacción de persistencia.
+    // Los guests también acumulan (si se registran conservan el progreso), pero
+    // los skill_unlocks solo se emiten para usuarios registrados.
+    let skillUnlocks: Array<{ nodeId: string; name: unknown; tier: number }> | null = null
+    let milestonesAfter: MilestoneState | null = null
+    try {
+      const milestonesBefore = normalizeMilestones(
+        worldState.party?.[character.name]?.milestones ?? (character as any).milestones
+      )
+      let after = recordMilestoneEvent(milestonesBefore, { type: 'turn_played' })
+
+      if (dmResponse.quest_completed) {
+        after = recordMilestoneEvent(after, { type: 'quest_completed' })
+      }
+      if (abilityUseApplied) {
+        after = recordMilestoneEvent(after, { type: 'ability_used' })
+      }
+
+      // Combate ganado: estábamos bajo lock de combate y este turno lo libera
+      // con el personaje vivo (detección determinística vía navigation lock).
+      const wasInCombat =
+        worldState.map_state?.navigationLocked === true &&
+        worldState.map_state?.lockReason === 'combat'
+      const characterDied = worldStateUpdates._zeroHpEvent?.type === 'death'
+      if (wasInCombat && dmResponse.navigation_locked === false && !characterDied) {
+        after = recordMilestoneEvent(after, { type: 'combat_won' })
+      }
+
+      // Sobrevivir a la muerte (death saves estabilizados, nat 20, o rescate narrativo)
+      const zeroType = worldStateUpdates._zeroHpEvent?.type
+      if (zeroType === 'nat20_recovery' || zeroType === 'stabilized' || zeroType === 'rescue') {
+        after = recordMilestoneEvent(after, { type: 'death_survived' })
+      }
+
+      // Vínculo con NPC: transición a status de aliado/amigo (no re-cuenta)
+      if (dmResponse.npc_update) {
+        const npcList = Array.isArray(dmResponse.npc_update)
+          ? dmResponse.npc_update
+          : [dmResponse.npc_update]
+        const BOND_RE = /\b(ally|allied|aliado|aliada|friend|amigo|amiga)\b/i
+        for (const u of npcList) {
+          if (!u?.name || !u?.status) continue
+          // npc_states puede guardar el status como objeto {status,...} o como
+          // string plano (formato legacy). Sin manejar ambos, un NPC legacy
+          // ya-aliado re-cuenta npc_bond cada turno (contador inflado).
+          const prevRaw = worldState.npc_states?.[u.name]
+          const prevStatus = typeof prevRaw === 'string' ? prevRaw : (prevRaw?.status || '')
+          if (BOND_RE.test(u.status) && !BOND_RE.test(prevStatus)) {
+            after = recordMilestoneEvent(after, { type: 'npc_bond' })
+          }
+        }
+      }
+
+      // Acto y anchors narrativos (monotónicos — idempotente re-registrarlos)
+      const actNow = Number(worldStateUpdates.act ?? worldState.act) || 1
+      after = recordMilestoneEvent(after, { type: 'act_reached', act: actNow })
+      for (const anchor of worldState.narrative_anchors_hit || []) {
+        if (typeof anchor === 'string') {
+          after = recordMilestoneEvent(after, { type: 'narrative_anchor', anchor })
+        }
+      }
+
+      // Espejo en worldState para lectura barata durante la sesión
+      if (!worldStateUpdates.party) worldStateUpdates.party = { ...worldState.party }
+      if (!worldStateUpdates.party[character.name]) {
+        worldStateUpdates.party[character.name] = { ...worldState.party?.[character.name] }
+      }
+      worldStateUpdates.party[character.name].milestones = after
+      milestonesAfter = after
+
+      // Nodos del árbol que se volvieron desbloqueables ESTE turno → toast.
+      // Solo registrados: los guests ven el teaser, no reciben unlocks.
+      if (clerkUserId) {
+        const tree = getSkillTree(session.campaign.lore, character.archetype)
+        if (tree) {
+          const learnedIds: string[] = Array.isArray((character as any).unlockedSkills)
+            ? ((character as any).unlockedSkills as string[])
+            : []
+          // Nivel PRE level-up (para detectar nodos level_reached que se
+          // desbloquean justo en el turno del level-up) vs POST.
+          const levelBefore =
+            worldState.party?.[character.name]?.level || character.level || 1
+          const levelNow =
+            worldStateUpdates.party[character.name].level || levelBefore
+          const nuevos = detectNewUnlockables(tree, milestonesBefore, after, learnedIds, levelNow, levelBefore)
+          if (nuevos.length > 0) {
+            skillUnlocks = nuevos.map((n) => ({ nodeId: n.id, name: n.name, tier: n.tier }))
+            console.log(`[Skills] Unlockable nodes this turn: ${nuevos.map((n) => n.id).join(', ')}`)
+          }
+        }
+      }
+    } catch (err) {
+      // Los milestones nunca bloquean el turno del jugador
+      console.error('[Skills] milestone tracking failed:', err)
+    }
+
     // Update time of day and weather if DM changed them
     if (dmResponse.time_update) {
       worldStateUpdates.time_in_world = dmResponse.time_update
@@ -2254,10 +2384,17 @@ INSTRUCCIONES PARA HABILIDADES:
         worldState.current_scene?.toLowerCase().includes(l.name?.toLowerCase()) ||
         l.name?.toLowerCase().includes(worldState.current_scene?.toLowerCase()?.split(',')[0]?.trim())
       )
-      const matchedSubLoc = currentLoreLoc?.sub_locations?.find((sl: any) =>
-        dmResponse.scene_change!.toLowerCase().includes(sl.name.toLowerCase()) ||
-        sl.name.toLowerCase().includes(dmResponse.scene_change!.toLowerCase())
-      )
+      const sceneLower = dmResponse.scene_change!.toLowerCase()
+      const matchedSubLoc = currentLoreLoc?.sub_locations?.find((sl: any) => {
+        // sl.name puede ser string o LocalizedString {es,en} según el lore JSON.
+        const slName =
+          typeof sl.name === 'string'
+            ? sl.name
+            : sl.name?.es || sl.name?.en || ''
+        if (!slName) return false
+        const slLower = slName.toLowerCase()
+        return sceneLower.includes(slLower) || slLower.includes(sceneLower)
+      })
       if (matchedSubLoc) {
         worldStateUpdates.current_sub_location = matchedSubLoc.id
       } else {
@@ -2657,6 +2794,13 @@ INSTRUCCIONES PARA HABILIDADES:
       ...(campaignUpdateData
         ? [prisma.campaign.update({ where: { id: session.campaignId }, data: campaignUpdateData })]
         : []),
+      // Flush de milestones del personaje (source of truth para el skill tree)
+      ...(milestonesAfter
+        ? [prisma.character.update({
+            where: { id: character.id },
+            data: { milestones: milestonesAfter as any },
+          })]
+        : []),
     ]))
 
     // 4.4 Actualizar progreso meta del usuario (streak, XP, achievements).
@@ -2760,6 +2904,8 @@ INSTRUCCIONES PARA HABILIDADES:
       longRest: dmResponse.long_rest === true,
       // Progreso meta del usuario (Duolingo-style) — null para guests
       progressUpdate,
+      // Nodos del skill tree que se volvieron desbloqueables este turno (toast) — null para guests
+      skillUnlocks,
     })
   } catch (error) {
     console.error('Error processing turn:', error)

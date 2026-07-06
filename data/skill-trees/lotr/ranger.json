@@ -1,0 +1,276 @@
+{
+  "loreId": "LOTR",
+  "archetypeId": "ranger",
+  "name": {
+    "es": "Senda del Montaraz",
+    "en": "Path of the Ranger"
+  },
+  "nodes": [
+    {
+      "id": "wild-step",
+      "name": {
+        "es": "Paso Salvaje",
+        "en": "Wild Step"
+      },
+      "description": {
+        "es": "Te movés por terreno difícil sin penalización y sin dejar rastro detectable esta escena.",
+        "en": "You move through difficult terrain without penalty and leave no detectable tracks this scene."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "leaf",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "turns_played",
+        "count": 5
+      }
+    },
+    {
+      "id": "hunters-eye",
+      "name": {
+        "es": "Ojo del Cazador",
+        "en": "Hunter's Eye"
+      },
+      "description": {
+        "es": "Estudiás a un enemigo y revelás su punto débil: tu próximo ataque contra él tiene ventaja y suma +1d4 de daño.",
+        "en": "You study a foe and reveal their weak point: your next attack against them has advantage and deals +1d4 damage."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 2,
+      "icon": "eye",
+      "tags": [
+        "combat"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "combats_won",
+        "count": 1
+      }
+    },
+    {
+      "id": "athelas-touch",
+      "name": {
+        "es": "Toque de Athelas",
+        "en": "Athelas Touch"
+      },
+      "description": {
+        "es": "Usás tus hierbas medicinales para restaurar 1d6+2 HP a un aliado o neutralizar un veneno activo.",
+        "en": "You use your medicinal herbs to restore 1d6+2 HP to an ally or neutralize an active poison."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "heart",
+      "tags": [
+        "healing",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "abilities_used",
+        "count": 2
+      }
+    },
+    {
+      "id": "shadow-of-arnor",
+      "name": {
+        "es": "Sombra de Arnor",
+        "en": "Shadow of Arnor"
+      },
+      "description": {
+        "es": "Te fundís con la capa élfica y desaparecés de la vista de todos los enemigos hasta que atacás o hablás.",
+        "en": "You merge with your elven cloak and vanish from all enemies' sight until you attack or speak."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "moon",
+      "tags": [
+        "exploration",
+        "combat"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 1
+      }
+    },
+    {
+      "id": "dunedain-read",
+      "name": {
+        "es": "Lectura Dúnedain",
+        "en": "Dúnedain Read"
+      },
+      "description": {
+        "es": "Examinás las huellas, el ambiente y el cielo para predecir con exactitud qué peligros acechan en la siguiente zona.",
+        "en": "You examine tracks, surroundings, and sky to accurately predict what dangers lurk in the next area."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "eye",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "wild-step",
+        "hunters-eye"
+      ],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 2
+      }
+    },
+    {
+      "id": "swift-arrow",
+      "name": {
+        "es": "Flecha Veloz",
+        "en": "Swift Arrow"
+      },
+      "description": {
+        "es": "Soltás dos flechas en un solo movimiento fluido, atacando a dos blancos distintos o al mismo objetivo dos veces.",
+        "en": "You loose two arrows in one fluid motion, striking two different targets or the same target twice."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "zap",
+      "tags": [
+        "combat"
+      ],
+      "tier": 2,
+      "requires": [
+        "hunters-eye"
+      ],
+      "unlock": {
+        "type": "combats_won",
+        "count": 3
+      }
+    },
+    {
+      "id": "voice-of-the-wilds",
+      "name": {
+        "es": "Voz de las Tierras Salvajes",
+        "en": "Voice of the Wilds"
+      },
+      "description": {
+        "es": "Tu presencia tranquila y palabras precisas convencen a un NPC desconfiado de que sos un aliado y no un peligro.",
+        "en": "Your calm presence and measured words convince a distrustful NPC that you are an ally, not a threat."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "sparkles",
+      "tags": [
+        "social",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "athelas-touch",
+        "shadow-of-arnor"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 1
+      }
+    },
+    {
+      "id": "kings-blade",
+      "name": {
+        "es": "Filo del Rey",
+        "en": "King's Blade"
+      },
+      "description": {
+        "es": "Canalizás el linaje de Isildur en un tajo devastador: infligís 2d8 de daño extra y las criaturas del Señor Oscuro deben superar una salvación o quedan aterradas.",
+        "en": "You channel Isildur's lineage into one devastating slash: deal 2d8 extra damage and Dark Lord creatures must save or become frightened."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "sword",
+      "tags": [
+        "combat"
+      ],
+      "tier": 3,
+      "requires": [
+        "swift-arrow",
+        "dunedain-read"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 2
+      }
+    },
+    {
+      "id": "warden-of-the-north",
+      "name": {
+        "es": "Guardián del Norte",
+        "en": "Warden of the North"
+      },
+      "description": {
+        "es": "Alzás la voz con autoridad antigua: todos los aliados recuperan 1d6 HP, se sacuden el miedo y ganan ventaja en sus próximas tiradas de ataque.",
+        "en": "You speak with ancient authority: all allies regain 1d6 HP, shake off fear, and gain advantage on their next attack rolls."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "shield",
+      "tags": [
+        "healing",
+        "social",
+        "combat"
+      ],
+      "tier": 3,
+      "requires": [
+        "voice-of-the-wilds",
+        "dunedain-read"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 2
+      }
+    },
+    {
+      "id": "chieftain-of-dunedain",
+      "name": {
+        "es": "Caudillo de los Dúnedain",
+        "en": "Chieftain of the Dúnedain"
+      },
+      "description": {
+        "es": "Tu leyenda y linaje se revelan al mundo: sos inmune al miedo, los NPC neutrales se alían con vos automáticamente, y una vez por escena podés repetir cualquier tirada fallida invocando la voluntad de tus ancestros.",
+        "en": "Your legend and lineage are revealed to the world: you're immune to fear, neutral NPCs automatically ally with you, and once per scene you may reroll any failed roll by invoking your ancestors' will."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "sparkles",
+      "tags": [
+        "combat",
+        "social",
+        "utility"
+      ],
+      "tier": 4,
+      "requires": [
+        "kings-blade",
+        "warden-of-the-north"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 3
+      }
+    }
+  ]
+}

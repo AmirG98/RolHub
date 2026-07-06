@@ -1,0 +1,275 @@
+{
+  "loreId": "ZOMBIES",
+  "archetypeId": "hunter",
+  "name": {
+    "es": "Senda del Cazador Silencioso",
+    "en": "Path of the Silent Hunter"
+  },
+  "nodes": [
+    {
+      "id": "silent-shot",
+      "name": {
+        "es": "Disparo Silencioso",
+        "en": "Silent Shot"
+      },
+      "description": {
+        "es": "Soltás una flecha con precisión calculada: eliminás a un zombie sin hacer ruido y sin atraer a otros.",
+        "en": "You release an arrow with calculated precision: you take down a zombie silently without drawing others."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 2,
+      "icon": "moon",
+      "tags": [
+        "combat",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "combats_won",
+        "count": 1
+      }
+    },
+    {
+      "id": "track-signs",
+      "name": {
+        "es": "Leer el Rastro",
+        "en": "Read the Trail"
+      },
+      "description": {
+        "es": "Analizás huellas, olores y marcas del terreno para saber cuántos enemigos pasaron y hacia dónde van.",
+        "en": "You analyze tracks, scents, and terrain marks to determine how many enemies passed and where they headed."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 2,
+      "icon": "eye",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "turns_played",
+        "count": 5
+      }
+    },
+    {
+      "id": "field-dressing",
+      "name": {
+        "es": "Cura de Campo",
+        "en": "Field Dressing"
+      },
+      "description": {
+        "es": "Usás lo que tenés a mano para cerrar heridas: vos o un aliado recuperan 1d6+2 HP usando materiales del entorno.",
+        "en": "You use whatever's at hand to close wounds: you or an ally recover 1d6+2 HP using materials from the environment."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "heart",
+      "tags": [
+        "healing",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "abilities_used",
+        "count": 2
+      }
+    },
+    {
+      "id": "snare-trap",
+      "name": {
+        "es": "Trampa de Lazo",
+        "en": "Snare Trap"
+      },
+      "description": {
+        "es": "Instalás un lazo en el camino que inmoviliza al primer zombie o amenaza que lo cruce durante 2 turnos.",
+        "en": "You set a snare on a path that immobilizes the first zombie or threat that crosses it for 2 turns."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "leaf",
+      "tags": [
+        "combat",
+        "exploration"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 1
+      }
+    },
+    {
+      "id": "headshot",
+      "name": {
+        "es": "Tiro a la Cabeza",
+        "en": "Headshot"
+      },
+      "description": {
+        "es": "Apuntás al punto débil: con arco o rifle, matás instantáneamente a un zombie estándar sin importar su HP restante.",
+        "en": "You aim for the weak spot: with bow or rifle, you instantly kill a standard zombie regardless of its remaining HP."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "sword",
+      "tags": [
+        "combat"
+      ],
+      "tier": 2,
+      "requires": [
+        "silent-shot"
+      ],
+      "unlock": {
+        "type": "combats_won",
+        "count": 4
+      }
+    },
+    {
+      "id": "camouflage",
+      "name": {
+        "es": "Camuflaje",
+        "en": "Camouflage"
+      },
+      "description": {
+        "es": "Usás barro, ramas y sombras para volverte invisible a los zombies: pasás entre una horda sin ser detectado.",
+        "en": "You use mud, branches, and shadows to become invisible to zombies: you pass through a horde undetected."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "leaf",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "track-signs"
+      ],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 2
+      }
+    },
+    {
+      "id": "forage",
+      "name": {
+        "es": "Forrajear",
+        "en": "Forage"
+      },
+      "description": {
+        "es": "Buscás en el entorno y encontrás 1d4 raciones de comida, agua potable o materiales de curación básicos.",
+        "en": "You search the environment and find 1d4 food rations, drinkable water, or basic healing materials."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "sparkles",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "field-dressing"
+      ],
+      "unlock": {
+        "type": "turns_played",
+        "count": 15
+      }
+    },
+    {
+      "id": "kill-zone",
+      "name": {
+        "es": "Zona de Muerte",
+        "en": "Kill Zone"
+      },
+      "description": {
+        "es": "Preparás el terreno con múltiples trampas conectadas que explotan en cadena dañando a todos los enemigos en el área.",
+        "en": "You prepare the terrain with multiple connected traps that chain-trigger dealing damage to all enemies in the area."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "flame",
+      "tags": [
+        "combat",
+        "utility"
+      ],
+      "tier": 3,
+      "requires": [
+        "snare-trap",
+        "headshot"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 2
+      }
+    },
+    {
+      "id": "ghost-walk",
+      "name": {
+        "es": "Paso Fantasma",
+        "en": "Ghost Walk"
+      },
+      "description": {
+        "es": "Combinás rastreo y camuflaje para moverte sin dejar rastro: el grupo entero puede seguirte en silencio absoluto por una escena.",
+        "en": "You combine tracking and camouflage to move without leaving a trace: the whole group can follow you in complete silence for a scene."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "moon",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 3,
+      "requires": [
+        "camouflage",
+        "forage"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 2
+      }
+    },
+    {
+      "id": "apex-predator",
+      "name": {
+        "es": "Depredador Ápex",
+        "en": "Apex Predator"
+      },
+      "description": {
+        "es": "Sos la cima de la cadena alimentaria: convertís cualquier zona en tu territorio de caza, eliminando amenazas en silencio, sin munición y guiando a tu grupo a través del yermo con seguridad absoluta.",
+        "en": "You are the top of the food chain: you turn any zone into your hunting ground, eliminating threats silently, without ammo, and guiding your group through the wasteland with absolute safety."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "zap",
+      "tags": [
+        "combat",
+        "exploration",
+        "utility"
+      ],
+      "tier": 4,
+      "requires": [
+        "kill-zone",
+        "ghost-walk"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 3
+      }
+    }
+  ]
+}

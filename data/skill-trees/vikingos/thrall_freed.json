@@ -1,0 +1,275 @@
+{
+  "loreId": "VIKINGOS",
+  "archetypeId": "thrall_freed",
+  "name": {
+    "es": "Senda del Hombre Libre",
+    "en": "Path of the Freed Man"
+  },
+  "nodes": [
+    {
+      "id": "piel-curtida",
+      "name": {
+        "es": "Piel Curtida",
+        "en": "Hardened Hide"
+      },
+      "description": {
+        "es": "Años de golpes y trabajo duro te dieron una resistencia sobrenatural: reducís 1 punto de daño de cada ataque que recibís este turno.",
+        "en": "Years of blows and hard labor gave you unnatural endurance: you reduce 1 damage from each attack you receive this turn."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "shield",
+      "tags": [
+        "combat",
+        "defense"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "combats_won",
+        "count": 1
+      }
+    },
+    {
+      "id": "mirada-del-que-espera",
+      "name": {
+        "es": "Mirada del que Espera",
+        "en": "The Watcher's Eye"
+      },
+      "description": {
+        "es": "Aprendiste a leer a las personas en silencio: detectás si un NPC miente o esconde información antes de que abra la boca.",
+        "en": "You learned to read people in silence: you detect if an NPC is lying or hiding something before they even speak."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 2,
+      "icon": "eye",
+      "tags": [
+        "social",
+        "exploration"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "turns_played",
+        "count": 5
+      }
+    },
+    {
+      "id": "manos-de-oficio",
+      "name": {
+        "es": "Manos de Oficio",
+        "en": "Craftsman's Hands"
+      },
+      "description": {
+        "es": "Tu experiencia trabajando de todo te permite improvisar una herramienta, reparar un objeto o forzar una cerradura sin equipo especial.",
+        "en": "Your experience doing all kinds of labor lets you improvise a tool, repair an object, or force a lock without special equipment."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 2,
+      "icon": "leaf",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "abilities_used",
+        "count": 2
+      }
+    },
+    {
+      "id": "nunca-mas",
+      "name": {
+        "es": "Nunca Más",
+        "en": "Never Again"
+      },
+      "description": {
+        "es": "Cuando caés por debajo de la mitad de tu HP máximo, la furia de tu pasado te impulsa: ganás +2 a combate hasta el final del encuentro.",
+        "en": "When you drop below half your max HP, the fury of your past drives you forward: you gain +2 to combat until the end of the encounter."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "flame",
+      "tags": [
+        "combat"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 1
+      }
+    },
+    {
+      "id": "cicatrices-que-hablan",
+      "name": {
+        "es": "Cicatrices que Hablan",
+        "en": "Scars That Speak"
+      },
+      "description": {
+        "es": "Mostrás tus marcas de esclavo sin vergüenza y contás tu historia: un NPC hostil o neutral baja la guardia y te escucha con respeto.",
+        "en": "You show your thrall marks without shame and tell your story: a hostile or neutral NPC lowers their guard and listens with respect."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "sparkles",
+      "tags": [
+        "social",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "mirada-del-que-espera"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 1
+      }
+    },
+    {
+      "id": "golpe-de-superviviente",
+      "name": {
+        "es": "Golpe de Superviviente",
+        "en": "Survivor's Strike"
+      },
+      "description": {
+        "es": "Atacás con toda la rabia contenida de años de servidumbre: este golpe hace el doble de daño pero te deja sin acción de movimiento el próximo turno.",
+        "en": "You strike with all the pent-up rage of years in chains: this blow deals double damage but leaves you without a movement action next turn."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "sword",
+      "tags": [
+        "combat"
+      ],
+      "tier": 2,
+      "requires": [
+        "piel-curtida",
+        "nunca-mas"
+      ],
+      "unlock": {
+        "type": "combats_won",
+        "count": 3
+      }
+    },
+    {
+      "id": "conocer-el-terreno",
+      "name": {
+        "es": "Conocer el Terreno",
+        "en": "Know the Land"
+      },
+      "description": {
+        "es": "Años trabajando en campos, puertos y bosques te dan ventaja en cualquier tirada de exploración o supervivencia al aire libre.",
+        "en": "Years working fields, docks, and forests give you advantage on any outdoor exploration or survival roll."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 2,
+      "icon": "moon",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "manos-de-oficio"
+      ],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 2
+      }
+    },
+    {
+      "id": "voluntad-de-hierro",
+      "name": {
+        "es": "Voluntad de Hierro",
+        "en": "Iron Will"
+      },
+      "description": {
+        "es": "Ignorás el miedo, el dolor y la intimidación: sos inmune a efectos de miedo y podés seguir actuando aunque estés al borde de la inconsciencia.",
+        "en": "You ignore fear, pain, and intimidation: you are immune to fear effects and can keep acting even at the edge of unconsciousness."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "zap",
+      "tags": [
+        "combat",
+        "defense"
+      ],
+      "tier": 3,
+      "requires": [
+        "golpe-de-superviviente",
+        "piel-curtida"
+      ],
+      "unlock": {
+        "type": "deaths_survived",
+        "count": 1
+      }
+    },
+    {
+      "id": "voz-del-liberado",
+      "name": {
+        "es": "Voz del Liberado",
+        "en": "Voice of the Freed"
+      },
+      "description": {
+        "es": "Tu historia inspira a otros que sufren: convencés a un esclavo, marginado o aliado desmoralizado de actuar con valentía, dándole +2 a su próxima tirada.",
+        "en": "Your story inspires others who suffer: you convince a slave, outcast, or demoralized ally to act bravely, granting them +2 to their next roll."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "heart",
+      "tags": [
+        "social",
+        "healing"
+      ],
+      "tier": 3,
+      "requires": [
+        "cicatrices-que-hablan",
+        "conocer-el-terreno"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 2
+      }
+    },
+    {
+      "id": "fundador-de-linaje",
+      "name": {
+        "es": "Fundador de Linaje",
+        "en": "Founder of a Line"
+      },
+      "description": {
+        "es": "Tu nombre ya no es el de un thrall: una vez por acto, declarás tu legado ante testigos y todos los presentes —aliados y enemigos— reconocen tu estatus de hombre libre e igual, dándote ventaja en todas las tiradas sociales y de combate del resto de la escena.",
+        "en": "Your name is no longer that of a thrall: once per act, you declare your legacy before witnesses and all present —allies and enemies alike— recognize your status as a free and equal man, granting you advantage on all social and combat rolls for the rest of the scene."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "sparkles",
+      "tags": [
+        "social",
+        "combat",
+        "utility"
+      ],
+      "tier": 4,
+      "requires": [
+        "voluntad-de-hierro",
+        "voz-del-liberado"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 3
+      }
+    }
+  ]
+}

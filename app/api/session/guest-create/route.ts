@@ -35,13 +35,22 @@ export async function POST(req: NextRequest) {
     // Este endpoint es público y cada request dispara: creación de usuario +
     // campaña + sesión + opening turn (Claude) + retrato + imagen de escena
     // (fal.ai). Sin límites, es un vector de abuso de costos.
+    // Bypass de rate limit para los agentes de playtesting (nightly desde una
+    // IP fija de GitHub Actions). Requiere el header con el secreto exacto;
+    // si PLAYTEST_BYPASS_TOKEN no está seteada, no hay bypass posible.
+    const bypassToken = process.env.PLAYTEST_BYPASS_TOKEN
+    const isPlaytest =
+      !!bypassToken && req.headers.get('x-playtest-token') === bypassToken
+
     const clientIp = getClientIp(req)
-    const ipLimit = await rateLimit(`guest-create:${clientIp}`, 3, 60 * 60) // 3/hora por IP
-    if (!ipLimit.allowed) {
-      return rateLimitResponse(
-        ipLimit,
-        'Alcanzaste el límite de partidas de prueba por ahora. Creá una cuenta gratis para seguir jugando.'
-      )
+    if (!isPlaytest) {
+      const ipLimit = await rateLimit(`guest-create:${clientIp}`, 3, 60 * 60) // 3/hora por IP
+      if (!ipLimit.allowed) {
+        return rateLimitResponse(
+          ipLimit,
+          'Alcanzaste el límite de partidas de prueba por ahora. Creá una cuenta gratis para seguir jugando.'
+        )
+      }
     }
 
     // Si este navegador ya tiene un guest válido, limitar también por usuario

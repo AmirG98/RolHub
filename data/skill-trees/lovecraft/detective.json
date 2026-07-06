@@ -1,0 +1,300 @@
+{
+  "loreId": "LOVECRAFT_HORROR",
+  "archetypeId": "detective",
+  "name": {
+    "es": "Senda del Investigador Maldito",
+    "en": "Path of the Cursed Investigator"
+  },
+  "nodes": [
+    {
+      "id": "street-read",
+      "name": {
+        "es": "Lectura de Calle",
+        "en": "Street Read"
+      },
+      "description": {
+        "es": "Estudiás a un NPC durante un momento y el DM te revela su motivación oculta o si está mintiendo.",
+        "en": "You study an NPC briefly and the DM reveals their hidden motivation or whether they are lying."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "eye",
+      "tags": [
+        "social",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "turns_played",
+        "count": 5
+      }
+    },
+    {
+      "id": "quick-draw",
+      "name": {
+        "es": "Mano Rápida",
+        "en": "Quick Draw"
+      },
+      "description": {
+        "es": "Sacás el revólver antes de que el enemigo reaccione: ganás un disparo extra al inicio de un combate.",
+        "en": "You draw your revolver before the enemy can react: you gain a bonus shot at the start of combat."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "zap",
+      "tags": [
+        "combat"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "combats_won",
+        "count": 1
+      }
+    },
+    {
+      "id": "crime-scene-eye",
+      "name": {
+        "es": "Ojo de la Escena",
+        "en": "Crime Scene Eye"
+      },
+      "description": {
+        "es": "Examinás un lugar y encontrás automáticamente la pista más importante que otros pasarían por alto.",
+        "en": "You examine a location and automatically uncover the most important clue others would miss."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "sparkles",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "abilities_used",
+        "count": 2
+      }
+    },
+    {
+      "id": "nerves-of-steel",
+      "name": {
+        "es": "Nervios de Acero",
+        "en": "Nerves of Steel"
+      },
+      "description": {
+        "es": "Cuando tendrías que tirar por cordura, podés gastar esta habilidad para ignorar la pérdida de Sanidad una vez.",
+        "en": "When you would roll for sanity, you may spend this ability to ignore the Sanity loss once."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "shield",
+      "tags": [
+        "defense",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 1
+      }
+    },
+    {
+      "id": "police-pressure",
+      "name": {
+        "es": "Presión Policial",
+        "en": "Police Pressure"
+      },
+      "description": {
+        "es": "Usás tu insignia y tus contactos para intimidar a un NPC y que te entregue información sin resistencia.",
+        "en": "You use your badge and contacts to pressure an NPC into handing over information without resistance."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "moon",
+      "tags": [
+        "social",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "street-read"
+      ],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 2
+      }
+    },
+    {
+      "id": "called-shot",
+      "name": {
+        "es": "Tiro Calculado",
+        "en": "Called Shot"
+      },
+      "description": {
+        "es": "Apuntás a un punto débil específico: el disparo desactiva una extremidad o sentido del enemigo por 2 turnos.",
+        "en": "You aim at a specific weak point: the shot disables an enemy limb or sense for 2 turns."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "sword",
+      "tags": [
+        "combat"
+      ],
+      "tier": 2,
+      "requires": [
+        "quick-draw"
+      ],
+      "unlock": {
+        "type": "combats_won",
+        "count": 3
+      }
+    },
+    {
+      "id": "pattern-recognition",
+      "name": {
+        "es": "Reconocimiento de Patrones",
+        "en": "Pattern Recognition"
+      },
+      "description": {
+        "es": "Conectás pistas dispersas y el DM debe confirmar si tu teoría sobre el misterio actual es correcta o no.",
+        "en": "You connect scattered clues and the DM must confirm whether your theory about the current mystery is correct or not."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "sparkles",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "crime-scene-eye"
+      ],
+      "unlock": {
+        "type": "abilities_used",
+        "count": 5
+      }
+    },
+    {
+      "id": "grit",
+      "name": {
+        "es": "Aguante",
+        "en": "Grit"
+      },
+      "description": {
+        "es": "Te mordés el labio y seguís en pie: recuperás 1d6 HP y eliminás una condición negativa que te afecte.",
+        "en": "You bite your lip and keep standing: you recover 1d6 HP and remove one negative condition affecting you."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "heart",
+      "tags": [
+        "healing",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "nerves-of-steel"
+      ],
+      "unlock": {
+        "type": "deaths_survived",
+        "count": 1
+      }
+    },
+    {
+      "id": "shadow-network",
+      "name": {
+        "es": "Red de Sombras",
+        "en": "Shadow Network"
+      },
+      "description": {
+        "es": "Activás tus contactos del submundo: conseguís acceso, información restringida o un aliado temporal en la escena.",
+        "en": "You activate your underworld contacts: you gain access, restricted information, or a temporary ally in the scene."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "moon",
+      "tags": [
+        "social",
+        "exploration"
+      ],
+      "tier": 3,
+      "requires": [
+        "police-pressure",
+        "pattern-recognition"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 2
+      }
+    },
+    {
+      "id": "lead-rain",
+      "name": {
+        "es": "Lluvia de Plomo",
+        "en": "Lead Rain"
+      },
+      "description": {
+        "es": "Vaciás el tambor del revólver en un área: todos los enemigos en la zona reciben daño y deben retroceder.",
+        "en": "You empty your revolver's cylinder into an area: all enemies in the zone take damage and must retreat."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "flame",
+      "tags": [
+        "combat"
+      ],
+      "tier": 3,
+      "requires": [
+        "called-shot",
+        "grit"
+      ],
+      "unlock": {
+        "type": "combats_won",
+        "count": 6
+      }
+    },
+    {
+      "id": "truth-beyond-madness",
+      "name": {
+        "es": "La Verdad Más Allá de la Locura",
+        "en": "The Truth Beyond Madness"
+      },
+      "description": {
+        "es": "Has visto el horror y sobreviviste: una vez por acto, podés convertir una pérdida de Sanidad en información crucial sobre el enemigo o la situación.",
+        "en": "You have seen the horror and survived: once per act, you may convert a Sanity loss into crucial information about the enemy or situation."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "eye",
+      "tags": [
+        "utility",
+        "exploration",
+        "defense"
+      ],
+      "tier": 4,
+      "requires": [
+        "shadow-network",
+        "lead-rain"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 3
+      }
+    }
+  ]
+}

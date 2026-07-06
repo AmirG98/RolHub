@@ -1,0 +1,273 @@
+{
+  "loreId": "LOVECRAFT_HORROR",
+  "archetypeId": "professor",
+  "name": {
+    "es": "Senda del Conocimiento Prohibido",
+    "en": "Path of Forbidden Knowledge"
+  },
+  "nodes": [
+    {
+      "id": "dead-languages",
+      "name": {
+        "es": "Lenguas Muertas",
+        "en": "Dead Languages"
+      },
+      "description": {
+        "es": "Traducís inscripciones antiguas o textos cifrados al instante, revelando pistas ocultas en la escena.",
+        "en": "You instantly translate ancient inscriptions or ciphered texts, revealing hidden clues in the scene."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 2,
+      "icon": "eye",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "turns_played",
+        "count": 5
+      }
+    },
+    {
+      "id": "academic-network",
+      "name": {
+        "es": "Red Académica",
+        "en": "Academic Network"
+      },
+      "description": {
+        "es": "Invocás un contacto universitario que te provee información clave sobre un tema, persona u objeto misterioso.",
+        "en": "You call upon a university contact who provides key information about a topic, person, or mysterious object."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "sparkles",
+      "tags": [
+        "social",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 1
+      }
+    },
+    {
+      "id": "rational-mind",
+      "name": {
+        "es": "Mente Racional",
+        "en": "Rational Mind"
+      },
+      "description": {
+        "es": "Aplicás lógica académica para resistir el próximo chequeo de cordura, ignorando la pérdida de Sanity si superás la tirada.",
+        "en": "You apply academic logic to resist the next sanity check, ignoring Sanity loss if you pass the roll."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "shield",
+      "tags": [
+        "utility",
+        "defense"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "abilities_used",
+        "count": 2
+      }
+    },
+    {
+      "id": "field-notes",
+      "name": {
+        "es": "Notas de Campo",
+        "en": "Field Notes"
+      },
+      "description": {
+        "es": "Registrás observaciones detalladas del entorno que otorgan ventaja en el próximo chequeo de exploración del grupo.",
+        "en": "You record detailed observations of the surroundings, granting advantage on the party's next exploration check."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 2,
+      "icon": "leaf",
+      "tags": [
+        "exploration"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "combats_won",
+        "count": 1
+      }
+    },
+    {
+      "id": "mythos-lore",
+      "name": {
+        "es": "Saber del Mito",
+        "en": "Mythos Lore"
+      },
+      "description": {
+        "es": "Identificás la naturaleza, debilidades y origen de una criatura sobrenatural, dando al grupo ventaja táctica contra ella.",
+        "en": "You identify the nature, weaknesses, and origin of a supernatural creature, giving the party a tactical advantage against it."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "moon",
+      "tags": [
+        "combat",
+        "exploration"
+      ],
+      "tier": 2,
+      "requires": [
+        "dead-languages"
+      ],
+      "unlock": {
+        "type": "combats_won",
+        "count": 3
+      }
+    },
+    {
+      "id": "eloquent-lecture",
+      "name": {
+        "es": "Conferencia Elocuente",
+        "en": "Eloquent Lecture"
+      },
+      "description": {
+        "es": "Dás una explicación académica tan convincente que un NPC hostil o escéptico cambia su actitud hacia neutral o aliada.",
+        "en": "You deliver such a convincing academic explanation that a hostile or skeptical NPC shifts their attitude to neutral or allied."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "sparkles",
+      "tags": [
+        "social"
+      ],
+      "tier": 2,
+      "requires": [
+        "academic-network"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 2
+      }
+    },
+    {
+      "id": "forbidden-ritual",
+      "name": {
+        "es": "Ritual Prohibido",
+        "en": "Forbidden Ritual"
+      },
+      "description": {
+        "es": "Usás el Necronomicón para ejecutar un ritual que distorsiona la realidad: forzás a un enemigo a huir despavorido pero perdés 15 Sanity.",
+        "en": "You use the Necronomicon to perform a reality-warping ritual that forces one enemy to flee in terror, but you lose 15 Sanity."
+      },
+      "kind": "spell",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "flame",
+      "tags": [
+        "combat",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "rational-mind"
+      ],
+      "unlock": {
+        "type": "level_reached",
+        "count": 3
+      }
+    },
+    {
+      "id": "obsessive-focus",
+      "name": {
+        "es": "Foco Obsesivo",
+        "en": "Obsessive Focus"
+      },
+      "description": {
+        "es": "Te sumergís en un problema sin descanso y lo resolvés en la mitad del tiempo, revelando el próximo secreto mayor de la aventura.",
+        "en": "You immerse yourself in a problem without rest and solve it in half the time, revealing the next major secret of the adventure."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "zap",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 3,
+      "requires": [
+        "mythos-lore",
+        "field-notes"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 2
+      }
+    },
+    {
+      "id": "mind-fortress",
+      "name": {
+        "es": "Fortaleza Mental",
+        "en": "Mind Fortress"
+      },
+      "description": {
+        "es": "Construís barreras mentales que te permiten recuperar 20 Sanity y compartir 10 puntos con un aliado al borde de la locura.",
+        "en": "You build mental barriers that let you recover 20 Sanity and share 10 points with an ally on the brink of madness."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "heart",
+      "tags": [
+        "utility",
+        "healing"
+      ],
+      "tier": 3,
+      "requires": [
+        "forbidden-ritual",
+        "eloquent-lecture"
+      ],
+      "unlock": {
+        "type": "deaths_survived",
+        "count": 1
+      }
+    },
+    {
+      "id": "herald-of-the-outer-gods",
+      "name": {
+        "es": "Heraldo de los Dioses Exteriores",
+        "en": "Herald of the Outer Gods"
+      },
+      "description": {
+        "es": "Pronunciás una verdad cósmica que paraliza a todos los enemigos en la escena durante un turno, pero tu Sanity cae a la mitad y no puede recuperarse hasta el próximo descanso largo.",
+        "en": "You speak a cosmic truth that paralyzes all enemies in the scene for one turn, but your Sanity drops to half and cannot recover until your next long rest."
+      },
+      "kind": "spell",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "moon",
+      "tags": [
+        "combat",
+        "utility"
+      ],
+      "tier": 4,
+      "requires": [
+        "obsessive-focus",
+        "mind-fortress"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 3
+      }
+    }
+  ]
+}

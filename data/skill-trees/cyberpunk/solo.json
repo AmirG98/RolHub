@@ -1,0 +1,273 @@
+{
+  "loreId": "CYBERPUNK",
+  "archetypeId": "solo",
+  "name": {
+    "es": "Senda del Mercenario",
+    "en": "Path of the Mercenary"
+  },
+  "nodes": [
+    {
+      "id": "reflex-boost",
+      "name": {
+        "es": "Impulso de Reflejos",
+        "en": "Reflex Boost"
+      },
+      "description": {
+        "es": "Activás tus implantes neurales y esquivás el próximo ataque automáticamente sin tirar dado.",
+        "en": "You activate your neural implants and automatically dodge the next attack without rolling."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "zap",
+      "tags": [
+        "combat",
+        "defense"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "combats_won",
+        "count": 1
+      }
+    },
+    {
+      "id": "street-scan",
+      "name": {
+        "es": "Escaneo Urbano",
+        "en": "Street Scan"
+      },
+      "description": {
+        "es": "Usás tus ojos cibernéticos para analizar una zona y detectar salidas, cámaras y amenazas ocultas.",
+        "en": "You use your cyberoptics to scan an area and detect exits, cameras, and hidden threats."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 2,
+      "icon": "eye",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "turns_played",
+        "count": 5
+      }
+    },
+    {
+      "id": "blade-draw",
+      "name": {
+        "es": "Despliegue de Cuchillas",
+        "en": "Blade Draw"
+      },
+      "description": {
+        "es": "Extendés las Mantis Blades en un instante y realizás dos cortes rápidos sobre un mismo objetivo.",
+        "en": "You extend your Mantis Blades in a flash and deliver two quick slashes against a single target."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "sword",
+      "tags": [
+        "combat"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "abilities_used",
+        "count": 2
+      }
+    },
+    {
+      "id": "stim-shot",
+      "name": {
+        "es": "Inyección de Estimulante",
+        "en": "Stim Shot"
+      },
+      "description": {
+        "es": "Te clavás un estimulante de combate y recuperás 6 HP mientras ignorás el dolor durante 2 turnos.",
+        "en": "You jam a combat stim and recover 6 HP while ignoring pain for 2 turns."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "heart",
+      "tags": [
+        "healing",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 1
+      }
+    },
+    {
+      "id": "suppressive-fire",
+      "name": {
+        "es": "Fuego Supresivo",
+        "en": "Suppressive Fire"
+      },
+      "description": {
+        "es": "Vaciás un cargador en posición de cobertura y forzás a todos los enemigos visibles a agacharse o retroceder.",
+        "en": "You empty a mag from cover position and force all visible enemies to duck or fall back."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "flame",
+      "tags": [
+        "combat"
+      ],
+      "tier": 2,
+      "requires": [
+        "reflex-boost",
+        "blade-draw"
+      ],
+      "unlock": {
+        "type": "combats_won",
+        "count": 3
+      }
+    },
+    {
+      "id": "ghost-walk",
+      "name": {
+        "es": "Paso Fantasma",
+        "en": "Ghost Walk"
+      },
+      "description": {
+        "es": "Sincronizás tu ritmo cardíaco con el entorno y podés atravesar una zona vigilada sin ser detectado.",
+        "en": "You sync your heartbeat to the environment and can move through a surveilled area undetected."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "moon",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "street-scan"
+      ],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 2
+      }
+    },
+    {
+      "id": "merc-reputation",
+      "name": {
+        "es": "Reputación de Mercenario",
+        "en": "Merc Reputation"
+      },
+      "description": {
+        "es": "Nombrás tu historial de contratos y un NPC hostil o neutro baja la guardia y negocia con vos.",
+        "en": "You name-drop your contract history and a hostile or neutral NPC lowers their guard and negotiates."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 2,
+      "icon": "sparkles",
+      "tags": [
+        "social",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "stim-shot"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 1
+      }
+    },
+    {
+      "id": "chrome-instinct",
+      "name": {
+        "es": "Instinto de Cromo",
+        "en": "Chrome Instinct"
+      },
+      "description": {
+        "es": "Tu sistema nervioso cibernético predice el ataque enemigo y contraatacás automáticamente antes de recibir el golpe.",
+        "en": "Your cybernetic nervous system predicts the enemy's move and you automatically counter before the hit lands."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "zap",
+      "tags": [
+        "combat",
+        "defense"
+      ],
+      "tier": 3,
+      "requires": [
+        "suppressive-fire",
+        "ghost-walk"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 2
+      }
+    },
+    {
+      "id": "nano-repair",
+      "name": {
+        "es": "Reparación de Nanobots",
+        "en": "Nanobot Repair"
+      },
+      "description": {
+        "es": "Liberás los nanobots del botiquín internamente y regenerás 10 HP distribuidos a lo largo de 3 turnos.",
+        "en": "You release internal nanobots from your medkit and regenerate 10 HP spread over 3 turns."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "shield",
+      "tags": [
+        "healing",
+        "utility"
+      ],
+      "tier": 3,
+      "requires": [
+        "merc-reputation",
+        "suppressive-fire"
+      ],
+      "unlock": {
+        "type": "deaths_survived",
+        "count": 1
+      }
+    },
+    {
+      "id": "killing-machine",
+      "name": {
+        "es": "Máquina de Matar",
+        "en": "Killing Machine"
+      },
+      "description": {
+        "es": "Entrás en modo combate total: durante 3 turnos cada ataque tuyo es automáticamente crítico y no podés ser aturdido.",
+        "en": "You enter full combat mode: for 3 turns every attack you make is automatically a critical and you cannot be stunned."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "flame",
+      "tags": [
+        "combat"
+      ],
+      "tier": 4,
+      "requires": [
+        "chrome-instinct",
+        "nano-repair"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 3
+      }
+    }
+  ]
+}

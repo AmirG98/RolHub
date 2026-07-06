@@ -1,0 +1,304 @@
+{
+  "loreId": "ISEKAI",
+  "archetypeId": "op_support",
+  "name": {
+    "es": "Senda del Soporte Absoluto",
+    "en": "Path of the Absolute Support"
+  },
+  "nodes": [
+    {
+      "id": "toque-sanador",
+      "name": {
+        "es": "Toque Sanador",
+        "en": "Healing Touch"
+      },
+      "description": {
+        "es": "Ponés las manos sobre un aliado y restaurás 2d6 HP al instante, cerrando heridas abiertas.",
+        "en": "You lay hands on an ally and instantly restore 2d6 HP, sealing open wounds."
+      },
+      "kind": "spell",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 2,
+      "icon": "heart",
+      "tags": [
+        "healing",
+        "combat"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "turns_played",
+        "count": 5
+      }
+    },
+    {
+      "id": "buff-menor",
+      "name": {
+        "es": "Potenciación Básica",
+        "en": "Basic Boost"
+      },
+      "description": {
+        "es": "Aplicás un buff rápido a un aliado que le otorga ventaja en su próxima tirada de habilidad o ataque.",
+        "en": "You apply a quick buff to an ally granting them advantage on their next skill or attack roll."
+      },
+      "kind": "spell",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 2,
+      "icon": "sparkles",
+      "tags": [
+        "combat",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "abilities_used",
+        "count": 2
+      }
+    },
+    {
+      "id": "escudo-mistico",
+      "name": {
+        "es": "Escudo Místico",
+        "en": "Mystic Shield"
+      },
+      "description": {
+        "es": "Envolvés a un aliado en una barrera mágica que absorbe el próximo golpe que recibiría ese turno.",
+        "en": "You wrap an ally in a magical barrier that absorbs the next hit they would take this turn."
+      },
+      "kind": "spell",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "shield",
+      "tags": [
+        "combat",
+        "defense"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "combats_won",
+        "count": 1
+      }
+    },
+    {
+      "id": "lectura-de-aura",
+      "name": {
+        "es": "Lectura de Aura",
+        "en": "Aura Reading"
+      },
+      "description": {
+        "es": "Analizás el estado de todos en la escena y conocés sus HP, condiciones y debilidades ocultas.",
+        "en": "You analyze everyone in the scene and learn their HP, conditions, and hidden weaknesses."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "eye",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 1
+      }
+    },
+    {
+      "id": "regeneracion-grupal",
+      "name": {
+        "es": "Regeneración Grupal",
+        "en": "Group Regeneration"
+      },
+      "description": {
+        "es": "Lanzás una ola de energía curativa que restaura 1d6 HP a todos tus aliados al mismo tiempo.",
+        "en": "You release a wave of healing energy that restores 1d6 HP to all your allies at once."
+      },
+      "kind": "spell",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "leaf",
+      "tags": [
+        "healing",
+        "combat"
+      ],
+      "tier": 2,
+      "requires": [
+        "toque-sanador"
+      ],
+      "unlock": {
+        "type": "abilities_used",
+        "count": 5
+      }
+    },
+    {
+      "id": "estadisticas-al-limite",
+      "name": {
+        "es": "Estadísticas al Límite",
+        "en": "Stats to the Limit"
+      },
+      "description": {
+        "es": "Duplicás todas las estadísticas de un aliado durante 3 turnos, volviéndolo temporalmente monstruoso.",
+        "en": "You double all stats of one ally for 3 turns, temporarily turning them into a monster."
+      },
+      "kind": "spell",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "zap",
+      "tags": [
+        "combat",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "buff-menor"
+      ],
+      "unlock": {
+        "type": "combats_won",
+        "count": 3
+      }
+    },
+    {
+      "id": "negociador-divino",
+      "name": {
+        "es": "Negociador Divino",
+        "en": "Divine Negotiator"
+      },
+      "description": {
+        "es": "Invocás tu reputación de sanador sagrado para convencer a cualquier NPC hostil de pausar el conflicto.",
+        "en": "You invoke your reputation as a sacred healer to convince any hostile NPC to pause the conflict."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "moon",
+      "tags": [
+        "social",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "lectura-de-aura"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 2
+      }
+    },
+    {
+      "id": "resurreccion-rapida",
+      "name": {
+        "es": "Resurrección Rápida",
+        "en": "Quick Resurrection"
+      },
+      "description": {
+        "es": "Revivís a un aliado caído con la mitad de su HP máximo usando una dosis de incienso sagrado.",
+        "en": "You revive a fallen ally with half their max HP using a dose of sacred incense."
+      },
+      "kind": "spell",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "sparkles",
+      "tags": [
+        "healing",
+        "combat"
+      ],
+      "tier": 2,
+      "requires": [
+        "escudo-mistico",
+        "toque-sanador"
+      ],
+      "unlock": {
+        "type": "deaths_survived",
+        "count": 1
+      }
+    },
+    {
+      "id": "santa-fortaleza",
+      "name": {
+        "es": "Santa Fortaleza",
+        "en": "Holy Fortress"
+      },
+      "description": {
+        "es": "Rodeás a todo tu grupo de un escudo sagrado que reduce a la mitad todo el daño recibido durante 2 turnos.",
+        "en": "You surround your entire group with a holy shield that halves all incoming damage for 2 turns."
+      },
+      "kind": "spell",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "shield",
+      "tags": [
+        "combat",
+        "defense"
+      ],
+      "tier": 3,
+      "requires": [
+        "regeneracion-grupal",
+        "resurreccion-rapida"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 2
+      }
+    },
+    {
+      "id": "rango-ss-temporal",
+      "name": {
+        "es": "Rango SS Temporal",
+        "en": "Temporary SS Rank"
+      },
+      "description": {
+        "es": "Elevás las estadísticas de un aliado al nivel de un aventurero rango SS durante un encuentro completo.",
+        "en": "You raise one ally's stats to SS-rank adventurer level for an entire encounter."
+      },
+      "kind": "spell",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "flame",
+      "tags": [
+        "combat",
+        "utility"
+      ],
+      "tier": 3,
+      "requires": [
+        "estadisticas-al-limite",
+        "negociador-divino"
+      ],
+      "unlock": {
+        "type": "level_reached",
+        "count": 5
+      }
+    },
+    {
+      "id": "apoyo-absoluto",
+      "name": {
+        "es": "Apoyo Absoluto",
+        "en": "Absolute Support"
+      },
+      "description": {
+        "es": "Desatás todo tu poder de soporte: curás a todos los aliados al máximo, aplicás rango SS a dos de ellos y creás un aura que impide la muerte durante 3 turnos.",
+        "en": "You unleash your full support power: heal all allies to max, apply SS rank to two of them, and create an aura that prevents death for 3 turns."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "sparkles",
+      "tags": [
+        "healing",
+        "combat",
+        "utility"
+      ],
+      "tier": 4,
+      "requires": [
+        "santa-fortaleza",
+        "rango-ss-temporal"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 3
+      }
+    }
+  ]
+}

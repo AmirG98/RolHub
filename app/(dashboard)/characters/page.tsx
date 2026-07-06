@@ -119,9 +119,11 @@ export default function CharactersPage() {
                     </div>
                   )}
 
-                  <RunicButton variant="secondary" className="w-full text-sm">
-                    Ver Ficha
-                  </RunicButton>
+                  <Link href={`/characters/${character.id}/skills`}>
+                    <RunicButton variant="secondary" className="w-full text-sm">
+                      🌟 Habilidades
+                    </RunicButton>
+                  </Link>
                 </div>
               )
             })}

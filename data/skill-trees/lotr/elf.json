@@ -1,0 +1,301 @@
+{
+  "loreId": "LOTR",
+  "archetypeId": "elf",
+  "name": {
+    "es": "Senda del Elfo Errante",
+    "en": "Path of the Wandering Elf"
+  },
+  "nodes": [
+    {
+      "id": "star-sight",
+      "name": {
+        "es": "Mirada Estelar",
+        "en": "Star Sight"
+      },
+      "description": {
+        "es": "Abrís los ojos de los siglos y ves en la oscuridad absoluta como si fuera de día, revelando criaturas ocultas o corrupción en la escena.",
+        "en": "You open your ageless eyes and see in total darkness as if it were daylight, revealing hidden creatures or corruption in the scene."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 2,
+      "icon": "eye",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "turns_played",
+        "count": 5
+      }
+    },
+    {
+      "id": "elven-arrow",
+      "name": {
+        "es": "Flecha Élfica",
+        "en": "Elven Arrow"
+      },
+      "description": {
+        "es": "Disparás con la precisión de siglos de práctica: tu próximo disparo con el arco ignora cobertura y tiene ventaja contra el objetivo.",
+        "en": "You shoot with centuries of practiced precision: your next bow attack ignores cover and has advantage against the target."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "zap",
+      "tags": [
+        "combat"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "combats_won",
+        "count": 1
+      }
+    },
+    {
+      "id": "forest-tongue",
+      "name": {
+        "es": "Lengua del Bosque",
+        "en": "Forest Tongue"
+      },
+      "description": {
+        "es": "Hablás con los animales del bosque y obtenés de ellos información sobre el terreno, enemigos cercanos o caminos ocultos.",
+        "en": "You speak with forest animals and gain information from them about terrain, nearby enemies, or hidden paths."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "leaf",
+      "tags": [
+        "exploration",
+        "social"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "abilities_used",
+        "count": 2
+      }
+    },
+    {
+      "id": "ancient-memory",
+      "name": {
+        "es": "Memoria Antigua",
+        "en": "Ancient Memory"
+      },
+      "description": {
+        "es": "Recurrís a tus siglos de experiencia y recordás un detalle crucial sobre el lugar, el enemigo o el objeto en cuestión que el DM te revela.",
+        "en": "You draw on your centuries of experience and recall a crucial detail about the location, enemy, or object at hand that the DM reveals to you."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "sparkles",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 1
+      }
+    },
+    {
+      "id": "shadow-step",
+      "name": {
+        "es": "Paso en las Sombras",
+        "en": "Shadow Step"
+      },
+      "description": {
+        "es": "Te movés entre las sombras con gracia inmortal: desaparecés de la vista de todos los enemigos y reposicionás sin provocar ataques de oportunidad.",
+        "en": "You move through shadows with immortal grace: you vanish from all enemies' sight and reposition without provoking opportunity attacks."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "moon",
+      "tags": [
+        "combat",
+        "exploration"
+      ],
+      "tier": 2,
+      "requires": [
+        "star-sight"
+      ],
+      "unlock": {
+        "type": "combats_won",
+        "count": 3
+      }
+    },
+    {
+      "id": "blade-of-ages",
+      "name": {
+        "es": "Filo de las Eras",
+        "en": "Blade of Ages"
+      },
+      "description": {
+        "es": "Desenvainás tu espada forjada en la Primera Edad y realizás un ataque que inflige daño adicional y aterra a criaturas de la sombra.",
+        "en": "You draw your First Age blade and make an attack that deals bonus damage and terrifies shadow creatures."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "sword",
+      "tags": [
+        "combat"
+      ],
+      "tier": 2,
+      "requires": [
+        "elven-arrow"
+      ],
+      "unlock": {
+        "type": "combats_won",
+        "count": 3
+      }
+    },
+    {
+      "id": "phial-of-stars",
+      "name": {
+        "es": "Luz del Fial",
+        "en": "Phial's Light"
+      },
+      "description": {
+        "es": "Alzás el fial con luz de estrella y su resplandor sana a un aliado por 2d6 HP y disipa cualquier maldición o veneno que sufra.",
+        "en": "You raise the starlight phial and its radiance heals one ally for 2d6 HP and dispels any curse or poison they suffer."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "sparkles",
+      "tags": [
+        "healing",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "forest-tongue"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 1
+      }
+    },
+    {
+      "id": "voice-of-valinor",
+      "name": {
+        "es": "Voz de Valinor",
+        "en": "Voice of Valinor"
+      },
+      "description": {
+        "es": "Tu voz cargada de siglos resuena con autoridad: convencés a un NPC hostil de pausar las hostilidades y escucharte durante una escena.",
+        "en": "Your voice, heavy with ages, resonates with authority: you convince a hostile NPC to pause hostilities and hear you out for one scene."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "moon",
+      "tags": [
+        "social",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "ancient-memory"
+      ],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 2
+      }
+    },
+    {
+      "id": "warden-of-the-wild",
+      "name": {
+        "es": "Guardián de lo Salvaje",
+        "en": "Warden of the Wild"
+      },
+      "description": {
+        "es": "Te fusionás con el entorno natural y podés convocar a un animal grande como aliado temporal durante el combate o la exploración.",
+        "en": "You merge with the natural environment and can summon a large animal as a temporary ally during combat or exploration."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "leaf",
+      "tags": [
+        "combat",
+        "exploration"
+      ],
+      "tier": 3,
+      "requires": [
+        "shadow-step",
+        "phial-of-stars"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 2
+      }
+    },
+    {
+      "id": "song-of-the-firstborn",
+      "name": {
+        "es": "Canto de los Primogénitos",
+        "en": "Song of the Firstborn"
+      },
+      "description": {
+        "es": "Entonás una canción antigua que restaura 1d8 HP a todos los aliados presentes y les otorga ventaja en sus próximas tiradas durante este combate.",
+        "en": "You intone an ancient song that restores 1d8 HP to all present allies and grants them advantage on their next rolls during this combat."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "heart",
+      "tags": [
+        "healing",
+        "social"
+      ],
+      "tier": 3,
+      "requires": [
+        "blade-of-ages",
+        "voice-of-valinor"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 2
+      }
+    },
+    {
+      "id": "last-light-of-the-west",
+      "name": {
+        "es": "Última Luz del Oeste",
+        "en": "Last Light of the West"
+      },
+      "description": {
+        "es": "Canalizás toda la gracia inmortal que te queda antes de partir: durante una escena completa, tus ataques son irresistibles, tus palabras convincentes y tu presencia sana a los aliados cercanos al inicio de cada turno.",
+        "en": "You channel all the immortal grace left within you before sailing West: for an entire scene, your attacks are irresistible, your words compelling, and your presence heals nearby allies at the start of each turn."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "flame",
+      "tags": [
+        "combat",
+        "healing",
+        "social"
+      ],
+      "tier": 4,
+      "requires": [
+        "warden-of-the-wild",
+        "song-of-the-firstborn"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 3
+      }
+    }
+  ]
+}

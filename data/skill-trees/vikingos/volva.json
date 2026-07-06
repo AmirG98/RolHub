@@ -1,0 +1,306 @@
+{
+  "loreId": "VIKINGOS",
+  "archetypeId": "volva",
+  "name": {
+    "es": "Senda de la Vidente",
+    "en": "Path of the Seer"
+  },
+  "nodes": [
+    {
+      "id": "lanzar-runas",
+      "name": {
+        "es": "Lanzar Runas",
+        "en": "Cast the Runes"
+      },
+      "description": {
+        "es": "Tirás las runas divinatorias y el DM te revela una pista sobre el próximo obstáculo o enemigo que enfrentarás.",
+        "en": "You cast the divination runes and the DM reveals a clue about the next obstacle or enemy you will face."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "eye",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "turns_played",
+        "count": 5
+      }
+    },
+    {
+      "id": "palabras-de-poder",
+      "name": {
+        "es": "Palabras de Poder",
+        "en": "Words of Power"
+      },
+      "description": {
+        "es": "Pronunciás una sentencia cargada de seiðr que paraliza a un interlocutor de miedo, dándote ventaja en la siguiente tirada social.",
+        "en": "You speak a seiðr-laden sentence that freezes a listener with fear, giving you advantage on the next social roll."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 2,
+      "icon": "sparkles",
+      "tags": [
+        "social",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "abilities_used",
+        "count": 2
+      }
+    },
+    {
+      "id": "ojo-del-corvo",
+      "name": {
+        "es": "Ojo del Cuervo",
+        "en": "Raven's Eye"
+      },
+      "description": {
+        "es": "Prestás tu vista a un cuervo o animal cercano durante unos momentos y ves a través de sus ojos lo que hay más allá de tu campo de visión.",
+        "en": "You lend your sight to a nearby raven or animal briefly and see through its eyes whatever lies beyond your field of vision."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "moon",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 1
+      }
+    },
+    {
+      "id": "maldicion-menor",
+      "name": {
+        "es": "Maldición Menor",
+        "en": "Minor Curse"
+      },
+      "description": {
+        "es": "Señalás a un enemigo con una maldición de seiðr: su próxima tirada de ataque o defensa tiene desventaja.",
+        "en": "You mark an enemy with a seiðr curse: their next attack or defense roll has disadvantage."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 2,
+      "icon": "flame",
+      "tags": [
+        "combat",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "combats_won",
+        "count": 1
+      }
+    },
+    {
+      "id": "hablar-con-muertos",
+      "name": {
+        "es": "Hablar con los Muertos",
+        "en": "Speak with the Dead"
+      },
+      "description": {
+        "es": "Convocás el espíritu de un cadáver cercano y podés hacerle tres preguntas que responderá con la verdad que conocía en vida.",
+        "en": "You summon the spirit of a nearby corpse and may ask it three questions it will answer with the truth it knew in life."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "moon",
+      "tags": [
+        "exploration",
+        "social"
+      ],
+      "tier": 2,
+      "requires": [
+        "lanzar-runas",
+        "ojo-del-corvo"
+      ],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 2
+      }
+    },
+    {
+      "id": "trance-de-seidr",
+      "name": {
+        "es": "Trance de Seiðr",
+        "en": "Seiðr Trance"
+      },
+      "description": {
+        "es": "Entrás en trance y canalizás la magia: el próximo hechizo o habilidad mágica que uses este turno no gasta cooldown.",
+        "en": "You enter a trance and channel the magic: the next spell or magical ability you use this turn does not consume its cooldown."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "sparkles",
+      "tags": [
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "palabras-de-poder",
+        "maldicion-menor"
+      ],
+      "unlock": {
+        "type": "abilities_used",
+        "count": 5
+      }
+    },
+    {
+      "id": "velo-de-norn",
+      "name": {
+        "es": "Velo de las Norns",
+        "en": "Veil of the Norns"
+      },
+      "description": {
+        "es": "Tejés el destino para proteger a un aliado: la próxima vez que ese aliado caería inconsciente, queda en 1 HP en cambio.",
+        "en": "You weave fate to protect an ally: the next time that ally would fall unconscious, they remain at 1 HP instead."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "shield",
+      "tags": [
+        "combat",
+        "defense"
+      ],
+      "tier": 2,
+      "requires": [
+        "maldicion-menor",
+        "palabras-de-poder"
+      ],
+      "unlock": {
+        "type": "combats_won",
+        "count": 3
+      }
+    },
+    {
+      "id": "viaje-espiritual",
+      "name": {
+        "es": "Viaje Espiritual",
+        "en": "Spirit Journey"
+      },
+      "description": {
+        "es": "Tu espíritu abandona el cuerpo y viaja invisiblemente a cualquier lugar conocido, pudiendo observar y escuchar sin ser detectada.",
+        "en": "Your spirit leaves your body and travels invisibly to any known location, allowing you to observe and listen undetected."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "moon",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 3,
+      "requires": [
+        "hablar-con-muertos",
+        "trance-de-seidr"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 2
+      }
+    },
+    {
+      "id": "maldicion-mayor",
+      "name": {
+        "es": "Maldición Mayor",
+        "en": "Greater Curse"
+      },
+      "description": {
+        "es": "Pronunciás una maldición devastadora sobre un enemigo: sufre desventaja en todas sus tiradas durante tres turnos.",
+        "en": "You pronounce a devastating curse upon an enemy: they suffer disadvantage on all rolls for three turns."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "flame",
+      "tags": [
+        "combat",
+        "utility"
+      ],
+      "tier": 3,
+      "requires": [
+        "trance-de-seidr",
+        "velo-de-norn"
+      ],
+      "unlock": {
+        "type": "level_reached",
+        "count": 5
+      }
+    },
+    {
+      "id": "bendicion-ancestral",
+      "name": {
+        "es": "Bendición Ancestral",
+        "en": "Ancestral Blessing"
+      },
+      "description": {
+        "es": "Invocás el favor de los muertos del clan: todos los aliados recuperan 1d8 HP y tienen ventaja en sus próximas tiradas de combate.",
+        "en": "You invoke the favor of the clan's dead: all allies recover 1d8 HP and have advantage on their next combat rolls."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "heart",
+      "tags": [
+        "healing",
+        "combat"
+      ],
+      "tier": 3,
+      "requires": [
+        "hablar-con-muertos",
+        "velo-de-norn"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 2
+      }
+    },
+    {
+      "id": "pacto-divino",
+      "name": {
+        "es": "Pacto Divino",
+        "en": "Divine Pact"
+      },
+      "description": {
+        "es": "Un dios te habla directamente y te otorga su poder: una vez por acto, podés declarar que una acción tuya tiene éxito automático, o que una acción enemiga falla sin tirada.",
+        "en": "A god speaks to you directly and grants you their power: once per act, you may declare that one of your actions automatically succeeds, or that one enemy action fails without a roll."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "zap",
+      "tags": [
+        "combat",
+        "social",
+        "utility"
+      ],
+      "tier": 4,
+      "requires": [
+        "viaje-espiritual",
+        "maldicion-mayor"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 3
+      }
+    }
+  ]
+}

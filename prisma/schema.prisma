@@ -152,6 +152,8 @@ model Character {
   conditions            String[]
   activeEffects         Json                  @default("[]")
   abilities             Json                  @default("[]")
+  milestones            Json                  @default("{}")  // Contadores de logros del personaje (MilestoneState)
+  unlockedSkills        Json                  @default("[]")  // nodeIds del skill tree APRENDIDOS (string[])
   backstory             String?
   avatarUrl             String?
   tokenUrl              String?

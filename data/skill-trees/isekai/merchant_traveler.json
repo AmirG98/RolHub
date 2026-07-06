@@ -1,0 +1,278 @@
+{
+  "loreId": "ISEKAI",
+  "archetypeId": "merchant_traveler",
+  "name": {
+    "es": "Senda del Comerciante Viajero",
+    "en": "Path of the Traveling Merchant"
+  },
+  "nodes": [
+    {
+      "id": "regateo-experto",
+      "name": {
+        "es": "Regateo Experto",
+        "en": "Expert Haggling"
+      },
+      "description": {
+        "es": "Usás tácticas de negociación modernas para conseguir precios un 30% mejores en cualquier transacción con un NPC.",
+        "en": "You use modern negotiation tactics to get 30% better prices in any NPC transaction."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 2,
+      "icon": "sparkles",
+      "tags": [
+        "social",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "turns_played",
+        "count": 5
+      }
+    },
+    {
+      "id": "ojo-de-tasador",
+      "name": {
+        "es": "Ojo de Tasador",
+        "en": "Appraiser's Eye"
+      },
+      "description": {
+        "es": "Examinás un objeto y el DM te revela su valor real, propiedades ocultas o posibles usos alternativos.",
+        "en": "You examine an item and the DM reveals its true value, hidden properties, or alternative uses."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "eye",
+      "tags": [
+        "exploration",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "abilities_used",
+        "count": 2
+      }
+    },
+    {
+      "id": "primeros-auxilios-modernos",
+      "name": {
+        "es": "Primeros Auxilios Modernos",
+        "en": "Modern First Aid"
+      },
+      "description": {
+        "es": "Aplicás conocimientos básicos de medicina terrestre para estabilizar a un aliado y restaurarle 1d6+2 HP.",
+        "en": "You apply basic Earth medicine knowledge to stabilize an ally and restore 1d6+2 HP to them."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "heart",
+      "tags": [
+        "healing",
+        "utility"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 1
+      }
+    },
+    {
+      "id": "encanto-del-vendedor",
+      "name": {
+        "es": "Encanto del Vendedor",
+        "en": "Salesperson's Charm"
+      },
+      "description": {
+        "es": "Con una sonrisa y argumentos irresistibles, convertís a un NPC hostil en neutral o a uno neutral en aliado temporal.",
+        "en": "With a smile and irresistible arguments, you turn a hostile NPC neutral or a neutral one into a temporary ally."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 3,
+      "icon": "moon",
+      "tags": [
+        "social",
+        "combat"
+      ],
+      "tier": 1,
+      "requires": [],
+      "unlock": {
+        "type": "combats_won",
+        "count": 1
+      }
+    },
+    {
+      "id": "cadena-de-suministro",
+      "name": {
+        "es": "Cadena de Suministro",
+        "en": "Supply Chain"
+      },
+      "description": {
+        "es": "Activás tu red de contactos para conseguir cualquier objeto común o raro en la siguiente ciudad sin importar el stock local.",
+        "en": "You activate your contact network to source any common or rare item in the next town regardless of local stock."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "leaf",
+      "tags": [
+        "utility",
+        "exploration"
+      ],
+      "tier": 2,
+      "requires": [
+        "regateo-experto",
+        "ojo-de-tasador"
+      ],
+      "unlock": {
+        "type": "quests_completed",
+        "count": 2
+      }
+    },
+    {
+      "id": "invento-terrestre",
+      "name": {
+        "es": "Invento Terrestre",
+        "en": "Earth Invention"
+      },
+      "description": {
+        "es": "Improvisás un artefacto basado en tecnología de la Tierra que podés usar como arma, herramienta o distracción durante una escena.",
+        "en": "You improvise an Earth-based contraption you can use as a weapon, tool, or distraction for one scene."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "zap",
+      "tags": [
+        "combat",
+        "exploration",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "ojo-de-tasador"
+      ],
+      "unlock": {
+        "type": "abilities_used",
+        "count": 5
+      }
+    },
+    {
+      "id": "contrato-vinculante",
+      "name": {
+        "es": "Contrato Vinculante",
+        "en": "Binding Contract"
+      },
+      "description": {
+        "es": "Extendés tu contrato mágico en blanco para forzar a un NPC a cumplir un acuerdo bajo pena de consecuencias sobrenaturales.",
+        "en": "You deploy your magical blank contract to force an NPC to honor a deal under penalty of supernatural consequences."
+      },
+      "kind": "trick",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "shield",
+      "tags": [
+        "social",
+        "utility"
+      ],
+      "tier": 2,
+      "requires": [
+        "encanto-del-vendedor"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 2
+      }
+    },
+    {
+      "id": "red-de-informantes",
+      "name": {
+        "es": "Red de Informantes",
+        "en": "Informant Network"
+      },
+      "description": {
+        "es": "Tu cadena de contactos te provee información privilegiada: el DM te revela una pista o secreto clave de la región actual.",
+        "en": "Your contact chain feeds you insider information: the DM reveals a key clue or secret about the current region."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 4,
+      "icon": "eye",
+      "tags": [
+        "exploration",
+        "social"
+      ],
+      "tier": 3,
+      "requires": [
+        "cadena-de-suministro",
+        "contrato-vinculante"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 2
+      }
+    },
+    {
+      "id": "monopolio-local",
+      "name": {
+        "es": "Monopolio Local",
+        "en": "Local Monopoly"
+      },
+      "description": {
+        "es": "Establecés control económico sobre una ciudad o ruta: todos los precios te favorecen y los rivales comerciales abandonan la zona.",
+        "en": "You establish economic control over a city or route: all prices favor you and commercial rivals leave the area."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "flame",
+      "tags": [
+        "social",
+        "utility"
+      ],
+      "tier": 3,
+      "requires": [
+        "cadena-de-suministro",
+        "invento-terrestre"
+      ],
+      "unlock": {
+        "type": "npc_bond",
+        "count": 4
+      }
+    },
+    {
+      "id": "magnate-de-aetheria",
+      "name": {
+        "es": "Magnate de Aetheria",
+        "en": "Aetherian Magnate"
+      },
+      "description": {
+        "es": "Tu nombre es sinónimo de poder: una vez por escena, podés convertir dinero en influencia para alterar el resultado de cualquier conflicto social, político o comercial a tu favor.",
+        "en": "Your name is synonymous with power: once per scene, you can convert gold into influence to tilt any social, political, or commercial conflict in your favor."
+      },
+      "kind": "special",
+      "resource": "cooldown_turns",
+      "cooldownTurns": 5,
+      "icon": "sparkles",
+      "tags": [
+        "social",
+        "utility",
+        "combat"
+      ],
+      "tier": 4,
+      "requires": [
+        "red-de-informantes",
+        "monopolio-local"
+      ],
+      "unlock": {
+        "type": "act_reached",
+        "count": 3
+      }
+    }
+  ]
+}
