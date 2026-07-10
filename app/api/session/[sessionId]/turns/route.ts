@@ -22,7 +22,7 @@ export async function GET(req: NextRequest, { params }: RouteParams) {
       where: { id: sessionId },
       include: {
         turns: {
-          orderBy: { createdAt: 'asc' },
+          orderBy: [{ createdAt: 'asc' }, { id: 'asc' }],
         },
         campaign: {
           select: {

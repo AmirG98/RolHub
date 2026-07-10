@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@clerk/nextjs/server'
 import { prisma } from '@/lib/db/prisma'
+import { getClerkEmail } from '@/lib/auth/clerk-email'
 
 export async function POST(req: NextRequest) {
   try {
@@ -63,8 +64,10 @@ export async function POST(req: NextRequest) {
     })
 
     if (!user) {
-      // Create user if doesn't exist
-      const uniqueEmail = `user_${userId}_${Date.now()}@placeholder.local`
+      // Create user if doesn't exist — email real desde Clerk, placeholder
+      // solo si Clerk no responde
+      const realEmail = await getClerkEmail(userId)
+      const uniqueEmail = realEmail || `user_${userId}_${Date.now()}@placeholder.local`
       user = await prisma.user.create({
         data: {
           clerkId: userId,

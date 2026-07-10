@@ -24,6 +24,7 @@ import { parseDMResponse } from '@/lib/claude/parse-dm-response'
 import { canStartSession } from '@/lib/plans/check-access'
 import { rateLimit, rateLimitResponse } from '@/lib/rate-limit'
 import { verifyGuestCookie } from '@/lib/guest/cookie'
+import { healPlaceholderEmail } from '@/lib/auth/clerk-email'
 import {
   buildAbilitiesForArchetype,
   toRuntime,
@@ -36,8 +37,9 @@ import {
 } from '@/lib/game/abilities'
 import type { AbilityRuntime } from '@/lib/types/ability'
 import type { Archetype as LoreArchetype } from '@/lib/types/lore'
-// Regex consistente para detectar NPCs con diálogo (Nombre: o Nombre «)
-const NPC_DIALOGUE_REGEX = /([A-ZÁÉÍÓÚ][a-záéíóúñ]+(?:\s+[A-ZÁÉÍÓÚ]?[a-záéíóúñ]+)*)\s*[:«]/g
+// Detección de NPCs con reglas de nombre propio (evita "NPCs fantasma" desde
+// fragmentos de oración como "Pero primero:" — bug observado en prod)
+import { NPC_DIALOGUE_REGEX, detectNpcNames } from '@/lib/game/npc-detect'
 
 // Lore data para sub-locaciones
 import lotrData from '@/data/lores/lotr.json'
@@ -103,13 +105,16 @@ export async function POST(req: NextRequest) {
     if (clerkUserId) {
       const user = await prisma.user.findUnique({
         where: { clerkId: clerkUserId },
-        select: { id: true, plan: true, trialSessionUsed: true, planExpiresAt: true, stripeSubscriptionId: true },
+        select: { id: true, plan: true, trialSessionUsed: true, planExpiresAt: true, stripeSubscriptionId: true, email: true },
       })
       authUserId = user?.id || null
       authUserPlan = user?.plan || null
       authUserTrialUsed = user?.trialSessionUsed || false
       authUserPlanExpires = user?.planExpiresAt || null
       authUserStripeSubId = user?.stripeSubscriptionId || null
+      // Self-heal: usuarios creados con email placeholder se curan con el
+      // email real de Clerk la próxima vez que juegan (fire-and-forget)
+      if (user) healPlaceholderEmail({ id: user.id, clerkId: clerkUserId, email: user.email })
     }
 
     let isGuestUser = false
@@ -207,7 +212,10 @@ export async function POST(req: NextRequest) {
           },
         },
         turns: {
-          orderBy: { createdAt: 'asc' },
+          // Tiebreak por id: los pares USER/DM históricos comparten createdAt
+          // (misma transacción, default now() de la DB) y el cuid del USER se
+          // genera antes que el del DM → orden correcto garantizado.
+          orderBy: [{ createdAt: 'asc' }, { id: 'asc' }],
           take: 40, // Ventana activa — los SummaryCheckpoints cubren turnos más viejos
         },
         summaryCheckpoints: {
@@ -267,10 +275,20 @@ export async function POST(req: NextRequest) {
     // 1. Preparar datos del turno del jugador (NO persistimos todavía — si Claude
     // falla, no queremos orphan USER turns en DB). Se persiste en la $transaction
     // final junto con el DM turn y el worldState update.
+    // Timestamps explícitos: USER y DM se persisten en la misma transacción y
+    // el default now() de la DB les daba el MISMO createdAt → el orden del par
+    // quedaba ambiguo al leer con orderBy createdAt, y a veces el historial
+    // ponía la respuesta ANTES de la pregunta. El modelo veía la acción previa
+    // del jugador como "sin responder" y la re-narraba ignorando la acción
+    // nueva (bug de repetición/desync observado en prod).
+    const playerTurnAt = new Date()
+    const dmTurnAt = new Date(playerTurnAt.getTime() + 1)
+
     const playerTurnData = {
       sessionId: session.id,
       role: 'USER' as const,
       content: action,
+      createdAt: playerTurnAt,
       diceRolls: diceRoll ? JSON.parse(JSON.stringify(diceRoll)) : undefined,
       participantId: participant?.id,
       characterId: actingCharacter?.id,
@@ -1640,26 +1658,47 @@ INSTRUCCIONES PARA HABILIDADES:
 
     console.log(`[DM] System prompt length: ${finalSystemPrompt.length} chars, conversation: ${conversationHistory.length} messages`)
 
-    let response
-    try {
-      response = await anthropic.messages.create({
-        // Configurable sin deploy: DM_MODEL en env. Default: Sonnet 4.6.
-        model: process.env.DM_MODEL || 'claude-sonnet-4-6',
-        // 2500 (antes 1500): con narraciones largas + diálogos escapados + todos
-        // los campos JSON, 1500 truncaba la respuesta y el JSON quedaba cortado.
-        max_tokens: 2500,
-        system: finalSystemPrompt,
-        messages: conversationHistory as any,
-      })
-    } catch (apiError: any) {
-      console.error('[DM] Anthropic API error:', apiError?.message || apiError)
-      return NextResponse.json(
-        { error: 'Error al generar la narración', details: apiError?.message || 'API error' },
-        { status: 502 }
-      )
-    }
+    // Llamada al DM con retry si la narración viene vacía/mínima ("...") —
+    // bug observado en prod: el jugador recibía "..." persistido y tenía que
+    // repetir su acción. Un reintento suele bastar; si el segundo intento
+    // también falla, devolvemos 502 SIN persistir nada (la acción del jugador
+    // no se consume y puede reenviarla).
+    const MIN_NARRATION_CHARS = 20
+    let rawResponse = ''
+    for (let attempt = 1; attempt <= 2; attempt++) {
+      let response
+      try {
+        response = await anthropic.messages.create({
+          // Configurable sin deploy: DM_MODEL en env. Default: Sonnet 4.6.
+          model: process.env.DM_MODEL || 'claude-sonnet-4-6',
+          // 2500 (antes 1500): con narraciones largas + diálogos escapados + todos
+          // los campos JSON, 1500 truncaba la respuesta y el JSON quedaba cortado.
+          max_tokens: 2500,
+          system: finalSystemPrompt,
+          messages: conversationHistory as any,
+        })
+      } catch (apiError: any) {
+        console.error('[DM] Anthropic API error:', apiError?.message || apiError)
+        return NextResponse.json(
+          { error: 'Error al generar la narración', details: apiError?.message || 'API error' },
+          { status: 502 }
+        )
+      }
 
-    const rawResponse = response.content[0].type === 'text' ? response.content[0].text : ''
+      rawResponse = response.content[0].type === 'text' ? response.content[0].text : ''
+      // Probar la NARRACIÓN parseada (no el raw: un JSON válido con
+      // narration:"..." tiene muchos chars pero cero contenido narrativo)
+      const narrationProbe = parseDMResponse(rawResponse)
+        .data.narration.replace(/[\s.·…"'—-]/g, '')
+      if (narrationProbe.length >= MIN_NARRATION_CHARS) break
+      console.warn(`[DM] Narración vacía/mínima (intento ${attempt}): "${rawResponse.slice(0, 60)}"`)
+      if (attempt === 2) {
+        return NextResponse.json(
+          { error: 'El narrador no respondió — intentá de nuevo', code: 'dm_empty_narration' },
+          { status: 502 }
+        )
+      }
+    }
 
     // Parse JSON response from DM
     let dmResponse: {
@@ -1794,27 +1833,15 @@ INSTRUCCIONES PARA HABILIDADES:
     // Calculate world state updates
     const worldStateUpdates: Record<string, any> = {}
 
-    // Auto-detect NPCs from narration — Claude doesn't always send npc_update
-    // so we extract NPC names from dialogue patterns (Name: or Name «)
+    // Auto-detect NPCs from narration — Claude doesn't always send npc_update.
+    // detectNpcNames aplica reglas de nombre propio (todas las palabras
+    // capitalizadas, máx 3, blocklists) para no registrar fragmentos de
+    // oración como NPCs.
     try {
-      const narratedNPCs = [...(dmResponse.narration || '').matchAll(NPC_DIALOGUE_REGEX)]
+      const narratedNPCs = detectNpcNames(dmResponse.narration || '')
       const currentNPCs = worldState.npc_states || {}
-      for (const match of narratedNPCs) {
-        const npcName = match[1]
-        // Skip player character, short names, common false positives
-        if (npcName === character.name || npcName.length < 3) continue
-        // Blocklist de falsos positivos: palabras comunes que matchean el patrón Nombre:
-        const NPC_BLOCKLIST = [
-          'Día', 'Noche', 'Ronda', 'Turno', 'Scene', 'Round', 'Resumen', 'Descripción',
-          'Resultado', 'Mensaje', 'Escena', 'Nota', 'Sistema', 'Inventario', 'Ubicación',
-          'Estado', 'Combate', 'Acción', 'Respuesta', 'Narración', 'Historia', 'Quest',
-          'Misión', 'Objetivo', 'Clima', 'Hora', 'Tiempo', 'Lugar', 'Destino', 'Arma',
-          'Item', 'Objeto', 'Equipo', 'Hechizo', 'Spell', 'Attack', 'Defense', 'Location',
-          'Warning', 'Error', 'Note', 'Summary', 'Description', 'Result', 'Action',
-          'Taverna', 'Castillo', 'Posada', 'Mercado', 'Plaza', 'Templo', 'Bosque',
-          'Ejemplo', 'Example', 'Important', 'Importante', 'Critical', 'Crítico',
-        ]
-        if (NPC_BLOCKLIST.some(b => b.toLowerCase() === npcName.toLowerCase())) continue
+      for (const npcName of narratedNPCs) {
+        if (npcName === character.name) continue
         if (!currentNPCs[npcName]) {
           if (!worldStateUpdates.npc_states) worldStateUpdates.npc_states = { ...currentNPCs }
           worldStateUpdates.npc_states[npcName] = {
@@ -2788,6 +2815,7 @@ INSTRUCCIONES PARA HABILIDADES:
           sessionId: session.id,
           role: 'DM',
           content: fullNarration,
+          createdAt: dmTurnAt, // +1ms que el USER: orden determinístico del par
           worldStatePatch: dmTurnPatch,
         },
       }),
@@ -2846,7 +2874,7 @@ INSTRUCCIONES PARA HABILIDADES:
           // así sirve también para sesiones >40 turnos.
           const chunkTurnsDb = await prisma.turn.findMany({
             where: { sessionId: session.id },
-            orderBy: { createdAt: 'asc' },
+            orderBy: [{ createdAt: 'asc' }, { id: 'asc' }],
             skip: chunkStartIndex - 1,
             take: 10,
             select: { role: true, content: true },
