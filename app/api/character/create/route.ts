@@ -10,6 +10,7 @@ import { handleCachedSceneImageRequest } from '@/lib/fal/scene-image-gen'
 import { type Lore as LoreType } from '@/lib/types/lore'
 import { generateOpeningTurnWithClaude } from '@/lib/claude/opening-turn'
 import { canCreateNewSession } from '@/lib/plans/check-access'
+import { getClerkEmail } from '@/lib/auth/clerk-email'
 import { buildAbilitiesForArchetype, toRuntime } from '@/lib/game/abilities'
 import type { AbilityTemplate, AbilityRuntime } from '@/lib/types/ability'
 
@@ -334,12 +335,16 @@ export async function POST(req: NextRequest) {
       }
     }
 
+    // Email real desde Clerk ANTES de la transacción (llamada externa fuera
+    // de tx). Placeholder solo como último recurso si Clerk no responde.
+    const realEmail = await getClerkEmail(userId)
+
     // Crear todo en una transacción — con retry para manejar pool exhaustion
     const result = await withRetry(() => prisma.$transaction(async (tx) => {
       // 0. Buscar o crear usuario
       user = await tx.user.findUnique({ where: { clerkId: userId } })
       if (!user) {
-        const uniqueEmail = `user_${userId}_${Date.now()}@placeholder.local`
+        const uniqueEmail = realEmail || `user_${userId}_${Date.now()}@placeholder.local`
         user = await tx.user.create({
           data: { clerkId: userId, username: `Usuario_${userId.slice(-6)}`, email: uniqueEmail, tutorialLevel },
         })

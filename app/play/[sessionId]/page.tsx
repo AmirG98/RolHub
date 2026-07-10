@@ -70,9 +70,7 @@ export default async function PlayPage({ params }: PlayPageProps) {
         },
       },
       turns: {
-        orderBy: {
-          createdAt: 'asc',
-        },
+        orderBy: [{ createdAt: 'asc' }, { id: 'asc' }],
       },
     },
   })
