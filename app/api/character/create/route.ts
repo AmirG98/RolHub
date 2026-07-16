@@ -238,7 +238,7 @@ export async function POST(req: NextRequest) {
       const currency = LORE_CURRENCY[lore] || LORE_CURRENCY.CUSTOM
       charInventory.push(isEN ? currency.en : currency.es)
     }
-    if (!/racion|ration|comida|food|lembas|provisiones|paquete/.test(invLower)) {
+    if (!/racion|ration|comida|food|pan del alba|provisiones|paquete/.test(invLower)) {
       const rations = LORE_RATIONS[lore] || LORE_RATIONS.CUSTOM
       charInventory.push(isEN ? rations.en : rations.es)
     }

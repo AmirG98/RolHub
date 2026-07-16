@@ -45,7 +45,7 @@ export interface CombatTrigger {
 
   // NUEVO: Contexto de ubicación para mapas contextuales
   locationId?: string             // ID de la ubicación en el mapa narrativo
-  locationName?: string           // "Posada del Pony Pisador", "Bosque Oscuro"
+  locationName?: string           // "Posada del Jabalí Dorado", "Bosque Oscuro"
   locationType?: 'city' | 'dungeon' | 'wilderness' | 'building' | 'cave' | 'ship' | 'tower'
   environmentFeatures?: string[]  // ["mesas de madera", "bar", "escaleras"] para generar obstáculos
   weatherConditions?: string      // "lluvia", "niebla", "tormenta"

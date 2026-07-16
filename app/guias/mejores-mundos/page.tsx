@@ -23,7 +23,7 @@ const worlds = [
   {
     id: 'lotr',
     name: 'Fantasia Epica',
-    subtitle: 'Estilo Tierra Media',
+    subtitle: 'Estilo Tierra del Ocaso',
     icon: Sword,
     tone: 'Heroico, esperanzador, epico',
     description: 'El genero clasico por excelencia. Reinos medievales, elfos y enanos, magia antigua, y una lucha eterna entre el bien y el mal. Si te gustan El Senor de los Anillos, Juego de Tronos o The Witcher, este es tu mundo.',

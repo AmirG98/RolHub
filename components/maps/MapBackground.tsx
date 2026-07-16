@@ -73,7 +73,7 @@ function ParchmentBackground({ width, height, config }: { width: number; height:
   )
 }
 
-// Fondo de estrellas (Star Wars)
+// Fondo de estrellas (space opera)
 function StarsBackground({ width, height, config }: { width: number; height: number; config: ReturnType<typeof getMapConfig> }) {
   const groupRef = useRef<Konva.Group>(null)
 

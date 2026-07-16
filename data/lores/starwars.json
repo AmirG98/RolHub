@@ -1,8 +1,8 @@
 {
   "id": "STAR_WARS",
   "name": {
-    "es": "Guerra de las Galaxias",
-    "en": "Star Wars"
+    "es": "Frontera Estelar",
+    "en": "space opera"
   },
   "tagline": {
     "es": "Una galaxia muy, muy lejana llena de aventura",
@@ -14,16 +14,16 @@
     "aventurero",
     "heroico"
   ],
-  "world_summary": "La galaxia está en guerra. El Imperio domina con mano de hierro mientras la Rebelión lucha por la libertad. Sos un aventurero en esta era oscura: tal vez un contrabandista, un cazarrecompensas, o alguien sensible a la Fuerza. Los Jedi casi desaparecieron pero su legado persiste. Mundos alienígenas, naves estelares y el poder místico de la Fuerza definen este universo. Tu destino puede cambiar el curso de la guerra galáctica.",
+  "world_summary": "La galaxia está en guerra. El Imperio domina con mano de hierro mientras la Rebelión lucha por la libertad. Sos un aventurero en esta era oscura: tal vez un contrabandista, un cazarrecompensas, o alguien sensible a la Corriente. Los Vael casi desaparecieron pero su legado persiste. Mundos alienígenas, naves estelares y el poder místico de la Corriente definen este universo. Tu destino puede cambiar el curso de la guerra galáctica. IMPORTANTE: este es un mundo 100% original — jamás menciones nombres, lugares, personajes ni términos de franquicias comerciales de fantasía o ciencia ficción; usá exclusivamente los nombres propios de ESTE mundo.",
   "factions": [
     {
-      "name": "Alianza Rebelde",
+      "name": "Coalición Libre",
       "description": "Luchadores por la libertad contra el Imperio",
       "alignment": "Bueno",
       "influence": 1
     },
     {
-      "name": "Imperio Galáctico",
+      "name": "Dominio Estelar",
       "description": "Gobierno totalitario que controla la galaxia",
       "alignment": "Malvado",
       "influence": 3
@@ -41,42 +41,42 @@
       "influence": 1
     },
     {
-      "name": "Resto Jedi",
-      "description": "Últimos guardianes de la Fuerza en las sombras",
+      "name": "Resto Vael",
+      "description": "Últimos guardianes de la Corriente en las sombras",
       "alignment": "Bueno",
       "influence": 1
     }
   ],
   "locations": [
     {
-      "name": "Tatooine",
+      "name": "Karshaar",
       "description": "Planeta desértico en el Borde Exterior",
       "type": "desierto",
       "danger_level": 2,
       "travel_times": {
-        "Mos Eisley": "2 horas a pie, 30 minutos en speeder",
-        "Hoth": "6 horas en nave por hiperespacio",
-        "Dagobah": "8 horas en nave por hiperespacio",
-        "Coruscant": "16 horas en nave por hiperespacio"
+        "Puerto Zenna": "2 horas a pie, 30 minutos en speeder",
+        "Kryos": "6 horas en nave por hiperespacio",
+        "Mirval": "8 horas en nave por hiperespacio",
+        "Nexus Prime": "16 horas en nave por hiperespacio"
       }
     },
     {
-      "name": "Mos Eisley",
+      "name": "Puerto Zenna",
       "description": "Puerto espacial de mala reputación",
       "type": "ciudad",
       "danger_level": 3,
       "travel_times": {
-        "Tatooine": "2 horas a pie, 30 minutos en speeder",
-        "Hoth": "6 horas en nave por hiperespacio",
-        "Coruscant": "16 horas en nave por hiperespacio",
-        "Estrella de la Muerte": "variable, depende de su ubicación orbital"
+        "Karshaar": "2 horas a pie, 30 minutos en speeder",
+        "Kryos": "6 horas en nave por hiperespacio",
+        "Nexus Prime": "16 horas en nave por hiperespacio",
+        "Estación Eclipse": "variable, depende de su ubicación orbital"
       },
       "sub_locations": [
         {
           "id": "cantina-chalmun",
           "name": {
-            "es": "Cantina de Chalmun",
-            "en": "Chalmun's Cantina"
+            "es": "Cantina de Drennok",
+            "en": "Drennok's Cantina"
           },
           "type": "tavern",
           "description": {
@@ -99,13 +99,13 @@
         {
           "id": "mercado-jawa",
           "name": {
-            "es": "Mercado Jawa",
-            "en": "Jawa Market"
+            "es": "Mercado Zavri",
+            "en": "Zavri Market"
           },
           "type": "market",
           "description": {
-            "es": "Droides y chatarra robada vendidos por los pequeños Jawas encapuchados",
-            "en": "Droids and stolen scrap sold by the hooded little Jawas"
+            "es": "Autómatas y chatarra robada vendidos por los pequeños Zavri encapuchados",
+            "en": "Automatons and stolen scrap sold by the hooded little Zavri"
           }
         },
         {
@@ -116,54 +116,54 @@
           },
           "type": "gate",
           "description": {
-            "es": "Checkpoint de Stormtroopers que revisan identificaciones y carga",
-            "en": "A Stormtrooper checkpoint inspecting IDs and cargo"
+            "es": "Puesto de control de Coraceros que revisan identificaciones y carga",
+            "en": "A Dominion trooper checkpoint inspecting IDs and cargo"
           }
         }
       ]
     },
     {
-      "name": "Estrella de la Muerte",
+      "name": "Estación Eclipse",
       "description": "Estación espacial imperial - arma definitiva",
       "type": "estación",
       "danger_level": 5,
       "travel_times": {
-        "Hoth": "variable, 4-12 horas en nave",
-        "Coruscant": "variable, 8-20 horas en nave"
+        "Kryos": "variable, 4-12 horas en nave",
+        "Nexus Prime": "variable, 8-20 horas en nave"
       }
     },
     {
-      "name": "Hoth",
+      "name": "Kryos",
       "description": "Planeta helado - base rebelde secreta",
       "type": "helado",
       "danger_level": 4,
       "travel_times": {
-        "Dagobah": "10 horas en nave por hiperespacio",
-        "Tatooine": "6 horas en nave por hiperespacio",
-        "Coruscant": "12 horas en nave por hiperespacio"
+        "Mirval": "10 horas en nave por hiperespacio",
+        "Karshaar": "6 horas en nave por hiperespacio",
+        "Nexus Prime": "12 horas en nave por hiperespacio"
       }
     },
     {
-      "name": "Dagobah",
-      "description": "Pantano donde se oculta un maestro Jedi",
+      "name": "Mirval",
+      "description": "Pantano donde se oculta un maestro Vael",
       "type": "pantano",
       "danger_level": 3,
       "travel_times": {
-        "Hoth": "10 horas en nave por hiperespacio",
-        "Coruscant": "14 horas en nave por hiperespacio",
-        "Tatooine": "8 horas en nave por hiperespacio"
+        "Kryos": "10 horas en nave por hiperespacio",
+        "Nexus Prime": "14 horas en nave por hiperespacio",
+        "Karshaar": "8 horas en nave por hiperespacio"
       }
     },
     {
-      "name": "Coruscant",
+      "name": "Nexus Prime",
       "description": "Capital imperial - ciudad planeta",
       "type": "ciudad",
       "danger_level": 2,
       "travel_times": {
-        "Tatooine": "16 horas en nave por hiperespacio",
-        "Hoth": "12 horas en nave por hiperespacio",
-        "Dagobah": "14 horas en nave por hiperespacio",
-        "Mos Eisley": "16 horas en nave por hiperespacio"
+        "Karshaar": "16 horas en nave por hiperespacio",
+        "Kryos": "12 horas en nave por hiperespacio",
+        "Mirval": "14 horas en nave por hiperespacio",
+        "Puerto Zenna": "16 horas en nave por hiperespacio"
       },
       "sub_locations": [
         {
@@ -203,15 +203,15 @@
           }
         },
         {
-          "id": "templo-jedi",
+          "id": "templo-vael",
           "name": {
-            "es": "Ruinas del Templo Jedi",
-            "en": "Jedi Temple Ruins"
+            "es": "Ruinas del Templo Vael",
+            "en": "Vael Temple Ruins"
           },
           "type": "temple",
           "description": {
-            "es": "Antiguo centro de la Orden Jedi, ahora sellado y custodiado por el Imperio",
-            "en": "The ancient seat of the Jedi Order, now sealed and guarded by the Empire"
+            "es": "Antiguo centro de la Orden Vael, ahora sellado y custodiado por el Imperio",
+            "en": "The ancient seat of the Vael Order, now sealed and guarded by the Empire"
           }
         },
         {
@@ -241,7 +241,7 @@
       "type": "bar",
       "danger_level": 2,
       "travel_times": {
-        "Mos Eisley": "5 minutos a pie (está dentro de Mos Eisley)"
+        "Puerto Zenna": "5 minutos a pie (está dentro de Puerto Zenna)"
       }
     }
   ],
@@ -286,7 +286,7 @@
           "en": "10,000 credit debt"
         },
         {
-          "es": "Droide astromecánico",
+          "es": "Autómata astromecánico",
           "en": "Astromech droid"
         },
         {
@@ -381,16 +381,16 @@
     {
       "id": "force_sensitive",
       "name": {
-        "es": "Sensible a la Fuerza",
+        "es": "Sensible a la Corriente",
         "en": "Force Sensitive"
       },
       "description": {
-        "es": "Tenés poderes que no comprendés - el legado Jedi vive en vos",
-        "en": "You have powers you don't understand — the Jedi legacy lives in you"
+        "es": "Tenés poderes que no comprendés - el legado Vael vive en vos",
+        "en": "You have powers you don't understand — the Vael legacy lives in you"
       },
       "simple_description": {
-        "es": "Podés mover objetos con la mente. Sentís peligros antes de que pasen. Un anciano te dejó un sable de luz.",
-        "en": "You can move objects with your mind. You sense danger before it strikes. An old stranger left you a lightsaber."
+        "es": "Podés mover objetos con la mente. Sentís peligros antes de que pasen. Un anciano te dejó un hoja de plasma.",
+        "en": "You can move objects with your mind. You sense danger before it strikes. An old stranger left you a plasma blade."
       },
       "starting_stats": {
         "hp": 16,
@@ -402,24 +402,24 @@
       },
       "starting_inventory": [
         {
-          "es": "Sable de luz heredado",
-          "en": "Inherited lightsaber"
+          "es": "Sable de plasma heredado",
+          "en": "Inherited plasma blade"
         },
         {
-          "es": "Holocrón Jedi",
-          "en": "Jedi holocron"
+          "es": "Reliquia de datos Vael",
+          "en": "Vael data relic"
         },
         {
           "es": "Túnica simple",
           "en": "Simple tunic"
         },
         {
-          "es": "Manual Jedi antiguo",
-          "en": "Ancient Jedi manual"
+          "es": "Manual Vael antiguo",
+          "en": "Ancient Vael manual"
         },
         {
-          "es": "Cristal Kyber",
-          "en": "Kyber crystal"
+          "es": "Cristal Lúmen",
+          "en": "Lumen crystal"
         },
         {
           "es": "Mochila de campo",
@@ -450,13 +450,13 @@
           "en": "Multi-tool"
         }
       ],
-      "special_ability": "La Fuerza: Podés usar telequinesis, sentir presencias y tener visiones. Tu conexión crece con el tiempo",
+      "special_ability": "La Corriente: Podés usar telequinesis, sentir presencias y tener visiones. Tu conexión crece con el tiempo",
       "abilities": [
         {
           "id": "la-fuerza",
           "name": {
-            "es": "La Fuerza",
-            "en": "The Force"
+            "es": "La Corriente",
+            "en": "The Current"
           },
           "description": {
             "es": "Podés usar telequinesis, sentir presencias y tener visiones. Tu conexión crece con el tiempo.",
@@ -474,12 +474,12 @@
         {
           "id": "empuje-de-fuerza",
           "name": {
-            "es": "Empuje de Fuerza",
-            "en": "Force Push"
+            "es": "Empuje de Corriente",
+            "en": "Current Push"
           },
           "description": {
-            "es": "Canalizás la Fuerza y la liberás en una onda expansiva que derriba a tus enemigos y los empuja lejos de vos.",
-            "en": "You channel the Force and release it in a shockwave that knocks down your enemies and pushes them away from you."
+            "es": "Canalizás la Corriente y la liberás en una onda expansiva que derriba a tus enemigos y los empuja lejos de vos.",
+            "en": "You channel the Current and release it in a shockwave that knocks down your enemies and pushes them away from you."
           },
           "kind": "spell",
           "resource": "cooldown_turns",
@@ -492,12 +492,12 @@
         {
           "id": "vision-de-la-fuerza",
           "name": {
-            "es": "Visión de la Fuerza",
-            "en": "Force Vision"
+            "es": "Visión de la Corriente",
+            "en": "Current Vision"
           },
           "description": {
-            "es": "Cerrás los ojos y dejás que la Fuerza te guíe: percibís peligros ocultos, trampas cercanas y la intención de quienes te rodean.",
-            "en": "You close your eyes and let the Force guide you: you perceive hidden dangers, nearby traps, and the intentions of those around you."
+            "es": "Cerrás los ojos y dejás que la Corriente te guíe: percibís peligros ocultos, trampas cercanas y la intención de quienes te rodean.",
+            "en": "You close your eyes and let the Current guide you: you perceive hidden dangers, nearby traps, and the intentions of those around you."
           },
           "kind": "spell",
           "resource": "cooldown_turns",
@@ -521,8 +521,8 @@
         "en": "A professional who captures targets for credits — no questions asked"
       },
       "simple_description": {
-        "es": "Rastreás personas por recompensas. Tu armadura mandaloriana te protege. Sos el mejor en lo que hacés.",
-        "en": "You track people for bounties. Your Mandalorian armor protects you. You're the best at what you do."
+        "es": "Rastreás personas por recompensas. Tu armadura de duracero te protege. Sos el mejor en lo que hacés.",
+        "en": "You track people for bounties. Your durasteel armor protects you. You're the best at what you do."
       },
       "starting_stats": {
         "hp": 22,
@@ -538,8 +538,8 @@
           "en": "Blaster rifle"
         },
         {
-          "es": "Armadura mandaloriana",
-          "en": "Mandalorian armor"
+          "es": "Armadura de duracero",
+          "en": "Durasteel armor"
         },
         {
           "es": "Gadgets de rastreo",
@@ -646,13 +646,13 @@
   ],
   "voice_id": "épico_espacial",
   "npc_voices": {
-    "droide": "sintético_robótico",
+    "autómata": "sintético_robótico",
     "alienígena": "gutural_extraño",
     "imperial": "autoritario_británico",
     "rebelde": "esperanzador_joven"
   },
   "music_mood": "combat_epic",
-  "art_style": "Star Wars concept art, space opera aesthetic, cinematic sci-fi, Ralph McQuarrie style",
+  "art_style": "space opera concept art, space opera aesthetic, cinematic sci-fi, Ralph McQuarrie style",
   "roll_tables": {
     "encounters": {
       "formula": "1d20",
@@ -662,7 +662,7 @@
             1,
             4
           ],
-          "result": "Patrulla Stormtrooper pidiendo identificación"
+          "result": "Patrulla de Coraceros pidiendo identificación"
         },
         {
           "range": [
@@ -690,7 +690,7 @@
             16,
             17
           ],
-          "result": "Inquisidor imperial - sensible a la Fuerza"
+          "result": "Inquisidor imperial - sensible a la Corriente"
         },
         {
           "range": [
@@ -704,7 +704,7 @@
             20,
             20
           ],
-          "result": "Maestro Jedi oculto revelándose"
+          "result": "Maestro Vael oculto revelándose"
         }
       ]
     },
@@ -770,14 +770,14 @@
             8,
             9
           ],
-          "result": "Cristal Kyber"
+          "result": "Cristal Lúmen"
         },
         {
           "range": [
             10,
             10
           ],
-          "result": "Códigos de acceso de la Estrella de la Muerte"
+          "result": "Códigos de acceso de la Estación Eclipse"
         }
       ]
     }
@@ -785,7 +785,7 @@
   "active_effects_pool": [
     {
       "id": "lado_oscuro",
-      "name": "Tentación del Lado Oscuro",
+      "name": "Tentación de la Resaca",
       "description": "La ira te da poder pero corrompe",
       "type": "buff",
       "duration": 3,
@@ -796,8 +796,8 @@
     },
     {
       "id": "lado_luminoso",
-      "name": "Serenidad Jedi",
-      "description": "La calma de la Fuerza te guía",
+      "name": "Serenidad Vael",
+      "description": "La calma de la Corriente te guía",
       "type": "buff",
       "duration": 5,
       "effects": {
@@ -832,13 +832,13 @@
       "name": "Encuentro Destinado",
       "description": "Un mensaje desesperado te involucra en algo mayor",
       "anchors": [
-        "Encontrás mensaje rebelde o Jedi",
+        "Encontrás mensaje rebelde o Vael",
         "Primera persecución imperial",
         "Aliados inesperados se unen"
       ],
       "typical_scenes": [
-        "Tatooine",
-        "Mos Eisley"
+        "Karshaar",
+        "Puerto Zenna"
       ],
       "mood": "exploration_calm"
     },
@@ -851,7 +851,7 @@
         "Escape por poco"
       ],
       "typical_scenes": [
-        "Estrella de la Muerte",
+        "Estación Eclipse",
         "Hiperespacio"
       ],
       "mood": "drama_tense"
@@ -865,21 +865,21 @@
         "Traición o sacrificio"
       ],
       "typical_scenes": [
-        "Hoth",
+        "Kryos",
         "Espacio"
       ],
       "mood": "combat_epic"
     },
     "act_4": {
       "name": "Confrontación Final",
-      "description": "Ataque a la Estrella de la Muerte",
+      "description": "Ataque a la Estación Eclipse",
       "anchors": [
         "Toda la flota rebelde ataca",
-        "Duelo con Vader o Inquisidor",
+        "Duelo con Vharkos o Inquisidor",
         "Victoria o derrota decisiva"
       ],
       "typical_scenes": [
-        "Estrella de la Muerte",
+        "Estación Eclipse",
         "Espacio"
       ],
       "mood": "combat_epic"
@@ -889,7 +889,7 @@
       "description": "El legado continúa",
       "anchors": [
         "Ceremonia de victoria",
-        "El viaje Jedi apenas comienza",
+        "El viaje Vael apenas comienza",
         "Nueva amenaza en el horizonte"
       ],
       "typical_scenes": [
@@ -898,11 +898,11 @@
       "mood": "victory_triumphant"
     }
   },
-  "one_shot_hook": "Un droide astromecánico llega a tu puerta con un mensaje holográfico urgente de la Princesa Leia: 'Ayúdenme, son mi única esperanza.' El Imperio la capturó. Los planos de la Estrella de la Muerte están en el droide. Tenés una nave y pocas horas antes de que los Stormtroopers lleguen. ¿Qué hacés?",
+  "one_shot_hook": "Un autómata astromecánico llega a tu puerta con un mensaje holográfico urgente de la Princesa Maren: 'Necesito ayuda. No me queda nadie más.' El Imperio la capturó. Los planos de la Estación Eclipse están en el autómata. Tenés una nave y pocas horas antes de que los Coraceros lleguen. ¿Qué hacés?",
   "opening_scene": {
     "location_id": "mos-eisley-cantina",
-    "location_name": "Cantina de Chalmun, Mos Eisley",
-    "description": "Te encontrás en la cantina más infame de Mos Eisley, un antro lleno de humo donde la escoria de la galaxia cierra tratos y ahoga sus penas. La banda de jazz Bith toca una melodía pegadiza mientras alienígenas de docenas de especies beben líquidos de colores imposibles. El barman no sirve droides, y los problemas se resuelven con blasters. Afuera, los soles gemelos de Tatooine queman el desierto, pero acá adentro hace fresco y peligroso. Patrullas de Stormtroopers revisan los hangares cercanos.",
+    "location_name": "Cantina de Drennok, Puerto Zenna",
+    "description": "Te encontrás en la cantina más infame de Puerto Zenna, un antro lleno de humo donde la escoria de la galaxia cierra tratos y ahoga sus penas. La banda de jazz alienígena toca una melodía pegadiza mientras alienígenas de docenas de especies beben líquidos de colores imposibles. El barman no sirve autómatas, y los problemas se resuelven con blasters. Afuera, los soles gemelos de Karshaar queman el desierto, pero acá adentro hace fresco y peligroso. Patrullas de Coraceros revisan los hangares cercanos.",
     "visible_directions": [
       {
         "direction": "la barra",
@@ -910,7 +910,7 @@
       },
       {
         "direction": "un rincón sombrío",
-        "landmark": "un Rodiano con aspecto de cazarrecompensas observa la entrada con la mano cerca de su blaster"
+        "landmark": "un reptiliano de ojos saltones con aspecto de cazarrecompensas observa la entrada con la mano cerca de su blaster"
       },
       {
         "direction": "la puerta trasera",
@@ -922,10 +922,10 @@
       }
     ],
     "ambient_rumors": [
-      "el Imperio reforzó los controles en las rutas de Kessel por alguna razón clasificada",
-      "un viejo ermitaño en el desierto de Jundland tiene conexiones con los Rebeldes",
-      "los Jawas encontraron droides con información valiosa en el desierto",
-      "Jabba el Hutt paga fortunas por pilotos que evadan los bloqueos imperiales"
+      "el Imperio reforzó los controles en las rutas de Vhal por alguna razón clasificada",
+      "un viejo ermitaño en el desierto profundo de Karshaar tiene conexiones con los Rebeldes",
+      "los Zavri encontraron autómatas con información valiosa en el desierto",
+      "Gorm el Vorga paga fortunas por pilotos que evadan los bloqueos imperiales"
     ],
     "closing_prompt": "La cantina bulle con oportunidades y peligros. ¿Qué hacés?"
   },
@@ -933,8 +933,8 @@
     {
       "id": "default",
       "location_id": "mos-eisley-cantina",
-      "location_name": "Cantina de Chalmun, Mos Eisley",
-      "description": "Te encontrás en la cantina más infame de Mos Eisley, un antro lleno de humo donde la escoria de la galaxia cierra tratos y ahoga sus penas. La banda de jazz Bith toca una melodía pegadiza mientras alienígenas de docenas de especies beben líquidos de colores imposibles. El barman no sirve droides, y los problemas se resuelven con blasters. Afuera, los soles gemelos de Tatooine queman el desierto, pero acá adentro hace fresco y peligroso. Patrullas de Stormtroopers revisan los hangares cercanos.",
+      "location_name": "Cantina de Drennok, Puerto Zenna",
+      "description": "Te encontrás en la cantina más infame de Puerto Zenna, un antro lleno de humo donde la escoria de la galaxia cierra tratos y ahoga sus penas. La banda de jazz alienígena toca una melodía pegadiza mientras alienígenas de docenas de especies beben líquidos de colores imposibles. El barman no sirve autómatas, y los problemas se resuelven con blasters. Afuera, los soles gemelos de Karshaar queman el desierto, pero acá adentro hace fresco y peligroso. Patrullas de Coraceros revisan los hangares cercanos.",
       "visible_directions": [
         {
           "direction": "la barra",
@@ -942,7 +942,7 @@
         },
         {
           "direction": "un rincón sombrío",
-          "landmark": "un Rodiano con aspecto de cazarrecompensas observa la entrada con la mano cerca de su blaster"
+          "landmark": "un reptiliano de ojos saltones con aspecto de cazarrecompensas observa la entrada con la mano cerca de su blaster"
         },
         {
           "direction": "la puerta trasera",
@@ -954,18 +954,18 @@
         }
       ],
       "ambient_rumors": [
-        "el Imperio reforzó los controles en las rutas de Kessel por alguna razón clasificada",
-        "un viejo ermitaño en el desierto de Jundland tiene conexiones con los Rebeldes",
-        "los Jawas encontraron droides con información valiosa en el desierto",
-        "Jabba el Hutt paga fortunas por pilotos que evadan los bloqueos imperiales"
+        "el Imperio reforzó los controles en las rutas de Vhal por alguna razón clasificada",
+        "un viejo ermitaño en el desierto profundo de Karshaar tiene conexiones con los Rebeldes",
+        "los Zavri encontraron autómatas con información valiosa en el desierto",
+        "Gorm el Vorga paga fortunas por pilotos que evadan los bloqueos imperiales"
       ],
       "closing_prompt": "La cantina bulle con oportunidades y peligros. ¿Qué hacés?"
     },
     {
       "id": "bounty_hunter",
       "location_id": "mos-eisley-cantina",
-      "location_name": "Cantina de Chalmun, Mos Eisley",
-      "description": "La cantina de Chalmun está más tensa que de costumbre. Un cazarrecompensas Trandoshano acaba de arrastrar a un contrabandista esposado hacia la puerta, dejando un rastro de sangre verde en el suelo metálico. La banda Bith dejó de tocar y el silencio pesa como plomo. Todos los parroquianos evitan mirar, concentrados en sus tragos con una intensidad sospechosa. El barman limpia el mostrador con las manos temblando. En la entrada, dos Stormtroopers verifican identificaciones y comparan holofotos de SE BUSCA con cada rostro que entra o sale.",
+      "location_name": "Cantina de Drennok, Puerto Zenna",
+      "description": "La cantina de Drennok está más tensa que de costumbre. Un cazarrecompensas saurio acaba de arrastrar a un contrabandista esposado hacia la puerta, dejando un rastro de sangre verde en el suelo metálico. La banda dejó de tocar y el silencio pesa como plomo. Todos los parroquianos evitan mirar, concentrados en sus tragos con una intensidad sospechosa. El barman limpia el mostrador con las manos temblando. En la entrada, dos Coraceros verifican identificaciones y comparan holofotos de SE BUSCA con cada rostro que entra o sale.",
       "visible_directions": [
         {
           "direction": "la barra",
@@ -973,7 +973,7 @@
         },
         {
           "direction": "un rincón sombrío",
-          "landmark": "un Rodiano con aspecto de cazarrecompensas observa la entrada con la mano cerca de su blaster"
+          "landmark": "un reptiliano de ojos saltones con aspecto de cazarrecompensas observa la entrada con la mano cerca de su blaster"
         },
         {
           "direction": "la puerta trasera",
@@ -985,18 +985,18 @@
         }
       ],
       "ambient_rumors": [
-        "el Imperio reforzó los controles en las rutas de Kessel por alguna razón clasificada",
-        "un viejo ermitaño en el desierto de Jundland tiene conexiones con los Rebeldes",
-        "los Jawas encontraron droides con información valiosa en el desierto",
-        "Jabba el Hutt paga fortunas por pilotos que evadan los bloqueos imperiales"
+        "el Imperio reforzó los controles en las rutas de Vhal por alguna razón clasificada",
+        "un viejo ermitaño en el desierto profundo de Karshaar tiene conexiones con los Rebeldes",
+        "los Zavri encontraron autómatas con información valiosa en el desierto",
+        "Gorm el Vorga paga fortunas por pilotos que evadan los bloqueos imperiales"
       ],
-      "closing_prompt": "Con cazarrecompensas activos y Stormtroopers en la puerta, cada segundo cuenta. ¿Qué hacés?"
+      "closing_prompt": "Con cazarrecompensas activos y Coraceros en la puerta, cada segundo cuenta. ¿Qué hacés?"
     },
     {
       "id": "imperial_patrol",
       "location_id": "mos-eisley-cantina",
-      "location_name": "Cantina de Chalmun, Mos Eisley",
-      "description": "El sol poniente de Tatooine baña la cantina de Chalmun en un resplandor anaranjado que entra por la puerta entreabierta. Afuera se escucha el rugido de cazas TIE sobrevolando el puerto espacial: una patrulla imperial inusualmente grande acaba de aterrizar. Los parroquianos hablan en susurros nerviosos, y más de uno esconde paquetes debajo de las mesas. La banda Bith toca bajo, casi fúnebre, mientras un oficial imperial con capa gris entra flanqueado por cuatro Stormtroopers y examina la sala con desprecio glacial.",
+      "location_name": "Cantina de Drennok, Puerto Zenna",
+      "description": "El sol poniente de Karshaar baña la cantina de Drennok en un resplandor anaranjado que entra por la puerta entreabierta. Afuera se escucha el rugido de cazas del Dominio sobrevolando el puerto espacial: una patrulla imperial inusualmente grande acaba de aterrizar. Los parroquianos hablan en susurros nerviosos, y más de uno esconde paquetes debajo de las mesas. La banda toca bajo, casi fúnebre, mientras un oficial imperial con capa gris entra flanqueado por cuatro Coraceros y examina la sala con desprecio glacial.",
       "visible_directions": [
         {
           "direction": "la barra",
@@ -1004,7 +1004,7 @@
         },
         {
           "direction": "un rincón sombrío",
-          "landmark": "un Rodiano con aspecto de cazarrecompensas observa la entrada con la mano cerca de su blaster"
+          "landmark": "un reptiliano de ojos saltones con aspecto de cazarrecompensas observa la entrada con la mano cerca de su blaster"
         },
         {
           "direction": "la puerta trasera",
@@ -1016,10 +1016,10 @@
         }
       ],
       "ambient_rumors": [
-        "el Imperio reforzó los controles en las rutas de Kessel por alguna razón clasificada",
-        "un viejo ermitaño en el desierto de Jundland tiene conexiones con los Rebeldes",
-        "los Jawas encontraron droides con información valiosa en el desierto",
-        "Jabba el Hutt paga fortunas por pilotos que evadan los bloqueos imperiales"
+        "el Imperio reforzó los controles en las rutas de Vhal por alguna razón clasificada",
+        "un viejo ermitaño en el desierto profundo de Karshaar tiene conexiones con los Rebeldes",
+        "los Zavri encontraron autómatas con información valiosa en el desierto",
+        "Gorm el Vorga paga fortunas por pilotos que evadan los bloqueos imperiales"
       ],
       "closing_prompt": "El Imperio está acá y busca algo... o a alguien. ¿Qué hacés?"
     }
@@ -1027,8 +1027,8 @@
   "initial_missions": [
     {
       "id": "smuggling_run",
-      "title": "Contrabando a Tatooine",
-      "description": "Un Hutt necesita entregar una carga a Mos Eisley sin pasar por controles imperiales. El pago es bueno, pero si te atrapan, estás solo.",
+      "title": "Contrabando a Karshaar",
+      "description": "Un Vorga necesita entregar una carga a Puerto Zenna sin pasar por controles imperiales. El pago es bueno, pero si te atrapan, estás solo.",
       "difficulty": "easy",
       "tags": [
         "stealth",
@@ -1059,21 +1059,21 @@
   ],
   "engine_notes": {
     "story_mode": "Narrativa cinematográfica tipo películas. Cada escena es memorable. Los héroes siempre tienen oportunidad heroica. El destino es fuerte.",
-    "pbta": "Movimientos como 'Pilotar Bajo Presión' y 'Usar la Fuerza'. Fallos = complicaciones emocionantes, nunca boring.",
+    "pbta": "Movimientos como 'Pilotar Bajo Presión' y 'Usar la Corriente'. Fallos = complicaciones emocionantes, nunca boring.",
     "year_zero": "Recursos: combustible, munición de blaster, créditos, favor de facciones. Empujar dados = daño a tu nave o equipo.",
-    "dnd_5e": "Usar clases como Rogue (contrabandista), Monk (Jedi), Fighter (soldado). Magia = Fuerza. Tech es común."
+    "dnd_5e": "Usar clases como Rogue (contrabandista), Monk (Vael), Fighter (soldado). Magia = la Corriente. Tech es común."
   },
-  "tutorial_notes": "Para NOVICE: Explicar que es space fantasy, no hard sci-fi. La Fuerza es magia. Naves = caballos voladores. Comenzar en cantina tipo A New Hope. Droide R2 como guía tutorial.",
+  "tutorial_notes": "Para NOVICE: Explicar que es space fantasy, no hard sci-fi. La Corriente es magia. Naves = caballos voladores. Comenzar en una cantina espacial clásica. Autómata astromecánico como guía tutorial.",
   "glossary": {
-    "La Fuerza": "Energía mística que conecta toda vida - base de poderes Jedi",
-    "Jedi": "Guardianes de la paz con sables de luz y poderes de la Fuerza",
-    "Sith": "Usuarios del Lado Oscuro - enemigos de los Jedi",
-    "Sable de Luz": "Espada de energía - arma elegante de otra era",
+    "La Corriente": "Energía mística que conecta toda vida - base de poderes Vael",
+    "Vael": "Guardianes de la paz con hojas de plasma y poderes de la Corriente",
+    "Umbra": "Adeptos de la Resaca, la corrupción de la Corriente - enemigos de los Vael",
+    "Sable de Plasma": "Espada de energía característica de los Vael",
     "Hiperespacio": "Dimensión alternativa para viajar más rápido que luz",
     "Imperio": "Gobierno dictatorial que controla la galaxia",
     "Rebelión": "Resistencia contra el Imperio",
     "Créditos": "Moneda galáctica estándar",
-    "Droide": "Robot inteligente - astromecánicos, protocolo, etc.",
-    "Stormtrooper": "Soldado imperial con armadura blanca"
+    "Autómata": "Robot inteligente - astromecánicos, protocolo, etc.",
+    "Coraceros": "Soldado imperial con armadura blanca"
   }
 }

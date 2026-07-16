@@ -2,8 +2,8 @@
   "loreId": "STAR_WARS",
   "archetypeId": "force_sensitive",
   "name": {
-    "es": "Sendero de la Fuerza",
-    "en": "Path of the Force"
+    "es": "Sendero de la Corriente",
+    "en": "Path of the Current"
   },
   "nodes": [
     {
@@ -34,7 +34,7 @@
     {
       "id": "force-sense",
       "name": {
-        "es": "Sentido de la Fuerza",
+        "es": "Sentido de la Corriente",
         "en": "Force Sense"
       },
       "description": {
@@ -63,8 +63,8 @@
         "en": "Saber Deflect"
       },
       "description": {
-        "es": "Usás tu sable de luz para desviar un proyectil enemigo, anulando por completo el daño del ataque.",
-        "en": "You use your lightsaber to deflect an incoming projectile, completely negating the attack's damage."
+        "es": "Usás tu hoja de plasma para desviar un proyectil enemigo, anulando por completo el daño del ataque.",
+        "en": "You use your plasma blade to deflect an incoming projectile, completely negating the attack's damage."
       },
       "kind": "trick",
       "resource": "cooldown_turns",
@@ -84,7 +84,7 @@
     {
       "id": "force-vision",
       "name": {
-        "es": "Visión de la Fuerza",
+        "es": "Visión de la Corriente",
         "en": "Force Vision"
       },
       "description": {
@@ -109,7 +109,7 @@
     {
       "id": "force-push",
       "name": {
-        "es": "Empuje de la Fuerza",
+        "es": "Empuje de la Corriente",
         "en": "Force Push"
       },
       "description": {
@@ -135,12 +135,12 @@
     {
       "id": "force-cloak",
       "name": {
-        "es": "Velo de la Fuerza",
+        "es": "Velo de la Corriente",
         "en": "Force Cloak"
       },
       "description": {
-        "es": "Te fundís con la Fuerza y pasás desapercibido: los enemigos no Force-sensitivos no pueden detectarte durante un turno.",
-        "en": "You blend into the Force and go unnoticed: non-Force-sensitive enemies cannot detect you for one turn."
+        "es": "Te fundís con la Corriente y pasás desapercibido: los enemigos no Force-sensitivos no pueden detectarte durante un turno.",
+        "en": "You blend into the Current and go unnoticed: non-Force-sensitive enemies cannot detect you for one turn."
       },
       "kind": "trick",
       "resource": "cooldown_turns",
@@ -162,12 +162,12 @@
     {
       "id": "force-heal",
       "name": {
-        "es": "Sanación con la Fuerza",
+        "es": "Sanación con la Corriente",
         "en": "Force Heal"
       },
       "description": {
-        "es": "Canalizás la Fuerza en vos mismo o un aliado adyacente, restaurando 1d8+2 HP al instante.",
-        "en": "You channel the Force into yourself or an adjacent ally, instantly restoring 1d8+2 HP."
+        "es": "Canalizás la Corriente en vos mismo o un aliado adyacente, restaurando 1d8+2 HP al instante.",
+        "en": "You channel the Current into yourself or an adjacent ally, instantly restoring 1d8+2 HP."
       },
       "kind": "special",
       "resource": "cooldown_turns",
@@ -243,7 +243,7 @@
     {
       "id": "force-bond",
       "name": {
-        "es": "Vínculo de la Fuerza",
+        "es": "Vínculo de la Corriente",
         "en": "Force Bond"
       },
       "description": {
@@ -272,8 +272,8 @@
     {
       "id": "one-with-the-force",
       "name": {
-        "es": "Uno con la Fuerza",
-        "en": "One with the Force"
+        "es": "Uno con la Corriente",
+        "en": "One with the Current"
       },
       "description": {
         "es": "Trascendés los límites del cuerpo: por un turno completo sos inmune al daño, tus poderes no tienen cooldown y sentís todo lo que ocurre en la escena.",

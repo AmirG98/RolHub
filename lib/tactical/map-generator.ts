@@ -317,7 +317,7 @@ function generateTokens(
   }
 
   // Jugadores (cerca del borde inferior)
-  const playerNames = ['Aragorn', 'Legolas', 'Gimli', 'Gandalf']
+  const playerNames = ['Eldric', 'Faelor', 'Dargrim', 'Olvar']
   const playerTypes = ['Guerrero', 'Arquero', 'Bárbaro', 'Mago']
 
   for (let i = 0; i < playerNames.length; i++) {
@@ -359,7 +359,7 @@ function generateTokens(
 
   // Enemigos según dificultad
   const enemyCount = difficulty === 'easy' ? 2 : difficulty === 'medium' ? 4 : 6
-  const enemyNames = ['Orco', 'Goblin', 'Troll', 'Espectro', 'Warg', 'Nazgûl']
+  const enemyNames = ['Orco', 'Goblin', 'Troll', 'Espectro', 'Warg', 'Umbríos']
 
   for (let i = 0; i < enemyCount; i++) {
     const startCells = validCells.filter(c => c.y < 5)
@@ -585,11 +585,11 @@ function generateLightSources(
  */
 function getMapName(type: string): string {
   const names: Record<string, string[]> = {
-    dungeon: ['Cripta de Moria', 'Catacumbas del Terror', 'Mazmorras de Dol Guldur'],
-    forest: ['Bosque de Fangorn', 'Bosque Negro', 'Claro de Lothlórien'],
-    castle: ['Torre de Orthanc', 'Ciudadela de Minas Tirith', 'Fortaleza de Helm'],
-    cavern: ['Cuevas de Shelob', 'Minas de Khazad-dûm', 'Cavernas de los Trolls'],
-    arena: ['Arena de Combate', 'Coliseo de Gondor', 'Ruedo de los Campeones'],
+    dungeon: ['Cripta de Profundia', 'Catacumbas del Terror', 'Mazmorras de Dol Guldur'],
+    forest: ['Bosque de Raizvieja', 'Bosque Sombrío', 'Claro de Aurelion'],
+    castle: ['Torre de Vorngar', 'Ciudadela de Torrealba', 'Fortaleza de Helm'],
+    cavern: ['Cuevas de Shelob', 'Minas de Bhardun', 'Cavernas de los Trolls'],
+    arena: ['Arena de Combate', 'Coliseo de Meridonia', 'Ruedo de los Campeones'],
   }
 
   const typeNames = names[type] || ['Mapa Táctico']

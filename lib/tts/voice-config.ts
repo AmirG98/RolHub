@@ -219,7 +219,7 @@ export const NPC_VOICES = {
 /**
  * Normaliza el nombre de un NPC para consistencia de voz
  * "Panadera Marta" → "Marta", "Mercader Aldric" → "Aldric"
- * "Marta la Panadera" → "Marta", "El viejo Gandalf" → "Gandalf"
+ * "Marta la Panadera" → "Marta", "El viejo Olvar" → "Olvar"
  */
 function normalizeNPCName(name: string): string {
   if (!name) return 'default_npc'

@@ -18,7 +18,7 @@ export function DnDModeSelector({ onSelect, onBack }: DnDModeSelectorProps) {
           ¿Cómo querés crear tu personaje?
         </h1>
         <p className="font-body text-sm md:text-base text-parchment/80 text-center mb-8 px-2">
-          Reinos Olvidados usa las reglas de Dungeons & Dragons 5ª edición
+          Reinos de Valdrun usa las reglas de Dungeons & Dragons 5ª edición
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-8">

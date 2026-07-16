@@ -1,9 +1,9 @@
 {
   "loreId": "LOTR",
-  "archetypeId": "hobbit",
+  "archetypeId": "mediano",
   "name": {
-    "es": "Senda del Hobbit Aventurero",
-    "en": "Path of the Adventurous Hobbit"
+    "es": "Senda del Mediano Aventurero",
+    "en": "Path of the Adventurous Mediano"
   },
   "nodes": [
     {
@@ -35,7 +35,7 @@
       "id": "corazon-comarcano",
       "name": {
         "es": "Corazón Comarcano",
-        "en": "Shire Heart"
+        "en": "Vale Heart"
       },
       "description": {
         "es": "Recordás la calidez del hogar y recuperás 1d4 HP, además de eliminar un nivel de miedo o corrupción.",
@@ -82,10 +82,10 @@
       }
     },
     {
-      "id": "hospitalidad-hobbit",
+      "id": "hospitalidad-mediano",
       "name": {
-        "es": "Hospitalidad Hobbit",
-        "en": "Hobbit Hospitality"
+        "es": "Hospitalidad Mediano",
+        "en": "Mediano Hospitality"
       },
       "description": {
         "es": "Ofrecés comida y conversación: un NPC hostil o neutral baja la guardia y te da información o un favor menor.",
@@ -189,12 +189,12 @@
     {
       "id": "palabras-de-la-comarca",
       "name": {
-        "es": "Palabras de la Comarca",
-        "en": "Words of the Shire"
+        "es": "Palabras de la Vega Mansa",
+        "en": "Words of the Vale"
       },
       "description": {
-        "es": "Contás una historia o canción hobbit que inspira a tus aliados: todos ganan ventaja en su próxima tirada de salvación contra miedo.",
-        "en": "You tell a hobbit story or song that inspires your allies: everyone gains advantage on their next saving throw against fear."
+        "es": "Contás una historia o canción mediano que inspira a tus aliados: todos ganan ventaja en su próxima tirada de salvación contra miedo.",
+        "en": "You tell a mediano story or song that inspires your allies: everyone gains advantage on their next saving throw against fear."
       },
       "kind": "special",
       "resource": "cooldown_turns",
@@ -206,7 +206,7 @@
       ],
       "tier": 2,
       "requires": [
-        "hospitalidad-hobbit"
+        "hospitalidad-mediano"
       ],
       "unlock": {
         "type": "npc_bond",
@@ -277,8 +277,8 @@
         "en": "Will of the Common Folk"
       },
       "description": {
-        "es": "Tu espíritu hobbit trasciende todo poder oscuro: por el resto del encuentro sos inmune a corrupción, miedo y control mental, y cada ataque tuyo que impacte restaura 1d4 HP a un aliado de tu elección.",
-        "en": "Your hobbit spirit transcends all dark power: for the rest of the encounter you are immune to corruption, fear, and mind control, and each attack you land restores 1d4 HP to an ally of your choice."
+        "es": "Tu espíritu mediano trasciende todo poder oscuro: por el resto del encuentro sos inmune a corrupción, miedo y control mental, y cada ataque tuyo que impacte restaura 1d4 HP a un aliado de tu elección.",
+        "en": "Your mediano spirit transcends all dark power: for the rest of the encounter you are immune to corruption, fear, and mind control, and each attack you land restores 1d4 HP to an ally of your choice."
       },
       "kind": "special",
       "resource": "cooldown_turns",

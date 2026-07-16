@@ -373,7 +373,7 @@ function AnimeMarker({ location, config, isCurrentLocation }: MarkerStyleProps) 
   )
 }
 
-// Marcador sci-fi (Star Wars)
+// Marcador sci-fi (space opera)
 function ScifiMarker({ location, config, isCurrentLocation }: MarkerStyleProps) {
   const icon = config.icons[location.type]
   const isPlanet = location.type === 'city' || location.type === 'landmark'

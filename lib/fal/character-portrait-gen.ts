@@ -14,7 +14,7 @@ import {
 
 // Estilos de arte para retratos por lore
 const LORE_PORTRAIT_STYLES: Record<string, string> = {
-  LOTR: 'fantasy portrait painting, Tolkien illustration style, medieval fantasy, oil painting, detailed face, dramatic lighting, heroic pose, epic atmosphere',
+  LOTR: 'fantasy portrait painting, classic epic fantasy illustration style, medieval fantasy, oil painting, detailed face, dramatic lighting, heroic pose, epic atmosphere',
 
   ZOMBIES: 'survival horror portrait, gritty realism, post-apocalyptic, weathered face, desaturated colors, cinematic lighting, determined expression',
 
@@ -22,13 +22,13 @@ const LORE_PORTRAIT_STYLES: Record<string, string> = {
 
   VIKINGOS: 'norse warrior portrait, painterly style, rugged features, braided hair, fur and leather, dramatic sky background, epic viking saga art',
 
-  STAR_WARS: 'sci-fi character portrait, Star Wars concept art style, dramatic lighting, space opera aesthetic, detailed costume, cinematic',
+  STAR_WARS: 'sci-fi character portrait, space opera concept art style, dramatic lighting, space opera aesthetic, detailed costume, cinematic',
 
   CYBERPUNK: 'cyberpunk character portrait, neon lighting, futuristic cybernetics, rain effects, noir aesthetic, high tech low life',
 
   LOVECRAFT_HORROR: 'dark portrait, cosmic horror aesthetic, unsettling atmosphere, muted colors with eldritch highlights, mysterious expression',
 
-  ROMANTASY: 'romantic fantasy portrait, ethereal lighting, fae court aesthetic, ACOTAR inspired, intricate gown or armor, lush florals in background, sensual atmosphere, dreamy painterly style',
+  ROMANTASY: 'romantic fantasy portrait, ethereal lighting, fae court aesthetic, romantasy inspired, intricate gown or armor, lush florals in background, sensual atmosphere, dreamy painterly style',
 
   COZY_WITCH: 'cozy witch portrait, studio ghibli watercolor style, warm golden hour lighting, herb garden or seaside cottage background, soft kind expression, simple linen or wool clothing, Practical Magic aesthetic, gentle peaceful mood',
 
@@ -39,10 +39,10 @@ const LORE_PORTRAIT_STYLES: Record<string, string> = {
 const ARCHETYPE_DESCRIPTIONS: Record<string, string> = {
   // LOTR
   'Montaraz': 'rugged ranger, hooded cloak, weathered face, bow and sword, forest background',
-  'Heredero de Númenor': 'noble warrior, kingly bearing, ancient armor, determined gaze',
-  'Jinete de Rohan': 'horse lord, flowing blonde hair, chainmail, horse motif, plains background',
+  'Heredero de Athalor': 'noble warrior, kingly bearing, ancient armor, determined gaze',
+  'Jinete de Estepia': 'horse lord, flowing blonde hair, chainmail, horse motif, plains background',
   'Guardián del Bosque': 'elven archer, elegant features, green cloak, mystical forest',
-  'Portador del Anillo': 'humble hobbit, curious eyes, simple clothes, golden ring glow',
+  'Portador del Anillo': 'humble mediano, curious eyes, simple clothes, golden ring glow',
   'Mago Peregrino': 'wise wizard, long beard, staff and hat, mystical aura',
 
   // ZOMBIES
@@ -63,7 +63,7 @@ const ARCHETYPE_DESCRIPTIONS: Record<string, string> = {
   'Völva': 'seeress, mystical staff, runic symbols, otherworldly gaze',
 
   // STAR WARS
-  'Jedi': 'jedi knight, lightsaber, robes, serene expression, force aura',
+  'Vael': 'vael knight, plasma blade, robes, serene expression, force aura',
   'Contrabandista': 'smuggler, blaster, leather jacket, cocky smile',
   'Mandaloriano': 'mandalorian, beskar armor, helmet, warrior stance',
   'Piloto Rebelde': 'rebel pilot, flight suit, helmet, determined',
@@ -80,8 +80,8 @@ const ARCHETYPE_DESCRIPTIONS: Record<string, string> = {
   'Profesor': 'professor, scholarly clothes, ancient tome, worried eyes',
 
   // ROMANTASY
-  'Cortesano (Maestre del Juego)': 'fae courtier, intricate silk gown or doublet, jeweled accessories, knowing smile, candlelit ballroom background, ACOTAR aesthetic',
-  'Guerrera Illyriana (Guardiana Alada)': 'winged warrior, leather battle armor with sigils, dual blades, fierce eyes, mountain backdrop, dark wings spread',
+  'Cortesano (Maestre del Juego)': 'fae courtier, intricate silk gown or doublet, jeweled accessories, knowing smile, candlelit ballroom background, romantasy aesthetic',
+  'Guerrera Alaria (Guardiana Alada)': 'winged warrior, leather battle armor with sigils, dual blades, fierce eyes, mountain backdrop, dark wings spread',
   'Alta Dama (Hechicera de las Estrellas)': 'high lady sorceress, flowing robes with star embroidery, glowing crystal staff, ethereal presence, twilight garden background',
 
   // COZY_WITCH
@@ -97,7 +97,7 @@ const DND5E_RACE_VISUALS: Record<string, string> = {
   elf: 'slender elf with pointed ears, angular elegant features, ethereal beauty',
   'high-elf': 'slender high elf with pointed ears, angular features, ethereal beauty, pale luminous skin',
   'wood-elf': 'wild wood elf with pointed ears, tanned skin, nature-woven hair, forest markings',
-  drow: 'dark elf with obsidian black skin, stark white hair, pointed ears, red or violet glowing eyes',
+  umbrío: 'dark elf with obsidian black skin, stark white hair, pointed ears, red or violet glowing eyes',
   dwarf: 'stout dwarf, broad shoulders, thick braided beard, compact muscular build, weathered face',
   'hill-dwarf': 'stout hill dwarf, broad shoulders, braided red-brown beard, warm weathered face',
   'mountain-dwarf': 'massive mountain dwarf, broad shoulders, iron-gray braided beard, stern face',

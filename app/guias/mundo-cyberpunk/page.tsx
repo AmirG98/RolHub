@@ -261,8 +261,8 @@ export default function CyberpunkPage() {
 
       <nav className="border-t border-gold/30 pt-8 mt-12">
         <div className="flex justify-between items-center">
-          <Link href="/guias/mundo-star-wars" className="flex items-center gap-2 text-parchment hover:text-gold-bright transition-colors font-ui">
-            <ArrowLeft className="h-4 w-4" /> Anterior: Star Wars
+          <Link href="/guias/mundo-space-opera" className="flex items-center gap-2 text-parchment hover:text-gold-bright transition-colors font-ui">
+            <ArrowLeft className="h-4 w-4" /> Anterior: Frontera Estelar
           </Link>
           <Link href="/guias/mundo-lovecraft" className="flex items-center gap-2 text-gold-bright hover:text-gold transition-colors font-ui font-semibold">
             Siguiente: Horrores Cosmicos <ArrowRight className="h-4 w-4" />

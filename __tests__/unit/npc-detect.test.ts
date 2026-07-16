@@ -9,7 +9,7 @@ import { detectNpcNames, isValidNpcName } from '@/lib/game/npc-detect'
 // Basura real registrada como NPCs en prod por el regex viejo
 const REAL_GHOSTS = [
   'Pero primero',
-  'Jinete de Bree', // este es dudoso pero tiene forma válida — ver abajo
+  'Jinete de Vado Viejo', // este es dudoso pero tiene forma válida — ver abajo
   'No tardas en verlo',
   'Encontrás tres cosas',
   'Pero más relevante aún',
@@ -22,30 +22,30 @@ const REAL_GHOSTS = [
 ]
 
 describe('isValidNpcName — rechaza los fantasmas reales de prod', () => {
-  // Todos menos "Jinete de Bree" y "Muchacho de Bree" (forma válida de nombre)
-  const mustReject = REAL_GHOSTS.filter((g) => !/de Bree$/.test(g))
+  // Todos menos "Jinete de Vado Viejo" y "Muchacho de Vado Viejo" (forma válida de nombre)
+  const mustReject = REAL_GHOSTS.filter((g) => !/de Vado Viejo$/.test(g))
 
   it.each(mustReject.map((g) => [g]))('rechaza "%s"', (ghost) => {
     expect(isValidNpcName(ghost)).toBe(false)
   })
 
-  it('acepta nombres con partícula tipo "Jinete de Bree" (forma válida)', () => {
+  it('acepta nombres con partícula tipo "Jinete de Vado Viejo" (forma válida)', () => {
     // Semi-legítimos: tienen forma de nombre propio, el filtro de forma no
     // puede distinguirlos de nombres reales — aceptable.
-    expect(isValidNpcName('Jinete de Bree')).toBe(true)
+    expect(isValidNpcName('Jinete de Vado Viejo')).toBe(true)
   })
 })
 
 describe('isValidNpcName — acepta nombres reales', () => {
-  const REAL_NPCS = ['Aldric', 'Tomás', 'Firindë', 'Gandalf', 'Barliman Mantecona', 'Vera', 'Elrond de Rivendel']
+  const REAL_NPCS = ['Aldric', 'Tomás', 'Firindë', 'Olvar', 'Barliman Cebadín', 'Vera', 'Elrond de Aelinar']
   it.each(REAL_NPCS.map((n) => [n]))('acepta "%s"', (name) => {
     expect(isValidNpcName(name)).toBe(true)
   })
 })
 
 describe('isValidNpcName — reglas de forma', () => {
-  it('rechaza más de 3 palabras', () => {
-    expect(isValidNpcName('Juan Pedro García López')).toBe(false)
+  it('rechaza más de 4 palabras', () => {
+    expect(isValidNpcName('Juan Pedro García López Marín')).toBe(false)
   })
   it('rechaza palabras sin capitalizar (no partículas)', () => {
     expect(isValidNpcName('El viejo molinero')).toBe(false)

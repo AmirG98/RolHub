@@ -27,6 +27,15 @@ const LORE_DATA: Record<string, any> = {
   COZY_WITCH: cozyWitchData,
 }
 
+// Nombres LEGACY → id. Personajes creados ANTES del rebranding anti-IP
+// (2026-07-16) tienen guardado el nombre viejo del arquetipo en
+// Character.archetype; los lore JSONs ya no lo contienen.
+const LEGACY_ARCHETYPE_NAMES: Record<string, string> = {
+  'hobbit': 'hobbit',                    // ahora "Mediano"
+  'guerrera illyriana': 'guerrera-illyriana', // ahora "Guerrera Alaria"
+  'illyrian warrior': 'guerrera-illyriana',
+}
+
 /**
  * Devuelve el id del arquetipo. Si `archetypeKey` ya es un id, lo devuelve tal
  * cual; si es un nombre localizado (ES/EN), lo mapea al id. null si no matchea.
@@ -44,5 +53,8 @@ export function resolveArchetypeId(loreKey: string, archetypeKey: string): strin
     if (typeof a.name === 'string') return a.name.toLowerCase() === lowered
     return a.name?.es?.toLowerCase() === lowered || a.name?.en?.toLowerCase() === lowered
   })
-  return match?.id ?? null
+  if (match?.id) return match.id
+
+  // nombres pre-rebranding (personajes existentes)
+  return LEGACY_ARCHETYPE_NAMES[lowered] ?? null
 }

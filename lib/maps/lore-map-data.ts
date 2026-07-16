@@ -12,19 +12,19 @@ interface LoreLocation {
   detailed_description?: string
 }
 
-// Coordenadas predefinidas para LOTR (estilo mapa de Tolkien)
+// Coordenadas predefinidas para LOTR (estilo mapa de fantasía clásica)
 const LOTR_COORDINATES: Record<string, { x: number; y: number; connections: string[] }> = {
-  'La Comarca': { x: 150, y: 200, connections: ['Bree', 'Rivendel'] },
-  'Rivendel': { x: 350, y: 180, connections: ['La Comarca', 'Las Montañas Nubladas', 'Lothlórien'] },
-  'Lothlórien': { x: 450, y: 280, connections: ['Rivendel', 'Fangorn', 'Moria'] },
-  'Moria': { x: 380, y: 260, connections: ['Lothlórien', 'Las Montañas Nubladas'] },
-  'Las Montañas Nubladas': { x: 400, y: 200, connections: ['Rivendel', 'Moria', 'Fangorn'] },
-  'Fangorn': { x: 500, y: 320, connections: ['Lothlórien', 'Isengard', 'Rohan'] },
-  'Rohan': { x: 520, y: 400, connections: ['Fangorn', 'Gondor', 'Isengard'] },
-  'Gondor': { x: 600, y: 450, connections: ['Rohan', 'Mordor'] },
-  'Mordor': { x: 700, y: 380, connections: ['Gondor'] },
-  'Isengard': { x: 450, y: 360, connections: ['Fangorn', 'Rohan'] },
-  'Bree': { x: 220, y: 200, connections: ['La Comarca', 'Rivendel'] },
+  'La Vega Mansa': { x: 150, y: 200, connections: ['Vado Viejo', 'Aelinar'] },
+  'Aelinar': { x: 350, y: 180, connections: ['La Vega Mansa', 'Las Montañas Veladas', 'Aurelion'] },
+  'Aurelion': { x: 450, y: 280, connections: ['Aelinar', 'Raizvieja', 'Profundia'] },
+  'Profundia': { x: 380, y: 260, connections: ['Aurelion', 'Las Montañas Veladas'] },
+  'Las Montañas Veladas': { x: 400, y: 200, connections: ['Aelinar', 'Profundia', 'Raizvieja'] },
+  'Raizvieja': { x: 500, y: 320, connections: ['Aurelion', 'Torregrís', 'Estepia'] },
+  'Estepia': { x: 520, y: 400, connections: ['Raizvieja', 'Meridonia', 'Torregrís'] },
+  'Meridonia': { x: 600, y: 450, connections: ['Estepia', 'Cenizar'] },
+  'Cenizar': { x: 700, y: 380, connections: ['Meridonia'] },
+  'Torregrís': { x: 450, y: 360, connections: ['Raizvieja', 'Estepia'] },
+  'Vado Viejo': { x: 220, y: 200, connections: ['La Vega Mansa', 'Aelinar'] },
 }
 
 // Coordenadas para ZOMBIES (ciudad post-apocalíptica)
@@ -68,17 +68,17 @@ const VIKINGOS_COORDINATES: Record<string, { x: number; y: number; connections: 
 
 // Coordenadas para STAR_WARS (mapa galáctico)
 const STAR_WARS_COORDINATES: Record<string, { x: number; y: number; connections: string[] }> = {
-  'Coruscant': { x: 400, y: 300, connections: ['Naboo', 'Alderaan', 'Ruta Comercial Corelliana'] },
-  'Tatooine': { x: 150, y: 200, connections: ['Mos Eisley', 'Ruta Comercial Corelliana'] },
-  'Mos Eisley': { x: 100, y: 250, connections: ['Tatooine'] },
-  'Naboo': { x: 350, y: 450, connections: ['Coruscant', 'Kashyyyk'] },
-  'Alderaan': { x: 500, y: 200, connections: ['Coruscant', 'Yavin IV'] },
-  'Yavin IV': { x: 650, y: 150, connections: ['Alderaan', 'Endor'] },
-  'Endor': { x: 700, y: 300, connections: ['Yavin IV', 'Estrella de la Muerte'] },
-  'Estrella de la Muerte': { x: 600, y: 400, connections: ['Endor', 'Sistema Imperial'] },
-  'Sistema Imperial': { x: 550, y: 350, connections: ['Coruscant', 'Estrella de la Muerte'] },
+  'Nexus Prime': { x: 400, y: 300, connections: ['Naboo', 'Caelora', 'Ruta Comercial Corelliana'] },
+  'Karshaar': { x: 150, y: 200, connections: ['Puerto Zenna', 'Ruta Comercial Corelliana'] },
+  'Puerto Zenna': { x: 100, y: 250, connections: ['Karshaar'] },
+  'Naboo': { x: 350, y: 450, connections: ['Nexus Prime', 'Kashyyyk'] },
+  'Caelora': { x: 500, y: 200, connections: ['Nexus Prime', 'Yavin IV'] },
+  'Yavin IV': { x: 650, y: 150, connections: ['Caelora', 'Sylphar'] },
+  'Sylphar': { x: 700, y: 300, connections: ['Yavin IV', 'Estación Eclipse'] },
+  'Estación Eclipse': { x: 600, y: 400, connections: ['Sylphar', 'Sistema Imperial'] },
+  'Sistema Imperial': { x: 550, y: 350, connections: ['Nexus Prime', 'Estación Eclipse'] },
   'Kashyyyk': { x: 250, y: 500, connections: ['Naboo'] },
-  'Ruta Comercial Corelliana': { x: 300, y: 250, connections: ['Coruscant', 'Tatooine'] },
+  'Ruta Comercial Corelliana': { x: 300, y: 250, connections: ['Nexus Prime', 'Karshaar'] },
 }
 
 // Coordenadas para CYBERPUNK (ciudad vertical)
@@ -110,16 +110,16 @@ const LOVECRAFT_HORROR_COORDINATES: Record<string, { x: number; y: number; conne
   'Manicomio': { x: 350, y: 450, connections: ['Arkham'] },
 }
 
-// Coordenadas para DND_CLASSIC (Costa de la Espada, Faerûn)
+// Coordenadas para DND_CLASSIC (Costa del Alba, Valdrun)
 const DND_CLASSIC_COORDINATES: Record<string, { x: number; y: number; connections: string[] }> = {
-  'Waterdeep': { x: 400, y: 300, connections: ['Undermountain', 'Baldur\'s Gate', 'Neverwinter', 'Phandalin'] },
-  'Undermountain': { x: 420, y: 350, connections: ['Waterdeep'] },
-  'Baldur\'s Gate': { x: 200, y: 450, connections: ['Waterdeep', 'Candlekeep', 'Phandalin'] },
-  'Neverwinter': { x: 350, y: 150, connections: ['Waterdeep', 'Bosque de Neverwinter', 'Icewind Dale'] },
-  'Bosque de Neverwinter': { x: 450, y: 100, connections: ['Neverwinter'] },
-  'Icewind Dale': { x: 500, y: 50, connections: ['Neverwinter'] },
-  'Phandalin': { x: 300, y: 350, connections: ['Waterdeep', 'Baldur\'s Gate'] },
-  'Candlekeep': { x: 100, y: 500, connections: ['Baldur\'s Gate'] },
+  'Puerto Corona': { x: 400, y: 300, connections: ['Bajomonte', 'Baldur\'s Gate', 'Brasaeterna', 'Vadolar'] },
+  'Bajomonte': { x: 420, y: 350, connections: ['Puerto Corona'] },
+  'Baldur\'s Gate': { x: 200, y: 450, connections: ['Puerto Corona', 'Ciriotorre', 'Vadolar'] },
+  'Brasaeterna': { x: 350, y: 150, connections: ['Puerto Corona', 'Bosque de Brasaeterna', 'Valle Ventisca'] },
+  'Bosque de Brasaeterna': { x: 450, y: 100, connections: ['Brasaeterna'] },
+  'Valle Ventisca': { x: 500, y: 50, connections: ['Brasaeterna'] },
+  'Vadolar': { x: 300, y: 350, connections: ['Puerto Corona', 'Baldur\'s Gate'] },
+  'Ciriotorre': { x: 100, y: 500, connections: ['Baldur\'s Gate'] },
 }
 
 // Coordenadas para COZY_WITCH (Cala Quieta)
@@ -133,14 +133,14 @@ const COZY_WITCH_COORDINATES: Record<string, { x: number; y: number; connections
   'El Círculo de Piedras del Eclipse': { x: 520, y: 120, connections: ['El Faro Viejo', 'El Bosque Susurrante'] },
 }
 
-// Coordenadas para ROMANTASY (Cortes feéricas de Velaris)
+// Coordenadas para ROMANTASY (Cortes feéricas de Lucerna)
 const ROMANTASY_COORDINATES: Record<string, { x: number; y: number; connections: string[] }> = {
-  'Corte de Primavera': { x: 300, y: 250, connections: ['Bosque de Espinas', 'Aldea Mortal de Prythian', 'Velaris (Ciudad Estrella)'] },
-  'Velaris (Ciudad Estrella)': { x: 500, y: 200, connections: ['Corte de Primavera', 'Bosque de Espinas', 'Corte de Invierno'] },
-  'Bosque de Espinas': { x: 400, y: 350, connections: ['Corte de Primavera', 'Velaris (Ciudad Estrella)', 'Cuevas del Pacto', 'El Muro'] },
-  'El Muro': { x: 250, y: 450, connections: ['Bosque de Espinas', 'Aldea Mortal de Prythian', 'Cuevas del Pacto'] },
-  'Aldea Mortal de Prythian': { x: 150, y: 400, connections: ['Corte de Primavera', 'El Muro'] },
-  'Corte de Invierno': { x: 650, y: 100, connections: ['Velaris (Ciudad Estrella)'] },
+  'Corte de Primavera': { x: 300, y: 250, connections: ['Bosque de Espinas', 'Aldea Mortal de Sylvaria', 'Lucerna (Ciudad de las Mil Luces)'] },
+  'Lucerna (Ciudad de las Mil Luces)': { x: 500, y: 200, connections: ['Corte de Primavera', 'Bosque de Espinas', 'Corte de Invierno'] },
+  'Bosque de Espinas': { x: 400, y: 350, connections: ['Corte de Primavera', 'Lucerna (Ciudad de las Mil Luces)', 'Cuevas del Pacto', 'El Muro'] },
+  'El Muro': { x: 250, y: 450, connections: ['Bosque de Espinas', 'Aldea Mortal de Sylvaria', 'Cuevas del Pacto'] },
+  'Aldea Mortal de Sylvaria': { x: 150, y: 400, connections: ['Corte de Primavera', 'El Muro'] },
+  'Corte de Invierno': { x: 650, y: 100, connections: ['Lucerna (Ciudad de las Mil Luces)'] },
   'Cuevas del Pacto': { x: 500, y: 500, connections: ['Bosque de Espinas', 'El Muro'] },
 }
 
@@ -254,15 +254,15 @@ function generateFallbackCoordinates(index: number, total: number): { x: number;
 export function getExampleMapData(lore: Lore): MapLocation[] {
   const exampleData: Record<string, MapLocation[]> = {
     LOTR: [
-      { id: 'comarca', name: 'La Comarca', description: 'Tierra pacífica de los hobbits', type: 'safe', dangerLevel: 1, coordinates: { x: 150, y: 200 }, connections: ['bree', 'rivendel'], icon: '', discovered: true, visited: true },
-      { id: 'bree', name: 'Bree', description: 'Cruce de caminos con la Posada del Pony Pisador', type: 'city', dangerLevel: 2, coordinates: { x: 220, y: 200 }, connections: ['comarca', 'rivendel'], icon: '', discovered: true, visited: false },
-      { id: 'rivendel', name: 'Rivendel', description: 'Refugio élfico de Elrond', type: 'safe', dangerLevel: 1, coordinates: { x: 350, y: 180 }, connections: ['comarca', 'moria', 'lothlorien'], icon: '', discovered: true, visited: false },
-      { id: 'moria', name: 'Moria', description: 'Antiguo reino enano bajo las montañas', type: 'dungeon', dangerLevel: 5, coordinates: { x: 380, y: 260 }, connections: ['rivendel', 'lothlorien'], icon: '', discovered: false, visited: false },
-      { id: 'lothlorien', name: 'Lothlórien', description: 'Bosque dorado de los elfos de Galadriel', type: 'safe', dangerLevel: 1, coordinates: { x: 450, y: 280 }, connections: ['rivendel', 'moria', 'rohan'], icon: '', discovered: false, visited: false },
-      { id: 'rohan', name: 'Rohan', description: 'Tierra de los señores de los caballos', type: 'city', dangerLevel: 3, coordinates: { x: 520, y: 400 }, connections: ['lothlorien', 'gondor', 'isengard'], icon: '', discovered: false, visited: false },
-      { id: 'gondor', name: 'Gondor', description: 'El reino de los hombres', type: 'city', dangerLevel: 4, coordinates: { x: 600, y: 450 }, connections: ['rohan', 'mordor'], icon: '', discovered: false, visited: false },
-      { id: 'mordor', name: 'Mordor', description: 'Tierra negra del enemigo', type: 'danger', dangerLevel: 5, coordinates: { x: 700, y: 380 }, connections: ['gondor'], icon: '', discovered: false, visited: false },
-      { id: 'isengard', name: 'Isengard', description: 'Torre de Saruman', type: 'danger', dangerLevel: 4, coordinates: { x: 450, y: 360 }, connections: ['rohan'], icon: '', discovered: false, visited: false },
+      { id: 'comarca', name: 'La Vega Mansa', description: 'Tierra pacífica de los medianos', type: 'safe', dangerLevel: 1, coordinates: { x: 150, y: 200 }, connections: ['bree', 'rivendel'], icon: '', discovered: true, visited: true },
+      { id: 'bree', name: 'Vado Viejo', description: 'Cruce de caminos con la Posada del Jabalí Dorado', type: 'city', dangerLevel: 2, coordinates: { x: 220, y: 200 }, connections: ['comarca', 'rivendel'], icon: '', discovered: true, visited: false },
+      { id: 'rivendel', name: 'Aelinar', description: 'Refugio élfico de Elandur', type: 'safe', dangerLevel: 1, coordinates: { x: 350, y: 180 }, connections: ['comarca', 'moria', 'lothlorien'], icon: '', discovered: true, visited: false },
+      { id: 'moria', name: 'Profundia', description: 'Antiguo reino enano bajo las montañas', type: 'dungeon', dangerLevel: 5, coordinates: { x: 380, y: 260 }, connections: ['rivendel', 'lothlorien'], icon: '', discovered: false, visited: false },
+      { id: 'lothlorien', name: 'Aurelion', description: 'Bosque dorado de los elfos de Ithariel', type: 'safe', dangerLevel: 1, coordinates: { x: 450, y: 280 }, connections: ['rivendel', 'moria', 'rohan'], icon: '', discovered: false, visited: false },
+      { id: 'rohan', name: 'Estepia', description: 'Tierra de los señores de los caballos', type: 'city', dangerLevel: 3, coordinates: { x: 520, y: 400 }, connections: ['lothlorien', 'gondor', 'isengard'], icon: '', discovered: false, visited: false },
+      { id: 'gondor', name: 'Meridonia', description: 'El reino de los hombres', type: 'city', dangerLevel: 4, coordinates: { x: 600, y: 450 }, connections: ['rohan', 'mordor'], icon: '', discovered: false, visited: false },
+      { id: 'mordor', name: 'Cenizar', description: 'Tierra negra del enemigo', type: 'danger', dangerLevel: 5, coordinates: { x: 700, y: 380 }, connections: ['gondor'], icon: '', discovered: false, visited: false },
+      { id: 'isengard', name: 'Torregrís', description: 'Torre de Velmoran', type: 'danger', dangerLevel: 4, coordinates: { x: 450, y: 360 }, connections: ['rohan'], icon: '', discovered: false, visited: false },
     ],
     ZOMBIES: [
       { id: 'campamento-base', name: 'Campamento Base', description: 'Tu refugio seguro... por ahora', type: 'safe', dangerLevel: 1, coordinates: { x: 200, y: 300 }, connections: ['centro-comercial', 'estacion-policia'], icon: '', discovered: true, visited: true },
@@ -297,15 +297,15 @@ export function getExampleMapData(lore: Lore): MapLocation[] {
       { id: 'jotunheim', name: 'Jötunheim', description: 'Tierra de los gigantes de hielo', type: 'danger', dangerLevel: 5, coordinates: { x: 650, y: 100 }, connections: ['islas-este'], icon: '', discovered: false, visited: false },
     ],
     STAR_WARS: [
-      { id: 'tatooine', name: 'Tatooine', description: 'Planeta desértico del Borde Exterior', type: 'city', dangerLevel: 2, coordinates: { x: 150, y: 200 }, connections: ['mos-eisley', 'coruscant'], icon: '', discovered: true, visited: true },
-      { id: 'mos-eisley', name: 'Mos Eisley', description: 'Nido de escoria y villanía', type: 'safe', dangerLevel: 2, coordinates: { x: 100, y: 250 }, connections: ['tatooine'], icon: '', discovered: true, visited: true },
-      { id: 'coruscant', name: 'Coruscant', description: 'Capital de la Galaxia', type: 'city', dangerLevel: 3, coordinates: { x: 400, y: 300 }, connections: ['tatooine', 'naboo', 'alderaan'], icon: '', discovered: true, visited: false },
+      { id: 'tatooine', name: 'Karshaar', description: 'Planeta desértico del Borde Exterior', type: 'city', dangerLevel: 2, coordinates: { x: 150, y: 200 }, connections: ['mos-eisley', 'coruscant'], icon: '', discovered: true, visited: true },
+      { id: 'mos-eisley', name: 'Puerto Zenna', description: 'Nido de escoria y villanía', type: 'safe', dangerLevel: 2, coordinates: { x: 100, y: 250 }, connections: ['tatooine'], icon: '', discovered: true, visited: true },
+      { id: 'coruscant', name: 'Nexus Prime', description: 'Capital de la Galaxia', type: 'city', dangerLevel: 3, coordinates: { x: 400, y: 300 }, connections: ['tatooine', 'naboo', 'alderaan'], icon: '', discovered: true, visited: false },
       { id: 'naboo', name: 'Naboo', description: 'Mundo pacífico de praderas y ciudades', type: 'safe', dangerLevel: 1, coordinates: { x: 350, y: 450 }, connections: ['coruscant', 'kashyyyk'], icon: '', discovered: false, visited: false },
-      { id: 'alderaan', name: 'Alderaan', description: 'Mundo pacífico... por ahora', type: 'safe', dangerLevel: 1, coordinates: { x: 500, y: 200 }, connections: ['coruscant', 'yavin'], icon: '', discovered: false, visited: false },
+      { id: 'alderaan', name: 'Caelora', description: 'Mundo pacífico... por ahora', type: 'safe', dangerLevel: 1, coordinates: { x: 500, y: 200 }, connections: ['coruscant', 'yavin'], icon: '', discovered: false, visited: false },
       { id: 'yavin', name: 'Yavin IV', description: 'Luna selvática, base rebelde secreta', type: 'mystery', dangerLevel: 3, coordinates: { x: 650, y: 150 }, connections: ['alderaan', 'endor'], icon: '', discovered: false, visited: false },
-      { id: 'endor', name: 'Endor', description: 'Luna boscosa de los Ewoks', type: 'wilderness', dangerLevel: 2, coordinates: { x: 700, y: 300 }, connections: ['yavin', 'death-star'], icon: '', discovered: false, visited: false },
-      { id: 'death-star', name: 'Estrella de la Muerte', description: 'Estación de batalla Imperial', type: 'danger', dangerLevel: 5, coordinates: { x: 600, y: 400 }, connections: ['endor'], icon: '', discovered: false, visited: false },
-      { id: 'kashyyyk', name: 'Kashyyyk', description: 'Mundo natal de los Wookiees', type: 'wilderness', dangerLevel: 2, coordinates: { x: 250, y: 500 }, connections: ['naboo'], icon: '', discovered: false, visited: false },
+      { id: 'endor', name: 'Sylphar', description: 'Luna boscosa de los Ewoks', type: 'wilderness', dangerLevel: 2, coordinates: { x: 700, y: 300 }, connections: ['yavin', 'death-star'], icon: '', discovered: false, visited: false },
+      { id: 'death-star', name: 'Estación Eclipse', description: 'Estación de batalla Imperial', type: 'danger', dangerLevel: 5, coordinates: { x: 600, y: 400 }, connections: ['endor'], icon: '', discovered: false, visited: false },
+      { id: 'kashyyyk', name: 'Kashyyyk', description: 'Mundo natal de los Ranakkis', type: 'wilderness', dangerLevel: 2, coordinates: { x: 250, y: 500 }, connections: ['naboo'], icon: '', discovered: false, visited: false },
     ],
     CYBERPUNK: [
       { id: 'tu-apartamento', name: 'Tu Apartamento', description: 'Un cubículo de 20m² que llamas hogar', type: 'safe', dangerLevel: 1, coordinates: { x: 350, y: 350 }, connections: ['downtown', 'afterlife'], icon: '', discovered: true, visited: true },
@@ -333,14 +333,14 @@ export function getExampleMapData(lore: Lore): MapLocation[] {
       { id: 'templo', name: 'Templo Sumergido', description: 'Ph\'nglui mglw\'nafh...', type: 'danger', dangerLevel: 5, coordinates: { x: 700, y: 350 }, connections: ['cripta'], icon: '', discovered: false, visited: false },
     ],
     DND_CLASSIC: [
-      { id: 'waterdeep', name: 'Waterdeep', description: 'La Ciudad de los Esplendores, puerto y metrópolis', type: 'city', dangerLevel: 2, coordinates: { x: 400, y: 300 }, connections: ['undermountain', 'baldurs-gate', 'neverwinter', 'phandalin'], icon: '', discovered: true, visited: true },
-      { id: 'undermountain', name: 'Undermountain', description: 'El megadungeon bajo Waterdeep', type: 'dungeon', dangerLevel: 5, coordinates: { x: 420, y: 350 }, connections: ['waterdeep'], icon: '', discovered: true, visited: false },
-      { id: 'baldurs-gate', name: "Baldur's Gate", description: 'Ciudad portuaria de comercio y crimen', type: 'city', dangerLevel: 3, coordinates: { x: 200, y: 450 }, connections: ['waterdeep', 'candlekeep', 'phandalin'], icon: '', discovered: true, visited: false },
-      { id: 'neverwinter', name: 'Neverwinter', description: 'La Joya del Norte en reconstrucción', type: 'city', dangerLevel: 3, coordinates: { x: 350, y: 150 }, connections: ['waterdeep', 'bosque-neverwinter', 'icewind-dale'], icon: '', discovered: false, visited: false },
-      { id: 'bosque-neverwinter', name: 'Bosque de Neverwinter', description: 'Bosque misterioso con ruinas élficas', type: 'wilderness', dangerLevel: 3, coordinates: { x: 450, y: 100 }, connections: ['neverwinter'], icon: '', discovered: false, visited: false },
-      { id: 'icewind-dale', name: 'Icewind Dale', description: 'Tundra helada del extremo norte', type: 'danger', dangerLevel: 4, coordinates: { x: 500, y: 50 }, connections: ['neverwinter'], icon: '', discovered: false, visited: false },
-      { id: 'phandalin', name: 'Phandalin', description: 'Pequeño asentamiento minero con secretos', type: 'safe', dangerLevel: 2, coordinates: { x: 300, y: 350 }, connections: ['waterdeep', 'baldurs-gate'], icon: '', discovered: true, visited: false },
-      { id: 'candlekeep', name: 'Candlekeep', description: 'Biblioteca-fortaleza del conocimiento', type: 'landmark', dangerLevel: 1, coordinates: { x: 100, y: 500 }, connections: ['baldurs-gate'], icon: '', discovered: false, visited: false },
+      { id: 'waterdeep', name: 'Puerto Corona', description: 'La Ciudad de los Esplendores, puerto y metrópolis', type: 'city', dangerLevel: 2, coordinates: { x: 400, y: 300 }, connections: ['undermountain', 'baldurs-gate', 'neverwinter', 'phandalin'], icon: '', discovered: true, visited: true },
+      { id: 'undermountain', name: 'Bajomonte', description: 'El megadungeon bajo Puerto Corona', type: 'dungeon', dangerLevel: 5, coordinates: { x: 420, y: 350 }, connections: ['waterdeep'], icon: '', discovered: true, visited: false },
+      { id: 'baldurs-gate', name: "Ambergate", description: 'Ciudad portuaria de comercio y crimen', type: 'city', dangerLevel: 3, coordinates: { x: 200, y: 450 }, connections: ['waterdeep', 'candlekeep', 'phandalin'], icon: '', discovered: true, visited: false },
+      { id: 'neverwinter', name: 'Brasaeterna', description: 'La Joya del Norte en reconstrucción', type: 'city', dangerLevel: 3, coordinates: { x: 350, y: 150 }, connections: ['waterdeep', 'bosque-neverwinter', 'icewind-dale'], icon: '', discovered: false, visited: false },
+      { id: 'bosque-neverwinter', name: 'Bosque de Brasaeterna', description: 'Bosque misterioso con ruinas élficas', type: 'wilderness', dangerLevel: 3, coordinates: { x: 450, y: 100 }, connections: ['neverwinter'], icon: '', discovered: false, visited: false },
+      { id: 'icewind-dale', name: 'Valle Ventisca', description: 'Tundra helada del extremo norte', type: 'danger', dangerLevel: 4, coordinates: { x: 500, y: 50 }, connections: ['neverwinter'], icon: '', discovered: false, visited: false },
+      { id: 'phandalin', name: 'Vadolar', description: 'Pequeño asentamiento minero con secretos', type: 'safe', dangerLevel: 2, coordinates: { x: 300, y: 350 }, connections: ['waterdeep', 'baldurs-gate'], icon: '', discovered: true, visited: false },
+      { id: 'candlekeep', name: 'Ciriotorre', description: 'Biblioteca-fortaleza del conocimiento', type: 'landmark', dangerLevel: 1, coordinates: { x: 100, y: 500 }, connections: ['baldurs-gate'], icon: '', discovered: false, visited: false },
     ],
     COZY_WITCH: [
       { id: 'casa-bruja', name: 'La Casa de la Bruja', description: 'Cottage con jardín de hierbas, gato y chimenea siempre encendida', type: 'safe', dangerLevel: 1, coordinates: { x: 350, y: 280 }, connections: ['plaza-mercado', 'bosque-susurrante', 'cala-quieta'], icon: '', discovered: true, visited: true },
@@ -353,10 +353,10 @@ export function getExampleMapData(lore: Lore): MapLocation[] {
     ],
     ROMANTASY: [
       { id: 'corte-primavera', name: 'Corte de Primavera', description: 'Palacio de mármol blanco entre jardines de rosas eternas', type: 'city', dangerLevel: 3, coordinates: { x: 300, y: 250 }, connections: ['bosque-espinas', 'aldea-mortal-prythian', 'velaris'], icon: '', discovered: true, visited: true },
-      { id: 'velaris', name: 'Velaris (Ciudad Estrella)', description: 'Capital oculta de la Corte de la Noche', type: 'city', dangerLevel: 2, coordinates: { x: 500, y: 200 }, connections: ['corte-primavera', 'bosque-espinas', 'corte-invierno'], icon: '', discovered: true, visited: false },
+      { id: 'velaris', name: 'Lucerna (Ciudad de las Mil Luces)', description: 'Capital oculta de la Corte Velada', type: 'city', dangerLevel: 2, coordinates: { x: 500, y: 200 }, connections: ['corte-primavera', 'bosque-espinas', 'corte-invierno'], icon: '', discovered: true, visited: false },
       { id: 'bosque-espinas', name: 'Bosque de Espinas', description: 'Frontera salvaje entre cortes - peligro y magia ancestral', type: 'wilderness', dangerLevel: 4, coordinates: { x: 400, y: 350 }, connections: ['corte-primavera', 'velaris', 'cuevas-pacto', 'el-muro'], icon: '', discovered: true, visited: false },
       { id: 'el-muro', name: 'El Muro', description: 'Barrera mágica milenaria entre tierras fae y humanas', type: 'landmark', dangerLevel: 5, coordinates: { x: 250, y: 450 }, connections: ['bosque-espinas', 'aldea-mortal-prythian', 'cuevas-pacto'], icon: '', discovered: false, visited: false },
-      { id: 'aldea-mortal-prythian', name: 'Aldea Mortal de Prythian', description: 'Pueblo humano en la frontera donde florece el comercio prohibido', type: 'safe', dangerLevel: 2, coordinates: { x: 150, y: 400 }, connections: ['corte-primavera', 'el-muro'], icon: '', discovered: true, visited: false },
+      { id: 'aldea-mortal-prythian', name: 'Aldea Mortal de Sylvaria', description: 'Pueblo humano en la frontera donde florece el comercio prohibido', type: 'safe', dangerLevel: 2, coordinates: { x: 150, y: 400 }, connections: ['corte-primavera', 'el-muro'], icon: '', discovered: true, visited: false },
       { id: 'corte-invierno', name: 'Corte de Invierno', description: 'Fortaleza de hielo eterno con guerreros de honor', type: 'city', dangerLevel: 3, coordinates: { x: 650, y: 100 }, connections: ['velaris'], icon: '', discovered: false, visited: false },
       { id: 'cuevas-pacto', name: 'Cuevas del Pacto', description: 'Lugar antiguo donde se firmó el Tratado - magia primordial', type: 'mystery', dangerLevel: 5, coordinates: { x: 500, y: 500 }, connections: ['bosque-espinas', 'el-muro'], icon: '', discovered: false, visited: false },
     ],
@@ -381,15 +381,15 @@ export function getExampleMapData(lore: Lore): MapLocation[] {
 // ─────────────────────────────────────────────────────────────────────────
 const MAP_LOCATION_EN: Record<string, { name: string; description: string }> = {
   // LOTR
-  'comarca':         { name: 'The Shire',          description: 'Peaceful land of the hobbits' },
-  'bree':            { name: 'Bree',               description: 'Crossroads with The Prancing Pony Inn' },
-  'rivendel':        { name: 'Rivendell',          description: 'Elven refuge of Elrond' },
-  'moria':           { name: 'Moria',              description: 'Ancient dwarven kingdom under the mountains' },
-  'lothlorien':      { name: 'Lothlórien',         description: 'Golden forest of the elves of Galadriel' },
-  'rohan':           { name: 'Rohan',              description: 'Land of the horse-lords' },
-  'gondor':          { name: 'Gondor',             description: 'The kingdom of men' },
-  'mordor':          { name: 'Mordor',             description: 'Black land of the enemy' },
-  'isengard':        { name: 'Isengard',           description: 'Tower of Saruman' },
+  'comarca':         { name: 'The Vale',          description: 'Peaceful land of the medianos' },
+  'bree':            { name: 'Vado Viejo',               description: 'Crossroads with The Gilded Boar Inn' },
+  'rivendel':        { name: 'Aelinar',          description: 'Elven refuge of Elandur' },
+  'moria':           { name: 'Profundia',              description: 'Ancient dwarven kingdom under the mountains' },
+  'lothlorien':      { name: 'Aurelion',         description: 'Golden forest of the elves of Ithariel' },
+  'rohan':           { name: 'Estepia',              description: 'Land of the horse-lords' },
+  'gondor':          { name: 'Meridonia',             description: 'The kingdom of men' },
+  'mordor':          { name: 'Cenizar',             description: 'Black land of the enemy' },
+  'isengard':        { name: 'Torregrís',           description: 'Tower of Velmoran' },
   // ZOMBIES
   'campamento-base':   { name: 'Base Camp',           description: 'Your safe shelter... for now' },
   'centro-comercial':  { name: 'Shopping Mall',       description: 'Infested but full of supplies' },
@@ -419,15 +419,15 @@ const MAP_LOCATION_EN: Record<string, { name: string; description: string }> = {
   'yggdrasil':       { name: 'Yggdrasil',           description: 'The World Tree' },
   'jotunheim':       { name: 'Jötunheim',           description: 'Land of the frost giants' },
   // STAR_WARS
-  'tatooine':   { name: 'Tatooine',          description: 'Desert planet on the Outer Rim' },
-  'mos-eisley': { name: 'Mos Eisley',        description: 'A wretched hive of scum and villainy' },
-  'coruscant':  { name: 'Coruscant',         description: 'Capital of the Galaxy' },
+  'tatooine':   { name: 'Karshaar',          description: 'Desert planet on the Outer Rim' },
+  'mos-eisley': { name: 'Puerto Zenna',        description: 'A wretched hive of scum and villainy' },
+  'coruscant':  { name: 'Nexus Prime',         description: 'Capital of the Galaxy' },
   'naboo':      { name: 'Naboo',             description: 'Peaceful world of meadows and cities' },
-  'alderaan':   { name: 'Alderaan',          description: 'A peaceful world... for now' },
+  'alderaan':   { name: 'Caelora',          description: 'A peaceful world... for now' },
   'yavin':      { name: 'Yavin IV',          description: 'Jungle moon, secret rebel base' },
-  'endor':      { name: 'Endor',             description: 'Forest moon of the Ewoks' },
+  'endor':      { name: 'Sylphar',             description: 'Forest moon of the Ewoks' },
   'death-star': { name: 'Death Star',        description: 'Imperial battle station' },
-  'kashyyyk':   { name: 'Kashyyyk',          description: 'Homeworld of the Wookiees' },
+  'kashyyyk':   { name: 'Kashyyyk',          description: 'Homeworld of the Ranakkis' },
   // CYBERPUNK
   'tu-apartamento':   { name: 'Your Apartment',         description: 'A 20m² cubicle you call home' },
   'downtown':         { name: 'Downtown',               description: 'The heart of Night City' },
@@ -452,14 +452,14 @@ const MAP_LOCATION_EN: Record<string, { name: string; description: string }> = {
   'manicomio':    { name: 'Arkham Asylum',          description: 'Are they mad... or have they seen too much?' },
   'templo':       { name: 'Sunken Temple',          description: "Ph'nglui mglw'nafh..." },
   // DND_CLASSIC
-  'waterdeep':         { name: 'Waterdeep',           description: 'The City of Splendors, port and metropolis' },
-  'undermountain':     { name: 'Undermountain',       description: 'The megadungeon beneath Waterdeep' },
-  'baldurs-gate':      { name: "Baldur's Gate",       description: 'Port city of trade and crime' },
-  'neverwinter':       { name: 'Neverwinter',         description: 'The Jewel of the North, rebuilding' },
-  'bosque-neverwinter':{ name: 'Neverwinter Wood',    description: 'Mysterious forest with elven ruins' },
-  'icewind-dale':      { name: 'Icewind Dale',        description: 'Frozen tundra of the far north' },
-  'phandalin':         { name: 'Phandalin',           description: 'Small mining settlement with secrets' },
-  'candlekeep':        { name: 'Candlekeep',          description: 'Library-fortress of knowledge' },
+  'waterdeep':         { name: 'Puerto Corona',           description: 'The City of Splendors, port and metropolis' },
+  'undermountain':     { name: 'Bajomonte',       description: 'The megadungeon beneath Puerto Corona' },
+  'baldurs-gate':      { name: "Ambergate",       description: 'Port city of trade and crime' },
+  'neverwinter':       { name: 'Brasaeterna',         description: 'The Jewel of the North, rebuilding' },
+  'bosque-neverwinter':{ name: 'Brasaeterna Wood',    description: 'Mysterious forest with elven ruins' },
+  'icewind-dale':      { name: 'Valle Ventisca',        description: 'Frozen tundra of the far north' },
+  'phandalin':         { name: 'Vadolar',           description: 'Small mining settlement with secrets' },
+  'candlekeep':        { name: 'Ciriotorre',          description: 'Library-fortress of knowledge' },
   // COZY_WITCH
   'casa-bruja':              { name: "The Witch's Cottage",   description: 'Cottage with herb garden, cat, and a hearth that never goes out' },
   'plaza-mercado':           { name: 'Market Square',         description: "Town's social heart — Saturdays smell of bread and salt" },
@@ -470,10 +470,10 @@ const MAP_LOCATION_EN: Record<string, { name: string; description: string }> = {
   'circulo-piedras-eclipse': { name: 'The Eclipse Stone Circle',description: "Clearing on the cliff top — the coven's annual ritual" },
   // ROMANTASY
   'corte-primavera':        { name: 'Spring Court',         description: 'White marble palace among gardens of eternal roses' },
-  'velaris':                { name: 'Velaris (City of Starlight)',description: 'Hidden capital of the Night Court' },
+  'velaris':                { name: 'Lucerna (City of Starlight)',description: 'Hidden capital of the Night Court' },
   'bosque-espinas':         { name: 'Forest of Thorns',     description: 'Wild frontier between courts — danger and ancient magic' },
   'el-muro':                { name: 'The Wall',             description: 'Millennia-old magical barrier between fae and human lands' },
-  'aldea-mortal-prythian':  { name: 'Mortal Village of Prythian',description: 'Border human village where forbidden trade thrives' },
+  'aldea-mortal-prythian':  { name: 'Mortal Village of Sylvaria',description: 'Border human village where forbidden trade thrives' },
   'corte-invierno':         { name: 'Winter Court',         description: 'Eternal-ice fortress with warriors of honor' },
   'cuevas-pacto':           { name: 'Caves of the Pact',    description: 'Ancient site where the Treaty was signed — primordial magic' },
   // CUSTOM

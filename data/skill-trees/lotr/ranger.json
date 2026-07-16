@@ -56,10 +56,10 @@
       }
     },
     {
-      "id": "athelas-touch",
+      "id": "albahoja-touch",
       "name": {
-        "es": "Toque de Athelas",
-        "en": "Athelas Touch"
+        "es": "Toque de Albahoja",
+        "en": "Albahoja Touch"
       },
       "description": {
         "es": "Usás tus hierbas medicinales para restaurar 1d6+2 HP a un aliado o neutralizar un veneno activo.",
@@ -83,8 +83,8 @@
     {
       "id": "shadow-of-arnor",
       "name": {
-        "es": "Sombra de Arnor",
-        "en": "Shadow of Arnor"
+        "es": "Sombra de Nortania",
+        "en": "Shadow of Nortania"
       },
       "description": {
         "es": "Te fundís con la capa élfica y desaparecés de la vista de todos los enemigos hasta que atacás o hablás.",
@@ -108,8 +108,8 @@
     {
       "id": "dunedain-read",
       "name": {
-        "es": "Lectura Dúnedain",
-        "en": "Dúnedain Read"
+        "es": "Lectura Veladores",
+        "en": "Veladores Read"
       },
       "description": {
         "es": "Examinás las huellas, el ambiente y el cielo para predecir con exactitud qué peligros acechan en la siguiente zona.",
@@ -179,7 +179,7 @@
       ],
       "tier": 2,
       "requires": [
-        "athelas-touch",
+        "albahoja-touch",
         "shadow-of-arnor"
       ],
       "unlock": {
@@ -246,8 +246,8 @@
     {
       "id": "chieftain-of-dunedain",
       "name": {
-        "es": "Caudillo de los Dúnedain",
-        "en": "Chieftain of the Dúnedain"
+        "es": "Caudillo de los Veladores",
+        "en": "Chieftain of the Veladores"
       },
       "description": {
         "es": "Tu leyenda y linaje se revelan al mundo: sos inmune al miedo, los NPC neutrales se alían con vos automáticamente, y una vez por escena podés repetir cualquier tirada fallida invocando la voluntad de tus ancestros.",

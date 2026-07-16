@@ -15,11 +15,11 @@
 
 ### Lores (Mundos de Juego)
 - ✅ 7 lores completos con JSON estructurado:
-  - 🏰 Tierra Media (LOTR)
+  - 🏰 Tierra del Ocaso (LOTR)
   - ☠️ Apocalipsis Zombie
   - ⭐ Mundo Isekai
   - ⚔️ Saga Vikinga
-  - 🚀 Star Wars
+  - 🚀 space opera
   - 🏙️ Cyberpunk
   - 👁️ Horrores Cósmicos (Lovecraft)
 - ✅ Cada lore incluye:

@@ -231,7 +231,7 @@ function LovecraftFog({ width, height, config, discoveredLocations }: FogStylePr
   )
 }
 
-// Niebla espacial (Star Wars) - regiones inexploradas del espacio
+// Niebla espacial (space opera) - regiones inexploradas del espacio
 function SpaceFog({ width, height, config, discoveredLocations }: FogStyleProps) {
   return (
     <Group>

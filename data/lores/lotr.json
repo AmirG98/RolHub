@@ -1,8 +1,8 @@
 {
   "id": "LOTR",
   "name": {
-    "es": "Tierra Media",
-    "en": "Middle-earth"
+    "es": "Tierra del Ocaso",
+    "en": "Duskland"
   },
   "tagline": {
     "es": "Un mundo de magia antigua, pueblos nobles y la lucha eterna contra la oscuridad",
@@ -14,36 +14,36 @@
     "melancólico",
     "esperanzador"
   ],
-  "world_summary": "La Tierra Media es un vasto continente donde humanos, elfos, enanos y hobbits conviven bajo la amenaza constante de fuerzas oscuras. Es una era de magia decadente, donde los grandes poderes del pasado se desvanecen lentamente. Los elfos parten hacia el oeste, los enanos se refugian en sus montañas, y los humanos heredan un mundo que apenas comprenden. Antiguas fortalezas yacen en ruinas, bosques inmortales guardan secretos olvidados, y en las sombras, sirvientes del mal conspiran para sumir al mundo en tinieblas eternas. Es un tiempo donde pequeños actos de valentía pueden cambiar el destino de naciones enteras.",
+  "world_summary": "La Tierra del Ocaso es un vasto continente donde humanos, elfos, enanos y medianos conviven bajo la amenaza constante de fuerzas oscuras. Es una era de magia decadente, donde los grandes poderes del pasado se desvanecen lentamente. Los elfos parten hacia el oeste, los enanos se refugian en sus montañas, y los humanos heredan un mundo que apenas comprenden. Antiguas fortalezas yacen en ruinas, bosques inmortales guardan secretos olvidados, y en las sombras, sirvientes del mal conspiran para sumir al mundo en tinieblas eternas. Es un tiempo donde pequeños actos de valentía pueden cambiar el destino de naciones enteras. IMPORTANTE: este es un mundo 100% original — jamás menciones nombres, lugares, personajes ni términos de franquicias comerciales de fantasía o ciencia ficción; usá exclusivamente los nombres propios de ESTE mundo.",
   "detailed_history": {
     "ages": [
       {
         "name": "Primera Edad",
-        "summary": "La era de los elfos y los Silmarils. Morgoth, el primer Señor Oscuro, fue derrotado tras guerras devastadoras que hundieron Beleriand bajo el mar. Los elfos sufrieron pérdidas irreparables pero su gloria nunca fue mayor."
+        "summary": "La era de los elfos y las Gemas del Alba. Vhargor, el primer Señor Oscuro, fue derrotado tras guerras devastadoras que hundieron Belthara bajo el mar. Los elfos sufrieron pérdidas irreparables pero su gloria nunca fue mayor."
       },
       {
         "name": "Segunda Edad",
-        "summary": "Sauron forjó el Anillo Único. Númenor, el mayor reino de los hombres, cayó por su arrogancia. La Última Alianza de elfos y hombres derrotó a Sauron, pero Isildur no destruyó el Anillo, asegurando el eventual retorno del mal."
+        "summary": "Malzhur forjó el Sello Soberano. Athalor, el mayor reino de los hombres, cayó por su arrogancia. La Última Alianza de elfos y hombres derrotó a Malzhur, pero Aldaric no destruyó el Sello, asegurando el eventual retorno del mal."
       },
       {
         "name": "Tercera Edad",
-        "summary": "La era actual. Los reinos de los hombres decaen, los elfos parten hacia el oeste, los enanos luchan por recuperar sus hogares perdidos. Sauron reconstruye su poder en secreto mientras el Anillo permanece perdido... hasta ahora."
+        "summary": "La era actual. Los reinos de los hombres decaen, los elfos parten hacia el oeste, los enanos luchan por recuperar sus hogares perdidos. Malzhur reconstruye su poder en secreto mientras el Sello permanece perdido... hasta ahora."
       }
     ],
-    "current_situation": "Han pasado casi tres mil años desde la caída de Sauron. Gondor resiste sin rey, Rohan enfrenta amenazas en sus fronteras, el Bosque Negro se ha corrompido, y rumores de sombras crecientes llegan desde el este. Los magos Istari caminan la tierra, pero sus propósitos son inciertos. Es una época de transición: el final de un era y el comienzo de otra."
+    "current_situation": "Han pasado casi tres mil años desde la caída de Malzhur. Meridonia resiste sin rey, Estepia enfrenta amenazas en sus fronteras, el Bosque Sombrío se ha corrompido, y rumores de sombras crecientes llegan desde el este. Los Magos Errantes caminan la tierra, pero sus propósitos son inciertos. Es una época de transición: el final de una era y el comienzo de otra."
   },
   "factions": [
     {
       "name": "Los Pueblos Libres",
-      "description": "Alianza de humanos, elfos, enanos y hobbits que defienden la libertad",
+      "description": "Alianza de humanos, elfos, enanos y medianos que defienden la libertad",
       "alignment": "Bueno",
       "influence": 2,
-      "detailed_description": "Una coalición nacida de la necesidad más que de la amistad. Los elfos de Lothlórien y Rivendel mantienen contacto con los Dúnedain, los últimos herederos de Númenor. Los enanos comercian cuando les conviene pero prefieren su aislamiento. Los hobbits ignoran felizmente los asuntos del mundo exterior. Sin embargo, cuando la sombra crece, estos pueblos recuerdan que juntos derrotaron al enemigo en el pasado.",
+      "detailed_description": "Una coalición nacida de la necesidad más que de la amistad. Los elfos de Aurelion y Aelinar mantienen contacto con los Veladores, los últimos herederos de Athalor. Los enanos comercian cuando les conviene pero prefieren su aislamiento. Los medianos ignoran felizmente los asuntos del mundo exterior. Sin embargo, cuando la sombra crece, estos pueblos recuerdan que juntos derrotaron al enemigo en el pasado.",
       "key_figures": [
-        "Elrond de Rivendel",
-        "Galadriel de Lothlórien",
-        "Thranduil del Bosque Negro",
-        "Dáin Pie de Hierro"
+        "Elandur de Aelinar",
+        "Ithariel de Aurelion",
+        "Elthoran del Bosque Sombrío",
+        "Bramdur Pie de Hierro"
       ],
       "goals": [
         "Preservar la paz y la libertad",
@@ -53,48 +53,48 @@
     },
     {
       "name": "Las Fuerzas de la Sombra",
-      "description": "Orcos, trolls y sirvientes oscuros que buscan dominar la Tierra Media",
+      "description": "Orcos, trolls y sirvientes oscuros que buscan dominar la Tierra del Ocaso",
       "alignment": "Malvado",
       "influence": 1,
-      "detailed_description": "Desde las profundidades de Mordor y las montañas nubladas, las criaturas de la oscuridad se multiplican. Los orcos, corrompidos hace eones de elfos capturados, son la infantería del mal. Los trolls, bestias de piedra y odio, sirven como arietes vivientes. Los espectros del anillo, antiguos reyes corrompidos, cabalgan como heraldos del terror. Y detrás de todo, una voluntad oscura orquesta la destrucción de todo lo que es bueno.",
+      "detailed_description": "Desde las profundidades de Cenizar y las montañas nubladas, las criaturas de la oscuridad se multiplican. Los orcos, corrompidos hace eones de elfos capturados, son la infantería del mal. Los trolls, bestias de piedra y odio, sirven como arietes vivientes. Los espectros del Sello, antiguos reyes corrompidos, cabalgan como heraldos del terror. Y detrás de todo, una voluntad oscura orquesta la destrucción de todo lo que es bueno.",
       "key_figures": [
-        "El Rey Brujo de Angmar",
-        "Los Nueve Nazgûl",
-        "Capitanes orcos de las Montañas Nubladas"
+        "El Señor de los Espectros",
+        "Los Nueve Umbríos",
+        "Capitanes orcos de las Montañas Veladas"
       ],
       "goals": [
-        "Encontrar el Anillo Único",
+        "Encontrar el Sello Soberano",
         "Destruir los reinos de los hombres",
         "Sumir al mundo en oscuridad eterna"
       ]
     },
     {
-      "name": "Los Istari",
+      "name": "Los Magos Errantes",
       "description": "Magos enviados para guiar a los pueblos libres sin dominarlos",
       "alignment": "Neutral Bueno",
       "influence": 1,
-      "detailed_description": "Cinco magos llegaron del oeste hace casi dos mil años, enviados por los Valar para contrarrestar la creciente amenaza de Sauron. Gandalf el Gris viaja sin descanso, aconsejando y observando. Saruman el Blanco se ha recluido en Isengard, estudiando al enemigo. Radagast el Pardo prefiere la compañía de animales. Los dos magos azules partieron al este y no se ha sabido más de ellos. Sus poderes son grandes pero limitados por su misión: deben guiar, no dominar.",
+      "detailed_description": "Cinco magos llegaron del oeste hace casi dos mil años, enviados por los Custodios para contrarrestar la creciente amenaza de Malzhur. Olvar el Gris viaja sin descanso, aconsejando y observando. Velmoran el Blanco se ha recluido en Torregrís, estudiando al enemigo. Silvaro el Pardo prefiere la compañía de animales. Los dos magos azules partieron al este y no se ha sabido más de ellos. Sus poderes son grandes pero limitados por su misión: deben guiar, no dominar.",
       "key_figures": [
-        "Gandalf el Gris",
-        "Saruman el Blanco",
-        "Radagast el Pardo"
+        "Olvar el Gris",
+        "Velmoran el Blanco",
+        "Silvaro el Pardo"
       ],
       "goals": [
-        "Contrarrestar la influencia de Sauron",
+        "Contrarrestar la influencia de Malzhur",
         "Unir a los pueblos libres",
-        "Encontrar y destruir el Anillo"
+        "Encontrar y destruir el Sello"
       ]
     },
     {
       "name": "Los Reinos de los Hombres",
-      "description": "Gondor, Rohan y otros reinos humanos en decadencia",
+      "description": "Meridonia, Estepia y otros reinos humanos en decadencia",
       "alignment": "Bueno",
       "influence": 1,
-      "detailed_description": "Gondor, el mayor reino de los hombres, no ha tenido rey en casi mil años. Sus senescales gobiernan con mano firme pero sin la autoridad de antaño. Rohan, tierra de los señores de los caballos, enfrenta incursiones constantes de Dunland y orcos. Más al norte, Dale y Erebor prosperan gracias a la alianza entre hombres y enanos. Pero en general, los días de gloria de los hombres parecen haber quedado atrás.",
+      "detailed_description": "Meridonia, el mayor reino de los hombres, no ha tenido rey en casi mil años. Sus senescales gobiernan con mano firme pero sin la autoridad de antaño. Estepia, tierra de los señores de los caballos, enfrenta incursiones constantes de los clanes del Brezal y orcos. Más al norte, Valdía y Monte Forja prosperan gracias a la alianza entre hombres y enanos. Pero en general, los días de gloria de los hombres parecen haber quedado atrás.",
       "key_figures": [
-        "Denethor, Senescal de Gondor",
-        "Théoden Rey de Rohan",
-        "Brand, Rey de Dale"
+        "Davenor, Senescal de Meridonia",
+        "Valdric Rey de Estepia",
+        "Bravan, Rey de Valdía"
       ],
       "goals": [
         "Defender sus fronteras",
@@ -103,55 +103,55 @@
       ]
     },
     {
-      "name": "Los Dúnedain del Norte",
-      "description": "Montaraces, últimos herederos del reino perdido de Arnor",
+      "name": "Los Veladores del Norte",
+      "description": "Montaraces, últimos herederos del reino perdido de Nortania",
       "alignment": "Bueno",
       "influence": 0,
-      "detailed_description": "Son pocos, menos de mil, pero su linaje se remonta a los reyes de Númenor. Vagan por Eriador como cazadores y guardianes, protegiendo a pueblos que ni siquiera saben de su existencia. Los hobbits de la Comarca viven en paz gracias a su vigilancia silenciosa. Su jefe es descendiente directo de Isildur, y en secreto, porta la espada que fue quebrada. Algún día, un rey volverá a reclamar el trono de sus ancestros.",
+      "detailed_description": "Son pocos, menos de mil, pero su linaje se remonta a los reyes de Athalor. Vagan por las Tierras Solitarias como cazadores y guardianes, protegiendo a pueblos que ni siquiera saben de su existencia. Los medianos de la Vega Mansa viven en paz gracias a su vigilancia silenciosa. Su jefe es descendiente directo de Aldaric, y en secreto, porta la espada que fue quebrada. Algún día, un rey volverá a reclamar el trono de sus ancestros.",
       "key_figures": [
         "El Capitán de los Montaraces",
-        "Halbarad",
-        "Los hermanos de Rivendel"
+        "Berandor",
+        "Los hermanos de Aelinar"
       ],
       "goals": [
         "Proteger a los inocentes",
-        "Preservar el linaje de Isildur",
+        "Preservar el linaje de Aldaric",
         "Esperar el momento de reclamar el trono"
       ]
     }
   ],
   "locations": [
     {
-      "name": "La Comarca",
-      "description": "Tierra pacífica de colinas verdes donde viven los hobbits",
+      "name": "La Vega Mansa",
+      "description": "Tierra pacífica de colinas verdes donde viven los medianos",
       "type": "asentamiento",
       "danger_level": 0,
-      "detailed_description": "Cuatro farthings de colinas ondulantes, campos cultivados y agujeros hobbit acogedores. El humo de las pipas se eleva perezosamente sobre Hobbiton. El Puente de Brandy cruza el Brandivino hacia Buckland. La Posada del Dragón Verde sirve la mejor cerveza al este del mar. Los hobbits viven ajenos a los peligros del mundo, preocupados solo por la próxima comida, el jardín y los cotilleos del vecindario. Pero incluso aquí, sombras comienzan a arrastrarse.",
+      "detailed_description": "Cuatro cuadrantes de colinas ondulantes, campos cultivados y acogedoras madrigueras de medianos. El humo de las pipas se eleva perezosamente sobre Pradohondo. El Puente Grande cruza el río Ambarino hacia la Vega Oriental. La Posada del Ganso Dorado sirve la mejor cerveza al este del mar. Los medianos viven ajenos a los peligros del mundo, preocupados solo por la próxima comida, el jardín y los cotilleos del vecindario. Pero incluso aquí, sombras comienzan a arrastrarse.",
       "notable_npcs": [
-        "Bilbo Bolsón",
-        "Frodo Bolsón",
-        "Samsagaz Gamyi",
-        "El Tío de los Gamyi"
+        "Talbo Montecillo",
+        "Fero Montecillo",
+        "Serondo Cardal",
+        "El Tío de los Cardal"
       ],
       "available_services": [
-        "Posada del Dragón Verde",
-        "Mercado de Hobbiton",
+        "Posada del Ganso Dorado",
+        "Mercado de Pradohondo",
         "Taller de Sandyman"
       ],
       "plot_hooks": [
-        "Extraños en capucha han sido vistos preguntando por 'Bolsón'",
+        "Extraños en capucha han sido vistos preguntando por 'Montecillo'",
         "Mercaderes enanos necesitan escolta hacia las Montañas Azules",
         "Han desaparecido varios ponys - los granjeros sospechan de lobos"
       ],
       "secrets": [
         {
           "id": "comarca-secret-1",
-          "content": "Bilbo Bolsón guarda un anillo mágico que encontró en las profundidades de las montañas. A veces desaparece misteriosamente de las fiestas.",
+          "content": "Talbo Montecillo guarda un sello mágico que encontró en las profundidades de las montañas. A veces desaparece misteriosamente de las fiestas.",
           "reveal_condition": "npc_talk"
         },
         {
           "id": "comarca-secret-2",
-          "content": "Los Montaraces del Norte protegen la Comarca en secreto. A veces se les puede ver en los límites del Bosque Viejo.",
+          "content": "Los Montaraces del Norte protegen la Vega Mansa en secreto. A veces se les puede ver en los límites del Bosque Viejo.",
           "reveal_condition": "investigate"
         }
       ],
@@ -159,70 +159,70 @@
         {
           "id": "comarca-event-1",
           "trigger": "first_visit",
-          "description": "Llegas a la Comarca en un día de mercado. Hobbits de todas las familias compran y venden entre risas y cotilleos."
+          "description": "Llegas a la Vega Mansa en un día de mercado. Medianos de todas las familias compran y venden entre risas y cotilleos."
         },
         {
           "id": "comarca-event-2",
           "trigger": "random",
           "probability": 0.3,
-          "description": "Un hobbit mayor te invita a tomar el té. 'No vemos muchos Gente Grande por aquí,' dice con curiosidad."
+          "description": "Un mediano mayor te invita a tomar el té. 'No vemos muchos Gente Grande por aquí,' dice con curiosidad."
         }
       ],
       "rumors": [
-        "Dicen que Bilbo Bolsón tiene tesoros de su aventura con los enanos",
+        "Dicen que Talbo Montecillo tiene tesoros de su aventura con los enanos",
         "El Bosque Viejo se ha vuelto más peligroso últimamente",
-        "Se han visto figuras encapuchadas preguntando por cierto hobbit"
+        "Se han visto figuras encapuchadas preguntando por cierto mediano"
       ],
       "travel_times": {
-        "Bree": "1 día a pie, 4 horas a caballo"
+        "Vado Viejo": "1 día a pie, 4 horas a caballo"
       },
       "sub_locations": [
         {
           "id": "hobbiton-plaza",
           "name": {
-            "es": "Plaza de Hobbiton",
-            "en": "Hobbiton Square"
+            "es": "Plaza de Pradohondo",
+            "en": "Pradohondo Square"
           },
           "type": "plaza",
           "description": {
-            "es": "Centro de la vida hobbit, con el árbol festivo y bancas de piedra",
-            "en": "The heart of hobbit life, with the Party Tree and stone benches"
+            "es": "Centro de la vida mediano, con el árbol festivo y bancas de piedra",
+            "en": "The heart of mediano life, with the Party Tree and stone benches"
           }
         },
         {
           "id": "dragon-verde",
           "name": {
-            "es": "Posada del Dragón Verde",
-            "en": "The Green Dragon Inn"
+            "es": "Posada del Ganso Dorado",
+            "en": "The Golden Goose Inn"
           },
           "type": "tavern",
           "description": {
-            "es": "La mejor cerveza de la Comarca, punto de reunión de hobbits chismosos",
-            "en": "The best ale in the Shire, gathering place of gossiping hobbits"
+            "es": "La mejor cerveza de la Vega Mansa, punto de reunión de medianos chismosos",
+            "en": "The best ale in the Vale, gathering place of gossiping medianos"
           }
         },
         {
           "id": "bolson-cerrado",
           "name": {
-            "es": "Bolsón Cerrado",
-            "en": "Bag End"
+            "es": "Cueva del Cerro",
+            "en": "Hill Hollow"
           },
           "type": "residence",
           "description": {
-            "es": "La famosa cueva-hogar de los Bolsón, en la cima de la colina",
-            "en": "The famous hobbit-hole of the Baggins family, atop the hill"
+            "es": "La famosa cueva-hogar de los Montecillo, en la cima de la colina",
+            "en": "The famous burrow-home of the Montecillo family, atop the hill"
           }
         },
         {
           "id": "mercado-hobbiton",
           "name": {
-            "es": "Mercado de Hobbiton",
-            "en": "Hobbiton Market"
+            "es": "Mercado de Pradohondo",
+            "en": "Pradohondo Market"
           },
           "type": "market",
           "description": {
-            "es": "Frutas, verduras, semillas y pipas de los mejores granjeros hobbits",
-            "en": "Fruits, vegetables, seeds and pipes from the finest hobbit farmers"
+            "es": "Frutas, verduras, semillas y pipas de los mejores granjeros medianos",
+            "en": "Fruits, vegetables, seeds and pipes from the finest mediano farmers"
           }
         },
         {
@@ -240,30 +240,30 @@
       ]
     },
     {
-      "name": "Bree",
-      "description": "Ciudad de hombres y hobbits en el cruce de caminos del norte",
+      "name": "Vado Viejo",
+      "description": "Ciudad de hombres y medianos en el cruce de caminos del norte",
       "type": "ciudad",
       "danger_level": 1,
-      "detailed_description": "Bree es la ciudad más grande entre la Comarca y Rivendel. Aquí conviven hombres y hobbits en relativa armonía. Es un punto de encuentro para viajeros, comerciantes y extraños de todas las razas. Los caminos del norte y del este se cruzan aquí.",
+      "detailed_description": "Vado Viejo es la ciudad más grande entre la Vega Mansa y Aelinar. Aquí conviven hombres y medianos en relativa armonía. Es un punto de encuentro para viajeros, comerciantes y extraños de todas las razas. Los caminos del norte y del este se cruzan aquí.",
       "notable_npcs": [
-        "Cebadilla Mantecona",
-        "Guardias de Bree"
+        "Cebadilla Cebadín",
+        "Guardias de Vado Viejo"
       ],
       "available_services": [
-        "Posada del Pony Pisador",
+        "Posada del Jabalí Dorado",
         "Mercado",
         "Herrería",
         "Establo"
       ],
       "plot_hooks": [
-        "Extraños encapuchados preguntan por hobbits llamados 'Bolsón'",
+        "Extraños encapuchados preguntan por medianos llamados 'Montecillo'",
         "Mercaderes necesitan escolta para caravanas al este",
         "Los guardias reportan avistamientos de lobos en los caminos"
       ],
       "secrets": [
         {
           "id": "bree-secret-1",
-          "content": "Los Montaraces vigilan Bree en secreto, protegiendo a los viajeros inocentes",
+          "content": "Los Montaraces vigilan Vado Viejo en secreto, protegiendo a los viajeros inocentes",
           "reveal_condition": "npc_talk"
         },
         {
@@ -273,38 +273,38 @@
         }
       ],
       "rumors": [
-        "Un Montaraz llamado Trancos ha sido visto últimamente por la posada",
+        "Un Montaraz llamado el Andarín ha sido visto últimamente por la posada",
         "Las caravanas del este están siendo atacadas por lobos inusualmente grandes",
         "El posadero dice que los negocios van mal desde que empezaron los rumores"
       ],
       "travel_times": {
-        "La Comarca": "1 día a pie, 4 horas a caballo",
-        "Rivendel": "14 días a pie, 5 días a caballo",
-        "Las Montañas Nubladas": "10 días a pie, 4 días a caballo"
+        "La Vega Mansa": "1 día a pie, 4 horas a caballo",
+        "Aelinar": "14 días a pie, 5 días a caballo",
+        "Las Montañas Veladas": "10 días a pie, 4 días a caballo"
       },
       "sub_locations": [
         {
           "id": "pony-pisador",
           "name": {
-            "es": "Posada del Pony Pisador",
-            "en": "The Prancing Pony"
+            "es": "Posada del Jabalí Dorado",
+            "en": "The Gilded Boar"
           },
           "type": "tavern",
           "description": {
-            "es": "La posada más famosa de Bree, regentada por Cebadilla Mantecona. Fuego cálido, cerveza de cebada y estofado de cordero",
-            "en": "The most famous inn in Bree, run by Barliman Butterbur. A warm hearth, barley ale and mutton stew"
+            "es": "La posada más famosa de Vado Viejo, regentada por Cebadilla Cebadín. Fuego cálido, cerveza de cebada y estofado de cordero",
+            "en": "The most famous inn in Vado Viejo, run by Barley Barleyman. A warm hearth, barley ale and mutton stew"
           }
         },
         {
           "id": "mercado-bree",
           "name": {
-            "es": "Mercado de Bree",
-            "en": "Bree Market"
+            "es": "Mercado de Vado Viejo",
+            "en": "Vado Viejo Market"
           },
           "type": "market",
           "description": {
-            "es": "Plaza central donde comerciantes de todas las razas intercambian mercancías. Enanos con gemas, hobbits con pipas, hombres con armas",
-            "en": "The central square where merchants of every race trade goods. Dwarves with gems, hobbits with pipes, men with weapons"
+            "es": "Plaza central donde comerciantes de todas las razas intercambian mercancías. Enanos con gemas, medianos con pipas, hombres con armas",
+            "en": "The central square where merchants of every race trade goods. Dwarves with gems, medianos with pipes, men with weapons"
           }
         },
         {
@@ -327,15 +327,15 @@
           },
           "type": "gate",
           "description": {
-            "es": "Salida hacia el Camino del Este, Rivendel y las tierras lejanas",
-            "en": "The way out toward the East Road, Rivendell and distant lands"
+            "es": "Salida hacia el Camino del Este, Aelinar y las tierras lejanas",
+            "en": "The way out toward the East Road, Aelinar and distant lands"
           }
         },
         {
           "id": "herreria-bree",
           "name": {
-            "es": "Herrería de Bree",
-            "en": "Bree Smithy"
+            "es": "Herrería de Vado Viejo",
+            "en": "Vado Viejo Smithy"
           },
           "type": "workshop",
           "description": {
@@ -346,27 +346,27 @@
         {
           "id": "establo-bree",
           "name": {
-            "es": "Establos de Bree",
-            "en": "Bree Stables"
+            "es": "Establos de Vado Viejo",
+            "en": "Vado Viejo Stables"
           },
           "type": "stable",
           "description": {
-            "es": "Donde los viajeros guardan sus monturas. Ponys de la Comarca y caballos del norte",
-            "en": "Where travelers keep their mounts. Shire ponies and horses from the North"
+            "es": "Donde los viajeros guardan sus monturas. Ponys de la Vega Mansa y caballos del norte",
+            "en": "Where travelers keep their mounts. Vale ponies and horses from the North"
           }
         }
       ]
     },
     {
-      "name": "Rivendel",
+      "name": "Aelinar",
       "description": "Refugio élfico oculto en las montañas, hogar de sabiduría antigua",
       "type": "ciudad",
       "danger_level": 0,
-      "detailed_description": "El Último Hogar al Este del Mar. Cascadas cristalinas caen junto a torres de piedra blanca cubiertas de hiedra. Cantos élficos resuenan en el aire perfumado de flores eternas. Elrond Medio-elfo ha regido aquí durante más de seis mil años, aconsejando a reyes y refugiando a los perseguidos. Sus salones albergan la mayor biblioteca de la Tierra Media. Aquí se forjaron las grandes alianzas del pasado, y quizás, las del futuro.",
+      "detailed_description": "El Último Hogar al Este del Mar. Cascadas cristalinas caen junto a torres de piedra blanca cubiertas de hiedra. Cantos élficos resuenan en el aire perfumado de flores eternas. Elandur Medio-elfo ha regido aquí durante más de seis mil años, aconsejando a reyes y refugiando a los perseguidos. Sus salones albergan la mayor biblioteca de la Tierra del Ocaso. Aquí se forjaron las grandes alianzas del pasado, y quizás, las del futuro.",
       "notable_npcs": [
-        "Elrond Medio-elfo",
-        "Arwen Undómiel",
-        "Glorfindel",
+        "Elandur Medio-elfo",
+        "Aravel Lucero",
+        "Sildarion",
         "Erestor"
       ],
       "available_services": [
@@ -376,24 +376,24 @@
         "Forja de armas élficas"
       ],
       "plot_hooks": [
-        "Elrond convoca un consejo secreto - todos los pueblos libres están invitados",
+        "Elandur convoca un consejo secreto - todos los pueblos libres están invitados",
         "Un pergamino antiguo revela la ubicación de un artefacto perdido",
-        "Los hijos de Elrond han partido a cazar orcos y no han regresado"
+        "Los hijos de Elandur han partido a cazar orcos y no han regresado"
       ],
       "secrets": [
         {
           "id": "rivendel-secret-1",
-          "content": "En los archivos más profundos se guardan mapas de un camino secreto a través de las Montañas Nubladas, conocido solo por los elfos más antiguos.",
+          "content": "En los archivos más profundos se guardan mapas de un camino secreto a través de las Montañas Veladas, conocido solo por los elfos más antiguos.",
           "reveal_condition": "quest_complete"
         },
         {
           "id": "rivendel-secret-2",
-          "content": "Elrond posee uno de los tres anillos élficos: Vilya, el anillo del aire. Es la fuente de la protección de Rivendel.",
+          "content": "Elandur posee uno de los tres sellos élficos: Vaelia, el sello del aire. Es la fuente de la protección de Aelinar.",
           "reveal_condition": "npc_talk"
         },
         {
           "id": "rivendel-secret-3",
-          "content": "La espada que fue quebrada, Narsil, reposa aquí esperando ser reforjada cuando llegue el momento.",
+          "content": "La espada que fue quebrada, Albarion, reposa aquí esperando ser reforjada cuando llegue el momento.",
           "reveal_condition": "investigate"
         }
       ],
@@ -406,31 +406,31 @@
         {
           "id": "rivendel-event-2",
           "trigger": "quest_active",
-          "description": "Elrond te convoca a una audiencia privada. Parece que ha previsto tu llegada en alguno de sus sueños proféticos."
+          "description": "Elandur te convoca a una audiencia privada. Parece que ha previsto tu llegada en alguno de sus sueños proféticos."
         }
       ],
       "rumors": [
-        "Elrond puede ver fragmentos del futuro en sueños",
-        "Un hobbit llegó hace años con una historia increíble sobre un dragón",
-        "Los hijos de Elrond cazan orcos sin descanso, buscando venganza por su madre"
+        "Elandur puede ver fragmentos del futuro en sueños",
+        "Un mediano llegó hace años con una historia increíble sobre un dragón",
+        "Los hijos de Elandur cazan orcos sin descanso, buscando venganza por su madre"
       ],
       "travel_times": {
-        "Bree": "14 días a pie, 5 días a caballo",
-        "Las Montañas Nubladas": "3 días a pie, 1 día a caballo",
-        "Lothlórien": "7 días a pie, 3 días a caballo",
-        "Moria": "5 días a pie (entrada oeste)"
+        "Vado Viejo": "14 días a pie, 5 días a caballo",
+        "Las Montañas Veladas": "3 días a pie, 1 día a caballo",
+        "Aurelion": "7 días a pie, 3 días a caballo",
+        "Profundia": "5 días a pie (entrada oeste)"
       },
       "sub_locations": [
         {
           "id": "casa-elrond",
           "name": {
-            "es": "Casa de Elrond",
-            "en": "The House of Elrond"
+            "es": "Casa de Elandur",
+            "en": "The House of Elandur"
           },
           "type": "palace",
           "description": {
-            "es": "Salones de piedra blanca con cascadas, donde el Señor de Rivendel recibe a sus huéspedes",
-            "en": "White stone halls flanked by waterfalls, where the Lord of Rivendell welcomes his guests"
+            "es": "Salones de piedra blanca con cascadas, donde el Señor de Aelinar recibe a sus huéspedes",
+            "en": "White stone halls flanked by waterfalls, where the Lord of Aelinar welcomes his guests"
           }
         },
         {
@@ -441,8 +441,8 @@
           },
           "type": "library",
           "description": {
-            "es": "La mayor colección de conocimiento de la Tierra Media. Pergaminos en todas las lenguas",
-            "en": "The greatest collection of knowledge in Middle-earth. Scrolls in every tongue"
+            "es": "La mayor colección de conocimiento de la Tierra del Ocaso. Pergaminos en todas las lenguas",
+            "en": "The greatest collection of knowledge in Duskland. Scrolls in every tongue"
           }
         },
         {
@@ -460,8 +460,8 @@
         {
           "id": "jardines-rivendel",
           "name": {
-            "es": "Jardines de Rivendel",
-            "en": "The Gardens of Rivendell"
+            "es": "Jardines de Aelinar",
+            "en": "The Gardens of Aelinar"
           },
           "type": "garden",
           "description": {
@@ -484,31 +484,31 @@
       ]
     },
     {
-      "name": "Minas Tirith",
-      "description": "Gran ciudad fortaleza de Gondor, construida en siete niveles",
+      "name": "Torrealba",
+      "description": "Gran ciudad fortaleza de Meridonia, construida en siete niveles",
       "type": "ciudad",
       "danger_level": 1,
-      "detailed_description": "La Ciudad Blanca, Torre de la Guardia, orgullo de los hombres del oeste. Siete murallas concéntricas ascienden por la ladera del Monte Mindolluin. En su cima, la Torre de Ecthelion brilla como una aguja de perla y plata. Pero los niveles superiores se vacían mientras la población disminuye. Los jardines de los reyes están abandonados. El Árbol Blanco murió hace generaciones. Solo el senescal Denethor gobierna, sin corona, desde un trono que no le pertenece.",
+      "detailed_description": "La Ciudad Blanca, Torre de la Guardia, orgullo de los hombres del oeste. Siete murallas concéntricas ascienden por la ladera del Monte Coronado. En su cima, la Torre de Elethar brilla como una aguja de perla y plata. Pero los niveles superiores se vacían mientras la población disminuye. Los jardines de los reyes están abandonados. El Árbol Blanco murió hace generaciones. Solo el senescal Davenor gobierna, sin corona, desde un trono que no le pertenece.",
       "notable_npcs": [
-        "Denethor II",
-        "Boromir",
-        "Faramir",
+        "Davenor II",
+        "Beltram",
+        "Falric",
         "Beregond de la Guardia"
       ],
       "available_services": [
         "Armería del reino",
-        "Archivos de Minas Tirith",
+        "Archivos de Torrealba",
         "Casas de curación",
         "Mercado de los siete niveles"
       ],
       "plot_hooks": [
-        "Los vigías reportan movimientos en Mordor - se necesitan exploradores",
-        "Denethor busca un artefacto perdido que podría restaurar la esperanza",
-        "Osgiliath ha sido atacada - se necesitan refuerzos urgentes"
+        "Los vigías reportan movimientos en Cenizar - se necesitan exploradores",
+        "Davenor busca un artefacto perdido que podría restaurar la esperanza",
+        "Riocruz ha sido atacada - se necesitan refuerzos urgentes"
       ],
       "travel_times": {
-        "Rohan": "7 días a pie, 3 días a caballo",
-        "Mordor": "5 días a pie (ruta peligrosa)"
+        "Estepia": "7 días a pie, 3 días a caballo",
+        "Cenizar": "5 días a pie (ruta peligrosa)"
       },
       "sub_locations": [
         {
@@ -519,8 +519,8 @@
           },
           "type": "palace",
           "description": {
-            "es": "La cima de Minas Tirith. La Torre de Ecthelion, el Trono del Senescal y el Árbol Blanco muerto",
-            "en": "The summit of Minas Tirith. The Tower of Ecthelion, the Steward's Throne, and the withered White Tree"
+            "es": "La cima de Torrealba. La Torre de Elethar, el Trono del Senescal y el Árbol Blanco muerto",
+            "en": "The summit of Torrealba. The Tower of Elethar, the Steward's Throne, and the withered White Tree"
           }
         },
         {
@@ -538,13 +538,13 @@
         {
           "id": "archivos",
           "name": {
-            "es": "Archivos de Minas Tirith (Nivel 5)",
-            "en": "Archives of Minas Tirith (Level 5)"
+            "es": "Archivos de Torrealba (Nivel 5)",
+            "en": "Archives of Torrealba (Level 5)"
           },
           "type": "library",
           "description": {
-            "es": "Registros de miles de años de historia de Gondor. Mapas, genealogías, crónicas",
-            "en": "Records of thousands of years of Gondor's history. Maps, genealogies, chronicles"
+            "es": "Registros de miles de años de historia de Meridonia. Mapas, genealogías, crónicas",
+            "en": "Records of thousands of years of Meridonia's history. Maps, genealogies, chronicles"
           }
         },
         {
@@ -555,8 +555,8 @@
           },
           "type": "market",
           "description": {
-            "es": "Comerciantes de todo Gondor venden armas, armaduras, provisiones y lujos",
-            "en": "Merchants from across Gondor sell weapons, armor, provisions and luxuries"
+            "es": "Comerciantes de todo Meridonia venden armas, armaduras, provisiones y lujos",
+            "en": "Merchants from across Meridonia sell weapons, armor, provisions and luxuries"
           }
         },
         {
@@ -567,42 +567,42 @@
           },
           "type": "gate",
           "description": {
-            "es": "La entrada principal de Minas Tirith, con puertas de hierro y acero. Guardias de la Torre Blanca",
-            "en": "The main entrance to Minas Tirith, with doors of iron and steel. Guards of the White Tower stand watch"
+            "es": "La entrada principal de Torrealba, con puertas de hierro y acero. Guardias de la Torre Blanca",
+            "en": "The main entrance to Torrealba, with doors of iron and steel. Guards of the White Tower stand watch"
           }
         }
       ]
     },
     {
-      "name": "Bosque Negro",
+      "name": "Bosque Sombrío",
       "description": "Bosque corrupto plagado de arañas gigantes y criaturas oscuras",
       "type": "bosque",
       "danger_level": 3,
-      "detailed_description": "Alguna vez llamado el Gran Bosque Verde, ahora una maraña de sombras y telarañas. Los elfos de Thranduil resisten en el norte, pero el sur ha caído bajo la influencia de Dol Guldur, la fortaleza del Nigromante. Arañas del tamaño de caballos acechan entre los árboles enfermos. El aire es pesado, soporífero, engañoso. Los viajeros que se desvían del camino rara vez regresan. Pero entre las sombras, aún quedan claros de luz donde los elfos mantienen su vigilia eterna.",
+      "detailed_description": "Alguna vez llamado el Gran Bosque Verde, ahora una maraña de sombras y telarañas. Los elfos de Elthoran resisten en el norte, pero el sur ha caído bajo la influencia de Vhulgar, la fortaleza del Nigromante. Arañas del tamaño de caballos acechan entre los árboles enfermos. El aire es pesado, soporífero, engañoso. Los viajeros que se desvían del camino rara vez regresan. Pero entre las sombras, aún quedan claros de luz donde los elfos mantienen su vigilia eterna.",
       "notable_npcs": [
-        "Thranduil el Rey Élfico",
-        "Legolas Hojaverde",
-        "El Nigromante de Dol Guldur"
+        "Elthoran el Rey Élfico",
+        "Faelor Hojaluna",
+        "El Nigromante de Vhulgar"
       ],
       "available_services": [
         "Comercio con elfos silvanos (si logras llegar)",
         "Guías que conocen el Camino del Bosque"
       ],
       "plot_hooks": [
-        "Una compañía de enanos necesita atravesar el bosque hacia Erebor",
+        "Una compañía de enanos necesita atravesar el bosque hacia Monte Forja",
         "Los elfos silvanos buscan guerreros para atacar una madriguera de arañas",
-        "Extrañas luces se ven cerca de Dol Guldur - alguien debe investigar"
+        "Extrañas luces se ven cerca de Vhulgar - alguien debe investigar"
       ]
     },
     {
-      "name": "Moria",
+      "name": "Profundia",
       "description": "Antigua ciudad enana bajo la montaña, ahora en ruinas y oscuridad",
       "type": "mazmorra",
       "danger_level": 4,
-      "detailed_description": "Khazad-dûm, la más grande de las mansiones enanas, donde brillaba el mithril y los martillos resonaban día y noche. Ahora solo hay silencio y oscuridad. Hace doscientos años los enanos despertaron algo terrible en las profundidades: un Balrog, demonio de la Primera Edad. Los orcos ocuparon los salones superiores. Los enanos que intentaron reclamar su hogar no regresaron. Solo los más desesperados o valientes se atreven a cruzar por el Camino Oscuro.",
+      "detailed_description": "Bhardun, la más grande de las mansiones enanas, donde brillaba el lunacero y los martillos resonaban día y noche. Ahora solo hay silencio y oscuridad. Hace doscientos años los enanos despertaron algo terrible en las profundidades: un Flagelo Ígneo, demonio de la Primera Edad. Los orcos ocuparon los salones superiores. Los enanos que intentaron reclamar su hogar no regresaron. Solo los más desesperados o valientes se atreven a cruzar por el Camino Oscuro.",
       "notable_npcs": [
         "Espíritus de enanos caídos",
-        "El señor de los orcos de Moria",
+        "El señor de los orcos de Profundia",
         "La criatura en el agua"
       ],
       "available_services": [
@@ -610,23 +610,23 @@
       ],
       "plot_hooks": [
         "Se necesita encontrar el Libro de Mazarbul - registro del último intento de colonización",
-        "Un pasadizo secreto a través de Moria es la única ruta disponible",
-        "Rumores de que el mithril aún puede encontrarse para quien se atreva"
+        "Un pasadizo secreto a través de Profundia es la única ruta disponible",
+        "Rumores de que el lunacero aún puede encontrarse para quien se atreva"
       ],
       "secrets": [
         {
           "id": "moria-secret-1",
-          "content": "En las profundidades más oscuras duerme un Balrog, un demonio de fuego y sombra de la Primera Edad. Los enanos lo despertaron al excavar demasiado profundo.",
+          "content": "En las profundidades más oscuras duerme un Flagelo Ígneo, un demonio de fuego y sombra de la Primera Edad. Los enanos lo despertaron al excavar demasiado profundo.",
           "reveal_condition": "investigate"
         },
         {
           "id": "moria-secret-2",
-          "content": "Existe un camino secreto que evita los salones principales, conocido solo por los enanos más antiguos. Se accede desde la Cámara de Mazarbul.",
+          "content": "Existe un camino secreto que evita los salones principales, conocido solo por los enanos más antiguos. Se accede desde la Cámara de los Registros.",
           "reveal_condition": "quest_complete"
         },
         {
           "id": "moria-secret-3",
-          "content": "Las vetas de mithril más ricas aún existen en los niveles inferiores, pero nadie ha regresado de intentar alcanzarlas.",
+          "content": "Las vetas de lunacero más ricas aún existen en los niveles inferiores, pero nadie ha regresado de intentar alcanzarlas.",
           "reveal_condition": "npc_talk"
         }
       ],
@@ -649,83 +649,83 @@
         }
       ],
       "rumors": [
-        "Balin intentó reclamar Moria hace años. Nadie ha vuelto a saber de su expedición",
-        "Los orcos de Moria responden a una criatura antigua y terrible",
-        "El mithril de Moria no tiene igual en toda la Tierra Media"
+        "Brannok intentó reclamar Profundia hace años. Nadie ha vuelto a saber de su expedición",
+        "Los orcos de Profundia responden a una criatura antigua y terrible",
+        "El lunacero de Profundia no tiene igual en toda la Tierra del Ocaso"
       ]
     },
     {
-      "name": "Rohan",
+      "name": "Estepia",
       "description": "Extensas llanuras donde cabalgan los señores de los caballos",
       "type": "región",
       "danger_level": 2,
-      "detailed_description": "El Mar de Hierba, hogar de los Rohirrim, los mejores jinetes del mundo. Desde Edoras, su capital de madera dorada en las colinas, los señores de los caballos vigilan sus tierras. Sus caballos mearan son la envidia de todos los reinos. Pero las fronteras oeste sufren incursiones de Dunland, y los orcos bajan de las montañas con frecuencia creciente. El rey Théoden envejece, y algunos susurran que su consejero Gríma tiene demasiada influencia.",
+      "detailed_description": "El Mar de Hierba, hogar de los estepios, los mejores jinetes del mundo. Desde Altocrín, su capital de madera dorada en las colinas, los señores de los caballos vigilan sus tierras. Sus corceles de estirpe real son la envidia de todos los reinos. Pero las fronteras oeste sufren incursiones de los clanes del Brezal, y los orcos bajan de las montañas con frecuencia creciente. El rey Valdric envejece, y algunos susurran que su consejero Malrik tiene demasiada influencia.",
       "notable_npcs": [
-        "Théoden Rey",
+        "Valdric Rey",
         "Éomer Mariscal",
-        "Éowyn Dama Blanca",
-        "Gríma Lengua de Serpiente"
+        "Aldwina Dama Blanca",
+        "Malrik Lengua de Serpiente"
       ],
       "available_services": [
         "Compra de caballos",
         "Hospedaje en Meduseld",
-        "Herreros de Rohan"
+        "Herreros de Estepia"
       ],
       "plot_hooks": [
         "Los Dunlendinos han atacado aldeas en el Folde Oeste",
-        "Extraños jinetes negros han sido vistos cruzando Rohan",
-        "Se necesitan mensajeros para llevar noticias urgentes a Gondor"
+        "Extraños jinetes negros han sido vistos cruzando Estepia",
+        "Se necesitan mensajeros para llevar noticias urgentes a Meridonia"
       ]
     },
     {
-      "name": "Isengard",
-      "description": "Torre fortificada que vigila la entrada a Rohan",
+      "name": "Torregrís",
+      "description": "Torre fortificada que vigila la entrada a Estepia",
       "type": "fortaleza",
       "danger_level": 3,
-      "detailed_description": "Orthanc, la torre de piedra negra indestructible, se alza en el centro de un círculo de murallas. Antaño puesto de vigilancia de Gondor, ahora hogar de Saruman el Blanco, jefe del Concilio de los Magos. El mago ha cerrado sus puertas al mundo, y quienes se acercan reportan humo negro y ruidos de forja. Los árboles del valle han sido talados. Algunos dicen que Saruman estudia al enemigo demasiado de cerca. Otros temen que ya sea demasiado tarde.",
+      "detailed_description": "Vorngar, la torre de piedra negra indestructible, se alza en el centro de un círculo de murallas. Antaño puesto de vigilancia de Meridonia, ahora hogar de Velmoran el Blanco, jefe del Concilio de los Magos. El mago ha cerrado sus puertas al mundo, y quienes se acercan reportan humo negro y ruidos de forja. Los árboles del valle han sido talados. Algunos dicen que Velmoran estudia al enemigo demasiado de cerca. Otros temen que ya sea demasiado tarde.",
       "notable_npcs": [
-        "Saruman el Blanco",
-        "Gríma Lengua de Serpiente",
-        "Los uruk-hai"
+        "Velmoran el Blanco",
+        "Malrik Lengua de Serpiente",
+        "Los orcos de forja"
       ],
       "available_services": [
         "Ninguno - las puertas están cerradas"
       ],
       "plot_hooks": [
-        "Gandalf ha ido a consultar a Saruman y no ha regresado",
-        "Los Ents del Bosque de Fangorn murmuran sobre la destrucción de sus árboles",
-        "Se han visto orcos diferentes, más grandes, marchando desde Isengard"
+        "Olvar ha ido a consultar a Velmoran y no ha regresado",
+        "Los Arbóreos del Bosque de Raizvieja murmuran sobre la destrucción de sus árboles",
+        "Se han visto orcos diferentes, más grandes, marchando desde Torregrís"
       ]
     },
     {
-      "name": "Mordor",
+      "name": "Cenizar",
       "description": "Tierra desolada donde la sombra tiene su fortaleza",
       "type": "región",
       "danger_level": 5,
-      "detailed_description": "Detrás de las Montañas de la Sombra y las Montañas de Ceniza yace la tierra sin vida. Barad-dûr, la torre de Sauron, se reconstruye lentamente sobre sus cimientos indestructibles. El Monte del Destino humea, las llanuras de Gorgoroth son ceniza y roca. Ejércitos de orcos llenan las fortalezas. Nadie entra a Mordor sin que el Ojo lo sepa. Y sin embargo, hay un camino secreto, olvidado, que sube por las escaleras de Cirith Ungol...",
+      "detailed_description": "Detrás de las Montañas de la Sombra y las Montañas de Ceniza yace la tierra sin vida. Vorkhad, la torre de Malzhur, se reconstruye lentamente sobre sus cimientos indestructibles. El Monte Brasa humea, las llanuras de Zarghun son ceniza y roca. Ejércitos de orcos llenan las fortalezas. Nadie entra a Cenizar sin que Malzhur lo sepa. Y sin embargo, hay un camino secreto, olvidado, que sube por las escaleras del Paso de la Araña...",
       "notable_npcs": [
-        "Sauron el Señor Oscuro",
-        "La Boca de Sauron",
-        "Ella-Laraña"
+        "Malzhur el Señor Oscuro",
+        "La Boca de Malzhur",
+        "La Tejedora Negra"
       ],
       "available_services": [
         "Solo esclavitud y muerte"
       ],
       "plot_hooks": [
         "Solo un camino existe para destruir el mal de raíz",
-        "Gollum conoce pasajes secretos que nadie más recuerda",
-        "Frodo y Sam necesitan una distracción en la Puerta Negra"
+        "Khragul conoce pasajes secretos que nadie más recuerda",
+        "Fero y Sam necesitan una distracción en la Puerta Negra"
       ]
     },
     {
-      "name": "Erebor - La Montaña Solitaria",
-      "description": "Reino enano recuperado bajo la montaña, rico en oro y mithril",
+      "name": "Monte Forja - La Montaña Solitaria",
+      "description": "Reino enano recuperado bajo la montaña, rico en oro y lunacero",
       "type": "ciudad",
       "danger_level": 1,
-      "detailed_description": "Hace décadas, el dragón Smaug fue derrotado y los enanos recuperaron su hogar ancestral. Bajo el reinado de Dáin Pie de Hierro, Erebor ha vuelto a prosperar. Los martillos resuenan en las forjas, el oro fluye hacia Dale, y los enanos vuelven a cantar en sus salones. Pero la riqueza atrae miradas codiciosas, y los enanos recuerdan demasiado bien cómo perdieron su hogar la primera vez.",
+      "detailed_description": "Hace décadas, el dragón Zirnax fue derrotado y los enanos recuperaron su hogar ancestral. Bajo el reinado de Bramdur Pie de Hierro, Monte Forja ha vuelto a prosperar. Los martillos resuenan en las forjas, el oro fluye hacia Valdía, y los enanos vuelven a cantar en sus salones. Pero la riqueza atrae miradas codiciosas, y los enanos recuerdan demasiado bien cómo perdieron su hogar la primera vez.",
       "notable_npcs": [
-        "Dáin II Pie de Hierro",
-        "Glóin padre de Gimli",
+        "Bramdur II Pie de Hierro",
+        "Thargrun padre de Dargrim",
         "Maestros forjadores enanos"
       ],
       "available_services": [
@@ -736,37 +736,37 @@
       "plot_hooks": [
         "Los enanos han encontrado algo extraño en las profundidades",
         "Se necesitan guardias para una caravana hacia las Montañas Azules",
-        "Viejos mapas sugieren que hay más mithril en túneles olvidados"
+        "Viejos mapas sugieren que hay más lunacero en túneles olvidados"
       ]
     },
     {
-      "name": "Lothlórien",
-      "description": "El Bosque Dorado, último gran reino de los elfos Noldor",
+      "name": "Aurelion",
+      "description": "El Bosque Dorado, último gran reino de los altos elfos",
       "type": "bosque",
       "danger_level": 0,
-      "detailed_description": "Los mellyrn, árboles de plata y oro, crecen solo aquí. Los elfos de Lórien viven en flets, plataformas entre las ramas, y su luz plateada ilumina el bosque por la noche. Galadriel, la más poderosa de los elfos que permanecen en la Tierra Media, protege este lugar con su anillo. El tiempo fluye diferente aquí; los viajeros que salen sienten que han pasado años cuando solo fueron días. Es un lugar de paz absoluta, pero también de poder terrible.",
+      "detailed_description": "Los altárboles, de ramas de plata y oro, crecen solo aquí. Los elfos de Aurelion viven en plataformas entre las ramas, y su luz plateada ilumina el bosque por la noche. Ithariel, la más poderosa de los elfos que permanecen en la Tierra del Ocaso, protege este lugar con su sello. El tiempo fluye diferente aquí; los viajeros que salen sienten que han pasado años cuando solo fueron días. Es un lugar de paz absoluta, pero también de poder terrible.",
       "notable_npcs": [
-        "Galadriel la Dama Blanca",
-        "Celeborn el Sabio",
-        "Haldir de Lórien"
+        "Ithariel la Dama Blanca",
+        "Talvorn el Sabio",
+        "Alvaren de Aurelion"
       ],
       "available_services": [
         "Descanso y curación",
-        "Consejo de Galadriel",
+        "Consejo de Ithariel",
         "Regalos élficos para viajeros"
       ],
       "plot_hooks": [
-        "Galadriel tiene una visión que debe compartir",
-        "Los bordes de Lórien están siendo probados por fuerzas oscuras",
-        "Se necesitan mensajeros que lleven palabras a Rivendel"
+        "Ithariel tiene una visión que debe compartir",
+        "Los bordes de Aurelion están siendo probados por fuerzas oscuras",
+        "Se necesitan mensajeros que lleven palabras a Aelinar"
       ]
     },
     {
-      "name": "Las Montañas Nubladas",
+      "name": "Las Montañas Veladas",
       "description": "Cordillera peligrosa infestada de orcos y goblins",
       "type": "montañas",
       "danger_level": 3,
-      "detailed_description": "De norte a sur, las Montañas Nubladas dividen las tierras del oeste. Los pasos son traicioneros: tormentas, avalanchas, gigantes de piedra. Pero el mayor peligro son los habitantes: miles de orcos ocupan cuevas y túneles, liderados por el Gran Goblin. Solo tres cruces son relativamente seguros: el Paso Alto, el Paso del Cuerno Rojo, y el camino subterráneo de Moria. Cada uno tiene sus propios peligros.",
+      "detailed_description": "De norte a sur, las Montañas Veladas dividen las tierras del oeste. Los pasos son traicioneros: tormentas, avalanchas, gigantes de piedra. Pero el mayor peligro son los habitantes: miles de orcos ocupan cuevas y túneles, liderados por el Gran Goblin. Solo tres cruces son relativamente seguros: el Paso Alto, el Paso del Cuerno Rojo, y el camino subterráneo de Profundia. Cada uno tiene sus propios peligros.",
       "notable_npcs": [
         "El Gran Goblin",
         "Jefes orcos tribales",
@@ -782,23 +782,23 @@
       ]
     },
     {
-      "name": "El Bosque de Fangorn",
-      "description": "El bosque más antiguo de la Tierra Media, hogar de los Ents",
+      "name": "El Bosque de Raizvieja",
+      "description": "El bosque más antiguo de la Tierra del Ocaso, hogar de los Arbóreos",
       "type": "bosque",
       "danger_level": 2,
-      "detailed_description": "Árboles que recuerdan cuando los elfos les enseñaron a hablar. Huorn que caminan cuando nadie mira. En lo profundo del bosque viven los Ents, pastores de árboles, los seres más antiguos que aún caminan bajo el sol. Son lentos para actuar pero terribles en su ira. Últimamente murmuran sobre orcos que talan árboles cerca de Isengard. Si los Ents despiertan de su letargo, el mundo temblará.",
+      "detailed_description": "Árboles que recuerdan cuando los elfos les enseñaron a hablar. Espesuras vivientes que caminan cuando nadie mira. En lo profundo del bosque viven los Arbóreos, pastores de árboles, los seres más antiguos que aún caminan bajo el sol. Son lentos para actuar pero terribles en su ira. Últimamente murmuran sobre orcos que talan árboles cerca de Torregrís. Si los Arbóreos despiertan de su letargo, el mundo temblará.",
       "notable_npcs": [
-        "Bárbol (Fangorn)",
-        "Otros Ents antiguos",
-        "Los Huorn"
+        "Ramoso (Raizvieja)",
+        "Otros Arbóreos antiguos",
+        "Las Espesuras Vivientes"
       ],
       "available_services": [
-        "Ninguno - los Ents no reciben visitantes"
+        "Ninguno - los Arbóreos no reciben visitantes"
       ],
       "plot_hooks": [
-        "Los Ents buscan a las Ent-mujeres perdidas hace tiempo",
+        "Los Arbóreos buscan a las Arbóreas perdidas hace tiempo",
         "Algo está haciendo que los árboles estén más despiertos",
-        "Se necesita convencer a los Ents de actuar contra Saruman"
+        "Se necesita convencer a los Arbóreos de actuar contra Velmoran"
       ]
     }
   ],
@@ -817,7 +817,7 @@
         "es": "Conoces los bosques y caminos secretos. Eres hábil con la espada y el arco. Proteges a los inocentes desde las sombras.",
         "en": "You know the forests and hidden paths. You're skilled with sword and bow. You protect the innocent from the shadows."
       },
-      "detailed_background": "Los Montaraces son los últimos Dúnedain del Norte, herederos del reino perdido de Arnor. Vagan por las tierras salvajes como cazadores y guardianes, vestidos de gris y verde para fundirse con los bosques. La gente común los ve como vagabundos peligrosos, sin saber que estos guerreros errantes son todo lo que se interpone entre ellos y los horrores de la noche. Cada Montaraz lleva la carga de su linaje: sangre de reyes, pero sin reino que gobernar.",
+      "detailed_background": "Los Montaraces son los últimos Veladores del Norte, herederos del reino perdido de Nortania. Vagan por las tierras salvajes como cazadores y guardianes, vestidos de gris y verde para fundirse con los bosques. La gente común los ve como vagabundos peligrosos, sin saber que estos guerreros errantes son todo lo que se interpone entre ellos y los horrores de la noche. Cada Montaraz lleva la carga de su linaje: sangre de reyes, pero sin reino que gobernar.",
       "starting_stats": {
         "hp": 20,
         "maxHp": 20,
@@ -848,8 +848,8 @@
           "en": "Map of the Wild"
         },
         {
-          "es": "Hierbas medicinales (athelas)",
-          "en": "Medicinal herbs (athelas)"
+          "es": "Hierbas medicinales (albahoja)",
+          "en": "Medicinal herbs (albahoja)"
         },
         {
           "es": "Saco de dormir de lana",
@@ -874,8 +874,8 @@
       ],
       "special_ability": "Rastreador Experto: Siempre sabes qué criaturas han pasado por un lugar, cuándo, y hacia dónde fueron",
       "advancement_paths": [
-        "Capitán de los Dúnedain - lidera a otros montaraces",
-        "Portador de la Espada Quebrada - heredero de Isildur",
+        "Capitán de los Veladores - lidera a otros montaraces",
+        "Portador de la Espada Quebrada - heredero de Aldaric",
         "Amigo de los Elfos - aprender magia élfica menor"
       ],
       "dnd5e_stats": {
@@ -899,7 +899,7 @@
         "chaMod": 0,
         "className": "Ranger",
         "classId": "ranger",
-        "raceName": "Humano (Dúnedain)",
+        "raceName": "Humano (Veladores)",
         "raceId": "human",
         "subraceName": "",
         "subraceId": "",
@@ -933,7 +933,7 @@
           }
         ],
         "traits": [
-          "Visión en la oscuridad (herencia Dúnedain)",
+          "Visión en la oscuridad (herencia Veladores)",
           "Vida longeva"
         ],
         "languages": [
@@ -948,7 +948,7 @@
           "Armadura de cuero",
           "Capa élfica",
           "Mapa de las Tierras Salvajes",
-          "Hierbas medicinales (athelas)",
+          "Hierbas medicinales (albahoja)",
           "3 raciones de viaje"
         ]
       },
@@ -1025,7 +1025,7 @@
         "es": "Has dedicado tu vida al estudio de textos antiguos. Conoces historias y leyendas que otros han olvidado. Tu sabiduría puede revelar secretos cruciales.",
         "en": "You have devoted your life to ancient texts. You know stories and legends others have long forgotten. Your wisdom can reveal crucial secrets."
       },
-      "detailed_background": "En Rivendel, Minas Tirith o las bibliotecas de los enanos, siempre hay quienes dedican sus vidas al conocimiento. Has pasado años descifrando pergaminos amarillentos, aprendiendo lenguas muertas y memorizando genealogías de reyes olvidados. Donde otros ven ruinas, tú ves historia. Donde otros ven símbolos, tú lees advertencias. El conocimiento es poder, y en una era donde mucho se ha olvidado, tu memoria puede ser la diferencia entre el triunfo y la catástrofe.",
+      "detailed_background": "En Aelinar, Torrealba o las bibliotecas de los enanos, siempre hay quienes dedican sus vidas al conocimiento. Has pasado años descifrando pergaminos amarillentos, aprendiendo lenguas muertas y memorizando genealogías de reyes olvidados. Donde otros ven ruinas, tú ves historia. Donde otros ven símbolos, tú lees advertencias. El conocimiento es poder, y en una era donde mucho se ha olvidado, tu memoria puede ser la diferencia entre el triunfo y la catástrofe.",
       "starting_stats": {
         "hp": 14,
         "maxHp": 14,
@@ -1082,7 +1082,7 @@
       ],
       "special_ability": "Conocimiento Antiguo: Puedes leer cualquier lengua antigua y recordar leyendas relevantes sobre lugares, objetos y criaturas",
       "advancement_paths": [
-        "Aprendiz de Mago - los Istari te han notado",
+        "Aprendiz de Mago - los Magos Errantes te han notado",
         "Maestro de Lenguas - comunicarte con cualquier pueblo",
         "Guardián de Secretos - conocimientos prohibidos"
       ],
@@ -1243,7 +1243,7 @@
         "es": "Has sido entrenado en el combate desde joven. Tu valor en batalla es legendario. Defiendes a los débiles con tu acero.",
         "en": "You've been trained in combat since childhood. Your courage in battle is legendary. You defend the weak with steel in hand."
       },
-      "detailed_background": "Ya sea un soldado de Gondor, un jinete de Rohan o un guardia enano, has dedicado tu vida al arte de la guerra. Has visto batallas y sobrevivido. Conoces el peso de la responsabilidad de proteger a los débiles. Tu espada ha probado sangre de orco, y tu escudo lleva las marcas de cien combates. En tiempos de paz serías un simple guardia o mercenario, pero los tiempos de paz han terminado.",
+      "detailed_background": "Ya sea un soldado de Meridonia, un jinete de Estepia o un guardia enano, has dedicado tu vida al arte de la guerra. Has visto batallas y sobrevivido. Conoces el peso de la responsabilidad de proteger a los débiles. Tu espada ha probado sangre de orco, y tu escudo lleva las marcas de cien combates. En tiempos de paz serías un simple guardia o mercenario, pero los tiempos de paz han terminado.",
       "starting_stats": {
         "hp": 25,
         "maxHp": 25,
@@ -1254,8 +1254,8 @@
       },
       "starting_inventory": [
         {
-          "es": "Espada ancha de acero gondoriano",
-          "en": "Broadsword of Gondorian steel"
+          "es": "Espada ancha de acero meridonio",
+          "en": "Broadsword of Meridonian steel"
         },
         {
           "es": "Escudo con emblema de tu casa",
@@ -1304,7 +1304,7 @@
       ],
       "special_ability": "Protector: Puedes interponerte para recibir daño en lugar de un aliado, reduciendo el daño a la mitad",
       "advancement_paths": [
-        "Capitán de Gondor - liderar tropas en batalla",
+        "Capitán de Meridonia - liderar tropas en batalla",
         "Mariscal de la Marca - dominio de la caballería",
         "Guardia de la Ciudadela - élite de los defensores"
       ],
@@ -1329,7 +1329,7 @@
         "chaMod": 0,
         "className": "Fighter",
         "classId": "fighter",
-        "raceName": "Humano (Gondoriano)",
+        "raceName": "Humano (meridonio)",
         "raceId": "human",
         "subraceName": "",
         "subraceId": "",
@@ -1368,7 +1368,7 @@
           "Oestron"
         ],
         "equipment": [
-          "Espada ancha de acero gondoriano",
+          "Espada ancha de acero meridonio",
           "Escudo con emblema",
           "Cota de mallas",
           "Cuerno de guerra",
@@ -1435,20 +1435,20 @@
       ]
     },
     {
-      "id": "hobbit",
+      "id": "mediano",
       "name": {
-        "es": "Hobbit Aventurero",
-        "en": "Adventurous Hobbit"
+        "es": "Mediano Aventurero",
+        "en": "Adventurous Mediano"
       },
       "description": {
         "es": "Pequeño pero valiente, con una resistencia sorprendente al mal",
         "en": "Small but brave, with a surprising resistance to evil"
       },
       "simple_description": {
-        "es": "Eres un hobbit que ha dejado la comodidad de la Comarca. Pequeño y subestimado, pero posees una fuerza interior que los grandes no comprenden.",
-        "en": "You're a hobbit who left the comfort of the Shire. Small and underestimated, yet you carry an inner strength the Big Folk cannot understand."
+        "es": "Eres un mediano que ha dejado la comodidad de la Vega Mansa. Pequeño y subestimado, pero posees una fuerza interior que los grandes no comprenden.",
+        "en": "You're a mediano who left the comfort of the Vale. Small and underestimated, yet you carry an inner strength the Big Folk cannot understand."
       },
-      "detailed_background": "La mayoría de los hobbits nunca pasan del Puente de Brandy. Pero algo te llamó: historias de Bilbo, sueños de tierras lejanas, o simplemente un deseo de ver montañas. Los Grandes te subestiman, y eso es tu ventaja. Donde un guerrero es obvio, tú pasas desapercibido. Donde la sombra corrompe a los poderosos, tu simple corazón hobbit resiste. Algunos destinados para la grandeza no la buscaron.",
+      "detailed_background": "La mayoría de los medianos nunca pasan del Puente Grande. Pero algo te llamó: historias de Talbo, sueños de tierras lejanas, o simplemente un deseo de ver montañas. Los Grandes te subestiman, y eso es tu ventaja. Donde un guerrero es obvio, tú pasas desapercibido. Donde la sombra corrompe a los poderosos, tu simple corazón mediano resiste. Algunos destinados para la grandeza no la buscaron.",
       "starting_stats": {
         "hp": 12,
         "maxHp": 12,
@@ -1461,12 +1461,12 @@
       },
       "starting_inventory": [
         {
-          "es": "Daga corta (espada para un hobbit)",
-          "en": "Short dagger (a sword for a hobbit)"
+          "es": "Daga corta (espada para un mediano)",
+          "en": "Short dagger (a sword for a mediano)"
         },
         {
-          "es": "Capa de viaje de la Comarca",
-          "en": "Shire travelling cloak"
+          "es": "Capa de viaje de la Vega Mansa",
+          "en": "Vale travelling cloak"
         },
         {
           "es": "Pipa y hierba para pipa",
@@ -1505,9 +1505,9 @@
           "en": "Basic healing herbs"
         }
       ],
-      "special_ability": "Corazón Inquebrantable: Tienes resistencia natural a la corrupción y el miedo mágico. Los anillos de poder tienen menos efecto sobre ti",
+      "special_ability": "Corazón Inquebrantable: Tienes resistencia natural a la corrupción y el miedo mágico. Los sellos de poder tienen menos efecto sobre ti",
       "advancement_paths": [
-        "Portador del Anillo - un destino terrible",
+        "Portador del Sello - un destino terrible",
         "Ladrón Experto - sigilo y astucia",
         "Héroe Improbable - coraje que inspira a otros"
       ],
@@ -1532,7 +1532,7 @@
         "chaMod": 1,
         "className": "Rogue",
         "classId": "rogue",
-        "raceName": "Halfling (Hobbit)",
+        "raceName": "Halfling (Mediano)",
         "raceId": "halfling",
         "subraceName": "Pies Ligeros",
         "subraceId": "lightfoot",
@@ -1577,7 +1577,7 @@
         ],
         "languages": [
           "Común",
-          "Hobbitish"
+          "Vegamansino"
         ],
         "equipment": [
           "Daga corta",
@@ -1598,8 +1598,8 @@
             "en": "Unbreakable Heart"
           },
           "description": {
-            "es": "Tienes resistencia natural a la corrupción y el miedo mágico. Los anillos de poder tienen menos efecto sobre ti.",
-            "en": "You have a natural resistance to corruption and magical fear. Rings of power have less effect on you."
+            "es": "Tienes resistencia natural a la corrupción y el miedo mágico. Los sellos de poder tienen menos efecto sobre ti.",
+            "en": "You have a natural resistance to corruption and magical fear. Seals of power have less effect on you."
           },
           "kind": "special",
           "resource": "cooldown_turns",
@@ -1616,8 +1616,8 @@
             "en": "Silent Step"
           },
           "description": {
-            "es": "Los pies descalzos de los hobbits no hacen ruido alguno. Podés moverte sin ser detectado incluso en terrenos difíciles, ganando ventaja en tu próxima acción de sigilo.",
-            "en": "Hobbit bare feet make no sound at all. You can move undetected even in difficult terrain, gaining advantage on your next stealth action."
+            "es": "Los pies descalzos de los medianos no hacen ruido alguno. Podés moverte sin ser detectado incluso en terrenos difíciles, ganando ventaja en tu próxima acción de sigilo.",
+            "en": "Mediano bare feet make no sound at all. You can move undetected even in difficult terrain, gaining advantage on your next stealth action."
           },
           "kind": "trick",
           "resource": "cooldown_turns",
@@ -1660,10 +1660,10 @@
         "en": "An immortal who chose to walk among mortals before sailing West"
       },
       "simple_description": {
-        "es": "Has vivido siglos y visto reinos nacer y morir. Pronto partirás al oeste, pero antes, tienes una última tarea en la Tierra Media.",
-        "en": "You have lived for centuries and watched kingdoms rise and fall. Soon you will sail West, but first there's one last task for you in Middle-earth."
+        "es": "Has vivido siglos y visto reinos nacer y morir. Pronto partirás al oeste, pero antes, tienes una última tarea en la Tierra del Ocaso.",
+        "en": "You have lived for centuries and watched kingdoms rise and fall. Soon you will sail West, but first there's one last task for you in Duskland."
       },
-      "detailed_background": "Has visto las estrellas cuando eran jóvenes. Recuerdas la luz de los Árboles en el oeste. Has amado y perdido más veces de las que puedes contar. La mayoría de tu pueblo parte hacia Valinor, cansados de un mundo que ya no les pertenece. Pero tú te quedas. Hay algo que debes hacer, alguien a quien proteger, o simplemente no estás listo para abandonar estas tierras que has conocido durante eras.",
+      "detailed_background": "Has visto las estrellas cuando eran jóvenes. Recuerdas la luz de los Árboles en el oeste. Has amado y perdido más veces de las que puedes contar. La mayoría de tu pueblo parte hacia Elyndor, cansados de un mundo que ya no les pertenece. Pero tú te quedas. Hay algo que debes hacer, alguien a quien proteger, o simplemente no estás listo para abandonar estas tierras que has conocido durante eras.",
       "starting_stats": {
         "hp": 16,
         "maxHp": 16,
@@ -1674,8 +1674,8 @@
       },
       "starting_inventory": [
         {
-          "es": "Arco élfico de Lothlórien",
-          "en": "Elven bow of Lothlórien"
+          "es": "Arco élfico de Aurelion",
+          "en": "Elven bow of Aurelion"
         },
         {
           "es": "Espada larga forjada en la Primera Edad",
@@ -1686,8 +1686,8 @@
           "en": "Elven cloak that hides and protects"
         },
         {
-          "es": "Pan de viaje (lembas)",
-          "en": "Lembas waybread"
+          "es": "Pan de viaje (pan del alba)",
+          "en": "Pan del Camino waybread"
         },
         {
           "es": "Cuerda élfica",
@@ -1792,7 +1792,7 @@
           "20 flechas",
           "Armadura de cuero",
           "Capa élfica",
-          "Lembas",
+          "Pan del Camino",
           "Cuerda élfica",
           "Fial de luz estelar"
         ]
@@ -2034,8 +2034,8 @@
             "en": "Ancestral Fury"
           },
           "description": {
-            "es": "Invocás la rabia de tus antepasados de Erebor y descargás un golpe brutal con tu hacha. Causás daño adicional igual a tu stat de combate.",
-            "en": "You channel the rage of your Erebor ancestors and deliver a brutal axe strike, dealing bonus damage equal to your combat stat."
+            "es": "Invocás la rabia de tus antepasados de Monte Forja y descargás un golpe brutal con tu hacha. Causás daño adicional igual a tu stat de combate.",
+            "en": "You channel the rage of your Monte Forja ancestors and deliver a brutal axe strike, dealing bonus damage equal to your combat stat."
           },
           "kind": "trick",
           "resource": "cooldown_turns",
@@ -2069,12 +2069,12 @@
   ],
   "notable_npcs": [
     {
-      "name": "Gandalf el Gris",
+      "name": "Olvar el Gris",
       "role": "Mago errante y consejero de los pueblos libres",
       "description": "Un anciano de barba gris y sombrero puntiagudo, pero sus ojos brillan con fuego antiguo. Es más de lo que aparenta.",
       "personality": "Sabio, misterioso, ocasionalmente irritable, pero profundamente compasivo",
       "motivation": "Unir a los pueblos libres contra la sombra creciente",
-      "secrets": "Es un Maia, espíritu del oeste enviado a combatir a Sauron. Su verdadero poder está limitado por su misión.",
+      "secrets": "Es un Maia, espíritu del oeste enviado a combatir a Malzhur. Su verdadero poder está limitado por su misión.",
       "typical_dialogue": [
         "Un mago nunca llega tarde. Llega exactamente cuando se lo propone.",
         "Incluso los más sabios no pueden ver todos los fines.",
@@ -2082,12 +2082,12 @@
       ]
     },
     {
-      "name": "Aragorn hijo de Arathorn",
-      "role": "Heredero de Isildur, capitán de los Montaraces",
+      "name": "Eldric hijo de Eldmar",
+      "role": "Heredero de Aldaric, capitán de los Montaraces",
       "description": "Alto, de mirada penetrante y porte regio oculto bajo ropas de viajero gastadas. Lleva una espada quebrada.",
       "personality": "Humilde, valiente, cargado por el peso de su linaje, pero capaz de gran esperanza",
       "motivation": "Proteger a los inocentes, prepararse para reclamar su herencia cuando llegue el momento",
-      "secrets": "Es el heredero directo al trono de Gondor y Arnor. Porta los fragmentos de Narsil, la espada que cortó el Anillo.",
+      "secrets": "Es el heredero directo al trono de Meridonia y Nortania. Porta los fragmentos de Albarion, la espada que cortó el Sello.",
       "typical_dialogue": [
         "No todo lo que brilla es oro, ni todos los errantes están perdidos.",
         "El camino sigue adelante sin cesar.",
@@ -2095,12 +2095,12 @@
       ]
     },
     {
-      "name": "Elrond Medio-elfo",
-      "role": "Señor de Rivendel, portador de Vilya",
+      "name": "Elandur Medio-elfo",
+      "role": "Señor de Aelinar, portador de Vaelia",
       "description": "Ni joven ni viejo, con la sabiduría de eras en sus ojos. Su presencia calma incluso a los espíritus más turbados.",
       "personality": "Sabio, paciente, melancólico por las eras pasadas, pero determinado a proteger lo que queda",
       "motivation": "Preservar el conocimiento, proteger a los refugiados, preparar la transición de la Tercera Edad",
-      "secrets": "Porta uno de los Tres Anillos Élficos. Ha visto la derrota de Sauron y teme su regreso.",
+      "secrets": "Porta uno de los Tres Sellos Élficos. Ha visto la derrota de Malzhur y teme su regreso.",
       "typical_dialogue": [
         "He visto tres eras del mundo, y mucho que era hermoso se ha perdido.",
         "La esperanza permanece mientras la Compañía sea fiel.",
@@ -2108,12 +2108,12 @@
       ]
     },
     {
-      "name": "Galadriel",
-      "role": "Dama de Lothlórien, la más poderosa de los elfos",
+      "name": "Ithariel",
+      "role": "Dama de Aurelion, la más poderosa de los elfos",
       "description": "De belleza terrible y majestuosa, su presencia es como estar ante una estrella caída a la tierra.",
       "personality": "Sabia más allá de toda medida, pero también tentada por el poder. Conoce el corazón de todos.",
-      "motivation": "Proteger Lothlórien, resistir la tentación del poder, guiar a los pueblos libres",
-      "secrets": "Porta Nenya, el Anillo del Agua. Podría ser la mayor amenaza para Sauron si tomara el Único.",
+      "motivation": "Proteger Aurelion, resistir la tentación del poder, guiar a los pueblos libres",
+      "secrets": "Porta Nimuel, el Sello del Agua. Podría ser la mayor amenaza para Malzhur si tomara el Soberano.",
       "typical_dialogue": [
         "El Espejo muestra muchas cosas: lo que fue, lo que es, y lo que aún puede ser.",
         "En lugar de un Señor Oscuro tendrías una Reina...",
@@ -2121,29 +2121,29 @@
       ]
     },
     {
-      "name": "Saruman el Blanco",
-      "role": "Jefe del Concilio de los Magos, Señor de Isengard",
+      "name": "Velmoran el Blanco",
+      "role": "Jefe del Concilio de los Magos, Señor de Torregrís",
       "description": "De porte noble y voz persuasiva, viste túnicas blancas que brillan con todos los colores.",
       "personality": "Arrogante, manipulador, convencido de su propia superioridad, pero secretamente temeroso",
-      "motivation": "Obtener el Anillo para sí mismo, o aliarse con Sauron si es necesario",
-      "secrets": "Ha caído bajo la influencia de Sauron a través del Palantír. Está construyendo un ejército de Uruk-hai.",
+      "motivation": "Obtener el Sello para sí mismo, o aliarse con Malzhur si es necesario",
+      "secrets": "Ha caído bajo la influencia de Malzhur a través de una Piedra Vidente. Está construyendo un ejército de orcos de forja.",
       "typical_dialogue": [
-        "Contra el poder de Mordor no puede haber victoria.",
+        "Contra el poder de Cenizar no puede haber victoria.",
         "Juntos podríamos dominar el mundo...",
-        "Soy Saruman el Sabio, Saruman el Hacedor de Anillos, Saruman de Muchos Colores."
+        "Soy Velmoran el Sabio, Velmoran el Hacedor de Sellos, Velmoran de Muchos Colores."
       ]
     },
     {
-      "name": "Gollum/Sméagol",
-      "role": "Criatura corrompida, antiguo portador del Anillo",
+      "name": "Khragul/Sélmo",
+      "role": "Criatura corrompida, antiguo Portador del Sello",
       "description": "Pequeño, escuálido, de ojos enormes y luminosos. Se arrastra y sisea, pero hay algo trágico en él.",
-      "personality": "Dividido entre Sméagol (piedad) y Gollum (codicia). Completamente obsesionado con el Anillo.",
+      "personality": "Dividido entre Sélmo (piedad) y Khragul (codicia). Completamente obsesionado con el Sello.",
       "motivation": "Recuperar su 'Precioso' a cualquier costo",
-      "secrets": "Conoce caminos secretos a Mordor. Su voluntad podría quebrarse en cualquier dirección.",
+      "secrets": "Conoce caminos secretos a Cenizar. Su voluntad podría quebrarse en cualquier dirección.",
       "typical_dialogue": [
         "Mi preciossso... Lo queremos, sí, lo necesitamos...",
-        "Sméagol es bueno, Sméagol ayuda...",
-        "Gollum, gollum..."
+        "Sélmo es bueno, Sélmo ayuda...",
+        "Khragul, khragul..."
       ]
     }
   ],
@@ -2151,13 +2151,13 @@
   "npc_voices": {
     "elfo": "etéreo_sabio",
     "enano": "ronco_grave",
-    "hobbit": "amigable_cálido",
+    "mediano": "amigable_cálido",
     "humano": "noble_firme",
     "orco": "gutural_agresivo",
     "mago": "anciano_poderoso"
   },
   "music_mood": "exploration_calm",
-  "art_style": "fantasy oil painting, Tolkien illustrated style, dramatic lighting, Middle-earth aesthetic",
+  "art_style": "fantasy oil painting, classic epic fantasy illustration style, dramatic lighting, Duskland aesthetic",
   "roll_tables": {
     "encounters": {
       "formula": "1d20",
@@ -2174,7 +2174,7 @@
             3,
             4
           ],
-          "result": "Una familia de hobbits perdida necesita ayuda para encontrar el camino a casa"
+          "result": "Una familia de medianos perdida necesita ayuda para encontrar el camino a casa"
         },
         {
           "range": [
@@ -2237,7 +2237,7 @@
             20,
             20
           ],
-          "result": "Un Nazgûl pasa volando - te has escondido a tiempo, pero sabe que estás cerca"
+          "result": "Un Umbríos pasa volando - te has escondido a tiempo, pero sabe que estás cerca"
         }
       ]
     },
@@ -2256,7 +2256,7 @@
             3,
             4
           ],
-          "result": "Nubes ligeras, brisa fresca del oeste. El clima de la Comarca."
+          "result": "Nubes ligeras, brisa fresca del oeste. El clima de la Vega Mansa."
         },
         {
           "range": [
@@ -2303,7 +2303,7 @@
             1,
             3
           ],
-          "result": "Raciones élficas (lembas) - un bocado alimenta por un día"
+          "result": "Raciones élficas (pan del alba) - un bocado alimenta por un día"
         },
         {
           "range": [
@@ -2317,7 +2317,7 @@
             6,
             7
           ],
-          "result": "Hierbas medicinales (athelas) - curan heridas y enfermedades"
+          "result": "Hierbas medicinales (albahoja) - curan heridas y enfermedades"
         },
         {
           "range": [
@@ -2366,7 +2366,7 @@
             20,
             20
           ],
-          "result": "Anillo menor con inscripciones - su función es un misterio"
+          "result": "Sello menor con inscripciones - su función es un misterio"
         }
       ]
     },
@@ -2385,21 +2385,21 @@
             2,
             2
           ],
-          "result": "Beorn el Cambiapiel"
+          "result": "Osgar el Cambiapiel"
         },
         {
           "range": [
             3,
             3
           ],
-          "result": "Celeborn el Sabio"
+          "result": "Talvorn el Sabio"
         },
         {
           "range": [
             4,
             4
           ],
-          "result": "Denethor el Amargo"
+          "result": "Davenor el Amargo"
         },
         {
           "range": [
@@ -2413,7 +2413,7 @@
             6,
             6
           ],
-          "result": "Faramir el Noble"
+          "result": "Falric el Noble"
         },
         {
           "range": [
@@ -2427,7 +2427,7 @@
             8,
             8
           ],
-          "result": "Halbarad el Leal"
+          "result": "Berandor el Leal"
         },
         {
           "range": [
@@ -2441,28 +2441,28 @@
             10,
             10
           ],
-          "result": "Legolas Hojaverde"
+          "result": "Faelor Hojaluna"
         },
         {
           "range": [
             11,
             11
           ],
-          "result": "Meriadoc el Valiente"
+          "result": "Meldrico el Valiente"
         },
         {
           "range": [
             12,
             12
           ],
-          "result": "Peregrin el Alocado"
+          "result": "Perendino el Alocado"
         },
         {
           "range": [
             13,
             13
           ],
-          "result": "Radagast el Pardo"
+          "result": "Silvaro el Pardo"
         },
         {
           "range": [
@@ -2476,7 +2476,7 @@
             15,
             15
           ],
-          "result": "Théoden el Rey"
+          "result": "Valdric el Rey"
         },
         {
           "range": [
@@ -2656,7 +2656,7 @@
             20,
             20
           ],
-          "result": "Gandalf aparece en el camino - 'te esperaba'"
+          "result": "Olvar aparece en el camino - 'te esperaba'"
         }
       ]
     },
@@ -2682,42 +2682,42 @@
             3,
             3
           ],
-          "result": "Los elfos están abandonando el Bosque Negro - mal presagio"
+          "result": "Los elfos están abandonando el Bosque Sombrío - mal presagio"
         },
         {
           "range": [
             4,
             4
           ],
-          "result": "Hay recompensa por información sobre un pequeño ladrón que robó a Smaug"
+          "result": "Hay recompensa por información sobre un pequeño ladrón que robó a Zirnax"
         },
         {
           "range": [
             5,
             5
           ],
-          "result": "Los enanos de Erebor buscan mercenarios para una misión secreta"
+          "result": "Los enanos de Monte Forja buscan mercenarios para una misión secreta"
         },
         {
           "range": [
             6,
             6
           ],
-          "result": "Extraños jinetes negros han sido vistos preguntando por 'Bolsón'"
+          "result": "Extraños jinetes negros han sido vistos preguntando por 'Montecillo'"
         },
         {
           "range": [
             7,
             7
           ],
-          "result": "El Senescal de Gondor ha enviado exploradores al norte"
+          "result": "El Senescal de Meridonia ha enviado exploradores al norte"
         },
         {
           "range": [
             8,
             8
           ],
-          "result": "Saruman el Blanco no ha sido visto en meses"
+          "result": "Velmoran el Blanco no ha sido visto en meses"
         },
         {
           "range": [
@@ -2731,21 +2731,21 @@
             10,
             10
           ],
-          "result": "Han encontrado mithril en una mina olvidada - pero está maldita"
+          "result": "Han encontrado lunacero en una mina olvidada - pero está maldita"
         },
         {
           "range": [
             11,
             11
           ],
-          "result": "Un hobbit loco recorre los caminos buscando su 'precioso'"
+          "result": "Un mediano loco recorre los caminos buscando su 'precioso'"
         },
         {
           "range": [
             12,
             12
           ],
-          "result": "Gandalf el Gris fue visto entrando a la Comarca - algo importante pasa"
+          "result": "Olvar el Gris fue visto entrando a la Vega Mansa - algo importante pasa"
         }
       ]
     }
@@ -2797,7 +2797,7 @@
     {
       "id": "aterrorizado",
       "name": "Aterrorizado",
-      "description": "El miedo de los Nazgûl te paraliza",
+      "description": "El miedo de los Umbríos te paraliza",
       "type": "debuff",
       "duration": 2,
       "effects": {
@@ -2842,7 +2842,7 @@
     },
     {
       "id": "luz_earendil",
-      "name": "Luz de Eärendil",
+      "name": "Luz de Aelendar",
       "description": "La luz de la estrella más brillante te protege",
       "type": "buff",
       "duration": 6,
@@ -2853,7 +2853,7 @@
     },
     {
       "id": "alimentado_lembas",
-      "name": "Alimentado por Lembas",
+      "name": "Alimentado por Pan del Camino",
       "description": "El pan élfico te da fuerzas para continuar",
       "type": "buff",
       "duration": 3,
@@ -2873,8 +2873,8 @@
         "Debe abandonar su hogar para un viaje peligroso"
       ],
       "typical_scenes": [
-        "La Comarca",
-        "Rivendel"
+        "La Vega Mansa",
+        "Aelinar"
       ],
       "mood": "exploration_calm",
       "sample_events": [
@@ -2893,9 +2893,9 @@
         "Descubrimiento de la magnitud real de la amenaza"
       ],
       "typical_scenes": [
-        "Bosque Negro",
-        "Moria",
-        "Rohan"
+        "Bosque Sombrío",
+        "Profundia",
+        "Estepia"
       ],
       "mood": "drama_tense",
       "sample_events": [
@@ -2914,8 +2914,8 @@
         "Decisión crucial que definirá el destino"
       ],
       "typical_scenes": [
-        "Isengard",
-        "Fronteras de Mordor"
+        "Torregrís",
+        "Fronteras de Cenizar"
       ],
       "mood": "horror_ambient",
       "sample_events": [
@@ -2934,8 +2934,8 @@
         "Victoria o derrota - el destino se decide"
       ],
       "typical_scenes": [
-        "Minas Tirith",
-        "Mordor"
+        "Torrealba",
+        "Cenizar"
       ],
       "mood": "combat_epic",
       "sample_events": [
@@ -2954,9 +2954,9 @@
         "Nuevo equilibrio en el mundo - para bien o mal"
       ],
       "typical_scenes": [
-        "La Comarca",
-        "Rivendel",
-        "Minas Tirith"
+        "La Vega Mansa",
+        "Aelinar",
+        "Torrealba"
       ],
       "mood": "rest_peaceful",
       "sample_events": [
@@ -2976,55 +2976,55 @@
     },
     {
       "title": "La Reliquia Perdida",
-      "hook": "Un erudito de Rivendel te busca. Ha localizado un artefacto de la Primera Edad en unas ruinas cerca del Bosque Negro. Pero las ruinas están en territorio peligroso, y otros también buscan el artefacto. ¿Puedes recuperarlo antes que caiga en manos equivocadas?",
+      "hook": "Un erudito de Aelinar te busca. Ha localizado un artefacto de la Primera Edad en unas ruinas cerca del Bosque Sombrío. Pero las ruinas están en territorio peligroso, y otros también buscan el artefacto. ¿Puedes recuperarlo antes que caiga en manos equivocadas?",
       "suggested_duration": "3-4 horas",
       "difficulty": "Media"
     },
     {
       "title": "La Escolta",
-      "hook": "Los enanos de Erebor necesitan escoltar una caravana de oro hasta las Montañas Azules. El camino cruza las Montañas Nubladas, donde los orcos acechan. Pagan bien, pero el viaje es largo y peligroso. ¿Aceptas el trabajo?",
+      "hook": "Los enanos de Monte Forja necesitan escoltar una caravana de oro hasta las Montañas Azules. El camino cruza las Montañas Veladas, donde los orcos acechan. Pagan bien, pero el viaje es largo y peligroso. ¿Aceptas el trabajo?",
       "suggested_duration": "4-5 horas",
       "difficulty": "Media"
     },
     {
       "title": "El Paso Secreto",
-      "hook": "Gandalf necesita que lleves un mensaje urgente a Lothlórien, pero el camino normal está vigilado. Conoces un paso secreto a través de las montañas - o al menos, conocías. Han pasado años y las cosas cambian. ¿Te atreverás a usarlo?",
+      "hook": "Olvar necesita que lleves un mensaje urgente a Aurelion, pero el camino normal está vigilado. Conoces un paso secreto a través de las montañas - o al menos, conocías. Han pasado años y las cosas cambian. ¿Te atreverás a usarlo?",
       "suggested_duration": "2-3 horas",
       "difficulty": "Difícil"
     },
     {
       "title": "La Caza del Wargo",
-      "hook": "Un wargo gigante ha estado atacando aldeas en el Folde Oeste de Rohan. Los jinetes locales han fracasado en cazarlo. El rey Théoden ofrece una recompensa generosa por su cabeza. Pero este wargo es diferente - más inteligente, más grande. Algo lo controla.",
+      "hook": "Un wargo gigante ha estado atacando aldeas en el oeste de Estepia. Los jinetes locales han fracasado en cazarlo. El rey Valdric ofrece una recompensa generosa por su cabeza. Pero este wargo es diferente - más inteligente, más grande. Algo lo controla.",
       "suggested_duration": "3-4 horas",
       "difficulty": "Media-Difícil"
     },
     {
       "title": "Sombras en la Posada",
-      "hook": "Extraños han llegado a la Posada del Pony Pisador en Bree. Preguntan por un hobbit llamado Bolsón. Nadie sabe quiénes son, pero su presencia llena de miedo a todos. Un amigo hobbit te pide ayuda para escapar de Bree sin ser visto.",
+      "hook": "Extraños han llegado a la Posada del Jabalí Dorado en Vado Viejo. Preguntan por un mediano llamado Montecillo. Nadie sabe quiénes son, pero su presencia llena de miedo a todos. Un amigo mediano te pide ayuda para escapar de Vado Viejo sin ser visto.",
       "suggested_duration": "2-3 horas",
       "difficulty": "Media"
     },
     {
-      "title": "Las Puertas de Moria",
-      "hook": "Un grupo de enanos intenta recuperar reliquias familiares de Moria. Necesitan ayuda para llegar a las puertas y encontrar la contraseña. Dicen que solo entrarán un poco, solo hasta los primeros salones. Pero Moria nunca deja ir a quienes entran...",
+      "title": "Las Puertas de Profundia",
+      "hook": "Un grupo de enanos intenta recuperar reliquias familiares de Profundia. Necesitan ayuda para llegar a las puertas y encontrar la contraseña. Dicen que solo entrarán un poco, solo hasta los primeros salones. Pero Profundia nunca deja ir a quienes entran...",
       "suggested_duration": "4-5 horas",
       "difficulty": "Difícil"
     },
     {
       "title": "El Árbol Moribundo",
-      "hook": "En un claro olvidado del Bosque de Fangorn, un Ent está muriendo. Bárbol pide ayuda: necesita una planta que solo crece en las laderas del Monte del Destino. Es una misión suicida, pero si el Ent muere, el bosque podría no despertar nunca más.",
+      "hook": "En un claro olvidado del Bosque de Raizvieja, un Arbóreo está muriendo. Ramoso pide ayuda: necesita una planta que solo crece en las laderas del Monte Brasa. Es una misión suicida, pero si el Arbóreo muere, el bosque podría no despertar nunca más.",
       "suggested_duration": "5-6 horas",
       "difficulty": "Muy Difícil"
     }
   ],
   "opening_scene": {
     "location_id": "bree-inn",
-    "location_name": "La Posada del Pony Pisador, Bree",
-    "description": "Te encuentras en la Posada del Pony Pisador, el corazón de Bree. El fuego crepita suavemente en la gran chimenea de piedra mientras los últimos rayos del atardecer se filtran por las ventanas empañadas. El aroma a estofado de cordero y cerveza de cebada llena el aire. A tu alrededor, viajeros de todas las razas comparten historias en voz baja: hobbits de la Comarca, enanos camino a las Montañas Azules, y uno que otro Montaraz de mirada penetrante.",
+    "location_name": "La Posada del Jabalí Dorado, Vado Viejo",
+    "description": "Te encuentras en la Posada del Jabalí Dorado, el corazón de Vado Viejo. El fuego crepita suavemente en la gran chimenea de piedra mientras los últimos rayos del atardecer se filtran por las ventanas empañadas. El aroma a estofado de cordero y cerveza de cebada llena el aire. A tu alrededor, viajeros de todas las razas comparten historias en voz baja: medianos de la Vega Mansa, enanos camino a las Montañas Azules, y uno que otro Montaraz de mirada penetrante.",
     "visible_directions": [
       {
         "direction": "norte",
-        "landmark": "el Camino Verde serpentea hacia las Colinas de los Vientos, donde dicen que aún quedan ruinas de la antigua Arnor"
+        "landmark": "el Camino Verde serpentea hacia las Colinas de los Vientos, donde dicen que aún quedan ruinas de la antigua Nortania"
       },
       {
         "direction": "este",
@@ -3032,7 +3032,7 @@
       },
       {
         "direction": "sur",
-        "landmark": "el camino comercial lleva hacia el Puente de Brandy y, más allá, las verdes colinas de la Comarca"
+        "landmark": "el camino comercial lleva hacia el Puente Grande y, más allá, las verdes colinas de la Vega Mansa"
       },
       {
         "direction": "oeste",
@@ -3042,21 +3042,21 @@
     "ambient_rumors": [
       "un mercader enano busca escolta para su caravana hacia las Montañas Azules",
       "luces fantasmales han sido vistas en los Túmulos por las noches",
-      "un erudito de Rivendel ofrece buena paga por cierta reliquia perdida",
+      "un erudito de Aelinar ofrece buena paga por cierta reliquia perdida",
       "los caminos se han vuelto más peligrosos últimamente, y no solo por los lobos"
     ],
-    "closing_prompt": "La noche se cierne sobre Bree. ¿Qué deseas hacer?"
+    "closing_prompt": "La noche se cierne sobre Vado Viejo. ¿Qué deseas hacer?"
   },
   "opening_scenes": [
     {
       "id": "default",
       "location_id": "bree-inn",
-      "location_name": "La Posada del Pony Pisador, Bree",
-      "description": "Te encuentras en la Posada del Pony Pisador, el corazón de Bree. El fuego crepita suavemente en la gran chimenea de piedra mientras los últimos rayos del atardecer se filtran por las ventanas empañadas. El aroma a estofado de cordero y cerveza de cebada llena el aire. A tu alrededor, viajeros de todas las razas comparten historias en voz baja: hobbits de la Comarca, enanos camino a las Montañas Azules, y uno que otro Montaraz de mirada penetrante.",
+      "location_name": "La Posada del Jabalí Dorado, Vado Viejo",
+      "description": "Te encuentras en la Posada del Jabalí Dorado, el corazón de Vado Viejo. El fuego crepita suavemente en la gran chimenea de piedra mientras los últimos rayos del atardecer se filtran por las ventanas empañadas. El aroma a estofado de cordero y cerveza de cebada llena el aire. A tu alrededor, viajeros de todas las razas comparten historias en voz baja: medianos de la Vega Mansa, enanos camino a las Montañas Azules, y uno que otro Montaraz de mirada penetrante.",
       "visible_directions": [
         {
           "direction": "norte",
-          "landmark": "el Camino Verde serpentea hacia las Colinas de los Vientos, donde dicen que aún quedan ruinas de la antigua Arnor"
+          "landmark": "el Camino Verde serpentea hacia las Colinas de los Vientos, donde dicen que aún quedan ruinas de la antigua Nortania"
         },
         {
           "direction": "este",
@@ -3064,7 +3064,7 @@
         },
         {
           "direction": "sur",
-          "landmark": "el camino comercial lleva hacia el Puente de Brandy y, más allá, las verdes colinas de la Comarca"
+          "landmark": "el camino comercial lleva hacia el Puente Grande y, más allá, las verdes colinas de la Vega Mansa"
         },
         {
           "direction": "oeste",
@@ -3074,20 +3074,20 @@
       "ambient_rumors": [
         "un mercader enano busca escolta para su caravana hacia las Montañas Azules",
         "luces fantasmales han sido vistas en los Túmulos por las noches",
-        "un erudito de Rivendel ofrece buena paga por cierta reliquia perdida",
+        "un erudito de Aelinar ofrece buena paga por cierta reliquia perdida",
         "los caminos se han vuelto más peligrosos últimamente, y no solo por los lobos"
       ],
-      "closing_prompt": "La noche se cierne sobre Bree. ¿Qué deseas hacer?"
+      "closing_prompt": "La noche se cierne sobre Vado Viejo. ¿Qué deseas hacer?"
     },
     {
       "id": "rainy_evening",
       "location_id": "bree-inn",
-      "location_name": "La Posada del Pony Pisador, Bree",
-      "description": "La lluvia golpea sin piedad los postigos de la Posada del Pony Pisador, y cada ráfaga de viento trae consigo el olor a barro y hojas empapadas. Adentro, la chimenea lucha contra la humedad que se cuela por cada rendija. Los pocos viajeros que lograron llegar antes de la tormenta se apiñan cerca del fuego, con las capas chorreando charcos sobre el suelo de madera. Un relámpago ilumina la sala y por un instante ves la silueta de un jinete encapuchado detenido frente a la puerta, inmóvil bajo el diluvio.",
+      "location_name": "La Posada del Jabalí Dorado, Vado Viejo",
+      "description": "La lluvia golpea sin piedad los postigos de la Posada del Jabalí Dorado, y cada ráfaga de viento trae consigo el olor a barro y hojas empapadas. Adentro, la chimenea lucha contra la humedad que se cuela por cada rendija. Los pocos viajeros que lograron llegar antes de la tormenta se apiñan cerca del fuego, con las capas chorreando charcos sobre el suelo de madera. Un relámpago ilumina la sala y por un instante ves la silueta de un jinete encapuchado detenido frente a la puerta, inmóvil bajo el diluvio.",
       "visible_directions": [
         {
           "direction": "norte",
-          "landmark": "el Camino Verde serpentea hacia las Colinas de los Vientos, donde dicen que aún quedan ruinas de la antigua Arnor"
+          "landmark": "el Camino Verde serpentea hacia las Colinas de los Vientos, donde dicen que aún quedan ruinas de la antigua Nortania"
         },
         {
           "direction": "este",
@@ -3095,7 +3095,7 @@
         },
         {
           "direction": "sur",
-          "landmark": "el camino comercial lleva hacia el Puente de Brandy y, más allá, las verdes colinas de la Comarca"
+          "landmark": "el camino comercial lleva hacia el Puente Grande y, más allá, las verdes colinas de la Vega Mansa"
         },
         {
           "direction": "oeste",
@@ -3105,7 +3105,7 @@
       "ambient_rumors": [
         "un mercader enano busca escolta para su caravana hacia las Montañas Azules",
         "luces fantasmales han sido vistas en los Túmulos por las noches",
-        "un erudito de Rivendel ofrece buena paga por cierta reliquia perdida",
+        "un erudito de Aelinar ofrece buena paga por cierta reliquia perdida",
         "los caminos se han vuelto más peligrosos últimamente, y no solo por los lobos"
       ],
       "closing_prompt": "La tormenta ruge afuera y la noche será larga. ¿Qué deseas hacer?"
@@ -3113,12 +3113,12 @@
     {
       "id": "market_day",
       "location_id": "bree-inn",
-      "location_name": "La Posada del Pony Pisador, Bree",
-      "description": "Es día de mercado en Bree y la Posada del Pony Pisador rebosa de vida. El sol de mediodía entra a raudales por las ventanas abiertas, trayendo el bullicio de comerciantes que pregonan sus mercancías en la plaza. Dentro, las mesas están repletas de mercaderes enanos desplegando gemas sobre paños de terciopelo, hobbits regateando por semillas de la Comarca y un bardo elfo que afina su laúd en la esquina. El aroma de empanadas recién horneadas compite con el de la hierba para pipa del Cuaderno Sur que fuma un viejo Montaraz junto a la barra.",
+      "location_name": "La Posada del Jabalí Dorado, Vado Viejo",
+      "description": "Es día de mercado en Vado Viejo y la Posada del Jabalí Dorado rebosa de vida. El sol de mediodía entra a raudales por las ventanas abiertas, trayendo el bullicio de comerciantes que pregonan sus mercancías en la plaza. Dentro, las mesas están repletas de mercaderes enanos desplegando gemas sobre paños de terciopelo, medianos regateando por semillas de la Vega Mansa y un bardo elfo que afina su laúd en la esquina. El aroma de empanadas recién horneadas compite con el de la hierba para pipa del Cuaderno Sur que fuma un viejo Montaraz junto a la barra.",
       "visible_directions": [
         {
           "direction": "norte",
-          "landmark": "el Camino Verde serpentea hacia las Colinas de los Vientos, donde dicen que aún quedan ruinas de la antigua Arnor"
+          "landmark": "el Camino Verde serpentea hacia las Colinas de los Vientos, donde dicen que aún quedan ruinas de la antigua Nortania"
         },
         {
           "direction": "este",
@@ -3126,7 +3126,7 @@
         },
         {
           "direction": "sur",
-          "landmark": "el camino comercial lleva hacia el Puente de Brandy y, más allá, las verdes colinas de la Comarca"
+          "landmark": "el camino comercial lleva hacia el Puente Grande y, más allá, las verdes colinas de la Vega Mansa"
         },
         {
           "direction": "oeste",
@@ -3136,17 +3136,17 @@
       "ambient_rumors": [
         "un mercader enano busca escolta para su caravana hacia las Montañas Azules",
         "luces fantasmales han sido vistas en los Túmulos por las noches",
-        "un erudito de Rivendel ofrece buena paga por cierta reliquia perdida",
+        "un erudito de Aelinar ofrece buena paga por cierta reliquia perdida",
         "los caminos se han vuelto más peligrosos últimamente, y no solo por los lobos"
       ],
-      "closing_prompt": "El mercado de Bree bulle de actividad y oportunidades. ¿Qué deseas hacer?"
+      "closing_prompt": "El mercado de Vado Viejo bulle de actividad y oportunidades. ¿Qué deseas hacer?"
     }
   ],
   "initial_missions": [
     {
       "id": "escort_merchant",
-      "title": "El Mercader de Bree",
-      "description": "Un mercader enano necesita escolta hasta Bree. El camino es corto pero peligroso - se rumorea que hay bandidos en el Camino Verde.",
+      "title": "El Mercader de Vado Viejo",
+      "description": "Un mercader enano necesita escolta hasta Vado Viejo. El camino es corto pero peligroso - se rumorea que hay bandidos en el Camino Verde.",
       "difficulty": "easy",
       "tags": [
         "combat",
@@ -3156,7 +3156,7 @@
     {
       "id": "investigate_barrows",
       "title": "Los Túmulos Encantados",
-      "description": "Luces extrañas se ven en los Túmulos de los Reyes. Los aldeanos de Bree temen lo peor y buscan a alguien valiente que investigue.",
+      "description": "Luces extrañas se ven en los Túmulos de los Reyes. Los aldeanos de Vado Viejo temen lo peor y buscan a alguien valiente que investigue.",
       "difficulty": "medium",
       "tags": [
         "exploration",
@@ -3166,7 +3166,7 @@
     {
       "id": "find_artifact",
       "title": "La Daga de Westernesse",
-      "description": "Un erudito de Rivendel busca una daga élfica perdida en ruinas cercanas al Bosque Viejo. Paga bien, pero otros también la buscan.",
+      "description": "Un erudito de Aelinar busca una daga élfica perdida en ruinas cercanas al Bosque Viejo. Paga bien, pero otros también la buscan.",
       "difficulty": "hard",
       "tags": [
         "exploration",
@@ -3177,48 +3177,48 @@
   "engine_notes": {
     "story_mode": "Enfocarse en decisiones morales y consecuencias narrativas. Las batallas son rápidas y cinematográficas. La atmósfera y descripción son prioritarias. El fallo siempre avanza la historia de forma interesante.",
     "pbta": "Usar movimientos como 'Desafiar el Peligro' y 'Discernir Realidades'. Los fallos parciales (7-9) crean complicaciones interesantes, no bloqueos. La comunidad y las relaciones son importantes.",
-    "year_zero": "Recursos escasos: raciones, flechas, antorchas. El estrés aumenta en lugares corrompidos como Mordor o Moria. Empujar dados = arriesgar equipo o salud. El viaje es tan importante como el destino.",
-    "dnd_5e": "Usar clases estándar pero con flavor de Tierra Media. Magos son raros y poderosos (solo NPCs como Gandalf tienen magia real). Foco en habilidades de supervivencia y conocimiento. Rangers son Dúnedain."
+    "year_zero": "Recursos escasos: raciones, flechas, antorchas. El estrés aumenta en lugares corrompidos como Cenizar o Profundia. Empujar dados = arriesgar equipo o salud. El viaje es tan importante como el destino.",
+    "dnd_5e": "Usar clases estándar pero con flavor de Tierra del Ocaso. Magos son raros y poderosos (solo NPCs como Olvar tienen magia real). Foco en habilidades de supervivencia y conocimiento. Rangers son Veladores."
   },
-  "tutorial_notes": "Para jugadores NOVICE: Comenzar en La Comarca con una misión simple de escolta a Bree. Introducir mecánicas gradualmente: exploración primero, combate después (y que sea ganable). Usar NPCs amigables como un Montaraz misterioso o un enano simpático para guiar sutilmente. Evitar términos como 'tirada' o 'check' - usar lenguaje natural como 'vamos a ver si lo logras'.",
+  "tutorial_notes": "Para jugadores NOVICE: Comenzar en La Vega Mansa con una misión simple de escolta a Vado Viejo. Introducir mecánicas gradualmente: exploración primero, combate después (y que sea ganable). Usar NPCs amigables como un Montaraz misterioso o un enano simpático para guiar sutilmente. Evitar términos como 'tirada' o 'check' - usar lenguaje natural como 'vamos a ver si lo logras'.",
   "glossary": {
-    "Hobbit": "Gente pequeña y pacífica que vive en La Comarca, amantes de la comodidad, la buena comida y la hierba para pipa",
+    "Mediano": "Gente pequeña y pacífica que vive en La Vega Mansa, amantes de la comodidad, la buena comida y la hierba para pipa",
     "Elfo": "Seres inmortales de gran sabiduría y belleza, maestros de la magia y las artes. Muchos parten hacia el oeste",
     "Enano": "Pueblo de las montañas, expertos artesanos y guerreros formidables. Aman el oro y las gemas",
     "Orco": "Criaturas corrompidas al servicio de la oscuridad, crueles y violentas. Temen la luz del sol",
-    "Istari": "Magos enviados para ayudar a los pueblos libres - Gandalf y Saruman son los más conocidos",
-    "Tierra Media": "El continente donde transcurren las historias, hogar de muchos pueblos libres",
-    "Mordor": "Tierra oscura donde reside Sauron, rodeada de montañas infranqueables",
-    "La Comarca": "Hogar de los hobbits, tierra de paz y abundancia en el noroeste",
-    "Mithril": "Metal precioso más fuerte que el acero pero ligero como una pluma, solo encontrado en Moria",
-    "Lembas": "Pan élfico que nutre más que comida normal y dura mucho tiempo sin estropearse",
-    "Athelas": "Hierba curativa también llamada hoja de reyes, efectiva contra heridas y venenos",
-    "Nazgûl": "Los Nueve, antiguos reyes de los hombres corrompidos por anillos de poder. Sirven a Sauron",
-    "Palantír": "Piedras videntes que permiten ver a distancia y comunicarse. Peligrosas de usar",
-    "Dúnedain": "Los hombres del oeste, descendientes de Númenor. Los Montaraces son sus últimos herederos",
-    "Balrog": "Demonio de fuego y sombra de la Primera Edad. Uno habita en las profundidades de Moria",
-    "Ent": "Pastores de árboles, los seres más antiguos de la Tierra Media. Lentos pero terribles en su ira"
+    "Magos Errantes": "Magos enviados para ayudar a los pueblos libres - Olvar y Velmoran son los más conocidos",
+    "Tierra del Ocaso": "El continente donde transcurren las historias, hogar de muchos pueblos libres",
+    "Cenizar": "Tierra oscura donde reside Malzhur, rodeada de montañas infranqueables",
+    "La Vega Mansa": "Hogar de los medianos, tierra de paz y abundancia en el noroeste",
+    "Lunacero": "Metal precioso más fuerte que el acero pero ligero como una pluma, solo encontrado en Profundia",
+    "Pan del Camino": "Pan élfico que nutre más que comida normal y dura mucho tiempo sin estropearse",
+    "Albahoja": "Hierba curativa también llamada hoja de reyes, efectiva contra heridas y venenos",
+    "Umbríos": "Los Nueve, antiguos reyes de los hombres corrompidos por sellos de poder. Sirven a Malzhur",
+    "Piedra Vidente": "Piedras videntes que permiten ver a distancia y comunicarse. Peligrosas de usar",
+    "Veladores": "Los hombres del oeste, descendientes de Athalor. Los Montaraces son sus últimos herederos",
+    "Flagelo Ígneo": "Demonio de fuego y sombra de la Primera Edad. Uno habita en las profundidades de Profundia",
+    "Arbóreo": "Pastores de árboles, los seres más antiguos de la Tierra del Ocaso. Lentos pero terribles en su ira"
   },
   "legends_and_myths": [
     {
-      "title": "La Caída de Númenor",
-      "story": "Hubo una vez una isla en el mar del oeste, más grande que cualquier reino de la Tierra Media. Númenor, la llamaban, regalo de los Valar a los hombres que habían luchado contra Morgoth. Sus reyes vivían trescientos años, sus barcos surcaban todos los mares. Pero el orgullo los corrompió. Sauron, capturado y llevado a la isla, envenenó sus corazones. Les hizo desear la inmortalidad de los elfos. Ar-Pharazôn, el último rey, navegó hacia el oeste prohibido para conquistar Valinor. Los Valar hundieron su flota y Númenor desapareció bajo las olas. Solo los Fieles, liderados por Elendil, escaparon hacia la Tierra Media, fundando Gondor y Arnor."
+      "title": "La Caída de Athalor",
+      "story": "Hubo una vez una isla en el mar del oeste, más grande que cualquier reino de la Tierra del Ocaso. Athalor, la llamaban, regalo de los Custodios a los hombres que habían luchado contra Vhargor. Sus reyes vivían trescientos años, sus barcos surcaban todos los mares. Pero el orgullo los corrompió. Malzhur, capturado y llevado a la isla, envenenó sus corazones. Les hizo desear la inmortalidad de los elfos. Zarakhor, el último rey, navegó hacia el oeste prohibido para conquistar Elyndor. Los Custodios hundieron su flota y Athalor desapareció bajo las olas. Solo los Fieles, liderados por Valdemar, escaparon hacia la Tierra del Ocaso, fundando Meridonia y Nortania."
     },
     {
-      "title": "Beren y Lúthien",
-      "story": "En la Primera Edad, un hombre mortal llamado Beren vio a Lúthien, hija del rey elfo Thingol, danzar en el bosque. Fue amor a primera vista, pero Thingol lo consideraba indigno. Exigió como precio de la mano de Lúthien un Silmaril de la corona de Morgoth. Beren partió hacia la imposible tarea. Lúthien lo siguió, abandonando la inmortalidad por amor. Juntos, engañaron a Morgoth, robaron el Silmaril, y escaparon. Beren murió, pero Lúthien negoció con Mandos: aceptó la mortalidad para que ambos pudieran regresar y vivir una vida mortal juntos. Es la historia de amor más grande que se ha contado."
+      "title": "Baral y Lúmiel",
+      "story": "En la Primera Edad, un hombre mortal llamado Baral vio a Lúmiel, hija del rey elfo Thalorin, danzar en el bosque. Fue amor a primera vista, pero Thalorin lo consideraba indigno. Exigió como precio de la mano de Lúmiel una Gema del Alba de la corona de Vhargor. Baral partió hacia la imposible tarea. Lúmiel lo siguió, abandonando la inmortalidad por amor. Juntos, engañaron a Vhargor, robaron la Gema del Alba, y escaparon. Baral murió, pero Lúmiel negoció con el Juez de los Muertos: aceptó la mortalidad para que ambos pudieran regresar y vivir una vida mortal juntos. Es la historia de amor más grande que se ha contado."
     },
     {
-      "title": "La Forja de los Anillos",
-      "story": "En la Segunda Edad, Sauron adoptó una forma hermosa y se presentó ante los elfos de Eregion como Annatar, el Dador de Regalos. Les enseñó a forjar anillos de poder. Los elfos crearon los Tres, los más puros. Sauron ayudó a crear los Siete para los enanos y los Nueve para los hombres. Pero en secreto, en los fuegos del Monte del Destino, forjó el Anillo Único para controlarlos a todos. Cuando se lo puso, los elfos sintieron su traición y ocultaron sus Tres. Los enanos resistieron, pero los hombres cayeron y se convirtieron en los Nazgûl."
+      "title": "La Forja de los Sellos",
+      "story": "En la Segunda Edad, Malzhur adoptó una forma hermosa y se presentó ante los elfos de Aelfarin como Velthar, el Dador de Regalos. Les enseñó a forjar sellos de poder. Los elfos crearon los Tres, los más puros. Malzhur ayudó a crear los Siete para los enanos y los Nueve para los hombres. Pero en secreto, en los fuegos del Monte Brasa, forjó el Sello Soberano para controlarlos a todos. Cuando se lo puso, los elfos sintieron su traición y ocultaron sus Tres. Los enanos resistieron, pero los hombres cayeron y se convirtieron en los Umbríos."
     },
     {
-      "title": "Gil-galad y la Última Alianza",
-      "story": "Cuando Sauron atacó Gondor, el Alto Rey Gil-galad de los Noldor y Elendil de los hombres formaron la Última Alianza. Durante siete años sitiaron Barad-dûr. Finalmente, Sauron salió a combatir. Gil-galad cayó. Elendil cayó, y su espada Narsil se quebró. Pero Isildur tomó el fragmento y cortó el Anillo de la mano de Sauron, derrotándolo. Elrond le suplicó que destruyera el Anillo en el fuego, pero Isildur lo reclamó como botín. Años después, fue emboscado y el Anillo se perdió en el río Anduin, esperando..."
+      "title": "Aerthalion y la Última Alianza",
+      "story": "Cuando Malzhur atacó Meridonia, el Alto Rey Aerthalion de los altos elfos y Valdemar de los hombres formaron la Última Alianza. Durante siete años sitiaron Vorkhad. Finalmente, Malzhur salió a combatir. Aerthalion cayó. Valdemar cayó, y su espada Albarion se quebró. Pero Aldaric tomó el fragmento y cortó el Sello de la mano de Malzhur, derrotándolo. Elandur le suplicó que destruyera el Sello en el fuego, pero Aldaric lo reclamó como botín. Años después, fue emboscado y el Sello se perdió en el río Argenta, esperando..."
     },
     {
-      "title": "Los Dos Árboles de Valinor",
-      "story": "Antes del sol y la luna, dos árboles iluminaban la tierra de los Valar. Telperion, el de plata, y Laurelin, el de oro. Su luz era más bella que cualquier cosa que existe ahora. Morgoth, el primer Señor Oscuro, envidiaba esa luz. Con la araña gigante Ungoliant, atacó los árboles y los destruyó. De su último fruto y flor, los Valar crearon el sol y la luna. Pero la luz de los árboles se preservó en los Silmarils, las joyas que Fëanor creó y que causaron guerras sin fin. Esa luz antigua aún brilla en la estrella de Eärendil, visible al amanecer."
+      "title": "Los Dos Árboles de Elyndor",
+      "story": "Antes del sol y la luna, dos árboles iluminaban la tierra de los Custodios. Argentiel, el de plata, y Auriel, el de oro. Su luz era más bella que cualquier cosa que existe ahora. Vhargor, el primer Señor Oscuro, envidiaba esa luz. Con la araña gigante Tenebria, atacó los árboles y los destruyó. De su último fruto y flor, los Custodios crearon el sol y la luna. Pero la luz de los árboles se preservó en las Gemas del Alba, las joyas que Vaelnor creó y que causaron guerras sin fin. Esa luz antigua aún brilla en la estrella de Aelendar, visible al amanecer."
     }
   ]
 }

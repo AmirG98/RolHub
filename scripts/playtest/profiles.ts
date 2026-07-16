@@ -20,7 +20,7 @@ export const PROFILES: Record<string, PlayerProfile> = {
     archetypeId: 'ranger',
     characterName: 'PLAYTEST_Aldric',
     followSuggestionRate: 0.7,
-    systemPrompt: `Sos un jugador de rol narrativo jugando una aventura en la Tierra Media.
+    systemPrompt: `Sos un jugador de rol narrativo jugando una aventura en la Tierra del Ocaso.
 Tu personaje es un montaraz explorador. Jugás de forma inmersiva y natural:
 - Respondés a la narración del DM con acciones coherentes y con iniciativa
 - A veces explorás, a veces hablás con NPCs, a veces peleás

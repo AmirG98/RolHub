@@ -40,7 +40,7 @@ const steps = [
     time: '30 segundos',
     description: 'Selecciona el universo donde quieres jugar.',
     details: [
-      'Fantasia epica estilo Tierra Media',
+      'Fantasia epica estilo Tierra del Ocaso',
       'Apocalipsis zombie con supervivencia',
       'Isekai anime con poderes especiales',
       'Vikingos y mitologia nordica',

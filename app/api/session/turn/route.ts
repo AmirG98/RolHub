@@ -21,6 +21,7 @@ import { getSkillTree } from '@/lib/game/skill-trees'
 import type { MilestoneState } from '@/lib/types/skill-tree'
 import { validateDMResponse } from '@/lib/validation/dm-response.schema'
 import { parseDMResponse } from '@/lib/claude/parse-dm-response'
+import { antiIpDirective } from '@/lib/claude/anti-ip-directive'
 import { canStartSession } from '@/lib/plans/check-access'
 import { rateLimit, rateLimitResponse } from '@/lib/rate-limit'
 import { verifyGuestCookie } from '@/lib/guest/cookie'
@@ -829,20 +830,20 @@ export async function POST(req: NextRequest) {
 
     // Narrative tone based on lore
     const narrativeTone = isEnglish ? (
-      session.campaign.lore === 'LOTR' ? 'Epic and mythical, like Tolkien. Elevated and poetic language.' :
+      session.campaign.lore === 'LOTR' ? 'Epic and mythical, like classic epic sagas. Elevated and poetic language.' :
       session.campaign.lore === 'ZOMBIES' ? 'Tense and survival horror. Scarce resources, constant danger, oppressive atmosphere.' :
       session.campaign.lore === 'ISEKAI' ? 'Anime and adventurous. Energetic, with humor but also epic moments.' :
       session.campaign.lore === 'VIKINGOS' ? 'Brutal and honorable. Blood, glory, destiny and the gods.' :
-      session.campaign.lore === 'STAR_WARS' ? 'Epic space opera. The Force, good vs evil, intergalactic adventure.' :
+      session.campaign.lore === 'STAR_WARS' ? 'Epic space opera. The Current, good vs evil, intergalactic adventure.' :
       session.campaign.lore === 'CYBERPUNK' ? 'Dark and neo-noir. Technology, corporations, urban survival.' :
       session.campaign.lore === 'LOVECRAFT_HORROR' ? 'Cosmic horror. The unknown, fragile sanity, indescribable horrors.' :
       'Atmospheric and immersive'
     ) : (
-      session.campaign.lore === 'LOTR' ? 'Épico y mítico, como Tolkien. Lenguaje elevado y poético.' :
+      session.campaign.lore === 'LOTR' ? 'Épico y mítico, como las grandes sagas épicas. Lenguaje elevado y poético.' :
       session.campaign.lore === 'ZOMBIES' ? 'Tenso y survival horror. Recursos escasos, peligro constante, atmósfera opresiva.' :
       session.campaign.lore === 'ISEKAI' ? 'Anime y aventurero. Energético, con humor pero también momentos épicos.' :
       session.campaign.lore === 'VIKINGOS' ? 'Brutal y honorable. Sangre, gloria, destino y los dioses.' :
-      session.campaign.lore === 'STAR_WARS' ? 'Espacial épico. La Fuerza, el bien vs el mal, aventura intergaláctica.' :
+      session.campaign.lore === 'STAR_WARS' ? 'Espacial épico. La Corriente, el bien vs el mal, aventura intergaláctica.' :
       session.campaign.lore === 'CYBERPUNK' ? 'Oscuro y neo-noir. Tecnología, corporaciones, supervivencia urbana.' :
       session.campaign.lore === 'LOVECRAFT_HORROR' ? 'Horror cósmico. Lo desconocido, cordura frágil, horrores indescriptibles.' :
       'Atmosférico y envolvente'
@@ -1201,7 +1202,7 @@ IMPORTANTE:
       ? `\n=== CRITICAL LANGUAGE RULE ===
 The player plays in ENGLISH. You MUST narrate ENTIRELY in English.
 Translate ALL lore names, location names, NPC names, item names, quest names, and descriptions to English.
-Examples: "Posada del Pony Pisador" → "The Prancing Pony Inn", "Tierra Media" → "Middle-earth", "Espada larga forjada en el oeste" → "Longsword forged in the West", "Montaraz" → "Ranger", "Erudito" → "Scholar".
+Examples: "Posada del Jabalí Dorado" → "The Gilded Boar Inn", "Tierra del Ocaso" → "Duskland", "Espada larga forjada en el oeste" → "Longsword forged in the West", "Montaraz" → "Ranger", "Erudito" → "Scholar".
 Your suggested_actions MUST be in English. Your narration, dialogue, and ALL text MUST be in English. No Spanish whatsoever.
 === END LANGUAGE RULE ===\n`
       : `\n=== REGLA DE IDIOMA ===
@@ -1399,7 +1400,7 @@ Include "dice_request" in your response:
 CRITICAL RULE FOR DICE REQUESTS:
 When you include "dice_request" in your response, your narration MUST STOP at the moment of tension. DO NOT narrate what happens — the dice haven't been rolled yet. Your narration should be SHORT (2-3 sentences max) describing ONLY the setup.
 GOOD: "You creep toward the shadow, holding your breath..."
-BAD: "You creep toward the shadow. You notice it's a Nazgul and it turns toward you..." (this resolves the action before the roll)
+BAD: "You creep toward the shadow. You notice it's a Umbríos and it turns toward you..." (this resolves the action before the roll)
 
 INTERPRETING A SUBMITTED ROLL:
 ${diceRoll ? `The player just rolled: ${diceRoll.formula} = ${diceRoll.result} (dice: ${diceRoll.rolls.join(', ')}). Narrate the OUTCOME based on this result.` : 'No dice roll submitted - if the action requires one, REQUEST IT with dice_request.'}
@@ -1478,7 +1479,7 @@ Incluí "dice_request" en tu respuesta:
 REGLA CRÍTICA PARA TIRADAS:
 Cuando incluís "dice_request" en tu respuesta, la narración DEBE PARAR en el momento de tensión. NO narres lo que pasa — los dados no se tiraron todavía. Tu narración debe ser CORTA (2-3 oraciones máx) describiendo SOLO la preparación.
 BIEN: "Te acercás sigilosamente a la sombra, conteniendo la respiración..."
-MAL: "Te acercás a la sombra. Notás que es un Nazgûl y se gira hacia vos..." (esto resuelve la acción antes de la tirada)
+MAL: "Te acercás a la sombra. Notás que es un Umbríos y se gira hacia vos..." (esto resuelve la acción antes de la tirada)
 
 INTERPRETANDO UNA TIRADA ENVIADA:
 ${diceRoll ? `El jugador acaba de tirar: ${diceRoll.formula} = ${diceRoll.result} (dados: ${diceRoll.rolls.join(', ')}). Narrá el RESULTADO basándote en esta tirada.` : 'Sin tirada de dados enviada - si la acción requiere una, PEDILA con dice_request.'}
@@ -1553,7 +1554,7 @@ WRONG (will be read as narrator):
 - The NPC speaks without clear format
 
 Example:
-"The forest closes around you. Gandalf: «Fear not, young hobbit... the path still lies ahead.» His words resonate with ancient wisdom."`
+"The forest closes around you. Olvar: «Fear not, young mediano... the path still lies ahead.» His words resonate with ancient wisdom."`
   : `CRÍTICO: Para que los NPCs tengan voces distintas, SIEMPRE formatea diálogos así:
 - NombreNPC: "Lo que dice el NPC aquí"
 - «Lo que dice el NPC», dijo NombreNPC.
@@ -1564,7 +1565,7 @@ INCORRECTO (se leerá como narrador):
 - El NPC habla sin formato claro
 
 Ejemplo:
-"El bosque se cierra a tu alrededor. Gandalf: «No temas, joven hobbit... el camino aún está por delante.» Sus palabras resuenan con antigua sabiduría."`}
+"El bosque se cierra a tu alrededor. Olvar: «No temas, joven mediano... el camino aún está por delante.» Sus palabras resuenan con antigua sabiduría."`}
 
 ${isEnglish ? `=== PACING ===
 Turn ${totalTurns}. In "${currentScene}" for ${turnsInCurrentLocation} turns.
@@ -1653,8 +1654,9 @@ INSTRUCCIONES PARA HABILIDADES:
 === FIN HABILIDADES ===\n`
     }
 
-    // Prepend abilities section to system prompt
-    const finalSystemPrompt = systemPrompt + abilitiesSection
+    // Prepend abilities section + directiva anti-IP (mundos rebrandeados)
+    const finalSystemPrompt = systemPrompt + abilitiesSection +
+      antiIpDirective(session.campaign.lore, isEnglish ? 'en' : 'es')
 
     console.log(`[DM] System prompt length: ${finalSystemPrompt.length} chars, conversation: ${conversationHistory.length} messages`)
 

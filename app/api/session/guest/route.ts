@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
 import { getEngineConfig, GameEngine, Locale, EngineContext, DiceRoll as EngineDiceRoll } from '@/lib/engines'
 import { parseDMResponse } from '@/lib/claude/parse-dm-response'
+import { antiIpDirective } from '@/lib/claude/anti-ip-directive'
 
 // Initialize Claude
 const anthropic = new Anthropic({
@@ -195,13 +196,13 @@ export async function POST(req: NextRequest) {
 
     // Narrative tone based on lore
     const narrativeTone = isEnglish ? (
-      lore === 'LOTR' ? 'Epic and mythical, like Tolkien. Elevated and poetic language.' :
+      lore === 'LOTR' ? 'Epic and mythical, like classic epic sagas. Elevated and poetic language.' :
       lore === 'ZOMBIES' ? 'Tense and survival horror. Scarce resources, constant danger.' :
       lore === 'ISEKAI' ? 'Anime and adventurous. Energetic with humor and epic moments.' :
       lore === 'VIKINGOS' ? 'Brutal and honorable. Blood, glory, destiny and the gods.' :
       'Atmospheric and immersive'
     ) : (
-      lore === 'LOTR' ? 'Épico y mítico, como Tolkien. Lenguaje elevado y poético.' :
+      lore === 'LOTR' ? 'Épico y mítico, como las grandes sagas épicas. Lenguaje elevado y poético.' :
       lore === 'ZOMBIES' ? 'Tenso y survival horror. Recursos escasos, peligro constante.' :
       lore === 'ISEKAI' ? 'Anime y aventurero. Energético con humor y momentos épicos.' :
       lore === 'VIKINGOS' ? 'Brutal y honorable. Sangre, gloria, destino y los dioses.' :
@@ -304,7 +305,7 @@ ${labels.mechanicRules}:
 4. ${labels.rule4}
 
 ${labels.narrativeTone}:
-${narrativeTone}
+${narrativeTone}${antiIpDirective(lore, isEnglish ? 'en' : 'es')}
 
 ${labels.important}:
 - ${labels.jsonOnly}

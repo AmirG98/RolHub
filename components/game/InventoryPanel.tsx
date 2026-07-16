@@ -9,7 +9,7 @@ function categorizeItem(name: string): string {
   const lower = name.toLowerCase()
   if (/espada|hacha|arco|daga|flecha|maza|lanza|sword|axe|bow|dagger|arrow|mace|spear|weapon/i.test(lower)) return 'weapon'
   if (/armadura|escudo|casco|cota|shield|armor|helmet|chainmail/i.test(lower)) return 'armor'
-  if (/poción|pocion|hierba|athelas|ungüento|potion|herb|salve|medicine/i.test(lower)) return 'consumable'
+  if (/poción|pocion|hierba|albahoja|ungüento|potion|herb|salve|medicine/i.test(lower)) return 'consumable'
   if (/pergamino|libro|mapa|carta|scroll|book|map|letter|tome/i.test(lower)) return 'document'
   if (/moneda|oro|plata|coin|gold|silver|currency/i.test(lower)) return 'currency'
   return 'misc'

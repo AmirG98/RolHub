@@ -116,7 +116,7 @@ rpg-hub/
 
 ## 🎯 Público Objetivo
 
-Gamers 18-35 sin experiencia en rol de mesa. La experiencia se siente como Baldur's Gate o Skyrim, pero con un DM que adapta la historia en tiempo real.
+Gamers 18-35 sin experiencia en rol de mesa. La experiencia se siente como Ambergate o Skyrim, pero con un DM que adapta la historia en tiempo real.
 
 ## 🏗️ Fases del Proyecto
 

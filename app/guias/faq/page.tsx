@@ -87,7 +87,7 @@ const technicalFaqs = [
 const worldsFaqs = [
   {
     q: 'Que mundos estan disponibles?',
-    a: 'Actualmente: Tierra Media (fantasia epica), Apocalipsis Zombie, Mundo Isekai (anime), Saga Vikinga, Star Wars, Cyberpunk, y Horrores Cosmicos (Lovecraft). Constantemente agregamos mas.',
+    a: 'Actualmente: Tierra del Ocaso (fantasia epica), Apocalipsis Zombie, Mundo Isekai (anime), Saga Vikinga, space opera, Cyberpunk, y Horrores Cosmicos (Lovecraft). Constantemente agregamos mas.',
   },
   {
     q: 'Puedo crear mi propio mundo?',

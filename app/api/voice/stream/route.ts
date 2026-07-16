@@ -73,7 +73,7 @@ const FISH_AUDIO_VOICES_EN: Record<string, string | null> = {
   narrator_grave:   null, // TODO: deep male English narrator (épico)
   narrator_deep:    null,
   narrator_epic:    null,
-  narrator_wise:    null, // TODO: older male English narrator (sabio/Gandalf-like)
+  narrator_wise:    null, // TODO: older male English narrator (sabio/Olvar-like)
   skald_epic:       null,
   nordic_bard:      null,
   whisper_dread:    null, // TODO: whispery male English (Lovecraft)

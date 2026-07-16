@@ -1,18 +1,18 @@
 // Detección de NPCs en narración del DM (patrón "Nombre:" o "Nombre «diálogo»").
 //
-// Regla de forma de nombre propio: 1-3 palabras, TODAS capitalizadas (se
+// Regla de forma de nombre propio: 1-4 palabras, TODAS capitalizadas (se
 // permiten partículas de/del/la/los/las/el en el medio). Esto elimina los
 // "NPCs fantasma" que el regex viejo registraba desde fragmentos de oración:
 // "Pero primero:", "Encontrás tres cosas:", "La Lengua Negra es más que..."
 // (bug observado en producción — contaminaba npc_states y el prompt del DM).
 
 // Cada palabra del nombre debe empezar en mayúscula; partículas en minúscula
-// solo entre palabras capitalizadas ("Jinete de Bree" ✓, "Pero primero" ✗).
+// solo entre palabras capitalizadas ("Jinete de Vado Viejo" ✓, "Pero primero" ✗).
 // Las clases incluyen diacríticos fantasy (Firindë, Eärendil, Völva).
 const UC = 'A-ZÁÉÍÓÚÑÄËÏÖÜÂÊÎÔÛ'
 const LC = 'a-záéíóúñäëïöüâêîôûàèìòù'
 export const NPC_DIALOGUE_REGEX = new RegExp(
-  `((?:[${UC}][${LC}]+)(?:\\s+(?:de|del|la|las|los|el)\\s+[${UC}][${LC}]+|\\s+[${UC}][${LC}]+){0,2})\\s*[:«]`,
+  `((?:[${UC}][${LC}]+)(?:\\s+(?:de|del|la|las|los|el)\\s+[${UC}][${LC}]+|\\s+[${UC}][${LC}]+){0,3})\\s*[:«]`,
   'g'
 )
 
@@ -58,7 +58,7 @@ const NAME_BLOCKLIST = new Set(
 export function isValidNpcName(name: string): boolean {
   if (!name || name.length < 3 || name.length > 40) return false
   const words = name.trim().split(/\s+/)
-  if (words.length > 3) return false
+  if (words.length > 4) return false
   const first = words[0].toLowerCase()
   if (FIRST_WORD_BLOCKLIST.has(first)) return false
   if (NAME_BLOCKLIST.has(name.toLowerCase())) return false

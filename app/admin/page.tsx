@@ -89,11 +89,11 @@ interface Pagination {
 }
 
 const LORE_LABELS: Record<string, string> = {
-  LOTR: 'Tierra Media',
+  LOTR: 'Tierra del Ocaso',
   ZOMBIES: 'Apocalipsis Zombie',
   ISEKAI: 'Mundo Isekai',
   VIKINGOS: 'Saga Vikinga',
-  STAR_WARS: 'Star Wars',
+  STAR_WARS: 'space opera',
   CYBERPUNK: 'Cyberpunk',
   LOVECRAFT_HORROR: 'Horrores Cosmicos',
   CUSTOM: 'Custom',

@@ -17,7 +17,7 @@ const LORE_STARTING_CONFIG: Record<
 > = {
   LOTR: {
     starting: 'bree',
-    discoveredNames: ['La Comarca', 'Bree', 'Rivendel'],
+    discoveredNames: ['La Vega Mansa', 'Vado Viejo', 'Aelinar'],
   },
   ZOMBIES: {
     starting: 'campamento-base',
@@ -33,7 +33,7 @@ const LORE_STARTING_CONFIG: Record<
   },
   STAR_WARS: {
     starting: 'mos-eisley',
-    discoveredNames: ['Tatooine', 'Mos Eisley', 'Coruscant'],
+    discoveredNames: ['Karshaar', 'Puerto Zenna', 'Nexus Prime'],
   },
   CYBERPUNK: {
     starting: 'afterlife',
@@ -45,11 +45,11 @@ const LORE_STARTING_CONFIG: Record<
   },
   DND_CLASSIC: {
     starting: 'waterdeep',
-    discoveredNames: ['Waterdeep', 'Undermountain', "Baldur's Gate", 'Phandalin'],
+    discoveredNames: ['Puerto Corona', 'Bajomonte', "Ambergate", 'Vadolar'],
   },
   ROMANTASY: {
     starting: 'corte-primavera',
-    discoveredNames: ['Corte de Primavera', 'Velaris (Ciudad Estrella)', 'Bosque de Espinas', 'Aldea Mortal de Prythian'],
+    discoveredNames: ['Corte de Primavera', 'Lucerna (Ciudad de las Mil Luces)', 'Bosque de Espinas', 'Aldea Mortal de Sylvaria'],
   },
   COZY_WITCH: {
     starting: 'casa-bruja',
