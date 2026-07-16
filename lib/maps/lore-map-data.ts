@@ -112,14 +112,14 @@ const LOVECRAFT_HORROR_COORDINATES: Record<string, { x: number; y: number; conne
 
 // Coordenadas para DND_CLASSIC (Costa del Alba, Valdrun)
 const DND_CLASSIC_COORDINATES: Record<string, { x: number; y: number; connections: string[] }> = {
-  'Puerto Corona': { x: 400, y: 300, connections: ['Bajomonte', 'Baldur\'s Gate', 'Brasaeterna', 'Vadolar'] },
+  'Puerto Corona': { x: 400, y: 300, connections: ['Bajomonte', 'Puerta de Ámbar', 'Brasaeterna', 'Vadolar'] },
   'Bajomonte': { x: 420, y: 350, connections: ['Puerto Corona'] },
-  'Baldur\'s Gate': { x: 200, y: 450, connections: ['Puerto Corona', 'Ciriotorre', 'Vadolar'] },
+  'Puerta de Ámbar': { x: 200, y: 450, connections: ['Puerto Corona', 'Ciriotorre', 'Vadolar'] },
   'Brasaeterna': { x: 350, y: 150, connections: ['Puerto Corona', 'Bosque de Brasaeterna', 'Valle Ventisca'] },
   'Bosque de Brasaeterna': { x: 450, y: 100, connections: ['Brasaeterna'] },
   'Valle Ventisca': { x: 500, y: 50, connections: ['Brasaeterna'] },
-  'Vadolar': { x: 300, y: 350, connections: ['Puerto Corona', 'Baldur\'s Gate'] },
-  'Ciriotorre': { x: 100, y: 500, connections: ['Baldur\'s Gate'] },
+  'Vadolar': { x: 300, y: 350, connections: ['Puerto Corona', 'Puerta de Ámbar'] },
+  'Ciriotorre': { x: 100, y: 500, connections: ['Puerta de Ámbar'] },
 }
 
 // Coordenadas para COZY_WITCH (Cala Quieta)
