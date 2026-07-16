@@ -4,20 +4,20 @@ import { ArrowLeft, ArrowRight, Sword, Shield, Users, Map, Sparkles, Crown } fro
 import { ParchmentPanel } from '@/components/medieval/ParchmentPanel'
 
 export const metadata: Metadata = {
-  title: 'Guia del Mundo Tierra Media: Fantasia Epica | RolHub',
-  description: 'Todo lo que necesitas saber para jugar en Tierra Media. Facciones, razas, locaciones y consejos para sumergirte en la fantasia epica.',
+  title: 'Guia del Mundo Tierra del Ocaso: Fantasia Epica | RolHub',
+  description: 'Todo lo que necesitas saber para jugar en Tierra del Ocaso. Facciones, razas, locaciones y consejos para sumergirte en la fantasia epica clasica.',
   keywords: [
-    'Tierra Media rol',
+    'Tierra del Ocaso rol',
     'fantasia epica RPG',
-    'jugar estilo Tolkien',
-    'elfos enanos hobbits',
+    'jugar fantasia epica clasica',
+    'elfos enanos medianos rol',
     'mundo fantasia rol'
   ],
   alternates: {
-    canonical: 'https://rol-hub.com/guias/mundo-tierra-media',
+    canonical: 'https://rol-hub.com/guias/mundo-fantasia-epica',
   },
   openGraph: {
-    title: 'Guia del Mundo Tierra Media | RolHub',
+    title: 'Guia del Mundo Tierra del Ocaso | RolHub',
     description: 'Explora un mundo de magia antigua y heroismo.',
     type: 'article',
   },
@@ -26,43 +26,43 @@ export const metadata: Metadata = {
 const factions = [
   {
     name: 'Los Pueblos Libres',
-    description: 'Alianza de humanos, elfos, enanos y hobbits que defienden la libertad.',
+    description: 'Alianza de humanos, elfos, enanos y medianos que defienden la libertad.',
     alignment: 'Bueno',
     playStyle: 'Heroes clasicos luchando contra el mal.',
   },
   {
     name: 'Los Reinos de los Hombres',
-    description: 'Gondor, Rohan y otros reinos en decadencia pero con honor.',
+    description: 'Aurelion, Estepia y otros reinos en decadencia pero con honor.',
     alignment: 'Bueno',
     playStyle: 'Politica, intriga y batallas epicas.',
   },
   {
     name: 'Los Istari',
-    description: 'Magos enviados para guiar sin dominar.',
+    description: 'Magos errantes enviados para guiar a los pueblos sin dominarlos.',
     alignment: 'Neutral Bueno',
     playStyle: 'Consejo, misterio y magia sutil.',
   },
   {
     name: 'Las Fuerzas de la Sombra',
-    description: 'Orcos, trolls y sirvientes del mal.',
+    description: 'Orcos, trolls y sirvientes de Malzhur, el senor oscuro.',
     alignment: 'Malvado',
     playStyle: 'Antagonistas, no jugables.',
   },
 ]
 
 const locations = [
-  { name: 'La Comarca', danger: 'Seguro', desc: 'Tierra pacifica de hobbits. Ideal para empezar.' },
-  { name: 'Rivendel', danger: 'Seguro', desc: 'Refugio elfico. Sabiduria y sanacion.' },
-  { name: 'Moria', danger: 'Alto', desc: 'Minas de enanos abandonadas. Tesoros y horrores.' },
-  { name: 'Bosque Negro', danger: 'Medio', desc: 'Bosque corrompido. Arannas y elfos silvanos.' },
-  { name: 'Rohan', danger: 'Medio', desc: 'Llanuras de caballos. Guerreros y honor.' },
-  { name: 'Mordor', danger: 'Extremo', desc: 'Tierra del enemigo. Solo para los valientes.' },
+  { name: 'La Vega Mansa', danger: 'Seguro', desc: 'Tierra pacifica de medianos. Ideal para empezar.' },
+  { name: 'Vado Viejo', danger: 'Seguro', desc: 'Encrucijada de caminos y posadas. Donde nacen las aventuras.' },
+  { name: 'Aelinar', danger: 'Seguro', desc: 'Refugio elfico. Sabiduria y sanacion.' },
+  { name: 'Profundia', danger: 'Alto', desc: 'Minas de enanos abandonadas. Tesoros y horrores.' },
+  { name: 'Estepia', danger: 'Medio', desc: 'Llanuras de caballos. Guerreros y honor.' },
+  { name: 'Cenizar', danger: 'Extremo', desc: 'Tierra de Malzhur, el senor oscuro. Solo para los valientes.' },
 ]
 
 const tips = [
   {
     title: 'El Bien vs el Mal',
-    desc: 'Tierra Media tiene una moralidad clara. Los heroes son heroes, los villanos son villanos. No busques zonas grises.',
+    desc: 'Tierra del Ocaso tiene una moralidad clara. Los heroes son heroes, los villanos son villanos. No busques zonas grises.',
   },
   {
     title: 'Magia Sutil',
@@ -70,7 +70,7 @@ const tips = [
   },
   {
     title: 'Los Pequenos Actos',
-    desc: 'Los hobbits salvaron el mundo. No subestimes las acciones pequenas con grandes consecuencias.',
+    desc: 'En la fantasia epica clasica, los mas pequenos cargan los destinos mas grandes. No subestimes las acciones humildes con consecuencias enormes.',
   },
   {
     title: 'Melancolia y Esperanza',
@@ -82,7 +82,7 @@ const tips = [
   },
 ]
 
-export default function TierraMediaPage() {
+export default function FantasiaEpicaPage() {
   return (
     <article className="container mx-auto px-4 py-12 max-w-4xl">
       <nav className="mb-8">
@@ -99,14 +99,15 @@ export default function TierraMediaPage() {
         <div className="flex items-center gap-4 mb-4">
           <div className="p-4 rounded-lg bg-gold"><Sword className="h-8 w-8 text-shadow" /></div>
           <div>
-            <h1 className="font-title text-3xl md:text-4xl text-gold-bright">Tierra Media</h1>
-            <p className="font-ui text-parchment text-lg">Fantasia Epica estilo Tolkien</p>
+            <h1 className="font-title text-3xl md:text-4xl text-gold-bright">Tierra del Ocaso</h1>
+            <p className="font-ui text-parchment text-lg">Fantasia epica clasica</p>
           </div>
         </div>
         <p className="font-body text-xl text-parchment leading-relaxed">
           Un mundo de magia antigua, pueblos nobles y la lucha eterna contra la oscuridad.
-          La Tierra Media es el escenario de fantasia por excelencia, donde pequenos actos
-          de valentía pueden cambiar el destino de naciones enteras.
+          Elfos, enanos, medianos y humanos comparten un continente donde la sombra de Malzhur
+          crece en el este, y donde pequenos actos de valentia pueden cambiar el destino
+          de naciones enteras.
         </p>
       </header>
 
@@ -177,8 +178,8 @@ export default function TierraMediaPage() {
           <div className="grid md:grid-cols-3 gap-4">
             <div className="text-center">
               <Crown className="h-8 w-8 text-gold-dim mx-auto mb-2" />
-              <h3 className="font-heading text-ink">El Dunedain</h3>
-              <p className="font-body text-ink text-sm">Montaraz del norte, heredero de reyes perdidos.</p>
+              <h3 className="font-heading text-ink">El Montaraz</h3>
+              <p className="font-body text-ink text-sm">Guardian de los caminos del norte, heredero de reyes perdidos.</p>
             </div>
             <div className="text-center">
               <Sparkles className="h-8 w-8 text-gold-dim mx-auto mb-2" />
@@ -187,7 +188,7 @@ export default function TierraMediaPage() {
             </div>
             <div className="text-center">
               <Shield className="h-8 w-8 text-gold-dim mx-auto mb-2" />
-              <h3 className="font-heading text-ink">El Hobbit Inesperado</h3>
+              <h3 className="font-heading text-ink">El Mediano Inesperado</h3>
               <p className="font-body text-ink text-sm">Pequeno pero valiente, destinado a grandes cosas.</p>
             </div>
           </div>
@@ -196,7 +197,7 @@ export default function TierraMediaPage() {
 
       <section className="mt-16">
         <ParchmentPanel className="p-8 text-center border border-gold-dim">
-          <h2 className="font-heading text-2xl text-ink mb-4">Explora la Tierra Media</h2>
+          <h2 className="font-heading text-2xl text-ink mb-4">Explora la Tierra del Ocaso</h2>
           <p className="font-body text-ink mb-6 max-w-xl mx-auto">
             La sombra crece en el este. Los pueblos libres necesitan heroes.
             Tu saga esta por comenzar.

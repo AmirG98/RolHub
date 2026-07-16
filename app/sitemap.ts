@@ -61,11 +61,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     'vocabulario',
     'errores-comunes',
     // Mundos
-    'mundo-tierra-media',
+    'mundo-fantasia-epica',
     'mundo-zombies',
     'mundo-isekai',
     'mundo-vikingos',
-    'mundo-star-wars',
+    'mundo-space-opera',
     'mundo-cyberpunk',
     'mundo-lovecraft',
     // Game Masters
@@ -163,7 +163,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // Isekai
     'slime-rey', 'dragon-anciano', 'goblin-bandido',
     'mimic', 'lich-del-bosque', 'grifo-real', 'elemental-de-fuego', 'orco-chaman',
-    // Star Wars
+    // space opera
     'rancor', 'sarlacc',
     'wampa', 'krayt-dragon', 'acklay', 'nexu',
     // Cyberpunk
@@ -191,11 +191,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   // Items pages
   const itemSlugs = [
-    'dardo','glamdring','cota-de-mithril','frasco-de-galadriel','palantir','lembas','capa-elfica','athelas',
+    'dardo','glamdring','cota-de-lunacero','frasco-de-galadriel','orbe vidente','pan del alba','capa-elfica','albahoja',
     'machete-reforzado','escopeta-recortada','botiquin-militar','chaleco-antibalas','molotov','walkie-talkie','trampa-de-alambre',
     'hacha-de-guerra-runica','escudo-de-madera-sagrada','hidromiel-de-odin','amuleto-de-thor','espada-ulfberht','mapa-de-las-estrellas','capa-de-piel-de-oso',
     'espada-del-heroe','bolsa-dimensional','pocion-de-curacion','grimorio-ancestral','anillo-de-invisibilidad','baston-del-archimago','amuleto-de-respawn','botas-de-velocidad',
-    'lightsaber','blaster-dl-44','armadura-mandaloriana','holocron','bacta-tank-portatil','thermal-detonator','jetpack',
+    'plasma blade','blaster-dl-44','armadura-mandaloriana','holocron','bacta-tank-portatil','thermal-detonator','jetpack',
     'katana-monowire','mantis-blades','sandevistan','deck-de-netrunner','implante-ocular-kiroshi','nanobots-curativos','emp-grenade',
     'necronomicon','daga-de-plata-encantada','polvo-de-ibn-ghazi','espejo-de-nitocris','piedra-brillante','signo-antiguo',
   ]
@@ -210,7 +210,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     'primeros-auxilios','adrenalina','camuflaje-improvisado','grito-de-alerta','reparacion-rapida','fortaleza-mental',
     'bendicion-de-odin','furia-del-berserker','runa-de-proteccion','invocar-tormenta','curar-con-seidr','ojo-del-cuervo','marca-de-tyr',
     'bola-de-fuego','curacion-mayor','teletransporte','barrera-magica','rayo-sagrado','invocacion-de-familiar','metamorfosis','resurreccion',
-    'empujon-de-fuerza','truco-mental-jedi','estrangulamiento','deflectar-blaster','vision-de-la-fuerza','curacion-con-la-fuerza','rayo-de-fuerza',
+    'empujon-de-fuerza','truco-mental-vael','estrangulamiento','deflectar-blaster','vision-de-la-fuerza','curacion-con-la-fuerza','rayo-de-fuerza',
     'hackeo-rapido','cortocircuito','contagio-virus','reinicio-de-sistema','ping-de-red','sobrecarga-de-implante','camara-lenta-sandevistan','escudo-cibernetico',
     'invocar-entidad','senal-de-koth','contactar-sonador','polvo-del-sueno','destierro','barrera-mental','ritual-de-proteccion',
   ]

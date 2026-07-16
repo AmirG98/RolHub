@@ -40,7 +40,7 @@ const TERRAIN_COLORS = {
 const LOTR_REGIONS: TerrainRegion[] = [
   {
     id: 'misty-mountains',
-    name: 'Montañas Nubladas',
+    name: 'Montañas Veladas',
     type: 'mountains',
     points: [
       380, 50,   // Pico norte
@@ -58,7 +58,7 @@ const LOTR_REGIONS: TerrainRegion[] = [
   },
   {
     id: 'fangorn-forest',
-    name: 'Bosque de Fangorn',
+    name: 'Bosque de Raizvieja',
     type: 'forest',
     points: [
       520, 350,
@@ -90,7 +90,7 @@ const LOTR_REGIONS: TerrainRegion[] = [
   },
   {
     id: 'rohan-plains',
-    name: 'Llanuras de Rohan',
+    name: 'Llanuras de Estepia',
     type: 'plains',
     points: [
       550, 450,
@@ -106,7 +106,7 @@ const LOTR_REGIONS: TerrainRegion[] = [
   },
   {
     id: 'mordor',
-    name: 'Mordor',
+    name: 'Cenizar',
     type: 'void',
     points: [
       780, 350,
@@ -122,7 +122,7 @@ const LOTR_REGIONS: TerrainRegion[] = [
   },
   {
     id: 'anduin-river',
-    name: 'Río Anduin',
+    name: 'Río Argenta',
     type: 'water',
     points: [
       350, 150,
@@ -140,7 +140,7 @@ const LOTR_REGIONS: TerrainRegion[] = [
   },
   {
     id: 'shire-hills',
-    name: 'La Comarca',
+    name: 'La Vega Mansa',
     type: 'plains',
     points: [
       50, 150,
@@ -447,7 +447,7 @@ const STAR_WARS_REGIONS: TerrainRegion[] = [
   },
   {
     id: 'nebula-alpha',
-    name: 'Nebulosa Kessel',
+    name: 'Nebulosa Vhal',
     type: 'void',
     points: [
       620, 80,
@@ -662,11 +662,11 @@ const LOVECRAFT_REGIONS: TerrainRegion[] = [
   },
 ]
 
-// ===== DND CLASSIC (Costa de la Espada) =====
+// ===== DND CLASSIC (Costa del Alba) =====
 const DND_CLASSIC_REGIONS: TerrainRegion[] = [
   {
     id: 'sword-coast',
-    name: 'Costa de la Espada',
+    name: 'Costa del Alba',
     type: 'water',
     points: [0, 200, 150, 150, 200, 300, 180, 500, 100, 600, 0, 550],
     color: TERRAIN_COLORS.water,
@@ -684,7 +684,7 @@ const DND_CLASSIC_REGIONS: TerrainRegion[] = [
   },
   {
     id: 'neverwinter-wood',
-    name: 'Bosque de Neverwinter',
+    name: 'Bosque de Brasaeterna',
     type: 'forest',
     points: [380, 50, 550, 30, 580, 150, 500, 200, 400, 170],
     color: TERRAIN_COLORS.forest,

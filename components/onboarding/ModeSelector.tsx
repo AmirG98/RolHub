@@ -165,7 +165,7 @@ export function ModeSelector({ selectedTutorialLevel, onSelect, onBack }: ModeSe
             <div className="grid grid-cols-2 gap-3 max-w-lg mx-auto">
               {[
                 { id: 'STORY_MODE' as GameEngine, icon: '📚', name: isEN ? 'Pure Narrative' : 'Narrativo Puro', desc: isEN ? 'No complex rules' : 'Sin reglas complejas', color: 'text-neon-blue' },
-                { id: 'DND_5E' as GameEngine, icon: '🐉', name: isEN ? 'Classic D&D' : 'D&D Clásico', desc: isEN ? 'd20 + ability scores' : 'd20 + habilidades', color: 'text-neon-purple' },
+                { id: 'DND_5E' as GameEngine, icon: '🐉', name: isEN ? '5e Rules (SRD)' : 'Reglas 5e (SRD)', desc: isEN ? 'd20 + ability scores' : 'd20 + habilidades', color: 'text-neon-purple' },
                 { id: 'PBTA' as GameEngine, icon: '🎲', name: isEN ? 'Simple Dice' : 'Dados Simples', desc: isEN ? '2d6, partial successes' : '2d6, éxitos parciales', color: 'text-gold' },
                 { id: 'YEAR_ZERO' as GameEngine, icon: '💀', name: isEN ? 'Survival' : 'Supervivencia', desc: isEN ? 'Scarce resources, push your luck' : 'Recursos escasos, arriesgá', color: 'text-blood' },
               ].map(eng => (

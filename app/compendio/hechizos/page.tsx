@@ -4,7 +4,7 @@ import { ALL_SPELLS } from '@/data/compendium/spells'
 
 export const metadata: Metadata = {
   title: 'Hechizos y Habilidades — Compendio RPG | RolHub',
-  description: 'Catálogo completo de hechizos, trucos y habilidades especiales de RolHub. Desde Bola de Fuego hasta trucos mentales Jedi, cada hechizo con mecánicas detalladas.',
+  description: 'Catálogo completo de hechizos, trucos y habilidades especiales de RolHub. Desde Bola de Fuego hasta trucos mentales Vael, cada hechizo con mecánicas detalladas.',
   keywords: ['hechizos RPG', 'spells D&D', 'magic spells', 'force powers', 'habilidades RPG'],
   alternates: { canonical: 'https://rol-hub.com/compendio/hechizos' },
 }
@@ -24,7 +24,7 @@ export default function SpellsPage() {
       <div className="max-w-6xl mx-auto content-wrapper">
         <h1 className="font-title text-3xl md:text-5xl text-gold-bright text-center mb-2">Hechizos y Habilidades</h1>
         <p className="font-body text-sm md:text-base text-parchment/70 text-center mb-8 max-w-2xl mx-auto">
-          Hechizos mágicos, poderes de la Fuerza, hacks cibernéticos, rituales oscuros y habilidades de supervivencia.
+          Hechizos mágicos, poderes de la Corriente, hacks cibernéticos, rituales oscuros y habilidades de supervivencia.
         </p>
 
         {lores.map(lore => {

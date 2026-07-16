@@ -88,7 +88,7 @@ export const translations = {
         yearZero: 'Year Zero Engine',
         yearZeroDesc: 'Pool de d6, supervivencia',
         yearZeroDetail: 'Recursos escasos y decisiones difíciles.',
-        dnd: 'D&D 5e',
+        dnd: 'Reglas 5e (SRD)',
         dndDesc: 'd20, reglas clásicas',
         dndDetail: 'Sistema tradicional. Para veteranos de rol.',
         recommended: 'Recomendado',
@@ -413,9 +413,9 @@ export const translations = {
     // Lores
     lores: {
       LOTR: {
-        name: 'Tierra Media',
+        name: 'Tierra del Ocaso',
         tagline: 'Las sombras crecen mientras los pueblos libres resisten',
-        description: 'Hobbits, elfos, enanos y hombres unen fuerzas contra la oscuridad',
+        description: 'Medianos, elfos, enanos y hombres unen fuerzas contra la oscuridad',
       },
       ZOMBIES: {
         name: 'Apocalipsis Zombie',
@@ -433,9 +433,9 @@ export const translations = {
         description: 'Los dioses son reales. El Valhalla espera a los valientes',
       },
       STAR_WARS: {
-        name: 'Guerra de las Galaxias',
+        name: 'Frontera Estelar',
         tagline: 'Una galaxia muy, muy lejana llena de aventura',
-        description: 'La Fuerza, sables de luz y el Imperio Galáctico',
+        description: 'La Corriente, hojas de plasma y el Dominio Estelar',
       },
       CYBERPUNK: {
         name: 'Neón y Cromo',
@@ -448,9 +448,9 @@ export const translations = {
         description: 'Años 1920. Investigaciones prohibidas y locura ancestral',
       },
       DND_CLASSIC: {
-        name: 'Reinos Olvidados',
-        tagline: 'La Costa de la Espada te espera, aventurero',
-        description: 'Gremios, dungeons, dragones y magia en Faerûn',
+        name: 'Reinos de Valdrun',
+        tagline: 'La Costa del Alba te espera, aventurero',
+        description: 'Gremios, dungeons, dragones y magia en Valdrun',
       },
       ROMANTASY: {
         name: 'Romance Fantasía',
@@ -527,7 +527,7 @@ export const translations = {
     homeExtras: {
       narrator: 'Narrador / Game Master Autónomo',
       systemComplete: 'Sistema completo de juego de rol para cualquier nivel',
-      epicAdventures: 'Embárcate en aventuras épicas en mundos infinitos. Desde la Tierra Media hasta galaxias lejanas, tu historia se escribe en tiempo real con un narrador IA que nunca duerme.',
+      epicAdventures: 'Embárcate en aventuras épicas en mundos infinitos. Desde la Tierra del Ocaso hasta galaxias lejanas, tu historia se escribe en tiempo real con un narrador IA que nunca duerme.',
       worlds: 'Mundos',
       available: 'Disponible',
       powered: 'Powered',
@@ -680,7 +680,7 @@ export const translations = {
         yearZero: 'Year Zero Engine',
         yearZeroDesc: 'd6 pool, survival',
         yearZeroDetail: 'Scarce resources and difficult decisions.',
-        dnd: 'D&D 5e',
+        dnd: '5e Rules (SRD)',
         dndDesc: 'd20, classic rules',
         dndDetail: 'Traditional system. For RPG veterans.',
         recommended: 'Recommended',
@@ -1005,9 +1005,9 @@ export const translations = {
     // Lores
     lores: {
       LOTR: {
-        name: 'Middle Earth',
+        name: 'Duskland',
         tagline: 'Shadows grow while the free peoples resist',
-        description: 'Hobbits, elves, dwarves and men unite against darkness',
+        description: 'Medianos, elves, dwarves and men unite against darkness',
       },
       ZOMBIES: {
         name: 'Zombie Apocalypse',
@@ -1027,7 +1027,7 @@ export const translations = {
       STAR_WARS: {
         name: 'Galaxy Wars',
         tagline: 'A galaxy far, far away full of adventure',
-        description: 'The Force, lightsabers and the Galactic Empire',
+        description: 'The Current, plasma blades and the Galactic Empire',
       },
       CYBERPUNK: {
         name: 'Neon and Chrome',
@@ -1040,9 +1040,9 @@ export const translations = {
         description: '1920s. Forbidden investigations and ancestral madness',
       },
       DND_CLASSIC: {
-        name: 'Forgotten Realms',
-        tagline: 'The Sword Coast awaits you, adventurer',
-        description: 'Guilds, dungeons, dragons and magic in Faerûn',
+        name: 'Realms of Valdrun',
+        tagline: 'The Dawn Coast awaits you, adventurer',
+        description: 'Guilds, dungeons, dragons and magic in Valdrun',
       },
       ROMANTASY: {
         name: 'Romance Fantasy',
@@ -1119,7 +1119,7 @@ export const translations = {
     homeExtras: {
       narrator: 'Autonomous Narrator / Game Master',
       systemComplete: 'Complete role-playing system for any level',
-      epicAdventures: 'Embark on epic adventures in infinite worlds. From Middle Earth to distant galaxies, your story is written in real time with an AI narrator that never sleeps.',
+      epicAdventures: 'Embark on epic adventures in infinite worlds. From Duskland to distant galaxies, your story is written in real time with an AI narrator that never sleeps.',
       worlds: 'Worlds',
       available: 'Available',
       powered: 'Powered',

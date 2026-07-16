@@ -19,7 +19,7 @@ import {
 
 // Estilos de arte por lore (para escenas de juego)
 const LORE_SCENE_STYLES: Record<string, string> = {
-  LOTR: 'fantasy oil painting, Tolkien illustrated style, dramatic lighting, epic atmosphere, detailed medieval fantasy, golden hour or moonlit',
+  LOTR: 'fantasy oil painting, classic epic fantasy illustration style, dramatic lighting, epic atmosphere, detailed medieval fantasy, golden hour or moonlit',
 
   ZOMBIES: 'dark cinematic photography, desaturated horror film aesthetic, gritty realism, urban decay, survival horror lighting, dramatic shadows',
 
@@ -33,7 +33,7 @@ const LORE_SCENE_STYLES: Record<string, string> = {
 
   LOVECRAFT_HORROR: 'cosmic horror painting, unsettling atmosphere, muted palette with eldritch greens and purples, fog and shadows, psychological dread',
 
-  ROMANTASY: 'ethereal romantic fantasy oil painting, fae court aesthetic, lush florals and twilight, dramatic candlelight, ACOTAR inspired, sensual atmosphere, intricate gowns and capes, dreamy bokeh, magical realism',
+  ROMANTASY: 'ethereal romantic fantasy oil painting, fae court aesthetic, lush florals and twilight, dramatic candlelight, romantasy inspired, sensual atmosphere, intricate gowns and capes, dreamy bokeh, magical realism',
 
   COZY_WITCH: 'studio ghibli inspired watercolor illustration, cozy seaside witch village, soft natural lighting, lush herb gardens and sea cliffs, warm golden hour, peaceful slice-of-life atmosphere, hand-drawn details, Practical Magic vibes, cottagecore aesthetic',
 

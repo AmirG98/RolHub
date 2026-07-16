@@ -38,7 +38,7 @@ const archetypes = [
     combat: 'Armas grandes, poca armadura, rage.',
     roleplay: 'Forastero en la civilización, codigo tribal.',
     weakness: 'La furia es poder pero tambien peligro. Puede herir a aliados?',
-    examples: ['Conan', 'Drax', 'Guts'],
+    examples: ['el bárbaro de las crónicas pulp', 'Drax', 'Guts'],
   },
   {
     name: 'El Mercenario',
@@ -46,7 +46,7 @@ const archetypes = [
     combat: 'Versatil, usa lo que funciona.',
     roleplay: 'Todo tiene un precio. Lealtad al contrato.',
     weakness: 'Cuando el dinero no alcanza para comprar la lealtad?',
-    examples: ['Bronn', 'Geralt (parcialmente)', 'Han Solo'],
+    examples: ['Bronn', 'el cazador de monstruos de las novelas eslavas (parcialmente)', 'el contrabandista carismatico de las space operas'],
   },
   {
     name: 'El Duelista',

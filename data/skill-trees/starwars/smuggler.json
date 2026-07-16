@@ -138,7 +138,7 @@
         "en": "Hyperspace Jump"
       },
       "description": {
-        "es": "Tu droide calcula una ruta de escape en segundos: el grupo huye de cualquier situación sin consecuencias inmediatas.",
+        "es": "Tu autómata calcula una ruta de escape en segundos: el grupo huye de cualquier situación sin consecuencias inmediatas.",
         "en": "Your droid calculates an escape route in seconds: the group flees any situation without immediate consequences."
       },
       "kind": "special",

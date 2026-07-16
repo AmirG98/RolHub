@@ -1,6 +1,6 @@
 {
   "loreId": "ROMANTASY",
-  "archetypeId": "guerrera-illyriana",
+  "archetypeId": "guerrera-alaria",
   "name": {
     "es": "Senda de la Guardiana Alada",
     "en": "Path of the Winged Guardian"
@@ -87,8 +87,8 @@
         "en": "Iron Loyalty"
       },
       "description": {
-        "es": "Tu reputación como guerrera illyriana te precede: un NPC hostil o neutro te escucha sin atacar y puede bajar la guardia.",
-        "en": "Your reputation as an Illyrian warrior precedes you: a hostile or neutral NPC hears you out without attacking and may lower their guard."
+        "es": "Tu reputación como guerrera alaria te precede: un NPC hostil o neutro te escucha sin atacar y puede bajar la guardia.",
+        "en": "Your reputation as an Alarian warrior precedes you: a hostile or neutral NPC hears you out without attacking and may lower their guard."
       },
       "kind": "trick",
       "resource": "cooldown_turns",
@@ -186,10 +186,10 @@
       }
     },
     {
-      "id": "furia-illyriana",
+      "id": "furia-alaria",
       "name": {
-        "es": "Furia Illyriana",
-        "en": "Illyrian Fury"
+        "es": "Furia Alaria",
+        "en": "Alarian Fury"
       },
       "description": {
         "es": "Entrás en un estado de combate exaltado: durante tres turnos tus ataques hacen daño doble y no podés ser derribada.",
@@ -240,14 +240,14 @@
       }
     },
     {
-      "id": "hermandad-illyriana",
+      "id": "hermandad-alaria",
       "name": {
-        "es": "Hermandad Illyriana",
-        "en": "Illyrian Brotherhood"
+        "es": "Hermandad Alaria",
+        "en": "Alarian Brotherhood"
       },
       "description": {
-        "es": "Invocás la deuda de sangre illyriana: un aliado caído recupera la mitad de su HP máximo y se pone de pie listo para combatir.",
-        "en": "You invoke the Illyrian blood debt: a fallen ally recovers half their max HP and rises ready to fight."
+        "es": "Invocás la deuda de sangre alaria: un aliado caído recupera la mitad de su HP máximo y se pone de pie listo para combatir.",
+        "en": "You invoke the Alarian blood debt: a fallen ally recovers half their max HP and rises ready to fight."
       },
       "kind": "special",
       "resource": "cooldown_turns",
@@ -274,8 +274,8 @@
         "en": "Queen of the Sky"
       },
       "description": {
-        "es": "Tu leyenda illyriana alcanza su cima: combinás vuelo, furia y sigils en un único ataque devastador que daña a todos los enemigos en la escena e infunde miedo permanente en los supervivientes.",
-        "en": "Your Illyrian legend reaches its peak: you combine flight, fury, and sigils into a single devastating strike that damages every enemy in the scene and instills permanent fear in any survivors."
+        "es": "Tu leyenda alaria alcanza su cima: combinás vuelo, furia y sigils en un único ataque devastador que daña a todos los enemigos en la escena e infunde miedo permanente en los supervivientes.",
+        "en": "Your Alarian legend reaches its peak: you combine flight, fury, and sigils into a single devastating strike that damages every enemy in the scene and instills permanent fear in any survivors."
       },
       "kind": "special",
       "resource": "cooldown_turns",
@@ -287,7 +287,7 @@
       ],
       "tier": 4,
       "requires": [
-        "furia-illyriana",
+        "furia-alaria",
         "alas-de-tormenta"
       ],
       "unlock": {

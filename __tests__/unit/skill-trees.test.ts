@@ -249,3 +249,25 @@ describe('skill-tree schema — rechazos estructurales', () => {
     expect(validateSkillTree(bad).ok).toBe(false)
   })
 })
+
+describe('archetype-resolver — nombres legacy pre-rebrand (regresión IP)', () => {
+  // Personajes existentes guardan el nombre/id viejo; el rebrand renombró
+  // algunos ids (hobbit→mediano, guerrera-illyriana→guerrera-alaria).
+  it('resuelve el árbol de nombres localizados viejos con subtítulo', () => {
+    expect(getSkillTree('LOTR', 'Hobbit Aventurero')).not.toBeNull()
+    expect(getSkillTree('LOTR', 'Adventurous Hobbit')).not.toBeNull()
+    expect(getSkillTree('ROMANTASY', 'Guerrera Illyriana (Guardiana Alada)')).not.toBeNull()
+    expect(getSkillTree('STAR_WARS', 'Sensible a la Fuerza')).not.toBeNull()
+  })
+
+  it('resuelve ids viejos renombrados por el rebrand', () => {
+    expect(getSkillTree('LOTR', 'hobbit')).not.toBeNull()
+    expect(getSkillTree('ROMANTASY', 'guerrera-illyriana')).not.toBeNull()
+  })
+
+  it('sigue resolviendo los nombres/ids actuales', () => {
+    expect(getSkillTree('LOTR', 'Montaraz')).not.toBeNull()
+    expect(getSkillTree('LOTR', 'mediano')).not.toBeNull()
+    expect(getSkillTree('LOTR', 'Elfo Errante')).not.toBeNull()
+  })
+})

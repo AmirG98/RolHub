@@ -266,8 +266,8 @@ export default function ZombiesPage() {
 
       <nav className="border-t border-gold/30 pt-8 mt-12">
         <div className="flex justify-between items-center">
-          <Link href="/guias/mundo-tierra-media" className="flex items-center gap-2 text-parchment hover:text-gold-bright transition-colors font-ui">
-            <ArrowLeft className="h-4 w-4" /> Anterior: Tierra Media
+          <Link href="/guias/mundo-fantasia-epica" className="flex items-center gap-2 text-parchment hover:text-gold-bright transition-colors font-ui">
+            <ArrowLeft className="h-4 w-4" /> Anterior: Tierra del Ocaso
           </Link>
           <Link href="/guias/mundo-isekai" className="flex items-center gap-2 text-gold-bright hover:text-gold transition-colors font-ui font-semibold">
             Siguiente: Mundo Isekai <ArrowRight className="h-4 w-4" />

@@ -30,7 +30,7 @@ const archetypes = [
     magic: 'Metodica, preparada, versatil.',
     personality: 'Curioso, analitico, a veces distante.',
     weakness: 'El conocimiento tiene limites. Que no puede aprender de los libros?',
-    examples: ['Gandalf (parcialmente)', 'Hermione', 'Doctor Strange'],
+    examples: ['Olvar (parcialmente)', 'la estudiante prodigio de las escuelas de magia', 'Doctor Strange'],
   },
   {
     name: 'El Hechicero Natural',
@@ -62,7 +62,7 @@ const archetypes = [
     magic: 'Oscura, tabú, poderosa.',
     personality: 'Obsesionado con la muerte, el duelo, o la inmortalidad.',
     weakness: 'La muerte siempre gana. El precio de desafiarla es alto.',
-    examples: ['The Lich King', 'Sauron', 'Voldemort'],
+    examples: ['The Lich King', 'Malzhur', 'Voldemort'],
   },
   {
     name: 'El Artificer',

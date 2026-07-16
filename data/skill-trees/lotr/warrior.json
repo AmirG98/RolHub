@@ -249,8 +249,8 @@
         "en": "Hero of the Third Age"
       },
       "description": {
-        "es": "Tu leyenda resuena en toda la Tierra Media: una vez por sesión, podés cambiar el resultado de cualquier tirada propia o aliada a un éxito automático, y tu sola presencia hace que los enemigos menores huyan.",
-        "en": "Your legend resonates across Middle-earth: once per session, you may turn any roll of yours or an ally's into an automatic success, and your mere presence causes lesser enemies to flee."
+        "es": "Tu leyenda resuena en toda la Tierra del Ocaso: una vez por sesión, podés cambiar el resultado de cualquier tirada propia o aliada a un éxito automático, y tu sola presencia hace que los enemigos menores huyan.",
+        "en": "Your legend resonates across Duskland: once per session, you may turn any roll of yours or an ally's into an automatic success, and your mere presence causes lesser enemies to flee."
       },
       "kind": "special",
       "resource": "cooldown_turns",

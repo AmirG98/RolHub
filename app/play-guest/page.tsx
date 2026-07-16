@@ -13,9 +13,9 @@ import { Play, Scroll, Swords, Map, MessageCircle, ChevronRight } from 'lucide-r
 
 // Lores disponibles
 const GUEST_LORES = [
-  { id: 'LOTR', name: 'Tierras Medias', nameEn: 'Middle Earth', emoji: '🏰', description: 'Fantasía épica tolkieniana', descriptionEn: 'Epic Tolkien-style fantasy' },
+  { id: 'LOTR', name: 'Tierra del Ocaso', nameEn: 'Duskland', emoji: '🏰', description: 'Fantasía épica clásica', descriptionEn: 'Epic classic fantasy' },
   { id: 'ZOMBIES', name: 'Apocalipsis Zombie', nameEn: 'Zombie Apocalypse', emoji: '☠️', description: 'Supervivencia y horror', descriptionEn: 'Survival and horror' },
-  { id: 'DND_CLASSIC', name: 'Reinos Olvidados', nameEn: 'Forgotten Realms', emoji: '⚔️', description: 'D&D clásico en Faerûn', descriptionEn: 'Classic D&D in Faerûn' },
+  { id: 'DND_CLASSIC', name: 'Reinos de Valdrun', nameEn: 'Realms of Valdrun', emoji: '⚔️', description: 'D&D clásico en Valdrun', descriptionEn: 'Classic D&D in Valdrun' },
 ]
 
 // Arquetipos simplificados para guest

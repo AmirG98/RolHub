@@ -4,37 +4,37 @@ import { ArrowLeft, ArrowRight, Rocket, Users, Map, Sparkles, Zap, Star } from '
 import { ParchmentPanel } from '@/components/medieval/ParchmentPanel'
 
 export const metadata: Metadata = {
-  title: 'Guia de Star Wars: La Galaxia Muy Lejana | RolHub',
-  description: 'Todo lo que necesitas saber para jugar en Star Wars. La Fuerza, facciones, planetas y consejos para vivir tu propia aventura galactica.',
+  title: 'Guia del Mundo Frontera Estelar: Space Opera | RolHub',
+  description: 'Todo lo que necesitas saber para jugar en Frontera Estelar. La Corriente, facciones, planetas y consejos para vivir tu propia aventura galactica.',
   keywords: [
-    'Star Wars rol',
-    'jugar Star Wars RPG',
-    'La Fuerza juego',
-    'Jedi Sith rol',
-    'galaxia muy lejana RPG'
+    'Frontera Estelar rol',
+    'space opera RPG',
+    'jugar space opera',
+    'La Corriente juego',
+    'contrabandistas galaxia RPG'
   ],
   alternates: {
-    canonical: 'https://rol-hub.com/guias/mundo-star-wars',
+    canonical: 'https://rol-hub.com/guias/mundo-space-opera',
   },
   openGraph: {
-    title: 'Guia de Star Wars | RolHub',
-    description: 'Que la Fuerza te acompane en tu aventura.',
+    title: 'Guia del Mundo Frontera Estelar | RolHub',
+    description: 'Que la Corriente te acompane en tu aventura.',
     type: 'article',
   },
 }
 
 const factions = [
   {
-    name: 'Alianza Rebelde',
-    description: 'Luchadores por la libertad contra el Imperio Galactico.',
+    name: 'Coalición Libre',
+    description: 'Luchadores por la libertad contra el Dominio Estelar.',
     alignment: 'Bueno',
     playStyle: 'Misiones de espionaje, rescates atrevidos, batallas contra todo pronostico.',
   },
   {
-    name: 'Imperio Galactico',
-    description: 'Gobierno totalitario que controla la galaxia con mano de hierro.',
+    name: 'Dominio Estelar',
+    description: 'Imperio totalitario que controla la galaxia con mano de hierro.',
     alignment: 'Malvado',
-    playStyle: 'Antagonistas principales. Stormtroopers, Star Destroyers, opresion.',
+    playStyle: 'Antagonistas principales. Legiones acorazadas, cruceros de guerra, opresion.',
   },
   {
     name: 'Gremio de Cazarrecompensas',
@@ -44,39 +44,39 @@ const factions = [
   },
   {
     name: 'Contrabandistas',
-    description: 'Independientes que evaden la ley imperial en naves rapidas.',
+    description: 'Independientes que evaden la ley del Dominio en naves rapidas.',
     alignment: 'Neutral',
     playStyle: 'Rutas secretas, tratos dudosos, siempre un paso adelante.',
   },
   {
-    name: 'Resto Jedi',
-    description: 'Ultimos guardianes de la Fuerza, ocultos en las sombras.',
+    name: 'Resto Vael',
+    description: 'Ultimos guardianes de la Corriente, ocultos en las sombras.',
     alignment: 'Bueno',
-    playStyle: 'Misterio, sabiduria, poderes de la Fuerza, evitar el Imperio.',
+    playStyle: 'Misterio, sabiduria, poderes de la Corriente, evitar al Dominio.',
   },
 ]
 
 const locations = [
-  { name: 'Tatooine', danger: 'Medio', desc: 'Planeta desertico en el Borde Exterior. Dos soles, mucha arena, mas peligro.' },
-  { name: 'Mos Eisley', danger: 'Alto', desc: 'Puerto espacial de mala reputacion. "Nunca encontraras un lugar mas lleno de escoria y vileza."' },
-  { name: 'Hoth', danger: 'Alto', desc: 'Planeta helado. Base rebelde secreta y criaturas peligrosas.' },
-  { name: 'Dagobah', danger: 'Medio', desc: 'Pantano donde se oculta un maestro Jedi. Fuerte en la Fuerza.' },
-  { name: 'Coruscant', danger: 'Bajo', desc: 'Capital imperial. Ciudad-planeta con miles de niveles.' },
-  { name: 'Estrella de la Muerte', danger: 'Extremo', desc: 'Estacion espacial imperial capaz de destruir planetas.' },
+  { name: 'Karshaar', danger: 'Medio', desc: 'Planeta desertico en el Borde Exterior. Dos soles, mucha arena, mas peligro.' },
+  { name: 'Puerto Zenna', danger: 'Alto', desc: 'Puerto espacial de mala reputacion. Refugio de contrabandistas, fugitivos y tratos que nadie quiere presenciar.' },
+  { name: 'Kryos', danger: 'Alto', desc: 'Planeta helado. Base secreta de la Coalición y criaturas peligrosas.' },
+  { name: 'Mirval', danger: 'Medio', desc: 'Pantano donde se oculta un maestro Vael. Fuerte en la Corriente.' },
+  { name: 'Nexus Prime', danger: 'Bajo', desc: 'Capital del Dominio Estelar. Ciudad-planeta con miles de niveles.' },
+  { name: 'Estación Eclipse', danger: 'Extremo', desc: 'Estacion espacial del Dominio capaz de destruir planetas.' },
 ]
 
 const theForce = [
   { aspect: 'Telequinesis', desc: 'Mover objetos con la mente. Desde empujar enemigos hasta levantar naves.' },
   { aspect: 'Sentidos Mejorados', desc: 'Percibir peligros, leer emociones, presentir el futuro.' },
-  { aspect: 'Trucos Mentales', desc: '"Estos no son los droides que buscas." Influenciar mentes debiles.' },
+  { aspect: 'Trucos Mentales', desc: 'Sembrar una idea, borrar una sospecha. Influenciar mentes debiles.' },
   { aspect: 'Visiones', desc: 'Vislumbres del futuro o del pasado. No siempre claras.' },
-  { aspect: 'Lado Oscuro', desc: 'Poder rapido pero corruptor. La ira y el miedo son el camino.' },
+  { aspect: 'La Sombra de la Corriente', desc: 'Poder rapido pero corruptor. La ira y el miedo son el camino de los Umbra.' },
 ]
 
 const tips = [
   {
     title: 'Es Space Fantasy, no Sci-Fi',
-    desc: 'La Fuerza es magia. Los sables de luz son espadas. No te preocupes por la fisica realista.',
+    desc: 'La Corriente es magia. Las hojas de plasma son espadas. No te preocupes por la fisica realista.',
   },
   {
     title: 'La Esperanza Siempre Existe',
@@ -87,16 +87,16 @@ const tips = [
     desc: 'Cada planeta es unico: desierto, hielo, jungla, ciudad. Aprovecha la variedad.',
   },
   {
-    title: 'Los Droides Importan',
-    desc: 'R2-D2 y C-3PO no son accesorios. Los droides pueden ser heroes tambien.',
+    title: 'Los Autómatas Importan',
+    desc: 'Un automata leal puede ser el mejor companero de aventuras. No son accesorios: pueden ser heroes tambien.',
   },
   {
     title: 'El Conflicto Interno',
-    desc: 'La lucha entre Lado Luminoso y Oscuro puede estar dentro de tu personaje.',
+    desc: 'La lucha entre la luz de la Corriente y su sombra puede estar dentro de tu personaje.',
   },
 ]
 
-export default function StarWarsPage() {
+export default function SpaceOperaPage() {
   return (
     <article className="container mx-auto px-4 py-12 max-w-4xl">
       <nav className="mb-8">
@@ -113,33 +113,34 @@ export default function StarWarsPage() {
         <div className="flex items-center gap-4 mb-4">
           <div className="p-4 rounded-lg bg-gold"><Rocket className="h-8 w-8 text-shadow" /></div>
           <div>
-            <h1 className="font-title text-3xl md:text-4xl text-gold-bright">Guerra de las Galaxias</h1>
-            <p className="font-ui text-parchment text-lg">Una Galaxia Muy, Muy Lejana</p>
+            <h1 className="font-title text-3xl md:text-4xl text-gold-bright">Frontera Estelar</h1>
+            <p className="font-ui text-parchment text-lg">Space opera de contrabandistas, imperios y poderes misticos</p>
           </div>
         </div>
         <p className="font-body text-xl text-parchment leading-relaxed">
-          La galaxia esta en guerra. El Imperio domina con mano de hierro mientras la Rebelion
-          lucha por la libertad. Sos un aventurero en esta era oscura: contrabandista, cazarrecompensas,
-          o alguien sensible a la Fuerza. Tu destino puede cambiar el curso de la historia.
+          La galaxia esta en guerra. El Dominio Estelar gobierna con mano de hierro mientras
+          la Coalición Libre lucha por la libertad. Sos un aventurero en esta era oscura:
+          contrabandista, cazarrecompensas, o alguien sensible a la Corriente.
+          Tu destino puede cambiar el curso de la historia.
         </p>
       </header>
 
       <ParchmentPanel className="p-6 mb-12 border border-gold-dim">
         <h2 className="font-heading text-lg text-ink mb-3">El Mundo en una Frase</h2>
         <p className="font-body text-ink text-lg italic">
-          "Hace mucho tiempo, en una galaxia muy, muy lejana... heroes improbables
-          se enfrentan a un imperio de oscuridad, armados con esperanza, amistad y la Fuerza."
+          "En los confines de una galaxia en guerra, heroes improbables se enfrentan
+          a un imperio de oscuridad, armados con esperanza, amistad y la Corriente."
         </p>
       </ParchmentPanel>
 
       <section className="mb-12">
         <h2 className="font-heading text-2xl text-gold-bright mb-6 flex items-center gap-2">
-          <Zap className="h-6 w-6" /> La Fuerza
+          <Zap className="h-6 w-6" /> La Corriente
         </h2>
         <ParchmentPanel className="p-6 border border-gold-dim">
           <p className="font-body text-ink mb-4">
-            La Fuerza es un campo de energia que conecta toda la vida en la galaxia.
-            Algunos pueden manipularla — los Jedi para el bien, los Sith para el mal.
+            La Corriente es un campo de energia mistica que conecta toda la vida en la galaxia.
+            Algunos pueden manipularla — los Vael para el bien, los Umbra para el mal.
           </p>
           <div className="space-y-3">
             {theForce.map((f) => (
@@ -212,17 +213,17 @@ export default function StarWarsPage() {
             <div className="text-center">
               <Rocket className="h-8 w-8 text-gold-dim mx-auto mb-2" />
               <h3 className="font-heading text-ink">El Contrabandista</h3>
-              <p className="font-body text-ink text-sm">Piloto astuto con nave rapida y problemas con el Imperio.</p>
+              <p className="font-body text-ink text-sm">Piloto astuto con nave rapida y problemas con el Dominio.</p>
             </div>
             <div className="text-center">
               <Star className="h-8 w-8 text-gold-dim mx-auto mb-2" />
-              <h3 className="font-heading text-ink">Sensible a la Fuerza</h3>
-              <p className="font-body text-ink text-sm">Poderes que no comprendes. El legado Jedi vive en vos.</p>
+              <h3 className="font-heading text-ink">Sensible a la Corriente</h3>
+              <p className="font-body text-ink text-sm">Poderes que no comprendes. El legado Vael vive en vos.</p>
             </div>
             <div className="text-center">
               <Zap className="h-8 w-8 text-gold-dim mx-auto mb-2" />
               <h3 className="font-heading text-ink">Cazarrecompensas</h3>
-              <p className="font-body text-ink text-sm">Armadura mandaloriana, rastreo experto, trabajas por creditos.</p>
+              <p className="font-body text-ink text-sm">Armadura sellada, rastreo experto, trabajas por creditos.</p>
             </div>
           </div>
         </ParchmentPanel>
@@ -230,10 +231,10 @@ export default function StarWarsPage() {
 
       <section className="mt-16">
         <ParchmentPanel className="p-8 text-center border border-gold-dim">
-          <h2 className="font-heading text-2xl text-ink mb-4">Que la Fuerza Te Acompane</h2>
+          <h2 className="font-heading text-2xl text-ink mb-4">Que la Corriente Te Acompane</h2>
           <p className="font-body text-ink mb-6 max-w-xl mx-auto">
-            La galaxia necesita heroes. El Imperio cree que ha ganado,
-            pero mientras haya esperanza, la Rebelion sigue viva.
+            La galaxia necesita heroes. El Dominio cree que ha ganado,
+            pero mientras haya esperanza, la Coalición sigue viva.
           </p>
           <Link href="/onboarding" className="inline-block font-heading text-lg bg-gold text-shadow px-8 py-3 rounded-lg hover:bg-gold-bright transition-colors font-bold">
             Comenzar Aventura

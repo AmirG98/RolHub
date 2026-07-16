@@ -87,8 +87,8 @@
         "en": "Academic Charm"
       },
       "description": {
-        "es": "Invocás el prestigio de Blackstaff para impresionar a un NPC: te trata como aliado confiable durante esta escena.",
-        "en": "You invoke Blackstaff's prestige to impress an NPC: they treat you as a trusted ally for this scene."
+        "es": "Invocás el prestigio de Bastón Negro para impresionar a un NPC: te trata como aliado confiable durante esta escena.",
+        "en": "You invoke Bastón Negro's prestige to impress an NPC: they treat you as a trusted ally for this scene."
       },
       "kind": "special",
       "resource": "daily_uses",
@@ -272,8 +272,8 @@
     {
       "id": "blackstaff-ascendant",
       "name": {
-        "es": "Ascensión de Blackstaff",
-        "en": "Blackstaff Ascendant"
+        "es": "Ascensión de Bastón Negro",
+        "en": "Bastón Negro Ascendant"
       },
       "description": {
         "es": "Desatás todo el poder de la Academia: durante una escena completa, tus hechizos no gastan usos, ignorás resistencias mágicas y tu presencia impone ventaja en todas las interacciones.",

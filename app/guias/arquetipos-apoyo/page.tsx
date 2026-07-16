@@ -46,7 +46,7 @@ const archetypes = [
     source: 'Carisma, experiencia, autoridad.',
     motivation: 'Responsabilidad, vision, proteccion del grupo.',
     weakness: 'Las decisiones tienen consecuencias. Puede cargar con todas?',
-    examples: ['Aragorn', 'Captain Picard', 'Commander Shepard'],
+    examples: ['el líder curtido de las sagas épicas', 'Captain Picard', 'Commander Shepard'],
   },
   {
     name: 'El Buffer',
@@ -62,7 +62,7 @@ const archetypes = [
     source: 'Magia, psionicos, tecnologia.',
     motivation: 'Tactico, preventivo, protector.',
     weakness: 'El control no es absoluto. Que pasa cuando falla?',
-    examples: ['Professor X', 'Scarlet Witch', 'Aang'],
+    examples: ['el mentor telépata de los cómics clásicos', 'Scarlet Witch', 'Aang'],
   },
   {
     name: 'El Mentor',
@@ -70,7 +70,7 @@ const archetypes = [
     source: 'Experiencia, sabiduria, conexiones.',
     motivation: 'Legado, redencion, proteccion.',
     weakness: 'Los estudiantes superan al maestro. Esta listo?',
-    examples: ['Gandalf', 'Obi-Wan', 'Iroh'],
+    examples: ['Olvar', 'el mentor sabio de las sagas clasicas', 'Iroh'],
   },
 ]
 

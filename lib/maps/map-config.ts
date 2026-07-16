@@ -309,7 +309,7 @@ export const LORE_MAP_CONFIGS: Record<string, LoreMapConfig> = {
     markerSize: 28,
   },
 
-  // D&D Forgotten Realms — pergamino medieval con toque aventurero
+  // D&D Realms of Valdrun — pergamino medieval con toque aventurero
   DND_CLASSIC: {
     backgroundColor: '#1A1408',
     primaryColor: '#C9A84C',

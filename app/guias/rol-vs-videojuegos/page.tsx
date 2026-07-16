@@ -217,7 +217,7 @@ export default function RolVsVideojuegosPage() {
           </h1>
         </div>
         <p className="font-body text-xl text-parchment leading-relaxed">
-          Si jugaste Skyrim, Baldur's Gate, o cualquier RPG, ya sabes mas de
+          Si jugaste Skyrim, Ambergate, o cualquier RPG, ya sabes mas de
           rol de lo que pensas. Esta guia traduce tu experiencia gamer al
           mundo del rol de mesa.
         </p>

@@ -599,7 +599,7 @@ export const WEAPONS_DB: Record<string, Weapon> = {
   // === ARMAS ESPECIALES POR LORE ===
   // Estas son versiones con nombre específico que referencian armas base
 
-  // Star Wars
+  // space opera
   'blaster': {
     id: 'blaster',
     name: 'Blaster Pistol',
@@ -628,8 +628,8 @@ export const WEAPONS_DB: Record<string, Weapon> = {
     weight: 4,
     cost: '1000 credits',
   },
-  'lightsaber': {
-    id: 'lightsaber',
+  'plasma blade': {
+    id: 'plasma blade',
     name: 'Lightsaber',
     nameEs: 'Sable de Luz',
     damage: '2d8',
@@ -1036,8 +1036,8 @@ export function parseWeaponsFromInventory(inventory: string[]): Weapon[] {
     'blaster': 'blaster',
     'pistola blaster': 'blaster',
     'rifle blaster': 'blaster_rifle',
-    'sable de luz': 'lightsaber',
-    'lightsaber': 'lightsaber',
+    'hoja de plasma': 'plasma blade',
+    'plasma blade': 'plasma blade',
     'mantis blades': 'mantis_blades',
     'pistola inteligente': 'smartgun',
     'smart gun': 'smartgun',

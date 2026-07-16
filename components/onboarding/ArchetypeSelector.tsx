@@ -60,7 +60,7 @@ const getArchetypeIcon = (id: string): React.ReactNode => {
     berserker: <Sword className="h-12 w-12" />,
     skald: <BookOpen className="h-12 w-12" />,
     shieldmaiden: <Shield className="h-12 w-12" />,
-    // Star Wars
+    // space opera
     force_sensitive: <Sparkles className="h-12 w-12" />,
     smuggler: <Zap className="h-12 w-12" />,
     bounty_hunter: <Target className="h-12 w-12" />,
@@ -74,7 +74,7 @@ const getArchetypeIcon = (id: string): React.ReactNode => {
     occultist: <Skull className="h-12 w-12" />,
     // Romantasy
     cortesano: <Sparkles className="h-12 w-12" />,
-    'guerrera-illyriana': <Sword className="h-12 w-12" />,
+    'guerrera-alaria': <Sword className="h-12 w-12" />,
     'alta-dama': <Star className="h-12 w-12" />,
     // Cozy Witch
     'bruja-verde': <BookOpen className="h-12 w-12" />,

@@ -102,9 +102,9 @@ const beginnerGuides = [
 
 const worldGuides = [
   {
-    slug: 'mundo-tierra-media',
-    title: 'Tierra Media',
-    description: 'Fantasia epica estilo Tolkien. Elfos, enanos, hobbits y la lucha contra el mal.',
+    slug: 'mundo-fantasia-epica',
+    title: 'Tierra del Ocaso',
+    description: 'Fantasia epica clasica. Elfos, enanos, medianos y la lucha contra el mal.',
     icon: Sword,
     readTime: '10 min',
     level: 'Mundo',
@@ -138,9 +138,9 @@ const worldGuides = [
     color: 'stone',
   },
   {
-    slug: 'mundo-star-wars',
-    title: 'Star Wars',
-    description: 'La Fuerza, el Imperio, y la Rebelion. Aventuras en una galaxia muy lejana.',
+    slug: 'mundo-space-opera',
+    title: 'Frontera Estelar',
+    description: 'Space opera de contrabandistas, imperios y poderes misticos. La Corriente te espera.',
     icon: Rocket,
     readTime: '12 min',
     level: 'Mundo',

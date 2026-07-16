@@ -27,6 +27,28 @@ const LORE_DATA: Record<string, any> = {
   COZY_WITCH: cozyWitchData,
 }
 
+// Nombres LEGACY → id. Personajes creados ANTES del rebranding anti-IP
+// (2026-07-16) tienen guardado el nombre viejo/localizado del arquetipo en
+// Character.archetype (a veces con el subtítulo entre paréntesis); los lore
+// JSONs ya no lo contienen. El resolver también prueba sin el paréntesis.
+// El rebrand también renombró algunos IDS de arquetipo en los JSONs
+// (hobbit→mediano, guerrera-illyriana→guerrera-alaria). Estos aliases mapean
+// TANTO los nombres localizados viejos COMO los ids viejos → id nuevo.
+const LEGACY_ARCHETYPE_NAMES: Record<string, string> = {
+  // LOTR: id viejo "hobbit" → "mediano"
+  'hobbit': 'mediano',
+  'hobbit aventurero': 'mediano',
+  'adventurous hobbit': 'mediano',
+  // Romantasy: id viejo "guerrera-illyriana" → "guerrera-alaria"
+  'guerrera-illyriana': 'guerrera-alaria',
+  'guerrera illyriana': 'guerrera-alaria',
+  'guerrera illyriana (guardiana alada)': 'guerrera-alaria',
+  'illyrian warrior': 'guerrera-alaria',
+  // Star Wars (id sin cambios)
+  'sensible a la fuerza': 'force_sensitive',
+  'force sensitive': 'force_sensitive',
+}
+
 /**
  * Devuelve el id del arquetipo. Si `archetypeKey` ya es un id, lo devuelve tal
  * cual; si es un nombre localizado (ES/EN), lo mapea al id. null si no matchea.
@@ -44,5 +66,21 @@ export function resolveArchetypeId(loreKey: string, archetypeKey: string): strin
     if (typeof a.name === 'string') return a.name.toLowerCase() === lowered
     return a.name?.es?.toLowerCase() === lowered || a.name?.en?.toLowerCase() === lowered
   })
-  return match?.id ?? null
+  if (match?.id) return match.id
+
+  // nombres pre-rebranding (personajes existentes)
+  if (LEGACY_ARCHETYPE_NAMES[lowered]) return LEGACY_ARCHETYPE_NAMES[lowered]
+
+  // Fallback: el nombre viejo suele ser "Nombre (Subtítulo)" — probar el
+  // nombre base (sin paréntesis) contra el resolver de nuevo.
+  const base = lowered.replace(/\s*\([^)]*\)\s*/g, '').trim()
+  if (base && base !== lowered) {
+    const baseMatch = data.archetypes.find((a: any) => {
+      if (typeof a.name === 'string') return a.name.toLowerCase() === base
+      return a.name?.es?.toLowerCase() === base || a.name?.en?.toLowerCase() === base
+    })
+    if (baseMatch?.id) return baseMatch.id
+    if (LEGACY_ARCHETYPE_NAMES[base]) return LEGACY_ARCHETYPE_NAMES[base]
+  }
+  return null
 }

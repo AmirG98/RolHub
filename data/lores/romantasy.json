@@ -14,7 +14,7 @@
     "sensual",
     "intriga cortesana"
   ],
-  "world_summary": "El reino de Velaris está dividido en cuatro Cortes feéricas: Primavera, Verano, Otoño e Invierno. Cada una gobernada por un Alto Señor inmortal con poderes elementales. Bajo ellas, la Corte de la Noche opera en las sombras, manejando los hilos de la política y el comercio prohibido. Hace mil años, los humanos y los fae firmaron un Tratado que dividió el continente: las tierras al sur del Muro son humanas, las del norte pertenecen a los fae. Pero el Muro está debilitándose. Los pactos antiguos crujen. Las Cortes intrigan entre sí, los Altos Señores buscan herederos, y las profecías hablan de un mortal que cambiará el equilibrio. Vos llegás a este mundo en un momento donde el amor puede ser un arma más afilada que cualquier espada, y donde una mirada en el salón equivocado puede desatar una guerra de siglos. La magia corre por la sangre, los lazos del corazón se vuelven cadenas mágicas, y nadie es exactamente lo que parece.",
+  "world_summary": "El reino de Sylvaria está dividido en cuatro Cortes feéricas: Primavera, Verano, Otoño e Invierno. Cada una gobernada por un Alto Señor inmortal con poderes elementales. Bajo ellas, la Corte Velada opera en las sombras, manejando los hilos de la política y el comercio prohibido. Hace mil años, los humanos y los fae firmaron un Tratado que dividió el continente: las tierras al sur del Muro son humanas, las del norte pertenecen a los fae. Pero el Muro está debilitándose. Los pactos antiguos crujen. Las Cortes intrigan entre sí, los Altos Señores buscan herederos, y las profecías hablan de un mortal que cambiará el equilibrio. Vos llegás a este mundo en un momento donde el amor puede ser un arma más afilada que cualquier espada, y donde una mirada en el salón equivocado puede desatar una guerra de siglos. La magia corre por la sangre, los lazos del corazón se vuelven cadenas mágicas, y nadie es exactamente lo que parece. IMPORTANTE: este es un mundo 100% original — jamás menciones nombres, lugares, personajes ni términos de franquicias comerciales de fantasía o ciencia ficción; usá exclusivamente los nombres propios de ESTE mundo.",
   "factions": [
     {
       "name": "Corte de Primavera",
@@ -23,7 +23,7 @@
       "influence": 3
     },
     {
-      "name": "Corte de la Noche",
+      "name": "Corte Velada",
       "description": "Intriga, secretos, poder oculto - los más temidos",
       "alignment": "Neutral",
       "influence": 3
@@ -55,8 +55,8 @@
       "danger_level": 3,
       "travel_times": {
         "Bosque de Espinas": "1 hora a caballo, 3 horas a pie",
-        "Velaris (Corte de la Noche)": "2 días a caballo por portal feérico",
-        "Aldea Mortal de Prythian": "medio día a caballo"
+        "Lucerna (Corte Velada)": "2 días a caballo por portal feérico",
+        "Aldea Mortal de Sylvaria": "medio día a caballo"
       },
       "sub_locations": [
         {
@@ -110,8 +110,8 @@
       ]
     },
     {
-      "name": "Velaris (Ciudad Estrella)",
-      "description": "Capital oculta de la Corte de la Noche - solo los invitados saben que existe",
+      "name": "Lucerna (Ciudad de las Mil Luces)",
+      "description": "Capital oculta de la Corte Velada - solo los invitados saben que existe",
       "type": "ciudad",
       "danger_level": 2,
       "travel_times": {
@@ -177,8 +177,8 @@
       "danger_level": 4,
       "travel_times": {
         "Corte de Primavera": "1 hora a caballo",
-        "Velaris": "1 día por sendero estelar",
-        "Aldea Mortal de Prythian": "2 horas a caballo"
+        "Lucerna": "1 día por sendero estelar",
+        "Aldea Mortal de Sylvaria": "2 horas a caballo"
       }
     },
     {
@@ -187,13 +187,13 @@
       "type": "fortaleza",
       "danger_level": 5,
       "travel_times": {
-        "Aldea Mortal de Prythian": "medio día a caballo",
-        "Velaris": "3 días en transporte mágico",
+        "Aldea Mortal de Sylvaria": "medio día a caballo",
+        "Lucerna": "3 días en transporte mágico",
         "Reino Humano del Sur": "1 día caminando hacia el sur"
       }
     },
     {
-      "name": "Aldea Mortal de Prythian",
+      "name": "Aldea Mortal de Sylvaria",
       "description": "Pueblo humano en la frontera - donde el comercio prohibido florece",
       "type": "asentamiento",
       "danger_level": 2,
@@ -209,7 +209,7 @@
       "type": "palacio",
       "danger_level": 3,
       "travel_times": {
-        "Velaris": "4 días por portal feérico",
+        "Lucerna": "4 días por portal feérico",
         "Corte de Primavera": "5 días por portal feérico",
         "Bosque de Espinas": "3 días a caballo en condiciones brutales"
       }
@@ -359,18 +359,18 @@
       ]
     },
     {
-      "id": "guerrera-illyriana",
+      "id": "guerrera-alaria",
       "name": {
-        "es": "Guerrera Illyriana (Guardiana Alada)",
-        "en": "Illyrian Warrior (Winged Guardian)"
+        "es": "Guerrera Alaria (Guardiana Alada)",
+        "en": "Alarian Warrior (Winged Guardian)"
       },
       "description": {
         "es": "Combatiente de élite con alas de murciélago y disciplina feroz",
         "en": "Elite fighter with bat-like wings and fierce discipline"
       },
       "simple_description": {
-        "es": "Sangre Illyriana corre en tus venas. Naciste con alas y entrenaste desde que aprendiste a caminar. Tu lealtad es de hierro, tu furia es legendaria, y nadie sobrevive a tu danza de espadas.",
-        "en": "Illyrian blood runs through your veins. You were born with wings and you've trained since the moment you could walk. Your loyalty is iron, your fury is legendary, and no one survives your blade dance."
+        "es": "Sangre Alaria corre en tus venas. Naciste con alas y entrenaste desde que aprendiste a caminar. Tu lealtad es de hierro, tu furia es legendaria, y nadie sobrevive a tu danza de espadas.",
+        "en": "Alarian blood runs through your veins. You were born with wings and you've trained since the moment you could walk. Your loyalty is iron, your fury is legendary, and no one survives your blade dance."
       },
       "starting_stats": {
         "hp": 24,
@@ -382,8 +382,8 @@
       },
       "starting_inventory": [
         {
-          "es": "Cuero de batalla Illyriano con sigilos",
-          "en": "Illyrian battle leathers carved with sigils"
+          "es": "Cuero de batalla Alario con sigilos",
+          "en": "Alarian battle leathers carved with sigils"
         },
         {
           "es": "Espada larga de acero feérico",
@@ -430,7 +430,7 @@
           "en": "Lightweight bedroll"
         }
       ],
-      "special_ability": "Vuelo de Combate: Podés volar distancias cortas y atacar desde el aire. En combate, tus golpes ignoran armadura ligera. Ningún Illyriano huye de una pelea.",
+      "special_ability": "Vuelo de Combate: Podés volar distancias cortas y atacar desde el aire. En combate, tus golpes ignoran armadura ligera. Ningún Alario huye de una pelea.",
       "abilities": [
         {
           "id": "vuelo-de-combate",
@@ -439,8 +439,8 @@
             "en": "Combat Flight"
           },
           "description": {
-            "es": "Podés volar distancias cortas y atacar desde el aire. En combate, tus golpes ignoran armadura ligera. Ningún Illyriano huye de una pelea.",
-            "en": "You can fly short distances and attack from the air. In combat, your strikes ignore light armor. No Illyrian runs from a fight."
+            "es": "Podés volar distancias cortas y atacar desde el aire. En combate, tus golpes ignoran armadura ligera. Ningún Alario huye de una pelea.",
+            "en": "You can fly short distances and attack from the air. In combat, your strikes ignore light armor. No Alarian runs from a fight."
           },
           "kind": "special",
           "resource": "cooldown_turns",
@@ -475,7 +475,7 @@
             "en": "Wing Shadow"
           },
           "description": {
-            "es": "Extendés las alas para cubrirte a vos o a un aliado, bloqueando proyectiles y ataques a distancia hasta tu próximo turno. La disciplina Illyriana protege a los suyos.",
+            "es": "Extendés las alas para cubrirte a vos o a un aliado, bloqueando proyectiles y ataques a distancia hasta tu próximo turno. La disciplina Alaria protege a los suyos.",
             "en": "You spread your wings to cover yourself or an ally, blocking ranged attacks and projectiles until your next turn."
           },
           "kind": "trick",
@@ -630,7 +630,7 @@
     "hechicera": "etéreo_misterioso"
   },
   "music_mood": "drama_tense",
-  "art_style": "ethereal romantic fantasy oil painting, fae court aesthetic, lush florals and twilight, dramatic candlelight, ACOTAR inspired, sensual atmosphere, intricate gowns and capes",
+  "art_style": "ethereal romantic fantasy oil painting, fae court aesthetic, lush florals and twilight, dramatic candlelight, romantasy inspired, sensual atmosphere, intricate gowns and capes",
   "roll_tables": {
     "encounters": {
       "formula": "1d20",
@@ -782,7 +782,7 @@
         "Descubrís que tenés un don que ignorabas"
       ],
       "typical_scenes": [
-        "Aldea Mortal de Prythian",
+        "Aldea Mortal de Sylvaria",
         "Corte de Primavera"
       ],
       "mood": "drama_tense"
@@ -796,7 +796,7 @@
         "Un baile termina en sangre"
       ],
       "typical_scenes": [
-        "Velaris",
+        "Lucerna",
         "Salón de las Rosas"
       ],
       "mood": "horror_ambient"
@@ -838,7 +838,7 @@
         "Tu nombre quedará en las leyendas"
       ],
       "typical_scenes": [
-        "Velaris",
+        "Lucerna",
         "Cuevas del Pacto"
       ],
       "mood": "rest_peaceful"
@@ -856,7 +856,7 @@
       },
       {
         "direction": "balcón este",
-        "landmark": "una figura encapuchada de la Corte de la Noche observándote en silencio desde las sombras"
+        "landmark": "una figura encapuchada de la Corte Velada observándote en silencio desde las sombras"
       },
       {
         "direction": "jardín lateral",
@@ -869,7 +869,7 @@
     ],
     "ambient_rumors": [
       "dicen que el Alto Señor no había recibido a un mortal en su salón en doscientos años",
-      "una hechicera de Velaris vio una profecía sobre alguien que llegaría hoy y cambiaría el destino de las Cortes",
+      "una hechicera de Lucerna vio una profecía sobre alguien que llegaría hoy y cambiaría el destino de las Cortes",
       "el lazo del corazón se está activando entre dos personas presentes esta noche - nadie sabe quiénes",
       "uno de los Altos Señores está enfermo de una maldición antigua y busca desesperadamente una cura"
     ],
@@ -888,7 +888,7 @@
         },
         {
           "direction": "balcón este",
-          "landmark": "una figura encapuchada de la Corte de la Noche observándote en silencio desde las sombras"
+          "landmark": "una figura encapuchada de la Corte Velada observándote en silencio desde las sombras"
         },
         {
           "direction": "jardín lateral",
@@ -901,7 +901,7 @@
       ],
       "ambient_rumors": [
         "dicen que el Alto Señor no había recibido a un mortal en su salón en doscientos años",
-        "una hechicera de Velaris vio una profecía sobre alguien que llegaría hoy y cambiaría el destino de las Cortes",
+        "una hechicera de Lucerna vio una profecía sobre alguien que llegaría hoy y cambiaría el destino de las Cortes",
         "el lazo del corazón se está activando entre dos personas presentes esta noche - nadie sabe quiénes",
         "uno de los Altos Señores está enfermo de una maldición antigua y busca desesperadamente una cura"
       ],
@@ -932,7 +932,7 @@
       ],
       "ambient_rumors": [
         "dicen que el Alto Señor no había recibido a un mortal en su salón en doscientos años",
-        "una hechicera de Velaris vio una profecía sobre alguien que llegaría hoy y cambiaría el destino de las Cortes",
+        "una hechicera de Lucerna vio una profecía sobre alguien que llegaría hoy y cambiaría el destino de las Cortes",
         "el lazo del corazón se está activando entre dos personas presentes esta noche - nadie sabe quiénes",
         "uno de los Altos Señores está enfermo de una maldición antigua y busca desesperadamente una cura"
       ],
@@ -942,7 +942,7 @@
       "id": "broken_treaty",
       "location_id": "el-muro",
       "location_name": "Frontera del Muro, Tierras Mortales",
-      "description": "El Muro se eleva ante vos como una cicatriz en el cielo: una barrera de aire vibrante que distorsiona todo lo que hay del otro lado. Hace una hora, una grieta se abrió en el sector norte y nadie ha podido cerrarla. Soldados humanos del reino del sur custodian la zona, nerviosos, con cruces de hierro frío en las manos. Pero vos sabés que ese hierro no va a parar a lo que está cruzando. Ya escuchaste los aullidos. Olisteis el aroma a magia descompuesta. Un mensajero feérico atraviesa la grieta, herido y desesperado, y antes de caer en tus brazos te entrega un anillo de oro grabado con runas: 'Llevalo a la Corte de la Noche. Si no llega antes del amanecer, todas las Cortes arderán.' Después, sus ojos se apagan.",
+      "description": "El Muro se eleva ante vos como una cicatriz en el cielo: una barrera de aire vibrante que distorsiona todo lo que hay del otro lado. Hace una hora, una grieta se abrió en el sector norte y nadie ha podido cerrarla. Soldados humanos del reino del sur custodian la zona, nerviosos, con cruces de hierro frío en las manos. Pero vos sabés que ese hierro no va a parar a lo que está cruzando. Ya escuchaste los aullidos. Olisteis el aroma a magia descompuesta. Un mensajero feérico atraviesa la grieta, herido y desesperado, y antes de caer en tus brazos te entrega un anillo de oro grabado con runas: 'Llevalo a la Corte Velada. Si no llega antes del amanecer, todas las Cortes arderán.' Después, sus ojos se apagan.",
       "visible_directions": [
         {
           "direction": "grieta en el Muro",
@@ -958,12 +958,12 @@
         },
         {
           "direction": "camino al norte",
-          "landmark": "el sendero que cruza al territorio fae, hacia Velaris - tres días de viaje brutal"
+          "landmark": "el sendero que cruza al territorio fae, hacia Lucerna - tres días de viaje brutal"
         }
       ],
       "ambient_rumors": [
         "dicen que el Alto Señor no había recibido a un mortal en su salón en doscientos años",
-        "una hechicera de Velaris vio una profecía sobre alguien que llegaría hoy y cambiaría el destino de las Cortes",
+        "una hechicera de Lucerna vio una profecía sobre alguien que llegaría hoy y cambiaría el destino de las Cortes",
         "el lazo del corazón se está activando entre dos personas presentes esta noche - nadie sabe quiénes",
         "uno de los Altos Señores está enfermo de una maldición antigua y busca desesperadamente una cura"
       ],
@@ -984,7 +984,7 @@
     {
       "id": "courier_pact",
       "title": "Mensajero del Pacto",
-      "description": "Un anillo encantado debe llegar a la Corte de la Noche antes del amanecer. Te lo dieron en circunstancias sospechosas y todos parecen quererlo. El camino es peligroso y no podés confiar en nadie.",
+      "description": "Un anillo encantado debe llegar a la Corte Velada antes del amanecer. Te lo dieron en circunstancias sospechosas y todos parecen quererlo. El camino es peligroso y no podés confiar en nadie.",
       "difficulty": "medium",
       "tags": [
         "travel",
@@ -1008,17 +1008,17 @@
     "story_mode": "Romance épico con política cortesana. Los conflictos se resuelven más con palabras, miradas y elecciones emocionales que con espadas. Las consecuencias del corazón pesan tanto como las del combate. Tono: anhelo, deseo, peligro elegante.",
     "pbta": "Movimientos como 'Seducir o Manipular', 'Leer la Situación', 'Desafiar el Peligro Cortesano'. Fallos parciales = enredarte sentimentalmente, deber un favor a la Corte equivocada, dejar testigos.",
     "year_zero": "Recursos: favores cortesanos, secretos, lazos del corazón, magia personal. Empujar dados = comprometer tu reputación, romper un voto, agotar tu poder mágico.",
-    "dnd_5e": "Clases recomendadas: Bardo (Cortesano), Ranger Aaracokra adaptado a Illyriano, Hechicero Wild Magic (Alta Dama). Encuentros sociales valen tanta XP como combates. Pactos mágicos como Geas obligatorios."
+    "dnd_5e": "Clases recomendadas: Bardo (Cortesano), Ranger Aaracokra adaptado a Alario, Hechicero Wild Magic (Alta Dama). Encuentros sociales valen tanta XP como combates. Pactos mágicos como Geas obligatorios."
   },
   "tutorial_notes": "Para NOVICE: Explicar que en Romantasy las palabras son armas y los lazos emocionales son mecánicas reales. El primer baile actúa como tutorial de relaciones - el DM presenta tres NPCs distintivos con motivaciones claras. El combate es raro y siempre tiene peso narrativo. Aclarar que está bien priorizar romance e intriga sobre violencia.",
   "glossary": {
     "Alto Señor": "Gobernante inmortal de una Corte feérica con poderes elementales",
-    "Corte": "Reino feérico gobernado por un Alto Señor - hay siete en total",
+    "Corte": "Reino feérico gobernado por un Alto Señor - hay cinco en total",
     "Lazo del Corazón": "Vínculo mágico irrompible entre dos almas destinadas",
-    "Illyriano": "Raza fae alada conocida por su disciplina militar",
+    "Alario": "Raza fae alada conocida por su disciplina militar",
     "Pacto de Sangre": "Acuerdo mágico sellado con sangre - romperlo es la muerte",
     "Tratado": "Acuerdo milenario que dividió el mundo entre fae y mortales",
-    "Velaris": "Capital secreta de la Corte de la Noche, conocida como la Ciudad Estrella",
+    "Lucerna": "Capital secreta de la Corte Velada, conocida como la Ciudad de las Mil Luces",
     "Mortal": "Humano - vive una sola vida y los fae los ven como frágiles pero fascinantes",
     "Fae": "Inmortal con magia innata - hermoso, peligroso, ligado a su Corte"
   }

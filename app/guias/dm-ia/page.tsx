@@ -169,7 +169,7 @@ export default function DMIAPage() {
               </li>
               <li className="flex items-start gap-2 text-ink">
                 <span className="text-gold-bright font-bold">•</span>
-                <span><strong>Entiende cada lore</strong> profundamente (Tierra Media, Zombies, Isekai, Vikingos)</span>
+                <span><strong>Entiende cada lore</strong> profundamente (Tierra del Ocaso, Zombies, Isekai, Vikingos)</span>
               </li>
               <li className="flex items-start gap-2 text-ink">
                 <span className="text-gold-bright font-bold">•</span>

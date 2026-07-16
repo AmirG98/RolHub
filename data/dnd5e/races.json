@@ -111,9 +111,9 @@
         },
         {
           "id": "dark_elf",
-          "name": "Drow",
-          "nameEn": "Dark Elf (Drow)",
-          "description": "Los drow habitan en las profundidades subterráneas y tienen una afinidad por la magia oscura.",
+          "name": "Umbrío",
+          "nameEn": "Dark Elf (Umbrío)",
+          "description": "Los umbríos habitan en las profundidades subterráneas y tienen una afinidad por la magia oscura.",
           "abilityScoreIncrease": {
             "CHA": 1
           },
@@ -129,13 +129,13 @@
               "description": "Tienes desventaja en tiradas de ataque y Percepción basadas en vista cuando tú o tu objetivo están bajo luz solar directa."
             },
             {
-              "name": "Magia Drow",
-              "nameEn": "Drow Magic",
+              "name": "Magia Umbrío",
+              "nameEn": "Umbrío Magic",
               "description": "Conoces el truco Luces Danzantes. A nivel 3, puedes lanzar Fuego Feérico una vez al día. A nivel 5, puedes lanzar Oscuridad una vez al día."
             },
             {
-              "name": "Entrenamiento con Armas Drow",
-              "nameEn": "Drow Weapon Training",
+              "name": "Entrenamiento con Armas Umbrío",
+              "nameEn": "Umbrío Weapon Training",
               "description": "Tienes competencia con estoque, espada corta y ballesta de mano."
             }
           ]

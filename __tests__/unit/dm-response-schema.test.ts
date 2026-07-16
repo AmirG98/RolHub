@@ -48,7 +48,7 @@ describe('dmResponseSchema — casos válidos', () => {
         terrain: 'forest',
         difficulty: 'easy',
       },
-      npc_update: { name: 'Gandalf', status: 'esperando en la posada', location: 'bree' },
+      npc_update: { name: 'Olvar', status: 'esperando en la posada', location: 'bree' },
       world_flag: { flag: 'puente_destruido', value: true },
       mood_hint: 'combat',
       time_update: 'Atardecer',

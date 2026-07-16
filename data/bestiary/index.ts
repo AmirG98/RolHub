@@ -22,51 +22,51 @@ export interface Beast {
   tags: string[]
 }
 
-// Bestias de Tierra Media (LOTR)
+// Bestias de Tierra del Ocaso (LOTR)
 const LOTR_BEASTS: Beast[] = [
   {
-    slug: 'troll-de-las-cavernas', name: 'Troll de las Cavernas', lore: 'LOTR', loreName: 'Tierra Media',
+    slug: 'troll-de-las-cavernas', name: 'Troll de las Cavernas', lore: 'LOTR', loreName: 'Tierra del Ocaso',
     cr: '5', type: 'Gigante', hp: 84, ac: 15, speed: '30 pies',
     description: 'Enormes criaturas de piel gris que habitan en las profundidades de las montañas. Lentos pero devastadoramente fuertes, los trolls de las cavernas pueden destrozar armaduras con sus puños. Se convierten en piedra con la luz del sol.',
     abilities: ['Fuerza Brutal: +3 al daño cuerpo a cuerpo', 'Vulnerabilidad Solar: se petrifica con luz solar directa', 'Regeneración: recupera 5 HP por turno en la oscuridad'],
     stats: { STR: 18, DEX: 8, CON: 16, INT: 5, WIS: 9, CHA: 6 },
-    imagePrompt: 'massive cave troll, grey rough skin, towering over adventurers, dark cave with torchlight, fantasy oil painting tolkien style',
+    imagePrompt: 'massive cave troll, grey rough skin, towering over adventurers, dark cave with torchlight, fantasy oil painting classic epic fantasy style',
     tags: ['gigante', 'oscuridad', 'montaña', 'peligroso'],
   },
   {
-    slug: 'huargo', name: 'Huargo', lore: 'LOTR', loreName: 'Tierra Media',
+    slug: 'huargo', name: 'Huargo', lore: 'LOTR', loreName: 'Tierra del Ocaso',
     cr: '2', type: 'Bestia', hp: 37, ac: 13, speed: '50 pies',
     description: 'Lobos gigantes e inteligentes aliados de los orcos. Más grandes que un caballo, los huargos cazan en manadas y son monturas preferidas de los orcos de las montañas. Su aullido hiela la sangre.',
     abilities: ['Mordida Feroz: 2d6+3 daño perforante', 'Embestida en Manada: ventaja si un aliado está a 5 pies', 'Aullido Aterrador: CD 12 o aterrorizado 1 turno'],
     stats: { STR: 16, DEX: 14, CON: 14, INT: 7, WIS: 11, CHA: 8 },
-    imagePrompt: 'giant warg wolf, dark fur, glowing yellow eyes, snarling teeth, orc rider in background, fantasy painting tolkien style',
+    imagePrompt: 'giant warg wolf, dark fur, glowing yellow eyes, snarling teeth, orc rider in background, fantasy painting classic epic fantasy style',
     tags: ['bestia', 'manada', 'montura', 'orco'],
   },
   {
-    slug: 'nazgul', name: 'Nazgûl', lore: 'LOTR', loreName: 'Tierra Media',
+    slug: 'nazgul', name: 'Umbríos', lore: 'LOTR', loreName: 'Tierra del Ocaso',
     cr: '10', type: 'No-muerto', hp: 112, ac: 18, speed: '40 pies, vuelo 60 pies',
-    description: 'Los Nueve Espectros del Anillo, antiguos reyes de los hombres corrompidos por Sauron. Invisibles al ojo común, infunden un terror sobrenatural. Su grito paraliza a los más valientes.',
-    abilities: ['Grito del Nazgûl: CD 16, todos a 30 pies aterroriz.', 'Espada Morgul: 3d8 daño necrótico + envenenado', 'Invisibilidad: solo visible con percepción mágica', 'Inmune a daño no-mágico'],
+    description: 'Los Nueve Espectros del Anillo, antiguos reyes de los hombres corrompidos por Malzhur. Invisibles al ojo común, infunden un terror sobrenatural. Su grito paraliza a los más valientes.',
+    abilities: ['Grito del Umbríos: CD 16, todos a 30 pies aterroriz.', 'Espada Morgul: 3d8 daño necrótico + envenenado', 'Invisibilidad: solo visible con percepción mágica', 'Inmune a daño no-mágico'],
     stats: { STR: 16, DEX: 17, CON: 18, INT: 14, WIS: 16, CHA: 20 },
-    imagePrompt: 'nazgul ringwraith, dark hooded figure on black horse, glowing sword, mist and darkness, tolkien fantasy epic painting',
+    imagePrompt: 'nazgul ringwraith, dark hooded figure on black horse, glowing sword, mist and darkness, classic epic fantasy fantasy epic painting',
     tags: ['no-muerto', 'jefe', 'terror', 'legendario'],
   },
   {
-    slug: 'balrog', name: 'Balrog', lore: 'LOTR', loreName: 'Tierra Media',
+    slug: 'balrog', name: 'Balrog', lore: 'LOTR', loreName: 'Tierra del Ocaso',
     cr: '20', type: 'Demonio', hp: 262, ac: 19, speed: '40 pies, vuelo 80 pies',
     description: 'Espíritu maiar corrompido por Morgoth en la Primera Edad. Una criatura de fuego y sombra que porta un látigo de llamas y una espada ardiente. Solo los más poderosos pueden enfrentarlo.',
     abilities: ['Aura de Fuego: 3d6 daño de fuego a 10 pies', 'Látigo de Llamas: alcance 30 pies, 4d6 fuego', 'Espada Ardiente: 4d8 cortante + 2d6 fuego', 'Inmunidad al fuego', 'Resistencia a magia'],
     stats: { STR: 26, DEX: 15, CON: 22, INT: 18, WIS: 16, CHA: 22 },
-    imagePrompt: 'balrog demon of fire and shadow, massive flaming whip, underground chasm, glowing orange eyes, epic tolkien dark fantasy',
+    imagePrompt: 'balrog demon of fire and shadow, massive flaming whip, underground chasm, glowing orange eyes, epic classic epic fantasy dark fantasy',
     tags: ['demonio', 'fuego', 'legendario', 'jefe-final'],
   },
   {
-    slug: 'araña-gigante-de-mirkwood', name: 'Araña Gigante de Mirkwood', lore: 'LOTR', loreName: 'Tierra Media',
+    slug: 'araña-gigante-de-mirkwood', name: 'Araña Gigante de Mirkwood', lore: 'LOTR', loreName: 'Tierra del Ocaso',
     cr: '3', type: 'Bestia', hp: 52, ac: 14, speed: '30 pies, trepar 30 pies',
-    description: 'Descendientes de Ungoliant, estas arañas del tamaño de un caballo tejen redes mortales en el Bosque Negro. Su veneno paraliza a las víctimas mientras las envuelven en seda.',
+    description: 'Descendientes de Tenebria, estas arañas del tamaño de un caballo tejen redes mortales en el Bosque Sombrío. Su veneno paraliza a las víctimas mientras las envuelven en seda.',
     abilities: ['Mordida Venenosa: 1d8+2 + CD 13 CON o paralizado', 'Telaraña: CD 12 DEX o enredado', 'Trepar muros y techos', 'Visión en la oscuridad 60 pies'],
     stats: { STR: 14, DEX: 16, CON: 12, INT: 4, WIS: 10, CHA: 3 },
-    imagePrompt: 'giant spider in dark forest, mirkwood, web-covered trees, glowing eyes, dark fantasy tolkien illustration',
+    imagePrompt: 'giant spider in dark forest, mirkwood, web-covered trees, glowing eyes, dark fantasy classic epic fantasy illustration',
     tags: ['bestia', 'veneno', 'bosque', 'trampa'],
   },
 ]
@@ -173,24 +173,24 @@ const ISEKAI_BEASTS: Beast[] = [
   },
 ]
 
-// Bestias Star Wars
+// Bestias space opera
 const STARWARS_BEASTS: Beast[] = [
   {
-    slug: 'rancor', name: 'Rancor', lore: 'STAR_WARS', loreName: 'Star Wars',
+    slug: 'rancor', name: 'Rancor', lore: 'STAR_WARS', loreName: 'space opera',
     cr: '8', type: 'Bestia', hp: 136, ac: 15, speed: '30 pies',
-    description: 'Depredador reptiliano de 5 metros de altura originario de Dathomir. Usado como bestia de pelea por señores del crimen como Jabba el Hutt. Fuerza descomunal pero vulnerable en los ojos.',
+    description: 'Depredador reptiliano de 5 metros de altura originario de Dathomir. Usado como bestia de pelea por señores del crimen como Gorm el Vorga. Fuerza descomunal pero vulnerable en los ojos.',
     abilities: ['Agarrar: si golpea, agarra al objetivo (CD 16)', 'Aplastamiento: 3d10+6 contundente a objetivos agarrados', 'Piel Gruesa: resistencia a daño de blaster'],
     stats: { STR: 22, DEX: 9, CON: 18, INT: 4, WIS: 10, CHA: 5 },
-    imagePrompt: 'rancor star wars, massive reptilian beast in dark pit, jabba palace, sci-fi dark fantasy illustration',
+    imagePrompt: 'rancor space opera, massive reptilian beast in dark pit, jabba palace, sci-fi dark fantasy illustration',
     tags: ['bestia', 'grande', 'pelea', 'sci-fi'],
   },
   {
-    slug: 'sarlacc', name: 'Sarlacc', lore: 'STAR_WARS', loreName: 'Star Wars',
+    slug: 'sarlacc', name: 'Sarlacc', lore: 'STAR_WARS', loreName: 'space opera',
     cr: '12', type: 'Bestia', hp: 200, ac: 18, speed: '0 pies (inmóvil)',
-    description: 'Criatura semienterrada en el desierto de Tatooine cuya boca de tentáculos atrapa a quien caiga en ella. Digiere a sus presas vivas durante mil años.',
+    description: 'Criatura semienterrada en el desierto de Karshaar cuya boca de tentáculos atrapa a quien caiga en ella. Digiere a sus presas vivas durante mil años.',
     abilities: ['Tentáculos: alcance 20 pies, agarra automático', 'Digestión Lenta: 2d6 ácido por turno a presas tragadas', 'Inmóvil pero indestructible bajo tierra'],
     stats: { STR: 24, DEX: 2, CON: 26, INT: 3, WIS: 8, CHA: 1 },
-    imagePrompt: 'sarlacc pit star wars, massive mouth with tentacles in desert sand, tatooine, sci-fi horror illustration',
+    imagePrompt: 'sarlacc pit space opera, massive mouth with tentacles in desert sand, tatooine, sci-fi horror illustration',
     tags: ['bestia', 'trampa', 'desierto', 'legendario'],
   },
 ]
@@ -242,26 +242,26 @@ const LOVECRAFT_BEASTS: Beast[] = [
 // === NUEVAS CRIATURAS (30 más) ===
 
 const LOTR_BEASTS_2: Beast[] = [
-  { slug: 'orco-de-mordor', name: 'Orco de Mordor', lore: 'LOTR', loreName: 'Tierra Media', cr: '1', type: 'Humanoide', hp: 15, ac: 13, speed: '30 pies',
-    description: 'Soldados de a pie del ejército de Sauron. Cobardes solos pero letales en formación. Armados con cimitarras oxidadas y escudos de hierro negro. Su piel gris resiste el sol pero lo odian.',
+  { slug: 'orco-de-mordor', name: 'Orco de Cenizar', lore: 'LOTR', loreName: 'Tierra del Ocaso', cr: '1', type: 'Humanoide', hp: 15, ac: 13, speed: '30 pies',
+    description: 'Soldados de a pie del ejército de Malzhur. Cobardes solos pero letales en formación. Armados con cimitarras oxidadas y escudos de hierro negro. Su piel gris resiste el sol pero lo odian.',
     abilities: ['Agresión: puede moverse y atacar como acción bonus', 'Cobardía: desventaja si no hay aliados a 10 pies', 'Visión en la oscuridad 60 pies'],
-    stats: { STR: 13, DEX: 12, CON: 12, INT: 7, WIS: 8, CHA: 6 }, imagePrompt: 'mordor orc soldier, dark armor, red eye symbol, dark fantasy tolkien painting', tags: ['humanoide', 'ejército', 'común', 'mordor'] },
-  { slug: 'mumakil', name: 'Mûmakil (Oliphante)', lore: 'LOTR', loreName: 'Tierra Media', cr: '11', type: 'Bestia', hp: 157, ac: 14, speed: '40 pies',
-    description: 'Elefantes gigantes del sur de la Tierra Media, usados como torres de guerra por los Haradrim. Su carga aplasta ejércitos enteros y su piel es casi impenetrable.',
+    stats: { STR: 13, DEX: 12, CON: 12, INT: 7, WIS: 8, CHA: 6 }, imagePrompt: 'mordor orc soldier, dark armor, red eye symbol, dark fantasy classic epic fantasy painting', tags: ['humanoide', 'ejército', 'común', 'mordor'] },
+  { slug: 'mumakil', name: 'Mûmakil (Oliphante)', lore: 'LOTR', loreName: 'Tierra del Ocaso', cr: '11', type: 'Bestia', hp: 157, ac: 14, speed: '40 pies',
+    description: 'Elefantes gigantes del sur de la Tierra del Ocaso, usados como torres de guerra por los Haradrim. Su carga aplasta ejércitos enteros y su piel es casi impenetrable.',
     abilities: ['Carga Devastadora: si se mueve 20+ pies, 4d10+6 contundente', 'Pisotón: 3d8+6 a criaturas derribadas', 'Torre de Guerra: 4 arqueros disparan desde su lomo', 'Piel Gruesa: resistencia a perforante'],
-    stats: { STR: 24, DEX: 9, CON: 20, INT: 3, WIS: 11, CHA: 6 }, imagePrompt: 'mumakil oliphaunt war elephant, massive with war tower on back, haradrim warriors, epic tolkien battle painting', tags: ['bestia', 'enorme', 'guerra', 'haradrim'] },
-  { slug: 'espectro-del-pantano', name: 'Espectro del Pantano', lore: 'LOTR', loreName: 'Tierra Media', cr: '4', type: 'No-muerto', hp: 45, ac: 12, speed: '0 pies, flotar 30 pies',
+    stats: { STR: 24, DEX: 9, CON: 20, INT: 3, WIS: 11, CHA: 6 }, imagePrompt: 'mumakil oliphaunt war elephant, massive with war tower on back, haradrim warriors, epic classic epic fantasy battle painting', tags: ['bestia', 'enorme', 'guerra', 'haradrim'] },
+  { slug: 'espectro-del-pantano', name: 'Espectro del Pantano', lore: 'LOTR', loreName: 'Tierra del Ocaso', cr: '4', type: 'No-muerto', hp: 45, ac: 12, speed: '0 pies, flotar 30 pies',
     description: 'Espíritus de guerreros caídos que habitan los Pantanos de los Muertos. Sus luces espectrales atraen a los viajeros al agua donde se ahogan siguiendo sus rostros pálidos.',
     abilities: ['Luz Engañosa: CD 14 WIS o atraído 10 pies hacia el agua', 'Toque Gélido: 2d8 daño necrótico', 'Incorpóreo: resistencia a daño no-mágico', 'Inmune a veneno y encantamiento'],
-    stats: { STR: 6, DEX: 14, CON: 10, INT: 10, WIS: 14, CHA: 16 }, imagePrompt: 'dead marshes spirit, pale ghostly face under water, eerie green light, tolkien dark fantasy watercolor', tags: ['no-muerto', 'agua', 'trampa', 'espíritu'] },
-  { slug: 'guardian-del-agua', name: 'Guardián del Agua', lore: 'LOTR', loreName: 'Tierra Media', cr: '9', type: 'Aberración', hp: 126, ac: 14, speed: '10 pies, nadar 40 pies',
-    description: 'Criatura tentacular que habita las aguas oscuras frente a las Puertas de Moria. Decenas de tentáculos viscosos emergen del lago negro para atrapar a cualquiera que se acerque.',
+    stats: { STR: 6, DEX: 14, CON: 10, INT: 10, WIS: 14, CHA: 16 }, imagePrompt: 'dead marshes spirit, pale ghostly face under water, eerie green light, classic epic fantasy dark fantasy watercolor', tags: ['no-muerto', 'agua', 'trampa', 'espíritu'] },
+  { slug: 'guardian-del-agua', name: 'Guardián del Agua', lore: 'LOTR', loreName: 'Tierra del Ocaso', cr: '9', type: 'Aberración', hp: 126, ac: 14, speed: '10 pies, nadar 40 pies',
+    description: 'Criatura tentacular que habita las aguas oscuras frente a las Puertas de Profundia. Decenas de tentáculos viscosos emergen del lago negro para atrapar a cualquiera que se acerque.',
     abilities: ['Tentáculos Múltiples: 6 ataques por turno, alcance 20 pies', 'Agarrar: CD 15 STR para escapar', 'Arrastrar al Agua: arrastra 15 pies por turno a presas agarradas', 'Regenera tentáculos cortados en 1d4 turnos'],
-    stats: { STR: 20, DEX: 10, CON: 18, INT: 4, WIS: 12, CHA: 4 }, imagePrompt: 'watcher in the water, massive tentacled creature in dark lake, doors of moria behind, tolkien dark fantasy', tags: ['aberración', 'agua', 'tentáculos', 'moria'] },
-  { slug: 'shelob', name: 'Shelob', lore: 'LOTR', loreName: 'Tierra Media', cr: '12', type: 'Bestia', hp: 150, ac: 16, speed: '40 pies, trepar 40 pies',
-    description: 'La última hija de Ungoliant, una araña ancestral del tamaño de un edificio. Habita los túneles de Cirith Ungol desde antes que Sauron existiera. Su veneno paraliza instantáneamente.',
+    stats: { STR: 20, DEX: 10, CON: 18, INT: 4, WIS: 12, CHA: 4 }, imagePrompt: 'watcher in the water, massive tentacled creature in dark lake, doors of moria behind, classic epic fantasy dark fantasy', tags: ['aberración', 'agua', 'tentáculos', 'moria'] },
+  { slug: 'shelob', name: 'Shelob', lore: 'LOTR', loreName: 'Tierra del Ocaso', cr: '12', type: 'Bestia', hp: 150, ac: 16, speed: '40 pies, trepar 40 pies',
+    description: 'La última hija de Tenebria, una araña ancestral del tamaño de un edificio. Habita los túneles de Cirith Ungol desde antes que Malzhur existiera. Su veneno paraliza instantáneamente.',
     abilities: ['Mordida Venenosa: 3d10+5 + CD 17 CON o paralizado 1 hora', 'Telaraña Masiva: 30 pies, CD 16 STR o enredado', 'Aguijón Trasero: 2d8+5 perforante', 'Resistencia a magia: ventaja en salvaciones contra hechizos'],
-    stats: { STR: 20, DEX: 18, CON: 18, INT: 8, WIS: 14, CHA: 4 }, imagePrompt: 'shelob giant spider, massive ancient spider in dark tunnel, glowing eyes, cirith ungol, tolkien horror fantasy painting', tags: ['bestia', 'veneno', 'jefe', 'legendario', 'araña'] },
+    stats: { STR: 20, DEX: 18, CON: 18, INT: 8, WIS: 14, CHA: 4 }, imagePrompt: 'shelob giant spider, massive ancient spider in dark tunnel, glowing eyes, cirith ungol, classic epic fantasy horror fantasy painting', tags: ['bestia', 'veneno', 'jefe', 'legendario', 'araña'] },
 ]
 
 const ZOMBIE_BEASTS_2: Beast[] = [
@@ -330,22 +330,22 @@ const ISEKAI_BEASTS_2: Beast[] = [
 ]
 
 const STARWARS_BEASTS_2: Beast[] = [
-  { slug: 'wampa', name: 'Wampa', lore: 'STAR_WARS', loreName: 'Star Wars', cr: '4', type: 'Bestia', hp: 68, ac: 13, speed: '40 pies',
-    description: 'Depredador de las cuevas de hielo de Hoth. Bípedo, peludo y con garras capaces de derribar un tauntaun. Cuelga a sus presas del techo de su cueva para comerlas después.',
+  { slug: 'wampa', name: 'Wampa', lore: 'STAR_WARS', loreName: 'space opera', cr: '4', type: 'Bestia', hp: 68, ac: 13, speed: '40 pies',
+    description: 'Depredador de las cuevas de hielo de Kryos. Bípedo, peludo y con garras capaces de derribar un tauntaun. Cuelga a sus presas del techo de su cueva para comerlas después.',
     abilities: ['Garras: 2d8+4 cortante', 'Agarrar: cuelga a la presa del techo (CD 14 STR)', 'Camuflaje en Nieve: ventaja en Stealth en terreno nevado', 'Resistencia al frío'],
-    stats: { STR: 18, DEX: 12, CON: 16, INT: 4, WIS: 12, CHA: 5 }, imagePrompt: 'wampa ice creature star wars, white furred beast in ice cave, hoth, sci-fi horror illustration', tags: ['bestia', 'hielo', 'depredador', 'hoth'] },
-  { slug: 'krayt-dragon', name: 'Dragón Krayt', lore: 'STAR_WARS', loreName: 'Star Wars', cr: '16', type: 'Bestia', hp: 250, ac: 18, speed: '40 pies, excavar 30 pies',
-    description: 'El depredador más temido de Tatooine. Puede medir 100 metros de largo y se desplaza bajo la arena como un submarino. Su perla es el tesoro más valioso del planeta.',
+    stats: { STR: 18, DEX: 12, CON: 16, INT: 4, WIS: 12, CHA: 5 }, imagePrompt: 'wampa ice creature space opera, white furred beast in ice cave, hoth, sci-fi horror illustration', tags: ['bestia', 'hielo', 'depredador', 'hoth'] },
+  { slug: 'krayt-dragon', name: 'Dragón Krayt', lore: 'STAR_WARS', loreName: 'space opera', cr: '16', type: 'Bestia', hp: 250, ac: 18, speed: '40 pies, excavar 30 pies',
+    description: 'El depredador más temido de Karshaar. Puede medir 100 metros de largo y se desplaza bajo la arena como un submarino. Su perla es el tesoro más valioso del planeta.',
     abilities: ['Embestida Subterránea: emerge causando 6d10 contundente en radio 20 pies', 'Mordida: 4d12+8 perforante', 'Tragar: criaturas grandes o menores (4d6 ácido/turno)', 'Perla del Krayt: vale una fortuna si se extrae'],
-    stats: { STR: 28, DEX: 8, CON: 24, INT: 3, WIS: 12, CHA: 6 }, imagePrompt: 'krayt dragon star wars, massive sand dragon emerging from desert, tatooine twin suns, epic sci-fi fantasy', tags: ['bestia', 'enorme', 'legendario', 'tatooine'] },
-  { slug: 'acklay', name: 'Acklay', lore: 'STAR_WARS', loreName: 'Star Wars', cr: '7', type: 'Bestia', hp: 105, ac: 15, speed: '40 pies',
+    stats: { STR: 28, DEX: 8, CON: 24, INT: 3, WIS: 12, CHA: 6 }, imagePrompt: 'krayt dragon space opera, massive sand dragon emerging from desert, tatooine twin suns, epic sci-fi fantasy', tags: ['bestia', 'enorme', 'legendario', 'tatooine'] },
+  { slug: 'acklay', name: 'Acklay', lore: 'STAR_WARS', loreName: 'space opera', cr: '7', type: 'Bestia', hp: 105, ac: 15, speed: '40 pies',
     description: 'Depredador de seis patas con garras como lanzas, originario de Vendaxa. Usado en arenas gladiatorias de Geonosis. Extremadamente agresivo y difícil de matar.',
     abilities: ['Seis Garras: 3 ataques, 2d6+4 perforante cada uno', 'Carga: si se mueve 20+ pies, derriba automático', 'Exoesqueleto: resistencia a cortante', 'Frenético: +1 ataque extra bajo 50% HP'],
-    stats: { STR: 20, DEX: 14, CON: 16, INT: 3, WIS: 10, CHA: 4 }, imagePrompt: 'acklay star wars, six-legged predator with claw-legs, geonosis arena, sci-fi creature illustration', tags: ['bestia', 'arena', 'garras', 'geonosis'] },
-  { slug: 'nexu', name: 'Nexu', lore: 'STAR_WARS', loreName: 'Star Wars', cr: '3', type: 'Bestia', hp: 45, ac: 14, speed: '50 pies, trepar 30 pies',
+    stats: { STR: 20, DEX: 14, CON: 16, INT: 3, WIS: 10, CHA: 4 }, imagePrompt: 'acklay space opera, six-legged predator with claw-legs, geonosis arena, sci-fi creature illustration', tags: ['bestia', 'arena', 'garras', 'geonosis'] },
+  { slug: 'nexu', name: 'Nexu', lore: 'STAR_WARS', loreName: 'space opera', cr: '3', type: 'Bestia', hp: 45, ac: 14, speed: '50 pies, trepar 30 pies',
     description: 'Felino de cuatro ojos con mandíbulas desproporcionadas y cola bifurcada. Rápido, sigiloso y mortal. Usado como bestia de arena en Geonosis.',
     abilities: ['Mordida: 2d6+3 perforante', 'Garras: 1d8+3 cortante', 'Cuatro Ojos: no puede ser sorprendido', 'Salto: salta 30 pies sin carrera'],
-    stats: { STR: 14, DEX: 18, CON: 12, INT: 4, WIS: 14, CHA: 6 }, imagePrompt: 'nexu star wars, four-eyed feline predator, sharp teeth, geonosis arena, sci-fi creature art', tags: ['bestia', 'felino', 'rápido', 'arena'] },
+    stats: { STR: 14, DEX: 18, CON: 12, INT: 4, WIS: 14, CHA: 6 }, imagePrompt: 'nexu space opera, four-eyed feline predator, sharp teeth, geonosis arena, sci-fi creature art', tags: ['bestia', 'felino', 'rápido', 'arena'] },
 ]
 
 const CYBERPUNK_BEASTS_2: Beast[] = [

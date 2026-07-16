@@ -1,82 +1,88 @@
 {
   "id": "DND_CLASSIC",
-  "name": { "es": "Reinos Olvidados", "en": "Forgotten Realms" },
-  "tagline": { "es": "La Costa de la Espada te llama: aventura, gloria y peligro acechan en cada esquina de Faerûn", "en": "The Sword Coast is calling: adventure, glory, and danger lurk around every corner of Faerûn" },
+  "name": {
+    "es": "Reinos de Valdrun",
+    "en": "Realms of Valdrun"
+  },
+  "tagline": {
+    "es": "La Costa del Alba te llama: aventura, gloria y peligro acechan en cada esquina de Valdrun",
+    "en": "The Dawn Coast is calling: adventure, glory, and danger lurk around every corner of Valdrun"
+  },
   "tone": [
     "épico",
     "heroico",
     "aventurero",
     "misterioso"
   ],
-  "world_summary": "Faerûn es un vasto continente donde la magia impregna cada rincón, los dioses caminan entre los mortales y la aventura espera detrás de cada puerta de taberna. La Costa de la Espada, una franja de ciudades-estado poderosas a lo largo del Mar de las Espadas, es el corazón de la civilización. Waterdeep, la Ciudad de los Esplendores, brilla como un faro de comercio y poder. Bajo sus calles, la megamazmorra de Undermountain se extiende hacia las profundidades. Dragones ancestrales dormitan en montañas olvidadas, liches conspiran en torres prohibidas, y gremios de aventureros buscan fama y fortuna en ruinas antiguas. Es un mundo donde un huérfano de los callejones puede convertirse en héroe legendario, y donde el peligro y la maravilla son compañeros inseparables.",
+  "world_summary": "Valdrun es un vasto continente donde la magia impregna cada rincón, los dioses caminan entre los mortales y la aventura espera detrás de cada puerta de taberna. La Costa del Alba, una franja de ciudades-estado poderosas a lo largo del Mar del Alba, es el corazón de la civilización. Puerto Corona, la Ciudad de los Mil Estandartes, brilla como un faro de comercio y poder. Bajo sus calles, la megamazmorra de Bajomonte se extiende hacia las profundidades. Dragones ancestrales dormitan en montañas olvidadas, liches conspiran en torres prohibidas, y gremios de aventureros buscan fama y fortuna en ruinas antiguas. Es un mundo donde un huérfano de los callejones puede convertirse en héroe legendario, y donde el peligro y la maravilla son compañeros inseparables. IMPORTANTE: este es un mundo 100% original — jamás menciones nombres, lugares, personajes ni términos de franquicias comerciales de fantasía o ciencia ficción; usá exclusivamente los nombres propios de ESTE mundo.",
   "detailed_history": {
     "ages": [
       {
         "name": "Los Días del Trueno",
-        "summary": "La era primordial donde los imperios de los creadores — sarrukh, batrachi y aearee — dominaban Faerûn. Razas reptilianas, anfibias y aviares construyeron civilizaciones vastas antes de la llegada de los elfos y humanos. Sus ruinas aún se encuentran en las profundidades del mundo."
+        "summary": "La era primordial donde los imperios de los creadores — sarrukh, batrachi y aearee — dominaban Valdrun. Razas reptilianas, anfibias y aviares construyeron civilizaciones vastas antes de la llegada de los elfos y humanos. Sus ruinas aún se encuentran en las profundidades del mundo."
       },
       {
         "name": "La Era de los Elfos",
-        "summary": "Los elfos establecieron grandes imperios como Illefarn, Eaerlann y Miyeritar. La magia élfica transformó el continente, pero las guerras de la Corona entre elfos oscuros y de la superficie fracturaron su poder. Los drow fueron desterrados a la Infraoscuridad."
+        "summary": "Los elfos establecieron grandes imperios como Illevar, Aelandra y Mythrenar. La magia élfica transformó el continente, pero las Guerras de la Fractura entre elfos oscuros y de la superficie fracturaron su poder. Los umbríos fueron desterrados a la Hondura Sombría."
       },
       {
         "name": "La Era de los Humanos",
-        "summary": "Imperios humanos como Netheril, el más grande dominio mágico jamás conocido, se alzaron y cayeron. La caída de Netheril, causada por la arrogancia de sus archimagos al intentar robar la magia de los dioses, dejó desiertos mágicos y ruinas flotantes. Las ciudades-estado de la Costa de la Espada emergieron de las cenizas."
+        "summary": "Imperios humanos como Netharion, el más grande dominio mágico jamás conocido, se alzaron y cayeron. La caída de Netharion, causada por la arrogancia de sus archimagos al intentar robar la magia de los dioses, dejó desiertos mágicos y ruinas flotantes. Las ciudades-estado de la Costa del Alba emergieron de las cenizas."
       }
     ],
-    "current_situation": "Es la era actual, tras el Segundo Cisma. Los dioses han regresado a sus dominios después de caminar como mortales durante el Tiempo de las Tribulaciones. Waterdeep prospera bajo los Señores Enmascarados, pero la corrupción acecha en las sombras. El Zhentarim extiende sus redes de poder, los Arpistas luchan en secreto contra la tiranía, y en las profundidades de Undermountain, el archimago loco Halaster Blackcloak trama planes incomprensibles. Cultos demoníacos brotan como hongos, dragones antiguos despiertan, y la Costa de la Espada necesita héroes más que nunca."
+    "current_situation": "Es la era actual, tras el Segundo Cisma. Los dioses han regresado a sus dominios después de caminar como mortales durante el Tiempo de las Tribulaciones. Puerto Corona prospera bajo los Señores Enmascarados, pero la corrupción acecha en las sombras. La Red Vorzhen extiende sus redes de poder, los Vigías luchan en secreto contra la tiranía, y en las profundidades de Bajomonte, el archimago loco Vharen el Insondable trama planes incomprensibles. Cultos demoníacos brotan como hongos, dragones antiguos despiertan, y la Costa del Alba necesita héroes más que nunca."
   },
   "factions": [
     {
-      "name": "Los Arpistas",
+      "name": "Los Vigías",
       "description": "Red secreta de espías y agentes dedicados a combatir la tiranía y preservar el equilibrio",
       "alignment": "Neutral Bueno",
       "influence": 1,
-      "detailed_description": "Los Arpistas son una red clandestina de espías, informantes, bardos y magos que operan en las sombras para combatir la tiranía y preservar el conocimiento. Fundados hace siglos por elfos y bardos humanos, trabajan en células independientes para que la captura de un agente no comprometa toda la organización. Prefieren la sutileza a la fuerza bruta: una palabra susurrada al oído correcto puede derribar a un tirano sin derramar una gota de sangre. Sus agentes se identifican con un arpa de plata, pero la mayoría opera sin identificación alguna.",
+      "detailed_description": "Los Vigías son una red clandestina de espías, informantes, bardos y magos que operan en las sombras para combatir la tiranía y preservar el conocimiento. Fundados hace siglos por elfos y bardos humanos, trabajan en células independientes para que la captura de un agente no comprometa toda la organización. Prefieren la sutileza a la fuerza bruta: una palabra susurrada al oído correcto puede derribar a un tirano sin derramar una gota de sangre. Sus agentes se identifican con un arpa de plata, pero la mayoría opera sin identificación alguna.",
       "key_figures": [
-        "Elminster de Shadowdale",
-        "Laeral Silverhand",
+        "Aldramar de Shadowdale",
+        "Laenara Manargenta",
         "Remallia Haventree",
         "Zelraun Roaringhorn"
       ],
       "goals": [
         "Recopilar información sobre amenazas a los pueblos libres",
-        "Contrarrestar la influencia del Zhentarim y cultos malignos",
+        "Contrarrestar la influencia de la Red Vorzhen y cultos malignos",
         "Preservar el conocimiento antiguo y proteger reliquias mágicas"
       ]
     },
     {
       "name": "La Alianza de los Señores",
-      "description": "Coalición de gobernantes y líderes políticos que mantienen el orden en la Costa de la Espada",
+      "description": "Coalición de gobernantes y líderes políticos que mantienen el orden en la Costa del Alba",
       "alignment": "Legal Neutral",
       "influence": 2,
-      "detailed_description": "La Alianza de los Señores es una coalición de gobernantes, nobles y funcionarios de las ciudades más importantes de la Costa de la Espada. Waterdeep, Neverwinter, Baldur's Gate, Silverymoon y Mirabar están entre sus miembros más prominentes. Su objetivo es mantener la estabilidad política, proteger las rutas comerciales y presentar un frente unido contra amenazas externas. Sin embargo, la política interna es un nido de víboras: cada ciudad persigue sus propios intereses, y las alianzas cambian con la velocidad del viento marino.",
+      "detailed_description": "La Alianza de los Señores es una coalición de gobernantes, nobles y funcionarios de las ciudades más importantes de la Costa del Alba. Puerto Corona, Brasaeterna, Ambergate, Lunaplata y Ferradal están entre sus miembros más prominentes. Su objetivo es mantener la estabilidad política, proteger las rutas comerciales y presentar un frente unido contra amenazas externas. Sin embargo, la política interna es un nido de víboras: cada ciudad persigue sus propios intereses, y las alianzas cambian con la velocidad del viento marino.",
       "key_figures": [
-        "Laeral Silverhand (Señora Abierta de Waterdeep)",
-        "Lord Dagult Neverember",
-        "Duque Ulder Ravengard de Baldur's Gate",
-        "Taern 'Thunderspells' Hornblade"
+        "Laenara Manargenta (Señora Abierta de Puerto Corona)",
+        "Lord Dagren Braseval",
+        "Duque Ulric Corvengar de Ambergate",
+        "Taerin 'Truenos' Cuernoforte"
       ],
       "goals": [
         "Mantener la paz y el comercio entre las ciudades-estado",
-        "Defender la Costa de la Espada de invasiones externas",
+        "Defender la Costa del Alba de invasiones externas",
         "Expandir la influencia política de la alianza"
       ]
     },
     {
-      "name": "El Zhentarim",
+      "name": "La Red Vorzhen",
       "description": "Red de mercenarios, contrabandistas y agentes de poder que operan desde las sombras",
       "alignment": "Legal Malvado",
       "influence": 2,
-      "detailed_description": "También conocidos como la Red Negra, el Zhentarim es una organización mercenaria y criminal que extiende sus tentáculos por toda Faerûn. Lo que comenzó como un ejército al servicio de magos oscuros se ha transformado en una vasta red de comerciantes, mercenarios, espías y asesinos. Controlan rutas comerciales clandestinas, ofrecen protección a cambio de lealtad, y no dudan en eliminar a la competencia. Bajo su fachada de organización mercantil legítima, el Zhentarim busca el control económico y político total.",
+      "detailed_description": "También conocidos como la Red Negra, la Red Vorzhen es una organización mercenaria y criminal que extiende sus tentáculos por toda Valdrun. Lo que comenzó como un ejército al servicio de magos oscuros se ha transformado en una vasta red de comerciantes, mercenarios, espías y asesinos. Controlan rutas comerciales clandestinas, ofrecen protección a cambio de lealtad, y no dudan en eliminar a la competencia. Bajo su fachada de organización mercantil legítima, la Red Vorzhen busca el control económico y político total.",
       "key_figures": [
-        "Manshoon (en secreto)",
-        "Davil Starsong",
-        "Skeemo Weirdbottle",
-        "Yevette Blackwater"
+        "Vhelzor (en secreto)",
+        "Davren Cantoluna",
+        "Skemo Frascorraro",
+        "Yevana Aguanegra"
       ],
       "goals": [
-        "Controlar las rutas comerciales de la Costa de la Espada",
+        "Controlar las rutas comerciales de la Costa del Alba",
         "Infiltrar los gobiernos de las ciudades principales",
         "Acumular riqueza y poder sin límites morales"
       ]
@@ -86,10 +92,10 @@
       "description": "Paladines, clérigos y guerreros santos dedicados a la justicia divina",
       "alignment": "Legal Bueno",
       "influence": 1,
-      "detailed_description": "La Orden del Guantelete es una organización de paladines, clérigos y guerreros devotos que luchan contra el mal en todas sus formas. A diferencia de los Arpistas, que prefieren la sutileza, la Orden cree en la acción directa y la justicia implacable. Sus miembros visten armaduras brillantes, portan símbolos de sus deidades, y no se esconden en las sombras: marchan al frente de batalla con la fe como escudo. Sirven a deidades como Tyr, Torm e Ilmater, y consideran que la compasión sin acción es cobardía.",
+      "detailed_description": "La Orden del Guantelete es una organización de paladines, clérigos y guerreros devotos que luchan contra el mal en todas sus formas. A diferencia de los Vigías, que prefieren la sutileza, la Orden cree en la acción directa y la justicia implacable. Sus miembros visten armaduras brillantes, portan símbolos de sus deidades, y no se esconden en las sombras: marchan al frente de batalla con la fe como escudo. Sirven a deidades como Tyr, Valdor y Pietor, y consideran que la compasión sin acción es cobardía.",
       "key_figures": [
-        "Ontharr Frume",
-        "Sir Isteval",
+        "Ontar Bram",
+        "Sir Aldeval",
         "Eira de Tyr",
         "Brimstone el Martillo"
       ],
@@ -104,15 +110,15 @@
       "description": "Druidas, exploradores y guardianes de la naturaleza que protegen el equilibrio del mundo",
       "alignment": "Neutral",
       "influence": 1,
-      "detailed_description": "La Enclave Esmeralda es una organización descentralizada de druidas, guardabosques, exploradores y todos aquellos que protegen el mundo natural de la destrucción. Creen que la civilización y la naturaleza pueden coexistir, pero que la codicia de los poderosos amenaza ese equilibrio. Operan en los bosques, montañas y pantanos de Faerûn, vigilando las fronteras entre lo civilizado y lo salvaje. Cuando una mina se expande demasiado o un mago experimenta con fuerzas naturales, la Enclave interviene.",
+      "detailed_description": "La Enclave Esmeralda es una organización descentralizada de druidas, guardabosques, exploradores y todos aquellos que protegen el mundo natural de la destrucción. Creen que la civilización y la naturaleza pueden coexistir, pero que la codicia de los poderosos amenaza ese equilibrio. Operan en los bosques, montañas y pantanos de Valdrun, vigilando las fronteras entre lo civilizado y lo salvaje. Cuando una mina se expande demasiado o un mago experimenta con fuerzas naturales, la Enclave interviene.",
       "key_figures": [
         "Delaan Winterhound",
         "Shadoweyes",
         "Keeper Amara",
-        "El Viejo Roble de Neverwinter"
+        "El Viejo Roble de Brasaeterna"
       ],
       "goals": [
-        "Preservar el equilibrio natural de Faerûn",
+        "Preservar el equilibrio natural de Valdrun",
         "Combatir amenazas antinaturales como muertos vivientes y aberraciones",
         "Proteger los bosques y ríos de la explotación desmedida"
       ]
@@ -120,35 +126,35 @@
   ],
   "locations": [
     {
-      "name": "Waterdeep",
-      "description": "La Ciudad de los Esplendores, metrópolis más grande y rica de la Costa de la Espada",
+      "name": "Puerto Corona",
+      "description": "La Ciudad de los Mil Estandartes, metrópolis más grande y rica de la Costa del Alba",
       "type": "ciudad",
       "danger_level": 2,
-      "detailed_description": "Waterdeep es una metrópolis bulliciosa de más de un millón de almas, construida en las laderas del Monte Waterdeep junto al Mar de las Espadas. Sus calles empedradas conectan distritos que van desde la opulencia del Barrio Norte hasta la miseria del Barrio de los Muelles. Los Señores Enmascarados gobiernan en secreto, mientras la Señora Abierta Laeral Silverhand administra los asuntos públicos. La Fuerza del Orden patrulla las calles de día, pero de noche los gremios de ladrones y las redes criminales toman el control. Bajo la ciudad, Undermountain se extiende como una pesadilla infinita de niveles, trampas y horrores.",
+      "detailed_description": "Puerto Corona es una metrópolis bulliciosa de más de un millón de almas, construida en las laderas del Monte Puerto Corona junto al Mar del Alba. Sus calles empedradas conectan distritos que van desde la opulencia del Barrio Norte hasta la miseria del Barrio de los Muelles. Los Señores Enmascarados gobiernan en secreto, mientras la Señora Abierta Laenara Manargenta administra los asuntos públicos. La Corriente del Orden patrulla las calles de día, pero de noche los gremios de ladrones y las redes criminales toman el control. Bajo la ciudad, Bajomonte se extiende como una pesadilla infinita de niveles, trampas y horrores.",
       "notable_npcs": [
-        "Laeral Silverhand",
-        "Durnan el Tabernero",
-        "Vajra Safahr (Blackstaff)",
-        "Volothamp Geddarm"
+        "Laenara Manargenta",
+        "Dorvan el Tabernero",
+        "Vheyra Salar (Bastón Negro)",
+        "Voltan Meddara"
       ],
       "available_services": [
-        "Taberna del Portal Bostezante",
+        "Taberna del Pozo del Dragón",
         "Mercado de Aurora",
-        "Torre de Blackstaff (academia mágica)",
+        "Torre del Bastón Negro (academia mágica)",
         "Gremio de Aventureros",
         "Templos de todas las deidades",
         "Puerto comercial"
       ],
       "plot_hooks": [
-        "Un noble ha sido asesinado en el Barrio Norte y la Fuerza del Orden busca investigadores discretos",
-        "El Gremio de Aventureros ofrece una recompensa por limpiar los primeros niveles de Undermountain",
+        "Un noble ha sido asesinado en el Barrio Norte y la Corriente del Orden busca investigadores discretos",
+        "El Gremio de Aventureros ofrece una recompensa por limpiar los primeros niveles de Bajomonte",
         "Contrabandistas operan desde los túneles del Barrio de los Muelles y amenazan el comercio legítimo",
         "Rumores de un tesoro escondido por los antiguos Señores Enmascarados circulan en las tabernas"
       ],
       "secrets": [
         {
           "id": "waterdeep-secret-1",
-          "content": "Bajo el Portal Bostezante existe una entrada directa a Undermountain. Durnan, el tabernero, es un aventurero retirado que vigila que nada suba desde las profundidades.",
+          "content": "Bajo el Pozo del Dragón existe una entrada directa a Bajomonte. Dorvan, el tabernero, es un aventurero retirado que vigila que nada suba desde las profundidades.",
           "reveal_condition": "npc_talk"
         },
         {
@@ -158,7 +164,7 @@
         },
         {
           "id": "waterdeep-secret-3",
-          "content": "Una bóveda secreta bajo el Palacio de Waterdeep contiene medio millón de monedas de oro, protegida por un dragón dorado dormido.",
+          "content": "Una bóveda secreta bajo el Palacio de Puerto Corona contiene medio millón de monedas de oro, protegida por un dragón dorado dormido.",
           "reveal_condition": "investigate"
         }
       ],
@@ -166,7 +172,7 @@
         {
           "id": "waterdeep-event-1",
           "trigger": "first_visit",
-          "description": "La ciudad te recibe con un estruendo de carros, pregones de mercaderes y el olor a sal marina. Un guardia te da la bienvenida y te advierte: 'Las leyes de Waterdeep son estrictas. Nada de magia ofensiva en las calles.'"
+          "description": "La ciudad te recibe con un estruendo de carros, pregones de mercaderes y el olor a sal marina. Un guardia te da la bienvenida y te advierte: 'Las leyes de Puerto Corona son estrictas. Nada de magia ofensiva en las calles.'"
         },
         {
           "id": "waterdeep-event-2",
@@ -182,58 +188,88 @@
       ],
       "rumors": [
         "Dicen que hay un dragón durmiendo en las bóvedas bajo el palacio",
-        "La Señora Abierta es en realidad una de las Siete Hermanas, hijas de Mystra",
-        "Los túneles de la alcantarilla conectan con los primeros niveles de Undermountain",
+        "La Señora Abierta es en realidad una de las Siete Hijas de Lysara, hijas de Lysara",
+        "Los túneles de la alcantarilla conectan con los primeros niveles de Bajomonte",
         "Un gremio de ladrones opera desde las sombras del Barrio de los Muelles"
       ],
       "travel_times": {
-        "Undermountain": "acceso directo desde la Taberna del Portal Bostezante",
-        "Baldur's Gate": "7 días a pie, 3 días a caballo, 2 días por barco",
-        "Neverwinter": "10 días a pie, 4 días a caballo",
-        "Phandalin": "8 días a pie, 3 días a caballo",
-        "Candlekeep": "12 días a pie, 5 días a caballo, 3 días por barco"
+        "Bajomonte": "acceso directo desde la Taberna del Pozo del Dragón",
+        "Ambergate": "7 días a pie, 3 días a caballo, 2 días por barco",
+        "Brasaeterna": "10 días a pie, 4 días a caballo",
+        "Vadolar": "8 días a pie, 3 días a caballo",
+        "Ciriotorre": "12 días a pie, 5 días a caballo, 3 días por barco"
       },
       "sub_locations": [
         {
           "id": "portal-bostezante",
-          "name": {"es": "Taberna del Portal Bostezante", "en": "The Yawning Portal"},
+          "name": {
+            "es": "Taberna del Pozo del Dragón",
+            "en": "The Dragon's Well"
+          },
           "type": "tavern",
-          "description": {"es": "Famosa taberna con un pozo que desciende directamente a Undermountain", "en": "Famous tavern with a pit that descends straight into Undermountain"}
+          "description": {
+            "es": "Famosa taberna con un pozo que desciende directamente a Bajomonte",
+            "en": "Famous tavern with a pit that descends straight into Bajomonte"
+          }
         },
         {
           "id": "mercado-aurora",
-          "name": {"es": "Mercado de Aurora", "en": "Aurora's Market"},
+          "name": {
+            "es": "Mercado de Aurora",
+            "en": "Aurora's Market"
+          },
           "type": "market",
-          "description": {"es": "El mercado más grande de la Costa de la Espada, donde se vende desde pan hasta artefactos mágicos", "en": "The largest market on the Sword Coast, selling everything from bread to magical artifacts"}
+          "description": {
+            "es": "El mercado más grande de la Costa del Alba, donde se vende desde pan hasta artefactos mágicos",
+            "en": "The largest market on the Dawn Coast, selling everything from bread to magical artifacts"
+          }
         },
         {
           "id": "torre-blackstaff",
-          "name": {"es": "Torre de Blackstaff", "en": "Blackstaff Tower"},
+          "name": {
+            "es": "Torre del Bastón Negro",
+            "en": "Black Staff Tower"
+          },
           "type": "library",
-          "description": {"es": "Academia de magia y sede del Archimago de Waterdeep, protegida por poderosos encantamientos", "en": "The academy of magic and seat of the Archmage of Waterdeep, shielded by powerful wards"}
+          "description": {
+            "es": "Academia de magia y sede del Archimago de Puerto Corona, protegida por poderosos encantamientos",
+            "en": "The academy of magic and seat of the Archmage of Puerto Corona, shielded by powerful wards"
+          }
         },
         {
           "id": "barrio-muelles",
-          "name": {"es": "Barrio de los Muelles", "en": "Dock Ward"},
+          "name": {
+            "es": "Barrio de los Muelles",
+            "en": "Dock Ward"
+          },
           "type": "dock",
-          "description": {"es": "Puerto bullicioso y peligroso donde contrabandistas y marineros hacen negocios turbios", "en": "A bustling, dangerous harbor where smugglers and sailors cut shady deals"}
+          "description": {
+            "es": "Puerto bullicioso y peligroso donde contrabandistas y marineros hacen negocios turbios",
+            "en": "A bustling, dangerous harbor where smugglers and sailors cut shady deals"
+          }
         },
         {
           "id": "palacio-waterdeep",
-          "name": {"es": "Palacio de Waterdeep", "en": "Palace of Waterdeep"},
+          "name": {
+            "es": "Palacio de Puerto Corona",
+            "en": "Palace of Puerto Corona"
+          },
           "type": "palace",
-          "description": {"es": "Sede del gobierno donde los Señores Enmascarados se reúnen en secreto", "en": "Seat of government where the Masked Lords convene in secret"}
+          "description": {
+            "es": "Sede del gobierno donde los Señores Enmascarados se reúnen en secreto",
+            "en": "Seat of government where the Masked Lords convene in secret"
+          }
         }
       ]
     },
     {
-      "name": "Undermountain",
-      "description": "La megamazmorra más grande de Faerûn, laberinto infinito de horrores bajo Waterdeep",
+      "name": "Bajomonte",
+      "description": "La megamazmorra más grande de Valdrun, laberinto infinito de horrores bajo Puerto Corona",
       "type": "mazmorra",
       "danger_level": 5,
-      "detailed_description": "Undermountain es la creación demente del archimago Halaster Blackcloak, quien excavó niveles interminables bajo la montaña de Waterdeep. Lo que comenzó como un complejo mágico se expandió hasta convertirse en el dungeon más grande y peligroso del mundo conocido. Cada nivel tiene su propia ecología retorcida: desde kobolds y goblins en los pisos superiores hasta aboleths y beholders en las profundidades. Halaster modifica constantemente los pasillos, teletransporta aventureros entre niveles, y observa todo como un juego macabro. Miles de aventureros han entrado. Muy pocos han regresado.",
+      "detailed_description": "Bajomonte es la creación demente del archimago Vharen el Insondable, quien excavó niveles interminables bajo la montaña de Puerto Corona. Lo que comenzó como un complejo mágico se expandió hasta convertirse en el dungeon más grande y peligroso del mundo conocido. Cada nivel tiene su propia ecología retorcida: desde kobolds y goblins en los pisos superiores hasta aboleths y horrores oculares en las profundidades. Vharen modifica constantemente los pasillos, teletransporta aventureros entre niveles, y observa todo como un juego macabro. Miles de aventureros han entrado. Muy pocos han regresado.",
       "notable_npcs": [
-        "Halaster Blackcloak (el Mago Loco)",
+        "Vharen el Insondable (el Mago Loco)",
         "Los Siete Aprendices (desperdigados por los niveles)",
         "Arcturia la Lich",
         "Trobriand el Constructor de Autómatas"
@@ -243,24 +279,24 @@
       ],
       "plot_hooks": [
         "Un grupo de aventureros entró hace una semana y no ha vuelto. Sus familias ofrecen todo lo que tienen por un rescate",
-        "Halaster ha dejado pistas sobre un artefacto de poder incalculable en el nivel más profundo",
+        "Vharen ha dejado pistas sobre un artefacto de poder incalculable en el nivel más profundo",
         "Criaturas que nunca deberían estar en la superficie han comenzado a trepar desde los niveles inferiores",
-        "Un mapa parcial de los primeros tres niveles ha aparecido en el mercado negro de Waterdeep"
+        "Un mapa parcial de los primeros tres niveles ha aparecido en el mercado negro de Puerto Corona"
       ],
       "secrets": [
         {
           "id": "undermountain-secret-1",
-          "content": "Halaster no está realmente loco. Su comportamiento errático es una fachada para ocultar un experimento mágico que lleva siglos ejecutando: está intentando crear un nuevo plano de existencia.",
+          "content": "Vharen no está realmente loco. Su comportamiento errático es una fachada para ocultar un experimento mágico que lleva siglos ejecutando: está intentando crear un nuevo plano de existencia.",
           "reveal_condition": "investigate"
         },
         {
           "id": "undermountain-secret-2",
-          "content": "Existe un portal en el nivel 15 que conecta directamente con la Infraoscuridad y la ciudad drow de Menzoberranzan.",
+          "content": "Existe un portal en el nivel 15 que conecta directamente con la Hondura Sombría y la ciudad umbría de Sombracava.",
           "reveal_condition": "quest_complete"
         },
         {
           "id": "undermountain-secret-3",
-          "content": "Algunos de los aprendices de Halaster se han rebelado y controlan secciones enteras de la mazmorra como reinos independientes.",
+          "content": "Algunos de los aprendices de Vharen se han rebelado y controlan secciones enteras de la mazmorra como reinos independientes.",
           "reveal_condition": "npc_talk"
         }
       ],
@@ -268,13 +304,13 @@
         {
           "id": "undermountain-event-1",
           "trigger": "first_visit",
-          "description": "El pozo del Portal Bostezante desciende veinte metros en la oscuridad absoluta. Cuando tus pies tocan el suelo de piedra, escuchás la risa distante de un anciano. Halaster sabe que estás aquí."
+          "description": "El pozo del Pozo del Dragón desciende veinte metros en la oscuridad absoluta. Cuando tus pies tocan el suelo de piedra, escuchás la risa distante de un anciano. Vharen sabe que estás aquí."
         },
         {
           "id": "undermountain-event-2",
           "trigger": "random",
           "probability": 0.4,
-          "description": "El pasillo por el que caminas se transforma de repente. Donde antes había una puerta ahora hay una pared sólida, y donde había pared ahora ves un corredor que no existía. Halaster está jugando."
+          "description": "El pasillo por el que caminas se transforma de repente. Donde antes había una puerta ahora hay una pared sólida, y donde había pared ahora ves un corredor que no existía. Vharen está jugando."
         },
         {
           "id": "undermountain-event-3",
@@ -283,31 +319,31 @@
         }
       ],
       "rumors": [
-        "Halaster puede ver todo lo que pasa en cada nivel desde su sanctum",
-        "Hay un nivel entero que es una réplica perfecta de Waterdeep, pero habitada por monstruos",
+        "Vharen puede ver todo lo que pasa en cada nivel desde su sanctum",
+        "Hay un nivel entero que es una réplica perfecta de Puerto Corona, pero habitada por monstruos",
         "Algunos aventureros atrapados han construido asentamientos dentro de la mazmorra",
-        "El tesoro de Halaster rivaliza con el de un dragón antiguo"
+        "El tesoro de Vharen rivaliza con el de un dragón antiguo"
       ],
       "travel_times": {
-        "Waterdeep": "acceso por el pozo del Portal Bostezante (si encontrás la salida)"
+        "Puerto Corona": "acceso por el pozo del Pozo del Dragón (si encontrás la salida)"
       }
     },
     {
-      "name": "Baldur's Gate",
+      "name": "Ambergate",
       "description": "Ciudad portuaria de comercio y ambición, donde la riqueza y el crimen van de la mano",
       "type": "ciudad",
       "danger_level": 3,
-      "detailed_description": "Baldur's Gate es la segunda ciudad más grande de la Costa de la Espada, un puerto bullicioso donde el dinero manda y la moral es flexible. Dividida entre la Ciudad Alta (donde viven los patriares, las familias nobles) y la Ciudad Baja (un laberinto de callejones, tabernas y casas de juego), la ciudad prospera gracias al comercio marítimo. El Puño Llameante, su milicia mercenaria, mantiene un orden brutal. La ciudad exterior, al otro lado de las murallas, es un hervidero de refugiados, mercaderes ambulantes y criminales. Aquí cualquiera puede hacerse rico... o morir en el intento.",
+      "detailed_description": "Ambergate es la segunda ciudad más grande de la Costa del Alba, un puerto bullicioso donde el dinero manda y la moral es flexible. Dividida entre la Ciudad Alta (donde viven los patriares, las familias nobles) y la Ciudad Baja (un laberinto de callejones, tabernas y casas de juego), la ciudad prospera gracias al comercio marítimo. El Guardia Escarlata, su milicia mercenaria, mantiene un orden brutal. La ciudad exterior, al otro lado de las murallas, es un hervidero de refugiados, mercaderes ambulantes y criminales. Aquí cualquiera puede hacerse rico... o morir en el intento.",
       "notable_npcs": [
-        "Duque Ulder Ravengard",
+        "Duque Ulric Corvengar",
         "Comandante Liara Portyr",
-        "Nine-Fingers Keene (líder del Gremio de Ladrones)",
-        "Abdel Adrian"
+        "Nuevededos Renna (líder del Gremio de Ladrones)",
+        "Abdan Corvel"
       ],
       "available_services": [
         "Puerto comercial internacional",
         "Taberna del Yelmo y la Capa",
-        "Templo de Gond",
+        "Templo de Fabrion",
         "Gremio de Mercaderes",
         "Arena de combate",
         "Casas de juego"
@@ -315,18 +351,18 @@
       "plot_hooks": [
         "Una guerra de gremios criminales amenaza con desestabilizar toda la ciudad",
         "Barcos mercantes están desapareciendo en la bahía — ¿piratas o algo peor?",
-        "Un mercader ofrece una fortuna por escoltar un cargamento misterioso hasta Waterdeep",
+        "Un mercader ofrece una fortuna por escoltar un cargamento misterioso hasta Puerto Corona",
         "Los patriares buscan aventureros para una expedición a unas ruinas recién descubiertas"
       ],
       "secrets": [
         {
           "id": "baldursgate-secret-1",
-          "content": "Bajo la ciudad existe un templo abandonado de Bhaal, dios del asesinato. Cultos secretos intentan restaurar su poder realizando rituales sangrientos en las catacumbas.",
+          "content": "Bajo la ciudad existe un templo abandonado de Vorgul, dios del asesinato. Cultos secretos intentan restaurar su poder realizando rituales sangrientos en las catacumbas.",
           "reveal_condition": "investigate"
         },
         {
           "id": "baldursgate-secret-2",
-          "content": "Nine-Fingers Keene controla no solo el gremio de ladrones sino también a varios miembros del Parlamento a través de chantaje y sobornos.",
+          "content": "Nuevededos Renna controla no solo el gremio de ladrones sino también a varios miembros del Parlamento a través de chantaje y sobornos.",
           "reveal_condition": "npc_talk"
         }
       ],
@@ -340,83 +376,113 @@
           "id": "baldursgate-event-2",
           "trigger": "random",
           "probability": 0.3,
-          "description": "Una pelea estalla en una taberna cercana. El Puño Llameante llega con brutalidad excesiva, y varios inocentes son arrastrados junto con los culpables."
+          "description": "Una pelea estalla en una taberna cercana. El Guardia Escarlata llega con brutalidad excesiva, y varios inocentes son arrastrados junto con los culpables."
         }
       ],
       "rumors": [
         "El Gremio de Ladrones controla la mitad de los negocios de la Ciudad Baja",
-        "Hay un culto a Bhaal operando en las catacumbas bajo la ciudad",
-        "Los duques están divididos sobre una posible alianza militar con Waterdeep",
+        "Hay un culto a Vorgul operando en las catacumbas bajo la ciudad",
+        "Los duques están divididos sobre una posible alianza militar con Puerto Corona",
         "Barcos fantasma han sido vistos en la bahía durante las noches sin luna"
       ],
       "travel_times": {
-        "Waterdeep": "7 días a pie, 3 días a caballo, 2 días por barco",
-        "Candlekeep": "3 días a pie, 1 día a caballo",
-        "Neverwinter": "14 días a pie, 6 días a caballo, 4 días por barco",
-        "Phandalin": "12 días a pie, 5 días a caballo"
+        "Puerto Corona": "7 días a pie, 3 días a caballo, 2 días por barco",
+        "Ciriotorre": "3 días a pie, 1 día a caballo",
+        "Brasaeterna": "14 días a pie, 6 días a caballo, 4 días por barco",
+        "Vadolar": "12 días a pie, 5 días a caballo"
       },
       "sub_locations": [
         {
           "id": "yelmo-capa",
-          "name": {"es": "Taberna del Yelmo y la Capa", "en": "Helm and Cloak Tavern"},
+          "name": {
+            "es": "Taberna del Yelmo y la Capa",
+            "en": "Helm and Cloak Tavern"
+          },
           "type": "tavern",
-          "description": {"es": "Posada de dos pisos en la Ciudad Baja, refugio de aventureros y espías", "en": "A two-story inn in the Lower City, a refuge for adventurers and spies"}
+          "description": {
+            "es": "Posada de dos pisos en la Ciudad Baja, refugio de aventureros y espías",
+            "en": "A two-story inn in the Lower City, a refuge for adventurers and spies"
+          }
         },
         {
           "id": "templo-gond",
-          "name": {"es": "Templo de Gond", "en": "Temple of Gond"},
+          "name": {
+            "es": "Templo de Fabrion",
+            "en": "Temple of Fabrion"
+          },
           "type": "temple",
-          "description": {"es": "Santuario del dios de la invención, lleno de artilugios mecánicos y mágicos", "en": "Shrine of the god of invention, crowded with mechanical and magical contraptions"}
+          "description": {
+            "es": "Santuario del dios de la invención, lleno de artilugios mecánicos y mágicos",
+            "en": "Shrine of the god of invention, crowded with mechanical and magical contraptions"
+          }
         },
         {
           "id": "arena-baldurs",
-          "name": {"es": "Arena de Combate", "en": "Combat Arena"},
+          "name": {
+            "es": "Arena de Combate",
+            "en": "Combat Arena"
+          },
           "type": "arena",
-          "description": {"es": "Coliseo donde gladiadores pelean por fama y oro ante multitudes rugientes", "en": "A coliseum where gladiators fight for fame and gold before roaring crowds"}
+          "description": {
+            "es": "Coliseo donde gladiadores pelean por fama y oro ante multitudes rugientes",
+            "en": "A coliseum where gladiators fight for fame and gold before roaring crowds"
+          }
         },
         {
           "id": "puerto-baldurs",
-          "name": {"es": "Puerto de Baldur's Gate", "en": "Port of Baldur's Gate"},
+          "name": {
+            "es": "Puerto de Ambergate",
+            "en": "Port of Ambergate"
+          },
           "type": "dock",
-          "description": {"es": "Muelles atestados de barcos mercantes donde se cierran tratos legales e ilegales", "en": "Docks crowded with merchant ships where both legal and illegal deals are struck"}
+          "description": {
+            "es": "Muelles atestados de barcos mercantes donde se cierran tratos legales e ilegales",
+            "en": "Docks crowded with merchant ships where both legal and illegal deals are struck"
+          }
         },
         {
           "id": "catacumbas-bhaal",
-          "name": {"es": "Catacumbas de Bhaal", "en": "Catacombs of Bhaal"},
+          "name": {
+            "es": "Catacumbas de Vorgul",
+            "en": "Catacombs of Vorgul"
+          },
           "type": "temple",
-          "description": {"es": "Templo oculto bajo la ciudad donde cultos secretos realizan rituales sangrientos", "en": "A hidden temple beneath the city where secret cults perform bloody rituals"}
+          "description": {
+            "es": "Templo oculto bajo la ciudad donde cultos secretos realizan rituales sangrientos",
+            "en": "A hidden temple beneath the city where secret cults perform bloody rituals"
+          }
         }
       ]
     },
     {
-      "name": "Neverwinter",
+      "name": "Brasaeterna",
       "description": "La Ciudad de los Artesanos Hábiles, reconstruyéndose de una catástrofe volcánica",
       "type": "ciudad",
       "danger_level": 3,
-      "detailed_description": "Neverwinter fue alguna vez llamada la Joya del Norte, famosa por sus artesanos, sus jardines que nunca se helaban gracias a aguas termales volcánicas, y su belleza sin par. Pero la erupción del Monte Hotenow devastó la ciudad hace décadas. Ahora, bajo la ambiciosa dirección de Lord Neverember, la ciudad se reconstruye. El Barrio del Protector ha sido restaurado, pero el Barrio de las Cenizas sigue en ruinas, habitado por muertos vivientes y saqueadores. Grietas en la tierra liberan vapores volcánicos, y debajo, cultistas de Asmodeo conspiran en los túneles.",
+      "detailed_description": "Brasaeterna fue alguna vez llamada la Joya del Norte, famosa por sus artesanos, sus jardines que nunca se helaban gracias a aguas termales volcánicas, y su belleza sin par. Pero la erupción del Monte Ardoz devastó la ciudad hace décadas. Ahora, bajo la ambiciosa dirección de Lord Braseval, la ciudad se reconstruye. El Barrio del Protector ha sido restaurado, pero el Barrio de las Cenizas sigue en ruinas, habitado por muertos vivientes y saqueadores. Grietas en la tierra liberan vapores volcánicos, y debajo, cultistas de Asmodeo conspiran en los túneles.",
       "notable_npcs": [
-        "Lord Dagult Neverember",
+        "Lord Dagren Braseval",
         "General Sabine",
-        "Elden Vargas (agente de los Arpistas)",
+        "Elden Vargas (agente de los Vigías)",
         "Madame Rosene"
       ],
       "available_services": [
         "Talleres de artesanos expertos",
         "Mercado del Protector",
-        "Templo de Oghma restaurado",
+        "Templo de Sapientor restaurado",
         "Taberna del Puente Hundido",
         "Herreros y armeros de renombre"
       ],
       "plot_hooks": [
         "Los muertos vivientes del Barrio de las Cenizas están más activos y organizados de lo normal",
         "Un grupo de cultistas de Asmodeo ha sido visto en los túneles volcánicos bajo la ciudad",
-        "Lord Neverember busca aventureros para recuperar una reliquia de la ciudad antigua",
+        "Lord Braseval busca aventureros para recuperar una reliquia de la ciudad antigua",
         "Las aguas termales que mantienen el clima se están enfriando misteriosamente"
       ],
       "secrets": [
         {
           "id": "neverwinter-secret-1",
-          "content": "Lord Neverember desvía fondos de reconstrucción para financiar su ambición de reclamar Waterdeep. La mitad del oro destinado a Neverwinter termina en sus arcas personales.",
+          "content": "Lord Braseval desvía fondos de reconstrucción para financiar su ambición de reclamar Puerto Corona. La mitad del oro destinado a Brasaeterna termina en sus arcas personales.",
           "reveal_condition": "investigate"
         },
         {
@@ -439,55 +505,79 @@
         }
       ],
       "rumors": [
-        "Lord Neverember no es tan generoso como aparenta con los fondos de reconstrucción",
+        "Lord Braseval no es tan generoso como aparenta con los fondos de reconstrucción",
         "Algo terrible duerme bajo el Barrio de las Cenizas, algo que la erupción no mató",
-        "Los Hijos de Alagondar quieren restaurar la línea real legítima de Neverwinter",
+        "Los Hijos de Alagondar quieren restaurar la línea real legítima de Brasaeterna",
         "Las grietas volcánicas están liberando criaturas de fuego elemental"
       ],
       "travel_times": {
-        "Waterdeep": "10 días a pie, 4 días a caballo",
-        "Bosque de Neverwinter": "4 horas a pie",
-        "Phandalin": "5 días a pie, 2 días a caballo",
-        "Icewind Dale": "14 días a pie, 6 días a caballo"
+        "Puerto Corona": "10 días a pie, 4 días a caballo",
+        "Bosque de Brasaeterna": "4 horas a pie",
+        "Vadolar": "5 días a pie, 2 días a caballo",
+        "Valle Ventisca": "14 días a pie, 6 días a caballo"
       },
       "sub_locations": [
         {
           "id": "barrio-protector",
-          "name": {"es": "Barrio del Protector", "en": "The Protector's Enclave"},
+          "name": {
+            "es": "Barrio del Protector",
+            "en": "The Protector's Enclave"
+          },
           "type": "plaza",
-          "description": {"es": "Zona restaurada de la ciudad con mercados, talleres de artesanos y vida próspera", "en": "The restored district of the city, busy with markets, artisan workshops, and thriving life"}
+          "description": {
+            "es": "Zona restaurada de la ciudad con mercados, talleres de artesanos y vida próspera",
+            "en": "The restored district of the city, busy with markets, artisan workshops, and thriving life"
+          }
         },
         {
           "id": "barrio-cenizas",
-          "name": {"es": "Barrio de las Cenizas", "en": "The Ashen District"},
+          "name": {
+            "es": "Barrio de las Cenizas",
+            "en": "The Ashen District"
+          },
           "type": "residence",
-          "description": {"es": "Ruinas devastadas por la erupción volcánica, habitadas por muertos vivientes y saqueadores", "en": "Ruins devastated by the volcanic eruption, haunted by undead and looters"}
+          "description": {
+            "es": "Ruinas devastadas por la erupción volcánica, habitadas por muertos vivientes y saqueadores",
+            "en": "Ruins devastated by the volcanic eruption, haunted by undead and looters"
+          }
         },
         {
           "id": "puente-hundido",
-          "name": {"es": "Taberna del Puente Hundido", "en": "Sunken Bridge Tavern"},
+          "name": {
+            "es": "Taberna del Puente Hundido",
+            "en": "Sunken Bridge Tavern"
+          },
           "type": "tavern",
-          "description": {"es": "Bar reconstruido sobre las ruinas de un puente, popular entre mercenarios y exploradores", "en": "A bar rebuilt atop the ruins of a bridge, popular with mercenaries and scouts"}
+          "description": {
+            "es": "Bar reconstruido sobre las ruinas de un puente, popular entre mercenarios y exploradores",
+            "en": "A bar rebuilt atop the ruins of a bridge, popular with mercenaries and scouts"
+          }
         },
         {
           "id": "templo-oghma",
-          "name": {"es": "Templo de Oghma Restaurado", "en": "Restored Temple of Oghma"},
+          "name": {
+            "es": "Templo de Sapientor Restaurado",
+            "en": "Restored Temple of Sapientor"
+          },
           "type": "temple",
-          "description": {"es": "Santuario del dios del conocimiento, uno de los primeros edificios reconstruidos", "en": "Shrine of the god of knowledge, one of the first buildings rebuilt"}
+          "description": {
+            "es": "Santuario del dios del conocimiento, uno de los primeros edificios reconstruidos",
+            "en": "Shrine of the god of knowledge, one of the first buildings rebuilt"
+          }
         }
       ]
     },
     {
-      "name": "Bosque de Neverwinter",
+      "name": "Bosque de Brasaeterna",
       "description": "Bosque primigenio lleno de magia fey, ruinas antiguas y criaturas peligrosas",
       "type": "bosque",
       "danger_level": 3,
-      "detailed_description": "El Bosque de Neverwinter es un lugar donde la frontera entre el plano material y el Feywild es peligrosamente delgada. Árboles centenarios de corteza plateada se alzan como columnas de una catedral natural, y la luz del sol se filtra en tonos esmeralda y dorado. Pero la belleza esconde peligro: arañas gigantes tejen entre las copas, hombres lobo acechan en los claros, y los eladrin del Feywild cruzan a voluntad, trayendo tanto maravillas como pesadillas. Ruinas élficas cubiertas de musgo guardan secretos de eras olvidadas, y los druidas de la Enclave Esmeralda luchan por mantener el equilibrio.",
+      "detailed_description": "El Bosque de Brasaeterna es un lugar donde la frontera entre el plano material y el Reino Feérico es peligrosamente delgada. Árboles centenarios de corteza plateada se alzan como columnas de una catedral natural, y la luz del sol se filtra en tonos esmeralda y dorado. Pero la belleza esconde peligro: arañas gigantes tejen entre las copas, hombres lobo acechan en los claros, y los eladrin del Reino Feérico cruzan a voluntad, trayendo tanto maravillas como pesadillas. Ruinas élficas cubiertas de musgo guardan secretos de eras olvidadas, y los druidas de la Enclave Esmeralda luchan por mantener el equilibrio.",
       "notable_npcs": [
         "Viejo Roble (archidruida)",
         "Arannis Summerstar (eladrin guardián)",
         "Favria (bruja verde del bosque)",
-        "Gauntlgrym (enano ermitaño)"
+        "Khargrym (enano ermitaño)"
       ],
       "available_services": [
         "Santuario druídico (curación natural)",
@@ -496,19 +586,19 @@
       ],
       "plot_hooks": [
         "Los hombres lobo del bosque se han organizado bajo un nuevo alfa y atacan caravanas",
-        "Una brecha al Feywild se ha abierto y criaturas fey están cruzando sin control",
+        "Una brecha al Reino Feérico se ha abierto y criaturas fey están cruzando sin control",
         "Los druidas necesitan ayuda para localizar una fuente de corrupción que pudre los árboles",
         "Ruinas élficas recién descubiertas podrían contener un arma contra el mal creciente"
       ],
       "secrets": [
         {
           "id": "bosqueneverwinter-secret-1",
-          "content": "En lo profundo del bosque existe un portal permanente al Feywild, custodiado por un treant que solo permite el paso a quienes resuelven su acertijo ancestral.",
+          "content": "En lo profundo del bosque existe un portal permanente al Reino Feérico, custodiado por un treant que solo permite el paso a quienes resuelven su acertijo ancestral.",
           "reveal_condition": "investigate"
         },
         {
           "id": "bosqueneverwinter-secret-2",
-          "content": "El líder de los hombres lobo no es una bestia salvaje sino un noble de Neverwinter que fue maldecido por un brujo y ahora busca venganza contra la ciudad.",
+          "content": "El líder de los hombres lobo no es una bestia salvaje sino un noble de Brasaeterna que fue maldecido por un brujo y ahora busca venganza contra la ciudad.",
           "reveal_condition": "npc_talk"
         }
       ],
@@ -532,44 +622,44 @@
         "El Viejo Roble puede hablar con cada árbol del bosque y sabe todo lo que ocurre en él"
       ],
       "travel_times": {
-        "Neverwinter": "4 horas a pie",
-        "Phandalin": "3 días a pie, 1 día a caballo",
-        "Icewind Dale": "12 días a pie, 5 días a caballo"
+        "Brasaeterna": "4 horas a pie",
+        "Vadolar": "3 días a pie, 1 día a caballo",
+        "Valle Ventisca": "12 días a pie, 5 días a caballo"
       }
     },
     {
-      "name": "Icewind Dale",
+      "name": "Valle Ventisca",
       "description": "Páramo helado en el extremo norte, tierra de supervivencia brutal y misterios congelados",
       "type": "región",
       "danger_level": 4,
-      "detailed_description": "Icewind Dale es el fin del mundo civilizado. Diez Ciudades, un grupo de asentamientos pesqueros alrededor de tres lagos, es todo lo que queda de civilización antes del Glaciar Reghed y el Mar de Hielo Movedizo. Las tormentas de nieve pueden durar semanas, las temperaturas matan en horas, y los monstruos del hielo acechan en la tundra. Los bárbaros Reghed cazan renos en las llanuras, gigantes de escarcha bajan de las montañas, y en el hielo profundo, cosas que llevan congeladas milenios comienzan a despertar. Aquí, la supervivencia no es una aventura — es el objetivo diario.",
+      "detailed_description": "Valle Ventisca es el fin del mundo civilizado. Diez Ciudades, un grupo de asentamientos pesqueros alrededor de tres lagos, es todo lo que queda de civilización antes del Glaciar Rungmar y el Mar de Hielo Movedizo. Las tormentas de nieve pueden durar semanas, las temperaturas matan en horas, y los monstruos del hielo acechan en la tundra. Los bárbaros Rungmar cazan renos en las llanuras, gigantes de escarcha bajan de las montañas, y en el hielo profundo, cosas que llevan congeladas milenios comienzan a despertar. Aquí, la supervivencia no es una aventura — es el objetivo diario.",
       "notable_npcs": [
-        "Drizzt Do'Urden",
-        "Bruenor Battlehammer",
-        "Speaker Duvessa Shane de Bryn Shander",
-        "Hengar, jefe de los Reghed del Oso"
+        "Zhaerin Vel'Zar",
+        "Brungar Martillorroca",
+        "Portavoz Duvena Selm de Escarcha Alta",
+        "Hengar, jefe de la Tribu del Oso"
       ],
       "available_services": [
         "Comercio de pieles y pescado",
-        "Taberna de Kelvin en Bryn Shander",
+        "Taberna del Glaciar en Escarcha Alta",
         "Guías bárbaros (si los convences)",
         "Herreros básicos"
       ],
       "plot_hooks": [
         "Gigantes de escarcha han atacado dos de las Diez Ciudades y amenazan una tercera",
         "Un barco naufragado en el Mar de Hielo Movedizo contiene una reliquia que todos quieren",
-        "Los bárbaros Reghed reportan que algo antiguo se está descongelando en el glaciar",
-        "Duergar de la Infraoscuridad están excavando túneles bajo las Diez Ciudades"
+        "Los bárbaros Rungmar reportan que algo antiguo se está descongelando en el glaciar",
+        "Duergar de la Hondura Sombría están excavando túneles bajo las Diez Ciudades"
       ],
       "secrets": [
         {
           "id": "icewindale-secret-1",
-          "content": "Bajo el Glaciar Reghed existe una ciudad entera congelada en el tiempo, perteneciente a una civilización anterior a los humanos. Algo muy poderoso la selló allí hace eones.",
+          "content": "Bajo el Glaciar Rungmar existe una ciudad entera congelada en el tiempo, perteneciente a una civilización anterior a los humanos. Algo muy poderoso la selló allí hace eones.",
           "reveal_condition": "quest_complete"
         },
         {
           "id": "icewindale-secret-2",
-          "content": "Crenshinibon, el Cristal Maldito, fue destruido aquí hace años, pero fragmentos de su esencia permanecen en el hielo, susurrando promesas de poder a quienes se acercan.",
+          "content": "Zarkhelion, el Cristal Maldito, fue destruido aquí hace años, pero fragmentos de su esencia permanecen en el hielo, susurrando promesas de poder a quienes se acercan.",
           "reveal_condition": "investigate"
         }
       ],
@@ -577,7 +667,7 @@
         {
           "id": "icewindale-event-1",
           "trigger": "first_visit",
-          "description": "El viento te golpea como un puño de hielo en cuanto cruzás la línea de la tundra. La nieve reduce la visibilidad a metros. A lo lejos, las luces de Bryn Shander parpadean como una promesa de supervivencia."
+          "description": "El viento te golpea como un puño de hielo en cuanto cruzás la línea de la tundra. La nieve reduce la visibilidad a metros. A lo lejos, las luces de Escarcha Alta parpadean como una promesa de supervivencia."
         },
         {
           "id": "icewindale-event-2",
@@ -587,71 +677,89 @@
         }
       ],
       "rumors": [
-        "Drizzt Do'Urden, el elfo oscuro renegado, vive en las cercanías y protege las Diez Ciudades",
+        "Zhaerin Vel'Zar, el elfo oscuro renegado, vive en las cercanías y protege las Diez Ciudades",
         "Hay un dragón blanco que habita en las cuevas del glaciar y exige tributo",
         "Los duergar están buscando algo específico bajo el hielo, no solo saqueando",
         "Las auroras boreales predicen desastres cuando brillan en rojo"
       ],
       "travel_times": {
-        "Neverwinter": "14 días a pie, 6 días a caballo",
-        "Waterdeep": "21 días a pie, 9 días a caballo",
-        "Bosque de Neverwinter": "12 días a pie, 5 días a caballo"
+        "Brasaeterna": "14 días a pie, 6 días a caballo",
+        "Puerto Corona": "21 días a pie, 9 días a caballo",
+        "Bosque de Brasaeterna": "12 días a pie, 5 días a caballo"
       },
       "sub_locations": [
         {
           "id": "bryn-shander",
-          "name": {"es": "Bryn Shander", "en": "Bryn Shander"},
+          "name": {
+            "es": "Escarcha Alta",
+            "en": "Escarcha Alta"
+          },
           "type": "gate",
-          "description": {"es": "La ciudad más grande de las Diez Ciudades, amurallada contra gigantes y tormentas", "en": "The largest of the Ten-Towns, walled against giants and storms"}
+          "description": {
+            "es": "La ciudad más grande de las Diez Ciudades, amurallada contra gigantes y tormentas",
+            "en": "The largest of the Ten Cities, walled against giants and storms"
+          }
         },
         {
           "id": "taberna-kelvin",
-          "name": {"es": "Taberna de Kelvin", "en": "Kelvin's Tavern"},
+          "name": {
+            "es": "Taberna del Glaciar",
+            "en": "Glacier Tavern"
+          },
           "type": "tavern",
-          "description": {"es": "Posada cálida donde cazadores de pieles y aventureros comparten historias junto al fuego", "en": "A warm inn where fur trappers and adventurers share stories by the fireside"}
+          "description": {
+            "es": "Posada cálida donde cazadores de pieles y aventureros comparten historias junto al fuego",
+            "en": "A warm inn where fur trappers and adventurers share stories by the fireside"
+          }
         },
         {
           "id": "mercado-pieles",
-          "name": {"es": "Mercado de Pieles y Pescado", "en": "Fur and Fish Market"},
+          "name": {
+            "es": "Mercado de Pieles y Pescado",
+            "en": "Fur and Fish Market"
+          },
           "type": "market",
-          "description": {"es": "Centro comercial donde se intercambian las principales riquezas del norte helado", "en": "A trading hub where the chief riches of the frozen north change hands"}
+          "description": {
+            "es": "Centro comercial donde se intercambian las principales riquezas del norte helado",
+            "en": "A trading hub where the chief riches of the frozen north change hands"
+          }
         }
       ]
     },
     {
-      "name": "Phandalin",
+      "name": "Vadolar",
       "description": "Pequeño asentamiento fronterizo rodeado de ruinas, minas y misterios sin resolver",
       "type": "asentamiento",
       "danger_level": 2,
-      "detailed_description": "Phandalin es un pueblo fronterizo modesto que ha renacido después de siglos de abandono. Construido sobre las ruinas de un asentamiento mucho más grande, está rodeado de colinas boscosas, minas abandonadas y ruinas que atraen a aventureros novatos y veteranos por igual. La Mina de la Ola de los Pergaminos, recientemente redescubierta, promete riqueza y peligro a partes iguales. El pueblo es perfecto para aventureros que recién empiezan: lo suficientemente civilizado para tener una taberna y un herrero, pero lo suficientemente salvaje para que cada excursión a las colinas sea una aventura.",
+      "detailed_description": "Vadolar es un pueblo fronterizo modesto que ha renacido después de siglos de abandono. Construido sobre las ruinas de un asentamiento mucho más grande, está rodeado de colinas boscosas, minas abandonadas y ruinas que atraen a aventureros novatos y veteranos por igual. La Mina de la Ola de los Pergaminos, recientemente redescubierta, promete riqueza y peligro a partes iguales. El pueblo es perfecto para aventureros que recién empiezan: lo suficientemente civilizado para tener una taberna y un herrero, pero lo suficientemente salvaje para que cada excursión a las colinas sea una aventura.",
       "notable_npcs": [
         "Toblen Stonehill (tabernero)",
-        "Hermana Garaele (clérigo de Tymora)",
+        "Hermana Garaele (clérigo de Fortuna)",
         "Daran Edermath (guerrero retirado)",
-        "Halia Thornton (agente del Zhentarim encubierta)"
+        "Halia Espinar (agente de la Red Vorzhen encubierta)"
       ],
       "available_services": [
         "Taberna del Gigante Dormido",
         "Santuario de la Suerte",
-        "Herrería de Barthen",
-        "Provisiones generales de Barthen",
-        "Puesto comercial de Lionshield"
+        "Herrería de Bartol",
+        "Provisiones generales de Bartol",
+        "Puesto comercial del Escudo del León"
       ],
       "plot_hooks": [
-        "Bandidos de los Redbrands aterrorizan a los habitantes del pueblo desde su guarida bajo la mansión Tresendar",
+        "Bandidos de los Capas Rojas aterrorizan a los habitantes del pueblo desde su guarida bajo la mansión Trevanar",
         "La Mina de la Ola de los Pergaminos ha sido encontrada y necesita ser explorada",
-        "Goblins han secuestrado viajeros en el Camino Triboar y los tienen en Cragmaw Castle",
+        "Goblins han secuestrado viajeros en el Camino de los Tres Jabalíes y los tienen en el Castillo Fauceroca",
         "Un herrero enano ha desaparecido mientras buscaba la mina — su familia ofrece recompensa"
       ],
       "secrets": [
         {
           "id": "phandalin-secret-1",
-          "content": "Halia Thornton, que dirige el Puesto del Intercambio de Mineros, es una agente encubierta del Zhentarim. Su verdadero objetivo es controlar la Mina de la Ola de los Pergaminos para la Red Negra.",
+          "content": "Halia Espinar, que dirige el Puesto del Intercambio de Mineros, es una agente encubierta de la Red Vorzhen. Su verdadero objetivo es controlar la Mina de la Ola de los Pergaminos para la Red Negra.",
           "reveal_condition": "investigate"
         },
         {
           "id": "phandalin-secret-2",
-          "content": "Bajo la mansión Tresendar en ruinas, los Redbrands descubrieron un pasaje a la Infraoscuridad. Lo que encontraron allí abajo los aterroriza más que cualquier aventurero.",
+          "content": "Bajo la mansión Trevanar en ruinas, los Capas Rojas descubrieron un pasaje a la Hondura Sombría. Lo que encontraron allí abajo los aterroriza más que cualquier aventurero.",
           "reveal_condition": "quest_complete"
         }
       ],
@@ -665,59 +773,83 @@
           "id": "phandalin-event-2",
           "trigger": "random",
           "probability": 0.3,
-          "description": "Un grupo de Redbrands, los matones locales, se acercan exigiendo dinero a un comerciante. La gente del pueblo baja la mirada y se aleja. Nadie se atreve a enfrentarlos... todavía."
+          "description": "Un grupo de Capas Rojas, los matones locales, se acercan exigiendo dinero a un comerciante. La gente del pueblo baja la mirada y se aleja. Nadie se atreve a enfrentarlos... todavía."
         }
       ],
       "rumors": [
-        "Los Redbrands están protegidos por un mago oscuro que vive bajo la mansión en ruinas",
+        "Los Capas Rojas están protegidos por un mago oscuro que vive bajo la mansión en ruinas",
         "La Mina de la Ola de los Pergaminos contiene una forja mágica capaz de crear armas encantadas",
-        "Goblins del castillo Cragmaw responden a alguien llamado 'el Araña Negra'",
+        "Goblins del Castillo Fauceroca responden a alguien llamado 'el Araña Negra'",
         "Un antiguo santuario enano en las colinas podría contener conocimiento perdido"
       ],
       "travel_times": {
-        "Neverwinter": "5 días a pie, 2 días a caballo",
-        "Waterdeep": "8 días a pie, 3 días a caballo",
-        "Bosque de Neverwinter": "3 días a pie, 1 día a caballo",
-        "Baldur's Gate": "12 días a pie, 5 días a caballo"
+        "Brasaeterna": "5 días a pie, 2 días a caballo",
+        "Puerto Corona": "8 días a pie, 3 días a caballo",
+        "Bosque de Brasaeterna": "3 días a pie, 1 día a caballo",
+        "Ambergate": "12 días a pie, 5 días a caballo"
       },
       "sub_locations": [
         {
           "id": "gigante-dormido",
-          "name": {"es": "Taberna del Gigante Dormido", "en": "Stonehill Inn (Sleeping Giant)"},
+          "name": {
+            "es": "Taberna del Gigante Dormido",
+            "en": "Stonehill Inn (Sleeping Giant)"
+          },
           "type": "tavern",
-          "description": {"es": "Posada rústica con cervezas baratas y un tablón de anuncios lleno de trabajos", "en": "A rustic inn with cheap ales and a notice board full of odd jobs"}
+          "description": {
+            "es": "Posada rústica con cervezas baratas y un tablón de anuncios lleno de trabajos",
+            "en": "A rustic inn with cheap ales and a notice board full of odd jobs"
+          }
         },
         {
           "id": "santuario-suerte",
-          "name": {"es": "Santuario de la Suerte", "en": "Shrine of Luck"},
+          "name": {
+            "es": "Santuario de la Suerte",
+            "en": "Shrine of Luck"
+          },
           "type": "temple",
-          "description": {"es": "Pequeño templo de Tymora donde la Hermana Garaele ofrece bendiciones y curación", "en": "A small temple of Tymora where Sister Garaele offers blessings and healing"}
+          "description": {
+            "es": "Pequeño templo de Fortuna donde la Hermana Garaele ofrece bendiciones y curación",
+            "en": "A small temple of Fortuna where Sister Garaele offers blessings and healing"
+          }
         },
         {
           "id": "provisiones-barthen",
-          "name": {"es": "Provisiones Generales de Barthen", "en": "Barthen's Provisions"},
+          "name": {
+            "es": "Provisiones Generales de Bartol",
+            "en": "Bartol's Provisions"
+          },
           "type": "market",
-          "description": {"es": "Tienda principal del pueblo con equipo básico para aventureros", "en": "The town's main shop, stocked with basic gear for adventurers"}
+          "description": {
+            "es": "Tienda principal del pueblo con equipo básico para aventureros",
+            "en": "The town's main shop, stocked with basic gear for adventurers"
+          }
         },
         {
           "id": "mansion-tresendar",
-          "name": {"es": "Mansión Tresendar (Ruinas)", "en": "Tresendar Manor (Ruins)"},
+          "name": {
+            "es": "Mansión Trevanar (Ruinas)",
+            "en": "Trevanar Manor (Ruins)"
+          },
           "type": "residence",
-          "description": {"es": "Mansión en ruinas sobre el pueblo, guarida secreta de los bandidos Redbrands", "en": "A ruined manor above the town, secret hideout of the Redbrand bandits"}
+          "description": {
+            "es": "Mansión en ruinas sobre el pueblo, guarida secreta de los bandidos Capas Rojas",
+            "en": "A ruined manor above the town, secret hideout of the Red Cloak bandits"
+          }
         }
       ]
     },
     {
-      "name": "Candlekeep",
-      "description": "La biblioteca-fortaleza más grande de Faerûn, depósito de todo el conocimiento del mundo",
+      "name": "Ciriotorre",
+      "description": "La biblioteca-fortaleza más grande de Valdrun, depósito de todo el conocimiento del mundo",
       "type": "biblioteca",
       "danger_level": 1,
-      "detailed_description": "Candlekeep se alza sobre un peñasco en la costa, una fortaleza amurallada que no alberga soldados sino libros. La colección más grande de conocimiento escrito en todo Faerûn reposa aquí, custodiada por los monjes y sacerdotes de Oghma y Deneir. Para entrar, debes donar un libro que no esté ya en la colección — una tarea cada vez más difícil a medida que la biblioteca crece. En sus torres y sótanos hay tomos de profecía, grimoires de magia, y escritos tan peligrosos que están sellados con magia. Es un lugar de paz y estudio, pero los secretos que guarda podrían destruir o salvar el mundo.",
+      "detailed_description": "Ciriotorre se alza sobre un peñasco en la costa, una fortaleza amurallada que no alberga soldados sino libros. La colección más grande de conocimiento escrito en todo Valdrun reposa aquí, custodiada por los monjes y sacerdotes de Sapientor y Escrivan. Para entrar, debes donar un libro que no esté ya en la colección — una tarea cada vez más difícil a medida que la biblioteca crece. En sus torres y sótanos hay tomos de profecía, grimoires de magia, y escritos tan peligrosos que están sellados con magia. Es un lugar de paz y estudio, pero los secretos que guarda podrían destruir o salvar el mundo.",
       "notable_npcs": [
         "El Gran Lector",
-        "Tethtoril (Primer Lector)",
-        "Alaundo el Vidente (fantasma)",
-        "Sylvira Savikas (investigadora tiefling)"
+        "Tethmar (Primer Lector)",
+        "Alarion el Vidente (fantasma)",
+        "Sylvena Varkas (investigadora tiefling)"
       ],
       "available_services": [
         "Acceso a la biblioteca (con donación de libro)",
@@ -735,12 +867,12 @@
       "secrets": [
         {
           "id": "candlekeep-secret-1",
-          "content": "En las bóvedas más profundas de Candlekeep hay un libro escrito por un dios que contiene el verdadero nombre de un demonio. Leerlo en voz alta lo invocaría instantáneamente.",
+          "content": "En las bóvedas más profundas de Ciriotorre hay un libro escrito por un dios que contiene el verdadero nombre de un demonio. Leerlo en voz alta lo invocaría instantáneamente.",
           "reveal_condition": "investigate"
         },
         {
           "id": "candlekeep-secret-2",
-          "content": "El fantasma de Alaundo el Vidente aún recita profecías en los pasillos de noche. Los monjes las transcriben en secreto, y algunas predicen eventos que aún no han ocurrido.",
+          "content": "El fantasma de Alarion el Vidente aún recita profecías en los pasillos de noche. Los monjes las transcriben en secreto, y algunas predicen eventos que aún no han ocurrido.",
           "reveal_condition": "npc_talk"
         }
       ],
@@ -748,7 +880,7 @@
         {
           "id": "candlekeep-event-1",
           "trigger": "first_visit",
-          "description": "Las puertas de Candlekeep se abren ante vos con un gemido ancestral. El olor a pergamino viejo, tinta y cera de vela te envuelve. Un monje examina tu libro de donación con ojo experto y, tras un largo momento, asiente. 'Bienvenido al conocimiento.'"
+          "description": "Las puertas de Ciriotorre se abren ante vos con un gemido ancestral. El olor a pergamino viejo, tinta y cera de vela te envuelve. Un monje examina tu libro de donación con ojo experto y, tras un largo momento, asiente. 'Bienvenido al conocimiento.'"
         },
         {
           "id": "candlekeep-event-2",
@@ -758,24 +890,33 @@
         }
       ],
       "rumors": [
-        "Alaundo predijo todos los grandes eventos de Faerûn y algunas profecías aún no se han cumplido",
+        "Alarion predijo todos los grandes eventos de Valdrun y algunas profecías aún no se han cumplido",
         "Hay libros tan peligrosos en las bóvedas que están encadenados y custodiados por guardianes mágicos",
-        "Un pasaje secreto conecta Candlekeep con una red de portales a otras bibliotecas del mundo",
+        "Un pasaje secreto conecta Ciriotorre con una red de portales a otras bibliotecas del mundo",
         "El Gran Lector posee un artefacto que puede verificar si cualquier afirmación es verdadera o falsa"
       ],
       "travel_times": {
-        "Baldur's Gate": "3 días a pie, 1 día a caballo",
-        "Waterdeep": "12 días a pie, 5 días a caballo, 3 días por barco"
+        "Ambergate": "3 días a pie, 1 día a caballo",
+        "Puerto Corona": "12 días a pie, 5 días a caballo, 3 días por barco"
       }
     }
   ],
   "archetypes": [
     {
       "id": "guild-adventurer",
-      "name": { "es": "Aventurero de Gremio", "en": "Guild Adventurer" },
-      "description": { "es": "Guerrero experimentado del Gremio de Aventureros de Waterdeep", "en": "A seasoned fighter from the Waterdeep Adventurers' Guild" },
-      "simple_description": { "es": "Sos un profesional de la aventura. Tu espada y tu experiencia son tu sustento. El Gremio te envía a misiones y vos volvés con el trabajo hecho... o no volvés.", "en": "You're a professional adventurer. Your sword and your experience are your livelihood. The Guild sends you on jobs and you come back with the work done... or you don't come back." },
-      "detailed_background": "El Gremio de Aventureros de Waterdeep es tu hogar. Empezaste como cargador de antorchas para un grupo de veteranos, aprendiendo a sobrevivir a fuerza de cicatrices y lecciones duras. Ahora sos un aventurero hecho y derecho: sabés luchar, sabés cuándo retirarte, y sabés que la primera regla de una mazmorra es nunca separarse del grupo. Has explorado ruinas, enfrentado monstruos y cobrado recompensas. La aventura no es un sueño romántico para vos — es un trabajo peligroso que paga bien si sobrevivís.",
+      "name": {
+        "es": "Aventurero de Gremio",
+        "en": "Guild Adventurer"
+      },
+      "description": {
+        "es": "Guerrero experimentado del Gremio de Aventureros de Puerto Corona",
+        "en": "A seasoned fighter from the Puerto Corona Adventurers' Guild"
+      },
+      "simple_description": {
+        "es": "Sos un profesional de la aventura. Tu espada y tu experiencia son tu sustento. El Gremio te envía a misiones y vos volvés con el trabajo hecho... o no volvés.",
+        "en": "You're a professional adventurer. Your sword and your experience are your livelihood. The Guild sends you on jobs and you come back with the work done... or you don't come back."
+      },
+      "detailed_background": "El Gremio de Aventureros de Puerto Corona es tu hogar. Empezaste como cargador de antorchas para un grupo de veteranos, aprendiendo a sobrevivir a fuerza de cicatrices y lecciones duras. Ahora sos un aventurero hecho y derecho: sabés luchar, sabés cuándo retirarte, y sabés que la primera regla de una mazmorra es nunca separarse del grupo. Has explorado ruinas, enfrentado monstruos y cobrado recompensas. La aventura no es un sueño romántico para vos — es un trabajo peligroso que paga bien si sobrevivís.",
       "starting_stats": {
         "hp": 22,
         "maxHp": 22,
@@ -785,50 +926,112 @@
         "lore": 1
       },
       "starting_inventory": [
-        {"es": "Espada larga con marca del Gremio", "en": "Longsword bearing the Guild's mark"},
-        {"es": "Escudo de madera reforzada", "en": "Reinforced wooden shield"},
-        {"es": "Cota de mallas ligera", "en": "Light chain mail"},
-        {"es": "Paquete de explorador (mochila, saco de dormir)", "en": "Explorer's pack (backpack, bedroll)"},
-        {"es": "Cuerda de cáñamo (15m)", "en": "Hemp rope (15m)"},
-        {"es": "Antorchas (5)", "en": "Torches (5)"},
-        {"es": "Kit de primeros auxilios", "en": "Healer's kit"},
-        {"es": "Odre de agua", "en": "Waterskin"},
-        {"es": "Pedernal y acero", "en": "Flint and steel"},
-        {"es": "Placa del Gremio de Aventureros", "en": "Adventurers' Guild badge"},
-        {"es": "25 monedas de oro", "en": "25 gold coins"},
-        {"es": "5 raciones de viaje", "en": "5 travel rations"}
+        {
+          "es": "Espada larga con marca del Gremio",
+          "en": "Longsword bearing the Guild's mark"
+        },
+        {
+          "es": "Escudo de madera reforzada",
+          "en": "Reinforced wooden shield"
+        },
+        {
+          "es": "Cota de mallas ligera",
+          "en": "Light chain mail"
+        },
+        {
+          "es": "Paquete de explorador (mochila, saco de dormir)",
+          "en": "Explorer's pack (backpack, bedroll)"
+        },
+        {
+          "es": "Cuerda de cáñamo (15m)",
+          "en": "Hemp rope (15m)"
+        },
+        {
+          "es": "Antorchas (5)",
+          "en": "Torches (5)"
+        },
+        {
+          "es": "Kit de primeros auxilios",
+          "en": "Healer's kit"
+        },
+        {
+          "es": "Odre de agua",
+          "en": "Waterskin"
+        },
+        {
+          "es": "Pedernal y acero",
+          "en": "Flint and steel"
+        },
+        {
+          "es": "Placa del Gremio de Aventureros",
+          "en": "Adventurers' Guild badge"
+        },
+        {
+          "es": "25 monedas de oro",
+          "en": "25 gold coins"
+        },
+        {
+          "es": "5 raciones de viaje",
+          "en": "5 travel rations"
+        }
       ],
       "special_ability": "Veterano de Mazmorras: Detectás trampas y emboscadas por instinto. Ventaja en tiradas de percepción dentro de estructuras subterráneas y ruinas",
       "abilities": [
         {
           "id": "dungeon-sense",
-          "name": { "es": "Sentido de Mazmorra", "en": "Dungeon Sense" },
-          "description": { "es": "Detectás una trampa o emboscada dentro de 10 metros sin necesidad de tirada.", "en": "You detect a trap or ambush within 30 ft without needing a roll." },
+          "name": {
+            "es": "Sentido de Mazmorra",
+            "en": "Dungeon Sense"
+          },
+          "description": {
+            "es": "Detectás una trampa o emboscada dentro de 10 metros sin necesidad de tirada.",
+            "en": "You detect a trap or ambush within 30 ft without needing a roll."
+          },
           "kind": "special",
           "resource": "daily_uses",
           "maxUses": 1,
           "icon": "eye",
-          "tags": ["exploration", "utility"]
+          "tags": [
+            "exploration",
+            "utility"
+          ]
         },
         {
           "id": "second-wind",
-          "name": { "es": "Segundo Aliento", "en": "Second Wind" },
-          "description": { "es": "Recuperás 1d10 + tu nivel de HP como acción bonus.", "en": "Regain 1d10 + your level HP as a bonus action." },
+          "name": {
+            "es": "Segundo Aliento",
+            "en": "Second Wind"
+          },
+          "description": {
+            "es": "Recuperás 1d10 + tu nivel de HP como acción bonus.",
+            "en": "Regain 1d10 + your level HP as a bonus action."
+          },
           "kind": "special",
           "resource": "daily_uses",
           "maxUses": 1,
           "icon": "heart",
-          "tags": ["healing", "combat"]
+          "tags": [
+            "healing",
+            "combat"
+          ]
         },
         {
           "id": "power-strike",
-          "name": { "es": "Golpe Poderoso", "en": "Power Strike" },
-          "description": { "es": "Tu próximo ataque cuerpo a cuerpo hace +1d8 de daño adicional.", "en": "Your next melee attack deals +1d8 extra damage." },
+          "name": {
+            "es": "Golpe Poderoso",
+            "en": "Power Strike"
+          },
+          "description": {
+            "es": "Tu próximo ataque cuerpo a cuerpo hace +1d8 de daño adicional.",
+            "en": "Your next melee attack deals +1d8 extra damage."
+          },
           "kind": "special",
           "resource": "daily_uses",
           "maxUses": 2,
           "icon": "sword",
-          "tags": ["combat"]
+          "tags": [
+            "combat"
+          ]
         }
       ],
       "advancement_paths": [
@@ -839,10 +1042,19 @@
     },
     {
       "id": "academy-mage",
-      "name": { "es": "Mago de la Academia", "en": "Academy Mage" },
-      "description": { "es": "Hechicero instruido en la Torre de Blackstaff de Waterdeep", "en": "A wizard trained in Waterdeep's Blackstaff Tower" },
-      "simple_description": { "es": "Estudiaste magia en la academia más prestigiosa de la Costa de la Espada. Tu poder crece con cada hechizo que aprendés, pero la magia siempre tiene un costo.", "en": "You studied magic at the most prestigious academy on the Sword Coast. Your power grows with every spell you learn, but magic always has a cost." },
-      "detailed_background": "La Torre de Blackstaff en Waterdeep fue tu hogar durante años. Pasaste noches enteras memorizando conjuros, descifrando pergaminos y aprendiendo las leyes fundamentales de la magia arcana. Tus maestros te enseñaron que la magia es una herramienta y un arma, pero sobre todo una responsabilidad. Has visto a compañeros consumidos por la arrogancia de creer que podían controlar fuerzas más allá de su comprensión. Ahora el mundo real te espera, y los problemas reales no se resuelven en una biblioteca.",
+      "name": {
+        "es": "Mago de la Academia",
+        "en": "Academy Mage"
+      },
+      "description": {
+        "es": "Hechicero instruido en la Torre del Bastón Negro de Puerto Corona",
+        "en": "A wizard trained in Puerto Corona's Black Staff Tower"
+      },
+      "simple_description": {
+        "es": "Estudiaste magia en la academia más prestigiosa de la Costa del Alba. Tu poder crece con cada hechizo que aprendés, pero la magia siempre tiene un costo.",
+        "en": "You studied magic at the most prestigious academy on the Dawn Coast. Your power grows with every spell you learn, but magic always has a cost."
+      },
+      "detailed_background": "La Torre del Bastón Negro en Puerto Corona fue tu hogar durante años. Pasaste noches enteras memorizando conjuros, descifrando pergaminos y aprendiendo las leyes fundamentales de la magia arcana. Tus maestros te enseñaron que la magia es una herramienta y un arma, pero sobre todo una responsabilidad. Has visto a compañeros consumidos por la arrogancia de creer que podían controlar fuerzas más allá de su comprensión. Ahora el mundo real te espera, y los problemas reales no se resuelven en una biblioteca.",
       "starting_stats": {
         "hp": 14,
         "maxHp": 14,
@@ -852,63 +1064,131 @@
         "lore": 4
       },
       "starting_inventory": [
-        {"es": "Bastón arcano con cristal incrustado", "en": "Arcane staff set with a crystal"},
-        {"es": "Grimorio con 6 conjuros básicos", "en": "Spellbook with 6 cantrips and first-level spells"},
-        {"es": "Túnica de la Academia de Blackstaff", "en": "Robes of the Blackstaff Academy"},
-        {"es": "Componentes mágicos (bolsa de cuero)", "en": "Spell components (leather pouch)"},
-        {"es": "Kit de escritura (tinta, plumas, pergaminos)", "en": "Writing kit (ink, quills, parchment)"},
-        {"es": "3 raciones de viaje", "en": "3 travel rations"},
-        {"es": "Odre de agua", "en": "Waterskin"},
-        {"es": "Antorchas (2)", "en": "Torches (2)"},
-        {"es": "Lente de aumento para runas", "en": "Magnifying lens for runes"},
-        {"es": "Carta de recomendación de la Academia", "en": "Letter of recommendation from the Academy"},
-        {"es": "15 monedas de oro", "en": "15 gold coins"}
+        {
+          "es": "Bastón arcano con cristal incrustado",
+          "en": "Arcane staff set with a crystal"
+        },
+        {
+          "es": "Grimorio con 6 conjuros básicos",
+          "en": "Spellbook with 6 cantrips and first-level spells"
+        },
+        {
+          "es": "Túnica de la Academia del Bastón Negro",
+          "en": "Robes of the Black Staff Academy"
+        },
+        {
+          "es": "Componentes mágicos (bolsa de cuero)",
+          "en": "Spell components (leather pouch)"
+        },
+        {
+          "es": "Kit de escritura (tinta, plumas, pergaminos)",
+          "en": "Writing kit (ink, quills, parchment)"
+        },
+        {
+          "es": "3 raciones de viaje",
+          "en": "3 travel rations"
+        },
+        {
+          "es": "Odre de agua",
+          "en": "Waterskin"
+        },
+        {
+          "es": "Antorchas (2)",
+          "en": "Torches (2)"
+        },
+        {
+          "es": "Lente de aumento para runas",
+          "en": "Magnifying lens for runes"
+        },
+        {
+          "es": "Carta de recomendación de la Academia",
+          "en": "Letter of recommendation from the Academy"
+        },
+        {
+          "es": "15 monedas de oro",
+          "en": "15 gold coins"
+        }
       ],
       "special_ability": "Sentido Arcano: Podés detectar magia activa y residual, identificar el tipo de hechizo usado, y leer inscripciones mágicas en cualquier idioma",
       "abilities": [
         {
           "id": "fireball",
-          "name": { "es": "Bola de Fuego", "en": "Fireball" },
-          "description": { "es": "Lanzás una esfera de fuego que detona, causando 8d6 de daño a todos en un radio de 6 metros.", "en": "You hurl a fiery sphere that explodes, dealing 8d6 damage to all within 20 ft." },
+          "name": {
+            "es": "Bola de Fuego",
+            "en": "Fireball"
+          },
+          "description": {
+            "es": "Lanzás una esfera de fuego que detona, causando 8d6 de daño a todos en un radio de 6 metros.",
+            "en": "You hurl a fiery sphere that explodes, dealing 8d6 damage to all within 20 ft."
+          },
           "kind": "spell",
           "resource": "daily_uses",
           "maxUses": 2,
           "icon": "flame",
-          "tags": ["combat", "aoe"]
+          "tags": [
+            "combat",
+            "aoe"
+          ]
         },
         {
           "id": "magic-missile",
-          "name": { "es": "Proyectil Mágico", "en": "Magic Missile" },
-          "description": { "es": "Lanzás tres dardos de fuerza que impactan automáticamente, cada uno causando 1d4+1.", "en": "You hurl three darts of force that hit automatically, each dealing 1d4+1." },
+          "name": {
+            "es": "Proyectil Mágico",
+            "en": "Magic Missile"
+          },
+          "description": {
+            "es": "Lanzás tres dardos de fuerza que impactan automáticamente, cada uno causando 1d4+1.",
+            "en": "You hurl three darts of force that hit automatically, each dealing 1d4+1."
+          },
           "kind": "spell",
           "resource": "daily_uses",
           "maxUses": 3,
           "icon": "sparkles",
-          "tags": ["combat"]
+          "tags": [
+            "combat"
+          ]
         },
         {
           "id": "arcane-sense",
-          "name": { "es": "Sentido Arcano", "en": "Arcane Sense" },
-          "description": { "es": "Detectás magia activa y residual, identificás el tipo de hechizo, y leés inscripciones mágicas.", "en": "Detect active and residual magic, identify the spell type, and read magical inscriptions." },
+          "name": {
+            "es": "Sentido Arcano",
+            "en": "Arcane Sense"
+          },
+          "description": {
+            "es": "Detectás magia activa y residual, identificás el tipo de hechizo, y leés inscripciones mágicas.",
+            "en": "Detect active and residual magic, identify the spell type, and read magical inscriptions."
+          },
           "kind": "special",
           "resource": "daily_uses",
           "maxUses": 2,
           "icon": "eye",
-          "tags": ["utility", "lore"]
+          "tags": [
+            "utility",
+            "lore"
+          ]
         }
       ],
       "advancement_paths": [
         "Archimago — dominar escuelas de magia superiores",
         "Investigador Arcano — descubrir nuevos hechizos y artefactos",
-        "Blackstaff — aspirar al puesto de protector mágico de Waterdeep"
+        "Bastón Negro — aspirar al puesto de protector mágico de Puerto Corona"
       ]
     },
     {
       "id": "street-rogue",
-      "name": { "es": "Pícaro Callejero", "en": "Street Rogue" },
-      "description": { "es": "Superviviente de los callejones de la Ciudad Baja de Baldur's Gate", "en": "A survivor of the Lower City alleys of Baldur's Gate" },
-      "simple_description": { "es": "Creciste en las calles, robando para comer y aprendiendo que la astucia vale más que la fuerza. Ahora usás esas habilidades para algo más que sobrevivir.", "en": "You grew up on the streets, stealing to eat and learning that wit is worth more than muscle. Now you use those skills for something more than just surviving." },
-      "detailed_background": "Las calles de la Ciudad Baja de Baldur's Gate fueron tu escuela. Aprendiste a robar carteras antes de aprender a leer. Aprendiste a esconderte antes de aprender a pelear. La vida en los callejones te enseñó que la confianza es un lujo, la información es moneda, y la velocidad es supervivencia. Trabajaste para el Gremio de Ladrones hasta que te cansaste de que otros se quedaran con la parte grande. Ahora buscás tu propia fortuna, usando las habilidades que la calle te dio para algo más grande que robar bolsos.",
+      "name": {
+        "es": "Pícaro Callejero",
+        "en": "Street Rogue"
+      },
+      "description": {
+        "es": "Superviviente de los callejones de la Ciudad Baja de Ambergate",
+        "en": "A survivor of the Lower City alleys of Ambergate"
+      },
+      "simple_description": {
+        "es": "Creciste en las calles, robando para comer y aprendiendo que la astucia vale más que la fuerza. Ahora usás esas habilidades para algo más que sobrevivir.",
+        "en": "You grew up on the streets, stealing to eat and learning that wit is worth more than muscle. Now you use those skills for something more than just surviving."
+      },
+      "detailed_background": "Las calles de la Ciudad Baja de Ambergate fueron tu escuela. Aprendiste a robar carteras antes de aprender a leer. Aprendiste a esconderte antes de aprender a pelear. La vida en los callejones te enseñó que la confianza es un lujo, la información es moneda, y la velocidad es supervivencia. Trabajaste para el Gremio de Ladrones hasta que te cansaste de que otros se quedaran con la parte grande. Ahora buscás tu propia fortuna, usando las habilidades que la calle te dio para algo más grande que robar bolsos.",
       "starting_stats": {
         "hp": 16,
         "maxHp": 16,
@@ -918,66 +1198,124 @@
         "lore": 1
       },
       "starting_inventory": [
-        {"es": "Dagas gemelas de acero negro", "en": "Twin black-steel daggers"},
-        {"es": "Armadura de cuero suave y silenciosa", "en": "Soft, silent leather armor"},
-        {"es": "Ganzúas de calidad (kit completo)", "en": "Quality thieves' tools (full kit)"},
-        {"es": "Cuerda con gancho (15m)", "en": "Grappling hook rope (15m)"},
-        {"es": "3 raciones de viaje", "en": "3 travel rations"},
-        {"es": "Odre de agua", "en": "Waterskin"},
-        {"es": "Capa con capucha oscura", "en": "Dark hooded cloak"},
-        {"es": "Bolsa de canicas (para distracciones)", "en": "Bag of marbles (for distractions)"},
-        {"es": "Espejo pequeño", "en": "Small mirror"},
-        {"es": "Dados cargados", "en": "Loaded dice"},
-        {"es": "20 monedas de oro", "en": "20 gold coins"}
+        {
+          "es": "Dagas gemelas de acero negro",
+          "en": "Twin black-steel daggers"
+        },
+        {
+          "es": "Armadura de cuero suave y silenciosa",
+          "en": "Soft, silent leather armor"
+        },
+        {
+          "es": "Ganzúas de calidad (kit completo)",
+          "en": "Quality thieves' tools (full kit)"
+        },
+        {
+          "es": "Cuerda con gancho (15m)",
+          "en": "Grappling hook rope (15m)"
+        },
+        {
+          "es": "3 raciones de viaje",
+          "en": "3 travel rations"
+        },
+        {
+          "es": "Odre de agua",
+          "en": "Waterskin"
+        },
+        {
+          "es": "Capa con capucha oscura",
+          "en": "Dark hooded cloak"
+        },
+        {
+          "es": "Bolsa de canicas (para distracciones)",
+          "en": "Bag of marbles (for distractions)"
+        },
+        {
+          "es": "Espejo pequeño",
+          "en": "Small mirror"
+        },
+        {
+          "es": "Dados cargados",
+          "en": "Loaded dice"
+        },
+        {
+          "es": "20 monedas de oro",
+          "en": "20 gold coins"
+        }
       ],
       "special_ability": "Sombra Urbana: Podés desaparecer en cualquier multitud o entorno urbano, abrir cerraduras comunes sin tirada, y siempre sabés la salida más rápida de un edificio",
       "abilities": [
         {
           "id": "sneak-attack",
-          "name": { "es": "Ataque Furtivo", "en": "Sneak Attack" },
-          "description": { "es": "Si atacás con ventaja o con un aliado adyacente al objetivo, sumás +2d6 de daño al impacto.", "en": "When you hit with advantage or with an ally adjacent, deal +2d6 extra damage." },
+          "name": {
+            "es": "Ataque Furtivo",
+            "en": "Sneak Attack"
+          },
+          "description": {
+            "es": "Si atacás con ventaja o con un aliado adyacente al objetivo, sumás +2d6 de daño al impacto.",
+            "en": "When you hit with advantage or with an ally adjacent, deal +2d6 extra damage."
+          },
           "kind": "trick",
           "resource": "daily_uses",
           "maxUses": 3,
           "icon": "sword",
-          "tags": ["combat"]
+          "tags": [
+            "combat"
+          ]
         },
         {
           "id": "urban-shadow",
-          "name": { "es": "Sombra Urbana", "en": "Urban Shadow" },
-          "description": { "es": "Desaparecés en una multitud o entorno urbano sin tirada, perdiendo a cualquier perseguidor.", "en": "Disappear into a crowd or urban setting without a roll, losing any pursuer." },
+          "name": {
+            "es": "Sombra Urbana",
+            "en": "Urban Shadow"
+          },
+          "description": {
+            "es": "Desaparecés en una multitud o entorno urbano sin tirada, perdiendo a cualquier perseguidor.",
+            "en": "Disappear into a crowd or urban setting without a roll, losing any pursuer."
+          },
           "kind": "trick",
           "resource": "daily_uses",
           "maxUses": 2,
           "icon": "moon",
-          "tags": ["stealth", "utility"]
+          "tags": [
+            "stealth",
+            "utility"
+          ]
         },
         {
           "id": "cunning-action",
-          "name": { "es": "Acción Astuta", "en": "Cunning Action" },
-          "description": { "es": "Tu próximo chequeo de Destreza o sigilo lo tirás con ventaja.", "en": "Roll your next Dexterity or stealth check with advantage." },
+          "name": {
+            "es": "Acción Astuta",
+            "en": "Cunning Action"
+          },
+          "description": {
+            "es": "Tu próximo chequeo de Destreza o sigilo lo tirás con ventaja.",
+            "en": "Roll your next Dexterity or stealth check with advantage."
+          },
           "kind": "trick",
           "resource": "daily_uses",
           "maxUses": 2,
           "icon": "sparkles",
-          "tags": ["utility"]
+          "tags": [
+            "utility"
+          ]
         }
       ],
       "advancement_paths": [
         "Maestro Ladrón — el mejor en tu oficio, capaz de robar cualquier cosa",
-        "Espía de los Arpistas — usar tus habilidades para el bien mayor",
+        "Espía de los Vigías — usar tus habilidades para el bien mayor",
         "Señor del Crimen — construir tu propia red criminal"
       ]
     }
   ],
   "notable_npcs": [
     {
-      "name": "Elminster de Shadowdale",
-      "role": "Archimago legendario, elegido de Mystra, consejero de reyes",
+      "name": "Aldramar de Shadowdale",
+      "role": "Archimago legendario, elegido de Lysara, consejero de reyes",
       "description": "Un anciano de barba larga y ojos chispeantes que fuma una pipa de humo azulado. Parece un viejo inofensivo hasta que ves el fuego arcano danzar entre sus dedos.",
       "personality": "Excéntrico, irreverente, con un humor seco que irrita a los poderosos. Debajo de la fachada, una mente brillante y un corazón compasivo.",
-      "motivation": "Proteger Faerûn de amenazas que van más allá de lo que los mortales comunes pueden comprender",
-      "secrets": "Es el elegido de Mystra, la diosa de la magia, y ha vivido más de mil años. Ha muerto y regresado varias veces.",
+      "motivation": "Proteger Valdrun de amenazas que van más allá de lo que los mortales comunes pueden comprender",
+      "secrets": "Es el elegido de Lysara, la diosa de la magia, y ha vivido más de mil años. Ha muerto y regresado varias veces.",
       "typical_dialogue": [
         "Ah, aventureros. Maravilloso. ¿Sabían que la última vez que alguien intentó eso, explotó un pueblo entero?",
         "La magia no es un juguete, joven. Es más como... un gato. Hace lo que quiere.",
@@ -985,38 +1323,38 @@
       ]
     },
     {
-      "name": "Drizzt Do'Urden",
-      "role": "Elfo oscuro renegado, explorador legendario de Icewind Dale",
-      "description": "Un drow de piel obsidiana y ojos lavanda que brillan con determinación. Empuña dos cimitarras con una gracia letal que pocos pueden igualar.",
+      "name": "Zhaerin Vel'Zar",
+      "role": "Elfo oscuro renegado, explorador legendario de Valle Ventisca",
+      "description": "Un umbrío de piel obsidiana y ojos lavanda que brillan con determinación. Empuña dos cimitarras con una gracia letal que pocos pueden igualar.",
       "personality": "Honorable, introspectivo, cargado por el prejuicio que su raza inspira, pero inquebrantable en sus convicciones",
       "motivation": "Demostrar que el linaje no define el destino, proteger a los inocentes sin importar el costo personal",
-      "secrets": "Huyó de Menzoberranzan, la ciudad drow, rechazando el culto a Lolth. La diosa araña lo considera un traidor y envía asesinos regularmente.",
+      "secrets": "Huyó de Sombracava, la ciudad umbría, rechazando el culto a Vhissra. La diosa araña lo considera un traidor y envía asesinos regularmente.",
       "typical_dialogue": [
-        "No elegí nacer drow. Elegí qué hacer con mi vida.",
+        "No elegí nacer umbrío. Elegí qué hacer con mi vida.",
         "Hay un lugar en este mundo para quienes se niegan a rendirse ante la oscuridad.",
-        "La superficie tiene algo que la Infraoscuridad nunca tuvo: esperanza."
+        "La superficie tiene algo que la Hondura Sombría nunca tuvo: esperanza."
       ]
     },
     {
-      "name": "Laeral Silverhand",
-      "role": "Señora Abierta de Waterdeep, una de las Siete Hermanas",
+      "name": "Laenara Manargenta",
+      "role": "Señora Abierta de Puerto Corona, una de las Siete Hijas de Lysara",
       "description": "Una mujer de cabello plateado y porte regio, cuya presencia llena la sala con autoridad tranquila. Sus ojos cambian de color según su humor.",
       "personality": "Pragmática, compasiva pero firme, con siglos de experiencia política y mágica",
-      "motivation": "Gobernar Waterdeep con justicia, proteger la ciudad de amenazas internas y externas",
-      "secrets": "Es hija de Mystra y Elminster. Posee un poder mágico que rivaliza con los archimagos más poderosos de la historia.",
+      "motivation": "Gobernar Puerto Corona con justicia, proteger la ciudad de amenazas internas y externas",
+      "secrets": "Es hija de Lysara y Aldramar. Posee un poder mágico que rivaliza con los archimagos más poderosos de la historia.",
       "typical_dialogue": [
-        "Waterdeep no necesita héroes. Necesita ciudadanos que hagan lo correcto.",
+        "Puerto Corona no necesita héroes. Necesita ciudadanos que hagan lo correcto.",
         "Gobernar es el arte de resolver diez problemas mientras tres nuevos se crean.",
         "No me subestimen. Lo último que quieren es verme enojada."
       ]
     },
     {
-      "name": "Durnan el Tabernero",
-      "role": "Dueño del Portal Bostezante, guardián de la entrada a Undermountain",
+      "name": "Dorvan el Tabernero",
+      "role": "Dueño del Pozo del Dragón, guardián de la entrada a Bajomonte",
       "description": "Un hombre fornido de mediana edad con cicatrices de batallas antiguas y ojos que han visto demasiado. Sirve cerveza con una mano que podría doblar acero.",
       "personality": "Lacónico, observador, con un humor negro nacido de décadas de ver aventureros bajar al pozo y no volver",
-      "motivation": "Mantener el Portal Bostezante como última línea de defensa entre Undermountain y Waterdeep",
-      "secrets": "Exploró Undermountain en su juventud y es uno de los pocos que salió con vida. Sabe cosas sobre los niveles inferiores que se niega a compartir.",
+      "motivation": "Mantener el Pozo del Dragón como última línea de defensa entre Bajomonte y Puerto Corona",
+      "secrets": "Exploró Bajomonte en su juventud y es uno de los pocos que salió con vida. Sabe cosas sobre los niveles inferiores que se niega a compartir.",
       "typical_dialogue": [
         "¿Vas a bajar? Dejá tu nombre. Si no volvés en tres días, se lo damos al siguiente.",
         "El pozo tiene veinte metros de profundidad. Lo que hay abajo tiene miles.",
@@ -1024,8 +1362,8 @@
       ]
     },
     {
-      "name": "Halaster Blackcloak",
-      "role": "El Mago Loco de Undermountain, creador de la megamazmorra",
+      "name": "Vharen el Insondable",
+      "role": "El Mago Loco de Bajomonte, creador de la megamazmorra",
       "description": "Cuando se digna a aparecer: un mago demacrado con ojos que brillan con locura y poder. Su capa parece moverse sola, y su risa resuena en cada nivel de la mazmorra.",
       "personality": "Impredecible, brillante, completamente desquiciado. Puede ser generoso un momento y homicida al siguiente.",
       "motivation": "Experimentar, observar, jugar con los aventureros que entran en su dominio como piezas de un juego que solo él comprende",
@@ -1140,7 +1478,7 @@
             1,
             2
           ],
-          "result": "Cielo despejado y brisa cálida del mar. Día perfecto para viajar por la Costa de la Espada."
+          "result": "Cielo despejado y brisa cálida del mar. Día perfecto para viajar por la Costa del Alba."
         },
         {
           "range": [
@@ -1175,7 +1513,7 @@
             11,
             11
           ],
-          "result": "Tormenta eléctrica violenta — los rayos iluminan el cielo como señales de batalla divina."
+          "result": "Valdorenta eléctrica violenta — los rayos iluminan el cielo como señales de batalla divina."
         },
         {
           "range": [
@@ -1236,7 +1574,7 @@
             14,
             15
           ],
-          "result": "Mapa de un nivel de Undermountain — parcial, posiblemente desactualizado, pero valioso"
+          "result": "Mapa de un nivel de Bajomonte — parcial, posiblemente desactualizado, pero valioso"
         },
         {
           "range": [
@@ -1276,28 +1614,28 @@
             2,
             2
           ],
-          "result": "Brenna Thornwall, exploradora halfling del Camino Triboar"
+          "result": "Brenna Thornwall, exploradora halfling del Camino de los Tres Jabalíes"
         },
         {
           "range": [
             3,
             3
           ],
-          "result": "Caelum Starsong, bardo semielfo de Silverymoon"
+          "result": "Caelum Cantoluna, bardo semielfo de Lunaplata"
         },
         {
           "range": [
             4,
             4
           ],
-          "result": "Darya Vexmoor, hechicera tiefling exiliada de Baldur's Gate"
+          "result": "Darya Vexmoor, hechicera tiefling exiliada de Ambergate"
         },
         {
           "range": [
             5,
             5
           ],
-          "result": "Erasmus Quill, erudito gnomo de Candlekeep"
+          "result": "Erasmus Quill, erudito gnomo de Ciriotorre"
         },
         {
           "range": [
@@ -1311,35 +1649,35 @@
             7,
             7
           ],
-          "result": "Gundrik Ironbeard, mercenario enano del Zhentarim"
+          "result": "Gundrik Ironbeard, mercenario enano de la Red Vorzhen"
         },
         {
           "range": [
             8,
             8
           ],
-          "result": "Helena Duskwalker, clérigo humana de Kelemvor"
+          "result": "Helena Duskwalker, clérigo humana de Mortis"
         },
         {
           "range": [
             9,
             9
           ],
-          "result": "Idris Shadowmere, espía de los Arpistas"
+          "result": "Idris Shadowmere, espía de los Vigías"
         },
         {
           "range": [
             10,
             10
           ],
-          "result": "Jorhan Stonehelm, capitán del Puño Llameante"
+          "result": "Jorhan Stonehelm, capitán del Guardia Escarlata"
         },
         {
           "range": [
             11,
             11
           ],
-          "result": "Kaelith Sunfire, paladín semielfa de Lathander"
+          "result": "Kaelith Sunfire, paladín semielfa de Albar"
         },
         {
           "range": [
@@ -1388,21 +1726,21 @@
             18,
             18
           ],
-          "result": "Sylara Dawnbreak, sacerdotisa aasimar de Selûne"
+          "result": "Sylara Dawnbreak, sacerdotisa aasimar de Lunara"
         },
         {
           "range": [
             19,
             19
           ],
-          "result": "Theron Blackthorn, noble caído de Neverwinter"
+          "result": "Theron Blackthorn, noble caído de Brasaeterna"
         },
         {
           "range": [
             20,
             20
           ],
-          "result": "Vexia Nighthollow, asesina drow redimida"
+          "result": "Vexia Nighthollow, asesina umbría redimida"
         }
       ]
     },
@@ -1414,7 +1752,7 @@
             1,
             1
           ],
-          "result": "Un temblor sacude la tierra — algo se ha movido en la Infraoscuridad"
+          "result": "Un temblor sacude la tierra — algo se ha movido en la Hondura Sombría"
         },
         {
           "range": [
@@ -1442,7 +1780,7 @@
             5,
             5
           ],
-          "result": "Un mensajero de los Arpistas te intercepta con información urgente"
+          "result": "Un mensajero de los Vigías te intercepta con información urgente"
         },
         {
           "range": [
@@ -1512,7 +1850,7 @@
             15,
             15
           ],
-          "result": "Encontrás los restos de una caravana del Zhentarim — alguien les tendió una emboscada"
+          "result": "Encontrás los restos de una caravana de la Red Vorzhen — alguien les tendió una emboscada"
         },
         {
           "range": [
@@ -1547,7 +1885,7 @@
             20,
             20
           ],
-          "result": "Elminster aparece brevemente, deja caer un objeto en tus manos y desaparece diciendo: 'Lo vas a necesitar'"
+          "result": "Aldramar aparece brevemente, deja caer un objeto en tus manos y desaparece diciendo: 'Lo vas a necesitar'"
         }
       ]
     },
@@ -1559,7 +1897,7 @@
             1,
             1
           ],
-          "result": "Dicen que el Zhentarim está reclutando abiertamente en la Ciudad Baja de Baldur's Gate"
+          "result": "Dicen que la Red Vorzhen está reclutando abiertamente en la Ciudad Baja de Ambergate"
         },
         {
           "range": [
@@ -1573,21 +1911,21 @@
             3,
             3
           ],
-          "result": "Los Arpistas buscan agentes nuevos — si podés encontrar a uno, ya pasaste la primera prueba"
+          "result": "Los Vigías buscan agentes nuevos — si podés encontrar a uno, ya pasaste la primera prueba"
         },
         {
           "range": [
             4,
             4
           ],
-          "result": "Hay una recompensa de 500 monedas de oro por información sobre una lich que opera cerca de Phandalin"
+          "result": "Hay una recompensa de 500 monedas de oro por información sobre una lich que opera cerca de Vadolar"
         },
         {
           "range": [
             5,
             5
           ],
-          "result": "Halaster liberó algo nuevo en Undermountain — los aventureros que subieron estaban... cambiados"
+          "result": "Vharen liberó algo nuevo en Bajomonte — los aventureros que subieron estaban... cambiados"
         },
         {
           "range": [
@@ -1601,14 +1939,14 @@
             7,
             7
           ],
-          "result": "Lord Neverember fue visto reuniéndose con agentes del Zhentarim en secreto"
+          "result": "Lord Braseval fue visto reuniéndose con agentes de la Red Vorzhen en secreto"
         },
         {
           "range": [
             8,
             8
           ],
-          "result": "Portales al Feywild se están abriendo sin control por toda la Costa de la Espada"
+          "result": "Portales al Reino Feérico se están abriendo sin control por toda la Costa del Alba"
         },
         {
           "range": [
@@ -1622,21 +1960,21 @@
             10,
             10
           ],
-          "result": "En Candlekeep encontraron un libro que predice el fin del mundo... y la fecha es pronto"
+          "result": "En Ciriotorre encontraron un libro que predice el fin del mundo... y la fecha es pronto"
         },
         {
           "range": [
             11,
             11
           ],
-          "result": "Drizzt Do'Urden fue visto luchando solo contra un ejército de drow en la superficie"
+          "result": "Zhaerin Vel'Zar fue visto luchando solo contra un ejército de umbríos en la superficie"
         },
         {
           "range": [
             12,
             12
           ],
-          "result": "La diosa Mystra envió señales a todos sus elegidos — algo catastrófico se acerca al Tejido de la Magia"
+          "result": "La diosa Lysara envió señales a todos sus elegidos — algo catastrófico se acerca al Tejido de la Magia"
         }
       ]
     }
@@ -1767,8 +2105,8 @@
         "Primer contacto con una de las facciones principales"
       ],
       "typical_scenes": [
-        "Waterdeep",
-        "Phandalin"
+        "Puerto Corona",
+        "Vadolar"
       ],
       "mood": "exploration_calm",
       "sample_events": [
@@ -1787,15 +2125,15 @@
         "Primera derrota o pérdida significativa"
       ],
       "typical_scenes": [
-        "Baldur's Gate",
-        "Bosque de Neverwinter",
-        "Neverwinter"
+        "Ambergate",
+        "Bosque de Brasaeterna",
+        "Brasaeterna"
       ],
       "mood": "drama_tense",
       "sample_events": [
         "El villano revela su existencia con un golpe devastador",
         "Un aliado traiciona al grupo por razones comprensibles",
-        "Se descubre que la amenaza tiene raíces en la Infraoscuridad",
+        "Se descubre que la amenaza tiene raíces en la Hondura Sombría",
         "Las facciones comienzan a moverse y el aventurero debe elegir bando"
       ]
     },
@@ -1808,8 +2146,8 @@
         "Una revelación que cambia la perspectiva de la misión"
       ],
       "typical_scenes": [
-        "Undermountain",
-        "Icewind Dale"
+        "Bajomonte",
+        "Valle Ventisca"
       ],
       "mood": "horror_ambient",
       "sample_events": [
@@ -1821,16 +2159,16 @@
     },
     "act_4": {
       "name": "La Batalla por la Costa",
-      "description": "Confrontación decisiva contra la amenaza principal — el destino de la Costa de la Espada pende de un hilo",
+      "description": "Confrontación decisiva contra la amenaza principal — el destino de la Costa del Alba pende de un hilo",
       "anchors": [
         "Enfrentamiento directo con el villano principal",
         "Aliados inesperados acuden en el momento crítico",
         "Las decisiones pasadas determinan el resultado"
       ],
       "typical_scenes": [
-        "Waterdeep",
-        "Undermountain",
-        "Candlekeep"
+        "Puerto Corona",
+        "Bajomonte",
+        "Ciriotorre"
       ],
       "mood": "combat_epic",
       "sample_events": [
@@ -1849,9 +2187,9 @@
         "Nuevas oportunidades y amenazas emergentes"
       ],
       "typical_scenes": [
-        "Waterdeep",
-        "Phandalin",
-        "Candlekeep"
+        "Puerto Corona",
+        "Vadolar",
+        "Ciriotorre"
       ],
       "mood": "rest_peaceful",
       "sample_events": [
@@ -1865,47 +2203,47 @@
   "one_shot_hooks": [
     {
       "title": "La Bóveda del Dragón",
-      "hook": "Un antiguo socio de Durnan asegura conocer la ubicación de una bóveda secreta en el segundo nivel de Undermountain, llena del tesoro de un dragón que murió hace siglos. Solo necesita un grupo de aventureros lo suficientemente locos para bajar con él. El pago: todo lo que puedan cargar.",
+      "hook": "Un antiguo socio de Dorvan asegura conocer la ubicación de una bóveda secreta en el segundo nivel de Bajomonte, llena del tesoro de un dragón que murió hace siglos. Solo necesita un grupo de aventureros lo suficientemente locos para bajar con él. El pago: todo lo que puedan cargar.",
       "suggested_duration": "3-4 horas",
       "difficulty": "Media"
     },
     {
       "title": "Asesinato en el Barrio Norte",
-      "hook": "Un noble de Waterdeep ha aparecido muerto en su mansión, con marcas de magia oscura en el cuerpo. La Fuerza del Orden está desconcertada y los Señores Enmascarados quieren respuestas discretas. Te ofrecen una recompensa generosa... y la promesa de que ciertas preguntas sobre tu pasado dejarán de hacerse.",
+      "hook": "Un noble de Puerto Corona ha aparecido muerto en su mansión, con marcas de magia oscura en el cuerpo. La Corriente del Orden está desconcertada y los Señores Enmascarados quieren respuestas discretas. Te ofrecen una recompensa generosa... y la promesa de que ciertas preguntas sobre tu pasado dejarán de hacerse.",
       "suggested_duration": "2-3 horas",
       "difficulty": "Media"
     },
     {
       "title": "La Caravana Maldita",
-      "hook": "Una caravana de mercaderes contratada por el Zhentarim necesita escolta urgente desde Baldur's Gate hasta Waterdeep. El pago es excelente, pero los tres grupos anteriores que aceptaron el trabajo desaparecieron sin dejar rastro. ¿Es mala suerte, o algo acecha específicamente a esta caravana?",
+      "hook": "Una caravana de mercaderes contratada por la Red Vorzhen necesita escolta urgente desde Ambergate hasta Puerto Corona. El pago es excelente, pero los tres grupos anteriores que aceptaron el trabajo desaparecieron sin dejar rastro. ¿Es mala suerte, o algo acecha específicamente a esta caravana?",
       "suggested_duration": "4-5 horas",
       "difficulty": "Media-Difícil"
     },
     {
       "title": "El Libro Prohibido",
-      "hook": "Un monje de Candlekeep contacta en secreto a los Arpistas: un libro sellado en las bóvedas ha comenzado a sangrar. Los encantamientos de contención están fallando y lo que sea que esté dentro quiere salir. Necesitan aventureros que no le tengan miedo a lo desconocido para entrar en las catacumbas y resolver el problema antes de que sea demasiado tarde.",
+      "hook": "Un monje de Ciriotorre contacta en secreto a los Vigías: un libro sellado en las bóvedas ha comenzado a sangrar. Los encantamientos de contención están fallando y lo que sea que esté dentro quiere salir. Necesitan aventureros que no le tengan miedo a lo desconocido para entrar en las catacumbas y resolver el problema antes de que sea demasiado tarde.",
       "suggested_duration": "3-4 horas",
       "difficulty": "Difícil"
     },
     {
       "title": "Noche de Lobos",
-      "hook": "Phandalin está bajo asedio. Cada noche, cuando la luna llena se alza, hombres lobo atacan el pueblo. Los aldeanos están desesperados y el herrero ofrece todo lo que tiene por ayuda. Pero el líder de la manada no es un monstruo cualquiera — es alguien que los aldeanos conocen y aman.",
+      "hook": "Vadolar está bajo asedio. Cada noche, cuando la luna llena se alza, hombres lobo atacan el pueblo. Los aldeanos están desesperados y el herrero ofrece todo lo que tiene por ayuda. Pero el líder de la manada no es un monstruo cualquiera — es alguien que los aldeanos conocen y aman.",
       "suggested_duration": "2-3 horas",
       "difficulty": "Fácil-Media"
     }
   ],
   "opening_scene": {
     "location_id": "yawning-portal",
-    "location_name": "Taberna del Portal Bostezante, Waterdeep",
-    "description": "Te encontrás en la Taberna del Portal Bostezante, la taberna más famosa — y peligrosa — de Waterdeep. En el centro de la sala, un pozo de seis metros de diámetro desciende hacia la oscuridad absoluta de Undermountain. Una cuerda gruesa y un balde oxidado cuelgan sobre el abismo. El aroma a cerveza de enano, carne asada y antorchas de resina llena el aire. A tu alrededor, aventureros de toda Faerûn comparten historias de mazmorras, muestran cicatrices como medallas y gastan sus recompensas en alcohol y apuestas. Durnan, el tabernero de mirada penetrante, vigila el pozo con una mano en la barra y otra cerca de su espada.",
+    "location_name": "Taberna del Pozo del Dragón, Puerto Corona",
+    "description": "Te encontrás en la Taberna del Pozo del Dragón, la taberna más famosa — y peligrosa — de Puerto Corona. En el centro de la sala, un pozo de seis metros de diámetro desciende hacia la oscuridad absoluta de Bajomonte. Una cuerda gruesa y un balde oxidado cuelgan sobre el abismo. El aroma a cerveza de enano, carne asada y antorchas de resina llena el aire. A tu alrededor, aventureros de toda Valdrun comparten historias de mazmorras, muestran cicatrices como medallas y gastan sus recompensas en alcohol y apuestas. Dorvan, el tabernero de mirada penetrante, vigila el pozo con una mano en la barra y otra cerca de su espada.",
     "visible_directions": [
       {
         "direction": "norte",
-        "landmark": "las calles iluminadas del Barrio del Castillo conducen hacia el Palacio de Waterdeep y la Torre de Blackstaff"
+        "landmark": "las calles iluminadas del Barrio del Castillo conducen hacia el Palacio de Puerto Corona y la Torre del Bastón Negro"
       },
       {
         "direction": "este",
-        "landmark": "el Barrio del Mar bulle con la actividad del puerto, donde barcos de toda la Costa de la Espada descargan mercancías"
+        "landmark": "el Barrio del Mar bulle con la actividad del puerto, donde barcos de toda la Costa del Alba descargan mercancías"
       },
       {
         "direction": "sur",
@@ -1913,14 +2251,14 @@
       },
       {
         "direction": "abajo",
-        "landmark": "el Pozo del Portal desciende veinte metros hacia el primer nivel de Undermountain, la megamazmorra más grande de Faerûn"
+        "landmark": "el Pozo del Portal desciende veinte metros hacia el primer nivel de Bajomonte, la megamazmorra más grande de Valdrun"
       }
     ],
     "ambient_rumors": [
       "un grupo de aventureros bajó al pozo hace tres días y solo subió uno, balbuceando sobre ojos en la oscuridad",
       "el Gremio de Aventureros ofrece una recompensa generosa por limpiar una sección del primer nivel",
       "un noble del Barrio Norte busca discretamente mercenarios para un trabajo... delicado",
-      "dicen que Halaster el Loco ha modificado los primeros niveles otra vez — nada está donde solía estar"
+      "dicen que Vharen el Loco ha modificado los primeros niveles otra vez — nada está donde solía estar"
     ],
     "closing_prompt": "La noche avanza en la taberna y las oportunidades abundan. ¿Qué deseas hacer?"
   },
@@ -1928,16 +2266,16 @@
     {
       "id": "default",
       "location_id": "yawning-portal",
-      "location_name": "Taberna del Portal Bostezante, Waterdeep",
-      "description": "Te encontrás en la Taberna del Portal Bostezante, la taberna más famosa — y peligrosa — de Waterdeep. En el centro de la sala, un pozo de seis metros de diámetro desciende hacia la oscuridad absoluta de Undermountain. Una cuerda gruesa y un balde oxidado cuelgan sobre el abismo. El aroma a cerveza de enano, carne asada y antorchas de resina llena el aire. A tu alrededor, aventureros de toda Faerûn comparten historias de mazmorras, muestran cicatrices como medallas y gastan sus recompensas en alcohol y apuestas. Durnan, el tabernero de mirada penetrante, vigila el pozo con una mano en la barra y otra cerca de su espada.",
+      "location_name": "Taberna del Pozo del Dragón, Puerto Corona",
+      "description": "Te encontrás en la Taberna del Pozo del Dragón, la taberna más famosa — y peligrosa — de Puerto Corona. En el centro de la sala, un pozo de seis metros de diámetro desciende hacia la oscuridad absoluta de Bajomonte. Una cuerda gruesa y un balde oxidado cuelgan sobre el abismo. El aroma a cerveza de enano, carne asada y antorchas de resina llena el aire. A tu alrededor, aventureros de toda Valdrun comparten historias de mazmorras, muestran cicatrices como medallas y gastan sus recompensas en alcohol y apuestas. Dorvan, el tabernero de mirada penetrante, vigila el pozo con una mano en la barra y otra cerca de su espada.",
       "visible_directions": [
         {
           "direction": "norte",
-          "landmark": "las calles iluminadas del Barrio del Castillo conducen hacia el Palacio de Waterdeep y la Torre de Blackstaff"
+          "landmark": "las calles iluminadas del Barrio del Castillo conducen hacia el Palacio de Puerto Corona y la Torre del Bastón Negro"
         },
         {
           "direction": "este",
-          "landmark": "el Barrio del Mar bulle con la actividad del puerto, donde barcos de toda la Costa de la Espada descargan mercancías"
+          "landmark": "el Barrio del Mar bulle con la actividad del puerto, donde barcos de toda la Costa del Alba descargan mercancías"
         },
         {
           "direction": "sur",
@@ -1945,30 +2283,30 @@
         },
         {
           "direction": "abajo",
-          "landmark": "el Pozo del Portal desciende veinte metros hacia el primer nivel de Undermountain, la megamazmorra más grande de Faerûn"
+          "landmark": "el Pozo del Portal desciende veinte metros hacia el primer nivel de Bajomonte, la megamazmorra más grande de Valdrun"
         }
       ],
       "ambient_rumors": [
         "un grupo de aventureros bajó al pozo hace tres días y solo subió uno, balbuceando sobre ojos en la oscuridad",
         "el Gremio de Aventureros ofrece una recompensa generosa por limpiar una sección del primer nivel",
         "un noble del Barrio Norte busca discretamente mercenarios para un trabajo... delicado",
-        "dicen que Halaster el Loco ha modificado los primeros niveles otra vez — nada está donde solía estar"
+        "dicen que Vharen el Loco ha modificado los primeros niveles otra vez — nada está donde solía estar"
       ],
       "closing_prompt": "La noche avanza en la taberna y las oportunidades abundan. ¿Qué deseas hacer?"
     },
     {
       "id": "stormy_night",
       "location_id": "yawning-portal",
-      "location_name": "Taberna del Portal Bostezante, Waterdeep",
-      "description": "Una tormenta brutal azota Waterdeep y la Taberna del Portal Bostezante está a reventar. Cada relámpago ilumina el pozo central con un destello fantasmal, y por un instante jurás ver algo moverse en la oscuridad de abajo. Los truenos hacen temblar los vasos sobre la barra. Aventureros empapados se apiñan junto al fuego, secando capas y maldiciendo al clima. Durnan sirve cerveza con cara de pocos amigos mientras el viento silba por las rendijas como un espíritu atrapado. De repente, la puerta se abre de golpe y una figura encapuchada entra tambaleándose, con sangre en las manos y terror en los ojos.",
+      "location_name": "Taberna del Pozo del Dragón, Puerto Corona",
+      "description": "Una tormenta brutal azota Puerto Corona y la Taberna del Pozo del Dragón está a reventar. Cada relámpago ilumina el pozo central con un destello fantasmal, y por un instante jurás ver algo moverse en la oscuridad de abajo. Los truenos hacen temblar los vasos sobre la barra. Aventureros empapados se apiñan junto al fuego, secando capas y maldiciendo al clima. Dorvan sirve cerveza con cara de pocos amigos mientras el viento silba por las rendijas como un espíritu atrapado. De repente, la puerta se abre de golpe y una figura encapuchada entra tambaleándose, con sangre en las manos y terror en los ojos.",
       "visible_directions": [
         {
           "direction": "norte",
-          "landmark": "las calles iluminadas del Barrio del Castillo conducen hacia el Palacio de Waterdeep y la Torre de Blackstaff"
+          "landmark": "las calles iluminadas del Barrio del Castillo conducen hacia el Palacio de Puerto Corona y la Torre del Bastón Negro"
         },
         {
           "direction": "este",
-          "landmark": "el Barrio del Mar bulle con la actividad del puerto, donde barcos de toda la Costa de la Espada descargan mercancías"
+          "landmark": "el Barrio del Mar bulle con la actividad del puerto, donde barcos de toda la Costa del Alba descargan mercancías"
         },
         {
           "direction": "sur",
@@ -1976,30 +2314,30 @@
         },
         {
           "direction": "abajo",
-          "landmark": "el Pozo del Portal desciende veinte metros hacia el primer nivel de Undermountain, la megamazmorra más grande de Faerûn"
+          "landmark": "el Pozo del Portal desciende veinte metros hacia el primer nivel de Bajomonte, la megamazmorra más grande de Valdrun"
         }
       ],
       "ambient_rumors": [
         "un grupo de aventureros bajó al pozo hace tres días y solo subió uno, balbuceando sobre ojos en la oscuridad",
         "el Gremio de Aventureros ofrece una recompensa generosa por limpiar una sección del primer nivel",
         "un noble del Barrio Norte busca discretamente mercenarios para un trabajo... delicado",
-        "dicen que Halaster el Loco ha modificado los primeros niveles otra vez — nada está donde solía estar"
+        "dicen que Vharen el Loco ha modificado los primeros niveles otra vez — nada está donde solía estar"
       ],
       "closing_prompt": "La tormenta ruge afuera y la figura ensangrentada se desploma en una silla. ¿Qué deseas hacer?"
     },
     {
       "id": "festival_day",
       "location_id": "yawning-portal",
-      "location_name": "Taberna del Portal Bostezante, Waterdeep",
-      "description": "Es el Día de las Maravillas, festival de Gond, dios de los inventos, y toda Waterdeep celebra. La Taberna del Portal Bostezante está decorada con engranajes dorados y mecanismos brillantes que giran sobre las mesas. Un gnomo ha instalado un artilugio sobre el pozo que lanza chispas de colores hacia la oscuridad — nadie sabe por qué, pero es espectacular. Aventureros brindan con cerveza espumosa, un bardo halfling canta canciones sobre hazañas imposibles, y mercaderes aprovechan la festividad para cerrar tratos lucrativos. Durnan sonríe — algo que según los habituales solo pasa una vez al año.",
+      "location_name": "Taberna del Pozo del Dragón, Puerto Corona",
+      "description": "Es el Día de las Maravillas, festival de Fabrion, dios de los inventos, y toda Puerto Corona celebra. La Taberna del Pozo del Dragón está decorada con engranajes dorados y mecanismos brillantes que giran sobre las mesas. Un gnomo ha instalado un artilugio sobre el pozo que lanza chispas de colores hacia la oscuridad — nadie sabe por qué, pero es espectacular. Aventureros brindan con cerveza espumosa, un bardo halfling canta canciones sobre hazañas imposibles, y mercaderes aprovechan la festividad para cerrar tratos lucrativos. Dorvan sonríe — algo que según los habituales solo pasa una vez al año.",
       "visible_directions": [
         {
           "direction": "norte",
-          "landmark": "las calles iluminadas del Barrio del Castillo conducen hacia el Palacio de Waterdeep y la Torre de Blackstaff"
+          "landmark": "las calles iluminadas del Barrio del Castillo conducen hacia el Palacio de Puerto Corona y la Torre del Bastón Negro"
         },
         {
           "direction": "este",
-          "landmark": "el Barrio del Mar bulle con la actividad del puerto, donde barcos de toda la Costa de la Espada descargan mercancías"
+          "landmark": "el Barrio del Mar bulle con la actividad del puerto, donde barcos de toda la Costa del Alba descargan mercancías"
         },
         {
           "direction": "sur",
@@ -2007,14 +2345,14 @@
         },
         {
           "direction": "abajo",
-          "landmark": "el Pozo del Portal desciende veinte metros hacia el primer nivel de Undermountain, la megamazmorra más grande de Faerûn"
+          "landmark": "el Pozo del Portal desciende veinte metros hacia el primer nivel de Bajomonte, la megamazmorra más grande de Valdrun"
         }
       ],
       "ambient_rumors": [
         "un grupo de aventureros bajó al pozo hace tres días y solo subió uno, balbuceando sobre ojos en la oscuridad",
         "el Gremio de Aventureros ofrece una recompensa generosa por limpiar una sección del primer nivel",
         "un noble del Barrio Norte busca discretamente mercenarios para un trabajo... delicado",
-        "dicen que Halaster el Loco ha modificado los primeros niveles otra vez — nada está donde solía estar"
+        "dicen que Vharen el Loco ha modificado los primeros niveles otra vez — nada está donde solía estar"
       ],
       "closing_prompt": "El festival está en pleno apogeo y el ambiente es contagioso. ¿Qué deseas hacer?"
     }
@@ -2023,7 +2361,7 @@
     {
       "id": "clear_undermountain_entrance",
       "title": "Limpieza del Primer Nivel",
-      "description": "El Gremio de Aventureros necesita que alguien limpie una sección del primer nivel de Undermountain que se ha vuelto demasiado peligrosa. Pagan bien y es una buena forma de hacerse un nombre.",
+      "description": "El Gremio de Aventureros necesita que alguien limpie una sección del primer nivel de Bajomonte que se ha vuelto demasiado peligrosa. Pagan bien y es una buena forma de hacerse un nombre.",
       "difficulty": "easy",
       "tags": [
         "combat",
@@ -2033,7 +2371,7 @@
     {
       "id": "noble_investigation",
       "title": "El Secreto del Noble",
-      "description": "Un noble del Barrio Norte ha desaparecido y su familia quiere respuestas discretas. La Fuerza del Orden no investiga casos de nobles con suficiente profundidad.",
+      "description": "Un noble del Barrio Norte ha desaparecido y su familia quiere respuestas discretas. La Corriente del Orden no investiga casos de nobles con suficiente profundidad.",
       "difficulty": "medium",
       "tags": [
         "investigation",
@@ -2043,7 +2381,7 @@
     {
       "id": "dock_smugglers",
       "title": "Contrabando en los Muelles",
-      "description": "Los Arpistas sospechan que una red de contrabando en el Barrio de los Muelles está moviendo artefactos peligrosos. Necesitan ojos y oídos en el terreno.",
+      "description": "Los Vigías sospechan que una red de contrabando en el Barrio de los Muelles está moviendo artefactos peligrosos. Necesitan ojos y oídos en el terreno.",
       "difficulty": "hard",
       "tags": [
         "stealth",
@@ -2053,23 +2391,23 @@
     }
   ],
   "engine_notes": {
-    "story_mode": "Enfocarse en la exploración de Faerûn y las decisiones morales. Las batallas son cinematográficas y rápidas. Priorizar la interacción con facciones y NPCs memorables. El fallo siempre avanza la historia: si fallas en una negociación, el NPC puede convertirse en enemigo, pero eso abre nuevas puertas.",
-    "pbta": "Usar movimientos como 'Desafiar el Peligro' (explorar Undermountain, esquivar trampas) y 'Leer una Situación' (investigar crímenes en Waterdeep). Los fallos parciales (7-9) son perfectos para la política de facciones: logras tu objetivo pero te ganás un enemigo. Los vínculos entre personajes y NPCs de las facciones son centrales.",
-    "year_zero": "Recursos escasos en Icewind Dale y Undermountain: antorchas, raciones, flechas. El estrés aumenta en las profundidades de la mazmorra. Empujar dados = arriesgar equipo o sufrir heridas. La gestión de suministros es vital en expediciones largas. Cada descanso es una decisión estratégica.",
-    "dnd_5e": "Motor nativo de los Reinos Olvidados. Usar clases, razas y hechizos del SRD. Waterdeep permite acceso a todo tipo de equipo y servicios. Las facciones ofrecen trasfondos naturales. Undermountain es el dungeon crawl definitivo. Combate táctico con posicionamiento y habilidades de clase."
+    "story_mode": "Enfocarse en la exploración de Valdrun y las decisiones morales. Las batallas son cinematográficas y rápidas. Priorizar la interacción con facciones y NPCs memorables. El fallo siempre avanza la historia: si fallas en una negociación, el NPC puede convertirse en enemigo, pero eso abre nuevas puertas.",
+    "pbta": "Usar movimientos como 'Desafiar el Peligro' (explorar Bajomonte, esquivar trampas) y 'Leer una Situación' (investigar crímenes en Puerto Corona). Los fallos parciales (7-9) son perfectos para la política de facciones: logras tu objetivo pero te ganás un enemigo. Los vínculos entre personajes y NPCs de las facciones son centrales.",
+    "year_zero": "Recursos escasos en Valle Ventisca y Bajomonte: antorchas, raciones, flechas. El estrés aumenta en las profundidades de la mazmorra. Empujar dados = arriesgar equipo o sufrir heridas. La gestión de suministros es vital en expediciones largas. Cada descanso es una decisión estratégica.",
+    "dnd_5e": "Motor nativo de los Reinos de Valdrun. Usar clases, razas y hechizos del SRD. Puerto Corona permite acceso a todo tipo de equipo y servicios. Las facciones ofrecen trasfondos naturales. Bajomonte es el dungeon crawl definitivo. Combate táctico con posicionamiento y habilidades de clase."
   },
-  "tutorial_notes": "Para jugadores NOVICE: Comenzar en la Taberna del Portal Bostezante con una misión simple del Gremio. Introducir conceptos gradualmente: primero exploración (recorrer Waterdeep), luego interacción social (hablar con NPCs en la taberna), y finalmente combate (un encuentro fácil con goblins). Usar a Durnan como guía sutil que ofrece consejos. Evitar la jerga de D&D al principio — decir 'intentá hacerlo' en lugar de 'hacé una tirada de habilidad'. Phandalin es perfecto para primeras aventuras completas.",
+  "tutorial_notes": "Para jugadores NOVICE: Comenzar en la Taberna del Pozo del Dragón con una misión simple del Gremio. Introducir conceptos gradualmente: primero exploración (recorrer Puerto Corona), luego interacción social (hablar con NPCs en la taberna), y finalmente combate (un encuentro fácil con goblins). Usar a Dorvan como guía sutil que ofrece consejos. Evitar la jerga de D&D al principio — decir 'intentá hacerlo' en lugar de 'hacé una tirada de habilidad'. Vadolar es perfecto para primeras aventuras completas.",
   "glossary": {
-    "Costa de la Espada": "Región costera del noroeste de Faerûn, hogar de las ciudades más importantes como Waterdeep y Baldur's Gate",
-    "Faerûn": "El continente principal del mundo de los Reinos Olvidados, donde transcurren las aventuras",
-    "Undermountain": "La mazmorra más grande del mundo, creada por el archimago loco Halaster Blackcloak bajo Waterdeep",
-    "Infraoscuridad": "Red de túneles y cavernas subterráneas que se extiende por debajo de toda la superficie de Faerûn. Hogar de drow, duergar y aberraciones",
-    "Drow": "Elfos oscuros que viven en la Infraoscuridad, conocidos por su crueldad y su adoración a la diosa araña Lolth",
-    "Tejido de la Magia": "La red invisible de energía mágica que envuelve el mundo. Todos los hechizos funcionan manipulando el Tejido, controlado por la diosa Mystra",
+    "Costa del Alba": "Región costera del noroeste de Valdrun, hogar de las ciudades más importantes como Puerto Corona y Ambergate",
+    "Valdrun": "El continente principal del mundo de los Reinos de Valdrun, donde transcurren las aventuras",
+    "Bajomonte": "La mazmorra más grande del mundo, creada por el archimago loco Vharen el Insondable bajo Puerto Corona",
+    "Hondura Sombría": "Red de túneles y cavernas subterráneas que se extiende por debajo de toda la superficie de Valdrun. Hogar de umbríos, duergar y aberraciones",
+    "Umbrío": "Elfos oscuros que viven en la Hondura Sombría, conocidos por su crueldad y su adoración a la diosa araña Vhissra",
+    "Tejido de la Magia": "La red invisible de energía mágica que envuelve el mundo. Todos los hechizos funcionan manipulando el Tejido, controlado por la diosa Lysara",
     "Gremio de Aventureros": "Organización que coordina misiones, recompensas y contratos para aventureros profesionales",
-    "Puño Llameante": "La milicia mercenaria de Baldur's Gate, conocida por su brutalidad tanto con criminales como con inocentes",
-    "Señores Enmascarados": "Los gobernantes secretos de Waterdeep, cuya identidad es uno de los mayores misterios de la ciudad",
-    "Palantír": "Las Piedras Videntes no existen en Faerûn — aquí se usan bolas de cristal y espejos mágicos para la adivinación",
+    "Guardia Escarlata": "La milicia mercenaria de Ambergate, conocida por su brutalidad tanto con criminales como con inocentes",
+    "Señores Enmascarados": "Los gobernantes secretos de Puerto Corona, cuya identidad es uno de los mayores misterios de la ciudad",
+    "Piedras Videntes": "No existen en Valdrun — aquí se usan bolas de cristal y espejos mágicos para la adivinación",
     "Tiefling": "Personas con sangre demoníaca en sus venas, reconocibles por sus cuernos, cola y ojos sin pupila. Sufren prejuicio social",
     "Aasimar": "Personas con sangre celestial, tocadas por los dioses. A menudo tienen una misión divina que cumplir",
     "Mithral": "Metal precioso extremadamente ligero y resistente, usado para forjar las mejores armaduras y armas",
@@ -2078,24 +2416,24 @@
   },
   "legends_and_myths": [
     {
-      "title": "La Caída de Netheril",
-      "story": "Hace miles de años, el imperio de Netheril fue la civilización mágica más poderosa que jamás existió. Sus ciudades flotaban en el cielo, sostenidas por magia pura. Sus archimagos manipulaban la realidad como arcilla. Pero Karsus, el más ambicioso de todos, intentó robar la divinidad de Mystryl, diosa de la magia. Por un instante terrible, lo logró — y la magia de todo el mundo falló. Las ciudades cayeron del cielo como meteoros. Mystryl murió para salvar el Tejido y renació como Mystra, pero el daño estaba hecho. Netheril se convirtió en desierto, y desde entonces, ningún mortal puede lanzar hechizos del más alto nivel."
+      "title": "La Caída de Netharion",
+      "story": "Hace miles de años, el imperio de Netharion fue la civilización mágica más poderosa que jamás existió. Sus ciudades flotaban en el cielo, sostenidas por magia pura. Sus archimagos manipulaban la realidad como arcilla. Pero Karvex, el más ambicioso de todos, intentó robar la divinidad de Lysariel, diosa de la magia. Por un instante terrible, lo logró — y la magia de todo el mundo falló. Las ciudades cayeron del cielo como meteoros. Lysariel murió para salvar el Tejido y renació como Lysara, pero el daño estaba hecho. Netharion se convirtió en desierto, y desde entonces, ningún mortal puede lanzar hechizos del más alto nivel."
     },
     {
-      "title": "El Tiempo de las Tribulaciones",
-      "story": "Los dioses caminaron por Faerûn como mortales. Ao, el dios supremo, los expulsó de sus dominios celestiales como castigo por su arrogancia. Sin sus poderes divinos completos, los dioses vagaron entre los mortales, vulnerables y desesperados. Algunos murieron. Bane, dios de la tiranía, cayó. Myrkul, dios de la muerte, fue destruido. Pero nuevos dioses surgieron de entre los mortales: Cyric, el Príncipe de las Mentiras, ascendió al panteón, y Midnight se convirtió en la nueva Mystra. El mundo nunca fue el mismo."
+      "title": "Cuando los Dioses Caminaron",
+      "story": "Los dioses caminaron por Valdrun como mortales. Aón, el dios supremo, los expulsó de sus dominios celestiales como castigo por su arrogancia. Sin sus poderes divinos completos, los dioses vagaron entre los mortales, vulnerables y desesperados. Algunos murieron. Tyrannos, dios de la tiranía, cayó. Necros, dios de la muerte, fue destruido. Pero nuevos dioses surgieron de entre los mortales: Falax, el Príncipe de las Mentiras, ascendió al panteón, y una mortal llamada Selara se convirtió en la nueva Lysara. El mundo nunca fue el mismo."
     },
     {
-      "title": "Drizzt y la Huida de Menzoberranzan",
-      "story": "En las profundidades de la Infraoscuridad, en la ciudad drow de Menzoberranzan, nació un elfo oscuro que se negó a aceptar la crueldad de su pueblo. Drizzt Do'Urden rechazó a Lolth, la diosa araña, y huyó hacia la superficie. Solo, odiado por su propia raza y temido por los habitantes de la superficie, encontró su camino hacia Icewind Dale. Allí, con sus cimitarras Centella y Muerte de Hielo, se ganó la confianza de un enano terco llamado Bruenor, un halfling valiente llamado Regis, y una mujer bárbara llamada Catti-brie. Demostró que el linaje no define el destino."
+      "title": "Zhaerin y la Huida de Sombracava",
+      "story": "En las profundidades de la Hondura Sombría, en la ciudad umbría de Sombracava, nació un elfo oscuro que se negó a aceptar la crueldad de su pueblo. Zhaerin Vel'Zar rechazó a Vhissra, la diosa araña, y huyó hacia la superficie. Solo, odiado por su propia raza y temido por los habitantes de la superficie, encontró su camino hacia Valle Ventisca. Allí, con sus cimitarras Centella y Vendaval, se ganó la confianza de un enano terco llamado Brungar, un halfling valiente llamado Renny, y una mujer bárbara llamada Kessa. Demostró que el linaje no define el destino."
     },
     {
-      "title": "Halaster y la Creación de Undermountain",
-      "story": "Halaster Blackcloak era un archimago de poder inconmensurable que llegó al Monte Waterdeep buscando soledad para sus experimentos. Encontró los túneles de los enanos de Melairbode y decidió hacerlos suyos. Comenzó a excavar, expandir, y poblar los niveles con criaturas de todo el multiverso. Nivel tras nivel, durante siglos, creó la mazmorra más grande del mundo. Pero la magia que usó lo transformó. Algunos dicen que enloqueció. Otros dicen que siempre estuvo loco y simplemente dejó de disimularlo. Lo cierto es que Undermountain es tanto su hogar como su obra maestra, y Halaster no tiene intención de dejar que nadie la destruya."
+      "title": "Vharen y la Creación de Bajomonte",
+      "story": "Vharen el Insondable era un archimago de poder inconmensurable que llegó al Monte Puerto Corona buscando soledad para sus experimentos. Encontró los túneles de los enanos de Melgrun y decidió hacerlos suyos. Comenzó a excavar, expandir, y poblar los niveles con criaturas de todo el multiverso. Nivel tras nivel, durante siglos, creó la mazmorra más grande del mundo. Pero la magia que usó lo transformó. Algunos dicen que enloqueció. Otros dicen que siempre estuvo loco y simplemente dejó de disimularlo. Lo cierto es que Bajomonte es tanto su hogar como su obra maestra, y Vharen no tiene intención de dejar que nadie la destruya."
     },
     {
-      "title": "La Forja de Hechizos y Gauntlgrym",
-      "story": "Bajo las montañas del norte existe Gauntlgrym, la legendaria ciudad enana que alberga una forja alimentada por un primordial de fuego encadenado. En esta forja se crearon algunas de las armas más poderosas de la historia de Faerûn. Pero la ciudad fue abandonada y olvidada durante milenios, y el primordial luchó contra sus cadenas. Cuando casi escapó, la erupción volcánica que destruyó Neverwinter fue apenas una fracción de su poder. Ahora, aventureros buscan Gauntlgrym por su forja legendaria, pero liberarla significaría desatar un cataclismo que haría parecer pequeña la destrucción de Neverwinter."
+      "title": "La Forja de Hechizos y Khargrym",
+      "story": "Bajo las montañas del norte existe Khargrym, la legendaria ciudad enana que alberga una forja alimentada por un primordial de fuego encadenado. En esta forja se crearon algunas de las armas más poderosas de la historia de Valdrun. Pero la ciudad fue abandonada y olvidada durante milenios, y el primordial luchó contra sus cadenas. Cuando casi escapó, la erupción volcánica que destruyó Brasaeterna fue apenas una fracción de su poder. Ahora, aventureros buscan Khargrym por su forja legendaria, pero liberarla significaría desatar un cataclismo que haría parecer pequeña la destrucción de Brasaeterna."
     }
   ]
 }

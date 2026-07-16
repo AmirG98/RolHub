@@ -6,7 +6,7 @@ import { Howl } from 'howler'
 interface UseAmbientSoundOptions {
   lore: string
   mood: string
-  scene?: string           // Current scene name (e.g., "Posada del Pony Pisador")
+  scene?: string           // Current scene name (e.g., "Posada del Jabalí Dorado")
   enabled?: boolean
   volume?: number          // 0-1, default 0.20
   fadeInMs?: number        // Fade in duration, default 2000

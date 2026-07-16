@@ -37,8 +37,8 @@ export const LORES = [
   },
   {
     id: 'STAR_WARS',
-    name: 'Guerra de las Galaxias',
-    tagline: 'La Fuerza, Jedis y el Imperio',
+    name: 'Frontera Estelar',
+    tagline: 'La Corriente, Jedis y el Imperio',
     description: 'Sables de luz en una galaxia muy lejana',
     icon: '⭐',
     color: '#FF6C11',

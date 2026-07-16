@@ -30,7 +30,7 @@ const archetypes = [
     skills: 'Cerraduras, trampas, sigilo, parkour.',
     motivation: 'Dinero, desafio, supervivencia.',
     weakness: 'La codicia puede superar la prudencia.',
-    examples: ['Bilbo', 'Flynn Rider', 'Catwoman'],
+    examples: ['el mediano ladronzuelo de las fábulas', 'Flynn Rider', 'Catwoman'],
   },
   {
     name: 'El Asesino',
@@ -62,7 +62,7 @@ const archetypes = [
     skills: 'Rastreo, navegacion, percepcion, primeros auxilios.',
     motivation: 'Guiar al grupo, encontrar el camino.',
     weakness: 'Adelantarse significa estar solo cuando algo sale mal.',
-    examples: ['Aragorn (parcialmente)', 'Legolas', 'Sam Fisher'],
+    examples: ['el montaraz misterioso (parcialmente)', 'el arquero élfico legendario', 'Sam Fisher'],
   },
   {
     name: 'El Estafador',

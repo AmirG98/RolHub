@@ -133,13 +133,13 @@ export interface SubmapTheme {
 export const SUBMAP_THEMES: Record<string, SubmapTheme> = {
   LOTR: {
     nodeNames: {
-      street: ['Calle del Rey', 'Sendero de los Hobbits', 'Camino Élfico', 'Vía de los Enanos'],
+      street: ['Calle del Rey', 'Sendero de los Medianos', 'Camino Élfico', 'Vía de los Enanos'],
       plaza: ['Plaza del Árbol Blanco', 'Explanada del Concilio', 'Patio de los Anillos'],
-      tavern: ['El Poney Pisador', 'La Última Casa', 'Taberna del Dragón Verde'],
+      tavern: ['El Jabalí Dorado', 'La Última Casa', 'Taberna del Ganso Dorado'],
       temple: ['Salón de los Reyes', 'Templo de Eru', 'Santuario de Elbereth'],
-      market: ['Mercado de Bree', 'Feria de la Comarca', 'Bazares de Dale'],
+      market: ['Mercado de Vado Viejo', 'Feria de la Vega Mansa', 'Bazares de Dale'],
       room: ['Cámara de Mithril', 'Salón del Trono', 'Cripta Antigua'],
-      clearing: ['Claro de Lothlórien', 'Explanada del Bosque', 'Prado de Ithilien'],
+      clearing: ['Claro de Aurelion', 'Explanada del Bosque', 'Prado de Ithilien'],
       tower: ['Torre de Vigilancia', 'Atalaya Élfica', 'Bastión del Norte'],
     },
     descriptions: {
@@ -235,14 +235,14 @@ export const SUBMAP_THEMES: Record<string, SubmapTheme> = {
       street: ['Corredor Principal', 'Pasillo de Servicio', 'Hangar Bay', 'Conducto de Escape'],
       plaza: ['Centro de Comando', 'Bahía de Carga', 'Puente de la Nave'],
       tavern: ['Cantina', 'Sala de Descanso', 'Comedor de la Tripulación'],
-      temple: ['Templo Jedi', 'Cámara del Consejo', 'Sala de Meditación'],
+      temple: ['Templo Vael', 'Cámara del Consejo', 'Sala de Meditación'],
       market: ['Comerciante de Chatarra', 'Armero', 'Traficante de Información'],
       room: ['Celda de Detención', 'Sala de Máquinas', 'Centro de Control'],
       clearing: ['Superficie del Planeta', 'Zona de Aterrizaje', 'Campo de Batalla'],
       tower: ['Torre de Control', 'Torreta de Defensa', 'Antena de Comunicaciones'],
     },
     descriptions: {
-      street: ['Droides de servicio se mueven por los pasillos', 'Pantallas holográficas muestran datos'],
+      street: ['Autómatas de servicio se mueven por los pasillos', 'Pantallas holográficas muestran datos'],
       plaza: ['El zumbido de los hiperdirectores resuena', 'Naves entran y salen del hangar'],
       room: ['Consolas parpadean con advertencias', 'El aire huele a ozono y aceite'],
     },
