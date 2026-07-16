@@ -126,6 +126,11 @@ export default function HomePage() {
           <Link href="/refunds" className="hover:text-gold transition">Refunds</Link>
           <span className="text-gold-dim/30">|</span>
           <Link href="/pricing" className="hover:text-gold transition">Pricing</Link>
+          <span className="text-gold-dim/30">|</span>
+          {/* Contacto público — requisito de verificación de Paddle */}
+          <a href="mailto:contact@rol-hub.com" className="hover:text-gold transition">
+            contact@rol-hub.com
+          </a>
         </div>
       </div>
     </div>
