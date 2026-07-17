@@ -35,5 +35,11 @@ export const LS_VARIANTS = {
 } as const
 
 export function variantForPeriod(period: 'monthly' | 'yearly'): string {
-  return period === 'yearly' ? LS_VARIANTS.PRO_YEARLY : LS_VARIANTS.PRO_MONTHLY
+  // Si no hay variante anual configurada, cae a la mensual (soporta el caso
+  // de tener solo el plan mensual creado en LS).
+  if (period === 'yearly') return LS_VARIANTS.PRO_YEARLY || LS_VARIANTS.PRO_MONTHLY
+  return LS_VARIANTS.PRO_MONTHLY
 }
+
+/** ¿Hay un plan anual configurado? (para ocultar el toggle en la UI si no) */
+export const HAS_YEARLY_PLAN = !!process.env.LEMONSQUEEZY_VARIANT_YEARLY
