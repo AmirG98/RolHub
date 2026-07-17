@@ -24,8 +24,6 @@ const isPublicRoute = createRouteMatcher([
   '/api/webhooks/lemonsqueezy',
   // Cron de Vercel - protegido por CRON_SECRET dentro del route
   '/api/cron(.*)',
-  // Diagnóstico temporal de billing - protegido por CRON_SECRET dentro del route
-  '/api/billing/diag',
   // Guest routes - permiten jugar sin cuenta
   '/guest(.*)',
   '/play-guest(.*)',
