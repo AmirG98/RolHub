@@ -1,9 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@clerk/nextjs/server'
 import { prisma } from '@/lib/db/prisma'
+import { getSubscription } from '@lemonsqueezy/lemonsqueezy.js'
+import { ensureLemonSqueezy } from '@/lib/lemonsqueezy'
 
-// Paddle usa su propio portal de cancelación — retornamos la URL
-// Los usuarios gestionan su suscripción directamente en Paddle
+// Lemon Squeezy provee URLs de gestión (update_payment_method, customer_portal)
+// dentro de cada suscripción. Las devolvemos para que el usuario gestione o
+// cancele su plan.
 export async function POST(req: NextRequest) {
   try {
     const { userId: clerkId } = await auth()
@@ -20,24 +23,26 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'No tienes una suscripción activa' }, { status: 400 })
     }
 
-    // Paddle gestiona la cancelación via su propio portal
-    // El usuario puede cancelar desde el email de confirmación de Paddle
-    // o podemos cancelar programáticamente
-    const { getPaddle } = await import('@/lib/paddle')
-    const paddle = getPaddle()
+    ensureLemonSqueezy()
+    const sub = await getSubscription(user.stripeSubscriptionId)
 
-    const subscription = await paddle.subscriptions.get(user.stripeSubscriptionId)
+    if (sub.error) {
+      console.error('[portal] LS error:', sub.error)
+      return NextResponse.json({ error: 'Error al obtener la suscripción' }, { status: 502 })
+    }
 
+    const attrs = sub.data?.data.attributes
     return NextResponse.json({
-      subscriptionId: subscription.id,
-      status: subscription.status,
-      managementUrls: subscription.managementUrls,
+      subscriptionId: user.stripeSubscriptionId,
+      status: attrs?.status,
+      // URLs firmadas de LS para gestionar/cancelar (válidas 24h)
+      customerPortalUrl: attrs?.urls?.customer_portal ?? null,
+      updatePaymentUrl: attrs?.urls?.update_payment_method ?? null,
+      renewsAt: attrs?.renews_at ?? null,
+      endsAt: attrs?.ends_at ?? null,
     })
   } catch (error) {
     console.error('Portal error:', error)
-    return NextResponse.json(
-      { error: 'Error al obtener info de suscripción' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Error al obtener info de suscripción' }, { status: 500 })
   }
 }

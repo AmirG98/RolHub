@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation'
 import { useTranslations } from '@/lib/i18n'
 import { Check, Crown, Sparkles, Scroll, Shield } from 'lucide-react'
 import { PLAN_CONFIG } from '@/lib/plans/plan-config'
-import { initializePaddle, type Paddle } from '@paddle/paddle-js'
 import Link from 'next/link'
 
 export default function PricingPage() {
@@ -15,24 +14,6 @@ export default function PricingPage() {
   const router = useRouter()
   const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'yearly'>('monthly')
   const [loading, setLoading] = useState(false)
-  const [paddle, setPaddle] = useState<Paddle | null>(null)
-
-  // Inicializar Paddle.js
-  useEffect(() => {
-    const clientToken = process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN
-    if (!clientToken) return
-
-    initializePaddle({
-      token: clientToken,
-      environment: 'production',
-      eventCallback: (event) => {
-        if (event.name === 'checkout.completed') {
-          // Redirigir después de pago exitoso
-          router.push('/?upgraded=true')
-        }
-      },
-    }).then(p => { if (p) setPaddle(p) })
-  }, [router])
 
   const price = billingPeriod === 'monthly'
     ? PLAN_CONFIG.PRO.priceMonthly
@@ -57,26 +38,15 @@ export default function PricingPage() {
       })
       const data = await res.json()
 
-      if (data.priceId && paddle) {
-        // Abrir Paddle overlay checkout
-        paddle.Checkout.open({
-          items: [{ priceId: data.priceId, quantity: 1 }],
-          customer: data.paddleCustomerId
-            ? { id: data.paddleCustomerId }
-            : { email: data.customerEmail },
-          customData: data.customData,
-          settings: {
-            theme: 'dark',
-            successUrl: `${window.location.origin}/?upgraded=true`,
-          },
-        })
-      } else if (!paddle) {
-        // Paddle no inicializado (no hay client token) — redirigir a registro
-        router.push('/register')
+      // Lemon Squeezy: checkout hosteado — redirigir a la URL devuelta
+      if (data.url) {
+        window.location.href = data.url
+      } else {
+        // Sin URL (checkout no configurado / error) — no bloquear al usuario
+        console.warn('Checkout no disponible:', data.error)
+        setLoading(false)
       }
     } catch {
-      // Error — fallback
-    } finally {
       setLoading(false)
     }
   }
