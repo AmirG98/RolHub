@@ -20,8 +20,8 @@ const isPublicRoute = createRouteMatcher([
   '/refunds',
   // Pricing - público para que cualquiera vea los planes
   '/pricing',
-  // Paddle webhook - no tiene auth de Clerk, usa su propia firma
-  '/api/webhooks/paddle',
+  // Webhook de billing (Lemon Squeezy) — sin auth de Clerk, verifica su firma HMAC
+  '/api/webhooks/lemonsqueezy',
   // Cron de Vercel - protegido por CRON_SECRET dentro del route
   '/api/cron(.*)',
   // Guest routes - permiten jugar sin cuenta
