@@ -14,6 +14,7 @@ export default function PricingPage() {
   const router = useRouter()
   const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'yearly'>('monthly')
   const [loading, setLoading] = useState(false)
+  const [checkoutError, setCheckoutError] = useState<string | null>(null)
 
   const price = billingPeriod === 'monthly'
     ? PLAN_CONFIG.PRO.priceMonthly
@@ -30,6 +31,7 @@ export default function PricingPage() {
     }
 
     setLoading(true)
+    setCheckoutError(null)
     try {
       const res = await fetch('/api/billing/create-checkout', {
         method: 'POST',
@@ -39,14 +41,18 @@ export default function PricingPage() {
       const data = await res.json()
 
       // Lemon Squeezy: checkout hosteado — redirigir a la URL devuelta
-      if (data.url) {
+      if (res.ok && data.url) {
         window.location.href = data.url
       } else {
-        // Sin URL (checkout no configurado / error) — no bloquear al usuario
-        console.warn('Checkout no disponible:', data.error)
+        // Mostrar el error al usuario en vez de fallar en silencio
+        const msg = data.error || 'No pudimos abrir el checkout. Intentá de nuevo en unos minutos.'
+        console.error('[checkout] error:', res.status, data)
+        setCheckoutError(msg)
         setLoading(false)
       }
-    } catch {
+    } catch (err) {
+      console.error('[checkout] network error:', err)
+      setCheckoutError('Error de conexión. Revisá tu internet e intentá de nuevo.')
       setLoading(false)
     }
   }
@@ -167,6 +173,12 @@ export default function PricingPage() {
           >
             {loading ? '...' : t.pricing.subscribe}
           </button>
+
+          {checkoutError && (
+            <p className="mt-3 text-center font-body text-sm text-blood">
+              {checkoutError}
+            </p>
+          )}
         </div>
 
         {/* FAQ */}
