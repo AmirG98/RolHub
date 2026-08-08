@@ -77,18 +77,18 @@ export function TypewriterText({
 
   const effectiveSpeed = speed ?? VARIANT_SPEEDS[variant]
 
-  // Función para calcular delay del siguiente caracter
-  const getNextDelay = useCallback((char: string, nextChars: string): number => {
+  // Delay del siguiente caracter en un ref (no dep del efecto de animación,
+  // así el efecto no se reinicia por identidad de callback → evita el bug de
+  // "una letra y después todo de golpe" causado por reinicios en cadena).
+  const getNextDelayRef = useRef<(char: string, nextChars: string) => number>(() => effectiveSpeed)
+  getNextDelayRef.current = (char: string, nextChars: string): number => {
     if (!pauseOnPunctuation) return effectiveSpeed
-
-    // Detectar "..."
     if (char === '.' && nextChars.startsWith('..')) {
       return effectiveSpeed * PUNCTUATION_DELAYS['...']
     }
-
     const delay = PUNCTUATION_DELAYS[char]
     return delay ? effectiveSpeed * delay : effectiveSpeed
-  }, [effectiveSpeed, pauseOnPunctuation])
+  }
 
   // Efecto de typewriter
   useEffect(() => {
@@ -128,7 +128,7 @@ export function TypewriterText({
       indexRef.current += 1
       onUpdateRef.current?.()
 
-      const delay = getNextDelay(char, remainingText)
+      const delay = getNextDelayRef.current(char, remainingText)
       timeoutRef.current = setTimeout(typeNextChar, delay)
     }
 
@@ -137,7 +137,10 @@ export function TypewriterText({
     return () => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current)
     }
-  }, [isStarted, isComplete, text, effectiveSpeed, getNextDelay])
+    // Solo isStarted/text/effectiveSpeed en deps — NO isComplete ni getNextDelay,
+    // que causaban reinicios del efecto (bug de "una letra + resto de golpe").
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isStarted, text, effectiveSpeed])
 
   // Skip animation on click
   const handleClick = useCallback(() => {

@@ -81,3 +81,42 @@ describe('parseDMResponse — degradación total', () => {
     expect(r.data.narration).toBe('Solo texto narrativo sin JSON.')
   })
 })
+
+describe('stripEmbeddedJson — JSON embebido en la narración (bug del screenshot)', () => {
+  it('quita un dice_request embebido con fence ```json', async () => {
+    const { parseDMResponse } = await import('@/lib/claude/parse-dm-response')
+    // Caso real: el DM metió el dice_request dentro de narration con fence
+    const raw = JSON.stringify({
+      narration: 'Beredin te mira intently. ```json { "dice_request": { "reason": "Social", "formula": "1d20+2", "type": "social" } }``` **¿Qué hacés?**',
+      suggested_actions: ['a', 'b'],
+    })
+    const r = parseDMResponse(raw)
+    expect(r.data.narration).not.toContain('dice_request')
+    expect(r.data.narration).not.toContain('```')
+    expect(r.data.narration).not.toContain('{')
+    expect(r.data.narration).toContain('Beredin te mira')
+    expect(r.data.narration).toContain('¿Qué hacés?')
+  })
+
+  it('quita un objeto JSON estructurado sin fence', async () => {
+    const { stripEmbeddedJson } = await import('@/lib/claude/parse-dm-response')
+    const narr = 'El mercader habla. {"combat_trigger": {"enemies": []}} Y sigue la escena.'
+    const out = stripEmbeddedJson(narr)
+    expect(out).not.toContain('combat_trigger')
+    expect(out).toContain('El mercader habla')
+    expect(out).toContain('Y sigue la escena')
+  })
+
+  it('NO toca objetos JSON que no son campos del DMResponse (ej: diálogo con llaves)', async () => {
+    const { stripEmbeddedJson } = await import('@/lib/claude/parse-dm-response')
+    const narr = 'El sabio dice: "el ritual necesita { luna llena }".'
+    // no tiene keys estructuradas → se preserva
+    expect(stripEmbeddedJson(narr)).toContain('luna llena')
+  })
+
+  it('narración limpia pasa sin cambios', async () => {
+    const { stripEmbeddedJson } = await import('@/lib/claude/parse-dm-response')
+    const narr = 'El sol despunta sobre Vado Viejo. Beredin te saluda.'
+    expect(stripEmbeddedJson(narr)).toBe(narr)
+  })
+})

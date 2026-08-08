@@ -63,8 +63,27 @@ export interface ParsedDMResult<T = Record<string, unknown>> {
 }
 
 /**
+ * Limpia la narración de bloques JSON/estructurados que el modelo a veces
+ * EMBEBE dentro del texto (bug observado: el DM metía ```json {"dice_request":
+ * ...}``` dentro de narration en vez de como campo hermano). Sin esto, el
+ * jugador ve el JSON crudo en medio de la historia.
+ */
+export function stripEmbeddedJson(narration: string): string {
+  let text = narration
+  // 1. Fences de código con JSON (```json {...} ``` o ``` {...} ```)
+  text = text.replace(/```(?:json)?\s*\{[\s\S]*?\}\s*```/gi, '')
+  // 2. Objetos JSON sueltos que contengan campos estructurados conocidos del
+  //    DMResponse (dice_request, combat_trigger, etc.) embebidos en el texto.
+  const STRUCTURED_KEY = /"(?:dice_request|dice_required|combat_trigger|quest_create|world_state_updates|ability_used|scene_change|hp_change|new_item|npc_update|suggested_actions)"\s*:/
+  text = text.replace(/\{[\s\S]*?\}/g, (m) => (STRUCTURED_KEY.test(m) ? '' : m))
+  // 3. Backticks sueltos y espacios/saltos colgantes que quedan tras el corte
+  text = text.replace(/`{1,3}/g, '').replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n')
+  return text.trim()
+}
+
+/**
  * Parsea la respuesta cruda del DM de forma robusta. Nunca devuelve JSON
- * crudo como narración.
+ * crudo como narración (ni entero ni embebido en el texto).
  */
 export function parseDMResponse<T = Record<string, unknown>>(
   rawResponse: string
@@ -74,6 +93,8 @@ export function parseDMResponse<T = Record<string, unknown>>(
     try {
       const parsed = JSON.parse(jsonMatch[0])
       if (parsed && typeof parsed.narration === 'string') {
+        // Sanear la narración de JSON embebido (fences, objetos estructurados)
+        parsed.narration = stripEmbeddedJson(parsed.narration)
         return { data: parsed, fullParse: true }
       }
       // parseó pero sin narration válida → intentar extraer
@@ -85,7 +106,7 @@ export function parseDMResponse<T = Record<string, unknown>>(
   // Degradación 1: extraer solo el campo narration del JSON parcial
   const narration = extractNarrationField(rawResponse)
   if (narration && narration.trim().length > 0) {
-    return { data: { narration } as T & { narration: string }, fullParse: false }
+    return { data: { narration: stripEmbeddedJson(narration) } as T & { narration: string }, fullParse: false }
   }
 
   // Degradación 2: limpiar artefactos JSON del crudo

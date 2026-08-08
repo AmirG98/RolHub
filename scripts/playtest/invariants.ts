@@ -104,12 +104,13 @@ export function checkTurn(
   // ── Contrato de la respuesta ─────────────────────────────────────
   const narration: string = typeof body?.narration === 'string' ? body.narration : ''
 
-  // JSON crudo filtrado en la narración (bug de parseo truncado). Determinístico.
-  if (/"narration"\s*:|","character_name"|","hp_change"/.test(narration)) {
+  // JSON crudo filtrado en la narración. Cubre tanto el JSON truncado como el
+  // JSON estructurado EMBEBIDO en el texto (```json {"dice_request":...}```).
+  if (/"narration"\s*:|","character_name"|","hp_change"|"dice_request"\s*:|"combat_trigger"\s*:|```json/.test(narration)) {
     findings.push(
       finding(tracker, turnIndex, 'P0', 'raw_json_in_narration',
-        'La narración contiene JSON crudo — el parseo de la respuesta del DM falló',
-        ev, ['app/api/session/turn/route.ts', 'lib/claude/parse-dm-response.ts'], true)
+        'La narración contiene JSON crudo o embebido — el parseo/saneo de la respuesta del DM falló',
+        ev, ['lib/claude/parse-dm-response.ts'], true)
     )
   }
 
