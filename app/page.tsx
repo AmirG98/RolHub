@@ -2,7 +2,7 @@
 
 import { RunicButton } from '@/components/medieval/RunicButton'
 import Link from 'next/link'
-import { useTranslations } from '@/lib/i18n'
+import { useTranslations, useLanguage } from '@/lib/i18n'
 import { useUser, SignInButton, SignUpButton } from '@clerk/nextjs'
 
 // Los 3 lores soportados por el guest flow. Si el usuario NO está logueado y
@@ -27,6 +27,7 @@ const FEATURED_LORES = [
 
 export default function HomePage() {
   const t = useTranslations()
+  const { locale } = useLanguage()
   const { isSignedIn } = useUser()
 
   return (
@@ -49,13 +50,15 @@ export default function HomePage() {
             {t.home.subheadline}
           </p>
 
-          {/* Help link arriba de los CTAs (target: novatos) */}
+          {/* Help link arriba de los CTAs (target: novatos) — las guías son contenido en español */}
+          {locale === 'es' && (
           <div className="mb-5 md:mb-6">
             <Link href="/guias" className="inline-flex items-center gap-2 font-ui text-sm text-emerald hover:text-emerald/80 transition">
               <span className="text-lg">❓</span>
               {t.homeExtras.firstTime}
             </Link>
           </div>
+          )}
 
           {/* CTA buttons — dos caminos claros para no-logueados, un solo botón para logueados */}
           {isSignedIn ? (

@@ -5,7 +5,7 @@ import { UserButton, useUser } from '@clerk/nextjs'
 import Link from 'next/link'
 import { RunicButton } from './RunicButton'
 import { LanguageToggle } from '@/components/ui/LanguageToggle'
-import { useTranslations } from '@/lib/i18n'
+import { useTranslations, useLanguage } from '@/lib/i18n'
 import { Menu, X, HelpCircle } from 'lucide-react'
 import { PlanBadge } from '@/components/billing/PlanBadge'
 
@@ -14,6 +14,9 @@ export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [userPlan, setUserPlan] = useState<string | null>(null)
   const t = useTranslations()
+  const { locale } = useLanguage()
+  // Las guías (/guias) son contenido SEO en español; no linkearlas desde la UI en inglés
+  const showGuides = locale === 'es'
 
   // Fetch plan del usuario
   useEffect(() => {
@@ -47,11 +50,13 @@ export function Navbar() {
 
           {/* Desktop navigation */}
           <div className="hidden md:flex items-center gap-4 lg:gap-6">
+            {showGuides && (
             <Link href="/guias" className="font-heading text-sm lg:text-base text-parchment hover:text-emerald transition relative group flex items-center gap-1">
               <HelpCircle size={16} />
               {t.homeExtras.guides}
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-emerald group-hover:w-full transition-all"></span>
             </Link>
+            )}
             <Link href="/dados" className="font-heading text-sm lg:text-base text-parchment hover:text-gold transition relative group">
               🎲 {t.homeExtras.dice}
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gold group-hover:w-full transition-all"></span>
@@ -105,6 +110,7 @@ export function Navbar() {
         {isMenuOpen && (
           <div className="md:hidden mt-4 pb-4 border-t border-gold/20 pt-4 space-y-4">
             <div className="flex flex-col gap-3">
+              {showGuides && (
               <Link
                 href="/guias"
                 onClick={() => setIsMenuOpen(false)}
@@ -112,6 +118,7 @@ export function Navbar() {
               >
                 <HelpCircle size={18} /> {t.homeExtras.guidesPlay}
               </Link>
+              )}
               <Link
                 href="/dados"
                 onClick={() => setIsMenuOpen(false)}
