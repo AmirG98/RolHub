@@ -24,6 +24,7 @@ const isPublicRoute = createRouteMatcher([
   '/api/webhooks/polar',
   // Cron de Vercel - protegido por CRON_SECRET dentro del route
   '/api/cron(.*)',
+  '/api/billing/diag',
   // Guest routes - permiten jugar sin cuenta
   '/guest(.*)',
   '/play-guest(.*)',
