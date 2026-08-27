@@ -40,7 +40,7 @@ export default function PricingPage() {
       })
       const data = await res.json()
 
-      // Lemon Squeezy: checkout hosteado — redirigir a la URL devuelta
+      // Checkout hosteado (Polar) — redirigir a la URL devuelta
       if (res.ok && data.url) {
         window.location.href = data.url
       } else {
