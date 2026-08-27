@@ -28,7 +28,14 @@ export async function GET() {
   const allOk = Object.values(checks).every(c => c.status === 'ok')
 
   return NextResponse.json(
-    { status: allOk ? 'healthy' : 'degraded', checks, timestamp: new Date().toISOString() },
+    {
+      status: allOk ? 'healthy' : 'degraded',
+      checks,
+      // Flag operativo (no sensible): permite verificar desde afuera si el
+      // paywall está activo sin necesidad de una cuenta autenticada.
+      billing_enforced: process.env.BILLING_ENFORCED === 'true',
+      timestamp: new Date().toISOString(),
+    },
     { status: allOk ? 200 : 503 }
   )
 }
