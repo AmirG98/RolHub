@@ -30,11 +30,17 @@ const BLOCKLIST = [
   'Skywalker', 'lightsaber', 'sable de luz', 'wookiee', 'Coruscant',
   'Halcón Milenario', 'Millennium Falcon', 'padawan', 'holocrón', 'kyber',
   'mandaloriano', 'Estrella de la Muerte', 'Chewbacca', 'Han Solo', 'Obi-Wan',
+  'Naboo', 'Kashyyyk', 'Yavin', 'Ewok', 'ewok', 'Death Star', 'speeder',
+  'wretched hive',
+  // CD Projekt / R. Talsorian (Cyberpunk 2077 / Cyberpunk 2020)
+  'Night City', 'Arasaka', 'Club Afterlife', 'Afterlife Club', 'Trauma Team',
+  'Militech', 'Voodoo Boys', 'Blackwall', 'braindance', 'Silverhand',
   // Wizards of the Coast (Forgotten Realms — el SRD NO licencia el setting)
   'Reinos Olvidados', 'Forgotten Realms', 'Waterdeep', 'Faerûn', 'Faerun',
   'Portal Bostezante', 'Yawning Portal', 'Neverwinter', 'Menzoberranzan',
   'Undermountain', 'Zhentarim', 'Candlekeep', 'Phandalin', 'Lolth', 'Drizzt',
   'Elminster', 'Mystra', 'drow', 'Drow', 'beholder', 'illithid', 'mind flayer',
+  'City of Splendors',
   // Sarah J. Maas / ACOTAR / Fourth Wing
   'Velaris', 'Prythian', 'Illyrian', 'illyriana', 'illyriano', 'ACOTAR',
   'Hybern', 'Amarantha', 'Rhysand', 'Feyre', 'Basgiath',

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useCallback, useEffect, useMemo, useRef } from 'react'
+import { useLanguage } from '@/lib/i18n'
 import {
   Swords,
   Shield,
@@ -56,6 +57,8 @@ export function TacticalCombatPanel({
   onCombatAction,
   className = '',
 }: TacticalCombatPanelProps) {
+  const { locale } = useLanguage()
+  const isEn = locale === 'en'
   const [selectedAction, setSelectedAction] = useState<CombatActionType | null>(null)
   const [isProcessing, setIsProcessing] = useState(false)
   const [showCombatLog, setShowCombatLog] = useState(true)
@@ -150,7 +153,7 @@ export function TacticalCombatPanel({
             combatState,
             isEnemyTurn: true,
             enemyTokenId: currentTurnToken.id,
-            locale: 'es',
+            locale,
           }),
         })
 
@@ -230,7 +233,7 @@ export function TacticalCombatPanel({
       } catch (error) {
         console.error('Error ejecutando turno de enemigo:', error)
         // En caso de error, avanzar al siguiente turno después de un delay
-        setEnemyNarration('El enemigo vacila...')
+        setEnemyNarration(isEn ? 'The enemy hesitates...' : 'El enemigo vacila...')
         setTimeout(() => {
           const newState = advanceToNextTurn(combatState)
           onCombatUpdate(newState)
@@ -261,45 +264,45 @@ export function TacticalCombatPanel({
     const actions: { type: CombatActionType; label: string; icon: React.ReactNode; available: boolean; description: string }[] = [
       {
         type: 'attack',
-        label: 'Atacar',
+        label: isEn ? 'Attack' : 'Atacar',
         icon: <Swords className="w-4 h-4" />,
         available: !currentTurnToken.hasTakenAction,
-        description: 'Realizar un ataque cuerpo a cuerpo o a distancia',
+        description: isEn ? 'Make a melee or ranged attack' : 'Realizar un ataque cuerpo a cuerpo o a distancia',
       },
       {
         type: 'spell',
-        label: 'Hechizo',
+        label: isEn ? 'Spell' : 'Hechizo',
         icon: <Sparkles className="w-4 h-4" />,
         available: !currentTurnToken.hasTakenAction,
-        description: 'Lanzar un hechizo o habilidad mágica',
+        description: isEn ? 'Cast a spell or magical ability' : 'Lanzar un hechizo o habilidad mágica',
       },
       {
         type: 'move',
-        label: 'Mover',
+        label: isEn ? 'Move' : 'Mover',
         icon: <Footprints className="w-4 h-4" />,
         available: currentTurnToken.movementRemaining > 0,
-        description: `${currentTurnToken.movementRemaining}ft disponibles`,
+        description: isEn ? `${currentTurnToken.movementRemaining}ft remaining` : `${currentTurnToken.movementRemaining}ft disponibles`,
       },
       {
         type: 'dash',
-        label: 'Carrera',
+        label: isEn ? 'Dash' : 'Carrera',
         icon: <Zap className="w-4 h-4" />,
         available: !currentTurnToken.hasTakenAction,
-        description: 'Usar tu acción para movimiento extra',
+        description: isEn ? 'Use your action for extra movement' : 'Usar tu acción para movimiento extra',
       },
       {
         type: 'dodge',
-        label: 'Esquivar',
+        label: isEn ? 'Dodge' : 'Esquivar',
         icon: <Shield className="w-4 h-4" />,
         available: !currentTurnToken.hasTakenAction,
-        description: 'Ventaja en tiradas de salvación de DEX',
+        description: isEn ? 'Advantage on DEX saving throws' : 'Ventaja en tiradas de salvación de DEX',
       },
       {
         type: 'use_item',
-        label: 'Usar Item',
+        label: isEn ? 'Use Item' : 'Usar Item',
         icon: <Heart className="w-4 h-4" />,
         available: !currentTurnToken.hasTakenAction,
-        description: 'Usar una poción u otro objeto',
+        description: isEn ? 'Use a potion or other object' : 'Usar una poción u otro objeto',
       },
     ]
 
@@ -508,10 +511,10 @@ export function TacticalCombatPanel({
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
             <Swords className="w-5 h-5 text-blood" />
-            <span className="font-heading text-gold">COMBATE</span>
+            <span className="font-heading text-gold">{isEn ? 'COMBAT' : 'COMBATE'}</span>
           </div>
           <div className="text-sm text-parchment/70">
-            Ronda <span className="text-gold font-semibold">{combatState.roundNumber}</span>
+            {isEn ? 'Round' : 'Ronda'} <span className="text-gold font-semibold">{combatState.roundNumber}</span>
           </div>
         </div>
 
@@ -520,7 +523,7 @@ export function TacticalCombatPanel({
           <button
             onClick={() => setSoundEnabled(!soundEnabled)}
             className="p-1.5 rounded hover:bg-gold/10 text-parchment/60 hover:text-gold transition-colors"
-            title={soundEnabled ? 'Silenciar' : 'Activar sonido'}
+            title={soundEnabled ? (isEn ? 'Mute' : 'Silenciar') : (isEn ? 'Enable sound' : 'Activar sonido')}
           >
             {soundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
           </button>
@@ -531,7 +534,7 @@ export function TacticalCombatPanel({
             className={`p-1.5 rounded transition-colors ${
               showCombatLog ? 'bg-gold/10 text-gold' : 'text-parchment/60 hover:text-gold hover:bg-gold/10'
             }`}
-            title="Log de combate"
+            title={isEn ? 'Combat log' : 'Log de combate'}
           >
             <Scroll className="w-4 h-4" />
           </button>
@@ -542,7 +545,7 @@ export function TacticalCombatPanel({
             className="px-2 py-1 text-xs rounded bg-blood/20 text-blood hover:bg-blood/30 transition-colors flex items-center gap-1"
           >
             <Flag className="w-3 h-3" />
-            Huir
+            {isEn ? 'Flee' : 'Huir'}
           </button>
         </div>
       </div>
@@ -689,11 +692,11 @@ export function TacticalCombatPanel({
                         }}
                         className="text-xs text-parchment/50 hover:text-parchment"
                       >
-                        Cambiar
+                        {isEn ? 'Change' : 'Cambiar'}
                       </button>
                     </div>
                     <p className="text-xs text-parchment/70 mt-1">
-                      Haz clic en un enemigo para atacar con {selectedAttackOption.name}
+                      {isEn ? <>Click an enemy to attack with {selectedAttackOption.name}</> : <>Haz clic en un enemigo para atacar con {selectedAttackOption.name}</>}
                     </p>
                   </div>
                 )}
@@ -701,20 +704,20 @@ export function TacticalCombatPanel({
                 {/* Instrucciones según acción seleccionada */}
                 {selectedAction && !selectedAttackOption && (
                   <div className="mt-2 pt-2 border-t border-gold/20 text-xs text-parchment/70">
-                    {selectedAction === 'attack' && 'Haz clic en un enemigo para atacar'}
-                    {selectedAction === 'spell' && 'Haz clic en un objetivo para el hechizo'}
-                    {selectedAction === 'move' && 'Haz clic en una celda para moverte'}
+                    {selectedAction === 'attack' && (isEn ? 'Click an enemy to attack' : 'Haz clic en un enemigo para atacar')}
+                    {selectedAction === 'spell' && (isEn ? 'Click a target for the spell' : 'Haz clic en un objetivo para el hechizo')}
+                    {selectedAction === 'move' && (isEn ? 'Click a cell to move' : 'Haz clic en una celda para moverte')}
                     {selectedAction === 'dash' && (
                       <button onClick={() => handleExecuteAction()} className="text-gold hover:underline">
-                        Confirmar carrera
+                        {isEn ? 'Confirm dash' : 'Confirmar carrera'}
                       </button>
                     )}
                     {selectedAction === 'dodge' && (
                       <button onClick={() => handleExecuteAction()} className="text-gold hover:underline">
-                        Confirmar esquiva
+                        {isEn ? 'Confirm dodge' : 'Confirmar esquiva'}
                       </button>
                     )}
-                    {selectedAction === 'use_item' && 'Selecciona un item del inventario'}
+                    {selectedAction === 'use_item' && (isEn ? 'Pick an item from your inventory' : 'Selecciona un item del inventario')}
                   </div>
                 )}
               </div>
@@ -748,7 +751,7 @@ export function TacticalCombatPanel({
                 className="glass-panel-dark rounded-lg p-4 text-center"
               >
                 <div className="text-sm text-blood font-heading mb-2">
-                  Turno de {currentTurnToken.name}
+                  {isEn ? <>{currentTurnToken.name}&apos;s turn</> : <>Turno de {currentTurnToken.name}</>}
                 </div>
                 {enemyNarration ? (
                   <motion.div
@@ -761,7 +764,7 @@ export function TacticalCombatPanel({
                 ) : (
                   <div className="flex items-center justify-center gap-2 text-parchment/60 text-xs">
                     <RotateCcw className="w-4 h-4 animate-spin" />
-                    El DM está decidiendo...
+                    {isEn ? 'The DM is deciding...' : 'El DM está decidiendo...'}
                   </div>
                 )}
               </motion.div>
@@ -806,18 +809,18 @@ export function TacticalCombatPanel({
                       {entry.diceRoll && (
                         <div className="mt-1 text-parchment/60">
                           🎲 {entry.diceRoll.formula} = {entry.diceRoll.result}
-                          {entry.diceRoll.isCritical && <span className="text-gold ml-1">¡CRÍTICO!</span>}
-                          {entry.diceRoll.isFumble && <span className="text-blood ml-1">¡Pifia!</span>}
+                          {entry.diceRoll.isCritical && <span className="text-gold ml-1">{isEn ? 'CRITICAL!' : '¡CRÍTICO!'}</span>}
+                          {entry.diceRoll.isFumble && <span className="text-blood ml-1">{isEn ? 'Fumble!' : '¡Pifia!'}</span>}
                         </div>
                       )}
                       {entry.damage && (
                         <div className="text-blood">
-                          💥 {entry.damage.amount} daño {entry.damage.type}
+                          💥 {entry.damage.amount} {isEn ? 'damage' : 'daño'} {entry.damage.type}
                         </div>
                       )}
                       {entry.healing && (
                         <div className="text-green-400">
-                          💚 {entry.healing} curación
+                          💚 {entry.healing} {isEn ? 'healing' : 'curación'}
                         </div>
                       )}
                     </div>
@@ -844,28 +847,28 @@ export function TacticalCombatPanel({
               exit={{ scale: 0.9, opacity: 0 }}
               className="glass-panel-dark rounded-lg p-6 max-w-sm mx-4"
             >
-              <h3 className="font-heading text-gold text-lg mb-4">¿Terminar combate?</h3>
+              <h3 className="font-heading text-gold text-lg mb-4">{isEn ? 'End combat?' : '¿Terminar combate?'}</h3>
               <p className="text-parchment/80 text-sm mb-6">
-                Puedes intentar huir o negociar una tregua. El DM determinará las consecuencias.
+                {isEn ? 'You can try to flee or negotiate a truce. The DM will determine the consequences.' : 'Puedes intentar huir o negociar una tregua. El DM determinará las consecuencias.'}
               </p>
               <div className="flex gap-3">
                 <button
                   onClick={() => setShowEndCombatConfirm(false)}
                   className="flex-1 px-4 py-2 rounded bg-shadow hover:bg-shadow-mid text-parchment transition-colors"
                 >
-                  Cancelar
+                  {isEn ? 'Cancel' : 'Cancelar'}
                 </button>
                 <button
                   onClick={() => handleEndCombat('fled')}
                   className="flex-1 px-4 py-2 rounded bg-blood hover:bg-blood/80 text-white transition-colors"
                 >
-                  Huir
+                  {isEn ? 'Flee' : 'Huir'}
                 </button>
                 <button
                   onClick={() => handleEndCombat('truce')}
                   className="flex-1 px-4 py-2 rounded bg-gold hover:bg-gold/80 text-shadow transition-colors"
                 >
-                  Tregua
+                  {isEn ? 'Truce' : 'Tregua'}
                 </button>
               </div>
             </motion.div>

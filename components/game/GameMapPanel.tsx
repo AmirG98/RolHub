@@ -286,7 +286,7 @@ export function GameMapPanel({
         <button
           onClick={() => setViewMode('scene')}
           className="flex items-center gap-2 px-2 py-1 rounded bg-gold/20 hover:bg-gold/30 text-gold transition-colors"
-          title="Volver a vista de escena"
+          title={locale === 'en' ? 'Back to scene view' : 'Volver a vista de escena'}
         >
           <MapPin className="w-4 h-4" />
           <span className="text-xs font-heading">

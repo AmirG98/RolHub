@@ -209,7 +209,7 @@
           "type": "tavern",
           "description": {
             "es": "Famosa taberna con un pozo que desciende directamente a Bajomonte",
-            "en": "Famous tavern with a pit that descends straight into Bajomonte"
+            "en": "Famous tavern with a pit that descends straight into the Undervault"
           }
         },
         {
@@ -233,7 +233,7 @@
           "type": "library",
           "description": {
             "es": "Academia de magia y sede del Archimago de Puerto Corona, protegida por poderosos encantamientos",
-            "en": "The academy of magic and seat of the Archmage of Puerto Corona, shielded by powerful wards"
+            "en": "The academy of magic and seat of the Archmage of Crownport, shielded by powerful wards"
           }
         },
         {
@@ -252,7 +252,7 @@
           "id": "palacio-waterdeep",
           "name": {
             "es": "Palacio de Puerto Corona",
-            "en": "Palace of Puerto Corona"
+            "en": "Palace of Crownport"
           },
           "type": "palace",
           "description": {
@@ -910,7 +910,7 @@
       },
       "description": {
         "es": "Guerrero experimentado del Gremio de Aventureros de Puerto Corona",
-        "en": "A seasoned fighter from the Puerto Corona Adventurers' Guild"
+        "en": "A seasoned fighter from the Crownport Adventurers' Guild"
       },
       "simple_description": {
         "es": "Sos un profesional de la aventura. Tu espada y tu experiencia son tu sustento. El Gremio te envía a misiones y vos volvés con el trabajo hecho... o no volvés.",
@@ -1048,7 +1048,7 @@
       },
       "description": {
         "es": "Hechicero instruido en la Torre del Bastón Negro de Puerto Corona",
-        "en": "A wizard trained in Puerto Corona's Black Staff Tower"
+        "en": "A wizard trained in Crownport's Black Staff Tower"
       },
       "simple_description": {
         "es": "Estudiaste magia en la academia más prestigiosa de la Costa del Alba. Tu poder crece con cada hechizo que aprendés, pero la magia siempre tiene un costo.",

@@ -1135,20 +1135,23 @@ export function parseSpellsFromInventory(inventory: string[]): Spell[] {
 /**
  * Obtiene la descripción formateada de un arma para el UI
  */
-export function getWeaponDescription(weapon: Weapon): string {
+export function getWeaponDescription(weapon: Weapon, locale: 'es' | 'en' = 'es'): string {
+  const en = locale === 'en'
   const parts: string[] = []
-  parts.push(`${weapon.damage} ${getDamageTypeEs(weapon.damageType)}`)
+  parts.push(`${weapon.damage} ${en ? weapon.damageType : getDamageTypeEs(weapon.damageType)}`)
 
   if (weapon.versatileDamage) {
-    parts.push(`(${weapon.versatileDamage} a dos manos)`)
+    parts.push(en ? `(${weapon.versatileDamage} two-handed)` : `(${weapon.versatileDamage} a dos manos)`)
   }
 
   if (weapon.rangeDistance) {
-    parts.push(`Alcance: ${weapon.rangeDistance.normal}/${weapon.rangeDistance.long} pies`)
+    parts.push(en
+      ? `Range: ${weapon.rangeDistance.normal}/${weapon.rangeDistance.long} ft`
+      : `Alcance: ${weapon.rangeDistance.normal}/${weapon.rangeDistance.long} pies`)
   }
 
   if (weapon.properties.length > 0) {
-    parts.push(`Props: ${weapon.properties.map(getPropertyEs).join(', ')}`)
+    parts.push(`Props: ${en ? weapon.properties.join(', ') : weapon.properties.map(getPropertyEs).join(', ')}`)
   }
 
   return parts.join(' | ')
@@ -1157,23 +1160,24 @@ export function getWeaponDescription(weapon: Weapon): string {
 /**
  * Obtiene la descripción formateada de un hechizo para el UI
  */
-export function getSpellDescription(spell: Spell): string {
+export function getSpellDescription(spell: Spell, locale: 'es' | 'en' = 'es'): string {
+  const en = locale === 'en'
   const parts: string[] = []
 
   if (spell.level === 0) {
-    parts.push('Truco')
+    parts.push(en ? 'Cantrip' : 'Truco')
   } else {
-    parts.push(`Nivel ${spell.level}`)
+    parts.push(en ? `Level ${spell.level}` : `Nivel ${spell.level}`)
   }
 
   if (spell.damage) {
-    parts.push(`${spell.damage} ${getDamageTypeEs(spell.damageType!)}`)
+    parts.push(`${spell.damage} ${en ? spell.damageType : getDamageTypeEs(spell.damageType!)}`)
   }
 
-  parts.push(`Alcance: ${spell.range}`)
+  parts.push(en ? `Range: ${spell.range}` : `Alcance: ${spell.range}`)
 
   if (spell.concentration) {
-    parts.push('Concentración')
+    parts.push(en ? 'Concentration' : 'Concentración')
   }
 
   return parts.join(' | ')

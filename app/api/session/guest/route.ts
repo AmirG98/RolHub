@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
 import { getEngineConfig, GameEngine, Locale, EngineContext, DiceRoll as EngineDiceRoll } from '@/lib/engines'
 import { parseDMResponse } from '@/lib/claude/parse-dm-response'
+import { rateLimit, getClientIp, rateLimitResponse } from '@/lib/rate-limit'
 import { antiIpDirective } from '@/lib/claude/anti-ip-directive'
 
 // Initialize Claude
@@ -71,6 +72,38 @@ export async function POST(req: NextRequest) {
         { error: isEnglish ? 'Missing required fields' : 'Faltan campos requeridos' },
         { status: 400 }
       )
+    }
+
+    // PROTECCIÓN DE COSTOS: este endpoint es público y stateless (el flujo
+    // "jugar sin cuenta" del landing). Sin límites, un bot en loop podía quemar
+    // presupuesto de Claude ilimitadamente. Bypass para el playtest via token.
+    const bypassToken = process.env.PLAYTEST_BYPASS_TOKEN
+    const isPlaytest = !!bypassToken && req.headers.get('x-playtest-token') === bypassToken
+    if (!isPlaytest) {
+      const clientIp = getClientIp(req)
+      // 30 turnos/hora por IP — holgado para un jugador real, mata el abuso en loop.
+      const ipLimit = await rateLimit(`guest-play:${clientIp}`, 30, 60 * 60)
+      if (!ipLimit.allowed) {
+        return rateLimitResponse(
+          ipLimit,
+          isEnglish
+            ? 'You have reached the free play limit. Create an account to keep playing!'
+            : '¡Alcanzaste el límite de juego gratis! Creá una cuenta para seguir jugando.'
+        )
+      }
+      // Cap de historial: previousTurns controlado por el cliente — evita que
+      // inflen el prompt (y el costo) con un historial gigante.
+      if (Array.isArray(previousTurns) && previousTurns.length > 40) {
+        return NextResponse.json(
+          {
+            error: isEnglish
+              ? 'This demo session is quite long — create a free account to continue your adventure!'
+              : '¡Esta sesión de demo ya es larga — creá una cuenta gratis para continuar tu aventura!',
+            guestLimitReached: true,
+          },
+          { status: 403 }
+        )
+      }
     }
 
     // Build conversation history from previous turns
@@ -305,7 +338,14 @@ ${labels.mechanicRules}:
 4. ${labels.rule4}
 
 ${labels.narrativeTone}:
-${narrativeTone}${antiIpDirective(lore, isEnglish ? 'en' : 'es')}
+${narrativeTone}${antiIpDirective(lore, isEnglish ? 'en' : 'es')}${isEnglish ? `
+
+=== CRITICAL LANGUAGE RULE ===
+The player plays in ENGLISH. You MUST narrate ENTIRELY in English.
+Translate ALL lore names, location names, NPC names, item names, quest names, and descriptions to natural English. Never leave a Spanish word in the text.
+Examples: "Posada del Jabalí Dorado" → "The Gilded Boar Inn", "Vado Viejo" → "Oldford", "Puerto Corona" → "Crownport", "Montaraz" → "Ranger", "umbríos" → "shadowkin", "medianos" → "halflings".
+Your suggested_actions MUST be in English too. No Spanish whatsoever.
+=== END LANGUAGE RULE ===` : ''}
 
 ${labels.important}:
 - ${labels.jsonOnly}

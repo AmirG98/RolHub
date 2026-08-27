@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { ChevronDown, ChevronUp, Heart, Shield, Scroll } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { calculateModifier, formatModifier } from '@/lib/engines/dnd-5e'
-import { useTranslations } from '@/lib/i18n'
+import { useTranslations, useLanguage } from '@/lib/i18n'
 
 type AbilityId = 'STR' | 'DEX' | 'CON' | 'INT' | 'WIS' | 'CHA'
 
@@ -223,11 +223,12 @@ export function StoryModeStatsBar({
   className,
 }: StoryModeStatsBarProps) {
   const t = useTranslations()
+  const { locale } = useLanguage()
   const stats = [
     { label: 'COM', value: combat, color: 'text-red-400' },
     { label: 'EXP', value: exploration, color: 'text-emerald-400' },
     { label: 'SOC', value: social, color: 'text-gold' },
-    { label: 'SAB', value: knowledge, color: 'text-blue-400' },
+    { label: locale === 'en' ? 'LOR' : 'SAB', value: knowledge, color: 'text-blue-400' },
   ]
 
   return (

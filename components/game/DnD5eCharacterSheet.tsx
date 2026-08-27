@@ -5,6 +5,7 @@ import { ChevronDown, ChevronUp, HelpCircle, Heart, Shield, Zap, Footprints, Tar
 import { cn } from '@/lib/utils'
 import { HelpTooltip, HelpModal } from './HelpTooltip'
 import { ALL_SKILLS, type AbilityId } from '@/lib/game/help-content'
+import { useLanguage } from '@/lib/i18n'
 import { calculateModifier, formatModifier } from '@/lib/engines/dnd-5e'
 import {
   calculateEncumbrance,
@@ -203,12 +204,14 @@ function SkillRow({
   proficiencyBonus,
   isProficient,
   tutorialLevel,
+  locale,
 }: {
   skill: typeof ALL_SKILLS[number]
   abilityScore: number
   proficiencyBonus: number
   isProficient: boolean
   tutorialLevel: 'novice' | 'experienced'
+  locale: 'es' | 'en'
 }) {
   const modifier = calculateModifier(abilityScore)
   const total = modifier + (isProficient ? proficiencyBonus : 0)
@@ -223,7 +226,7 @@ function SkillRow({
           : "border-gold-dim/40"
       )} />
       <span className="flex-1 text-xs font-body text-parchment/80 truncate">
-        {skill.name}
+        {skill.name[locale]}
       </span>
       <span className="text-[10px] font-ui text-gold-dim/60">({skill.ability})</span>
       <span className={cn(
@@ -339,6 +342,7 @@ export function DnD5eCharacterSheet({
   })
 
   const [showHelpModal, setShowHelpModal] = useState(false)
+  const { locale } = useLanguage()
 
   const toggleSection = (section: keyof typeof openSections) => {
     setOpenSections(prev => ({ ...prev, [section]: !prev[section] }))
@@ -603,6 +607,7 @@ export function DnD5eCharacterSheet({
                       proficiencyBonus={proficiencyBonus}
                       isProficient={skillProficiencies.includes(skill.id)}
                       tutorialLevel={tutorialLevel}
+                      locale={locale}
                     />
                   )
                 })}

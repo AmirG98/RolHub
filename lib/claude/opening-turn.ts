@@ -52,7 +52,8 @@ STRICT RULES:
 - Total length: 60-100 words. Be concise and evocative.
 - Atmospheric sensory detail, but no filler.
 - End with a single short question asking what the player wants to do.
-- Output PLAIN TEXT only. NO markdown, NO headings (no "#", no "##"), NO titles, NO stage directions, NO meta commentary. Just the narration prose.`
+- Output PLAIN TEXT only. NO markdown, NO headings (no "#", no "##"), NO titles, NO stage directions, NO meta commentary. Just the narration prose.
+- The world summary and location name below may contain Spanish words or proper names. Translate EVERY place name, proper noun, and word into natural English (e.g. "Vado Viejo" → "Oldford", "medianos" → "halflings", "umbríos" → "shadowkin"). Never leave a Spanish word in the narration.`
     : `Sos el DM de una partida de rol. Escribí una narración de apertura CORTA — lo primero que el jugador va a leer.
 
 REGLAS ESTRICTAS:

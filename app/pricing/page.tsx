@@ -3,13 +3,15 @@
 import { useState, useEffect } from 'react'
 import { useUser } from '@clerk/nextjs'
 import { useRouter } from 'next/navigation'
-import { useTranslations } from '@/lib/i18n'
+import { useTranslations, useLanguage } from '@/lib/i18n'
 import { Check, Crown, Sparkles, Scroll, Shield } from 'lucide-react'
 import { PLAN_CONFIG } from '@/lib/plans/plan-config'
 import Link from 'next/link'
 
 export default function PricingPage() {
   const t = useTranslations()
+  const { locale } = useLanguage()
+  const isEn = locale === 'en'
   const { isSignedIn } = useUser()
   const router = useRouter()
   const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'yearly'>('monthly')
@@ -45,14 +47,18 @@ export default function PricingPage() {
         window.location.href = data.url
       } else {
         // Mostrar el error al usuario en vez de fallar en silencio
-        const msg = data.error || 'No pudimos abrir el checkout. Intentá de nuevo en unos minutos.'
+        const msg = data.error || (isEn
+          ? "We couldn't open checkout. Please try again in a few minutes."
+          : 'No pudimos abrir el checkout. Intentá de nuevo en unos minutos.')
         console.error('[checkout] error:', res.status, data)
         setCheckoutError(msg)
         setLoading(false)
       }
     } catch (err) {
       console.error('[checkout] network error:', err)
-      setCheckoutError('Error de conexión. Revisá tu internet e intentá de nuevo.')
+      setCheckoutError(isEn
+        ? 'Connection error. Check your internet and try again.'
+        : 'Error de conexión. Revisá tu internet e intentá de nuevo.')
       setLoading(false)
     }
   }

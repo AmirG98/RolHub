@@ -5,10 +5,10 @@ import { ParchmentPanel } from '@/components/medieval/ParchmentPanel'
 
 export const metadata: Metadata = {
   title: 'Guia de Cyberpunk: Neon y Cromo | RolHub',
-  description: 'Todo lo que necesitas saber para jugar en Night City. Implantes, megacorporaciones, netrunners y consejos para sobrevivir en el futuro oscuro.',
+  description: 'Todo lo que necesitas saber para jugar en Neon City. Implantes, megacorporaciones, netrunners y consejos para sobrevivir en el futuro oscuro.',
   keywords: [
     'Cyberpunk rol',
-    'Night City RPG',
+    'Neon City RPG',
     'netrunner hacker rol',
     'implantes ciberneticos juego',
     'futuro distopico RPG'
@@ -18,14 +18,14 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: 'Guia de Cyberpunk | RolHub',
-    description: 'Alta tecnologia, baja vida. Bienvenido a Night City.',
+    description: 'Alta tecnologia, baja vida. Bienvenido a Neon City.',
     type: 'article',
   },
 }
 
 const factions = [
   {
-    name: 'Arasaka Corp',
+    name: 'Kurotek Corp',
     description: 'Megacorporacion japonesa con poder absoluto. Ejercitos privados, influencia global.',
     alignment: 'Malvado',
     playStyle: 'Antagonistas principales. Recursos infinitos, enemigos letales.',
@@ -49,7 +49,7 @@ const factions = [
     playStyle: 'Comunidad, lealtad, escape del sistema corporativo.',
   },
   {
-    name: 'Trauma Team',
+    name: 'MedForce',
     description: 'Paramedicos armados que solo responden a clientes premium.',
     alignment: 'Neutral',
     playStyle: 'Recursos de emergencia si podes pagarlos.',
@@ -57,11 +57,11 @@ const factions = [
 ]
 
 const locations = [
-  { name: 'Downtown Night City', danger: 'Medio', desc: 'Centro con rascacielos y neones. Corporaciones y lujo.' },
+  { name: 'Downtown Neon City', danger: 'Medio', desc: 'Centro con rascacielos y neones. Corporaciones y lujo.' },
   { name: 'Los Bajos Fondos', danger: 'Alto', desc: 'Barrios pobres donde la ley no existe. Tu territorio.' },
   { name: 'La Red (Cyberspace)', danger: 'Muy Alto', desc: 'Internet neural. Peligrosa pero lucrativa para hackers.' },
-  { name: 'Club Afterlife', danger: 'Bajo', desc: 'Bar de mercenarios. Donde se hacen los tratos.' },
-  { name: 'Torre Arasaka', danger: 'Extremo', desc: 'Fortaleza corporativa. Seguridad maxima.' },
+  { name: 'Club Limbo', danger: 'Bajo', desc: 'Bar de mercenarios. Donde se hacen los tratos.' },
+  { name: 'Torre Kurotek', danger: 'Extremo', desc: 'Fortaleza corporativa. Seguridad maxima.' },
   { name: 'Ripperdoc', danger: 'Bajo', desc: 'Clinica clandestina de implantes. Tu doctor favorito.' },
 ]
 
@@ -92,7 +92,7 @@ const tips = [
   },
   {
     title: 'Estilo Sobre Sustancia',
-    desc: 'En Night City, como te ves importa. La imagen es parte de tu poder.',
+    desc: 'En Neon City, como te ves importa. La imagen es parte de tu poder.',
   },
 ]
 
@@ -124,7 +124,7 @@ export default function CyberpunkPage() {
         </div>
         <p className="font-body text-xl text-parchment leading-relaxed">
           2077. Las megacorporaciones controlan todo. Tu cuerpo es tu primera mejora.
-          Vivis en Night City, una metropolis donde los ricos estan en torres de cristal
+          Vivis en Neon City, una metropolis donde los ricos estan en torres de cristal
           y vos estas en las calles de neon. Hackers, mercenarios y gente desesperada
           intentan sobrevivir. El dinero lo compra todo, incluso mas vida.
         </p>
@@ -133,7 +133,7 @@ export default function CyberpunkPage() {
       <ParchmentPanel className="p-6 mb-12 border border-gold-dim">
         <h2 className="font-heading text-lg text-ink mb-3">El Mundo en una Frase</h2>
         <p className="font-body text-ink text-lg italic">
-          "En Night City podes ser quien quieras, mientras puedas pagarlo.
+          "En Neon City podes ser quien quieras, mientras puedas pagarlo.
           Tu cuerpo es tu canvas. Tu chrome es tu poder. Tu reputacion es todo."
         </p>
       </ParchmentPanel>
@@ -192,7 +192,7 @@ export default function CyberpunkPage() {
 
       <section className="mb-12">
         <h2 className="font-heading text-2xl text-gold-bright mb-6 flex items-center gap-2">
-          <Map className="h-6 w-6" /> Zonas de Night City
+          <Map className="h-6 w-6" /> Zonas de Neon City
         </h2>
         <div className="space-y-3">
           {locations.map((loc) => (
@@ -250,7 +250,7 @@ export default function CyberpunkPage() {
         <ParchmentPanel className="p-8 text-center border border-gold-dim">
           <h2 className="font-heading text-2xl text-ink mb-4">Conviertete en Leyenda</h2>
           <p className="font-body text-ink mb-6 max-w-xl mx-auto">
-            En Night City, nadie recuerda a los que juegan seguro.
+            En Neon City, nadie recuerda a los que juegan seguro.
             Solo los que se arriesgan todo se convierten en leyendas.
           </p>
           <Link href="/onboarding" className="inline-block font-heading text-lg bg-gold text-shadow px-8 py-3 rounded-lg hover:bg-gold-bright transition-colors font-bold">

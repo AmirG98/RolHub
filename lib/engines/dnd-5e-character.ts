@@ -25,6 +25,7 @@ export interface DnD5eClass {
   name: string
   nameEn: string
   description: string
+  descriptionEn?: string
   hitDie: string
   primaryAbility: AbilityScore[]
   savingThrows: AbilityScore[]
@@ -61,6 +62,7 @@ export interface DnD5eRaceTrait {
   name: string
   nameEn: string
   description: string
+  descriptionEn?: string
 }
 
 export interface DnD5eSubrace {
@@ -68,6 +70,7 @@ export interface DnD5eSubrace {
   name: string
   nameEn: string
   description: string
+  descriptionEn?: string
   abilityScoreIncrease: Partial<Record<AbilityScore, number>>
   traits: DnD5eRaceTrait[]
   speedBonus?: number
@@ -78,6 +81,7 @@ export interface DnD5eRace {
   name: string
   nameEn: string
   description: string
+  descriptionEn?: string
   abilityScoreIncrease: Partial<Record<AbilityScore | 'all' | 'choice', number | { count: number; options: AbilityScore[]; amount: number }>>
   age: { adulthood: number; lifespan: number }
   size: 'Small' | 'Medium'

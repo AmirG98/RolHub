@@ -13,7 +13,7 @@ const LORE_MAP_STYLES: Record<string, string> = {
 
   VIKINGOS: 'norse navigation chart on weathered leather, sea routes with dotted lines, fjords and coastal mountains, runic decorative elements, mythological sea creatures in waters, viking ship markers, aged parchment texture, compass with norse runes, no text',
 
-  STAR_WARS: 'holographic star chart display, blue and cyan glowing elements, planet icons with orbital rings, hyperspace route lines, imperial/rebel territory shading, sci-fi UI elements, Death Star style aesthetic, no text',
+  STAR_WARS: 'holographic star chart display, blue and cyan glowing elements, planet icons with orbital rings, hyperspace route lines, imperial/rebel territory shading, sci-fi UI elements, massive space battle-station aesthetic, no text',
 
   CYBERPUNK: 'neon city grid map on dark background, circuit board aesthetic, glowing district boundaries, corporate territory colors in cyan and magenta, isometric city view, data stream effects, cybernetic decorations, no text',
 

@@ -4,7 +4,7 @@ import { prisma, withRetry } from '@/lib/db/prisma'
 import { getLocalized, getLocalizedArray } from '@/lib/i18n/localize'
 import { Lore, GameMode, GameEngine, TutorialLevel, Prisma } from '@prisma/client'
 import { createCampaignMapState } from '@/lib/maps/map-init'
-import { getExampleMapData } from '@/lib/maps/lore-map-data'
+import { getExampleMapData, getMapLocationName } from '@/lib/maps/lore-map-data'
 import { generateCharacterPortrait } from '@/lib/fal/character-portrait-gen'
 import { handleCachedSceneImageRequest } from '@/lib/fal/scene-image-gen'
 import { type Lore as LoreType } from '@/lib/types/lore'
@@ -249,7 +249,9 @@ export async function POST(req: NextRequest) {
     // Obtener nombre de la locación inicial
     const mapLocations = getExampleMapData(lore)
     const startingLocation = mapLocations.find(l => l.id === mapState.currentLocationId)
-    const startingSceneName = startingLocation?.name || loreData.locations[0]?.name || 'Inicio'
+    // Localizado: en EN sembrar el nombre inglés (coherente con la narración del DM)
+    const startingSceneName = (startingLocation ? getMapLocationName(startingLocation, locale) : null)
+      || loreData.locations[0]?.name || 'Inicio'
 
     // Generar el world state inicial
     const initialWorldState = {
@@ -435,13 +437,9 @@ export async function POST(req: NextRequest) {
         },
       })
 
-      // Marcar trial como usado para usuarios FREE (su sesión gratis se gastó)
-      if (user.plan === 'FREE' && !user.trialSessionUsed) {
-        await tx.user.update({
-          where: { id: user.id },
-          data: { trialSessionUsed: true },
-        })
-      }
+      // NOTA: el trial ya NO se marca "usado" al crear la campaña. Ahora se
+      // agota por TURNOS JUGADOS (FREE_TRIAL_TURNS en check-access.ts), así el
+      // usuario juega de verdad antes del paywall. Crear personaje es gratis.
 
       // 4. Crear el primer turn del sistema con contexto espacial inmersivo
       let introContent = ''

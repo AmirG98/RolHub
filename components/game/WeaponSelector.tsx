@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useMemo } from 'react'
+import { useLanguage } from '@/lib/i18n'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   Sword,
@@ -52,6 +53,8 @@ export function WeaponSelector({
   onCancel,
   className = '',
 }: WeaponSelectorProps) {
+  const { locale } = useLanguage()
+  const isEn = locale === 'en'
   const [activeTab, setActiveTab] = useState<'weapons' | 'spells' | 'abilities'>('weapons')
   const [selectedOption, setSelectedOption] = useState<AttackOption | null>(null)
 
@@ -63,35 +66,35 @@ export function WeaponSelector({
   const unarmedOption: AttackOption = {
     type: 'unarmed',
     item: null,
-    name: 'Ataque Desarmado',
+    name: isEn ? 'Unarmed Strike' : 'Ataque Desarmado',
     damage: '1 + STR',
     damageType: 'bludgeoning',
-    range: 'Cuerpo a cuerpo',
-    description: 'Golpeas con puño, codo, rodilla o cabeza.',
+    range: isEn ? 'Melee' : 'Cuerpo a cuerpo',
+    description: isEn ? 'You strike with fist, elbow, knee or head.' : 'Golpeas con puño, codo, rodilla o cabeza.',
   }
 
   // Convertir armas a opciones
   const weaponOptions: AttackOption[] = weapons.map(w => ({
     type: 'weapon',
     item: w,
-    name: w.nameEs,
+    name: isEn ? w.name : w.nameEs,
     damage: w.damage,
     damageType: w.damageType,
-    range: w.range === 'melee' ? 'Cuerpo a cuerpo' :
-           w.range === 'reach' ? 'Alcance (10 pies)' :
-           `${w.rangeDistance?.normal || 30}/${w.rangeDistance?.long || 120} pies`,
-    description: getWeaponDescription(w),
+    range: w.range === 'melee' ? (isEn ? 'Melee' : 'Cuerpo a cuerpo') :
+           w.range === 'reach' ? (isEn ? 'Reach (10 ft)' : 'Alcance (10 pies)') :
+           `${w.rangeDistance?.normal || 30}/${w.rangeDistance?.long || 120} ${isEn ? 'ft' : 'pies'}`,
+    description: getWeaponDescription(w, locale),
   }))
 
   // Convertir hechizos a opciones
   const spellOptions: AttackOption[] = spells.map(s => ({
     type: 'spell',
     item: s,
-    name: s.nameEs,
-    damage: s.damage || 'Efecto',
+    name: isEn ? s.name : s.nameEs,
+    damage: s.damage || (isEn ? 'Effect' : 'Efecto'),
     damageType: s.damageType || 'special',
     range: s.range,
-    description: getSpellDescription(s),
+    description: getSpellDescription(s, locale),
   }))
 
   // Confirmar selección
@@ -123,7 +126,7 @@ export function WeaponSelector({
     >
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-3 bg-stone-800/80 border-b border-gold-dim/30">
-        <h3 className="font-heading text-gold text-lg">Elegir Ataque</h3>
+        <h3 className="font-heading text-gold text-lg">{isEn ? 'Choose Attack' : 'Elegir Ataque'}</h3>
         <button
           onClick={onCancel}
           className="p-1 hover:bg-stone-700 rounded transition-colors"
@@ -143,7 +146,7 @@ export function WeaponSelector({
           }`}
         >
           <Sword className="w-4 h-4" />
-          Armas ({weaponOptions.length + 1})
+          {isEn ? 'Weapons' : 'Armas'} ({weaponOptions.length + 1})
         </button>
         <button
           onClick={() => setActiveTab('spells')}
@@ -154,7 +157,7 @@ export function WeaponSelector({
           }`}
         >
           <Wand2 className="w-4 h-4" />
-          Hechizos ({spellOptions.length})
+          {isEn ? 'Spells' : 'Hechizos'} ({spellOptions.length})
         </button>
         <button
           onClick={() => setActiveTab('abilities')}
@@ -165,7 +168,7 @@ export function WeaponSelector({
           }`}
         >
           <Sparkles className="w-4 h-4" />
-          Habilidades
+          {isEn ? 'Abilities' : 'Habilidades'}
         </button>
       </div>
 
@@ -246,9 +249,9 @@ export function WeaponSelector({
               className="p-2"
             >
               <p className="text-stone-500 text-sm text-center py-4">
-                Las habilidades especiales de clase se agregarán
+                {isEn ? 'Special class abilities will be added' : 'Las habilidades especiales de clase se agregarán'}
                 <br />
-                automáticamente según tu arquetipo.
+                {isEn ? 'automatically based on your archetype.' : 'automáticamente según tu arquetipo.'}
               </p>
             </motion.div>
           )}
@@ -267,7 +270,7 @@ export function WeaponSelector({
           }`}
         >
           <Target className="w-5 h-5" />
-          {selectedOption ? `Atacar con ${selectedOption.name}` : 'Selecciona un ataque'}
+          {selectedOption ? (isEn ? `Attack with ${selectedOption.name}` : `Atacar con ${selectedOption.name}`) : (isEn ? 'Select an attack' : 'Selecciona un ataque')}
           <ChevronRight className="w-4 h-4" />
         </button>
       </div>

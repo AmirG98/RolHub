@@ -3,11 +3,18 @@
 
 import { type PlanStatus } from './plan-config'
 
+// Turnos gratis que un usuario FREE puede jugar antes del paywall.
+// El trial se agota por TURNOS JUGADOS (no por crear una sesión), así el
+// visitante del ad juega de verdad y se engancha antes de que le pidamos pagar.
+export const FREE_TRIAL_TURNS = 25
+
 interface UserForPlanCheck {
   plan: string
   trialSessionUsed: boolean
   planExpiresAt: Date | null
   stripeSubscriptionId: string | null
+  /** turnos totales jugados (User.totalTurns). Opcional para retrocompat. */
+  totalTurns?: number
 }
 
 // Determina el estado actual del plan del usuario
@@ -20,8 +27,12 @@ export function getPlanStatus(user: UserForPlanCheck): PlanStatus {
     return 'pro'
   }
 
-  // Plan FREE
-  if (user.trialSessionUsed) {
+  // Plan FREE: el trial se agota SOLO por turnos jugados. OJO: no usar
+  // trialSessionUsed acá — el flujo viejo lo marcaba true al crear campaña,
+  // así que los users FREE existentes lo tienen envenenado y quedarían
+  // bloqueados con 0 turnos jugados. El contador de turnos es la única verdad.
+  const turnsPlayed = user.totalTurns ?? 0
+  if (turnsPlayed >= FREE_TRIAL_TURNS) {
     return 'trial_used'
   }
   return 'trial'
@@ -46,8 +57,8 @@ export function canStartSession(user: UserForPlanCheck): {
     case 'trial_used':
       return {
         allowed: false,
-        reason: 'Your trial session has ended. Subscribe to continue your adventure.',
-        reasonEs: 'Tu sesión de prueba ha terminado. Suscribite para continuar tu aventura.',
+        reason: 'Your free trial turns are used up. Subscribe to continue your adventure.',
+        reasonEs: 'Tus turnos de prueba gratis se terminaron. Suscribite para continuar tu aventura.',
         upgradeRequired: true,
       }
 

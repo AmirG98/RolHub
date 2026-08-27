@@ -3,7 +3,7 @@ import { prisma, withRetry } from '@/lib/db/prisma'
 import { getLocalized } from '@/lib/i18n/localize'
 import { Lore, GameMode, GameEngine, TutorialLevel, Prisma } from '@prisma/client'
 import { createCampaignMapState } from '@/lib/maps/map-init'
-import { getExampleMapData } from '@/lib/maps/lore-map-data'
+import { getExampleMapData, getMapLocationName } from '@/lib/maps/lore-map-data'
 import { generateCharacterPortrait } from '@/lib/fal/character-portrait-gen'
 import { handleCachedSceneImageRequest } from '@/lib/fal/scene-image-gen'
 import { type Lore as LoreType } from '@/lib/types/lore'
@@ -130,7 +130,9 @@ export async function POST(req: NextRequest) {
       world_flags: {}, active_quests: [isEN ? 'Initial Mission' : 'Misión Inicial'],
       completed_quests: [], failed_quests: [],
       npc_states: {}, faction_relations: {},
-      current_scene: startingLocation?.name || (isEN ? 'Start' : 'Inicio'),
+      // Localizado: en EN el nombre de escena debe ser el inglés del mapa
+      // (si no, el header muestra "Vado Viejo" mientras el DM narra "Oldford")
+      current_scene: startingLocation ? getMapLocationName(startingLocation, locale as 'es' | 'en') : (isEN ? 'Start' : 'Inicio'),
       time_in_world: isEN ? 'Day 1, morning' : 'Día 1, mañana', weather: isEN ? 'Clear skies' : 'Despejado',
       map_state: mapState, quests: [],
     }

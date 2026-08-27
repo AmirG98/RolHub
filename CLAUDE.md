@@ -1217,9 +1217,88 @@ REGLA: Una feature no está terminada hasta que tiene:
 
 ## 20. ESTADO ACTUAL DEL PROYECTO
 
-Ultima actualizacion: 2026-07-05
-Fase actual:         3 — Skill trees + playtesting automatizado
-Ultima sesion:       Arbol de habilidades + agentes de playtest (branch feature/skills-and-playtest)
+Ultima actualizacion: 2026-08-26
+Fase actual:         Pre-launch — audit de ad-readiness (branch fix/ad-launch-readiness)
+Ultima sesion:       Audit completo antes de prender ads en inglés (SIN mergear ni deployar aun)
+
+SESION 2026-08-26 — fix/ad-launch-readiness (SIN mergear, SIN deployar):
+  CONTEXTO: Polar.sh aprobado e integrado (billing verificado E2E en prod). Antes de
+  prender ads en inglés ("the first RPG platform with an autonomous DM across multiple
+  worlds"), se auditó todo. Decisiones del user: (1) default inglés siempre + toggle ES;
+  (2) trial = ~25 turnos jugados (no por crear sesión); (3) arreglar todo primero, prender
+  BILLING_ENFORCED después (lanzar ads con el juego gratis para validar demanda).
+
+  ARREGLADO (tsc 0 err, 381 tests, build de prod OK):
+  ✅ TRIAL POR TURNOS (era el crítico: daba 0 turnos jugables). FREE_TRIAL_TURNS=25 en
+     lib/plans/check-access.ts; getPlanStatus chequea totalTurns. Saqué el marcado
+     prematuro trialSessionUsed=true en character/create. turn route pasa totalTurns.
+  ✅ COMBAT protegido: /api/combat/action llamaba a Claude sin chequear plan (bypass del
+     paywall). Ahora respeta BILLING_ENFORCED + canStartSession.
+  ✅ GUEST cost-protection: /api/session/guest era 100% abierto (vector de costo Claude
+     ilimitado). Rate limit 30/hora/IP + cap de historial + bypass playtest por token.
+     UI: 403/429 → modal de registro ("Your adventure is just beginning"), no error rojo.
+  ✅ i18n default inglés: LanguageContext default 'en', lee ?lang= de la URL (ads fuerzan
+     idioma) > localStorage > en. layout.tsx html lang="en" + metadata/OG en inglés.
+  ✅ FUGA DE ESPAÑOL EN NARRACIÓN EN INGLÉS (causa raíz encontrada): la anti-ip-directive
+     en su rama `en` ORDENABA usar nombres en español (Vado Viejo, umbríos, Puerto Corona)
+     y se inyecta DESPUÉS de la CRITICAL LANGUAGE RULE → ganaba. Reescritas las 4 ramas
+     `en` con nombres en inglés (Oldford, Crownport, shadowkin, Starfront...). Además el
+     path guest no tenía la language rule fuerte (era el más expuesto a ads) → agregada.
+     opening-turn.ts (world_summary español crudo) → instrucción de traducir. Ver
+     memoria project_dm_language_leak.md. NO se tradujeron los JSON de lore (el modelo
+     traduce el grueso; el fix por prompt es más barato y ataca la causa).
+  ✅ Localización de componentes D&D 100%-español: DnDModeSelector, DnD5eCharacterCreator
+     (~68 strings), help-content.ts (44 entries de tooltips → bilingüe) + consumers.
+     Data D&D (races/classes.json) ya tenía nameEn/descriptionEn → el creator ahora los
+     lee por locale (agregado descriptionEn? a los tipos + helpers locName/locDesc).
+  ✅ Otras fugas: plan "Aventurero/Gremio" → "Adventurer/Guild" (label EN en plan-config),
+     errores de checkout en pricing, línea suelta en ArchetypeSelector.
+  ✅ Peso móvil del home: video de fondo (15MB) ya NO se descarga en móvil (solo poster,
+     respeta data-saver); poster PNG 2.1MB → webp 152KB. middleware sirve mp4/webm/etc y
+     opengraph/twitter-image sin redirect a login (rompía previews de ads).
+
+  RONDA 2 (2026-08-27, madrugada) — re-review "por las dudas" que encontró más:
+  ✅ trialSessionUsed ELIMINADO del check de trial: los ~40 FREE existentes lo
+     tenían en true por el flujo viejo → al prender billing habrían quedado
+     bloqueados con 0 turnos. Ahora el contador de turnos es la única verdad.
+  ✅ IP ROUND 2 (¡el rebrand de julio NO tocó estos archivos!): lore-map-data.ts
+     tenía Naboo/Yavin IV/Kashyyyk/Death Star/Ewoks (SW) y cyberpunk NUNCA se
+     rebrandeó (Night City/Arasaka/Afterlife/Trauma Team/Militech/Voodoo Boys/
+     Rogue/Placide/Blackwall — 44+ hits). ~200 reemplazos con script contado:
+     Naboo→Veridia, Yavin IV→Veyra IV, Kashyyyk→Rannak, Death Star EN→Eclipse
+     Station, Night City→Neon City, Arasaka→Kurotek, Club Afterlife→Club Limbo,
+     Trauma Team→MedForce, Voodoo Boys→Espectros, Blackwall→Velo Negro, etc.
+     Blocklist de CI endurecida con ~20 términos nuevos (seguía pasando porque
+     no los tenía). Tagline de starwars era cita textual ("A galaxy far, far
+     away") → reescrita; nombre EN unificado en "Stellar Frontier".
+  ✅ Tabla MAP_LOCATION_EN tenía nombres en ESPAÑOL (Vado Viejo, Puerto Corona,
+     Brasaeterna...) → traducidos alineados con la directiva del DM (Oldford,
+     Crownport, Emberhold...). Seeds de current_scene (guest-create y
+     character/create) ahora usan getMapLocationName(locale) → el header ya no
+     muestra "Vado Viejo" mientras el DM narra "Oldford".
+  ✅ Stats COM/EXP/SOC/SAB → LOR en inglés (GameSession, StatsBarSummary).
+  ✅ TacticalCombatPanel: locale:'es' HARDCODEADO en el fetch del turno enemigo
+     (narración de combate salía en español para users EN) + ~25 strings de UI
+     localizados. WeaponSelector + getWeapon/SpellDescription localizados
+     (usan w.name EN / w.nameEs). Página /join localizada (~22 strings).
+  ✅ GameSession: detección de modo misión aceptaba solo 'Elegir:' → ahora
+     también 'Choose:'. Tooltips en español (SceneImage, GameMapPanel, etc.).
+  ✅ Copy del trial actualizada a "25 turns" (pricing subtitle, banner, FAQ,
+     plan-config, mensajes de paywall). Combat route sin `as any`.
+  ✅ E2E VERIFICADO EN BROWSER (dev local, flujo guest EN completo): landing,
+     pricing, guest gate, mundos, clases, apertura del DM y turno jugado — 
+     100% inglés, narración usa Oldford/Whitetower/Ashwood, cero español.
+
+  PENDIENTE:
+  - Verificar E2E en prod tras deploy (narración inglesa sin español, guest limit → modal).
+  - Prender BILLING_ENFORCED=true en Vercel cuando haya tracción (hoy queda en false).
+  - Guías /guias/* siguen español-only (baja prioridad: los ads no linkean ahí).
+  - Vercel env: confirmar PLAYTEST_BYPASS_TOKEN si se usa el playtest contra prod.
+  - Nota: campañas existentes con current_scene en locaciones renombradas por IP
+    (Club Afterlife, Torre Arasaka, Naboo...) pueden perder el match de sub-locación
+    hasta el próximo scene_change del DM. Riesgo aceptado (IP > continuidad).
+
+SESION 2026-07-05 (tarde) — feature/skills-and-playtest (SIN mergear aun):
 
 SESION 2026-07-05 (tarde) — feature/skills-and-playtest (SIN mergear aun):
   ARBOL DE HABILIDADES (por logros/milestones, por arquetipo por lore):

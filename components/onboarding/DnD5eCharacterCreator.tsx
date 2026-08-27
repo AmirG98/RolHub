@@ -35,15 +35,25 @@ interface DnD5eCharacterCreatorProps {
 
 type Step = 'race' | 'class' | 'abilities' | 'level' | 'subclass' | 'equipment' | 'name'
 
-const STEP_TITLES: Record<Step, string> = {
-  race: 'Elige tu Raza',
-  class: 'Elige tu Clase',
-  abilities: 'Asigna tus Atributos',
-  level: 'Nivel Inicial',
-  subclass: 'Elige tu Subclase',
-  equipment: 'Equipamiento',
-  name: 'Nombre tu Personaje'
-}
+const getStepTitles = (locale: string): Record<Step, string> => locale === 'en'
+  ? {
+      race: 'Choose Your Race',
+      class: 'Choose Your Class',
+      abilities: 'Assign Your Ability Scores',
+      level: 'Starting Level',
+      subclass: 'Choose Your Subclass',
+      equipment: 'Equipment',
+      name: 'Name Your Character'
+    }
+  : {
+      race: 'Elige tu Raza',
+      class: 'Elige tu Clase',
+      abilities: 'Asigna tus Atributos',
+      level: 'Nivel Inicial',
+      subclass: 'Elige tu Subclase',
+      equipment: 'Equipamiento',
+      name: 'Nombre tu Personaje'
+    }
 
 // Iconos para clases
 const CLASS_ICONS: Record<string, React.ReactNode> = {
@@ -74,104 +84,111 @@ const RACE_ICONS: Record<string, React.ReactNode> = {
   tiefling: <Skull className="h-10 w-10" />
 }
 
-const LEVEL_OPTIONS = [
-  { level: 1, name: 'Nivel 1 - Aventurero Novato', description: 'Empiezas desde cero. Ideal para aprender.' },
-  { level: 3, name: 'Nivel 3 - Experimentado', description: 'Ya tienes tu subclase desbloqueada.' },
-  { level: 5, name: 'Nivel 5 - Héroe Establecido', description: 'Ataque Extra, conjuros de nivel 3. Un item mágico.' },
-  { level: 10, name: 'Nivel 10 - Leyenda', description: 'Poderoso y experimentado. Tres items mágicos.' }
-]
+const getLevelOptions = (locale: string) => locale === 'en'
+  ? [
+      { level: 1, name: 'Level 1 - Novice Adventurer', description: 'Start from scratch. Ideal for learning.' },
+      { level: 3, name: 'Level 3 - Seasoned', description: 'Your subclass is already unlocked.' },
+      { level: 5, name: 'Level 5 - Established Hero', description: 'Extra Attack, 3rd-level spells. One magic item.' },
+      { level: 10, name: 'Level 10 - Legend', description: 'Powerful and experienced. Three magic items.' }
+    ]
+  : [
+      { level: 1, name: 'Nivel 1 - Aventurero Novato', description: 'Empiezas desde cero. Ideal para aprender.' },
+      { level: 3, name: 'Nivel 3 - Experimentado', description: 'Ya tienes tu subclase desbloqueada.' },
+      { level: 5, name: 'Nivel 5 - Héroe Establecido', description: 'Ataque Extra, conjuros de nivel 3. Un item mágico.' },
+      { level: 10, name: 'Nivel 10 - Leyenda', description: 'Poderoso y experimentado. Tres items mágicos.' }
+    ]
 
-// Traducción de items al español
-const ITEM_TRANSLATIONS: Record<string, { name: string; icon: React.ReactNode; category: 'weapon' | 'armor' | 'tool' | 'gear' }> = {
+// Traducción de items (nombre en español y en inglés)
+const ITEM_TRANSLATIONS: Record<string, { name: string; name_en: string; icon: React.ReactNode; category: 'weapon' | 'armor' | 'tool' | 'gear' }> = {
   // Armas
-  'dagger': { name: 'Daga', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
-  'shortsword': { name: 'Espada corta', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
-  'longsword': { name: 'Espada larga', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
-  'greatsword': { name: 'Espadón', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
-  'rapier': { name: 'Estoque', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
-  'scimitar': { name: 'Cimitarra', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
-  'battleaxe': { name: 'Hacha de batalla', icon: <Axe className="h-4 w-4" />, category: 'weapon' },
-  'greataxe': { name: 'Hacha grande', icon: <Axe className="h-4 w-4" />, category: 'weapon' },
-  'handaxe': { name: 'Hacha de mano', icon: <Axe className="h-4 w-4" />, category: 'weapon' },
-  'warhammer': { name: 'Martillo de guerra', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
-  'mace': { name: 'Maza', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
-  'quarterstaff': { name: 'Bastón', icon: <Wand2 className="h-4 w-4" />, category: 'weapon' },
-  'club': { name: 'Garrote', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
-  'javelin': { name: 'Jabalina', icon: <Crosshair className="h-4 w-4" />, category: 'weapon' },
-  'spear': { name: 'Lanza', icon: <Crosshair className="h-4 w-4" />, category: 'weapon' },
-  'light_crossbow': { name: 'Ballesta ligera', icon: <Crosshair className="h-4 w-4" />, category: 'weapon' },
-  'crossbow_bolts': { name: 'Virotes de ballesta', icon: <Crosshair className="h-4 w-4" />, category: 'weapon' },
-  'shortbow': { name: 'Arco corto', icon: <Crosshair className="h-4 w-4" />, category: 'weapon' },
-  'longbow': { name: 'Arco largo', icon: <Crosshair className="h-4 w-4" />, category: 'weapon' },
-  'arrows': { name: 'Flechas (20)', icon: <Crosshair className="h-4 w-4" />, category: 'weapon' },
-  'sling': { name: 'Honda', icon: <Crosshair className="h-4 w-4" />, category: 'weapon' },
+  'dagger': { name: 'Daga', name_en: 'Dagger', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
+  'shortsword': { name: 'Espada corta', name_en: 'Shortsword', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
+  'longsword': { name: 'Espada larga', name_en: 'Longsword', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
+  'greatsword': { name: 'Espadón', name_en: 'Greatsword', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
+  'rapier': { name: 'Estoque', name_en: 'Rapier', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
+  'scimitar': { name: 'Cimitarra', name_en: 'Scimitar', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
+  'battleaxe': { name: 'Hacha de batalla', name_en: 'Battleaxe', icon: <Axe className="h-4 w-4" />, category: 'weapon' },
+  'greataxe': { name: 'Hacha grande', name_en: 'Greataxe', icon: <Axe className="h-4 w-4" />, category: 'weapon' },
+  'handaxe': { name: 'Hacha de mano', name_en: 'Handaxe', icon: <Axe className="h-4 w-4" />, category: 'weapon' },
+  'warhammer': { name: 'Martillo de guerra', name_en: 'Warhammer', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
+  'mace': { name: 'Maza', name_en: 'Mace', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
+  'quarterstaff': { name: 'Bastón', name_en: 'Quarterstaff', icon: <Wand2 className="h-4 w-4" />, category: 'weapon' },
+  'club': { name: 'Garrote', name_en: 'Club', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
+  'javelin': { name: 'Jabalina', name_en: 'Javelin', icon: <Crosshair className="h-4 w-4" />, category: 'weapon' },
+  'spear': { name: 'Lanza', name_en: 'Spear', icon: <Crosshair className="h-4 w-4" />, category: 'weapon' },
+  'light_crossbow': { name: 'Ballesta ligera', name_en: 'Light Crossbow', icon: <Crosshair className="h-4 w-4" />, category: 'weapon' },
+  'crossbow_bolts': { name: 'Virotes de ballesta', name_en: 'Crossbow Bolts', icon: <Crosshair className="h-4 w-4" />, category: 'weapon' },
+  'shortbow': { name: 'Arco corto', name_en: 'Shortbow', icon: <Crosshair className="h-4 w-4" />, category: 'weapon' },
+  'longbow': { name: 'Arco largo', name_en: 'Longbow', icon: <Crosshair className="h-4 w-4" />, category: 'weapon' },
+  'arrows': { name: 'Flechas (20)', name_en: 'Arrows (20)', icon: <Crosshair className="h-4 w-4" />, category: 'weapon' },
+  'sling': { name: 'Honda', name_en: 'Sling', icon: <Crosshair className="h-4 w-4" />, category: 'weapon' },
   // Armaduras
-  'leather_armor': { name: 'Armadura de cuero', icon: <Shirt className="h-4 w-4" />, category: 'armor' },
-  'studded_leather': { name: 'Cuero tachonado', icon: <Shirt className="h-4 w-4" />, category: 'armor' },
-  'chain_mail': { name: 'Cota de mallas', icon: <Shield className="h-4 w-4" />, category: 'armor' },
-  'chain_shirt': { name: 'Camisa de mallas', icon: <Shirt className="h-4 w-4" />, category: 'armor' },
-  'scale_mail': { name: 'Cota de escamas', icon: <Shield className="h-4 w-4" />, category: 'armor' },
-  'shield': { name: 'Escudo', icon: <Shield className="h-4 w-4" />, category: 'armor' },
+  'leather_armor': { name: 'Armadura de cuero', name_en: 'Leather Armor', icon: <Shirt className="h-4 w-4" />, category: 'armor' },
+  'studded_leather': { name: 'Cuero tachonado', name_en: 'Studded Leather', icon: <Shirt className="h-4 w-4" />, category: 'armor' },
+  'chain_mail': { name: 'Cota de mallas', name_en: 'Chain Mail', icon: <Shield className="h-4 w-4" />, category: 'armor' },
+  'chain_shirt': { name: 'Camisa de mallas', name_en: 'Chain Shirt', icon: <Shirt className="h-4 w-4" />, category: 'armor' },
+  'scale_mail': { name: 'Cota de escamas', name_en: 'Scale Mail', icon: <Shield className="h-4 w-4" />, category: 'armor' },
+  'shield': { name: 'Escudo', name_en: 'Shield', icon: <Shield className="h-4 w-4" />, category: 'armor' },
   // Herramientas
-  'thieves_tools': { name: 'Herramientas de ladrón', icon: <FlaskConical className="h-4 w-4" />, category: 'tool' },
-  'musical_instrument': { name: 'Instrumento musical', icon: <Music className="h-4 w-4" />, category: 'tool' },
-  'lute': { name: 'Laúd', icon: <Music className="h-4 w-4" />, category: 'tool' },
-  'flute': { name: 'Flauta', icon: <Music className="h-4 w-4" />, category: 'tool' },
-  'herbalism_kit': { name: 'Kit de herbolario', icon: <FlaskConical className="h-4 w-4" />, category: 'tool' },
-  'holy_symbol': { name: 'Símbolo sagrado', icon: <Sparkles className="h-4 w-4" />, category: 'tool' },
-  'arcane_focus': { name: 'Foco arcano', icon: <Wand2 className="h-4 w-4" />, category: 'tool' },
-  'component_pouch': { name: 'Bolsa de componentes', icon: <Backpack className="h-4 w-4" />, category: 'tool' },
-  'druidic_focus': { name: 'Foco druídico', icon: <Sparkles className="h-4 w-4" />, category: 'tool' },
-  'spellbook': { name: 'Libro de conjuros', icon: <BookOpen className="h-4 w-4" />, category: 'tool' },
+  'thieves_tools': { name: 'Herramientas de ladrón', name_en: "Thieves' Tools", icon: <FlaskConical className="h-4 w-4" />, category: 'tool' },
+  'musical_instrument': { name: 'Instrumento musical', name_en: 'Musical Instrument', icon: <Music className="h-4 w-4" />, category: 'tool' },
+  'lute': { name: 'Laúd', name_en: 'Lute', icon: <Music className="h-4 w-4" />, category: 'tool' },
+  'flute': { name: 'Flauta', name_en: 'Flute', icon: <Music className="h-4 w-4" />, category: 'tool' },
+  'herbalism_kit': { name: 'Kit de herbolario', name_en: 'Herbalism Kit', icon: <FlaskConical className="h-4 w-4" />, category: 'tool' },
+  'holy_symbol': { name: 'Símbolo sagrado', name_en: 'Holy Symbol', icon: <Sparkles className="h-4 w-4" />, category: 'tool' },
+  'arcane_focus': { name: 'Foco arcano', name_en: 'Arcane Focus', icon: <Wand2 className="h-4 w-4" />, category: 'tool' },
+  'component_pouch': { name: 'Bolsa de componentes', name_en: 'Component Pouch', icon: <Backpack className="h-4 w-4" />, category: 'tool' },
+  'druidic_focus': { name: 'Foco druídico', name_en: 'Druidic Focus', icon: <Sparkles className="h-4 w-4" />, category: 'tool' },
+  'spellbook': { name: 'Libro de conjuros', name_en: 'Spellbook', icon: <BookOpen className="h-4 w-4" />, category: 'tool' },
   // Equipo general
-  'explorer_pack': { name: 'Equipo de explorador', icon: <Backpack className="h-4 w-4" />, category: 'gear' },
-  'dungeoneer_pack': { name: 'Equipo de aventurero', icon: <Backpack className="h-4 w-4" />, category: 'gear' },
-  'entertainer_pack': { name: 'Equipo de artista', icon: <Backpack className="h-4 w-4" />, category: 'gear' },
-  'priest_pack': { name: 'Equipo de sacerdote', icon: <Backpack className="h-4 w-4" />, category: 'gear' },
-  'scholar_pack': { name: 'Equipo de erudito', icon: <Backpack className="h-4 w-4" />, category: 'gear' },
-  'diplomat_pack': { name: 'Equipo de diplomático', icon: <Backpack className="h-4 w-4" />, category: 'gear' },
-  'burglar_pack': { name: 'Equipo de ladrón', icon: <Backpack className="h-4 w-4" />, category: 'gear' },
+  'explorer_pack': { name: 'Equipo de explorador', name_en: "Explorer's Pack", icon: <Backpack className="h-4 w-4" />, category: 'gear' },
+  'dungeoneer_pack': { name: 'Equipo de aventurero', name_en: "Dungeoneer's Pack", icon: <Backpack className="h-4 w-4" />, category: 'gear' },
+  'entertainer_pack': { name: 'Equipo de artista', name_en: "Entertainer's Pack", icon: <Backpack className="h-4 w-4" />, category: 'gear' },
+  'priest_pack': { name: 'Equipo de sacerdote', name_en: "Priest's Pack", icon: <Backpack className="h-4 w-4" />, category: 'gear' },
+  'scholar_pack': { name: 'Equipo de erudito', name_en: "Scholar's Pack", icon: <Backpack className="h-4 w-4" />, category: 'gear' },
+  'diplomat_pack': { name: 'Equipo de diplomático', name_en: "Diplomat's Pack", icon: <Backpack className="h-4 w-4" />, category: 'gear' },
+  'burglar_pack': { name: 'Equipo de ladrón', name_en: "Burglar's Pack", icon: <Backpack className="h-4 w-4" />, category: 'gear' },
   // Pack name variants (JSON uses both singular and plural forms)
-  'explorers_pack': { name: 'Equipo de explorador', icon: <Backpack className="h-4 w-4" />, category: 'gear' },
-  'dungeoneers_pack': { name: 'Equipo de aventurero', icon: <Backpack className="h-4 w-4" />, category: 'gear' },
-  'entertainers_pack': { name: 'Equipo de artista', icon: <Backpack className="h-4 w-4" />, category: 'gear' },
-  'priests_pack': { name: 'Equipo de sacerdote', icon: <Backpack className="h-4 w-4" />, category: 'gear' },
-  'scholars_pack': { name: 'Equipo de erudito', icon: <Backpack className="h-4 w-4" />, category: 'gear' },
-  'diplomats_pack': { name: 'Equipo de diplomático', icon: <Backpack className="h-4 w-4" />, category: 'gear' },
-  'burglars_pack': { name: 'Equipo de ladrón', icon: <Backpack className="h-4 w-4" />, category: 'gear' },
+  'explorers_pack': { name: 'Equipo de explorador', name_en: "Explorer's Pack", icon: <Backpack className="h-4 w-4" />, category: 'gear' },
+  'dungeoneers_pack': { name: 'Equipo de aventurero', name_en: "Dungeoneer's Pack", icon: <Backpack className="h-4 w-4" />, category: 'gear' },
+  'entertainers_pack': { name: 'Equipo de artista', name_en: "Entertainer's Pack", icon: <Backpack className="h-4 w-4" />, category: 'gear' },
+  'priests_pack': { name: 'Equipo de sacerdote', name_en: "Priest's Pack", icon: <Backpack className="h-4 w-4" />, category: 'gear' },
+  'scholars_pack': { name: 'Equipo de erudito', name_en: "Scholar's Pack", icon: <Backpack className="h-4 w-4" />, category: 'gear' },
+  'diplomats_pack': { name: 'Equipo de diplomático', name_en: "Diplomat's Pack", icon: <Backpack className="h-4 w-4" />, category: 'gear' },
+  'burglars_pack': { name: 'Equipo de ladrón', name_en: "Burglar's Pack", icon: <Backpack className="h-4 w-4" />, category: 'gear' },
   // Ammo variants
-  'bolts_20': { name: '20 Virotes', icon: <Crosshair className="h-4 w-4" />, category: 'weapon' },
-  'arrows_20': { name: '20 Flechas', icon: <Crosshair className="h-4 w-4" />, category: 'weapon' },
+  'bolts_20': { name: '20 Virotes', name_en: '20 Bolts', icon: <Crosshair className="h-4 w-4" />, category: 'weapon' },
+  'arrows_20': { name: '20 Flechas', name_en: '20 Arrows', icon: <Crosshair className="h-4 w-4" />, category: 'weapon' },
   // Other items
-  'dart': { name: 'Dardo', icon: <Crosshair className="h-4 w-4" />, category: 'weapon' },
-  'wooden_shield': { name: 'Escudo de madera', icon: <Shield className="h-4 w-4" />, category: 'armor' },
+  'dart': { name: 'Dardo', name_en: 'Dart', icon: <Crosshair className="h-4 w-4" />, category: 'weapon' },
+  'wooden_shield': { name: 'Escudo de madera', name_en: 'Wooden Shield', icon: <Shield className="h-4 w-4" />, category: 'armor' },
   // Generic weapon categories — resolved to specific defaults
-  'simple_weapon': { name: 'Arma simple (a elegir)', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
-  'simple_melee_weapon': { name: 'Arma simple cuerpo a cuerpo', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
-  'martial_weapon': { name: 'Arma marcial (a elegir)', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
-  'martial_melee_weapon': { name: 'Arma marcial cuerpo a cuerpo', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
-  'simple_ranged_weapon': { name: 'Arma simple a distancia', icon: <Crosshair className="h-4 w-4" />, category: 'weapon' },
-  'martial_ranged_weapon': { name: 'Arma marcial a distancia', icon: <Crosshair className="h-4 w-4" />, category: 'weapon' },
-  'hand_crossbow': { name: 'Ballesta de mano', icon: <Crosshair className="h-4 w-4" />, category: 'weapon' },
-  'heavy_crossbow': { name: 'Ballesta pesada', icon: <Crosshair className="h-4 w-4" />, category: 'weapon' },
-  'trident': { name: 'Tridente', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
-  'whip': { name: 'Látigo', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
-  'morningstar': { name: 'Lucero del alba', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
-  'maul': { name: 'Mazo de guerra', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
-  'glaive': { name: 'Guja', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
-  'halberd': { name: 'Alabarda', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
-  'pike': { name: 'Pica', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
-  'lance': { name: 'Lanza de caballería', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
-  'flail': { name: 'Mangual', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
-  'war_pick': { name: 'Pico de guerra', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
+  'simple_weapon': { name: 'Arma simple (a elegir)', name_en: 'Simple Weapon (your choice)', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
+  'simple_melee_weapon': { name: 'Arma simple cuerpo a cuerpo', name_en: 'Simple Melee Weapon', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
+  'martial_weapon': { name: 'Arma marcial (a elegir)', name_en: 'Martial Weapon (your choice)', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
+  'martial_melee_weapon': { name: 'Arma marcial cuerpo a cuerpo', name_en: 'Martial Melee Weapon', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
+  'simple_ranged_weapon': { name: 'Arma simple a distancia', name_en: 'Simple Ranged Weapon', icon: <Crosshair className="h-4 w-4" />, category: 'weapon' },
+  'martial_ranged_weapon': { name: 'Arma marcial a distancia', name_en: 'Martial Ranged Weapon', icon: <Crosshair className="h-4 w-4" />, category: 'weapon' },
+  'hand_crossbow': { name: 'Ballesta de mano', name_en: 'Hand Crossbow', icon: <Crosshair className="h-4 w-4" />, category: 'weapon' },
+  'heavy_crossbow': { name: 'Ballesta pesada', name_en: 'Heavy Crossbow', icon: <Crosshair className="h-4 w-4" />, category: 'weapon' },
+  'trident': { name: 'Tridente', name_en: 'Trident', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
+  'whip': { name: 'Látigo', name_en: 'Whip', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
+  'morningstar': { name: 'Lucero del alba', name_en: 'Morningstar', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
+  'maul': { name: 'Mazo de guerra', name_en: 'Maul', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
+  'glaive': { name: 'Guja', name_en: 'Glaive', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
+  'halberd': { name: 'Alabarda', name_en: 'Halberd', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
+  'pike': { name: 'Pica', name_en: 'Pike', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
+  'lance': { name: 'Lanza de caballería', name_en: 'Lance', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
+  'flail': { name: 'Mangual', name_en: 'Flail', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
+  'war_pick': { name: 'Pico de guerra', name_en: 'War Pick', icon: <Sword className="h-4 w-4" />, category: 'weapon' },
   // Additional armor
-  'half_plate': { name: 'Media armadura', icon: <Shield className="h-4 w-4" />, category: 'armor' },
-  'splint_armor': { name: 'Armadura de bandas', icon: <Shield className="h-4 w-4" />, category: 'armor' },
-  'plate_armor': { name: 'Armadura de placas', icon: <Shield className="h-4 w-4" />, category: 'armor' },
-  'breastplate': { name: 'Coraza', icon: <Shield className="h-4 w-4" />, category: 'armor' },
-  'hide_armor': { name: 'Armadura de pieles', icon: <Shirt className="h-4 w-4" />, category: 'armor' },
-  'padded_armor': { name: 'Armadura acolchada', icon: <Shirt className="h-4 w-4" />, category: 'armor' },
-  'ring_mail': { name: 'Cota de anillas', icon: <Shield className="h-4 w-4" />, category: 'armor' },
+  'half_plate': { name: 'Media armadura', name_en: 'Half Plate', icon: <Shield className="h-4 w-4" />, category: 'armor' },
+  'splint_armor': { name: 'Armadura de bandas', name_en: 'Splint Armor', icon: <Shield className="h-4 w-4" />, category: 'armor' },
+  'plate_armor': { name: 'Armadura de placas', name_en: 'Plate Armor', icon: <Shield className="h-4 w-4" />, category: 'armor' },
+  'breastplate': { name: 'Coraza', name_en: 'Breastplate', icon: <Shield className="h-4 w-4" />, category: 'armor' },
+  'hide_armor': { name: 'Armadura de pieles', name_en: 'Hide Armor', icon: <Shirt className="h-4 w-4" />, category: 'armor' },
+  'padded_armor': { name: 'Armadura acolchada', name_en: 'Padded Armor', icon: <Shirt className="h-4 w-4" />, category: 'armor' },
+  'ring_mail': { name: 'Cota de anillas', name_en: 'Ring Mail', icon: <Shield className="h-4 w-4" />, category: 'armor' },
 }
 
 const CATEGORY_INFO: Record<string, { label: string; color: string; bgColor: string }> = {
@@ -181,11 +198,16 @@ const CATEGORY_INFO: Record<string, { label: string; color: string; bgColor: str
   gear: { label: 'Equipo', color: 'text-gold', bgColor: 'bg-gold/20' },
 }
 
-// Función para traducir y obtener info de un item
-function getItemInfo(item: string): { name: string; icon: React.ReactNode; category: 'weapon' | 'armor' | 'tool' | 'gear' } {
+// Función para traducir y obtener info de un item (respeta el locale)
+function getItemInfo(item: string, locale: string = 'es'): { name: string; icon: React.ReactNode; category: 'weapon' | 'armor' | 'tool' | 'gear' } {
   const normalized = item.toLowerCase().replace(/\s+/g, '_')
-  if (ITEM_TRANSLATIONS[normalized]) {
-    return ITEM_TRANSLATIONS[normalized]
+  const entry = ITEM_TRANSLATIONS[normalized]
+  if (entry) {
+    return {
+      name: locale === 'en' ? entry.name_en : entry.name,
+      icon: entry.icon,
+      category: entry.category,
+    }
   }
   // Si no está en el diccionario, devolver el item formateado
   return {
@@ -227,6 +249,14 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
 
   const classes = useMemo(() => getClasses(), [])
   const races = useMemo(() => getRaces(), [])
+
+  // Nombre/descripción localizados: los datos D&D traen nameEn/descriptionEn.
+  // En inglés preferimos esos; si faltan, caemos al canónico (español).
+  const isEn = locale === 'en'
+  const locName = (o: { name: string; nameEn?: string } | null | undefined): string =>
+    (isEn && o?.nameEn) ? o.nameEn : (o?.name ?? '')
+  const locDesc = (o: { description?: string; descriptionEn?: string } | null | undefined): string =>
+    (isEn && o?.descriptionEn) ? o.descriptionEn : (o?.description ?? '')
 
   const selectedRace = selectedRaceId ? getRace(selectedRaceId) : null
   const selectedClass = selectedClassId ? getClass(selectedClassId) : null
@@ -391,11 +421,15 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
 
     // Build equipment list
     const equipment: string[] = [
-      `${gold} monedas de oro`
+      locale === 'en' ? `${gold} gold coins` : `${gold} monedas de oro`
     ]
 
     if (magicItemInfo.count > 0) {
-      equipment.push(`${magicItemInfo.count} objeto(s) mágico(s) (hasta ${magicItemInfo.maxTier})`)
+      equipment.push(
+        locale === 'en'
+          ? `${magicItemInfo.count} magic item(s) (up to ${magicItemInfo.maxTier})`
+          : `${magicItemInfo.count} objeto(s) mágico(s) (hasta ${magicItemInfo.maxTier})`
+      )
     }
 
     // Add class starting equipment
@@ -409,7 +443,7 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
         const chosenOption = equipmentChoices[i]
         if (chosenOption !== undefined && choice.options[chosenOption]?.items) {
           choice.options[chosenOption].items.forEach((item: string) => {
-            const info = getItemInfo(item)
+            const info = getItemInfo(item, locale)
             equipment.push(info.name)
           })
         }
@@ -435,7 +469,7 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
       name: characterName,
       description: characterDescription,
       archetypeId: `dnd5e_${selectedClassId}_${selectedRaceId}`,
-      archetypeName: `${character.race.name} ${character.class.name}`,
+      archetypeName: `${locName(selectedRace)} ${locName(selectedClass)}`,
       stats: { ...stats } as Record<string, unknown>,
       inventory: equipment,
       level: selectedLevel,
@@ -468,7 +502,7 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
 
         {/* Step Title */}
         <h1 className="font-title text-2xl sm:text-3xl md:text-4xl text-gold-bright text-center mb-6 ink-reveal">
-          {STEP_TITLES[currentStep]}
+          {getStepTitles(locale)[currentStep]}
         </h1>
 
         {/* Step Content */}
@@ -498,9 +532,9 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
                         {RACE_ICONS[race.id] || <Users className="h-10 w-10" />}
                       </div>
                       <div>
-                        <h3 className="font-heading text-lg text-gold">{race.name}</h3>
+                        <h3 className="font-heading text-lg text-gold">{locName(race)}</h3>
                         <p className="font-body text-xs text-parchment/80 line-clamp-2">
-                          {race.description}
+                          {locDesc(race)}
                         </p>
                       </div>
                     </div>
@@ -511,7 +545,7 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
               {/* Subraces */}
               {selectedRace && selectedRace.subraces.length > 0 && (
                 <div className="glass-panel-dark rounded-lg p-4">
-                  <h3 className="font-heading text-lg text-gold mb-3">Elige Subrazа</h3>
+                  <h3 className="font-heading text-lg text-gold mb-3">{locale === 'en' ? 'Choose Subrace' : 'Elige Subraza'}</h3>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     {selectedRace.subraces.map((subrace) => (
                       <div
@@ -529,8 +563,8 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
                           }
                         }}
                       >
-                        <h4 className="font-heading text-sm text-gold">{subrace.name}</h4>
-                        <p className="text-xs text-parchment/80">{subrace.description}</p>
+                        <h4 className="font-heading text-sm text-gold">{locName(subrace)}</h4>
+                        <p className="text-xs text-parchment/80">{locDesc(subrace)}</p>
                       </div>
                     ))}
                   </div>
@@ -540,7 +574,7 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
               {/* Draconic Ancestry */}
               {selectedRaceId === 'dragonborn' && selectedRace?.draconicAncestries && (
                 <div className="glass-panel-dark rounded-lg p-4">
-                  <h3 className="font-heading text-lg text-gold mb-3">Linaje Dracónico</h3>
+                  <h3 className="font-heading text-lg text-gold mb-3">{locale === 'en' ? 'Draconic Ancestry' : 'Linaje Dracónico'}</h3>
                   <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
                     {selectedRace.draconicAncestries.map((ancestry) => (
                       <div
@@ -566,35 +600,35 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
               {/* Race Details */}
               {selectedRace && (
                 <div className="glass-panel-dark rounded-lg p-4">
-                  <h3 className="font-heading text-lg text-gold mb-2">{selectedRace.name}</h3>
+                  <h3 className="font-heading text-lg text-gold mb-2">{locName(selectedRace)}</h3>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-sm">
                     <div>
-                      <span className="text-gold">Velocidad:</span>
-                      <span className="text-parchment ml-2">{selectedRace.speed} pies</span>
+                      <span className="text-gold">{locale === 'en' ? 'Speed:' : 'Velocidad:'}</span>
+                      <span className="text-parchment ml-2">{selectedRace.speed} {locale === 'en' ? 'ft' : 'pies'}</span>
                     </div>
                     <div>
-                      <span className="text-gold">Tamaño:</span>
+                      <span className="text-gold">{locale === 'en' ? 'Size:' : 'Tamaño:'}</span>
                       <span className="text-parchment ml-2">{selectedRace.size}</span>
                     </div>
                     <div>
-                      <span className="text-gold">Idiomas:</span>
+                      <span className="text-gold">{locale === 'en' ? 'Languages:' : 'Idiomas:'}</span>
                       <span className="text-parchment ml-2">{selectedRace.languages.join(', ')}</span>
                     </div>
                     <div>
-                      <span className="text-gold">Bonificadores:</span>
+                      <span className="text-gold">{locale === 'en' ? 'Bonuses:' : 'Bonificadores:'}</span>
                       <span className="text-parchment ml-2">
                         {Object.entries(selectedRace.abilityScoreIncrease)
                           .filter(([k]) => k !== 'choice')
-                          .map(([k, v]) => `${k === 'all' ? 'Todos' : k} +${v}`)
+                          .map(([k, v]) => `${k === 'all' ? (locale === 'en' ? 'All' : 'Todos') : k} +${v}`)
                           .join(', ')}
                       </span>
                     </div>
                   </div>
                   {selectedRace.traits.length > 0 && (
                     <div className="mt-3 pt-3 border-t border-gold-dim/30">
-                      <span className="text-gold text-sm">Rasgos: </span>
+                      <span className="text-gold text-sm">{locale === 'en' ? 'Traits: ' : 'Rasgos: '}</span>
                       <span className="text-parchment text-sm">
-                        {selectedRace.traits.map(t => t.name).join(', ')}
+                        {selectedRace.traits.map(t => locName(t)).join(', ')}
                       </span>
                     </div>
                   )}
@@ -623,12 +657,12 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
                       <div className="text-gold-bright">
                         {CLASS_ICONS[cls.id] || <Sword className="h-10 w-10" />}
                       </div>
-                      <h3 className="font-heading text-lg text-gold">{cls.name}</h3>
+                      <h3 className="font-heading text-lg text-gold">{locName(cls)}</h3>
                       <p className="font-body text-xs text-parchment/80 line-clamp-2">
-                        {cls.description}
+                        {locDesc(cls)}
                       </p>
                       <div className="text-xs text-emerald">
-                        Dado de golpe: {cls.hitDie}
+                        {locale === 'en' ? 'Hit Die' : 'Dado de golpe'}: {cls.hitDie}
                       </div>
                     </div>
                   </div>
@@ -638,33 +672,33 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
               {/* Class Details */}
               {selectedClass && (
                 <div className="glass-panel-dark rounded-lg p-4">
-                  <h3 className="font-heading text-lg text-gold mb-2">{selectedClass.name}</h3>
-                  <p className="text-sm text-parchment/80 mb-3">{selectedClass.description}</p>
+                  <h3 className="font-heading text-lg text-gold mb-2">{locName(selectedClass)}</h3>
+                  <p className="text-sm text-parchment/80 mb-3">{locDesc(selectedClass)}</p>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-sm">
                     <div>
-                      <span className="text-gold">Dado de golpe:</span>
+                      <span className="text-gold">{locale === 'en' ? 'Hit Die:' : 'Dado de golpe:'}</span>
                       <span className="text-parchment ml-2">{selectedClass.hitDie}</span>
                     </div>
                     <div>
-                      <span className="text-gold">Habilidad principal:</span>
+                      <span className="text-gold">{locale === 'en' ? 'Primary ability:' : 'Habilidad principal:'}</span>
                       <span className="text-parchment ml-2">{selectedClass.primaryAbility.join(', ')}</span>
                     </div>
                     <div>
-                      <span className="text-gold">Salvaciones:</span>
+                      <span className="text-gold">{locale === 'en' ? 'Saving throws:' : 'Salvaciones:'}</span>
                       <span className="text-parchment ml-2">{selectedClass.savingThrows.join(', ')}</span>
                     </div>
                     <div>
-                      <span className="text-gold">Armaduras:</span>
+                      <span className="text-gold">{locale === 'en' ? 'Armor:' : 'Armaduras:'}</span>
                       <span className="text-parchment ml-2">
                         {selectedClass.armorProficiencies.length > 0
                           ? selectedClass.armorProficiencies.join(', ')
-                          : 'Ninguna'}
+                          : (locale === 'en' ? 'None' : 'Ninguna')}
                       </span>
                     </div>
                   </div>
                   {selectedClass.features['1'] && (
                     <div className="mt-3 pt-3 border-t border-gold-dim/30">
-                      <span className="text-gold text-sm">Características nivel 1: </span>
+                      <span className="text-gold text-sm">{locale === 'en' ? 'Level 1 features: ' : 'Características nivel 1: '}</span>
                       <span className="text-parchment text-sm">
                         {selectedClass.features['1'].map(f => f.name).join(', ')}
                       </span>
@@ -688,7 +722,7 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
                   }`}
                   onClick={() => setAssignmentMethod('standard')}
                 >
-                  Array Estándar
+                  {locale === 'en' ? 'Standard Array' : 'Array Estándar'}
                 </button>
                 <button
                   className={`px-4 py-2 rounded font-ui text-sm transition-all ${
@@ -698,7 +732,7 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
                   }`}
                   onClick={() => setAssignmentMethod('pointbuy')}
                 >
-                  Compra de Puntos
+                  {locale === 'en' ? 'Point Buy' : 'Compra de Puntos'}
                 </button>
               </div>
 
@@ -709,7 +743,9 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
                     className="text-sm text-emerald hover:text-emerald/80 font-ui underline"
                     onClick={applyRecommendedScores}
                   >
-                    Usar valores recomendados para {selectedClass?.name}
+                    {locale === 'en'
+                      ? `Use recommended scores for ${selectedClass?.name}`
+                      : `Usar valores recomendados para ${selectedClass?.name}`}
                   </button>
                 </div>
               )}
@@ -718,7 +754,9 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
               {assignmentMethod === 'standard' && (
                 <div className="glass-panel-dark rounded-lg p-4">
                   <p className="text-center text-sm text-parchment/80 mb-4">
-                    Asigna los valores {STANDARD_ARRAY.join(', ')} a tus atributos
+                    {locale === 'en'
+                      ? `Assign the values ${STANDARD_ARRAY.join(', ')} to your ability scores`
+                      : `Asigna los valores ${STANDARD_ARRAY.join(', ')} a tus atributos`}
                   </p>
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                     {(['STR', 'DEX', 'CON', 'INT', 'WIS', 'CHA'] as AbilityScore[]).map((ability) => (
@@ -753,7 +791,7 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
               {assignmentMethod === 'pointbuy' && (
                 <div className="glass-panel-dark rounded-lg p-4">
                   <div className="text-center mb-4">
-                    <span className="text-gold">Puntos restantes: </span>
+                    <span className="text-gold">{locale === 'en' ? 'Points remaining: ' : 'Puntos restantes: '}</span>
                     <span className={`font-mono text-lg ${pointBuyRemaining < 0 ? 'text-blood' : 'text-emerald'}`}>
                       {pointBuyRemaining}
                     </span>
@@ -786,7 +824,7 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
                           </button>
                         </div>
                         <div className="text-xs text-parchment/40 mt-1">
-                          Costo: {POINT_BUY_COSTS[abilityScores[ability]]}
+                          {locale === 'en' ? 'Cost' : 'Costo'}: {POINT_BUY_COSTS[abilityScores[ability]]}
                         </div>
                       </div>
                     ))}
@@ -797,11 +835,11 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
               {/* Racial bonuses preview */}
               {selectedRace && (
                 <div className="text-center text-sm text-parchment/80">
-                  Bonificadores raciales de {selectedRace.name}:{' '}
+                  {locale === 'en' ? `${selectedRace.name} racial bonuses:` : `Bonificadores raciales de ${selectedRace.name}:`}{' '}
                   <span className="text-emerald">
                     {Object.entries(selectedRace.abilityScoreIncrease)
                       .filter(([k]) => k !== 'choice')
-                      .map(([k, v]) => `${k === 'all' ? 'Todos' : k} +${v}`)
+                      .map(([k, v]) => `${k === 'all' ? (locale === 'en' ? 'All' : 'Todos') : k} +${v}`)
                       .join(', ')}
                   </span>
                 </div>
@@ -812,7 +850,7 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
           {/* LEVEL SELECTION */}
           {currentStep === 'level' && (
             <div className="space-y-4">
-              {LEVEL_OPTIONS.map((option) => {
+              {getLevelOptions(locale).map((option) => {
                 const goldInfo = getStartingGold(option.level)
                 const magicInfo = getMagicItemsAllowed(option.level)
                 const goldText = 'fixed' in goldInfo ? `${goldInfo.fixed}` : `${goldInfo.min}-${goldInfo.max}`
@@ -840,9 +878,9 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
                         <p className="text-sm text-parchment/80">{option.description}</p>
                       </div>
                       <div className="text-right text-sm">
-                        <div className="text-gold">{goldText} oro</div>
+                        <div className="text-gold">{goldText} {locale === 'en' ? 'gold' : 'oro'}</div>
                         {magicInfo.count > 0 && (
-                          <div className="text-emerald">{magicInfo.count} item(s) mágico(s)</div>
+                          <div className="text-emerald">{magicInfo.count} {locale === 'en' ? 'magic item(s)' : 'item(s) mágico(s)'}</div>
                         )}
                       </div>
                     </div>
@@ -860,17 +898,21 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
                       // ASI/Feat levels
                       const asiLevels = [4, 8, 12, 16, 19].filter(l => l <= option.level)
                       if (asiLevels.length > 0) {
-                        features.push(`Mejora de Atributos x${asiLevels.length}`)
+                        features.push(
+                          locale === 'en'
+                            ? `Ability Score Improvement x${asiLevels.length}`
+                            : `Mejora de Atributos x${asiLevels.length}`
+                        )
                       }
                       if (features.length === 0) return null
                       return (
                         <div className="mt-2 pt-2 border-t border-gold-dim/20">
-                          <p className="text-xs text-gold/70 mb-1">Características:</p>
+                          <p className="text-xs text-gold/70 mb-1">{locale === 'en' ? 'Features:' : 'Características:'}</p>
                           <div className="flex flex-wrap gap-1">
                             {features.slice(0, 6).map((f, i) => (
                               <span key={i} className="text-xs px-1.5 py-0.5 rounded bg-gold/10 text-parchment/70">{f}</span>
                             ))}
-                            {features.length > 6 && <span className="text-xs text-parchment/40">+{features.length - 6} más</span>}
+                            {features.length > 6 && <span className="text-xs text-parchment/40">+{features.length - 6} {locale === 'en' ? 'more' : 'más'}</span>}
                           </div>
                         </div>
                       )
@@ -885,7 +927,9 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
           {currentStep === 'subclass' && (
             <div className="space-y-6">
               <p className="text-center text-sm text-parchment/80 mb-4">
-                Al alcanzar el nivel {availableSubclasses[0]?.subclassLevel}, tu {selectedClass?.name} debe elegir una especialización.
+                {locale === 'en'
+                  ? `Upon reaching level ${availableSubclasses[0]?.subclassLevel}, your ${selectedClass?.name} must choose a specialization.`
+                  : `Al alcanzar el nivel ${availableSubclasses[0]?.subclassLevel}, tu ${selectedClass?.name} debe elegir una especialización.`}
               </p>
               <div className="grid grid-cols-1 gap-4">
                 {availableSubclasses.map((sc) => {
@@ -919,12 +963,12 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
 
                           {availableFeatures.length > 0 && (
                             <div className="space-y-2 pt-3 border-t border-gold-dim/30">
-                              <span className="text-xs font-ui text-gold">Características desbloqueadas (nivel {selectedLevel}):</span>
+                              <span className="text-xs font-ui text-gold">{locale === 'en' ? `Features unlocked (level ${selectedLevel}):` : `Características desbloqueadas (nivel ${selectedLevel}):`}</span>
                               {availableFeatures.map((feat, i) => (
                                 <div key={i} className="p-2 rounded bg-shadow/50 border border-gold-dim/20">
                                   <div className="flex items-center gap-2">
                                     <span className="text-sm font-heading text-gold">{feat.name}</span>
-                                    <span className="text-xs text-parchment/50">Nv. {feat.level}</span>
+                                    <span className="text-xs text-parchment/50">{locale === 'en' ? 'Lvl' : 'Nv.'} {feat.level}</span>
                                   </div>
                                   <p className="text-xs text-parchment/70 mt-1">{feat.description}</p>
                                 </div>
@@ -952,9 +996,9 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
                 <div className="flex items-center gap-3 mb-4">
                   <Backpack className="h-6 w-6 text-gold" />
                   <div>
-                    <h3 className="font-heading text-xl text-gold">Equipamiento Inicial</h3>
+                    <h3 className="font-heading text-xl text-gold">{locale === 'en' ? 'Starting Equipment' : 'Equipamiento Inicial'}</h3>
                     <p className="text-xs text-parchment/80">
-                      Elige tu equipo para comenzar la aventura
+                      {locale === 'en' ? 'Choose your gear to begin the adventure' : 'Elige tu equipo para comenzar la aventura'}
                     </p>
                   </div>
                 </div>
@@ -965,7 +1009,7 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
                     {selectedClass.startingEquipment.choices.map((choice: any, choiceIndex: number) => (
                       <div key={choiceIndex} className="p-3 rounded-lg border border-gold-dim/30 bg-shadow/30">
                         <p className="text-xs font-ui text-gold mb-2 uppercase tracking-wider">
-                          Elige una opción:
+                          {locale === 'en' ? 'Choose one option:' : 'Elige una opción:'}
                         </p>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                           {choice.options.map((option: any, optionIndex: number) => {
@@ -989,7 +1033,7 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
                                     })
                                     const grouped = Object.entries(itemCounts)
                                     return grouped.map(([item, count], i) => {
-                                      const info = getItemInfo(item)
+                                      const info = getItemInfo(item, locale)
                                       return (
                                         <div key={i} className="flex items-center gap-1">
                                           <span className="text-gold">{info.icon}</span>
@@ -1014,7 +1058,7 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
                 {/* Fixed items */}
                 {selectedClass?.startingEquipment.fixed && selectedClass.startingEquipment.fixed.length > 0 && (
                   <div className="mb-4">
-                    <p className="text-xs font-ui text-parchment/60 mb-2">Siempre incluido:</p>
+                    <p className="text-xs font-ui text-parchment/60 mb-2">{locale === 'en' ? 'Always included:' : 'Siempre incluido:'}</p>
                     <div className="flex flex-wrap gap-2">
                       {(() => {
                         const itemCounts: Record<string, number> = {}
@@ -1022,7 +1066,7 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
                           itemCounts[item] = (itemCounts[item] || 0) + 1
                         })
                         return Object.entries(itemCounts).map(([item, count]) => {
-                          const info = getItemInfo(item)
+                          const info = getItemInfo(item, locale)
                           return (
                             <div key={item} className="flex items-center gap-1.5 px-2 py-1 rounded bg-shadow/50 border border-gold-dim/20">
                               <span className="text-gold-dim">{info.icon}</span>
@@ -1047,7 +1091,7 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
                             return 'fixed' in goldInfo ? goldInfo.fixed : `${goldInfo.min}-${goldInfo.max}`
                           })()}
                         </div>
-                        <div className="text-xs text-parchment/80">Monedas de oro</div>
+                        <div className="text-xs text-parchment/80">{locale === 'en' ? 'Gold coins' : 'Monedas de oro'}</div>
                       </div>
                     </div>
                     {getMagicItemsAllowed(selectedLevel).count > 0 && (
@@ -1058,7 +1102,9 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
                             {getMagicItemsAllowed(selectedLevel).count} Item{getMagicItemsAllowed(selectedLevel).count > 1 ? 's' : ''}
                           </div>
                           <div className="text-xs text-parchment/80">
-                            Mágico{getMagicItemsAllowed(selectedLevel).count > 1 ? 's' : ''} (hasta {getMagicItemsAllowed(selectedLevel).maxTier})
+                            {locale === 'en'
+                              ? `Magic (up to ${getMagicItemsAllowed(selectedLevel).maxTier})`
+                              : `Mágico${getMagicItemsAllowed(selectedLevel).count > 1 ? 's' : ''} (hasta ${getMagicItemsAllowed(selectedLevel).maxTier})`}
                           </div>
                         </div>
                       </div>
@@ -1075,26 +1121,26 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
               <div className="glass-panel-dark rounded-lg p-6">
                 {/* Nombre */}
                 <label className="block font-heading text-gold text-lg mb-4 text-center">
-                  ¿Cómo se llama tu personaje?
+                  {locale === 'en' ? "What is your character's name?" : '¿Cómo se llama tu personaje?'}
                 </label>
                 <input
                   type="text"
                   value={characterName}
                   onChange={(e) => setCharacterName(e.target.value)}
-                  placeholder="Nombre del personaje"
+                  placeholder={locale === 'en' ? 'Character name' : 'Nombre del personaje'}
                   className="w-full bg-shadow border border-gold-dim/30 rounded-lg p-4 text-parchment font-body text-xl text-center placeholder:text-parchment/30 focus:outline-none focus:border-gold mb-6"
                   autoFocus
                 />
 
                 {/* Descripción */}
                 <label className="block font-ui text-sm text-gold mb-2">
-                  Describe a tu personaje
-                  <span className="text-parchment/50 ml-1">(para generar su retrato)</span>
+                  {locale === 'en' ? 'Describe your character' : 'Describe a tu personaje'}
+                  <span className="text-parchment/50 ml-1">{locale === 'en' ? '(to generate their portrait)' : '(para generar su retrato)'}</span>
                 </label>
                 <textarea
                   value={characterDescription}
                   onChange={(e) => setCharacterDescription(e.target.value)}
-                  placeholder="Apariencia física, rasgos distintivos, expresión, vestimenta..."
+                  placeholder={locale === 'en' ? 'Physical appearance, distinctive features, expression, clothing...' : 'Apariencia física, rasgos distintivos, expresión, vestimenta...'}
                   className="w-full bg-shadow border border-gold-dim/30 rounded-lg p-4 text-parchment font-body text-sm placeholder:text-parchment/30 focus:outline-none focus:border-gold resize-none"
                   rows={3}
                   maxLength={500}
@@ -1108,7 +1154,7 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
                              transition-colors group"
                   >
                     <Dices className="w-3.5 h-3.5 group-hover:animate-spin" />
-                    Generar descripción
+                    {locale === 'en' ? 'Generate description' : 'Generar descripción'}
                   </button>
                   <span className="text-xs text-parchment/40">{characterDescription.length}/500</span>
                 </div>
@@ -1117,34 +1163,34 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
               {/* Character Summary */}
               {selectedRace && selectedClass && characterName.trim() && (
                 <div className="glass-panel rounded-lg p-4">
-                  <h3 className="font-heading text-lg text-gold mb-3 text-center">Resumen</h3>
+                  <h3 className="font-heading text-lg text-gold mb-3 text-center">{locale === 'en' ? 'Summary' : 'Resumen'}</h3>
                   <div className="grid grid-cols-2 gap-4 text-sm">
                     <div>
-                      <span className="text-gold">Nombre:</span>
+                      <span className="text-gold">{locale === 'en' ? 'Name:' : 'Nombre:'}</span>
                       <span className="text-parchment ml-2">{characterName}</span>
                     </div>
                     <div>
-                      <span className="text-gold">Raza:</span>
+                      <span className="text-gold">{locale === 'en' ? 'Race:' : 'Raza:'}</span>
                       <span className="text-parchment ml-2">{selectedRace.name}</span>
                     </div>
                     <div>
-                      <span className="text-gold">Clase:</span>
+                      <span className="text-gold">{locale === 'en' ? 'Class:' : 'Clase:'}</span>
                       <span className="text-parchment ml-2">{selectedClass.name}</span>
                     </div>
                     <div>
-                      <span className="text-gold">Nivel:</span>
+                      <span className="text-gold">{locale === 'en' ? 'Level:' : 'Nivel:'}</span>
                       <span className="text-parchment ml-2">{selectedLevel}</span>
                     </div>
                     {selectedSubclass && (
                       <div>
-                        <span className="text-gold">Subclase:</span>
+                        <span className="text-gold">{locale === 'en' ? 'Subclass:' : 'Subclase:'}</span>
                         <span className="text-parchment ml-2">{selectedSubclass.name}</span>
                       </div>
                     )}
                   </div>
                   {characterDescription && (
                     <div className="mt-3 pt-3 border-t border-gold-dim/30">
-                      <span className="text-gold text-xs">Descripción:</span>
+                      <span className="text-gold text-xs">{locale === 'en' ? 'Description:' : 'Descripción:'}</span>
                       <p className="text-parchment text-xs mt-1 italic">"{characterDescription}"</p>
                     </div>
                   )}
@@ -1158,7 +1204,7 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
         <div className="fixed bottom-0 left-0 right-0 md:relative bg-shadow/95 md:bg-transparent p-4 md:p-0 border-t border-gold/20 md:border-0 flex justify-between items-center z-40">
           <RunicButton variant="secondary" onClick={goBack} className="text-sm md:text-base px-4 md:px-6">
             <ChevronLeft className="h-4 w-4 mr-1" />
-            Atrás
+            {locale === 'en' ? 'Back' : 'Atrás'}
           </RunicButton>
 
           <RunicButton
@@ -1170,11 +1216,11 @@ export function DnD5eCharacterCreator({ onComplete, onBack, lore }: DnD5eCharact
             {currentStepIndex === STEPS.length - 1 ? (
               <>
                 <Sparkles className="h-4 w-4 mr-1" />
-                Crear Personaje
+                {locale === 'en' ? 'Create Character' : 'Crear Personaje'}
               </>
             ) : (
               <>
-                Siguiente
+                {locale === 'en' ? 'Next' : 'Siguiente'}
                 <ChevronRight className="h-4 w-4 ml-1" />
               </>
             )}

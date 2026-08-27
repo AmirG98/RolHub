@@ -15,6 +15,10 @@ const isPublicRoute = createRouteMatcher([
   '/guias(.*)',
   '/sitemap.xml',
   '/robots.txt',
+  // Imágenes OG/Twitter — los crawlers de ads/redes las piden sin sesión.
+  // Sin esto redirigen a /login y el ad muestra preview roto.
+  '/opengraph-image(.*)',
+  '/twitter-image(.*)',
   '/privacy',
   '/terms',
   '/refunds',
@@ -67,7 +71,7 @@ export default clerkMiddleware(async (auth, request) => {
 
 export const config = {
   matcher: [
-    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
+    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest|mp4|webm|mp3|wav|ogg)).*)',
     '/(api|trpc)(.*)',
   ],
 }

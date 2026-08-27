@@ -10,6 +10,8 @@ import {
 } from '@/lib/claude/prompts/combat-action'
 import { CombatState, CombatActionType, CombatLogEntry } from '@/lib/types/combat-state'
 import { TacticalToken } from '@/lib/tactical/types'
+import { prisma } from '@/lib/db/prisma'
+import { canStartSession } from '@/lib/plans/check-access'
 
 // Inicializar Claude
 const anthropic = new Anthropic({
@@ -45,6 +47,8 @@ export interface CombatActionAPIResponse {
   combatEnded: boolean
   combatResult?: 'victory' | 'defeat' | null
   error?: string
+  /** true cuando el 403 es por paywall (trial agotado / sub vencida) */
+  upgradeRequired?: boolean
 }
 
 export async function POST(req: NextRequest): Promise<NextResponse<CombatActionAPIResponse>> {
@@ -60,6 +64,33 @@ export async function POST(req: NextRequest): Promise<NextResponse<CombatActionA
         combatEnded: false,
         error: 'No autorizado',
       }, { status: 401 })
+    }
+
+    // Enforcement de billing: combat también llama a Claude, así que un FREE
+    // con trial agotado no puede seguir generando llamadas por acá (era un
+    // bypass del paywall + hueco de costos).
+    if (process.env.BILLING_ENFORCED === 'true') {
+      const u = await prisma.user.findUnique({
+        where: { clerkId: userId },
+        select: { plan: true, trialSessionUsed: true, planExpiresAt: true, stripeSubscriptionId: true, totalTurns: true },
+      })
+      if (u) {
+        const access = canStartSession({
+          plan: u.plan,
+          trialSessionUsed: u.trialSessionUsed,
+          planExpiresAt: u.planExpiresAt,
+          stripeSubscriptionId: u.stripeSubscriptionId,
+          totalTurns: u.totalTurns,
+        })
+        if (!access.allowed) {
+          return NextResponse.json({
+            success: false, narration: '',
+            result: { narration: '', tokenUpdates: [], combatEnded: false },
+            combatLog: createEmptyLog(), tokenUpdates: [], combatEnded: false,
+            error: access.reason, upgradeRequired: true,
+          }, { status: 403 })
+        }
+      }
     }
 
     const body = await req.json() as CombatActionRequestBody

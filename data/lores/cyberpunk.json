@@ -14,10 +14,10 @@
     "rebelde",
     "distópico"
   ],
-  "world_summary": "2077. Las megacorporaciones controlan todo. La tecnología cibernética permite mejorar tu cuerpo pero te hace perder humanidad. Vivís en los bajos fondos de Night City, una metrópolis vertical donde los ricos están en torres de cristal y vos estás en las calles de neón. Hackers, mercenarios, netrunners y gente desesperada intentan sobrevivir. Las corporaciones tienen ejércitos privados. La ley solo existe para los ricos. Tu cuerpo es tu primera mejora. El dinero lo compra todo, incluso más vida.",
+  "world_summary": "2077. Las megacorporaciones controlan todo. La tecnología cibernética permite mejorar tu cuerpo pero te hace perder humanidad. Vivís en los bajos fondos de Neon City, una metrópolis vertical donde los ricos están en torres de cristal y vos estás en las calles de neón. Hackers, mercenarios, netrunners y gente desesperada intentan sobrevivir. Las corporaciones tienen ejércitos privados. La ley solo existe para los ricos. Tu cuerpo es tu primera mejora. El dinero lo compra todo, incluso más vida.",
   "factions": [
     {
-      "name": "Arasaka Corp",
+      "name": "Kurotek Corp",
       "description": "Megacorporación japonesa - poder absoluto",
       "alignment": "Malvado",
       "influence": 3
@@ -41,7 +41,7 @@
       "influence": 1
     },
     {
-      "name": "Trauma Team",
+      "name": "MedForce",
       "description": "Paramédicos armados - solo para clientes premium",
       "alignment": "Neutral",
       "influence": 1
@@ -49,14 +49,14 @@
   ],
   "locations": [
     {
-      "name": "Downtown Night City",
+      "name": "Downtown Neon City",
       "description": "Centro con rascacielos y neones",
       "type": "ciudad",
       "danger_level": 3,
       "travel_times": {
         "Los Bajos Fondos": "15 minutos en vehículo, 45 minutos a pie",
-        "Torre Arasaka": "10 minutos en vehículo, 30 minutos a pie",
-        "Club Afterlife": "5 minutos en vehículo, 20 minutos a pie",
+        "Torre Kurotek": "10 minutos en vehículo, 30 minutos a pie",
+        "Club Limbo": "5 minutos en vehículo, 20 minutos a pie",
         "Badlands": "40 minutos en vehículo, 4 horas a pie"
       },
       "sub_locations": [
@@ -87,8 +87,8 @@
         {
           "id": "hospital-trauma-team",
           "name": {
-            "es": "Hospital de Trauma Team",
-            "en": "Trauma Team Hospital"
+            "es": "Hospital de MedForce",
+            "en": "MedForce Hospital"
           },
           "type": "hospital",
           "description": {
@@ -104,8 +104,8 @@
           },
           "type": "gate",
           "description": {
-            "es": "Nodo principal del tren urbano de Night City, siempre atestado de gente",
-            "en": "The main hub of Night City's urban rail, always packed with people"
+            "es": "Nodo principal del tren urbano de Neon City, siempre atestado de gente",
+            "en": "The main hub of Neon City's urban rail, always packed with people"
           }
         }
       ]
@@ -116,9 +116,9 @@
       "type": "barrio",
       "danger_level": 4,
       "travel_times": {
-        "Downtown Night City": "15 minutos en vehículo, 45 minutos a pie",
+        "Downtown Neon City": "15 minutos en vehículo, 45 minutos a pie",
         "Ripperdoc": "5 minutos a pie",
-        "Club Afterlife": "10 minutos en vehículo, 25 minutos a pie",
+        "Club Limbo": "10 minutos en vehículo, 25 minutos a pie",
         "Mercado Negro": "10 minutos a pie"
       },
       "sub_locations": [
@@ -178,29 +178,29 @@
       "type": "virtual",
       "danger_level": 5,
       "travel_times": {
-        "Torre Arasaka": "instantáneo (conexión digital)",
+        "Torre Kurotek": "instantáneo (conexión digital)",
         "Ripperdoc": "requiere desconexión física"
       }
     },
     {
-      "name": "Club Afterlife",
+      "name": "Club Limbo",
       "description": "Bar de mercenarios - donde se hacen los tratos",
       "type": "bar",
       "danger_level": 2,
       "travel_times": {
-        "Downtown Night City": "5 minutos en vehículo, 20 minutos a pie",
+        "Downtown Neon City": "5 minutos en vehículo, 20 minutos a pie",
         "Los Bajos Fondos": "10 minutos en vehículo, 25 minutos a pie",
         "Mercado Negro": "15 minutos a pie"
       }
     },
     {
-      "name": "Torre Arasaka",
+      "name": "Torre Kurotek",
       "description": "Edificio corporativo - fortaleza blindada",
       "type": "edificio",
       "danger_level": 5,
       "travel_times": {
-        "Downtown Night City": "10 minutos en vehículo, 30 minutos a pie",
-        "Club Afterlife": "15 minutos en vehículo",
+        "Downtown Neon City": "10 minutos en vehículo, 30 minutos a pie",
+        "Club Limbo": "15 minutos en vehículo",
         "Los Bajos Fondos": "20 minutos en vehículo, 1 hora a pie"
       }
     },
@@ -212,7 +212,7 @@
       "travel_times": {
         "Los Bajos Fondos": "5 minutos a pie",
         "Mercado Negro": "10 minutos a pie",
-        "Club Afterlife": "15 minutos en vehículo"
+        "Club Limbo": "15 minutos en vehículo"
       }
     },
     {
@@ -221,7 +221,7 @@
       "type": "desierto",
       "danger_level": 3,
       "travel_times": {
-        "Downtown Night City": "40 minutos en vehículo, 4 horas a pie",
+        "Downtown Neon City": "40 minutos en vehículo, 4 horas a pie",
         "Los Bajos Fondos": "35 minutos en vehículo, 3 horas a pie"
       }
     },
@@ -233,7 +233,7 @@
       "travel_times": {
         "Los Bajos Fondos": "10 minutos a pie",
         "Ripperdoc": "10 minutos a pie",
-        "Club Afterlife": "15 minutos a pie"
+        "Club Limbo": "15 minutos a pie"
       }
     }
   ],
@@ -794,7 +794,7 @@
         "Ahora tenés a toda la ciudad buscándote"
       ],
       "typical_scenes": [
-        "Club Afterlife",
+        "Club Limbo",
         "Los Bajos Fondos"
       ],
       "mood": "drama_tense"
@@ -822,7 +822,7 @@
         "Robo de información devastadora"
       ],
       "typical_scenes": [
-        "Torre Arasaka",
+        "Torre Kurotek",
         "Downtown"
       ],
       "mood": "combat_epic"
@@ -836,35 +836,35 @@
         "Sacrificio necesario"
       ],
       "typical_scenes": [
-        "Torre Arasaka",
+        "Torre Kurotek",
         "La Red"
       ],
       "mood": "combat_epic"
     },
     "act_5": {
-      "name": "Leyenda de Night City",
+      "name": "Leyenda de Neon City",
       "description": "Tu nombre será recordado... si sobrevivís",
       "anchors": [
         "Las consecuencias de tus acciones",
         "Nueva identidad o fama eterna",
-        "Night City nunca cambia"
+        "Neon City nunca cambia"
       ],
       "typical_scenes": [
-        "Club Afterlife",
+        "Club Limbo",
         "Los Bajos Fondos"
       ],
       "mood": "rest_peaceful"
     }
   },
-  "one_shot_hook": "Un Fixer te ofrece 50,000 eddies por un trabajo simple: entrar a un edificio corporativo, robar un chip de data, salir. Dos horas máximo. Pero cuando conectás el chip, descubrís que contiene consciencia humana digitalizada... y esa persona sabe algo que hará que Arasaka te quiera muerto. El reloj corre. ¿Qué hacés?",
+  "one_shot_hook": "Un Fixer te ofrece 50,000 eddies por un trabajo simple: entrar a un edificio corporativo, robar un chip de data, salir. Dos horas máximo. Pero cuando conectás el chip, descubrís que contiene consciencia humana digitalizada... y esa persona sabe algo que hará que Kurotek te quiera muerto. El reloj corre. ¿Qué hacés?",
   "opening_scene": {
     "location_id": "afterlife-bar",
-    "location_name": "Club Afterlife, Night City",
-    "description": "Te encontrás en el Club Afterlife, el bar de mercenarios más famoso de Night City. Las luces de neón tiñen de púrpura y azul los rostros de asesinos, hackers y contrabandistas que beben sintético mientras cierran tratos mortales. La música industrial late como un segundo corazón. El olor a humo de cigarros electrónicos y alcohol barato llena el aire reciclado. En las pantallas, noticias corporativas que nadie mira. Acá es donde se hacen los trabajos que definen carreras... o las terminan.",
+    "location_name": "Club Limbo, Neon City",
+    "description": "Te encontrás en el Club Limbo, el bar de mercenarios más famoso de Neon City. Las luces de neón tiñen de púrpura y azul los rostros de asesinos, hackers y contrabandistas que beben sintético mientras cierran tratos mortales. La música industrial late como un segundo corazón. El olor a humo de cigarros electrónicos y alcohol barato llena el aire reciclado. En las pantallas, noticias corporativas que nadie mira. Acá es donde se hacen los trabajos que definen carreras... o las terminan.",
     "visible_directions": [
       {
         "direction": "fondo del bar",
-        "landmark": "la barra donde Rogue, la Fixer más legendaria de la ciudad, cierra tratos con una mirada fría"
+        "landmark": "la barra donde Nyx, la Fixer más legendaria de la ciudad, cierra tratos con una mirada fría"
       },
       {
         "direction": "rincón oscuro",
@@ -876,11 +876,11 @@
       },
       {
         "direction": "ventanas polarizadas",
-        "landmark": "la vista de los rascacielos de Downtown, las torres de Arasaka brillando como una promesa o una amenaza"
+        "landmark": "la vista de los rascacielos de Downtown, las torres de Kurotek brillando como una promesa o una amenaza"
       }
     ],
     "ambient_rumors": [
-      "dicen que Arasaka perdió un prototipo de implante neural y paga una fortuna por recuperarlo",
+      "dicen que Kurotek perdió un prototipo de implante neural y paga una fortuna por recuperarlo",
       "un Netrunner quemó los servidores de una banda y ahora tiene precio en la cabeza",
       "los Nomads del desierto tienen acceso a tech militar y buscan socios en la ciudad",
       "hay un Ripperdoc en los Bajos que instala chrome experimental por mitad de precio"
@@ -891,12 +891,12 @@
     {
       "id": "default",
       "location_id": "afterlife-bar",
-      "location_name": "Club Afterlife, Night City",
-      "description": "Te encontrás en el Club Afterlife, el bar de mercenarios más famoso de Night City. Las luces de neón tiñen de púrpura y azul los rostros de asesinos, hackers y contrabandistas que beben sintético mientras cierran tratos mortales. La música industrial late como un segundo corazón. El olor a humo de cigarros electrónicos y alcohol barato llena el aire reciclado. En las pantallas, noticias corporativas que nadie mira. Acá es donde se hacen los trabajos que definen carreras... o las terminan.",
+      "location_name": "Club Limbo, Neon City",
+      "description": "Te encontrás en el Club Limbo, el bar de mercenarios más famoso de Neon City. Las luces de neón tiñen de púrpura y azul los rostros de asesinos, hackers y contrabandistas que beben sintético mientras cierran tratos mortales. La música industrial late como un segundo corazón. El olor a humo de cigarros electrónicos y alcohol barato llena el aire reciclado. En las pantallas, noticias corporativas que nadie mira. Acá es donde se hacen los trabajos que definen carreras... o las terminan.",
       "visible_directions": [
         {
           "direction": "fondo del bar",
-          "landmark": "la barra donde Rogue, la Fixer más legendaria de la ciudad, cierra tratos con una mirada fría"
+          "landmark": "la barra donde Nyx, la Fixer más legendaria de la ciudad, cierra tratos con una mirada fría"
         },
         {
           "direction": "rincón oscuro",
@@ -908,11 +908,11 @@
         },
         {
           "direction": "ventanas polarizadas",
-          "landmark": "la vista de los rascacielos de Downtown, las torres de Arasaka brillando como una promesa o una amenaza"
+          "landmark": "la vista de los rascacielos de Downtown, las torres de Kurotek brillando como una promesa o una amenaza"
         }
       ],
       "ambient_rumors": [
-        "dicen que Arasaka perdió un prototipo de implante neural y paga una fortuna por recuperarlo",
+        "dicen que Kurotek perdió un prototipo de implante neural y paga una fortuna por recuperarlo",
         "un Netrunner quemó los servidores de una banda y ahora tiene precio en la cabeza",
         "los Nomads del desierto tienen acceso a tech militar y buscan socios en la ciudad",
         "hay un Ripperdoc en los Bajos que instala chrome experimental por mitad de precio"
@@ -922,12 +922,12 @@
     {
       "id": "blackout_night",
       "location_id": "afterlife-bar",
-      "location_name": "Club Afterlife, Night City",
-      "description": "Un apagón masivo golpeó Night City hace veinte minutos y el Afterlife funciona con generadores de emergencia. La mitad de los neones están muertos, dejando el bar en una penumbra rojiza que solo interrumpen las brasas de cigarros electrónicos y los implantes ópticos brillando en la oscuridad. Sin las pantallas corporativas, la gente habla más de lo que debería. Los mercenarios se agrupan tensos, susurrando sobre oportunidades: un blackout así no pasa sin que alguien lo haya planeado. Afuera, las sirenas de Trauma Team aúllan sin parar y el caos se huele en el aire reciclado.",
+      "location_name": "Club Limbo, Neon City",
+      "description": "Un apagón masivo golpeó Neon City hace veinte minutos y el Limbo funciona con generadores de emergencia. La mitad de los neones están muertos, dejando el bar en una penumbra rojiza que solo interrumpen las brasas de cigarros electrónicos y los implantes ópticos brillando en la oscuridad. Sin las pantallas corporativas, la gente habla más de lo que debería. Los mercenarios se agrupan tensos, susurrando sobre oportunidades: un blackout así no pasa sin que alguien lo haya planeado. Afuera, las sirenas de MedForce aúllan sin parar y el caos se huele en el aire reciclado.",
       "visible_directions": [
         {
           "direction": "fondo del bar",
-          "landmark": "la barra donde Rogue, la Fixer más legendaria de la ciudad, cierra tratos con una mirada fría"
+          "landmark": "la barra donde Nyx, la Fixer más legendaria de la ciudad, cierra tratos con una mirada fría"
         },
         {
           "direction": "rincón oscuro",
@@ -939,26 +939,26 @@
         },
         {
           "direction": "ventanas polarizadas",
-          "landmark": "la vista de los rascacielos de Downtown, las torres de Arasaka brillando como una promesa o una amenaza"
+          "landmark": "la vista de los rascacielos de Downtown, las torres de Kurotek brillando como una promesa o una amenaza"
         }
       ],
       "ambient_rumors": [
-        "dicen que Arasaka perdió un prototipo de implante neural y paga una fortuna por recuperarlo",
+        "dicen que Kurotek perdió un prototipo de implante neural y paga una fortuna por recuperarlo",
         "un Netrunner quemó los servidores de una banda y ahora tiene precio en la cabeza",
         "los Nomads del desierto tienen acceso a tech militar y buscan socios en la ciudad",
         "hay un Ripperdoc en los Bajos que instala chrome experimental por mitad de precio"
       ],
-      "closing_prompt": "Night City está a oscuras y el caos es una ventana de oportunidad. ¿Qué hacés?"
+      "closing_prompt": "Neon City está a oscuras y el caos es una ventana de oportunidad. ¿Qué hacés?"
     },
     {
       "id": "corpo_raid",
       "location_id": "afterlife-bar",
-      "location_name": "Club Afterlife, Night City",
-      "description": "El Afterlife hierve de actividad esta madrugada. Hace una hora, un escuadrón táctico de Arasaka allanó tres bloques de los Bajos Fondos buscando un paquete de data robado, y los mercenarios desplazados por la redada se refugiaron acá. El bar está al doble de su capacidad: cuerpos sudorosos con chrome brillante apretados entre mesas, la música ahogada por conversaciones urgentes. Rogue atiende llamadas sin parar detrás de la barra, repartiendo trabajos de evacuación y contraespionaje. El aire apesta a adrenalina sintética y miedo real. Por las ventanas polarizadas se ven los reflectores de los AVs corporativos barriendo las calles como ojos furiosos.",
+      "location_name": "Club Limbo, Neon City",
+      "description": "El Limbo hierve de actividad esta madrugada. Hace una hora, un escuadrón táctico de Kurotek allanó tres bloques de los Bajos Fondos buscando un paquete de data robado, y los mercenarios desplazados por la redada se refugiaron acá. El bar está al doble de su capacidad: cuerpos sudorosos con chrome brillante apretados entre mesas, la música ahogada por conversaciones urgentes. Nyx atiende llamadas sin parar detrás de la barra, repartiendo trabajos de evacuación y contraespionaje. El aire apesta a adrenalina sintética y miedo real. Por las ventanas polarizadas se ven los reflectores de los AVs corporativos barriendo las calles como ojos furiosos.",
       "visible_directions": [
         {
           "direction": "fondo del bar",
-          "landmark": "la barra donde Rogue, la Fixer más legendaria de la ciudad, cierra tratos con una mirada fría"
+          "landmark": "la barra donde Nyx, la Fixer más legendaria de la ciudad, cierra tratos con una mirada fría"
         },
         {
           "direction": "rincón oscuro",
@@ -970,16 +970,16 @@
         },
         {
           "direction": "ventanas polarizadas",
-          "landmark": "la vista de los rascacielos de Downtown, las torres de Arasaka brillando como una promesa o una amenaza"
+          "landmark": "la vista de los rascacielos de Downtown, las torres de Kurotek brillando como una promesa o una amenaza"
         }
       ],
       "ambient_rumors": [
-        "dicen que Arasaka perdió un prototipo de implante neural y paga una fortuna por recuperarlo",
+        "dicen que Kurotek perdió un prototipo de implante neural y paga una fortuna por recuperarlo",
         "un Netrunner quemó los servidores de una banda y ahora tiene precio en la cabeza",
         "los Nomads del desierto tienen acceso a tech militar y buscan socios en la ciudad",
         "hay un Ripperdoc en los Bajos que instala chrome experimental por mitad de precio"
       ],
-      "closing_prompt": "Arasaka patea puertas y la ciudad arde. Es la peor noche para estar quieto. ¿Qué hacés?"
+      "closing_prompt": "Kurotek patea puertas y la ciudad arde. Es la peor noche para estar quieto. ¿Qué hacés?"
     }
   ],
   "initial_missions": [
@@ -1006,7 +1006,7 @@
     {
       "id": "convoy_assault",
       "title": "Asalto al Convoy",
-      "description": "Militech transporta prototipos de implantes por la autopista norte. Un cliente anónimo paga mucho por interceptar ese convoy. Es suicida, pero la paga es de leyenda.",
+      "description": "Vanguard Arms transporta prototipos de implantes por la autopista norte. Un cliente anónimo paga mucho por interceptar ese convoy. Es suicida, pero la paga es de leyenda.",
       "difficulty": "hard",
       "tags": [
         "combat",
@@ -1023,7 +1023,7 @@
   },
   "tutorial_notes": "Para NOVICE: Explicar que implantes = poder pero pérdida de humanidad. Tutorial en Ripperdoc eligiendo primer implante. Fixer actúa como mentor. Primer trabajo es simple entrega.",
   "glossary": {
-    "Eddy": "Crédito - moneda de Night City",
+    "Eddy": "Crédito - moneda de Neon City",
     "Implante": "Mejora cibernética del cuerpo",
     "Netrunner": "Hacker que opera en el ciberespacio",
     "Fixer": "Intermediario que conecta trabajos con mercenarios",

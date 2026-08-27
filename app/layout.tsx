@@ -49,25 +49,25 @@ const courierPrime = Courier_Prime({
 export const metadata: Metadata = {
   metadataBase: new URL('https://rol-hub.com'),
   title: {
-    default: "RolHub - Juegos de Rol con DM de Inteligencia Artificial",
+    default: "RolHub — The First AI Dungeon Master Across Any World",
     template: "%s | RolHub",
   },
-  description: "Juega partidas de rol narrativo con un Director de Juego con IA. Crea tu personaje, elige tu mundo y vive aventuras unicas. Sin experiencia previa necesaria.",
-  keywords: ['juego de rol', 'RPG online', 'DM inteligencia artificial', 'rol narrativo', 'D&D online', 'jugar rol gratis', 'dungeon master IA'],
+  description: "Play tabletop RPG with an autonomous AI Dungeon Master. Pick from multiple original worlds, create your character, and live epic stories — solo or with friends. No experience needed.",
+  keywords: ['AI dungeon master', 'AI RPG', 'tabletop RPG online', 'solo RPG', 'AI game master', 'play D&D online', 'interactive fiction', 'AI storytelling game'],
   authors: [{ name: 'RolHub' }],
   creator: 'RolHub',
   openGraph: {
     type: 'website',
-    locale: 'es_ES',
+    locale: 'en_US',
     url: 'https://rol-hub.com',
     siteName: 'RolHub',
-    title: 'RolHub - Juegos de Rol con DM de Inteligencia Artificial',
-    description: 'Juega partidas de rol narrativo con un Director de Juego con IA. Sin experiencia previa necesaria.',
+    title: 'RolHub — The First AI Dungeon Master Across Any World',
+    description: 'Play tabletop RPG with an autonomous AI Dungeon Master across multiple original worlds. No experience needed.',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'RolHub - Juegos de Rol con DM de Inteligencia Artificial',
-    description: 'Juega partidas de rol narrativo con un Director de Juego con IA.',
+    title: 'RolHub — The First AI Dungeon Master Across Any World',
+    description: 'Play tabletop RPG with an autonomous AI Dungeon Master across multiple original worlds.',
   },
   robots: {
     index: true,
@@ -95,7 +95,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <ClerkProvider>
-      <html lang="es" className={`${cinzelDecorative.variable} ${cinzel.variable} ${ebGaramond.variable} ${crimsonText.variable} ${courierPrime.variable}`}>
+      <html lang="en" className={`${cinzelDecorative.variable} ${cinzel.variable} ${ebGaramond.variable} ${crimsonText.variable} ${courierPrime.variable}`}>
         <head>
           <Script id="gtm" strategy="afterInteractive">
             {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
