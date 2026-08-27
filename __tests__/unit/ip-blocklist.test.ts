@@ -35,6 +35,7 @@ const BLOCKLIST = [
   // CD Projekt / R. Talsorian (Cyberpunk 2077 / Cyberpunk 2020)
   'Night City', 'Arasaka', 'Club Afterlife', 'Afterlife Club', 'Trauma Team',
   'Militech', 'Voodoo Boys', 'Blackwall', 'braindance', 'Silverhand',
+  'Netwatch', 'NetWatch',
   // Wizards of the Coast (Forgotten Realms — el SRD NO licencia el setting)
   'Reinos Olvidados', 'Forgotten Realms', 'Waterdeep', 'Faerûn', 'Faerun',
   'Portal Bostezante', 'Yawning Portal', 'Neverwinter', 'Menzoberranzan',

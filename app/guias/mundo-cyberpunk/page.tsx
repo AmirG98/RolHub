@@ -37,7 +37,7 @@ const factions = [
     playStyle: 'Fuentes de trabajo, aliados utiles, informacion valiosa.',
   },
   {
-    name: 'Netwatch',
+    name: 'VigilNet',
     description: 'Policia del ciberespacio. Cazan hackers y controlan la Red.',
     alignment: 'Neutral',
     playStyle: 'Pueden ser aliados o enemigos segun tus acciones.',
