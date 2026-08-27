@@ -1294,7 +1294,10 @@ SESION 2026-08-26 — fix/ad-launch-readiness (SIN mergear, SIN deployar):
   health 200, pricing con copy de 25 turnos.
 
   PENDIENTE:
-  - Prender BILLING_ENFORCED=true en Vercel cuando haya tracción (hoy queda en false).
+  - ✅ BILLING_ENFORCED=true PRENDIDO en Vercel (2026-08-27) — paywall ACTIVO en prod.
+    Verificado via /api/health que ahora expone billing_enforced. FREE = 25 turnos
+    jugados y después paywall; guests siguen gratis (rate limit 30/h/IP); PRO ilimitado.
+    Para apagarlo: borrar la env var (o ponerla en false) + redeploy.
   - Guías /guias/* siguen español-only (baja prioridad: los ads no linkean ahí).
   - Vercel env: confirmar PLAYTEST_BYPASS_TOKEN si se usa el playtest contra prod.
   - Nota: campañas existentes con current_scene en locaciones renombradas por IP
