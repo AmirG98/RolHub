@@ -2,11 +2,11 @@
   "id": "STAR_WARS",
   "name": {
     "es": "Frontera Estelar",
-    "en": "space opera"
+    "en": "Stellar Frontier"
   },
   "tagline": {
-    "es": "Una galaxia muy, muy lejana llena de aventura",
-    "en": "A galaxy far, far away full of adventure"
+    "es": "Una galaxia sin ley de místicos, contrabandistas y rebelión",
+    "en": "A lawless galaxy of mystics, smugglers and rebellion"
   },
   "tone": [
     "épico",
@@ -54,7 +54,7 @@
       "type": "desierto",
       "danger_level": 2,
       "travel_times": {
-        "Puerto Zenna": "2 horas a pie, 30 minutos en speeder",
+        "Puerto Zenna": "2 horas a pie, 30 minutos en deslizador",
         "Kryos": "6 horas en nave por hiperespacio",
         "Mirval": "8 horas en nave por hiperespacio",
         "Nexus Prime": "16 horas en nave por hiperespacio"
@@ -66,7 +66,7 @@
       "type": "ciudad",
       "danger_level": 3,
       "travel_times": {
-        "Karshaar": "2 horas a pie, 30 minutos en speeder",
+        "Karshaar": "2 horas a pie, 30 minutos en deslizador",
         "Kryos": "6 horas en nave por hiperespacio",
         "Nexus Prime": "16 horas en nave por hiperespacio",
         "Estación Eclipse": "variable, depende de su ubicación orbital"

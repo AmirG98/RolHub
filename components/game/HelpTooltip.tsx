@@ -3,7 +3,8 @@
 import { useState } from 'react'
 import { HelpCircle, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { getHelpContent, type HelpLevel } from '@/lib/game/help-content'
+import { getHelpContent, ALL_SKILLS, type HelpLevel } from '@/lib/game/help-content'
+import { useLanguage } from '@/lib/i18n'
 
 interface HelpTooltipProps {
   category: 'ability' | 'combat' | 'saving_throw' | 'skill' | 'story_mode'
@@ -27,7 +28,8 @@ export function HelpTooltip({
   iconSize = 'sm',
 }: HelpTooltipProps) {
   const [isOpen, setIsOpen] = useState(false)
-  const content = getHelpContent(category, term, level)
+  const { locale } = useLanguage()
+  const content = getHelpContent(category, term, level, locale)
 
   return (
     <div className={cn("relative inline-flex", className)}>
@@ -86,7 +88,8 @@ export function HelpText({
   level = 'novice',
   className,
 }: Omit<HelpTooltipProps, 'iconSize'>) {
-  const content = getHelpContent(category, term, level)
+  const { locale } = useLanguage()
+  const content = getHelpContent(category, term, level, locale)
 
   return (
     <p className={cn("text-xs text-parchment/60 font-body", className)}>
@@ -104,14 +107,15 @@ interface HelpModalProps {
 
 export function HelpModal({ isOpen, onClose, level = 'novice' }: HelpModalProps) {
   const [activeSection, setActiveSection] = useState<'abilities' | 'combat' | 'skills' | 'saves'>('abilities')
+  const { locale } = useLanguage()
 
   if (!isOpen) return null
 
   const sections = [
-    { id: 'abilities', label: 'Atributos' },
-    { id: 'combat', label: 'Combate' },
-    { id: 'saves', label: 'Salvaciones' },
-    { id: 'skills', label: 'Habilidades' },
+    { id: 'abilities', label: locale === 'es' ? 'Atributos' : 'Abilities' },
+    { id: 'combat', label: locale === 'es' ? 'Combate' : 'Combat' },
+    { id: 'saves', label: locale === 'es' ? 'Salvaciones' : 'Saving Throws' },
+    { id: 'skills', label: locale === 'es' ? 'Habilidades' : 'Skills' },
   ] as const
 
   return (
@@ -130,7 +134,7 @@ export function HelpModal({ isOpen, onClose, level = 'novice' }: HelpModalProps)
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-gold-dim/30">
           <h2 className="font-heading text-xl text-gold-bright">
-            Guía de Referencia
+            {locale === 'es' ? 'Guía de Referencia' : 'Reference Guide'}
           </h2>
           <button
             onClick={onClose}
@@ -166,7 +170,7 @@ export function HelpModal({ isOpen, onClose, level = 'novice' }: HelpModalProps)
                 <div key={ability} className="p-3 rounded bg-shadow/50 border border-gold-dim/20">
                   <h3 className="font-heading text-gold mb-1">{ability}</h3>
                   <p className="text-sm text-parchment/80 font-body">
-                    {getHelpContent('ability', ability, level)}
+                    {getHelpContent('ability', ability, level, locale)}
                   </p>
                 </div>
               ))}
@@ -178,13 +182,16 @@ export function HelpModal({ isOpen, onClose, level = 'novice' }: HelpModalProps)
               {['hp', 'ac', 'initiative', 'proficiency', 'speed', 'hitDice'].map((stat) => (
                 <div key={stat} className="p-3 rounded bg-shadow/50 border border-gold-dim/20">
                   <h3 className="font-heading text-gold mb-1 capitalize">
-                    {stat === 'hp' ? 'Puntos de Vida' :
-                     stat === 'ac' ? 'Clase de Armadura' :
-                     stat === 'hitDice' ? 'Dados de Golpe' :
+                    {stat === 'hp' ? (locale === 'es' ? 'Puntos de Vida' : 'Hit Points') :
+                     stat === 'ac' ? (locale === 'es' ? 'Clase de Armadura' : 'Armor Class') :
+                     stat === 'initiative' ? (locale === 'es' ? 'Iniciativa' : 'Initiative') :
+                     stat === 'proficiency' ? (locale === 'es' ? 'Competencia' : 'Proficiency') :
+                     stat === 'speed' ? (locale === 'es' ? 'Velocidad' : 'Speed') :
+                     stat === 'hitDice' ? (locale === 'es' ? 'Dados de Golpe' : 'Hit Dice') :
                      stat.charAt(0).toUpperCase() + stat.slice(1)}
                   </h3>
                   <p className="text-sm text-parchment/80 font-body">
-                    {getHelpContent('combat', stat, level)}
+                    {getHelpContent('combat', stat, level, locale)}
                   </p>
                 </div>
               ))}
@@ -194,9 +201,9 @@ export function HelpModal({ isOpen, onClose, level = 'novice' }: HelpModalProps)
           {activeSection === 'saves' && (
             <div className="space-y-4">
               <div className="p-3 rounded bg-shadow/50 border border-gold-dim/20">
-                <h3 className="font-heading text-gold mb-1">General</h3>
+                <h3 className="font-heading text-gold mb-1">{locale === 'es' ? 'General' : 'General'}</h3>
                 <p className="text-sm text-parchment/80 font-body">
-                  {getHelpContent('saving_throw', 'general', level)}
+                  {getHelpContent('saving_throw', 'general', level, locale)}
                 </p>
               </div>
               {['STR_save', 'DEX_save', 'CON_save', 'INT_save', 'WIS_save', 'CHA_save'].map((save) => (
@@ -205,7 +212,7 @@ export function HelpModal({ isOpen, onClose, level = 'novice' }: HelpModalProps)
                     {save.replace('_save', '')}
                   </h3>
                   <p className="text-sm text-parchment/80 font-body">
-                    {getHelpContent('saving_throw', save, level)}
+                    {getHelpContent('saving_throw', save, level, locale)}
                   </p>
                 </div>
               ))}
@@ -214,18 +221,13 @@ export function HelpModal({ isOpen, onClose, level = 'novice' }: HelpModalProps)
 
           {activeSection === 'skills' && (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {[
-                'acrobatics', 'animal_handling', 'arcana', 'athletics', 'deception',
-                'history', 'insight', 'intimidation', 'investigation', 'medicine',
-                'nature', 'perception', 'performance', 'persuasion', 'religion',
-                'sleight_of_hand', 'stealth', 'survival'
-              ].map((skill) => (
-                <div key={skill} className="p-3 rounded bg-shadow/50 border border-gold-dim/20">
-                  <h3 className="font-heading text-gold text-sm mb-1 capitalize">
-                    {skill.replace(/_/g, ' ')}
+              {ALL_SKILLS.map((skill) => (
+                <div key={skill.id} className="p-3 rounded bg-shadow/50 border border-gold-dim/20">
+                  <h3 className="font-heading text-gold text-sm mb-1">
+                    {skill.name[locale]}
                   </h3>
                   <p className="text-xs text-parchment/80 font-body">
-                    {getHelpContent('skill', skill, level)}
+                    {getHelpContent('skill', skill.id, level, locale)}
                   </p>
                 </div>
               ))}

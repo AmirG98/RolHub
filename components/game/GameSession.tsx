@@ -482,7 +482,7 @@ export default function GameSession({
 
   // Detect if we're in mission selection mode (first turn with mission options)
   const isMissionSelectionMode = turns.length <= 1 &&
-    suggestedActions.some(a => a.startsWith('Elegir:'))
+    suggestedActions.some(a => a.startsWith('Elegir:') || a.startsWith('Choose:'))
 
   const handleDiceRoll = (result: { total: number; rolls: number[]; formula: string }) => {
     const rollData = { formula: result.formula, result: result.total, rolls: result.rolls }
@@ -999,7 +999,7 @@ export default function GameSession({
               <div
                 className="flex items-center gap-3 md:gap-4 cursor-pointer hover:opacity-90 transition rounded-lg border border-gold-dim/30 bg-shadow/40 px-3 py-2"
                 onClick={() => scrollToSection('character-sheet-section')}
-                title="Ver hoja de personaje completa"
+                title={locale === 'en' ? 'View full character sheet' : 'Ver hoja de personaje completa'}
               >
                 {/* Avatar */}
                 {character.avatarUrl && (
@@ -1054,7 +1054,7 @@ export default function GameSession({
                         { label: 'COM', val: (character.stats as any)?.combat || 0 },
                         { label: 'EXP', val: (character.stats as any)?.exploration || 0 },
                         { label: 'SOC', val: (character.stats as any)?.social || 0 },
-                        { label: 'SAB', val: (character.stats as any)?.knowledge || (character.stats as any)?.lore || 0 },
+                        { label: locale === 'en' ? 'LOR' : 'SAB', val: (character.stats as any)?.knowledge || (character.stats as any)?.lore || 0 },
                       ].map(s => (
                         <div key={s.label} className="text-center">
                           <div className="text-[10px] text-gold-dim/60 font-ui">{s.label}</div>

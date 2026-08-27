@@ -1,5 +1,5 @@
 // Configuración de planes de monetización
-// Trial: 1 sesión gratis post-registro, después paywall
+// Trial: 25 turnos jugados gratis post-registro (FREE_TRIAL_TURNS), después paywall
 // PRO: $8.99/mo todo ilimitado
 
 export type PlanTier = 'FREE' | 'PRO' | 'GUILD'
@@ -10,17 +10,17 @@ export const PLAN_CONFIG = {
     label: 'Trial',
     labelEs: 'Prueba',
     maxTrialSessions: 1,
-    description: '1 sesión completa gratis',
+    description: '25 turnos de juego gratis',
   },
   PRO: {
-    label: 'Aventurero',
+    label: 'Adventurer',
     labelEs: 'Aventurero',
     priceMonthly: 8.99,
     priceYearly: 89.90,
     description: 'Todo ilimitado',
   },
   GUILD: {
-    label: 'Gremio',
+    label: 'Guild',
     labelEs: 'Gremio',
     priceMonthly: 14.99,
     priceYearly: 149.90,

@@ -332,7 +332,9 @@ export function ArchetypeSelector({ archetypes, loreName, lore, onSelect, onBack
                       })}
                     </div>
                     <p className="font-ui text-xs text-parchment/50 mt-2">
-                      Redistribuí los puntos como quieras. El total se mantiene igual.
+                      {locale === 'en'
+                        ? 'Redistribute the points however you like. The total stays the same.'
+                        : 'Redistribuí los puntos como quieras. El total se mantiene igual.'}
                     </p>
                   </div>
                 )}

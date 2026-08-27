@@ -37,7 +37,7 @@ const LORE_STARTING_CONFIG: Record<
   },
   CYBERPUNK: {
     starting: 'afterlife',
-    discoveredNames: ['Tu Apartamento', 'Downtown', 'Club Afterlife', 'Distrito Corporativo', 'Mercado Negro', 'Clínica del Ripperdoc'],
+    discoveredNames: ['Tu Apartamento', 'Downtown', 'Club Limbo', 'Distrito Corporativo', 'Mercado Negro', 'Clínica del Ripperdoc'],
   },
   LOVECRAFT_HORROR: {
     starting: 'biblioteca',

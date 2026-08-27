@@ -9,7 +9,7 @@ import {
   EngineContext,
   DiceRoll as EngineDiceRoll
 } from '@/lib/engines'
-import { getExampleMapData } from '@/lib/maps/lore-map-data'
+import { getExampleMapData, getMapLocationName } from '@/lib/maps/lore-map-data'
 import { type Lore as LoreType } from '@/lib/maps/map-config'
 import { type NavigationLockReason, type LocationKnowledgeLevel, type DynamicMapLocation } from '@/lib/types/map-state'
 import { calculateRelativePosition, normalizeLegacyCoordinates } from '@/lib/maps/position-calculator'
@@ -100,17 +100,19 @@ export async function POST(req: NextRequest) {
 
     let authUserPlan: string | null = null
     let authUserTrialUsed: boolean = false
+    let authUserTotalTurns: number = 0
     let authUserPlanExpires: Date | null = null
     let authUserStripeSubId: string | null = null
 
     if (clerkUserId) {
       const user = await prisma.user.findUnique({
         where: { clerkId: clerkUserId },
-        select: { id: true, plan: true, trialSessionUsed: true, planExpiresAt: true, stripeSubscriptionId: true, email: true },
+        select: { id: true, plan: true, trialSessionUsed: true, planExpiresAt: true, stripeSubscriptionId: true, email: true, totalTurns: true },
       })
       authUserId = user?.id || null
       authUserPlan = user?.plan || null
       authUserTrialUsed = user?.trialSessionUsed || false
+      authUserTotalTurns = user?.totalTurns || 0
       authUserPlanExpires = user?.planExpiresAt || null
       authUserStripeSubId = user?.stripeSubscriptionId || null
       // Self-heal: usuarios creados con email placeholder se curan con el
@@ -165,6 +167,7 @@ export async function POST(req: NextRequest) {
         trialSessionUsed: authUserTrialUsed,
         planExpiresAt: authUserPlanExpires,
         stripeSubscriptionId: authUserStripeSubId,
+        totalTurns: authUserTotalTurns,
       })
       if (!access.allowed) {
         return NextResponse.json(
@@ -984,7 +987,7 @@ NO continúes el gameplay. Terminá con un mensaje de despedida.
     // Ahorra ~3000 chars (~750 tokens) en el 80% de los turnos.
     const locationContextSection = isEnglish ? `
 === LOCATION ===
-Current: ${currentLocationId || 'unknown'} — ${currentMapLocation?.name || worldState.current_scene}
+Current: ${currentLocationId || 'unknown'} — ${currentMapLocation ? getMapLocationName(currentMapLocation, 'en') : worldState.current_scene}
 Nav: ${navigationLocked ? 'LOCKED' : 'FREE'}${mapState?.lockReason ? ` (${mapState.lockReason})` : ''}
 ${playerWantsToMove ? `
 WORLD LOCATIONS:

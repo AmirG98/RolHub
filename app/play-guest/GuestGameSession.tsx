@@ -38,6 +38,10 @@ export default function GuestGameSession() {
   const [showDiceRoller, setShowDiceRoller] = useState(false)
   const [lastDiceRoll, setLastDiceRoll] = useState<{ formula: string; result: number; rolls: number[] } | null>(null)
   const [showEndModal, setShowEndModal] = useState(false)
+  // Se activa cuando el backend corta el juego gratis (rate limit por IP o
+  // límite de demo). En vez de un error rojo, mostramos un modal que invita a
+  // registrarse — es el momento de máxima intención de compra.
+  const [limitReached, setLimitReached] = useState(false)
   const scrollRef = useRef<HTMLDivElement>(null)
 
   // Convert session turns to display format
@@ -209,6 +213,12 @@ export default function GuestGameSession() {
       const data = await response.json()
 
       if (!response.ok) {
+        // 403 (límite de demo) o 429 (rate limit por IP) → no es un error de
+        // verdad, es la señal de "registrate para seguir". Modal, no texto rojo.
+        if (response.status === 403 || response.status === 429 || data.guestLimitReached) {
+          setLimitReached(true)
+          return
+        }
         throw new Error(data.error || (isEnglish ? 'Error sending action' : 'Error al enviar la acción'))
       }
 
@@ -649,6 +659,35 @@ export default function GuestGameSession() {
                   {labels.endAnyway}
                 </button>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {limitReached && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+          <div className="glass-panel-dark border border-gold/40 rounded-xl max-w-md w-full p-6 text-center">
+            <h3 className="font-title text-2xl text-gold-bright mb-3">
+              {isEnglish ? 'Your adventure is just beginning' : 'Tu aventura recién empieza'}
+            </h3>
+            <p className="font-ui text-parchment/80 text-sm mb-6">
+              {isEnglish
+                ? "You've reached the end of the free demo. Create a free account to keep this story going — your character and progress come with you."
+                : 'Llegaste al final de la demo gratis. Creá una cuenta gratis para seguir esta historia — tu personaje y tu progreso te acompañan.'}
+            </p>
+            <div className="space-y-3">
+              <Link href="/register" className="block">
+                <RunicButton variant="primary" className="w-full">
+                  <UserPlus className="w-4 h-4 mr-2" />
+                  {isEnglish ? 'Create free account' : 'Crear cuenta gratis'}
+                </RunicButton>
+              </Link>
+              <button
+                onClick={() => { endGuestSession(); router.push('/') }}
+                className="w-full py-2 px-4 font-ui text-sm text-parchment/70 border border-gold/20 rounded-lg hover:bg-gold/10"
+              >
+                {isEnglish ? 'Back to home' : 'Volver al inicio'}
+              </button>
             </div>
           </div>
         </div>

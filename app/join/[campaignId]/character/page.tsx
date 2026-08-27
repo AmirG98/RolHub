@@ -120,7 +120,7 @@ export default function JoinCharacterPage() {
       // Fetch campaign info
       const campaignRes = await fetch(`/api/campaigns/${campaignId}`)
       if (!campaignRes.ok) {
-        setError('Campaña no encontrada')
+        setError(locale === 'en' ? 'Campaign not found' : 'Campaña no encontrada')
         setLoading(false)
         return
       }
@@ -153,7 +153,7 @@ export default function JoinCharacterPage() {
         setArchetypes(getDefaultArchetypes())
       }
     } catch (err) {
-      setError('Error al cargar la información')
+      setError(locale === 'en' ? 'Failed to load information' : 'Error al cargar la información')
     } finally {
       setLoading(false)
     }
@@ -167,7 +167,7 @@ export default function JoinCharacterPage() {
 
     try {
       const archetype = archetypes.find(a => a.id === selectedArchetype)
-      if (!archetype) throw new Error('Arquetipo no encontrado')
+      if (!archetype) throw new Error(locale === 'en' ? 'Archetype not found' : 'Arquetipo no encontrado')
 
       const response = await fetch('/api/characters/create-for-campaign', {
         method: 'POST',
@@ -184,7 +184,7 @@ export default function JoinCharacterPage() {
       const data = await response.json()
 
       if (!response.ok) {
-        throw new Error(data.error || 'Error al crear personaje')
+        throw new Error(data.error || (locale === 'en' ? 'Failed to create character' : 'Error al crear personaje'))
       }
 
       // Redirect to the game session or lobby
@@ -218,7 +218,7 @@ export default function JoinCharacterPage() {
       const data = await response.json()
 
       if (!response.ok) {
-        throw new Error(data.error || 'Error al asignar personaje')
+        throw new Error(data.error || (locale === 'en' ? 'Failed to assign character' : 'Error al asignar personaje'))
       }
 
       // Redirect to the game session or lobby
@@ -249,7 +249,7 @@ export default function JoinCharacterPage() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="glass-panel-dark p-8 rounded-lg text-center">
           <Loader2 className="w-8 h-8 text-gold animate-spin mx-auto mb-4" />
-          <p className="font-heading text-gold">Cargando...</p>
+          <p className="font-heading text-gold">{locale === 'en' ? 'Loading...' : 'Cargando...'}</p>
         </div>
       </div>
     )
@@ -263,7 +263,7 @@ export default function JoinCharacterPage() {
           <h1 className="font-heading text-2xl text-blood mb-4">Error</h1>
           <p className="font-body text-parchment/80 mb-6">{error}</p>
           <RunicButton onClick={() => router.push('/')} variant="secondary">
-            Volver al Inicio
+            {locale === 'en' ? 'Back to Home' : 'Volver al Inicio'}
           </RunicButton>
         </div>
       </div>
@@ -292,7 +292,7 @@ export default function JoinCharacterPage() {
                     <User className="w-6 h-6 text-gold" />
                   </div>
                   <div>
-                    <p className="font-ui text-sm text-ink/60">Tu personaje actual</p>
+                    <p className="font-ui text-sm text-ink/60">{locale === 'en' ? 'Your current character' : 'Tu personaje actual'}</p>
                     <h3 className="font-heading text-xl text-ink">{currentCharacter.name}</h3>
                     <p className="font-ui text-sm text-ink/80">
                       {currentCharacter.archetype} • Nivel {currentCharacter.level}
@@ -331,7 +331,7 @@ export default function JoinCharacterPage() {
                 }`}
               >
                 <User className="w-5 h-5 inline mr-2" />
-                Usar Personaje Existente
+                {locale === 'en' ? 'Use Existing Character' : 'Usar Personaje Existente'}
               </button>
               <button
                 onClick={() => setViewMode('create')}
@@ -342,7 +342,7 @@ export default function JoinCharacterPage() {
                 }`}
               >
                 <Plus className="w-5 h-5 inline mr-2" />
-                Crear Nuevo
+                {locale === 'en' ? 'Create New' : 'Crear Nuevo'}
               </button>
             </div>
 
@@ -352,7 +352,7 @@ export default function JoinCharacterPage() {
                 {existingCharacters.length > 0 ? (
                   <>
                     <h2 className="font-heading text-xl text-gold mb-4 text-center">
-                      Tus Personajes de {loreData?.name}
+                      {locale === 'en' ? <>Your {loreData?.name} Characters</> : <>Tus Personajes de {loreData?.name}</>}
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
                       {existingCharacters.map(char => (
@@ -420,10 +420,10 @@ export default function JoinCharacterPage() {
                         {creating ? (
                           <>
                             <Loader2 className="w-5 h-5 animate-spin mr-2" />
-                            Asignando personaje...
+                            {locale === 'en' ? 'Assigning character...' : 'Asignando personaje...'}
                           </>
                         ) : (
-                          'Usar Este Personaje'
+                          (locale === 'en' ? 'Use This Character' : 'Usar Este Personaje')
                         )}
                       </RunicButton>
                     </div>
@@ -432,14 +432,14 @@ export default function JoinCharacterPage() {
                   <div className="text-center py-12">
                     <div className="text-5xl mb-4">🧙</div>
                     <h3 className="font-heading text-xl text-gold mb-2">
-                      No tienes personajes de {loreData?.name}
+                      {locale === 'en' ? <>You have no {loreData?.name} characters</> : <>No tienes personajes de {loreData?.name}</>}
                     </h3>
                     <p className="font-body text-parchment/80 mb-6">
-                      Crea tu primer personaje para esta ambientación
+                      {locale === 'en' ? 'Create your first character for this setting' : 'Crea tu primer personaje para esta ambientación'}
                     </p>
                     <RunicButton onClick={() => setViewMode('create')} variant="primary">
                       <Plus className="w-5 h-5 inline mr-2" />
-                      Crear Personaje
+                      {locale === 'en' ? 'Create Character' : 'Crear Personaje'}
                     </RunicButton>
                   </div>
                 )}
@@ -453,13 +453,13 @@ export default function JoinCharacterPage() {
                 <div className="mb-8">
                   <ParchmentPanel variant="ornate" className="p-6">
                     <label className="block font-heading text-lg text-ink mb-3">
-                      Nombre de tu personaje
+                      {locale === 'en' ? 'Your character\'s name' : 'Nombre de tu personaje'}
                     </label>
                     <input
                       type="text"
                       value={characterName}
                       onChange={e => setCharacterName(e.target.value)}
-                      placeholder="Ingresa el nombre de tu héroe..."
+                      placeholder={locale === 'en' ? 'Enter your hero\'s name...' : 'Ingresa el nombre de tu héroe...'}
                       className="w-full px-4 py-3 bg-shadow/20 border border-gold-dim rounded-lg
                                  font-body text-lg text-ink placeholder-stone
                                  focus:border-gold focus:outline-none focus:ring-1 focus:ring-gold"
@@ -469,7 +469,7 @@ export default function JoinCharacterPage() {
 
                 {/* Archetype Selection */}
                 <h2 className="font-heading text-xl text-gold mb-4 text-center">
-                  Elige tu Arquetipo
+                  {locale === 'en' ? 'Choose your Archetype' : 'Elige tu Arquetipo'}
                 </h2>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
@@ -524,7 +524,7 @@ export default function JoinCharacterPage() {
                         {/* Special Ability */}
                         <div className="mt-3 pt-3 border-t border-gold-dim/30">
                           <p className="font-ui text-xs text-gold">
-                            <span className="text-gold">Habilidad:</span> {archetype.special_ability}
+                            <span className="text-gold">{locale === 'en' ? 'Ability:' : 'Habilidad:'}</span> {archetype.special_ability}
                           </p>
                         </div>
                       </button>
@@ -549,10 +549,10 @@ export default function JoinCharacterPage() {
                     {creating ? (
                       <>
                         <Loader2 className="w-5 h-5 animate-spin mr-2" />
-                        Creando personaje...
+                        {locale === 'en' ? 'Creating character...' : 'Creando personaje...'}
                       </>
                     ) : (
-                      'Crear y Comenzar'
+                      (locale === 'en' ? 'Create and Begin' : 'Crear y Comenzar')
                     )}
                   </RunicButton>
                 </div>

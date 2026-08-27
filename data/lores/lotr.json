@@ -198,7 +198,7 @@
           "type": "tavern",
           "description": {
             "es": "La mejor cerveza de la Vega Mansa, punto de reunión de medianos chismosos",
-            "en": "The best ale in the Vale, gathering place of gossiping medianos"
+            "en": "The best ale in the Vale, gathering place of gossiping halflings"
           }
         },
         {
@@ -292,19 +292,19 @@
           "type": "tavern",
           "description": {
             "es": "La posada más famosa de Vado Viejo, regentada por Cebadilla Cebadín. Fuego cálido, cerveza de cebada y estofado de cordero",
-            "en": "The most famous inn in Vado Viejo, run by Barley Barleyman. A warm hearth, barley ale and mutton stew"
+            "en": "The most famous inn in Oldford, run by Barley Barleyman. A warm hearth, barley ale and mutton stew"
           }
         },
         {
           "id": "mercado-bree",
           "name": {
             "es": "Mercado de Vado Viejo",
-            "en": "Vado Viejo Market"
+            "en": "Oldford Market"
           },
           "type": "market",
           "description": {
             "es": "Plaza central donde comerciantes de todas las razas intercambian mercancías. Enanos con gemas, medianos con pipas, hombres con armas",
-            "en": "The central square where merchants of every race trade goods. Dwarves with gems, medianos with pipes, men with weapons"
+            "en": "The central square where merchants of every race trade goods. Dwarves with gems, halflings with pipes, men with weapons"
           }
         },
         {
@@ -335,7 +335,7 @@
           "id": "herreria-bree",
           "name": {
             "es": "Herrería de Vado Viejo",
-            "en": "Vado Viejo Smithy"
+            "en": "Oldford Smithy"
           },
           "type": "workshop",
           "description": {
@@ -347,7 +347,7 @@
           "id": "establo-bree",
           "name": {
             "es": "Establos de Vado Viejo",
-            "en": "Vado Viejo Stables"
+            "en": "Oldford Stables"
           },
           "type": "stable",
           "description": {
@@ -520,7 +520,7 @@
           "type": "palace",
           "description": {
             "es": "La cima de Torrealba. La Torre de Elethar, el Trono del Senescal y el Árbol Blanco muerto",
-            "en": "The summit of Torrealba. The Tower of Elethar, the Steward's Throne, and the withered White Tree"
+            "en": "The summit of Whitetower. The Tower of Elethar, the Steward's Throne, and the withered White Tree"
           }
         },
         {
@@ -539,12 +539,12 @@
           "id": "archivos",
           "name": {
             "es": "Archivos de Torrealba (Nivel 5)",
-            "en": "Archives of Torrealba (Level 5)"
+            "en": "Archives of Whitetower (Level 5)"
           },
           "type": "library",
           "description": {
             "es": "Registros de miles de años de historia de Meridonia. Mapas, genealogías, crónicas",
-            "en": "Records of thousands of years of Meridonia's history. Maps, genealogies, chronicles"
+            "en": "Records of thousands of years of Meridon's history. Maps, genealogies, chronicles"
           }
         },
         {
@@ -556,7 +556,7 @@
           "type": "market",
           "description": {
             "es": "Comerciantes de todo Meridonia venden armas, armaduras, provisiones y lujos",
-            "en": "Merchants from across Meridonia sell weapons, armor, provisions and luxuries"
+            "en": "Merchants from across Meridon sell weapons, armor, provisions and luxuries"
           }
         },
         {
@@ -568,7 +568,7 @@
           "type": "gate",
           "description": {
             "es": "La entrada principal de Torrealba, con puertas de hierro y acero. Guardias de la Torre Blanca",
-            "en": "The main entrance to Torrealba, with doors of iron and steel. Guards of the White Tower stand watch"
+            "en": "The main entrance to Whitetower, with doors of iron and steel. Guards of the White Tower stand watch"
           }
         }
       ]

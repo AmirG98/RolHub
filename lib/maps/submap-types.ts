@@ -259,7 +259,7 @@ export const SUBMAP_THEMES: Record<string, SubmapTheme> = {
     nodeNames: {
       street: ['Calle Neón', 'Callejón de los Fixers', 'Avenida Corpo', 'Zona Baja'],
       plaza: ['Plaza del Mercado Negro', 'Hub de Netrunners', 'Centro de Datos'],
-      tavern: ['Bar de Afterlife', 'Club de Joytoys', 'Ripperdoc Clandestino'],
+      tavern: ['Bar del Limbo', 'Club de Sintéticos', 'Ripperdoc Clandestino'],
       market: ['Tienda de Implantes', 'Vendedor de Armas', 'Hacker de Mercado'],
       room: ['Servidor Central', 'Sala de Seguridad', 'Oficina del CEO'],
       clearing: ['Basurero Tecnológico', 'Zona Desmilitarizada', 'Páramo Urbano'],

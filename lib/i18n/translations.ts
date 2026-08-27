@@ -434,7 +434,7 @@ export const translations = {
       },
       STAR_WARS: {
         name: 'Frontera Estelar',
-        tagline: 'Una galaxia muy, muy lejana llena de aventura',
+        tagline: 'Una galaxia sin ley de místicos, contrabandistas y rebelión',
         description: 'La Corriente, hojas de plasma y el Dominio Estelar',
       },
       CYBERPUNK: {
@@ -548,7 +548,7 @@ export const translations = {
     // Pricing page
     pricing: {
       title: 'Elegí tu Aventura',
-      subtitle: 'Una sesión gratis al registrarte. Después, todo ilimitado.',
+      subtitle: 'Probá gratis al registrarte: 25 turnos de juego completo. Después, todo ilimitado.',
       monthly: 'Mensual',
       yearly: 'Anual',
       yearlyDiscount: '2 meses gratis',
@@ -556,7 +556,7 @@ export const translations = {
       perYear: '/año',
       currentPlan: 'Plan actual',
       subscribe: 'Comenzar Aventura',
-      trialBanner: 'Tu primera sesión es gratis — sin tarjeta de crédito',
+      trialBanner: 'Tus primeros 25 turnos son gratis — sin tarjeta de crédito',
       features: {
         allLores: 'Todos los mundos (10+)',
         allEngines: 'Todos los motores de reglas',
@@ -573,8 +573,8 @@ export const translations = {
         priority: 'Respuesta prioritaria del DM',
       },
       faq: {
-        q1: '¿Qué incluye la sesión gratis?',
-        a1: 'Todo. Todos los mundos, todos los motores, imágenes, voz. La experiencia completa para que pruebes sin compromiso.',
+        q1: '¿Qué incluye la prueba gratis?',
+        a1: 'Todo. 25 turnos de juego con todos los mundos, todos los motores, imágenes y voz. La experiencia completa para que pruebes sin compromiso.',
         q2: '¿Puedo cancelar cuando quiera?',
         a2: 'Sí, cancelás en cualquier momento. Tu aventura se guarda y podés volver cuando quieras.',
         q3: '¿Qué pasa con mis campañas si cancelo?',
@@ -610,8 +610,8 @@ export const translations = {
       description: 'Narrative role-playing adventures with an autonomous AI-powered DM. Choose your world, create your character, and live epic stories.',
       startAdventure: 'Start Adventure',
       continuePlaying: 'Continue Playing',
-      headline: 'Play tabletop RPG with a Game Master that is an AI',
-      subheadline: 'Whenever you want, wherever you are, with or without friends. Pick your universe, create your character, and start playing with narration, images, and a rules system tailored to your fun.',
+      headline: 'The first platform with an autonomous AI Dungeon Master — across any world',
+      subheadline: 'Pick from multiple original worlds, create your character, and let an AI Dungeon Master narrate your adventure in real time — with story, images, and rules. Solo or with friends, whenever you want. No experience needed.',
       previewLabel: 'Preview',
       previewNarration: 'Sunlight filters through the trees of the Old Forest as the sound of hooves draws closer along the path. Three riders in dark cloaks trot forward. They have not seen you yet.',
       previewAction1: 'Hide behind a tree',
@@ -1025,9 +1025,9 @@ export const translations = {
         description: 'The gods are real. Valhalla awaits the brave',
       },
       STAR_WARS: {
-        name: 'Galaxy Wars',
-        tagline: 'A galaxy far, far away full of adventure',
-        description: 'The Current, plasma blades and the Galactic Empire',
+        name: 'Stellar Frontier',
+        tagline: 'A lawless galaxy of mystics, smugglers and rebellion',
+        description: 'The Current, plasma blades and the Stellar Dominion',
       },
       CYBERPUNK: {
         name: 'Neon and Chrome',
@@ -1140,7 +1140,7 @@ export const translations = {
     // Pricing page
     pricing: {
       title: 'Choose Your Adventure',
-      subtitle: 'One free session when you sign up. Then, everything unlimited.',
+      subtitle: 'Try it free when you sign up: 25 turns of full gameplay. Then, everything unlimited.',
       monthly: 'Monthly',
       yearly: 'Yearly',
       yearlyDiscount: '2 months free',
@@ -1148,7 +1148,7 @@ export const translations = {
       perYear: '/yr',
       currentPlan: 'Current plan',
       subscribe: 'Start Your Adventure',
-      trialBanner: 'Your first session is free — no credit card required',
+      trialBanner: 'Your first 25 turns are free — no credit card required',
       features: {
         allLores: 'All worlds (10+)',
         allEngines: 'All rule engines',
@@ -1165,8 +1165,8 @@ export const translations = {
         priority: 'Priority DM response',
       },
       faq: {
-        q1: 'What does the free session include?',
-        a1: 'Everything. All worlds, all engines, images, voice. The full experience so you can try without commitment.',
+        q1: 'What does the free trial include?',
+        a1: 'Everything. 25 turns of gameplay with all worlds, all engines, images, and voice. The full experience so you can try without commitment.',
         q2: 'Can I cancel anytime?',
         a2: 'Yes, cancel anytime. Your adventure is saved and you can come back whenever you want.',
         q3: 'What happens to my campaigns if I cancel?',

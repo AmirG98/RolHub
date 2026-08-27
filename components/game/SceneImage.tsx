@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { ImageIcon, RefreshCw, AlertCircle, Maximize2, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { type Lore, getMapConfig } from '@/lib/maps/map-config'
-import { useTranslations } from '@/lib/i18n'
+import { useTranslations, useLanguage } from '@/lib/i18n'
 
 interface SceneImageProps {
   imageUrl: string | null
@@ -54,6 +54,7 @@ export function SceneImage({
   showFullscreenButton = true,
 }: SceneImageProps) {
   const t = useTranslations()
+  const { locale } = useLanguage()
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [hasLoadError, setHasLoadError] = useState(false)
   const config = getMapConfig(lore)
@@ -164,7 +165,7 @@ export function SceneImage({
           <button
             onClick={() => setIsFullscreen(true)}
             className="absolute top-2 right-2 p-1.5 rounded bg-black/50 hover:bg-black/70 text-parchment/70 hover:text-parchment transition-colors z-20"
-            title="Ver en pantalla completa"
+            title={locale === 'en' ? 'View fullscreen' : 'Ver en pantalla completa'}
           >
             <Maximize2 className="w-4 h-4" />
           </button>

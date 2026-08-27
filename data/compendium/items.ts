@@ -410,7 +410,7 @@ const CYBERPUNK_ITEMS: Item[] = [
   {
     slug: 'katana-monowire', name: 'Katana Monowire', lore: 'CYBERPUNK', loreName: 'Cyberpunk',
     type: 'weapon', rarity: 'rare',
-    description: 'Una katana con filo de monofilamento molecular, capaz de cortar a nivel atómico. La hoja es tan fina que es casi invisible. Arma predilecta de los solos de élite en Night City.',
+    description: 'Una katana con filo de monofilamento molecular, capaz de cortar a nivel atómico. La hoja es tan fina que es casi invisible. Arma predilecta de los solos de élite en Neon City.',
     properties: ['Ignora armadura no-reforzada', 'Crítico en 18-20', 'Filo invisible: ventaja en el primer ataque contra desprevenidos', 'Requiere mantenimiento cada 20 usos o pierde el filo mono'],
     damage: '2d8 cortante (ignora armadura ligera)',
     weight: '2 lb', value: '15.000 eurodólares',
@@ -448,7 +448,7 @@ const CYBERPUNK_ITEMS: Item[] = [
   {
     slug: 'implante-ocular-kiroshi', name: 'Implante Ocular Kiroshi', lore: 'CYBERPUNK', loreName: 'Cyberpunk',
     type: 'tool', rarity: 'uncommon',
-    description: 'Ojos cibernéticos Kiroshi Optics modelo MK.3 con zoom óptico, visión nocturna y escáner integrado. Los implantes oculares más populares de Night City. Hacen que tus ojos brillen en la oscuridad.',
+    description: 'Ojos cibernéticos Kiroshi Optics modelo MK.3 con zoom óptico, visión nocturna y escáner integrado. Los implantes oculares más populares de Neon City. Hacen que tus ojos brillen en la oscuridad.',
     properties: ['Visión nocturna perfecta', 'Zoom óptico x8', 'Escáner: identifica amenazas y debilidades enemigas', 'HUD: muestra HP, munición y minimap', 'Grabación de video integrada'],
     weight: '0 lb (implante)', value: '5.000 eurodólares',
     imagePrompt: 'kiroshi optics cybernetic eyes, glowing red iris, scanning interface overlay, close-up face, cyberpunk neon dark photography',
@@ -466,7 +466,7 @@ const CYBERPUNK_ITEMS: Item[] = [
   {
     slug: 'emp-grenade', name: 'Granada EMP', lore: 'CYBERPUNK', loreName: 'Cyberpunk',
     type: 'consumable', rarity: 'rare',
-    description: 'Granada de pulso electromagnético que desactiva todo dispositivo electrónico y cyberware en su radio. La pesadilla de cualquier persona con implantes. En Night City, eso es prácticamente todo el mundo.',
+    description: 'Granada de pulso electromagnético que desactiva todo dispositivo electrónico y cyberware en su radio. La pesadilla de cualquier persona con implantes. En Neon City, eso es prácticamente todo el mundo.',
     properties: ['Radio: 30 pies', 'Desactiva todo cyberware y electrónica por 2 turnos', 'Contra enemigos con implantes: 4d6 daño eléctrico + aturdido 1 turno', 'Afecta aliados en el área', 'No afecta a orgánicos sin implantes'],
     damage: '4d6 eléctrico (solo vs cibernéticos)',
     weight: '0.5 lb', value: '3.000 eurodólares',

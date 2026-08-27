@@ -16,20 +16,24 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 const STORAGE_KEY = 'rpghub-language'
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [locale, setLocaleState] = useState<Locale>('es')
+  // Default INGLÉS: el tráfico principal (ads) es en inglés. Los hispano-
+  // hablantes flipean con el toggle, y su elección persiste en localStorage.
+  const [locale, setLocaleState] = useState<Locale>('en')
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    // Load saved language preference
-    const saved = localStorage.getItem(STORAGE_KEY) as Locale | null
-    if (saved && (saved === 'es' || saved === 'en')) {
-      setLocaleState(saved)
+    // Prioridad: ?lang= en la URL (para que los ads fuercen idioma) >
+    // preferencia guardada > default inglés.
+    const urlLang = new URLSearchParams(window.location.search).get('lang')?.toLowerCase()
+    if (urlLang === 'es' || urlLang === 'en') {
+      setLocaleState(urlLang)
+      localStorage.setItem(STORAGE_KEY, urlLang)
     } else {
-      // Detect browser language
-      const browserLang = navigator.language.toLowerCase()
-      if (browserLang.startsWith('en')) {
-        setLocaleState('en')
+      const saved = localStorage.getItem(STORAGE_KEY) as Locale | null
+      if (saved === 'es' || saved === 'en') {
+        setLocaleState(saved)
       }
+      // sin preferencia guardada → queda el default 'en'
     }
     setMounted(true)
   }, [])
@@ -39,10 +43,10 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     localStorage.setItem(STORAGE_KEY, newLocale)
   }
 
-  // Prevent hydration mismatch
+  // Prevent hydration mismatch — el SSR renderiza en el default (en)
   if (!mounted) {
     return (
-      <LanguageContext.Provider value={{ locale: 'es', setLocale, t: translations.es }}>
+      <LanguageContext.Provider value={{ locale: 'en', setLocale, t: translations.en }}>
         {children}
       </LanguageContext.Provider>
     )
