@@ -1217,9 +1217,9 @@ REGLA: Una feature no está terminada hasta que tiene:
 
 ## 20. ESTADO ACTUAL DEL PROYECTO
 
-Ultima actualizacion: 2026-08-26
-Fase actual:         Pre-launch — audit de ad-readiness (branch fix/ad-launch-readiness)
-Ultima sesion:       Audit completo antes de prender ads en inglés (SIN mergear ni deployar aun)
+Ultima actualizacion: 2026-08-27
+Fase actual:         Pre-launch — LISTO PARA ADS (mergeado a main y deployado a prod)
+Ultima sesion:       Audit completo + ronda 2 + IP round 2, verificado E2E local y en prod
 
 SESION 2026-08-26 — fix/ad-launch-readiness (SIN mergear, SIN deployar):
   CONTEXTO: Polar.sh aprobado e integrado (billing verificado E2E en prod). Antes de
@@ -1289,8 +1289,11 @@ SESION 2026-08-26 — fix/ad-launch-readiness (SIN mergear, SIN deployar):
      pricing, guest gate, mundos, clases, apertura del DM y turno jugado — 
      100% inglés, narración usa Oldford/Whitetower/Ashwood, cero español.
 
+  DEPLOYADO (2026-08-27): mergeado a main (a2d9426 + a8fa8e4 Netwatch→VigilNet +
+  270d825 ocultar links /guias en EN). Deploy verificado live: lang=en, título EN,
+  health 200, pricing con copy de 25 turnos.
+
   PENDIENTE:
-  - Verificar E2E en prod tras deploy (narración inglesa sin español, guest limit → modal).
   - Prender BILLING_ENFORCED=true en Vercel cuando haya tracción (hoy queda en false).
   - Guías /guias/* siguen español-only (baja prioridad: los ads no linkean ahí).
   - Vercel env: confirmar PLAYTEST_BYPASS_TOKEN si se usa el playtest contra prod.
