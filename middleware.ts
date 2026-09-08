@@ -24,6 +24,10 @@ const isPublicRoute = createRouteMatcher([
   '/refunds',
   // Pricing - público para que cualquiera vea los planes
   '/pricing',
+  // Thank-you del checkout de Polar — pública por las dudas de que la sesión
+  // de Clerk no esté 100% hidratada justo al volver del pago; no expone nada
+  // sensible, solo confirma la compra y linkea a /campaigns.
+  '/checkout/success',
   // Webhook de billing (Polar) — sin auth de Clerk, verifica su firma
   '/api/webhooks/polar',
   // Cron de Vercel - protegido por CRON_SECRET dentro del route

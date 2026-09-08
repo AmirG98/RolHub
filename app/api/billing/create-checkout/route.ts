@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
 
     const checkout = await polar.checkouts.create({
       products: [POLAR_PRODUCT_ID],
-      successUrl: `${origin}/?upgraded=true`,
+      successUrl: `${origin}/checkout/success`,
       // Email real solo si no es placeholder (evita prefill basura)
       customerEmail: user.email.endsWith('@placeholder.local') ? undefined : user.email,
       // externalCustomerId permite reconciliar el pago con nuestro usuario en
