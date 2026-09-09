@@ -590,6 +590,11 @@ export const translations = {
       expiredSub: 'Renová para volver al reino.',
       cta: 'Ver planes',
       dismiss: 'Más tarde',
+      turnsLeft: 'Te quedan {n} turnos gratis',
+      lastTurn: 'Este es tu último turno gratis — el DM cierra el capítulo',
+      chapterComplete: 'Capítulo gratis completo',
+      chapterCompleteSub: 'Tu historia sigue del otro lado. Suscribite para continuarla.',
+      keepPlaying: 'Seguir jugando',
     },
   },
 
@@ -1182,6 +1187,11 @@ export const translations = {
       expiredSub: 'Renew to return to the realm.',
       cta: 'View plans',
       dismiss: 'Maybe later',
+      turnsLeft: '{n} free turns left',
+      lastTurn: 'This is your last free turn — the DM will close the chapter',
+      chapterComplete: 'Free chapter complete',
+      chapterCompleteSub: 'Your story continues on the other side. Subscribe to keep playing.',
+      keepPlaying: 'Keep playing',
     },
   },
 } as const

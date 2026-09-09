@@ -22,7 +22,8 @@ import type { MilestoneState } from '@/lib/types/skill-tree'
 import { validateDMResponse } from '@/lib/validation/dm-response.schema'
 import { parseDMResponse } from '@/lib/claude/parse-dm-response'
 import { antiIpDirective } from '@/lib/claude/anti-ip-directive'
-import { canStartSession } from '@/lib/plans/check-access'
+import { canStartSession, trialTurnsRemainingAfter } from '@/lib/plans/check-access'
+import { trialWindDownDirective } from '@/lib/claude/trial-winddown'
 import { rateLimit, rateLimitResponse } from '@/lib/rate-limit'
 import { verifyGuestCookie } from '@/lib/guest/cookie'
 import { healPlaceholderEmail } from '@/lib/auth/clerk-email'
@@ -176,6 +177,15 @@ export async function POST(req: NextRequest) {
         )
       }
     }
+
+    // Trial por turnos: cuántos gratis le quedan DESPUÉS de este. Alimenta el
+    // aviso en la UI y la directiva para que el DM cierre el capítulo en el
+    // último en vez de cortar en mitad de una escena. null = no aplica
+    // (guest, PRO, o billing apagado).
+    const trialTurnsRemaining: number | null =
+      process.env.BILLING_ENFORCED === 'true' && authUserPlan === 'FREE'
+        ? trialTurnsRemainingAfter(authUserTotalTurns)
+        : null
 
     const body = await req.json()
     const { sessionId, campaignId, action, actionType = 'talk', diceRoll, characterId, locale = 'es' } = body as {
@@ -1212,8 +1222,10 @@ Your suggested_actions MUST be in English. Your narration, dialogue, and ALL tex
 El jugador juega en ESPAÑOL. Toda la narración, diálogo, nombres y descripciones DEBEN estar en español. No uses inglés.
 === FIN REGLA DE IDIOMA ===\n`
 
+    const trialWindDownRule = trialWindDownDirective(trialTurnsRemaining, isEnglish ? 'en' : 'es')
+
     const systemPrompt = `${labels.dmRole}${isMultiplayer ? ` ${labels.multiplayer}` : ''}. ${isEnglish ? 'Your role is to create an immersive and exciting experience.' : 'Tu rol es crear una experiencia inmersiva y emocionante.'}
-${languageRule}
+${languageRule}${trialWindDownRule}
 ${(() => {
   // Separar NPCs por ubicación — los que están AQUÍ vs en otro lugar
   const currentScene = worldState.current_scene || ''
@@ -2939,6 +2951,8 @@ INSTRUCCIONES PARA HABILIDADES:
       progressUpdate,
       // Nodos del skill tree que se volvieron desbloqueables este turno (toast) — null para guests
       skillUnlocks,
+      // Turnos gratis restantes tras este (null si no aplica). 0 = capítulo gratis cerrado.
+      trialTurnsRemaining,
     })
   } catch (error) {
     console.error('Error processing turn:', error)

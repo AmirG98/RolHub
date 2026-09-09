@@ -1326,7 +1326,26 @@ SESION 2026-08-26 — fix/ad-launch-readiness (SIN mergear, SIN deployar):
      (98 turnos, 4 lores): los 21 hits eran esa única sesión; LOTR/ZOMBIES/
      DND_CLASSIC limpios en runtime.
 
+  SESION 2026-09-09 — primeras 24h de ads (9 jugadores reales, 0 pagos):
+  DATOS: 6 registrados + 3 sesiones guest. 3 llegaron al paywall (25 turnos):
+  104 min/LOTR-YearZero cortado EN COMBATE, 33 min/Romantasy, y la del 31/08.
+  Ninguno pagó. 4 de 6 registrados eligieron VETERAN (el targeting D&D/BG3 trae
+  experimentados, no novatos). Todo en inglés. 4 sesiones con apertura y 0
+  acciones (Riann creó 2 seguidas → sospecha de fallo en 1ª pantalla mobile).
+  Un guest escribió "1 2" para elegir opciones por número.
+  ✅ CIERRE DE CAPÍTULO ANTES DEL PAYWALL: turn route calcula trialTurnsRemaining
+     (lib/plans/check-access.ts trialTurnsRemainingAfter) y lo devuelve; en los
+     últimos 4 turnos inyecta trialWindDownDirective (lib/claude/trial-winddown.ts):
+     orientar a resolución, sin combates/quests/cliffhangers nuevos; en el último
+     turno cierra la escena con gancho, sin dados ni combate. UI (GameSession):
+     banner "N free turns left" desde el turno 20, "último turno" en el 24, y al
+     llegar a 0 reemplaza el input por "Free chapter complete → Keep playing"
+     y abre el UpgradePrompt a los 4s. Tests: trial-winddown.test.ts.
+  ✅ "1"/"2"/"3" (o "option 2") en el input = elegir la acción sugerida N.
+
   PENDIENTE:
+  - Email de recuperación a quienes agotaron el trial (3 mails en la DB).
+  - Vercel logs ~2026-09-09 12:36 UTC: qué le pasó a Riann (2 creates, 0 acciones).
   - ✅ BILLING_ENFORCED=true PRENDIDO en Vercel (2026-08-27) — paywall ACTIVO en prod.
     Verificado via /api/health que ahora expone billing_enforced. FREE = 25 turnos
     jugados y después paywall; guests siguen gratis (rate limit 30/h/IP); PRO ilimitado.

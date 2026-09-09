@@ -213,6 +213,9 @@ export default function GameSession({
 
   // Upgrade prompt (plan check failed)
   const [showUpgradePrompt, setShowUpgradePrompt] = useState(false)
+  // Turnos gratis restantes según el server (null = no aplica). Alimenta el
+  // aviso previo al paywall y el cierre de capítulo cuando llega a 0.
+  const [trialTurnsRemaining, setTrialTurnsRemaining] = useState<number | null>(null)
 
   // Interceptar TODAS las formas de salir de la partida
   useEffect(() => {
@@ -507,6 +510,14 @@ export default function GameSession({
       return
     }
 
+    // "2", "2.", "option 2", "opción 2" → elegir la acción sugerida N. Un
+    // jugador real escribió "1 2" intentando elegir por número; va a pasar.
+    const numeric = action.trim().match(/^(?:option|opci[oó]n)?\s*([1-9])\s*[.)]?$/i)
+    if (numeric) {
+      const picked = suggestedActions[parseInt(numeric[1], 10) - 1]
+      if (picked) action = picked
+    }
+
     setIsSubmitting(true)
     setError(null)
 
@@ -729,6 +740,16 @@ export default function GameSession({
       // Actualizar acciones sugeridas si vienen
       if (data.suggestedActions && data.suggestedActions.length > 0) {
         setSuggestedActions(data.suggestedActions)
+      }
+
+      // Trial por turnos: aviso previo y cierre de capítulo. Al llegar a 0 el
+      // DM ya cerró la escena; mostramos el upgrade con un respiro para que
+      // lean el final, sin esperar al 403 del próximo intento.
+      if (typeof data.trialTurnsRemaining === 'number') {
+        setTrialTurnsRemaining(data.trialTurnsRemaining)
+        if (data.trialTurnsRemaining === 0) {
+          setTimeout(() => setShowUpgradePrompt(true), 4000)
+        }
       }
 
       // Check for combat trigger from DM
@@ -1376,7 +1397,7 @@ export default function GameSession({
                 <div className="flex items-center gap-3">
                   <div className="text-2xl">🎲</div>
                   <div className="flex-1">
-                    <p className="font-heading text-gold text-sm">¡Tirada requerida!</p>
+                    <p className="font-heading text-gold text-sm">{locale === 'en' ? 'Roll required!' : '¡Tirada requerida!'}</p>
                     <p className="font-body text-parchment/80 text-xs">{pendingDiceRequest.reason}</p>
                   </div>
                   <div className="font-mono text-gold-bright text-lg">{pendingDiceRequest.formula}</div>
@@ -1393,16 +1414,41 @@ export default function GameSession({
               />
             ) : (
               <div id="action-input">
-                <ActionInputWithVoice
-                  onSubmit={handleSubmit}
-                  isSubmitting={isSubmitting || !!pendingDiceRequest}
-                  suggestedActions={suggestedActions}
-                  lastDiceRoll={lastDiceRoll}
-                  onClearDiceRoll={() => setLastDiceRoll(null)}
-                  error={error}
-                  locale={locale as 'es' | 'en'}
-                  prefillAction={prefillAction}
-                />
+                {trialTurnsRemaining !== null && trialTurnsRemaining <= 5 && trialTurnsRemaining > 0 && (
+                  <div className="mb-2 flex items-center justify-between gap-3 rounded-lg border border-gold/40 bg-gold/10 px-3 py-2">
+                    <span className="font-ui text-xs text-parchment">
+                      {trialTurnsRemaining === 1
+                        ? t.upgrade.lastTurn
+                        : t.upgrade.turnsLeft.replace('{n}', String(trialTurnsRemaining))}
+                    </span>
+                    <Link href="/pricing" className="font-heading text-xs text-gold hover:text-gold-bright whitespace-nowrap">
+                      {t.upgrade.cta} →
+                    </Link>
+                  </div>
+                )}
+                {trialTurnsRemaining === 0 ? (
+                  <div className="rounded-lg border border-gold/40 glass-panel-dark p-5 text-center">
+                    <p className="font-title text-lg text-gold-bright mb-1">{t.upgrade.chapterComplete}</p>
+                    <p className="font-body text-sm text-parchment/70 mb-4">{t.upgrade.chapterCompleteSub}</p>
+                    <Link
+                      href="/pricing"
+                      className="inline-block w-full py-3 px-6 rounded-lg bg-gradient-to-r from-gold-dim via-gold to-gold-dim text-shadow font-heading text-base tracking-wide hover:from-gold hover:via-gold-bright hover:to-gold transition-all"
+                    >
+                      {t.upgrade.keepPlaying}
+                    </Link>
+                  </div>
+                ) : (
+                  <ActionInputWithVoice
+                    onSubmit={handleSubmit}
+                    isSubmitting={isSubmitting || !!pendingDiceRequest}
+                    suggestedActions={suggestedActions}
+                    lastDiceRoll={lastDiceRoll}
+                    onClearDiceRoll={() => setLastDiceRoll(null)}
+                    error={error}
+                    locale={locale as 'es' | 'en'}
+                    prefillAction={prefillAction}
+                  />
+                )}
               </div>
             )}
 

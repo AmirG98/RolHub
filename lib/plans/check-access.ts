@@ -8,6 +8,15 @@ import { type PlanStatus } from './plan-config'
 // visitante del ad juega de verdad y se engancha antes de que le pidamos pagar.
 export const FREE_TRIAL_TURNS = 25
 
+/**
+ * Turnos gratis que le quedan a un user FREE DESPUÉS de jugar el turno actual.
+ * Se calcula antes de incrementar totalTurns (que sube al final del turno).
+ * 0 = el turno que está jugando es el último gratis.
+ */
+export function trialTurnsRemainingAfter(totalTurnsPlayed: number): number {
+  return Math.max(0, FREE_TRIAL_TURNS - (totalTurnsPlayed + 1))
+}
+
 interface UserForPlanCheck {
   plan: string
   trialSessionUsed: boolean
