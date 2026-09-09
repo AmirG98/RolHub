@@ -1343,6 +1343,14 @@ SESION 2026-08-26 — fix/ad-launch-readiness (SIN mergear, SIN deployar):
      y abre el UpgradePrompt a los 4s. Tests: trial-winddown.test.ts.
   ✅ "1"/"2"/"3" (o "option 2") en el input = elegir la acción sugerida N.
 
+  🎉 PRIMERA COMPRA (2026-09-09): Usuario_dWUXZR, NOVICE, Isekai/Story Mode/
+  campaña (arquetipo Beast Tamer). Se registró 18:51 UTC, jugó 25 turnos hasta
+  20:27, paywall, PAGÓ, y volvió a las 21:02 a jugar 26 turnos más (hasta las
+  22:24). 3.5 horas en total, 51 acciones. plan=PRO con ids de Polar, sin
+  vencimiento (renueva). El camino post-pago (sync + /checkout/success) funcionó:
+  volvió a jugar sin fricción. Conversión del embudo pago: 1 de 4 que llegaron
+  al paywall (25%). El primer pagador es un NOVATO en Story Mode, no un veterano.
+
   PENDIENTE:
   - Email de recuperación a quienes agotaron el trial (3 mails en la DB).
   - Vercel logs ~2026-09-09 12:36 UTC: qué le pasó a Riann (2 creates, 0 acciones).
