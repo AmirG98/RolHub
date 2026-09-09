@@ -1293,6 +1293,27 @@ SESION 2026-08-26 — fix/ad-launch-readiness (SIN mergear, SIN deployar):
   270d825 ocultar links /guias en EN). Deploy verificado live: lang=en, título EN,
   health 200, pricing con copy de 25 turnos.
 
+  SESION 2026-09-08 — audit del camino post-pago (Polar → volver a jugar):
+  ✅ BUG (race): Polar redirige a /checkout/success ANTES de que su webhook
+     active el plan. El pagador podía volver al juego y comerse el paywall que
+     acababa de pagar; y si el webhook se perdía, quedaba FREE para siempre.
+     FIX: POST /api/billing/sync — consulta Polar (customers.getStateExternal
+     por user.id) y activa PRO si hay suscripción activa. Idempotente. La página
+     /checkout/success lo pollea (8×1.5s) y recién con PRO confirmado habilita
+     el CTA, dispara el evento GTM purchase_complete (una vez por suscripción,
+     guard en sessionStorage) y avisa al Navbar ('rolhub:plan-updated') para
+     que el badge PRO aparezca sin recargar. Deslogueado/crawler → no dispara
+     nada (la ruta es pública).
+  ✅ BUG webhook: subscription.updated con status 'active' + cancelAtPeriodEnd
+     pisaba planExpiresAt=null (borraba el vencimiento que había seteado
+     subscription.canceled). Ahora usa planFieldsFromActiveSubscription
+     (lib/polar.ts), compartido con el sync → ambos caminos derivan lo mismo.
+  ✅ Verificado: turn route lee user.plan fresco en cada request (sin cache
+     cliente), /play y /api/campaigns no gatean por plan, UpgradePrompt →
+     /pricing. Tests: 395/395 (+8 nuevos en polar-sync/polar-webhook).
+  ⚠ Para GTM usar trigger Custom Event 'purchase_complete', NO Page View de
+     /checkout/success (la ruta es pública: un crawler dispararía Purchase).
+
   PENDIENTE:
   - ✅ BILLING_ENFORCED=true PRENDIDO en Vercel (2026-08-27) — paywall ACTIVO en prod.
     Verificado via /api/health que ahora expone billing_enforced. FREE = 25 turnos

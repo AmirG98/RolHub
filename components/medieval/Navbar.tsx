@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { UserButton, useUser } from '@clerk/nextjs'
 import Link from 'next/link'
 import { RunicButton } from './RunicButton'
@@ -18,14 +18,23 @@ export function Navbar() {
   // Las guías (/guias) son contenido SEO en español; no linkearlas desde la UI en inglés
   const showGuides = locale === 'es'
 
-  // Fetch plan del usuario
-  useEffect(() => {
-    if (!isSignedIn) return
+  // Fetch plan del usuario. El Navbar vive en el root layout y sobrevive a la
+  // navegación client-side, así que también escucha 'rolhub:plan-updated'
+  // (lo dispara /checkout/success al confirmar el pago) para que el badge PRO
+  // aparezca sin necesidad de recargar.
+  const fetchPlan = useCallback(() => {
     fetch('/api/user/progress')
       .then(r => r.ok ? r.json() : null)
       .then(data => { if (data?.plan) setUserPlan(data.plan) })
       .catch(() => {})
-  }, [isSignedIn])
+  }, [])
+
+  useEffect(() => {
+    if (!isSignedIn) return
+    fetchPlan()
+    window.addEventListener('rolhub:plan-updated', fetchPlan)
+    return () => window.removeEventListener('rolhub:plan-updated', fetchPlan)
+  }, [isSignedIn, fetchPlan])
 
   return (
     <nav className="glass-panel-dark border-b border-gold/20 sticky top-0 z-50">

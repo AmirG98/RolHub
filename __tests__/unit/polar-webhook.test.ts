@@ -93,6 +93,16 @@ describe('mapeo de eventos Polar → plan', () => {
     }))
   })
 
+  it('subscription.updated activa con cancelAtPeriodEnd → PRO con vencimiento (no pisa el expiry)', async () => {
+    await POST(makeReq(subEvent('subscription.updated', 'active', {
+      cancelAtPeriodEnd: true,
+      currentPeriodEnd: '2030-01-01T00:00:00Z',
+    })) as any)
+    const data = mockUpdate.mock.calls[0][0].data
+    expect(data.plan).toBe('PRO')
+    expect(new Date(data.planExpiresAt).toISOString()).toBe('2030-01-01T00:00:00.000Z')
+  })
+
   it('past_due NO cambia el plan', async () => {
     await POST(makeReq(subEvent('subscription.updated', 'past_due')) as any)
     expect(mockUpdate.mock.calls[0][0].data.plan).toBeUndefined()

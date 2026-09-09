@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { validateEvent, WebhookVerificationError } from '@polar-sh/sdk/webhooks'
 import { prisma } from '@/lib/db/prisma'
+import { planFieldsFromActiveSubscription } from '@/lib/polar'
 
 export const dynamic = 'force-dynamic'
 
@@ -69,9 +70,24 @@ export async function POST(req: NextRequest) {
       }
 
       // order.paid no trae status de subscription → asumimos activo
-      if (type === 'order.paid' || status === 'active' || status === 'trialing') {
+      if (type === 'order.paid') {
         update.plan = 'PRO'
         update.planExpiresAt = null
+      } else if (status === 'active' || status === 'trialing') {
+        // OJO: cuando el usuario cancela a fin de período, Polar manda
+        // subscription.updated con status 'active' + cancelAtPeriodEnd. Antes
+        // esto pisaba planExpiresAt=null y borraba el vencimiento que había
+        // seteado subscription.canceled. El helper deriva el expiry correcto.
+        const fields = planFieldsFromActiveSubscription({
+          id: data?.id,
+          status,
+          productId: data?.productId,
+          cancelAtPeriodEnd: data?.cancelAtPeriodEnd,
+          currentPeriodEnd: data?.currentPeriodEnd,
+          endsAt: data?.endsAt,
+        })
+        update.plan = fields.plan
+        update.planExpiresAt = fields.planExpiresAt
       } else if (status === 'past_due') {
         console.warn(`[Polar] Suscripción ${data?.id} past_due para user ${user.id}`)
       } else if (status === 'canceled' || status === 'revoked' || status === 'unpaid') {
