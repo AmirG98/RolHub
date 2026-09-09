@@ -1314,6 +1314,18 @@ SESION 2026-08-26 — fix/ad-launch-readiness (SIN mergear, SIN deployar):
   ⚠ Para GTM usar trigger Custom Event 'purchase_complete', NO Page View de
      /checkout/success (la ruta es pública: un crawler dispararía Purchase).
 
+  PRIMER DATO REAL DEL EMBUDO (Usuario_NC9H8L, 2026-08-31): se registró, jugó
+  Cyberpunk 79 min seguidos, 25 turnos exactos (= FREE_TRIAL_TURNS), paywall en
+  pleno cliffhanger → se fue a los 17s, no volvió, no pagó. Engagement 10/10,
+  conversión en paywall 0/1. PROPUESTO (no hecho): avisar en turno 20 y cerrar
+  la escena antes de cortar; email de recuperación al agotar el trial.
+  ✅ Esa partida narró "Arasaka"/"NetWatch"/"Militech" con los datos ya limpios
+     → el modelo los inventa solo. CYBERPUNK no tenía anti-ip-directive (solo
+     LOTR/STAR_WARS/DND_CLASSIC/ROMANTASY). Agregada (es+en) + test
+     anti-ip-directive.test.ts. Escaneo de TODOS los turnos DM desde 2026-08-01
+     (98 turnos, 4 lores): los 21 hits eran esa única sesión; LOTR/ZOMBIES/
+     DND_CLASSIC limpios en runtime.
+
   PENDIENTE:
   - ✅ BILLING_ENFORCED=true PRENDIDO en Vercel (2026-08-27) — paywall ACTIVO en prod.
     Verificado via /api/health que ahora expone billing_enforced. FREE = 25 turnos
