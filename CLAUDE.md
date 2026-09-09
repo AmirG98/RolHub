@@ -1366,6 +1366,11 @@ SESION 2026-08-26 — fix/ad-launch-readiness (SIN mergear, SIN deployar):
      muestras reales: parse-dm-response-prod.test.ts. El guest route usa el
      mismo parser. NOTA: el nightly playtest lo habría detectado (invariante
      raw_json_in_narration) — sigue sin secrets en GitHub.
+     Segundo commit (29452ff): unwrapFences() empareja los ``` en orden — los
+     regex dejaban un "json" suelto tras cartel + fence json.
+     DECISIÓN DEL USER: NO limpiar los 33 turnos ya guardados en la DB (17 del
+     cliente PRO); solo el fix de código hacia adelante. El cliente sigue viendo
+     el JSON en su historial viejo al recargar.
 
   PENDIENTE:
   - Email de recuperación a quienes agotaron el trial (3 mails en la DB).
