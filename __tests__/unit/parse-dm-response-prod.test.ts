@@ -68,8 +68,46 @@ describe('Caso A2 — fence de texto plano ("cartel") + fence json', () => {
     expect(r.data.narration).toContain('TAMING ATTEMPT')
     expect(r.data.narration).not.toContain('`')
     expect(r.data.narration).not.toContain('dice_request')
+    // bug del primer intento de limpieza: quedaba un "json" suelto al final
+    expect(r.data.narration).not.toMatch(/\bjson\b/)
+    expect(r.data.narration.trim().endsWith('Critical Moment')).toBe(true)
     expect(r.data.dice_request?.formula).toBe('1d20+5')
     expect(r.data.suggested_actions).toEqual(['Move slow', 'Talk softly'])
+  })
+
+  it('varios carteles + fence json: ningún "json" ni backtick residual (muestra real 22:34)', () => {
+    const raw = `Reading the *intention* behind your stillness.
+
+\`\`\`
+🎲 TAMING CHECK incoming —
+your patience is being tested.
+\`\`\`
+
+The Drake's tail sweeps once, low and slow, through the ash.
+
+\`\`\`
+Does it trust you enough to close the distance?
+\`\`\`
+
+\`\`\`json
+{
+  "dice_request": { "reason": "Trust", "formula": "1d20+5", "type": "skill", "difficulty": 12, "stat": "taming" }
+}
+\`\`\``
+    const r = parseDMResponse<{ dice_request?: { formula: string } }>(raw)
+    expect(r.data.narration).toContain('TAMING CHECK incoming')
+    expect(r.data.narration).toContain('through the ash.')
+    expect(r.data.narration.trim().endsWith('close the distance?')).toBe(true)
+    expect(r.data.narration).not.toMatch(/\bjson\b/)
+    expect(r.data.narration).not.toContain('`')
+    expect(r.data.narration).not.toContain('{')
+    expect(r.data.dice_request?.formula).toBe('1d20+5')
+  })
+
+  it('fence json abierto sin cerrar al final: se corta, sin residuo', () => {
+    const raw = 'The clearing holds its breath.\n\n```json\n{\n  "dice_request": {\n    "reason": "x"'
+    const r = parseDMResponse(raw)
+    expect(r.data.narration).toBe('The clearing holds its breath.')
   })
 })
 

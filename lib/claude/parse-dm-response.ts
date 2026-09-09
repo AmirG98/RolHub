@@ -101,15 +101,51 @@ export function extractEmbeddedJson(text: string): { text: string; recovered: Re
   }
   out += text.slice(cursor)
 
-  // Fences que quedaron vacíos tras quitar el JSON (```json\n\n```)
-  out = out.replace(/```(?:json|javascript|js)?\s*```/gi, '')
-  // Fence json abierto sin cerrar al final (el JSON estaba truncado)
-  out = out.replace(/```(?:json)?\s*$/i, '')
-  // Fences de texto plano (el DM los usa como "cartel"): desenvolver, conservar el texto
-  out = out.replace(/```[^\n`]*\n?([\s\S]*?)```/g, '$1')
-  // Backticks sueltos y espacios/saltos colgantes
-  out = out.replace(/`{1,3}/g, '').replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n')
+  out = unwrapFences(out)
+  // Backticks sueltos (inline code) y espacios/saltos colgantes
+  out = out.replace(/`/g, '').replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n')
   return { text: out.trim(), recovered }
+}
+
+const JSON_TAGS = new Set(['json', 'js', 'javascript'])
+
+/**
+ * Procesa los fences ``` emparejándolos EN ORDEN (apertura↔cierre). Un regex
+ * no sirve: con un fence de texto seguido de uno ```json, emparejaba el cierre
+ * del primero con la apertura del segundo y dejaba un "json" suelto.
+ * - fence json/js → se quita entero (su JSON ya se extrajo o era basura)
+ * - fence de texto plano ("cartel" del DM) → se conserva el texto sin backticks
+ * - fence sin cerrar → json: cortar hasta el final; texto: quitar el marcador
+ */
+function unwrapFences(text: string): string {
+  const marks: number[] = []
+  let idx = text.indexOf('```')
+  while (idx >= 0) {
+    marks.push(idx)
+    idx = text.indexOf('```', idx + 3)
+  }
+  if (marks.length === 0) return text
+
+  let out = ''
+  let cursor = 0
+  for (let k = 0; k < marks.length; k += 2) {
+    const open = marks[k]
+    const close = marks[k + 1]
+    out += text.slice(cursor, open)
+    const head = text.slice(open + 3).match(/^([a-zA-Z]*)[^\n]*\n?/)
+    const tag = (head?.[1] ?? '').toLowerCase()
+    const innerStart = open + 3 + (head?.[0].length ?? 0)
+    const isJson = JSON_TAGS.has(tag)
+    if (close === undefined) {
+      cursor = isJson ? text.length : innerStart
+      break
+    }
+    const inner = text.slice(innerStart, close)
+    if (!isJson && inner.trim().length > 0) out += inner
+    cursor = close + 3
+  }
+  out += text.slice(cursor)
+  return out
 }
 
 /** Solo el texto limpio (compat con el uso previo). */
