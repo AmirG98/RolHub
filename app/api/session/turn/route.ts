@@ -1356,6 +1356,9 @@ ${isEnglish ? 'You must ALWAYS respond in JSON format with this exact structure'
   "long_rest": false${isMultiplayer ? `,
   "other_party_effects": []` : ''}
 }
+${isEnglish
+  ? `OUTPUT RULES (strict): return exactly ONE JSON object and nothing else — no prose before or after it, no markdown code fences (\`\`\`), no separate JSON blocks. "dice_request", "suggested_actions" and every other field go at the TOP LEVEL of that object — NEVER inside the "narration" text. The narration is plain prose only.`
+  : `REGLAS DE SALIDA (estrictas): devolvé exactamente UN objeto JSON y nada más — sin prosa antes ni después, sin fences de código (\`\`\`), sin bloques JSON separados. "dice_request", "suggested_actions" y todos los demás campos van en el NIVEL RAÍZ de ese objeto — NUNCA dentro del texto de "narration". La narración es solo prosa.`}
 ${isMultiplayer ? `
 ${labels.partyEffects}:
 [{"character_name": "${isEnglish ? 'Name' : 'Nombre'}", "hp_change": -2, "reason": "${isEnglish ? 'reason' : 'razón'}"}, ...]
@@ -1690,7 +1693,8 @@ INSTRUCCIONES PARA HABILIDADES:
           model: process.env.DM_MODEL || 'claude-sonnet-4-6',
           // 2500 (antes 1500): con narraciones largas + diálogos escapados + todos
           // los campos JSON, 1500 truncaba la respuesta y el JSON quedaba cortado.
-          max_tokens: 2500,
+          // 3000 (antes 2500): 3/28 fugas de JSON en prod eran por truncado.
+          max_tokens: 3000,
           system: finalSystemPrompt,
           messages: conversationHistory as any,
         })
@@ -1829,8 +1833,11 @@ INSTRUCCIONES PARA HABILIDADES:
     {
       const parsed = parseDMResponse(rawResponse)
       dmResponse = parsed.data as typeof dmResponse
-      if (!parsed.fullParse) {
-        console.warn('[DM] JSON incompleto/truncado — se degradó a solo narración')
+      if (!parsed.fullParse || parsed.recoveredKeys.length > 0) {
+        console.warn(
+          `[DM] Respuesta fuera de contrato (fullParse=${parsed.fullParse})` +
+          (parsed.recoveredKeys.length > 0 ? ` — campos recuperados del texto: ${parsed.recoveredKeys.join(', ')}` : '')
+        )
       }
     }
 

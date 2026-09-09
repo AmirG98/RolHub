@@ -1351,6 +1351,22 @@ SESION 2026-08-26 — fix/ad-launch-readiness (SIN mergear, SIN deployar):
   volvió a jugar sin fricción. Conversión del embudo pago: 1 de 4 que llegaron
   al paywall (25%). El primer pagador es un NOVATO en Story Mode, no un veterano.
 
+  ✅ BUG P0 en el primer turno pagado: JSON crudo en la narración. Medido en
+     prod: 28 de 253 turnos DM desde agosto (11%), 13 en Isekai (Beast Tamer
+     pide dados sin parar). Forma dominante (28/28): el modelo devuelve PROSA
+     + bloque ```json { "dice_request": ... } ``` aparte, sin objeto raíz con
+     narration. El parser parseaba el bloque, veía que no tenía narration, lo
+     DESCARTABA y devolvía el crudo entero → JSON visible + 0/28 tiradas
+     aplicadas. FIX (lib/claude/parse-dm-response.ts): scanner de llaves
+     balanceadas (respeta strings) que quita los bloques estructurados del
+     texto y RECUPERA sus campos (dice_request, suggested_actions...) al nivel
+     raíz; fences de texto plano se desenvuelven; JSON truncado se corta.
+     Prompt: regla de salida "UN solo objeto JSON, sin fences, nada dentro de
+     narration". max_tokens 2500→3000 (3/28 eran truncados). Tests con las
+     muestras reales: parse-dm-response-prod.test.ts. El guest route usa el
+     mismo parser. NOTA: el nightly playtest lo habría detectado (invariante
+     raw_json_in_narration) — sigue sin secrets en GitHub.
+
   PENDIENTE:
   - Email de recuperación a quienes agotaron el trial (3 mails en la DB).
   - Vercel logs ~2026-09-09 12:36 UTC: qué le pasó a Riann (2 creates, 0 acciones).
