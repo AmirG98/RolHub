@@ -140,3 +140,24 @@ describe('findStructuredBlocks: truncado solo al final y solo si empieza como JS
     expect(extractEmbeddedJson('a {"x": 1} b').text).toBe('a {"x": 1} b')
   })
 })
+
+describe('fence json en UNA línea (```json {...}``` sin saltos)', () => {
+  it('no deja la palabra "json" suelta en la narración', () => {
+    const r = parseDMResponse('Prose only ```json {"dice_request":{"reason":"r","formula":"1d20","type":"skill"}}```')
+    expect(r.data.narration).toBe('Prose only')
+    expect(r.recoveredKeys).toContain('dice_request')
+  })
+
+  it('tampoco dentro de narration de un objeto raíz', () => {
+    const raw = JSON.stringify({
+      narration: 'Beredin te mira. ```json { "dice_request": { "reason": "Social", "formula": "1d20+2", "type": "social" } }``` **¿Qué hacés?**',
+    })
+    const r = parseDMResponse(raw)
+    expect(r.data.narration).toBe('Beredin te mira. **¿Qué hacés?**')
+    expect((r.data as { dice_request?: { type: string } }).dice_request?.type).toBe('social')
+  })
+
+  it('una palabra sola en fence de una línea que NO es tag JSON es contenido', () => {
+    expect(parseDMResponse('A sign: ```Danger``` ahead.').data.narration).toBe('A sign: Danger ahead.')
+  })
+})

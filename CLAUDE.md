@@ -1442,13 +1442,26 @@ SESION 2026-08-26 — fix/ad-launch-readiness (SIN mergear, SIN deployar):
   ✅ Guest route: max_tokens 3000 + regla de salida (era el path de los ads y
      se había quedado atrás). GOLD_CTA_CLASS compartido (3 copias).
   ⏭ NO aplicado: reutilizar el narrationProbe en el turn route (0.03ms,
-     riesgo > beneficio en un archivo de 3000 líneas) y FORZAR EL FORMATO
-     CON TOOL USE (tools + tool_choice en las llamadas a Claude) — es la
-     causa raíz real de los JSON filtrados; queda como SIGUIENTE COMMIT.
+     riesgo > beneficio en un archivo de 3000 líneas).
+
+  ✅ SALIDA ESTRUCTURADA FORZADA (segundo commit, lib/claude/dm-tool.ts):
+     turn + guest routes llaman a Claude con tools:[dmTurnTool] +
+     tool_choice:{type:'tool', name:'dm_turn', disable_parallel_tool_use}.
+     El input_schema se deriva de dmResponseSchema con z.toJSONSchema (zod 4
+     nativo, sin deps): UNA fuente de verdad Zod → JSON Schema → API. La API
+     obliga al modelo a devolver un tool_use con JSON válido: no más prosa +
+     ```json aparte (era el 11% de los turnos). dmRawFromMessage() toma el
+     input del tool y lo serializa; el route lo pasa por parseDMResponse
+     IGUAL que antes (red para fences dentro de narration y fallback a texto
+     si no viene el bloque — se loguea "[DM] Sin bloque tool_use").
+     Verificado en local con la API real (2 turnos guest, en/es): 200,
+     narración limpia, suggested_actions, 0 fallbacks. Tests: dm-tool.test.ts.
+     De paso: el parser dejaba la palabra "json" suelta con fences de UNA
+     línea (```json {...}``` sin saltos) → arreglado + 3 tests.
+     El prompt sigue diciendo "devolvé UN objeto JSON" (documenta la semántica
+     de los campos; con tool_choice es redundante pero inofensivo).
 
   PENDIENTE:
-  - Tool use (tools/tool_choice) en turn + guest routes para eliminar por
-    construcción las respuestas fuera de contrato; el parser queda como red.
   - Email de recuperación a quienes agotaron el trial (3 mails en la DB).
   - Vercel logs ~2026-09-09 12:36 UTC: qué le pasó a Riann (2 creates, 0 acciones).
   - ✅ BILLING_ENFORCED=true PRENDIDO en Vercel (2026-08-27) — paywall ACTIVO en prod.

@@ -124,11 +124,16 @@ function unwrapFences(text: string): string {
     const open = marks[k]
     const close: number | undefined = marks[k + 1]
     out += text.slice(cursor, open)
-    // Solo es "tag" si la primera línea tras ``` es una palabra sola.
-    const head = text.slice(open + 3).match(/^([A-Za-z]*)[ \t]*\n/)
+    // Solo es "tag" si la primera línea tras ``` es una palabra sola, o si
+    // es una tag JSON pegada al cierre (```json {...}``` en una línea: al
+    // quitar el bloque queda "```json ```" y la palabra no debe filtrarse).
+    // Una palabra suelta que NO es tag JSON y cierra en la misma línea es
+    // contenido ("```Danger```") y se conserva.
+    const head = text.slice(open + 3).match(/^([A-Za-z]*)[ \t]*(\n|(?=```))/)
     const tag = (head?.[1] ?? '').toLowerCase()
-    const innerStart = open + 3 + (head?.[0].length ?? 0)
     const isJsonTag = JSON_TAGS.has(tag)
+    const consumeTag = head !== null && (head[2] === '\n' || isJsonTag)
+    const innerStart = open + 3 + (consumeTag ? head[0].length : 0)
     if (close === undefined) {
       cursor = isJsonTag ? text.length : innerStart
       break
@@ -162,7 +167,12 @@ export function extractEmbeddedJson(text: string): { text: string; recovered: Re
   }
   out += text.slice(cursor)
   out = unwrapFences(out)
-  out = out.replace(/`/g, '').replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n')
+  out = out
+    .replace(/`/g, '')
+    .replace(/[ \t]+\n/g, '\n')
+    .replace(/\n{3,}/g, '\n\n')
+    // Doble espacio que queda al quitar un bloque en medio de una frase
+    .replace(/(\S) {2,}(?=\S)/g, '$1 ')
   return { text: out.trim(), recovered }
 }
 

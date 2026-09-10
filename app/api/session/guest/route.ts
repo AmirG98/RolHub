@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
 import { getEngineConfig, GameEngine, Locale, EngineContext, DiceRoll as EngineDiceRoll } from '@/lib/engines'
 import { parseDMResponse } from '@/lib/claude/parse-dm-response'
+import { dmTurnTool, DM_TOOL_CHOICE, dmRawFromMessage } from '@/lib/claude/dm-tool'
 import { rateLimit, getClientIp, rateLimitResponse } from '@/lib/rate-limit'
 import { antiIpDirective } from '@/lib/claude/anti-ip-directive'
 
@@ -363,9 +364,16 @@ ${labels.important}:
       max_tokens: 3000,
       system: systemPrompt,
       messages: conversationHistory as any,
+      // Salida estructurada forzada (mismo contrato que el turn route)
+      tools: [dmTurnTool],
+      tool_choice: DM_TOOL_CHOICE,
     })
 
-    const rawResponse = response.content[0].type === 'text' ? response.content[0].text : ''
+    const dmRaw = dmRawFromMessage(response)
+    const rawResponse = dmRaw.raw
+    if (!dmRaw.viaTool) {
+      console.warn(`[Guest DM] Sin bloque tool_use (stop_reason=${dmRaw.stopReason}) — fallback al parser de texto`)
+    }
 
     // Parse robusto: si el JSON viene truncado/malformado, extrae solo la
     // narración en vez de filtrar el JSON crudo al jugador.

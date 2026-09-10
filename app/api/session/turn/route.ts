@@ -21,6 +21,7 @@ import { getSkillTree } from '@/lib/game/skill-trees'
 import type { MilestoneState } from '@/lib/types/skill-tree'
 import { validateDMResponse } from '@/lib/validation/dm-response.schema'
 import { parseDMResponse } from '@/lib/claude/parse-dm-response'
+import { dmTurnTool, DM_TOOL_CHOICE, dmRawFromMessage } from '@/lib/claude/dm-tool'
 import { antiIpDirective } from '@/lib/claude/anti-ip-directive'
 import { canStartSession, trialTurnsRemainingAfter, isBillingEnforced, WIND_DOWN_TURNS } from '@/lib/plans/check-access'
 import { trialWindDownDirective } from '@/lib/claude/trial-winddown'
@@ -1704,6 +1705,12 @@ INSTRUCCIONES PARA HABILIDADES:
           max_tokens: 3000,
           system: finalSystemPrompt,
           messages: conversationHistory as any,
+          // Salida estructurada FORZADA: la API obliga al modelo a responder
+          // con un tool_use cuyo input cumple el JSON Schema derivado de
+          // dmResponseSchema. Elimina por construcción la prosa + ```json
+          // aparte que era el 11% de los turnos en prod. Ver lib/claude/dm-tool.ts
+          tools: [dmTurnTool],
+          tool_choice: DM_TOOL_CHOICE,
         })
       } catch (apiError: any) {
         console.error('[DM] Anthropic API error:', apiError?.message || apiError)
@@ -1713,7 +1720,11 @@ INSTRUCCIONES PARA HABILIDADES:
         )
       }
 
-      rawResponse = response.content[0].type === 'text' ? response.content[0].text : ''
+      const dmRaw = dmRawFromMessage(response)
+      rawResponse = dmRaw.raw
+      if (!dmRaw.viaTool) {
+        console.warn(`[DM] Sin bloque tool_use (stop_reason=${dmRaw.stopReason}) — fallback al parser de texto`)
+      }
       // Probar la NARRACIÓN parseada (no el raw: un JSON válido con
       // narration:"..." tiene muchos chars pero cero contenido narrativo)
       const narrationProbe = parseDMResponse(rawResponse)
