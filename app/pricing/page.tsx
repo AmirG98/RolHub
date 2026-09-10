@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import { useTranslations, useLanguage } from '@/lib/i18n'
 import { Check, Crown, Sparkles, Scroll, Shield } from 'lucide-react'
 import { PLAN_CONFIG } from '@/lib/plans/plan-config'
+import { GOLD_CTA_CLASS } from '@/components/billing/gold-cta'
 import Link from 'next/link'
 
 export default function PricingPage() {
@@ -175,7 +176,7 @@ export default function PricingPage() {
           <button
             onClick={handleSubscribe}
             disabled={loading}
-            className="w-full py-3 px-6 rounded-lg bg-gradient-to-r from-gold-dim via-gold to-gold-dim text-shadow font-heading text-lg tracking-wide hover:from-gold hover:via-gold-bright hover:to-gold transition-all disabled:opacity-50"
+            className={`${GOLD_CTA_CLASS} disabled:opacity-50`}
           >
             {loading ? '...' : t.pricing.subscribe}
           </button>

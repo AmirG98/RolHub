@@ -11,7 +11,7 @@ import {
 import { CombatState, CombatActionType, CombatLogEntry } from '@/lib/types/combat-state'
 import { TacticalToken } from '@/lib/tactical/types'
 import { prisma } from '@/lib/db/prisma'
-import { canStartSession } from '@/lib/plans/check-access'
+import { canStartSession, isBillingEnforced } from '@/lib/plans/check-access'
 
 // Inicializar Claude
 const anthropic = new Anthropic({
@@ -69,7 +69,7 @@ export async function POST(req: NextRequest): Promise<NextResponse<CombatActionA
     // Enforcement de billing: combat también llama a Claude, así que un FREE
     // con trial agotado no puede seguir generando llamadas por acá (era un
     // bypass del paywall + hueco de costos).
-    if (process.env.BILLING_ENFORCED === 'true') {
+    if (isBillingEnforced()) {
       const u = await prisma.user.findUnique({
         where: { clerkId: userId },
         select: { plan: true, trialSessionUsed: true, planExpiresAt: true, stripeSubscriptionId: true, totalTurns: true },

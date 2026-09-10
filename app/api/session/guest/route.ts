@@ -330,6 +330,9 @@ ${isEnglish ? 'Respond in JSON format with this structure' : 'Respondé en forma
   "new_quest": null,
   "suggested_actions": ["${isEnglish ? 'action 1' : 'acción 1'}", "${isEnglish ? 'action 2' : 'acción 2'}", "${isEnglish ? 'action 3' : 'acción 3'}"]
 }
+${isEnglish
+  ? 'OUTPUT RULES (strict): return exactly ONE JSON object and nothing else — no prose before or after it, no markdown code fences (```), no separate JSON blocks. Every field goes at the TOP LEVEL of that object — NEVER inside the "narration" text. The narration is plain prose only.'
+  : 'REGLAS DE SALIDA (estrictas): devolvé exactamente UN objeto JSON y nada más — sin prosa antes ni después, sin fences de código (```), sin bloques JSON separados. Todos los campos van en el NIVEL RAÍZ de ese objeto — NUNCA dentro del texto de "narration". La narración es solo prosa.'}
 
 ${labels.mechanicRules}:
 1. ${labels.rule1}
@@ -355,8 +358,9 @@ ${labels.important}:
 
     const response = await anthropic.messages.create({
       model: process.env.DM_MODEL || 'claude-sonnet-4-6',
-      // 2000 (antes 1000): evita que el JSON se trunque con narraciones largas.
-      max_tokens: 2000,
+      // 3000 (antes 2000): mismo contrato JSON que el turn route; los
+      // truncados por max_tokens dejaban al guest sin suggested_actions.
+      max_tokens: 3000,
       system: systemPrompt,
       messages: conversationHistory as any,
     })

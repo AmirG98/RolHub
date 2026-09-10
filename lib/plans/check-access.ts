@@ -8,6 +8,17 @@ import { type PlanStatus } from './plan-config'
 // visitante del ad juega de verdad y se engancha antes de que le pidamos pagar.
 export const FREE_TRIAL_TURNS = 25
 
+/** La UI avisa "te quedan N turnos" desde que quedan estos (turno 20). */
+export const TRIAL_WARNING_TURNS = 5
+
+/** El DM empieza a cerrar la historia cuando quedan estos (turnos 21-25). */
+export const WIND_DOWN_TURNS = 4
+
+/** Única fuente de verdad del flag de billing (antes se parseaba en 4 lugares). */
+export function isBillingEnforced(): boolean {
+  return process.env.BILLING_ENFORCED === 'true'
+}
+
 /**
  * Turnos gratis que le quedan a un user FREE DESPUÉS de jugar el turno actual.
  * Se calcula antes de incrementar totalTurns (que sube al final del turno).

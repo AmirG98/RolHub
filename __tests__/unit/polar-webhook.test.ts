@@ -86,11 +86,25 @@ describe('mapeo de eventos Polar → plan', () => {
     }))
   })
 
-  it('order.paid → PRO (sin status de subscription)', async () => {
+  it('order.paid sin subscription embebida → PRO, y NO guarda el id de la ORDEN como suscripción', async () => {
     await POST(makeReq({ type: 'order.paid', data: { id: 'ord_1', customerId: 'c1', customer: { externalId: USER.id } } }) as any)
-    expect(mockUpdate).toHaveBeenCalledWith(expect.objectContaining({
-      data: expect.objectContaining({ plan: 'PRO' }),
-    }))
+    const data = mockUpdate.mock.calls[0][0].data
+    expect(data.plan).toBe('PRO')
+    expect(data.stripeSubscriptionId).toBeUndefined()
+  })
+
+  it('order.paid con subscription embebida → deriva expiry e id de la suscripción', async () => {
+    await POST(makeReq({
+      type: 'order.paid',
+      data: {
+        id: 'ord_2', customerId: 'c1', customer: { externalId: USER.id }, subscriptionId: 'sub_9',
+        subscription: { id: 'sub_9', status: 'active', cancelAtPeriodEnd: true, currentPeriodEnd: '2030-01-01T00:00:00Z' },
+      },
+    }) as any)
+    const data = mockUpdate.mock.calls[0][0].data
+    expect(data.plan).toBe('PRO')
+    expect(data.stripeSubscriptionId).toBe('sub_9')
+    expect(new Date(data.planExpiresAt).toISOString()).toBe('2030-01-01T00:00:00.000Z')
   })
 
   it('subscription.updated activa con cancelAtPeriodEnd → PRO con vencimiento (no pisa el expiry)', async () => {

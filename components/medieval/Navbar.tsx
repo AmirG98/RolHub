@@ -23,7 +23,7 @@ export function Navbar() {
   // (lo dispara /checkout/success al confirmar el pago) para que el badge PRO
   // aparezca sin necesidad de recargar.
   const fetchPlan = useCallback(() => {
-    fetch('/api/user/progress')
+    fetch('/api/user/plan')
       .then(r => r.ok ? r.json() : null)
       .then(data => { if (data?.plan) setUserPlan(data.plan) })
       .catch(() => {})
@@ -32,8 +32,14 @@ export function Navbar() {
   useEffect(() => {
     if (!isSignedIn) return
     fetchPlan()
-    window.addEventListener('rolhub:plan-updated', fetchPlan)
-    return () => window.removeEventListener('rolhub:plan-updated', fetchPlan)
+    // El emisor (/checkout/success) ya tiene el plan confirmado: sin refetch.
+    const onPlanUpdated = (e: Event) => {
+      const plan = (e as CustomEvent<{ plan?: string }>).detail?.plan
+      if (plan) setUserPlan(plan)
+      else fetchPlan()
+    }
+    window.addEventListener('rolhub:plan-updated', onPlanUpdated)
+    return () => window.removeEventListener('rolhub:plan-updated', onPlanUpdated)
   }, [isSignedIn, fetchPlan])
 
   return (

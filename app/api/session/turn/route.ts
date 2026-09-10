@@ -22,8 +22,9 @@ import type { MilestoneState } from '@/lib/types/skill-tree'
 import { validateDMResponse } from '@/lib/validation/dm-response.schema'
 import { parseDMResponse } from '@/lib/claude/parse-dm-response'
 import { antiIpDirective } from '@/lib/claude/anti-ip-directive'
-import { canStartSession, trialTurnsRemainingAfter } from '@/lib/plans/check-access'
+import { canStartSession, trialTurnsRemainingAfter, isBillingEnforced, WIND_DOWN_TURNS } from '@/lib/plans/check-access'
 import { trialWindDownDirective } from '@/lib/claude/trial-winddown'
+import { maybeSyncPlanOnDeny } from '@/lib/billing/sync-plan'
 import { rateLimit, rateLimitResponse } from '@/lib/rate-limit'
 import { verifyGuestCookie } from '@/lib/guest/cookie'
 import { healPlaceholderEmail } from '@/lib/auth/clerk-email'
@@ -162,30 +163,34 @@ export async function POST(req: NextRequest) {
     // Plan check: usuarios registrados (no guests) deben tener plan activo.
     // Controlado por env var — NO por código comentado. Para activar el
     // enforcement de billing el día del launch: BILLING_ENFORCED=true en Vercel.
-    if (process.env.BILLING_ENFORCED === 'true' && authUserPlan !== null) {
-      const access = canStartSession({
+    // Trial por turnos: cuántos gratis le quedan DESPUÉS de este. Alimenta el
+    // aviso en la UI y la directiva para que el DM cierre el capítulo en el
+    // último en vez de cortar en mitad de una escena. null = no aplica
+    // (guest, PRO, o billing apagado).
+    let trialTurnsRemaining: number | null = null
+
+    if (isBillingEnforced() && authUserPlan !== null) {
+      let access = canStartSession({
         plan: authUserPlan,
         trialSessionUsed: authUserTrialUsed,
         planExpiresAt: authUserPlanExpires,
         stripeSubscriptionId: authUserStripeSubId,
         totalTurns: authUserTotalTurns,
       })
+      // Autocuración: si el webhook de Polar se perdió, un pagador quedaría
+      // FREE para siempre. Antes de negar, consultamos Polar (con throttle).
+      if (!access.allowed && authUserId && (await maybeSyncPlanOnDeny(authUserId))) {
+        authUserPlan = 'PRO'
+        access = { allowed: true, upgradeRequired: false }
+      }
       if (!access.allowed) {
         return NextResponse.json(
           { error: access.reasonEs || access.reason, upgradeRequired: true },
           { status: 403 }
         )
       }
+      if (authUserPlan === 'FREE') trialTurnsRemaining = trialTurnsRemainingAfter(authUserTotalTurns)
     }
-
-    // Trial por turnos: cuántos gratis le quedan DESPUÉS de este. Alimenta el
-    // aviso en la UI y la directiva para que el DM cierre el capítulo en el
-    // último en vez de cortar en mitad de una escena. null = no aplica
-    // (guest, PRO, o billing apagado).
-    const trialTurnsRemaining: number | null =
-      process.env.BILLING_ENFORCED === 'true' && authUserPlan === 'FREE'
-        ? trialTurnsRemainingAfter(authUserTotalTurns)
-        : null
 
     const body = await req.json()
     const { sessionId, campaignId, action, actionType = 'talk', diceRoll, characterId, locale = 'es' } = body as {
@@ -1224,6 +1229,10 @@ El jugador juega en ESPAÑOL. Toda la narración, diálogo, nombres y descripcio
 
     const trialWindDownRule = trialWindDownDirective(trialTurnsRemaining, isEnglish ? 'en' : 'es')
 
+    const outputRules = isEnglish
+      ? 'OUTPUT RULES (strict): return exactly ONE JSON object and nothing else — no prose before or after it, no markdown code fences (```), no separate JSON blocks. "dice_request", "suggested_actions" and every other field go at the TOP LEVEL of that object — NEVER inside the "narration" text. The narration is plain prose only.'
+      : 'REGLAS DE SALIDA (estrictas): devolvé exactamente UN objeto JSON y nada más — sin prosa antes ni después, sin fences de código (```), sin bloques JSON separados. "dice_request", "suggested_actions" y todos los demás campos van en el NIVEL RAÍZ de ese objeto — NUNCA dentro del texto de "narration". La narración es solo prosa.'
+
     const systemPrompt = `${labels.dmRole}${isMultiplayer ? ` ${labels.multiplayer}` : ''}. ${isEnglish ? 'Your role is to create an immersive and exciting experience.' : 'Tu rol es crear una experiencia inmersiva y emocionante.'}
 ${languageRule}${trialWindDownRule}
 ${(() => {
@@ -1356,9 +1365,7 @@ ${isEnglish ? 'You must ALWAYS respond in JSON format with this exact structure'
   "long_rest": false${isMultiplayer ? `,
   "other_party_effects": []` : ''}
 }
-${isEnglish
-  ? `OUTPUT RULES (strict): return exactly ONE JSON object and nothing else — no prose before or after it, no markdown code fences (\`\`\`), no separate JSON blocks. "dice_request", "suggested_actions" and every other field go at the TOP LEVEL of that object — NEVER inside the "narration" text. The narration is plain prose only.`
-  : `REGLAS DE SALIDA (estrictas): devolvé exactamente UN objeto JSON y nada más — sin prosa antes ni después, sin fences de código (\`\`\`), sin bloques JSON separados. "dice_request", "suggested_actions" y todos los demás campos van en el NIVEL RAÍZ de ese objeto — NUNCA dentro del texto de "narration". La narración es solo prosa.`}
+${outputRules}
 ${isMultiplayer ? `
 ${labels.partyEffects}:
 [{"character_name": "${isEnglish ? 'Name' : 'Nombre'}", "hp_change": -2, "reason": "${isEnglish ? 'reason' : 'razón'}"}, ...]
@@ -1838,6 +1845,19 @@ INSTRUCCIONES PARA HABILIDADES:
           `[DM] Respuesta fuera de contrato (fullParse=${parsed.fullParse})` +
           (parsed.recoveredKeys.length > 0 ? ` — campos recuperados del texto: ${parsed.recoveredKeys.join(', ')}` : '')
         )
+      }
+      // Cierre de capítulo GARANTIZADO server-side (la directiva del prompt es
+      // solo una instrucción a un modelo que se sale del contrato el 11% de las
+      // veces). En los últimos turnos no arranca combate; en el último tampoco
+      // pide dados ni cambia de escena: el jugador no puede quedar a mitad de
+      // una pelea contra el paywall.
+      if (trialTurnsRemaining !== null && trialTurnsRemaining <= WIND_DOWN_TURNS) {
+        delete dmResponse.combat_trigger
+        if (trialTurnsRemaining === 0) {
+          delete dmResponse.dice_request
+          delete dmResponse.scene_change
+          delete dmResponse.location_id
+        }
       }
     }
 

@@ -1372,7 +1372,83 @@ SESION 2026-08-26 — fix/ad-launch-readiness (SIN mergear, SIN deployar):
      cliente PRO); solo el fix de código hacia adelante. El cliente sigue viendo
      el JSON en su historial viejo al recargar.
 
+  LEARNINGS DEL PRIMER CLIENTE PAGO (2026-09-10, análisis de 461 turnos) —
+  guardados PARA DESPUÉS, no implementados. Decisión del user: priorizar
+  calidad de código antes de nuevas features.
+  Perfil: roleplayer real (primeras 3 acciones en prosa en personaje), NOVICE,
+  Isekai Beast Tamer. 5h netas el día 1 en 6 bloques (máx 129 min seguidos),
+  44 tiradas, manada de 5 criaturas, lvl 5, 7 logros. ~90% de acciones =
+  opciones sugeridas. No volvió en las 16h siguientes (durmió a las 02:04 UTC).
+  ⚠ BUCLE NARRATIVO: 4 cambios de escena en 461 turnos; 193 min (~150
+    acciones) en la misma escena; act 1 tras 230 turnos; active_quests=[]
+    desde 22:51 porque la misión de seguimiento que ACEPTÓ nunca se registró
+    (casualidad del bug del JSON: el quest_create iba en el bloque filtrado).
+    Sin objetivo, el DM repitió "something big moving northeast" >15 veces
+    sin resolverlo; la última narración de la noche termina igual. Party
+    tracker (cada 3) y coherencia (cada 5) NO intervinieron.
+  ⚠ npc_states contaminado: "Status", "Bestiary", "Beast Flute" registrados
+    como NPCs por detectNpcNames → basura en el prompt cada turno.
+  ⚠ 1 imagen en 461 turnos, 0 audio. El ad promete "generated images"; el
+    mundo es estilo Ghibli. Investigar por qué generate_image no se activa.
+  ⚠ unlockedSkills=[] con milestones npc_bonds=5, quests=1, 230 turnos.
+    Verificar thresholds/toast del skill tree.
+  ⚠ COSTO: ~231 llamadas DM/día con prompt grande ≈ US$5-8/día estimado vs
+    US$8.99/mes. Medir usage real (loggear response.usage) y activar prompt
+    caching de Anthropic en la parte estática del system prompt.
+  PLAN PROPUESTO (en orden): (1) reactivar su historia: registrar la misión
+  aceptada + directiva "resolvé el noreste y cambiá de escena" (escritura
+  chica en DB, requiere OK explícito); (2) anti-bucle en prompt: quest hook si
+  active_quests vacío ≥3 turnos, forzar cambio de escena tras N turnos, no
+  repetir beat "algo se acerca" sin resolver en 2 turnos, y revisar por qué el
+  party tracker no intervino; (3) blocklist de items/UI en detectNpcNames;
+  (4) imágenes para PRO; (5) usage logging + prompt caching.
+
+  CODE REVIEW (2026-09-10) — /code-review high sobre los 10 archivos de los
+  últimos 2 días: 7 revisores, ~25 hallazgos válidos, TODOS aplicados menos 2
+  (ver abajo). 443/443 tests (+26). Lo importante:
+  ✅ PARSER REDISEÑADO (lib/claude/parse-dm-response.ts): un solo mecanismo
+     (scanner de llaves balanceadas) para todo; claves derivadas de
+     dmResponseSchema.shape (la lista manual ya había divergido: faltaban
+     world_flag, time_update...); campos recuperados VALIDADOS con Zod antes
+     de mezclar (un quest_create sin objectives tiraba 500); defaults del
+     template (0/false/[]/null) no pisan valores reales; llaves sueltas de
+     prosa se preservan (antes borraban el resto del turno); JSON truncado
+     solo se reconoce al final y si empieza como JSON; fences de una línea
+     conservan el texto; narration como array se une; NUNCA devuelve JSON
+     crudo (si no hay texto, '' y el turn route reintenta). Tests:
+     parse-dm-response-review.test.ts (18 casos con repros del review).
+  ✅ PAYWALL AUTOCURABLE: lib/billing/sync-plan.ts (lógica extraída del
+     route) + maybeSyncPlanOnDeny (throttle 10 min/user en memoria) en el
+     camino de denegación del turn route: un pagador con webhook perdido se
+     arregla solo al intentar jugar. Usa getPlanStatus (no reimplementa).
+     Solo P2002 se tolera en el update; otros errores se propagan.
+  ✅ CIERRE DE CAPÍTULO GARANTIZADO server-side: en los últimos 4 turnos se
+     borra combat_trigger; en el último también dice_request/scene_change.
+  ✅ pickActiveSubscription ESTRICTO (antes daba PRO por cualquier producto).
+  ✅ Webhook order.paid: no guarda el id de la ORDEN como suscripción; deriva
+     de data.subscription si viene. Pasa `data` del SDK directo al helper.
+  ✅ isBillingEnforced() + TRIAL_WARNING_TURNS/WIND_DOWN_TURNS en
+     check-access.ts (antes: 4 parseos del env y 3 encodings de "turnos").
+  ✅ UI: banner del trial se apaga con null (pago en otra pestaña); timer del
+     UpgradePrompt limpiado; selección numérica compartida en
+     lib/game/numeric-choice.ts (GameSession + GuestGameSession, acepta
+     "1 2", NO secuestra el dígito si el DM ofreció lista numerada).
+  ✅ /checkout/success: copy en translations (bloque checkout), plan label
+     desde PLAN_CONFIG, AbortController + clearTimeout, sin ref started
+     (rompía en StrictMode), dedupe del purchase_complete por localStorage
+     (cross-tab; antes reabrir la URL duplicaba conversiones en Meta).
+  ✅ Navbar: evento con el plan en detail (sin refetch) + GET /api/user/plan
+     (antes pegaba a /api/user/progress: 5 queries para un badge).
+  ✅ Guest route: max_tokens 3000 + regla de salida (era el path de los ads y
+     se había quedado atrás). GOLD_CTA_CLASS compartido (3 copias).
+  ⏭ NO aplicado: reutilizar el narrationProbe en el turn route (0.03ms,
+     riesgo > beneficio en un archivo de 3000 líneas) y FORZAR EL FORMATO
+     CON TOOL USE (tools + tool_choice en las llamadas a Claude) — es la
+     causa raíz real de los JSON filtrados; queda como SIGUIENTE COMMIT.
+
   PENDIENTE:
+  - Tool use (tools/tool_choice) en turn + guest routes para eliminar por
+    construcción las respuestas fuera de contrato; el parser queda como red.
   - Email de recuperación a quienes agotaron el trial (3 mails en la DB).
   - Vercel logs ~2026-09-09 12:36 UTC: qué le pasó a Riann (2 creates, 0 acciones).
   - ✅ BILLING_ENFORCED=true PRENDIDO en Vercel (2026-08-27) — paywall ACTIVO en prod.

@@ -61,10 +61,9 @@ describe('extractNarrationField', () => {
     expect(extractNarrationField('{"hp_change":0}')).toBeNull()
   })
 
-  it('maneja narration como el último campo antes del truncado', () => {
+  it('salva el texto de una narration truncada (sin comilla de cierre)', () => {
     const raw = '{"narration":"Texto que se corta acá'
-    // sin comilla de cierre → no matchea el campo completo → null (cae a stripJsonArtifacts)
-    expect(extractNarrationField(raw)).toBeNull()
+    expect(extractNarrationField(raw)).toBe('Texto que se corta acá')
   })
 })
 
@@ -99,24 +98,24 @@ describe('stripEmbeddedJson — JSON embebido en la narración (bug del screensh
   })
 
   it('quita un objeto JSON estructurado sin fence', async () => {
-    const { stripEmbeddedJson } = await import('@/lib/claude/parse-dm-response')
+    const { extractEmbeddedJson } = await import('@/lib/claude/parse-dm-response')
     const narr = 'El mercader habla. {"combat_trigger": {"enemies": []}} Y sigue la escena.'
-    const out = stripEmbeddedJson(narr)
+    const out = extractEmbeddedJson(narr).text
     expect(out).not.toContain('combat_trigger')
     expect(out).toContain('El mercader habla')
     expect(out).toContain('Y sigue la escena')
   })
 
   it('NO toca objetos JSON que no son campos del DMResponse (ej: diálogo con llaves)', async () => {
-    const { stripEmbeddedJson } = await import('@/lib/claude/parse-dm-response')
+    const { extractEmbeddedJson } = await import('@/lib/claude/parse-dm-response')
     const narr = 'El sabio dice: "el ritual necesita { luna llena }".'
     // no tiene keys estructuradas → se preserva
-    expect(stripEmbeddedJson(narr)).toContain('luna llena')
+    expect(extractEmbeddedJson(narr).text).toContain('luna llena')
   })
 
   it('narración limpia pasa sin cambios', async () => {
-    const { stripEmbeddedJson } = await import('@/lib/claude/parse-dm-response')
+    const { extractEmbeddedJson } = await import('@/lib/claude/parse-dm-response')
     const narr = 'El sol despunta sobre Vado Viejo. Beredin te saluda.'
-    expect(stripEmbeddedJson(narr)).toBe(narr)
+    expect(extractEmbeddedJson(narr).text).toBe(narr)
   })
 })

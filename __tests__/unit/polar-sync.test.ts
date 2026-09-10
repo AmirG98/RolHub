@@ -61,9 +61,14 @@ describe('pickActiveSubscription', () => {
     expect(pickActiveSubscription(subs, 'prod_rolhub')?.id).toBe('mine')
   })
 
-  it('cae a cualquier activa si ninguna coincide con el product id', () => {
+  it('es ESTRICTO: con product id configurado, otra suscripción activa NO da PRO', () => {
     const subs = [{ id: 'only', status: 'trialing', productId: 'prod_x' }]
-    expect(pickActiveSubscription(subs, 'prod_rolhub')?.id).toBe('only')
+    expect(pickActiveSubscription(subs, 'prod_rolhub')).toBeNull()
+  })
+
+  it('sin product id configurado, cualquier activa vale', () => {
+    const subs = [{ id: 'only', status: 'active', productId: 'prod_x' }]
+    expect(pickActiveSubscription(subs, '')?.id).toBe('only')
   })
 })
 
@@ -137,12 +142,20 @@ describe('POST /api/billing/sync', () => {
     expect(mockUpdate).not.toHaveBeenCalled()
   })
 
-  it('si el update con stripeCustomerId choca por @unique, activa igual sin él', async () => {
-    mockGetState.mockResolvedValue({ id: 'cust_dup', activeSubscriptions: [{ id: 'sub_1', status: 'active' }] })
-    mockUpdate.mockRejectedValueOnce(new Error('P2002 unique')).mockResolvedValueOnce({})
+  it('si el update con stripeCustomerId choca por @unique (P2002), activa igual sin él', async () => {
+    mockGetState.mockResolvedValue({ id: 'cust_dup', activeSubscriptions: [{ id: 'sub_1', status: 'active', productId: 'prod_rolhub' }] })
+    mockUpdate.mockRejectedValueOnce(Object.assign(new Error('unique'), { code: 'P2002' })).mockResolvedValueOnce({})
     const body = await (await POST()).json()
     expect(body.active).toBe(true)
     expect(mockUpdate).toHaveBeenCalledTimes(2)
     expect(mockUpdate.mock.calls[1][0].data).toEqual({ plan: 'PRO', planExpiresAt: null, stripeSubscriptionId: 'sub_1' })
+  })
+
+  it('cualquier OTRO error de DB en el update se propaga (no se enmascara como P2002)', async () => {
+    mockGetState.mockResolvedValue({ id: 'cust_1', activeSubscriptions: [{ id: 'sub_1', status: 'active', productId: 'prod_rolhub' }] })
+    mockUpdate.mockRejectedValueOnce(new Error('connection reset'))
+    const res = await POST()
+    expect(res.status).toBe(500)
+    expect(mockUpdate).toHaveBeenCalledTimes(1)
   })
 })

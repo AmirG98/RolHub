@@ -3,6 +3,7 @@
 import { Crown, X } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useTranslations } from '@/lib/i18n'
+import { GOLD_CTA_CLASS } from './gold-cta'
 
 interface UpgradePromptProps {
   variant: 'trial_ended' | 'expired'
@@ -41,7 +42,7 @@ export function UpgradePrompt({ variant, onDismiss }: UpgradePromptProps) {
 
         <button
           onClick={() => router.push('/pricing')}
-          className="w-full py-3 px-6 rounded-lg bg-gradient-to-r from-gold-dim via-gold to-gold-dim text-shadow font-heading text-lg tracking-wide hover:from-gold hover:via-gold-bright hover:to-gold transition-all mb-3"
+          className={`${GOLD_CTA_CLASS} mb-3`}
         >
           {t.upgrade.cta}
         </button>

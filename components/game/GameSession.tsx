@@ -2,6 +2,9 @@
 
 import { useState, useRef, useEffect, useCallback } from 'react'
 import Link from 'next/link'
+import { TRIAL_WARNING_TURNS } from '@/lib/plans/check-access'
+import { resolveNumericChoice } from '@/lib/game/numeric-choice'
+import { GOLD_CTA_CLASS } from '@/components/billing/gold-cta'
 import { ParchmentPanel } from '@/components/medieval/ParchmentPanel'
 import { OrnateFrame } from '@/components/medieval/OrnateFrame'
 import { DiceRoller } from '@/components/medieval/DiceRoller'
@@ -176,6 +179,7 @@ export default function GameSession({
     statBonus: initialWorldState.pendingLevelUp.statBonus,
   } : null)
   const damageHaloTimeout = useRef<NodeJS.Timeout | null>(null)
+  const upgradePromptTimeout = useRef<NodeJS.Timeout | null>(null)
   const [lastDiceRoll, setLastDiceRoll] = useState<{ formula: string; result: number; rolls: number[] } | null>(null)
   // Notificaciones de items/misiones
   const [notifications, setNotifications] = useState<GameNotificationData[]>([])
@@ -257,6 +261,7 @@ export default function GameSession({
       window.removeEventListener('beforeunload', handleBeforeUnload)
       document.removeEventListener('click', handleLinkClick, true)
       window.removeEventListener('popstate', handlePopState)
+      if (upgradePromptTimeout.current) clearTimeout(upgradePromptTimeout.current)
     }
   }, [])
 
@@ -510,13 +515,10 @@ export default function GameSession({
       return
     }
 
-    // "2", "2.", "option 2", "opción 2" → elegir la acción sugerida N. Un
-    // jugador real escribió "1 2" intentando elegir por número; va a pasar.
-    const numeric = action.trim().match(/^(?:option|opci[oó]n)?\s*([1-9])\s*[.)]?$/i)
-    if (numeric) {
-      const picked = suggestedActions[parseInt(numeric[1], 10) - 1]
-      if (picked) action = picked
-    }
+    // "2" / "option 2" → acción sugerida N (salvo que el DM haya ofrecido su
+    // propia lista numerada en la prosa: ahí el número es del DM).
+    const lastDmText = [...localTurns].reverse().find((t) => t.role === 'DM')?.content
+    action = resolveNumericChoice(action, suggestedActions, lastDmText) ?? action
 
     setIsSubmitting(true)
     setError(null)
@@ -742,13 +744,17 @@ export default function GameSession({
         setSuggestedActions(data.suggestedActions)
       }
 
-      // Trial por turnos: aviso previo y cierre de capítulo. Al llegar a 0 el
-      // DM ya cerró la escena; mostramos el upgrade con un respiro para que
-      // lean el final, sin esperar al 403 del próximo intento.
-      if (typeof data.trialTurnsRemaining === 'number') {
-        setTrialTurnsRemaining(data.trialTurnsRemaining)
-        if (data.trialTurnsRemaining === 0) {
-          setTimeout(() => setShowUpgradePrompt(true), 4000)
+      // Trial por turnos: aviso previo y cierre de capítulo. El server manda
+      // null cuando no aplica (PRO, guest) — hay que APLICARLO, no ignorarlo:
+      // si el jugador paga en otra pestaña, el banner tiene que apagarse.
+      // Al llegar a 0 el DM ya cerró la escena; mostramos el upgrade con un
+      // respiro para que lean el final, sin esperar al 403 del próximo intento.
+      if ('trialTurnsRemaining' in data) {
+        const remaining: number | null = typeof data.trialTurnsRemaining === 'number' ? data.trialTurnsRemaining : null
+        setTrialTurnsRemaining(remaining)
+        if (remaining === 0) {
+          if (upgradePromptTimeout.current) clearTimeout(upgradePromptTimeout.current)
+          upgradePromptTimeout.current = setTimeout(() => setShowUpgradePrompt(true), 4000)
         }
       }
 
@@ -1414,7 +1420,7 @@ export default function GameSession({
               />
             ) : (
               <div id="action-input">
-                {trialTurnsRemaining !== null && trialTurnsRemaining <= 5 && trialTurnsRemaining > 0 && (
+                {trialTurnsRemaining !== null && trialTurnsRemaining <= TRIAL_WARNING_TURNS && trialTurnsRemaining > 0 && (
                   <div className="mb-2 flex items-center justify-between gap-3 rounded-lg border border-gold/40 bg-gold/10 px-3 py-2">
                     <span className="font-ui text-xs text-parchment">
                       {trialTurnsRemaining === 1
@@ -1430,10 +1436,7 @@ export default function GameSession({
                   <div className="rounded-lg border border-gold/40 glass-panel-dark p-5 text-center">
                     <p className="font-title text-lg text-gold-bright mb-1">{t.upgrade.chapterComplete}</p>
                     <p className="font-body text-sm text-parchment/70 mb-4">{t.upgrade.chapterCompleteSub}</p>
-                    <Link
-                      href="/pricing"
-                      className="inline-block w-full py-3 px-6 rounded-lg bg-gradient-to-r from-gold-dim via-gold to-gold-dim text-shadow font-heading text-base tracking-wide hover:from-gold hover:via-gold-bright hover:to-gold transition-all"
-                    >
+                    <Link href="/pricing" className={`${GOLD_CTA_CLASS} inline-block`}>
                       {t.upgrade.keepPlaying}
                     </Link>
                   </div>

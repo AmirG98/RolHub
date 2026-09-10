@@ -8,6 +8,7 @@ import { RunicButton } from '@/components/medieval/RunicButton'
 import { DiceRoller } from '@/components/medieval/DiceRoller'
 import { GuestWarningBanner } from '@/components/guest/GuestWarningBanner'
 import { useGuest } from '@/lib/guest'
+import { resolveNumericChoice } from '@/lib/game/numeric-choice'
 import { useLanguage } from '@/lib/i18n'
 // import { DynamicMusicPlayer, useDynamicMusic } from '@/components/audio/DynamicMusicPlayer' // DISABLED
 import {
@@ -180,15 +181,18 @@ export default function GuestGameSession() {
     setIsSubmitting(true)
     setError(null)
 
+    // "2" / "option 2" → acción sugerida N (mismo helper que GameSession)
+    const lastDmText = [...turns].reverse().find((t) => t.role === 'DM')?.content
+    const submittedAction = resolveNumericChoice(action, suggestedActions, lastDmText) ?? action.trim()
+
     // Add player turn immediately
     const playerTurn = {
       role: 'USER' as const,
-      content: action.trim(),
+      content: submittedAction,
       diceRoll: lastDiceRoll || undefined
     }
     addGuestTurn(playerTurn)
 
-    const submittedAction = action.trim()
     setAction('')
     const submittedDiceRoll = lastDiceRoll
     setLastDiceRoll(null)

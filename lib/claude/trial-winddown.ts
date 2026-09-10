@@ -6,8 +6,8 @@
 // Se inyecta en los últimos turnos gratis: primero orienta la historia hacia
 // una resolución; en el último turno cierra la escena con un gancho.
 
-/** Turnos antes del final en los que el DM empieza a cerrar la historia. */
-export const WIND_DOWN_TURNS = 4
+import { WIND_DOWN_TURNS } from '@/lib/plans/check-access'
+export { WIND_DOWN_TURNS }
 
 export function trialWindDownDirective(remainingAfterThisTurn: number | null, locale: 'es' | 'en'): string {
   if (remainingAfterThisTurn === null || remainingAfterThisTurn > WIND_DOWN_TURNS) return ''

@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/db/prisma'
+import { isBillingEnforced } from '@/lib/plans/check-access'
 
 export async function GET() {
   const checks: Record<string, { status: 'ok' | 'error'; ms?: number; error?: string }> = {}
@@ -33,7 +34,7 @@ export async function GET() {
       checks,
       // Flag operativo (no sensible): permite verificar desde afuera si el
       // paywall está activo sin necesidad de una cuenta autenticada.
-      billing_enforced: process.env.BILLING_ENFORCED === 'true',
+      billing_enforced: isBillingEnforced(),
       timestamp: new Date().toISOString(),
     },
     { status: allOk ? 200 : 503 }

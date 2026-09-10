@@ -53,10 +53,10 @@ export interface PolarSubscriptionLike {
 const ACTIVE_STATUSES = new Set(['active', 'trialing'])
 
 /**
- * Elige la suscripción que otorga PRO. Si hay POLAR_PRODUCT_ID configurado
- * prefiere la que coincide; si ninguna coincide cae a cualquier activa (por
- * si el product id cambió en Polar y no en las env vars — mejor dar acceso a
- * un pagador que bloquearlo por config).
+ * Elige la suscripción que otorga PRO. Con POLAR_PRODUCT_ID configurado es
+ * ESTRICTO: solo esa. Un fallback a "cualquier activa" convertía el filtro en
+ * un no-op y daría PRO a quien compre cualquier otro producto de la org. Si
+ * hay activas pero ninguna coincide, se loggea fuerte (posible config drift).
  */
 export function pickActiveSubscription(
   subs: PolarSubscriptionLike[],
@@ -64,11 +64,15 @@ export function pickActiveSubscription(
 ): PolarSubscriptionLike | null {
   const active = subs.filter((s) => ACTIVE_STATUSES.has(s.status))
   if (active.length === 0) return null
-  if (productId) {
-    const match = active.find((s) => s.productId === productId)
-    if (match) return match
+  if (!productId) return active[0]
+  const match = active.find((s) => s.productId === productId)
+  if (!match) {
+    console.warn(
+      `[polar] ${active.length} suscripción(es) activa(s) pero ninguna del producto ${productId}: ` +
+      active.map((s) => s.productId ?? '?').join(', ')
+    )
   }
-  return active[0]
+  return match ?? null
 }
 
 /**

@@ -596,6 +596,21 @@ export const translations = {
       chapterCompleteSub: 'Tu historia sigue del otro lado. Suscribite para continuarla.',
       keepPlaying: 'Seguir jugando',
     },
+
+    // Página de gracias del checkout (/checkout/success)
+    checkout: {
+      confirming: 'Confirmando tu pago…',
+      confirmingSub: 'Hablando con el proveedor de pagos. Suele tardar un par de segundos.',
+      welcome: 'Bienvenido al plan {plan}',
+      welcomeSub: 'Tu suscripción está activa. Todos los mundos, todos los motores de reglas, campañas ilimitadas — todo desbloqueado.',
+      pending: 'Pago recibido — activando',
+      pendingSub: 'Tu plan se está activando y puede tardar un minuto en verse. Podés seguir jugando; si todavía ves el mensaje de prueba, recargá la página en un rato.',
+      signedOut: 'Iniciá sesión para ver tu suscripción',
+      signedOutSub: 'Tu pago está vinculado a tu cuenta. Iniciá sesión y tu plan se activa solo.',
+      signIn: 'Iniciar sesión',
+      continueCta: 'Continuá tu aventura',
+      receipt: 'Te enviamos el comprobante a tu email.',
+    },
   },
 
   en: {
@@ -1192,6 +1207,21 @@ export const translations = {
       chapterComplete: 'Free chapter complete',
       chapterCompleteSub: 'Your story continues on the other side. Subscribe to keep playing.',
       keepPlaying: 'Keep playing',
+    },
+
+    // Checkout thank-you page (/checkout/success)
+    checkout: {
+      confirming: 'Confirming your payment…',
+      confirmingSub: 'Talking to our payment provider. This usually takes a couple of seconds.',
+      welcome: 'Welcome to the {plan} plan',
+      welcomeSub: 'Your subscription is active. Every world, every rules engine, unlimited campaigns — all unlocked.',
+      pending: 'Payment received — activating',
+      pendingSub: 'Your plan is being activated and can take a minute to show up. You can keep playing; if you still see the trial message, reload the page shortly.',
+      signedOut: 'Sign in to see your subscription',
+      signedOutSub: 'Your payment is linked to your account. Sign in and your plan will activate automatically.',
+      signIn: 'Sign in',
+      continueCta: 'Continue your adventure',
+      receipt: 'A receipt has been sent to your email.',
     },
   },
 } as const

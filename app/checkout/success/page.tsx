@@ -1,10 +1,10 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useUser } from '@clerk/nextjs'
 import { Crown, ArrowRight, Loader2 } from 'lucide-react'
-import { useLanguage } from '@/lib/i18n'
+import { useLanguage, useTranslations } from '@/lib/i18n'
 import { PLAN_CONFIG } from '@/lib/plans/plan-config'
 import { RunicButton } from '@/components/medieval/RunicButton'
 import { ParchmentPanel } from '@/components/medieval/ParchmentPanel'
@@ -19,83 +19,82 @@ declare global {
 //
 // No asume que el pago ya activó el plan: Polar redirige acá ANTES de que su
 // webhook llegue a nuestro server. Consultamos /api/billing/sync (que verifica
-// contra Polar directamente) hasta confirmar PRO, así el jugador nunca vuelve
-// al juego y se topa con el paywall que acaba de pagar. El evento de
-// conversión (dataLayer → GTM → Meta Pixel) se dispara SOLO con PRO
-// confirmado, una vez por suscripción — nada de compras fantasma por refresh
-// ni por crawlers que visiten esta URL pública.
+// contra Polar directamente) hasta confirmar PRO. El evento de conversión
+// (dataLayer → GTM → Meta Pixel) se dispara SOLO con PRO confirmado y una
+// sola vez por suscripción en este dispositivo (localStorage, cross-tab).
 type SyncState = 'checking' | 'active' | 'pending' | 'signed_out'
 
 const MAX_ATTEMPTS = 8
 const ATTEMPT_DELAY_MS = 1500
 
+interface SyncResponse {
+  active?: boolean
+  subscriptionId?: string | null
+  plan?: string
+}
+
 export default function CheckoutSuccessPage() {
+  const t = useTranslations()
   const { locale } = useLanguage()
-  const isEn = locale === 'en'
   const { isLoaded, isSignedIn } = useUser()
   const [state, setState] = useState<SyncState>('checking')
-  const started = useRef(false)
 
   useEffect(() => {
-    if (!isLoaded || started.current) return
+    if (!isLoaded) return
     if (!isSignedIn) {
       setState('signed_out')
       return
     }
-    started.current = true
 
+    // La limpieza cancela el loop, aborta el fetch en vuelo y limpia el timer:
+    // así un unmount (o el doble-mount de StrictMode) no deja requests
+    // huérfanas ni setState sobre un componente desmontado.
     let cancelled = false
+    const controller = new AbortController()
+    let timer: ReturnType<typeof setTimeout> | undefined
+
+    const sleep = (ms: number) => new Promise<void>((resolve) => { timer = setTimeout(resolve, ms) })
+
     const run = async () => {
       for (let attempt = 0; attempt < MAX_ATTEMPTS && !cancelled; attempt++) {
         try {
-          const res = await fetch('/api/billing/sync', { method: 'POST' })
+          const res = await fetch('/api/billing/sync', { method: 'POST', signal: controller.signal })
+          if (cancelled) return
           if (res.status === 401) {
             setState('signed_out')
             return
           }
-          const data = (await res.json().catch(() => ({}))) as { active?: boolean; subscriptionId?: string | null }
+          const data = (await res.json().catch(() => ({}))) as SyncResponse
+          if (cancelled) return
           if (data.active) {
             trackPurchaseOnce(data.subscriptionId ?? null)
-            window.dispatchEvent(new Event('rolhub:plan-updated'))
+            window.dispatchEvent(new CustomEvent('rolhub:plan-updated', { detail: { plan: data.plan ?? 'PRO' } }))
             setState('active')
             return
           }
         } catch {
+          if (cancelled) return
           // red caída o similar: seguimos intentando hasta agotar
         }
-        await new Promise((r) => setTimeout(r, ATTEMPT_DELAY_MS))
+        await sleep(ATTEMPT_DELAY_MS)
       }
       if (!cancelled) setState('pending')
     }
     run()
-    return () => { cancelled = true }
+
+    return () => {
+      cancelled = true
+      controller.abort()
+      if (timer !== undefined) clearTimeout(timer)
+    }
   }, [isLoaded, isSignedIn])
 
+  const planLabel = locale === 'en' ? PLAN_CONFIG.PRO.label : PLAN_CONFIG.PRO.labelEs
   const copy = {
-    checking: {
-      title: isEn ? 'Confirming your payment…' : 'Confirmando tu pago…',
-      body: isEn
-        ? 'Talking to our payment provider. This usually takes a couple of seconds.'
-        : 'Hablando con el proveedor de pagos. Suele tardar un par de segundos.',
-    },
-    active: {
-      title: isEn ? 'Welcome to the Adventurer plan' : 'Bienvenido al plan Aventurero',
-      body: isEn
-        ? 'Your subscription is active. Every world, every rules engine, unlimited campaigns — all unlocked.'
-        : 'Tu suscripción está activa. Todos los mundos, todos los motores de reglas, campañas ilimitadas — todo desbloqueado.',
-    },
-    pending: {
-      title: isEn ? 'Payment received — activating' : 'Pago recibido — activando',
-      body: isEn
-        ? 'Your plan is being activated and can take a minute to show up. You can keep playing; if you still see the trial message, reload the page shortly.'
-        : 'Tu plan se está activando y puede tardar un minuto en verse. Podés seguir jugando; si todavía ves el mensaje de prueba, recargá la página en un rato.',
-    },
-    signed_out: {
-      title: isEn ? 'Sign in to see your subscription' : 'Iniciá sesión para ver tu suscripción',
-      body: isEn
-        ? 'Your payment is linked to your account. Sign in and your plan will activate automatically.'
-        : 'Tu pago está vinculado a tu cuenta. Iniciá sesión y tu plan se activa solo.',
-    },
+    checking: { title: t.checkout.confirming, body: t.checkout.confirmingSub },
+    active: { title: t.checkout.welcome.replace('{plan}', planLabel), body: t.checkout.welcomeSub },
+    pending: { title: t.checkout.pending, body: t.checkout.pendingSub },
+    signed_out: { title: t.checkout.signedOut, body: t.checkout.signedOutSub },
   }[state]
 
   return (
@@ -113,39 +112,39 @@ export default function CheckoutSuccessPage() {
         {state === 'signed_out' ? (
           <Link href="/login" className="block">
             <RunicButton variant="primary" className="w-full justify-center">
-              {isEn ? 'Sign in' : 'Iniciar sesión'}
+              {t.checkout.signIn}
               <ArrowRight className="w-4 h-4 ml-2" />
             </RunicButton>
           </Link>
         ) : (
           <Link href="/campaigns" className="block">
             <RunicButton variant="primary" className="w-full justify-center" disabled={state === 'checking'}>
-              {isEn ? 'Continue your adventure' : 'Continuá tu aventura'}
+              {t.checkout.continueCta}
               <ArrowRight className="w-4 h-4 ml-2" />
             </RunicButton>
           </Link>
         )}
 
         {state === 'active' && (
-          <p className="font-ui text-xs text-parchment/40 mt-6">
-            {isEn ? 'A receipt has been sent to your email.' : 'Te enviamos el comprobante a tu email.'}
-          </p>
+          <p className="font-ui text-xs text-parchment/40 mt-6">{t.checkout.receipt}</p>
         )}
       </ParchmentPanel>
     </div>
   )
 }
 
-// Empuja el evento de compra al dataLayer una sola vez por suscripción.
-// sessionStorage sobrevive al refresh de la página pero no a cerrar la pestaña,
-// que es exactamente la ventana en la que un refresh duplicaría la conversión.
+// Una conversión por suscripción y por dispositivo. localStorage (no
+// sessionStorage) para que reabrir esta URL pública en otra pestaña, desde
+// el historial o desde el mail del recibo no vuelva a contar la compra.
+// Sin subscriptionId (PRO otorgado a mano) no hay compra que trackear.
 function trackPurchaseOnce(subscriptionId: string | null) {
-  const key = `rolhub_purchase_tracked:${subscriptionId ?? 'unknown'}`
+  if (!subscriptionId) return
+  const key = `rolhub_purchase_tracked:${subscriptionId}`
   try {
-    if (sessionStorage.getItem(key)) return
-    sessionStorage.setItem(key, '1')
+    if (localStorage.getItem(key)) return
+    localStorage.setItem(key, '1')
   } catch {
-    // sessionStorage bloqueado (modo privado estricto): trackear igual
+    // storage bloqueado (modo privado estricto): trackear igual
   }
   window.dataLayer = window.dataLayer || []
   window.dataLayer.push({

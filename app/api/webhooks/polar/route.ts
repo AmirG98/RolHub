@@ -66,29 +66,35 @@ export async function POST(req: NextRequest) {
       const status: string = data?.status
       const update: Record<string, unknown> = {
         stripeCustomerId: data?.customerId ?? user.stripeCustomerId,
-        stripeSubscriptionId: data?.id ?? user.stripeSubscriptionId,
       }
 
-      // order.paid no trae status de subscription → asumimos activo
       if (type === 'order.paid') {
-        update.plan = 'PRO'
-        update.planExpiresAt = null
+        // `data` es una ORDER, no una subscription: su id NO es el id de
+        // suscripción (antes se guardaba y rompía portal/cancelación). Si la
+        // orden trae la subscription embebida, derivamos de ella; si no,
+        // activamos PRO sin tocar el vencimiento ni el id que ya teníamos.
+        const sub = data?.subscription
+        if (sub && (sub.status === 'active' || sub.status === 'trialing')) {
+          const fields = planFieldsFromActiveSubscription(sub)
+          update.plan = fields.plan
+          update.planExpiresAt = fields.planExpiresAt
+          update.stripeSubscriptionId = fields.stripeSubscriptionId
+        } else {
+          update.plan = 'PRO'
+          if (data?.subscriptionId) update.stripeSubscriptionId = data.subscriptionId
+        }
       } else if (status === 'active' || status === 'trialing') {
         // OJO: cuando el usuario cancela a fin de período, Polar manda
         // subscription.updated con status 'active' + cancelAtPeriodEnd. Antes
         // esto pisaba planExpiresAt=null y borraba el vencimiento que había
         // seteado subscription.canceled. El helper deriva el expiry correcto.
-        const fields = planFieldsFromActiveSubscription({
-          id: data?.id,
-          status,
-          productId: data?.productId,
-          cancelAtPeriodEnd: data?.cancelAtPeriodEnd,
-          currentPeriodEnd: data?.currentPeriodEnd,
-          endsAt: data?.endsAt,
-        })
+        // `data` (Subscription del SDK) ya cumple PolarSubscriptionLike.
+        const fields = planFieldsFromActiveSubscription(data)
         update.plan = fields.plan
         update.planExpiresAt = fields.planExpiresAt
+        update.stripeSubscriptionId = fields.stripeSubscriptionId
       } else if (status === 'past_due') {
+        update.stripeSubscriptionId = data?.id ?? user.stripeSubscriptionId
         console.warn(`[Polar] Suscripción ${data?.id} past_due para user ${user.id}`)
       } else if (status === 'canceled' || status === 'revoked' || status === 'unpaid') {
         update.plan = 'FREE'
