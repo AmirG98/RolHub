@@ -1518,10 +1518,26 @@ SESION 2026-08-26 — fix/ad-launch-readiness (SIN mergear, SIN deployar):
      15/253 ayer. Si la key es la misma, es la causa de "1 imagen en 461
      turnos". RECARGAR SALDO en fal.ai.
 
+  ✅ META CONVERSIONS API (lib/meta/conversions-api.ts): el webhook de Polar
+     manda Purchase server-side en order.paid de la PRIMERA orden (billingReason
+     purchase/subscription_create; renovaciones no). Orden de $0 (trial) →
+     StartTrial. event_id = id de suscripción (dedupe con el browser). Email y
+     user.id hasheados SHA-256. create-checkout captura _fbc/_fbp/ip/ua del
+     request y los manda como metadata del checkout → Polar los copia a la
+     orden → atribución al anuncio. Nunca rompe el webhook (timeout 8s).
+     ENV en Vercel: META_CAPI_ACCESS_TOKEN (obligatorio; se genera en Events
+     Manager → Settings → Conversions API → Generate access token),
+     META_PIXEL_ID (opcional, default 1598440582009867),
+     META_CAPI_TEST_EVENT_CODE (opcional, para "Test events").
+     /api/health expone meta_capi_configured. Tests: meta-capi.test.ts +
+     polar-webhook.test.ts (5 casos).
+     GTM (manual, lo hace Amir): tag Purchase con trigger Custom Event
+     `purchase_complete` (NO Page View), y para deduplicar contra el server:
+     fbq('track','Purchase',{value:8.99,currency:'USD'},{eventID:'{{DLV - subscription_id}}'})
+     con una Data Layer Variable `subscription_id` (la página ya la pushea).
+
   PENDIENTE:
-  - Pixel de Meta: el tag Purchase en GTM dispara por Page View (path contiene
-    "success"), no por el Custom Event purchase_complete. Cambiar trigger en
-    GTM + implementar Conversions API server-side desde el webhook de Polar.
+  - Cargar META_CAPI_ACCESS_TOKEN en Vercel y cambiar el trigger del tag en GTM.
   - Email de recuperación a quienes agotaron el trial (3 mails en la DB).
   - Vercel logs ~2026-09-09 12:36 UTC: qué le pasó a Riann (2 creates, 0 acciones).
   - ✅ BILLING_ENFORCED=true PRENDIDO en Vercel (2026-08-27) — paywall ACTIVO en prod.

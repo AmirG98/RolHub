@@ -36,6 +36,12 @@ vi.mock('@/lib/db/prisma', () => ({
   },
 }))
 
+const mockSendMeta = vi.fn()
+vi.mock('@/lib/meta/conversions-api', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/lib/meta/conversions-api')>()
+  return { ...actual, sendMetaPurchaseEvent: (...a: unknown[]) => mockSendMeta(...a) }
+})
+
 import { POST } from '@/app/api/webhooks/polar/route'
 
 const USER = { id: 'usr_1', clerkId: 'user_abc', stripeCustomerId: null, stripeSubscriptionId: null }
@@ -64,6 +70,7 @@ function subEvent(type: string, status: string, extra: Record<string, unknown> =
 
 beforeEach(() => {
   vi.clearAllMocks()
+  mockSendMeta.mockResolvedValue({ ok: true })
   mockEvent = null
   mockFindUnique.mockResolvedValue(USER)
   mockFindFirst.mockResolvedValue(USER)
@@ -167,5 +174,47 @@ describe('reconciliación de usuario', () => {
     expect(mockFindFirst).toHaveBeenCalledWith(expect.objectContaining({
       where: { stripeCustomerId: 'polar_cust_1' },
     }))
+  })
+})
+
+describe('Meta Conversions API desde el webhook', () => {
+  it('order.paid de la primera orden → Purchase con event_id = suscripción, monto y atribución', async () => {
+    await POST(makeReq({
+      type: 'order.paid',
+      data: {
+        id: 'ord_1', customerId: 'c1', customer: { externalId: USER.id, email: 'buyer@x.com' },
+        subscriptionId: 'sub_9', billingReason: 'subscription_create', totalAmount: 899, currency: 'usd',
+        createdAt: '2026-09-11T14:47:19.000Z',
+        metadata: { user_id: USER.id, fbc: 'fb.1.1.abc', fbp: 'fb.1.2.def', client_ip: '1.1.1.1', client_ua: 'UA' },
+      },
+    }) as any)
+    expect(mockSendMeta).toHaveBeenCalledTimes(1)
+    expect(mockSendMeta.mock.calls[0][0]).toMatchObject({
+      eventId: 'sub_9', eventName: 'Purchase', value: 8.99, currency: 'usd', email: 'buyer@x.com', externalId: USER.id,
+      fbc: 'fb.1.1.abc', fbp: 'fb.1.2.def', clientIp: '1.1.1.1', clientUserAgent: 'UA',
+      eventTime: Math.floor(new Date('2026-09-11T14:47:19.000Z').getTime() / 1000),
+    })
+  })
+
+  it('renovación (subscription_cycle) NO manda Purchase', async () => {
+    await POST(makeReq({ type: 'order.paid', data: { id: 'ord_2', customerId: 'c1', customer: { externalId: USER.id }, subscriptionId: 'sub_9', billingReason: 'subscription_cycle', totalAmount: 899, currency: 'usd' } }) as any)
+    expect(mockSendMeta).not.toHaveBeenCalled()
+  })
+
+  it('orden de 0 (trial) → StartTrial, no Purchase', async () => {
+    await POST(makeReq({ type: 'order.paid', data: { id: 'ord_3', customerId: 'c1', customer: { externalId: USER.id }, subscriptionId: 'sub_10', billingReason: 'subscription_create', totalAmount: 0, currency: 'usd' } }) as any)
+    expect(mockSendMeta.mock.calls[0][0]).toMatchObject({ eventId: 'sub_10', eventName: 'StartTrial', value: 0 })
+  })
+
+  it('subscription.active no manda nada (solo order.paid)', async () => {
+    await POST(makeReq(subEvent('subscription.active', 'active')) as any)
+    expect(mockSendMeta).not.toHaveBeenCalled()
+  })
+
+  it('si Meta falla el webhook igual responde 200 y el plan se activó', async () => {
+    mockSendMeta.mockResolvedValue({ ok: false, error: 'boom' })
+    const res = await POST(makeReq({ type: 'order.paid', data: { id: 'ord_4', customerId: 'c1', customer: { externalId: USER.id }, subscriptionId: 'sub_11', totalAmount: 899, currency: 'usd' } }) as any)
+    expect(res.status).toBe(200)
+    expect(mockUpdate).toHaveBeenCalled()
   })
 })

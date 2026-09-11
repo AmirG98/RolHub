@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { validateEvent, WebhookVerificationError } from '@polar-sh/sdk/webhooks'
 import { prisma } from '@/lib/db/prisma'
 import { planFieldsFromActiveSubscription } from '@/lib/polar'
+import { sendMetaPurchaseEvent, attributionFromPolarMetadata } from '@/lib/meta/conversions-api'
 
 export const dynamic = 'force-dynamic'
 
@@ -103,6 +104,33 @@ export async function POST(req: NextRequest) {
       }
 
       await prisma.user.update({ where: { id: user.id }, data: update })
+
+      // Conversión server-side a Meta: solo la PRIMERA orden de cada
+      // suscripción (no renovaciones). Monto 0 (trial) → StartTrial.
+      // event_id = id de suscripción: el mismo que manda el browser desde
+      // /checkout/success, así Meta deduplica. Nunca rompe el webhook.
+      if (type === 'order.paid') {
+        const reason: string | undefined = data?.billingReason
+        const isFirstOrder = !reason || reason === 'purchase' || reason === 'subscription_create'
+        if (isFirstOrder) {
+          const cents = Number(data?.totalAmount ?? data?.netAmount ?? data?.amount ?? 0)
+          const value = Number.isFinite(cents) ? cents / 100 : 0
+          const attribution = attributionFromPolarMetadata(data?.metadata)
+          await sendMetaPurchaseEvent({
+            eventId: data?.subscriptionId ?? data?.subscription?.id ?? data?.id,
+            eventName: value > 0 ? 'Purchase' : 'StartTrial',
+            eventTime: data?.createdAt ? Math.floor(new Date(data.createdAt).getTime() / 1000) : undefined,
+            value,
+            currency: data?.currency || 'usd',
+            email: data?.customer?.email || user.email,
+            externalId: user.id,
+            fbc: attribution.fbc,
+            fbp: attribution.fbp,
+            clientIp: attribution.client_ip,
+            clientUserAgent: attribution.client_ua,
+          })
+        }
+      }
     }
 
     // Cancelada: mantiene acceso hasta endsAt (fin del período pagado)

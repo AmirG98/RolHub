@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@clerk/nextjs/server'
 import { prisma } from '@/lib/db/prisma'
 import { getPolar, POLAR_PRODUCT_ID, isPolarConfigured } from '@/lib/polar'
+import { attributionMetadataFromRequest } from '@/lib/meta/conversions-api'
 
 // Crea un checkout de Polar y devuelve la URL para redirigir al usuario.
 export async function POST(req: NextRequest) {
@@ -36,7 +37,9 @@ export async function POST(req: NextRequest) {
       // externalCustomerId permite reconciliar el pago con nuestro usuario en
       // el webhook sin depender de metadata.
       externalCustomerId: user.id,
-      metadata: { user_id: user.id, clerk_id: user.clerkId },
+      // fbc/fbp/ip/ua: Polar copia esta metadata a la orden y a la suscripción;
+      // el webhook la usa para atribuir la compra al anuncio (Conversions API).
+      metadata: { user_id: user.id, clerk_id: user.clerkId, ...attributionMetadataFromRequest(req) },
     })
 
     if (!checkout.url) {

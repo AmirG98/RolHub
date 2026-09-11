@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/db/prisma'
 import { isBillingEnforced } from '@/lib/plans/check-access'
+import { isMetaCapiConfigured } from '@/lib/meta/conversions-api'
 
 export async function GET() {
   const checks: Record<string, { status: 'ok' | 'error'; ms?: number; error?: string }> = {}
@@ -35,6 +36,8 @@ export async function GET() {
       // Flag operativo (no sensible): permite verificar desde afuera si el
       // paywall está activo sin necesidad de una cuenta autenticada.
       billing_enforced: isBillingEnforced(),
+      // Conversions API de Meta (solo presencia del token, nunca el valor)
+      meta_capi_configured: isMetaCapiConfigured(),
       timestamp: new Date().toISOString(),
     },
     { status: allOk ? 200 : 503 }
