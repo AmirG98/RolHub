@@ -187,6 +187,8 @@ export default function GameSession({
     setNotifications(prev => prev.filter(n => n.id !== id))
   }, [])
   // DM-prompted dice roll request
+  // Nodos del árbol de habilidades listos para aprender (pill persistente)
+  const [skillsAvailable, setSkillsAvailable] = useState(0)
   const [pendingDiceRequest, setPendingDiceRequest] = useState<{
     reason: string
     formula: string
@@ -499,12 +501,16 @@ export default function GameSession({
 
     // Si hay un dice request pendiente del DM, auto-enviar el resultado
     if (pendingDiceRequest) {
-      const rollDescription = pendingDiceRequest.reason || 'Tirada de dados'
+      const rollDescription = pendingDiceRequest.reason || (locale === 'en' ? 'Dice roll' : 'Tirada de dados')
+      // Prefijo visible en el historial del jugador (el servidor NO lo parsea:
+      // el resultado viaja aparte en diceRoll). Un veterano de D&D jugando en
+      // inglés veía "[Tirada: ...]" en cada tirada.
+      const rollLabel = locale === 'en' ? 'Roll' : 'Tirada'
       setPendingDiceRequest(null)
       // Pequeño delay para que el jugador vea el resultado
       setTimeout(() => {
         setLastDiceRoll(rollData) // Asegurar que se envía con la acción
-        handleSubmit(`[Tirada: ${result.formula} = ${result.total}] ${rollDescription}`, 'do')
+        handleSubmit(`[${rollLabel}: ${result.formula} = ${result.total}] ${rollDescription}`, 'do')
       }, 800)
     }
   }
@@ -731,6 +737,8 @@ export default function GameSession({
         }
       }
 
+      // Skill tree: cuántos nodos están listos para aprender (pill persistente)
+      if (typeof data.skillsAvailable === 'number') setSkillsAvailable(data.skillsAvailable)
       // Skill tree: nodos que se volvieron desbloqueables este turno (solo registrados)
       if (Array.isArray(data.skillUnlocks) && data.skillUnlocks.length > 0) {
         for (const u of data.skillUnlocks) {
@@ -1646,7 +1654,12 @@ export default function GameSession({
                 (worldState.party?.[characterName]?.abilities as AbilityRuntime[]) ||
                 ((character as any)?.abilities as AbilityRuntime[]) ||
                 []
-              if (!Array.isArray(abs) || abs.length === 0) return null
+              const hasAbilities = Array.isArray(abs) && abs.length > 0
+              // El link al árbol vivía DENTRO del panel de habilidades: un
+              // personaje sin habilidades (justo el que tiene nodos por aprender)
+              // no lo veía nunca. Ahora se muestra siempre para registrados, con
+              // el conteo de nodos listos.
+              if (!hasAbilities && !character?.id) return null
               return (
                 <div id="abilities-panel">
                   <div className="flex items-center justify-between mb-2 px-1">
@@ -1658,12 +1671,19 @@ export default function GameSession({
                         href={`/characters/${character.id}/skills`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[10px] font-heading uppercase tracking-wide text-gold-bright hover:text-gold transition"
+                        className={`text-[10px] font-heading uppercase tracking-wide transition ${
+                          skillsAvailable > 0
+                            ? 'text-shadow bg-gold-bright hover:bg-gold px-2 py-0.5 rounded-full animate-pulse'
+                            : 'text-gold-bright hover:text-gold'
+                        }`}
                       >
-                        🌟 {locale === 'en' ? 'Skill Tree' : 'Árbol'}
+                        🌟 {skillsAvailable > 0
+                          ? (locale === 'en' ? `${skillsAvailable} skill${skillsAvailable === 1 ? '' : 's'} ready` : `${skillsAvailable} habilidad${skillsAvailable === 1 ? '' : 'es'} lista${skillsAvailable === 1 ? '' : 's'}`)
+                          : (locale === 'en' ? 'Skill Tree' : 'Árbol')}
                       </a>
                     )}
                   </div>
+                  {hasAbilities && (
                   <div className="glass-panel-dark rounded-lg border border-gold-dim/20">
                     <AbilitiesPanel
                       abilities={abs}
@@ -1683,6 +1703,7 @@ export default function GameSession({
                       }}
                     />
                   </div>
+                  )}
                 </div>
               )
             })()}

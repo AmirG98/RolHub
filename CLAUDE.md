@@ -1461,7 +1461,67 @@ SESION 2026-08-26 — fix/ad-launch-readiness (SIN mergear, SIN deployar):
      El prompt sigue diciendo "devolvé UN objeto JSON" (documenta la semántica
      de los campos; con tool_choice es redundante pero inofensivo).
 
+  SESION 2026-09-11 — TERCER PAGO Y PRIMERA CANCELACIÓN (Usuario_uSXr8m,
+  VETERAN, Zombies/D&D 5e): pagó en la acción 21 con el banner de "4 turnos
+  gratis" (no llegó al paywall), jugó 65 acciones en 6 h y canceló con
+  feedback "low quality". planExpiresAt = pago + 3 días exactos → REVISAR en
+  Polar si el producto tiene trial de 3 días (si es así, nunca se le cobró).
+  Diagnóstico de sus 66 narraciones: 5 cambios de escena (todos en la 1ª
+  hora), la misma escena (cajones de la farmacia / escalera) re-narrada a las
+  13:47, 14:48 y 18:05; 0 combates (todo "silent takedown"); HP nunca bajó;
+  misiones con TODOS los objetivos incompletos aunque los cumplió; 1 imagen;
+  unlockedSkills=[]; "[Tirada:" en cada dado en inglés. = mismo bucle que el
+  primer cliente. Los turnos estaban limpios de JSON (fix de ayer OK).
+
+  CAUSAS RAÍZ ENCONTRADAS (mapa del turn route por agente):
+  - quest_complete_objective era INUSABLE: el prompt listaba objetivos sin ids
+    (los ids son timestamps server-side) → ningún objetivo se completó jamás.
+  - worldState.act NUNCA se escribía → `isStagnant` (act===1 && turnos>12)
+    era true para siempre y la alerta perdía sentido.
+  - "turnos en la escena" era el conteo de turnos DM de la última ventana de
+    12, sin reset por scene_change → el DM nunca supo que llevaba 40 turnos ahí.
+  - last_suggested_actions se persistía pero NO se mandaba al DM → repetía
+    sus propias sugerencias.
+  - combats_won nunca subía: exigía que el DM mandara lock_reason:'combat' y
+    luego navigation_locked:false explícitos.
+  - Árbol de habilidades: el unlock es MANUAL (page /characters/[id]/skills);
+    el toast se muestra UNA vez y el link al árbol estaba DENTRO del panel de
+    habilidades (invisible sin habilidades). Los dos pagadores tenían 3 nodos
+    listos para aprender y nunca lo supieron.
+  - No existe party tracker / consistency checker (sección 6 de este archivo
+    describe algo que nunca se implementó). context-manager.ts es código muerto.
+
+  ✅ FIX ANTI-BUCLE (lib/game/pacing.ts, puro + tests pacing.test.ts):
+     - worldState.turns_in_scene: contador real, reset con scene_change.
+       Directiva escalonada: 4 (sugerir), 8 (cerrar en 1-2 turnos), 10 (último
+       turno acá: scene_change OBLIGATORIO). isStagnant usa este contador.
+     - Quests en el prompt CON questId/objectiveId; regla "DEBÉS completar
+       objetivos"; quest_complete_objective y act_advance en el template JSON.
+       Al cerrar la última objetivo: milestone quests_completed + espejo en
+       active_quests/completed_quests legacy.
+     - act_advance (nuevo campo, en el schema Zod → tool schema): el DM avanza
+       el acto; directiva si el acto 1 pasa de 15 turnos.
+     - EL TURNO PASADO OFRECISTE: ... (last_suggested_actions al prompt).
+     - antiLoopRules: amenazas pendientes resuelven en 2 turnos; lo resuelto
+       no se re-narra; toda escena tiene salida; progreso reconocido.
+     - D&D 5e: engineCombatDirective — 2+ enemigos alerta = combat_trigger,
+       no narrar peleas enteras. combat_trigger persiste el lock de combate
+       server-side y el siguiente turno sin trigger lo libera + combats_won.
+     - UI: link al árbol SIEMPRE visible para registrados, con pill "N skills
+       ready" (skillsAvailable en la respuesta del turno). "[Roll:" en inglés.
+     PLAYTEST local (normal+chaotic, 28 turnos, API real): 0 findings; en vivo
+     se vio "[Quest] Completed by objectives" y "Act 1 → 2"; contador de
+     escena persistido correctamente; 0 JSON, 0 fallbacks de tool_use.
+
+  ⚠ FAL.AI BLOQUEADO: en local el portrait devuelve 403 "User is locked.
+     Reason: TOP_UP" (sin crédito). Prod: 4 imágenes en 136 turnos DM hoy,
+     15/253 ayer. Si la key es la misma, es la causa de "1 imagen en 461
+     turnos". RECARGAR SALDO en fal.ai.
+
   PENDIENTE:
+  - Pixel de Meta: el tag Purchase en GTM dispara por Page View (path contiene
+    "success"), no por el Custom Event purchase_complete. Cambiar trigger en
+    GTM + implementar Conversions API server-side desde el webhook de Polar.
   - Email de recuperación a quienes agotaron el trial (3 mails en la DB).
   - Vercel logs ~2026-09-09 12:36 UTC: qué le pasó a Riann (2 creates, 0 acciones).
   - ✅ BILLING_ENFORCED=true PRENDIDO en Vercel (2026-08-27) — paywall ACTIVO en prod.

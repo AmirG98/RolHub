@@ -167,6 +167,8 @@ export const dmResponseSchema = z
       .nullable()
       .optional(),
     long_rest: z.boolean().optional(),
+    // Avance de acto (1→5) decidido por el DM al resolver un objetivo mayor
+    act_advance: z.boolean().optional(),
   })
   .passthrough()
 

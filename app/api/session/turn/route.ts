@@ -21,6 +21,12 @@ import { getSkillTree } from '@/lib/game/skill-trees'
 import type { MilestoneState } from '@/lib/types/skill-tree'
 import { validateDMResponse } from '@/lib/validation/dm-response.schema'
 import { parseDMResponse } from '@/lib/claude/parse-dm-response'
+import {
+  turnsInSceneOf, nextTurnsInScene, sceneStaleDirective, lastSuggestionsDirective, actDirective,
+  formatQuestsForPrompt, applyObjectiveCompletion, questCompletedByObjective, antiLoopRules,
+  engineCombatDirective, SCENE_STALE_TURNS,
+} from '@/lib/game/pacing'
+import { computeNodeStatuses } from '@/lib/game/skill-trees'
 import { dmTurnTool, DM_TOOL_CHOICE, dmRawFromMessage } from '@/lib/claude/dm-tool'
 import { antiIpDirective } from '@/lib/claude/anti-ip-directive'
 import { canStartSession, trialTurnsRemainingAfter, isBillingEnforced, WIND_DOWN_TURNS } from '@/lib/plans/check-access'
@@ -430,7 +436,11 @@ export async function POST(req: NextRequest) {
 
     // Turnos en la ubicación actual
     const currentScene = worldState.current_scene || ''
-    const turnsInCurrentLocation = allTurns.slice(-12).filter(t => t.role === 'DM').length
+    // Contador REAL de turnos en la escena (se resetea con scene_change y se
+    // persiste en worldState.turns_in_scene). El anterior contaba los turnos
+    // DM de la última ventana de 12 y nunca se reseteaba: "Been here 6 turns"
+    // era mentira en ambas direcciones.
+    const turnsInCurrentLocation = turnsInSceneOf(worldState)
 
     // Quests ignoradas (activas pero no mencionadas en últimos turnos)
     const activeQuests = worldState.active_quests || []
@@ -438,7 +448,9 @@ export async function POST(req: NextRequest) {
     const ignoredQuests = activeQuests.filter((q: string) => !recentDMText.includes(q.toLowerCase().substring(0, 10)))
 
     // Estancamiento: acciones pasivas, repetición, o Acto 1 demasiado largo
-    const isStagnant = hasRepetition || passiveCount >= 2 || (totalTurns > 12 && worldState.act === 1)
+    // (antes incluía `act === 1 && totalTurns > 12`, pero el acto nunca
+    // avanzaba → la alerta de estancamiento era permanente y perdía sentido)
+    const isStagnant = hasRepetition || passiveCount >= 2 || turnsInCurrentLocation >= SCENE_STALE_TURNS
     const needsWorldEvent = passiveCount >= 3 || turnsInCurrentLocation >= 6 || ignoredQuests.length >= 2
 
     // Story so far — preferimos los SummaryCheckpoints generados por Haiku
@@ -1038,15 +1050,14 @@ Usá "discover_locations" si un NPC menciona un lugar nuevo. Usá "location_id" 
     const questContextSection = isEnglish ? `
 === QUEST AND DISCOVERY SYSTEM ===
 Active Quests: ${activeQuestsData.length}
-${activeQuestsData.map(q => `- "${q.title}" (${q.priority}): ${q.description.slice(0, 80)}...
-  ${q.objectives.filter(o => !o.completed).map(o => `  → Pending: ${o.description}`).join('\n')}`).join('\n') || '- No active quests'}
+${formatQuestsForPrompt(activeQuestsData, 'en')}
 
 Plot Hooks Available (at current location):
 ${(currentMapLocation as any)?.plot_hooks?.slice(0, 3).map((h: string) => `- ${h}`).join('\n') || '- None available'}
 
 QUEST RULES:
 1. You can CREATE new quests when the player discovers something important or talks to an NPC
-2. You can COMPLETE objectives when the player accomplishes them
+2. You MUST COMPLETE objectives as soon as the player accomplishes them: send "quest_complete_objective" with the EXACT questId and objectiveId shown above. When the last objective is done the quest is complete — say it in the narration and give xp_reward.
 3. You can REVEAL location secrets when appropriate
 4. You can UPGRADE knowledge level when player learns about new places:
    - "rumored": player hears about a place
@@ -1124,19 +1135,19 @@ IMPORTANT:
 - When you trigger combat, also set "navigation_locked": true, "lock_reason": "combat"
 - Keep the narration focused on the moment before combat begins
 - Let the tactical system handle the actual combat
+${engineCombatDirective(session.campaign.engine, 'en')}
 === END COMBAT SYSTEM ===
 ` : `
 === SISTEMA DE QUESTS Y DESCUBRIMIENTO ===
 Quests Activas: ${activeQuestsData.length}
-${activeQuestsData.map(q => `- "${q.title}" (${q.priority}): ${q.description.slice(0, 80)}...
-  ${q.objectives.filter(o => !o.completed).map(o => `  → Pendiente: ${o.description}`).join('\n')}`).join('\n') || '- Sin quests activas'}
+${formatQuestsForPrompt(activeQuestsData, 'es')}
 
 Plot Hooks Disponibles (en ubicación actual):
 ${(currentMapLocation as any)?.plot_hooks?.slice(0, 3).map((h: string) => `- ${h}`).join('\n') || '- Ninguno disponible'}
 
 REGLAS DE QUESTS:
 1. Puedes CREAR nuevas quests cuando el jugador descubre algo importante o habla con un NPC
-2. Puedes COMPLETAR objetivos cuando el jugador los logra
+2. DEBÉS COMPLETAR objetivos apenas el jugador los logra: enviá "quest_complete_objective" con el questId y objectiveId EXACTOS de arriba. Cuando se cumple el último objetivo la quest queda completa — decilo en la narración y dá xp_reward.
 3. Puedes REVELAR secretos de locaciones cuando sea apropiado
 4. Puedes MEJORAR nivel de conocimiento cuando el jugador aprende de nuevos lugares:
    - "rumored": jugador escuchó hablar del lugar
@@ -1214,6 +1225,7 @@ IMPORTANTE:
 - Al activar combate, también establece "navigation_locked": true, "lock_reason": "combat"
 - Mantén la narración enfocada en el momento antes del combate
 - Deja que el sistema táctico maneje el combate real
+${engineCombatDirective(session.campaign.engine, 'es')}
 === FIN SISTEMA DE COMBATE ===
 `
 
@@ -1348,6 +1360,8 @@ ${isEnglish ? 'You must ALWAYS respond in JSON format with this exact structure'
   "remove_item": null,
   "quest_completed": null,
   "new_quest": null,
+  "quest_complete_objective": null,
+  "act_advance": false,
   "scene_change": null,
   "location_id": null,
   "navigation_locked": null,
@@ -1448,6 +1462,7 @@ The story MUST ALWAYS move forward. NEVER repeat a scene you already narrated.
 - Read your previous messages: if you already narrated something, the player already experienced it.
 - NPCs MUST keep the same name across ALL turns. If you named someone "Aldric" in turn 5, they are ALWAYS "Aldric".
 - When time passes significantly, reflect it: "morning" → "afternoon" → "evening" → "night". Use scene_change if needed.
+${antiLoopRules('en')}
 === END PROGRESSION ===
 
 === CONSISTENCY RULES ===
@@ -1527,6 +1542,7 @@ La historia SIEMPRE debe avanzar. NUNCA repitas una escena que ya narraste.
 - Leé tus mensajes anteriores: si ya narraste algo, el jugador ya lo vivió.
 - Los NPCs DEBEN mantener el mismo nombre en TODOS los turnos. Si nombraste a alguien "Aldric" en el turno 5, SIEMPRE es "Aldric".
 - Cuando pase tiempo significativo, reflejalo: "mañana" → "tarde" → "noche" → "amanecer". Usá scene_change si es necesario.
+${antiLoopRules('es')}
 === FIN PROGRESIÓN ===
 
 === REGLAS DE CONSISTENCIA ===
@@ -1607,7 +1623,9 @@ ${needsWorldEvent ? '🌍 WORLD EVENT NEEDED this turn.' : ''}
 ${isNPCLoop ? `⚠️ NPC LOOP: "${loopingNPCName}" dominated 3+ turns. End or interrupt this interaction NOW.` : ''}
 ${isRepeatedObservation ? '⚠️ Player keeps observing — make something HAPPEN.' : ''}
 ${ignoredQuests.length > 0 ? `Forgotten quests: ${ignoredQuests.join(', ')} — weave back in.` : ''}
-${turnsInCurrentLocation >= 4 ? `Been here ${turnsInCurrentLocation} turns — consider advancing.` : ''}
+${sceneStaleDirective(turnsInCurrentLocation, 'en')}
+${lastSuggestionsDirective(worldState.last_suggested_actions, 'en')}
+${actDirective(worldState.act, totalTurns, 'en')}
 === END PACING ===` : `=== RITMO ===
 Turno ${totalTurns}. En "${currentScene}" hace ${turnsInCurrentLocation} turnos.
 ${storySoFar ? `HISTORIA HASTA AHORA: ${storySoFar}` : ''}
@@ -1622,7 +1640,9 @@ ${needsWorldEvent ? '🌍 EVENTO DEL MUNDO NECESARIO este turno.' : ''}
 ${isNPCLoop ? `⚠️ LOOP NPC: "${loopingNPCName}" dominó 3+ turnos. Terminá o interrumpí esta interacción AHORA.` : ''}
 ${isRepeatedObservation ? '⚠️ Jugador sigue observando — hacé que algo PASE.' : ''}
 ${ignoredQuests.length > 0 ? `Quests olvidadas: ${ignoredQuests.join(', ')} — entretejelas.` : ''}
-${turnsInCurrentLocation >= 4 ? `Lleva ${turnsInCurrentLocation} turnos acá — considerá avanzar.` : ''}
+${sceneStaleDirective(turnsInCurrentLocation, 'es')}
+${lastSuggestionsDirective(worldState.last_suggested_actions, 'es')}
+${actDirective(worldState.act, totalTurns, 'es')}
 === FIN RITMO ===`}
 
 ${isEnglish ? 'NPC GENDER FOR VOICE' : 'GÉNERO DE NPCs PARA VOZ'}:
@@ -1844,6 +1864,8 @@ INSTRUCCIONES PARA HABILIDADES:
       ability_used?: { id: string; reason?: string } | null
       // Descanso largo (solo DND_5E): resetea los usos diarios de todas las abilities
       long_rest?: boolean
+      // Avance de acto decidido por el DM (objetivo mayor resuelto)
+      act_advance?: boolean
     }
 
     // Parseo robusto: si el JSON viene truncado (max_tokens) o malformado,
@@ -2357,6 +2379,24 @@ INSTRUCCIONES PARA HABILIDADES:
     // Los guests también acumulan (si se registran conservan el progreso), pero
     // los skill_unlocks solo se emiten para usuarios registrados.
     let skillUnlocks: Array<{ nodeId: string; name: unknown; tier: number }> | null = null
+    let skillsAvailable: number | null = null
+    // Avance de acto (1→5). Antes nada escribía worldState.act: el acto 1 duraba
+    // toda la partida. Se aplica antes de los milestones (leen worldStateUpdates.act).
+    if (dmResponse.act_advance === true) {
+      const actBefore = Number(worldState.act) || 1
+      if (actBefore < 5) {
+        worldStateUpdates.act = actBefore + 1
+        console.log(`[Narrative] Act ${actBefore} → ${actBefore + 1}`)
+      }
+    }
+    // Quest cerrada por objetivos (estructurada) — se calcula acá porque el
+    // milestone se registra antes de aplicar los objetivos más abajo.
+    const questClosedByObjective = questCompletedByObjective(worldState.quests, dmResponse.quest_complete_objective)
+    // Estábamos en combate táctico (lock persistido al disparar combat_trigger)
+    const wasInCombatLock =
+      worldState.map_state?.navigationLocked === true &&
+      worldState.map_state?.lockReason === 'combat'
+
     let milestonesAfter: MilestoneState | null = null
     try {
       const milestonesBefore = normalizeMilestones(
@@ -2364,20 +2404,20 @@ INSTRUCCIONES PARA HABILIDADES:
       )
       let after = recordMilestoneEvent(milestonesBefore, { type: 'turn_played' })
 
-      if (dmResponse.quest_completed) {
+      if (dmResponse.quest_completed || questClosedByObjective) {
         after = recordMilestoneEvent(after, { type: 'quest_completed' })
       }
       if (abilityUseApplied) {
         after = recordMilestoneEvent(after, { type: 'ability_used' })
       }
 
-      // Combate ganado: estábamos bajo lock de combate y este turno lo libera
-      // con el personaje vivo (detección determinística vía navigation lock).
-      const wasInCombat =
-        worldState.map_state?.navigationLocked === true &&
-        worldState.map_state?.lockReason === 'combat'
+      // Combate ganado: el turno anterior disparó combat_trigger (el lock se
+      // persiste server-side) y este turno el DM no lo re-dispara con el
+      // personaje vivo. El combate táctico corre en el cliente; la siguiente
+      // llamada al turn route llega cuando terminó. (Antes exigía que el DM
+      // mandara navigation_locked:false explícito → combats_won nunca subía.)
       const characterDied = worldStateUpdates._zeroHpEvent?.type === 'death'
-      if (wasInCombat && dmResponse.navigation_locked === false && !characterDied) {
+      if (wasInCombatLock && !dmResponse.combat_trigger && !characterDied) {
         after = recordMilestoneEvent(after, { type: 'combat_won' })
       }
 
@@ -2442,6 +2482,12 @@ INSTRUCCIONES PARA HABILIDADES:
             skillUnlocks = nuevos.map((n) => ({ nodeId: n.id, name: n.name, tier: n.tier }))
             console.log(`[Skills] Unlockable nodes this turn: ${nuevos.map((n) => n.id).join(', ')}`)
           }
+          // Cuántos nodos están listos para aprender AHORA (persistente, no
+          // solo el toast del turno en que se desbloquean): dos clientes pagos
+          // tenían 3 nodos listos y nunca los aprendieron porque el toast se
+          // muestra una sola vez y el link al árbol estaba escondido.
+          skillsAvailable = computeNodeStatuses(tree, after, learnedIds, levelNow)
+            .filter((n) => n.status === 'unlockable').length
         }
       }
     } catch (err) {
@@ -2629,13 +2675,28 @@ INSTRUCCIONES PARA HABILIDADES:
       }
     }
 
-    // Update navigation lock status
-    if (dmResponse.navigation_locked !== undefined && dmResponse.navigation_locked !== null) {
+    // Update navigation lock status. combat_trigger SIEMPRE persiste el lock de
+    // combate (el DM casi nunca manda lock_reason:'combat' aparte) y el primer
+    // turno posterior sin combat_trigger lo libera — así combats_won se
+    // registra y el mapa no queda trabado.
+    if (dmResponse.combat_trigger) {
+      if (!worldStateUpdates.map_state) {
+        worldStateUpdates.map_state = { ...(worldState.map_state || {}) }
+      }
+      worldStateUpdates.map_state.navigationLocked = true
+      worldStateUpdates.map_state.lockReason = 'combat'
+    } else if (dmResponse.navigation_locked !== undefined && dmResponse.navigation_locked !== null) {
       if (!worldStateUpdates.map_state) {
         worldStateUpdates.map_state = { ...(worldState.map_state || {}) }
       }
       worldStateUpdates.map_state.navigationLocked = dmResponse.navigation_locked
       worldStateUpdates.map_state.lockReason = dmResponse.lock_reason || 'none'
+    } else if (wasInCombatLock) {
+      if (!worldStateUpdates.map_state) {
+        worldStateUpdates.map_state = { ...(worldState.map_state || {}) }
+      }
+      worldStateUpdates.map_state.navigationLocked = false
+      worldStateUpdates.map_state.lockReason = 'none'
     }
 
     // Update NPC state with location tracking — supports single object or array
@@ -2703,24 +2764,17 @@ INSTRUCCIONES PARA HABILIDADES:
 
     // Handle quest objective completion
     if (dmResponse.quest_complete_objective) {
-      const { questId, objectiveId } = dmResponse.quest_complete_objective
-      const existingQuests: Quest[] = worldState.quests || worldStateUpdates.quests || []
-
-      worldStateUpdates.quests = existingQuests.map(quest => {
-        if (quest.id !== questId) return quest
-
-        const updatedObjectives = quest.objectives.map(obj =>
-          obj.id === objectiveId ? { ...obj, completed: true } : obj
-        )
-
-        const allCompleted = updatedObjectives.every(obj => obj.completed)
-
-        return {
-          ...quest,
-          objectives: updatedObjectives,
-          status: allCompleted ? 'completed' as const : quest.status,
-        }
-      })
+      const existingQuests: Quest[] = worldStateUpdates.quests || worldState.quests || []
+      worldStateUpdates.quests = applyObjectiveCompletion(existingQuests, dmResponse.quest_complete_objective)
+      // Espejo en las listas legacy (title strings) que lee la UI y el prompt
+      if (questClosedByObjective) {
+        const title = questClosedByObjective.title
+        const activeLegacy: string[] = worldStateUpdates.active_quests || worldState.active_quests || []
+        worldStateUpdates.active_quests = activeLegacy.filter((q: string) => q !== title)
+        const completedLegacy: string[] = worldStateUpdates.completed_quests || worldState.completed_quests || []
+        if (!completedLegacy.includes(title)) worldStateUpdates.completed_quests = [...completedLegacy, title]
+        console.log(`[Quest] Completed by objectives: ${title}`)
+      }
     }
 
     // Handle secret reveal
@@ -2814,6 +2868,11 @@ INSTRUCCIONES PARA HABILIDADES:
     if (dmResponse.suggested_actions && dmResponse.suggested_actions.length > 0) {
       worldStateUpdates.last_suggested_actions = dmResponse.suggested_actions
     }
+    // Contador de turnos en la escena (anti-bucle): se resetea al cambiar de escena
+    worldStateUpdates.turns_in_scene = nextTurnsInScene(
+      worldState.turns_in_scene,
+      Boolean(dmResponse.scene_change || dmResponse.location_id)
+    )
 
     // Update campaign world state if there are updates
     let campaignUpdateData: { worldState: any } | null = null
@@ -2989,6 +3048,8 @@ INSTRUCCIONES PARA HABILIDADES:
       progressUpdate,
       // Nodos del skill tree que se volvieron desbloqueables este turno (toast) — null para guests
       skillUnlocks,
+      // Nodos listos para aprender ahora (null para guests) — pill persistente en la UI
+      skillsAvailable,
       // Turnos gratis restantes tras este (null si no aplica). 0 = capítulo gratis cerrado.
       trialTurnsRemaining,
     })
