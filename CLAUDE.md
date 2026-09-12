@@ -1547,8 +1547,26 @@ SESION 2026-08-26 — fix/ad-launch-readiness (SIN mergear, SIN deployar):
      ≈ trialEnd, ventana 36h) y manda Purchase; renovaciones posteriores no.
      GTM: el contenedor seguía en la versión 5 (cambios sin publicar).
 
+  CUARTO SUSCRIPTOR (Usuario_MpU9Ka, 2026-09-12 00:01, VETERAN, Zombies/PbtA,
+  primera partida 100% bajo el anti-bucle): 52 acciones en 54 min (1/min,
+  51 sugeridas), trial sin cortar el flujo. Funcionó: 8 cambios de escena
+  (el tope de 10 disparó 2 veces), 2 quests completadas 3/3 y 2/2, acto 2,
+  2 combates, 0 JSON. Falló: apenas cerró "The Woman in the Stockroom" el DM
+  volvió al depósito SIN scene_change y montó de nuevo "alguien vivo detrás
+  de la puerta" (otra mujer herida, después un hombre); el depósito aparece
+  en 28/53 narraciones. Y a las 00:45 narró una acción vieja (tirar algo a
+  la puerta, hecha a las 00:22) en vez de la actual.
+  ✅ FIX: completedThreadsDirective (quests completadas listadas como
+     HILOS CERRADOS, no revivir) + sceneLockDirective ("ESTÁS EN: X, narrá
+     solo este lugar, para moverte scene_change") en el bloque de ritmo, y
+     2 reglas nuevas en antiLoopRules (resolver solo la acción de este turno;
+     una quest cerrada está cerrada). Tests en pacing.test.ts.
+
   PENDIENTE:
   - Publicar el contenedor GTM (Submit → Publish) con el trigger nuevo.
+  - Decisión: ¿el admin puede pisar a Polar? Hoy el sync/webhook re-suben a
+    PRO a quien tenga suscripción activa/trialing en Polar (Keynan volvió a
+    PRO tras el downgrade manual). Si se quiere, agregar bandera de bloqueo.
   - Email de recuperación a quienes agotaron el trial (3 mails en la DB).
   - Vercel logs ~2026-09-09 12:36 UTC: qué le pasó a Riann (2 creates, 0 acciones).
   - ✅ BILLING_ENFORCED=true PRENDIDO en Vercel (2026-08-27) — paywall ACTIVO en prod.

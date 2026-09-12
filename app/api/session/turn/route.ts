@@ -24,7 +24,7 @@ import { parseDMResponse } from '@/lib/claude/parse-dm-response'
 import {
   turnsInSceneOf, nextTurnsInScene, sceneStaleDirective, lastSuggestionsDirective, actDirective,
   formatQuestsForPrompt, applyObjectiveCompletion, questCompletedByObjective, antiLoopRules,
-  engineCombatDirective, SCENE_STALE_TURNS,
+  engineCombatDirective, completedThreadsDirective, sceneLockDirective, SCENE_STALE_TURNS,
 } from '@/lib/game/pacing'
 import { computeNodeStatuses } from '@/lib/game/skill-trees'
 import { dmTurnTool, DM_TOOL_CHOICE, dmRawFromMessage } from '@/lib/claude/dm-tool'
@@ -85,6 +85,13 @@ function resolveArchetype(loreKey: string, archetypeKey: string): LoreArchetype 
 // Inicializar Claude
 const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
+  // Un turno normal tarda 15-30s. Los defaults del SDK (10 min de timeout +
+  // 2 reintentos) dejaron un turno colgado 17 min en un playtest con un
+  // "Connection error" upstream; en Vercel la función muere a los 120s y el
+  // jugador ve un error opaco. Con esto falla rápido y el route devuelve 502
+  // (la UI reintenta con narrativa de error).
+  timeout: 50_000,
+  maxRetries: 1,
 })
 
 interface DiceRoll {
@@ -1623,6 +1630,8 @@ ${needsWorldEvent ? '🌍 WORLD EVENT NEEDED this turn.' : ''}
 ${isNPCLoop ? `⚠️ NPC LOOP: "${loopingNPCName}" dominated 3+ turns. End or interrupt this interaction NOW.` : ''}
 ${isRepeatedObservation ? '⚠️ Player keeps observing — make something HAPPEN.' : ''}
 ${ignoredQuests.length > 0 ? `Forgotten quests: ${ignoredQuests.join(', ')} — weave back in.` : ''}
+${sceneLockDirective(worldState.current_scene, 'en')}
+${completedThreadsDirective(worldState.quests, worldState.completed_quests, 'en')}
 ${sceneStaleDirective(turnsInCurrentLocation, 'en')}
 ${lastSuggestionsDirective(worldState.last_suggested_actions, 'en')}
 ${actDirective(worldState.act, totalTurns, 'en')}
@@ -1640,6 +1649,8 @@ ${needsWorldEvent ? '🌍 EVENTO DEL MUNDO NECESARIO este turno.' : ''}
 ${isNPCLoop ? `⚠️ LOOP NPC: "${loopingNPCName}" dominó 3+ turnos. Terminá o interrumpí esta interacción AHORA.` : ''}
 ${isRepeatedObservation ? '⚠️ Jugador sigue observando — hacé que algo PASE.' : ''}
 ${ignoredQuests.length > 0 ? `Quests olvidadas: ${ignoredQuests.join(', ')} — entretejelas.` : ''}
+${sceneLockDirective(worldState.current_scene, 'es')}
+${completedThreadsDirective(worldState.quests, worldState.completed_quests, 'es')}
 ${sceneStaleDirective(turnsInCurrentLocation, 'es')}
 ${lastSuggestionsDirective(worldState.last_suggested_actions, 'es')}
 ${actDirective(worldState.act, totalTurns, 'es')}

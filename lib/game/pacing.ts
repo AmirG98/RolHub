@@ -128,12 +128,16 @@ export function antiLoopRules(locale: PacingLocale): string {
 - RESOLVED ACTIONS STAY RESOLVED: if the player repeats something already done (loot the same drawers, climb the same stairs, take down the same enemy), do NOT re-narrate it — acknowledge it is done in one sentence and present something NEW.
 - EVERY SCENE HAS AN EXIT: the player must always be able to leave. Offer at least one suggested action that moves the story to a different place or goal.
 - QUEST PROGRESS IS ACKNOWLEDGED: when the player accomplishes a pending objective, mark it with "quest_complete_objective" (exact ids from the quest list) and say so in the narration. When a quest's last objective is done, celebrate it and give "xp_reward".
-- ACTS ADVANCE: set "act_advance": true when a major goal resolves (main quest done, big reveal, point of no return). Never stay in act 1 forever.`
+- ACTS ADVANCE: set "act_advance": true when a major goal resolves (main quest done, big reveal, point of no return). Never stay in act 1 forever.
+- RESOLVE THIS TURN'S ACTION ONLY: narrate the consequence of the action the player just sent — never replay or resolve an earlier action again.
+- A CLOSED QUEST IS CLOSED: once a quest completes, its setup is over. Do not stage the same rescue, the same hidden survivor, or the same locked door again in another guise.`
     : `- LAS AMENAZAS PENDIENTES SE RESUELVEN: todo lo que anunciaste como "se acerca" (pasos, una horda, una figura, una voz) debe LLEGAR o RESOLVERSE en 2 turnos. Nunca repitas el beat de "cada vez más cerca".
 - LO RESUELTO QUEDA RESUELTO: si el jugador repite algo ya hecho (saquear los mismos cajones, subir la misma escalera, eliminar al mismo enemigo), NO lo re-narres — reconocé en una frase que ya está hecho y presentá algo NUEVO.
 - TODA ESCENA TIENE SALIDA: el jugador siempre tiene que poder irse. Ofrecé al menos una acción sugerida que mueva la historia a otro lugar u objetivo.
 - EL PROGRESO DE MISIONES SE RECONOCE: cuando el jugador cumple un objetivo pendiente, marcalo con "quest_complete_objective" (ids exactos de la lista de quests) y decilo en la narración. Cuando se cumple el último objetivo, celebralo y dá "xp_reward".
-- LOS ACTOS AVANZAN: seteá "act_advance": true cuando se resuelve un objetivo mayor (misión principal cumplida, gran revelación, punto sin retorno). Nunca te quedes en el acto 1 para siempre.`
+- LOS ACTOS AVANZAN: seteá "act_advance": true cuando se resuelve un objetivo mayor (misión principal cumplida, gran revelación, punto sin retorno). Nunca te quedes en el acto 1 para siempre.
+- RESOLVÉ SOLO LA ACCIÓN DE ESTE TURNO: narrá la consecuencia de la acción que el jugador acaba de enviar — nunca repitas ni vuelvas a resolver una acción anterior.
+- UNA MISIÓN CERRADA ESTÁ CERRADA: cuando una quest se completa, su situación terminó. No montes el mismo rescate, el mismo sobreviviente escondido o la misma puerta trabada otra vez con otro disfraz.`
 }
 
 /** Con D&D 5e las peleas van al sistema táctico: no narrar combates enteros. */
@@ -142,4 +146,39 @@ export function engineCombatDirective(engine: string, locale: PacingLocale): str
   return locale === 'en'
     ? `- THIS CAMPAIGN USES D&D 5e: fights are resolved by the tactical system, not by narration. When the player engages one or more AWARE hostile enemies within reach, you MUST send "combat_trigger". One unaware enemy may be taken down in narration after a stealth roll; two or more, or any enemy that notices the player, is combat. Do NOT narrate whole fights as "silent takedowns".`
     : `- ESTA CAMPAÑA USA D&D 5e: las peleas se resuelven en el sistema táctico, no en la narración. Cuando el jugador enfrenta a uno o más enemigos hostiles ALERTA a su alcance, DEBÉS enviar "combat_trigger". Un enemigo desprevenido puede caer en la narración tras una tirada de sigilo; dos o más, o cualquiera que note al jugador, es combate. NO narres peleas enteras como "eliminaciones silenciosas".`
+}
+
+/**
+ * Hilos cerrados: misiones completadas. Sin esto el DM reciclaba una
+ * situación ya resuelta ("alguien vivo en el depósito") apenas terminaba la
+ * misión, porque el resumen de la historia y las banderas la seguían
+ * describiendo como misterio abierto.
+ */
+export function completedThreadsDirective(
+  quests: Quest[] | null | undefined,
+  legacyCompleted: unknown,
+  locale: PacingLocale,
+  max = 6
+): string {
+  const titles: string[] = []
+  if (Array.isArray(quests)) {
+    for (const q of quests) if (q.status === 'completed' && q.title) titles.push(q.title)
+  }
+  if (Array.isArray(legacyCompleted)) {
+    for (const t of legacyCompleted) if (typeof t === 'string' && t.trim() && !titles.includes(t)) titles.push(t)
+  }
+  if (titles.length === 0) return ''
+  const list = titles.slice(-max).map((t) => `"${t}"`).join(', ')
+  return locale === 'en'
+    ? `CLOSED THREADS: ${list} — RESOLVED. Do NOT revive these setups, their mysteries, their locations' "someone is hiding here" beats, or re-injure/re-rescue their NPCs. Build on what comes NEXT.`
+    : `HILOS CERRADOS: ${list} — RESUELTOS. NO revivas estas situaciones, sus misterios, el beat de "alguien se esconde acá" en sus lugares, ni vuelvas a herir/rescatar a sus NPCs. Construí sobre lo que viene DESPUÉS.`
+}
+
+/** El DM solo puede narrar la escena actual; para moverse, scene_change. */
+export function sceneLockDirective(currentScene: string | null | undefined, locale: PacingLocale): string {
+  const scene = (currentScene ?? '').trim()
+  if (!scene) return ''
+  return locale === 'en'
+    ? `YOU ARE AT: "${scene}". Narrate ONLY this place. If the story moves somewhere else (even back to a previous location), you MUST send "scene_change" — never teleport the narration without it.`
+    : `ESTÁS EN: "${scene}". Narrá SOLO este lugar. Si la historia se mueve a otro lado (incluso volver a un lugar anterior), DEBÉS enviar "scene_change" — nunca teletransportes la narración sin eso.`
 }

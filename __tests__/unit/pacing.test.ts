@@ -9,7 +9,7 @@ import path from 'path'
 import {
   nextTurnsInScene, turnsInSceneOf, sceneStaleDirective, lastSuggestionsDirective, actDirective,
   formatQuestsForPrompt, applyObjectiveCompletion, questCompletedByObjective, antiLoopRules,
-  engineCombatDirective, SCENE_STALE_TURNS, SCENE_HARD_TURNS, ACT_1_MAX_TURNS,
+  engineCombatDirective, completedThreadsDirective, sceneLockDirective, SCENE_STALE_TURNS, SCENE_HARD_TURNS, ACT_1_MAX_TURNS,
 } from '@/lib/game/pacing'
 import type { Quest } from '@/lib/types/quest'
 
@@ -117,7 +117,7 @@ describe('directivas estáticas', () => {
       expect(r).toContain('quest_complete_objective')
       expect(r).toContain('act_advance')
       expect(r).toContain('xp_reward')
-      expect(r.split('\n').length).toBe(5)
+      expect(r.split('\n').length).toBe(7)
     }
   })
   it('engineCombatDirective solo para DND_5E', () => {
@@ -141,5 +141,39 @@ describe('turn route cableado (estático)', () => {
   })
   it('el estancamiento ya no depende de act === 1 (era true para siempre tras el turno 12)', () => {
     expect(src).not.toContain('worldState.act === 1)')
+  })
+})
+
+describe('hilos cerrados y candado de escena (4to suscriptor: el DM recicló "la mujer del depósito")', () => {
+  it('lista las quests completadas (estructuradas + legacy, sin duplicar) como RESUELTAS', () => {
+    const d = completedThreadsDirective(
+      [quest({ id: 'q1', title: 'The Woman in the Stockroom', status: 'completed' }), quest({ id: 'q2', title: 'The Clinic Run', status: 'active' })],
+      ['The Woman in the Stockroom', "Dead Man's Haul"],
+      'en'
+    )
+    expect(d).toContain('"The Woman in the Stockroom"')
+    expect(d).toContain('"Dead Man\'s Haul"')
+    expect(d).not.toContain('Clinic Run')
+    expect(d.split('The Woman in the Stockroom').length).toBe(2)
+    expect(d).toContain('RESOLVED')
+  })
+  it('vacío sin quests completadas; recorta a las últimas 6', () => {
+    expect(completedThreadsDirective([], [], 'es')).toBe('')
+    expect(completedThreadsDirective(undefined, null, 'en')).toBe('')
+    const many = Array.from({ length: 9 }, (_, i) => `Q${i}`)
+    const d = completedThreadsDirective([], many, 'es')
+    expect(d).not.toContain('"Q2"')
+    expect(d).toContain('"Q8"')
+  })
+  it('sceneLockDirective nombra la escena y exige scene_change para moverse', () => {
+    expect(sceneLockDirective('Base Camp', 'en')).toContain('"Base Camp"')
+    expect(sceneLockDirective('Base Camp', 'en')).toContain('scene_change')
+    expect(sceneLockDirective('', 'es')).toBe('')
+    expect(sceneLockDirective(undefined, 'es')).toBe('')
+  })
+  it('el turn route inyecta ambas directivas', () => {
+    const src = fs.readFileSync(path.resolve(__dirname, '../../app/api/session/turn/route.ts'), 'utf8')
+    expect(src).toContain('completedThreadsDirective(')
+    expect(src).toContain('sceneLockDirective(')
   })
 })

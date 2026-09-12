@@ -16,6 +16,13 @@ import { canStartSession, isBillingEnforced } from '@/lib/plans/check-access'
 // Inicializar Claude
 const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
+  // Un turno normal tarda 15-30s. Los defaults del SDK (10 min de timeout +
+  // 2 reintentos) dejaron un turno colgado 17 min en un playtest con un
+  // "Connection error" upstream; en Vercel la función muere a los 120s y el
+  // jugador ve un error opaco. Con esto falla rápido y el route devuelve 502
+  // (la UI reintenta con narrativa de error).
+  timeout: 50_000,
+  maxRetries: 1,
 })
 
 interface CombatActionRequestBody {
