@@ -1562,7 +1562,39 @@ SESION 2026-08-26 — fix/ad-launch-readiness (SIN mergear, SIN deployar):
      2 reglas nuevas en antiLoopRules (resolver solo la acción de este turno;
      una quest cerrada está cerrada). Tests en pacing.test.ts.
 
+  REVISIÓN PARTIDA POR PARTIDA (2026-09-12 19:20 UTC, más presupuesto en ads):
+  7 registros en 24h (1/hora), todos VETERAN salvo 1. Sesiones: MpU9Ka 52
+  acciones (trial), y3LUZM 15 (75 min, acto 3, quest completada), Rta7FN 12
+  (14 min), u8yIxD 3, osRiYn 2, tzbLed 2, VwmKMC 1. Guests reales: 3 (3, 2 y
+  0 acciones). Todas las narraciones limpias: 0 JSON, 0 vacías, 0 español,
+  sugerencias siempre presentes, latencia ~20s/turno. Los que abandonan lo
+  hacen tras 1-3 acciones con la respuesta del DM ya en pantalla → no es
+  error de servidor; es engagement de los 2 primeros minutos (y 3 de ellos
+  arrancan con el botón enlatado "I examine the area for dangers").
+  E2E en browser (guest, dev local = mismo commit que prod): apertura, acción,
+  pedido de dados, tirada, segundo turno, sugerencias, link al árbol: OK.
+  ✅ BUG ENCONTRADO Y ARREGLADO: con una tirada pendiente el input quedaba
+     BLOQUEADO con "Sending..." y cerrar el modal (✕) no limpiaba el pedido
+     (guard `if (!pendingDiceRequest) setPendingDiceRequest(null)` era un
+     no-op) → el juego parecía colgado para siempre tras el primer pedido de
+     dados. Ahora: cerrar = declinar; actuar sin tirar = declinar; el input
+     nunca se bloquea por una tirada pendiente (queda el banner "Roll
+     required!" como nudge). Verificado en browser.
+  ✅ Modal de dados decía "¡El DM pide una tirada!" / "Dificultad" en
+     español en partidas en inglés → localizado.
+  ✅ VoicePlayerAuto pedía ~20 segmentos a /api/voice/stream por narración
+     aunque el primero diera 401 (guests) y esperaba 5s por cada uno →
+     flag voiceUnavailable tras el primer 401/403 (2 requests en vez de 40).
+  ⚠ COSTO TTS: isVoiceEnabled está hardcodeado en true (GameSession:275) y
+     /api/voice/stream solo chequea auth, NO plan → cada narración de cada
+     usuario registrado (incluido trial) genera audio en Fish Audio:
+     ~2.000 GeneratedAsset AUDIO por día (09-09: 2070, 09-10: 2091, 09-11:
+     1853). La doc dice "voz = feature Pro". Decisión pendiente del user.
+  ⚠ Warning de hidratación en ActionInputWithVoice (botón de micrófono:
+     soporte de speech difiere server/client). Solo dev overlay, no afecta.
+
   PENDIENTE:
+  - Decidir si la voz (TTS) queda para todos o solo PRO (costo Fish Audio).
   - Publicar el contenedor GTM (Submit → Publish) con el trigger nuevo.
   - Decisión: ¿el admin puede pisar a Polar? Hoy el sync/webhook re-suben a
     PRO a quien tenga suscripción activa/trialing en Polar (Keynan volvió a

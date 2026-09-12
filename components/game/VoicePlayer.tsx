@@ -1,6 +1,10 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
+
+// Se prende con el primer 401/403 de /api/voice/stream (guest o sin plan):
+// el resto de la sesión no vuelve a pedir audio.
+let voiceUnavailable = false
 import { Volume2, VolumeX, Pause, Loader2 } from 'lucide-react'
 import { RunicButton } from '@/components/medieval/RunicButton'
 import { Lore } from '@prisma/client'
@@ -340,6 +344,14 @@ export function VoicePlayerAuto({
   const generateSegmentAudio = async (segment: VoiceSegment, index: number): Promise<void> => {
     // Evitar regenerar si ya existe
     if (audioQueueRef.current[index]) return
+    // Sin permiso de voz (guests → 401): no pedir más segmentos ni esperar 5s
+    // por cada uno. Antes: ~20 requests 401 por narración y la reproducción
+    // "esperaba" segmento por segmento.
+    if (voiceUnavailable) {
+      generationCompleteRef.current = true
+      setIsLoading(false)
+      return
+    }
 
     console.log(`[VoicePlayerAuto] Generating segment ${index}: "${segment.text.substring(0, 50)}..."`)
     try {
@@ -356,6 +368,12 @@ export function VoicePlayerAuto({
       })
       console.log(`[VoicePlayerAuto] Segment ${index} response: ${response.status} in ${Date.now() - startTime}ms`)
 
+      if (response.status === 401 || response.status === 403) {
+        voiceUnavailable = true
+        generationCompleteRef.current = true
+        setIsLoading(false)
+        return
+      }
       if (!response.ok || !mountedRef.current) return
 
       const audioBlob = await response.blob()

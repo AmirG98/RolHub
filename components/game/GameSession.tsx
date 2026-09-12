@@ -528,6 +528,11 @@ export default function GameSession({
 
     setIsSubmitting(true)
     setError(null)
+    // Actuar sin tirar = declinar la tirada pendiente (el DM resuelve sin dado).
+    // Antes el input quedaba BLOQUEADO con "Sending..." mientras hubiera una
+    // tirada pendiente, y cerrar el modal no la limpiaba: jugadores nuevos
+    // veían el juego "colgado" después de su primer pedido de dados.
+    if (pendingDiceRequest && !/^\[(Roll|Tirada):/.test(action)) setPendingDiceRequest(null)
 
     // Agregar turno del jugador inmediatamente (optimistic update)
     const playerTurn: Turn = {
@@ -1368,8 +1373,9 @@ export default function GameSession({
                 <div className="relative max-w-md w-full">
                   <button
                     onClick={() => {
+                      // Cerrar = declinar la tirada; el input vuelve a estar libre
                       setShowDiceRoller(false)
-                      if (!pendingDiceRequest) setPendingDiceRequest(null)
+                      setPendingDiceRequest(null)
                     }}
                     className="absolute -top-2 -right-2 z-10 w-8 h-8 bg-blood rounded-full flex items-center justify-center text-parchment hover:bg-blood/80"
                   >
@@ -1379,7 +1385,7 @@ export default function GameSession({
                   {pendingDiceRequest && (
                     <div className="mb-3 p-3 rounded-lg bg-gold/10 border border-gold/30 text-center">
                       <p className="font-heading text-gold text-sm uppercase tracking-wide mb-1">
-                        🎲 ¡El DM pide una tirada!
+                        🎲 {locale === 'en' ? 'The DM asks for a roll!' : '¡El DM pide una tirada!'}
                       </p>
                       <p className="font-body text-parchment text-sm">
                         {pendingDiceRequest.reason}
@@ -1389,7 +1395,7 @@ export default function GameSession({
                       </p>
                       {pendingDiceRequest.difficulty && (
                         <p className="font-ui text-parchment/60 text-xs mt-1">
-                          Dificultad: {pendingDiceRequest.difficulty}
+                          {locale === 'en' ? 'Difficulty' : 'Dificultad'}: {pendingDiceRequest.difficulty}
                         </p>
                       )}
                     </div>
@@ -1451,7 +1457,7 @@ export default function GameSession({
                 ) : (
                   <ActionInputWithVoice
                     onSubmit={handleSubmit}
-                    isSubmitting={isSubmitting || !!pendingDiceRequest}
+                    isSubmitting={isSubmitting}
                     suggestedActions={suggestedActions}
                     lastDiceRoll={lastDiceRoll}
                     onClearDiceRoll={() => setLastDiceRoll(null)}
