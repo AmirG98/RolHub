@@ -1536,8 +1536,19 @@ SESION 2026-08-26 — fix/ad-launch-readiness (SIN mergear, SIN deployar):
      fbq('track','Purchase',{value:8.99,currency:'USD'},{eventID:'{{DLV - subscription_id}}'})
      con una Data Layer Variable `subscription_id` (la página ya la pushea).
 
+  ✅ VERIFICADO 2026-09-12: META_CAPI_ACCESS_TOKEN cargado (health
+     meta_capi_configured:true). Al reenviar los order.paid desde Polar, Meta
+     recibió "Start trial" ×6 por Conversions API y NINGÚN Purchase: las 3
+     órdenes valen $0 → EL PRODUCTO DE POLAR TIENE TRIAL GRATIS (3 días).
+     NADIE PAGÓ TODAVÍA. Keynan canceló dentro del trial (sin cobro). Los
+     otros dos se cobran al terminar su trial (12 y 13 de septiembre) si no
+     cancelan. Ese primer cobro llega como order.paid billingReason
+     subscription_cycle → classifyPolarOrder() lo detecta (currentPeriodStart
+     ≈ trialEnd, ventana 36h) y manda Purchase; renovaciones posteriores no.
+     GTM: el contenedor seguía en la versión 5 (cambios sin publicar).
+
   PENDIENTE:
-  - Cargar META_CAPI_ACCESS_TOKEN en Vercel y cambiar el trigger del tag en GTM.
+  - Publicar el contenedor GTM (Submit → Publish) con el trigger nuevo.
   - Email de recuperación a quienes agotaron el trial (3 mails en la DB).
   - Vercel logs ~2026-09-09 12:36 UTC: qué le pasó a Riann (2 creates, 0 acciones).
   - ✅ BILLING_ENFORCED=true PRENDIDO en Vercel (2026-08-27) — paywall ACTIVO en prod.

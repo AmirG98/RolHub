@@ -206,6 +206,11 @@ describe('Meta Conversions API desde el webhook', () => {
     expect(mockSendMeta.mock.calls[0][0]).toMatchObject({ eventId: 'sub_10', eventName: 'StartTrial', value: 0 })
   })
 
+  it('primer cobro real tras el trial (subscription_cycle) → Purchase', async () => {
+    await POST(makeReq({ type: 'order.paid', data: { id: 'ord_5', customerId: 'c1', customer: { externalId: USER.id }, subscriptionId: 'sub_9', billingReason: 'subscription_cycle', totalAmount: 899, currency: 'usd', subscription: { id: 'sub_9', status: 'active', trialEnd: '2026-09-12T20:30:00Z', currentPeriodStart: '2026-09-12T20:30:01Z' } } }) as any)
+    expect(mockSendMeta.mock.calls[0][0]).toMatchObject({ eventId: 'sub_9', eventName: 'Purchase', value: 8.99 })
+  })
+
   it('subscription.active no manda nada (solo order.paid)', async () => {
     await POST(makeReq(subEvent('subscription.active', 'active')) as any)
     expect(mockSendMeta).not.toHaveBeenCalled()

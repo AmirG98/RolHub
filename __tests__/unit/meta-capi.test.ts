@@ -6,7 +6,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import {
   buildPurchasePayload, sendMetaPurchaseEvent, hashUserData, isMetaCapiConfigured, metaPixelId,
-  attributionFromPolarMetadata, attributionMetadataFromRequest, DEFAULT_META_PIXEL_ID,
+  attributionFromPolarMetadata, attributionMetadataFromRequest, DEFAULT_META_PIXEL_ID, classifyPolarOrder,
 } from '@/lib/meta/conversions-api'
 
 const ORIGINAL = { ...process.env }
@@ -98,5 +98,25 @@ describe('atribución (checkout → Polar metadata → webhook)', () => {
   it('lee la metadata que vuelve de Polar ignorando basura', () => {
     expect(attributionFromPolarMetadata({ user_id: 'u', fbc: 'fb.1.x', fbp: 7, client_ip: '', client_ua: 'UA' })).toEqual({ fbc: 'fb.1.x', client_ua: 'UA' })
     expect(attributionFromPolarMetadata(null)).toEqual({})
+  })
+})
+
+describe('classifyPolarOrder (producto con trial gratis)', () => {
+  const trialEnd = '2026-09-12T20:30:00Z'
+  it('primera orden con monto → Purchase; con $0 → StartTrial', () => {
+    expect(classifyPolarOrder({ billingReason: 'subscription_create', totalAmount: 899 })).toEqual({ kind: 'purchase', value: 8.99 })
+    expect(classifyPolarOrder({ billingReason: 'purchase', totalAmount: 500 })).toEqual({ kind: 'purchase', value: 5 })
+    expect(classifyPolarOrder({ billingReason: 'subscription_create', totalAmount: 0 })).toEqual({ kind: 'start_trial', value: 0 })
+    expect(classifyPolarOrder({ totalAmount: 899 })).toEqual({ kind: 'purchase', value: 8.99 })
+  })
+  it('el primer cobro tras el trial (cycle con periodStart ≈ trialEnd) → Purchase', () => {
+    expect(classifyPolarOrder({ billingReason: 'subscription_cycle', totalAmount: 899, subscription: { trialEnd, currentPeriodStart: '2026-09-12T20:30:05Z' } })).toEqual({ kind: 'purchase', value: 8.99 })
+    expect(classifyPolarOrder({ billingReason: 'subscription_cycle', totalAmount: 899, subscription: { trialEnd: new Date(trialEnd), currentPeriodStart: new Date('2026-09-13T08:00:00Z') } })).toEqual({ kind: 'purchase', value: 8.99 })
+  })
+  it('renovaciones normales → skip', () => {
+    expect(classifyPolarOrder({ billingReason: 'subscription_cycle', totalAmount: 899, subscription: { trialEnd, currentPeriodStart: '2026-10-12T20:30:00Z' } })).toEqual({ kind: 'skip', reason: 'renewal' })
+    expect(classifyPolarOrder({ billingReason: 'subscription_cycle', totalAmount: 899, subscription: { trialEnd: null, currentPeriodStart: '2026-10-12T20:30:00Z' } })).toEqual({ kind: 'skip', reason: 'renewal' })
+    expect(classifyPolarOrder({ billingReason: 'subscription_cycle', totalAmount: 899 })).toEqual({ kind: 'skip', reason: 'renewal' })
+    expect(classifyPolarOrder({ billingReason: 'subscription_update', totalAmount: 100 })).toEqual({ kind: 'skip', reason: 'subscription_update' })
   })
 })

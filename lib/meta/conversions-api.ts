@@ -178,3 +178,52 @@ export function attributionFromPolarMetadata(metadata: unknown): AttributionMeta
   }
   return out
 }
+
+/** Forma mínima de una orden de Polar (order.paid) para clasificarla. */
+export interface PolarOrderLike {
+  billingReason?: string | null
+  totalAmount?: number | null
+  netAmount?: number | null
+  amount?: number | null
+  subscription?: {
+    trialEnd?: Date | string | null
+    currentPeriodStart?: Date | string | null
+  } | null
+}
+
+export type OrderConversion = { kind: 'purchase' | 'start_trial'; value: number } | { kind: 'skip'; reason: string }
+
+/** Ventana para considerar que un ciclo empieza "justo" al terminar el trial. */
+const FIRST_CHARGE_WINDOW_MS = 36 * 3600 * 1000
+
+function toMs(v: Date | string | null | undefined): number | null {
+  if (!v) return null
+  const t = v instanceof Date ? v.getTime() : new Date(v).getTime()
+  return Number.isFinite(t) ? t : null
+}
+
+/**
+ * Qué evento (si alguno) representa esta orden:
+ * - primera orden (purchase / subscription_create) con monto > 0 → Purchase
+ * - primera orden con monto 0 (producto con trial) → StartTrial
+ * - renovación (subscription_cycle) que es el PRIMER cobro tras un trial
+ *   (currentPeriodStart ≈ trialEnd) → Purchase. Sin esto, con un producto
+ *   con trial gratis nunca se mediría ninguna compra.
+ * - cualquier otra renovación → nada
+ */
+export function classifyPolarOrder(order: PolarOrderLike): OrderConversion {
+  const cents = Number(order.totalAmount ?? order.netAmount ?? order.amount ?? 0)
+  const value = Number.isFinite(cents) ? cents / 100 : 0
+  const reason = order.billingReason ?? null
+  const isInitial = !reason || reason === 'purchase' || reason === 'subscription_create'
+  if (isInitial) return value > 0 ? { kind: 'purchase', value } : { kind: 'start_trial', value: 0 }
+  if (reason === 'subscription_cycle') {
+    const trialEnd = toMs(order.subscription?.trialEnd)
+    const periodStart = toMs(order.subscription?.currentPeriodStart)
+    const firstChargeAfterTrial =
+      trialEnd !== null && periodStart !== null && Math.abs(periodStart - trialEnd) <= FIRST_CHARGE_WINDOW_MS
+    if (firstChargeAfterTrial && value > 0) return { kind: 'purchase', value }
+    return { kind: 'skip', reason: firstChargeAfterTrial ? 'zero_amount' : 'renewal' }
+  }
+  return { kind: 'skip', reason: reason ?? 'unknown' }
+}
