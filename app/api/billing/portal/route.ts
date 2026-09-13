@@ -23,9 +23,11 @@ export async function POST(req: NextRequest) {
     }
 
     const polar = getPolar()
+    // OJO: el SDK espera `externalCustomerId` (el `as any` escondía que el
+    // nombre estaba mal y Polar rechazaba la request: el portal nunca funcionó).
     const session = await polar.customerSessions.create({
-      customerExternalId: user.id,
-    } as any)
+      externalCustomerId: user.id,
+    })
 
     return NextResponse.json({
       customerPortalUrl: session.customerPortalUrl,

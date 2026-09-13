@@ -1593,6 +1593,20 @@ SESION 2026-08-26 — fix/ad-launch-readiness (SIN mergear, SIN deployar):
   ⚠ Warning de hidratación en ActionInputWithVoice (botón de micrófono:
      soporte de speech difiere server/client). Solo dev overlay, no afecta.
 
+  CANCELACIÓN (2026-09-13): un suscriptor pidió por mail que le cancelaran
+  "porque no encontró una forma fácil" y Amir lo hizo a mano en Polar.
+  Causa: NO EXISTÍA ningún link al portal de Polar en la UI, y además
+  /api/billing/portal mandaba `customerExternalId` (el SDK espera
+  `externalCustomerId`; un `as any` lo escondía) → la ruta nunca funcionó.
+  Probado contra el schema del SDK: el payload viejo es INVÁLIDO.
+  ✅ FIX: ruta corregida; /pricing detecta plan pago (GET /api/user/plan) y
+     muestra "Plan actual: Adventurer" + botón "Gestionar suscripción" →
+     portal de Polar (cambiar pago / cancelar) en vez de "Comenzar Aventura"
+     (que a un PRO le devolvía 400); el badge PRO del navbar linkea a
+     /pricing. Tests: polar-portal.test.ts (valida el payload con el schema
+     real del SDK). Pendiente: probar el portal en prod con una cuenta PRO
+     real (Amir), el token local de Polar no sirve.
+
   PENDIENTE:
   - Decidir si la voz (TTS) queda para todos o solo PRO (costo Fish Audio).
   - Publicar el contenedor GTM (Submit → Publish) con el trigger nuevo.

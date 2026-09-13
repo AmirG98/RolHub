@@ -18,6 +18,39 @@ export default function PricingPage() {
   const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'yearly'>('monthly')
   const [loading, setLoading] = useState(false)
   const [checkoutError, setCheckoutError] = useState<string | null>(null)
+  // Plan actual: un PRO no tiene que ver "Comenzar Aventura" (el checkout le
+  // devolvía 400) sino cómo GESTIONAR/CANCELAR. Un cliente tuvo que pedir la
+  // cancelación por mail porque no había ningún link al portal de Polar.
+  const [userPlan, setUserPlan] = useState<string | null>(null)
+  const isPaidPlan = userPlan === 'PRO' || userPlan === 'GUILD'
+
+  useEffect(() => {
+    if (!isSignedIn) return
+    fetch('/api/user/plan')
+      .then(res => (res.ok ? res.json() : null))
+      .then(data => { if (data?.plan) setUserPlan(data.plan) })
+      .catch(() => {})
+  }, [isSignedIn])
+
+  const handleManage = async () => {
+    setLoading(true)
+    setCheckoutError(null)
+    try {
+      const res = await fetch('/api/billing/portal', { method: 'POST' })
+      const data = await res.json()
+      if (res.ok && data.customerPortalUrl) {
+        window.location.href = data.customerPortalUrl
+      } else {
+        console.error('[portal] error:', res.status, data)
+        setCheckoutError(t.pricing.portalError)
+        setLoading(false)
+      }
+    } catch (err) {
+      console.error('[portal] network error:', err)
+      setCheckoutError(t.pricing.portalError)
+      setLoading(false)
+    }
+  }
 
   const price = billingPeriod === 'monthly'
     ? PLAN_CONFIG.PRO.priceMonthly
@@ -173,13 +206,31 @@ export default function PricingPage() {
           </ul>
 
           {/* CTA */}
-          <button
-            onClick={handleSubscribe}
-            disabled={loading}
-            className={`${GOLD_CTA_CLASS} disabled:opacity-50`}
-          >
-            {loading ? '...' : t.pricing.subscribe}
-          </button>
+          {isPaidPlan ? (
+            <>
+              <p className="mb-3 text-center font-heading text-sm text-gold">
+                ✓ {t.pricing.currentPlan}: {isEn ? PLAN_CONFIG.PRO.label : PLAN_CONFIG.PRO.labelEs}
+              </p>
+              <button
+                onClick={handleManage}
+                disabled={loading}
+                className={`${GOLD_CTA_CLASS} disabled:opacity-50`}
+              >
+                {loading ? '...' : t.pricing.manageSubscription}
+              </button>
+              <p className="mt-2 text-center font-body text-xs text-parchment/60">
+                {t.pricing.manageHint}
+              </p>
+            </>
+          ) : (
+            <button
+              onClick={handleSubscribe}
+              disabled={loading}
+              className={`${GOLD_CTA_CLASS} disabled:opacity-50`}
+            >
+              {loading ? '...' : t.pricing.subscribe}
+            </button>
+          )}
 
           {checkoutError && (
             <p className="mt-3 text-center font-body text-sm text-blood">

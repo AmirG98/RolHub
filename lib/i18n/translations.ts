@@ -556,6 +556,9 @@ export const translations = {
       perYear: '/año',
       currentPlan: 'Plan actual',
       subscribe: 'Comenzar Aventura',
+      manageSubscription: 'Gestionar suscripción',
+      manageHint: 'Cambiá el método de pago o cancelá cuando quieras. Sin preguntas.',
+      portalError: 'No pudimos abrir el portal de suscripción. Escribinos y lo resolvemos.',
       trialBanner: 'Tus primeros 25 turnos son gratis — sin tarjeta de crédito',
       features: {
         allLores: 'Todos los mundos (10+)',
@@ -1168,6 +1171,9 @@ export const translations = {
       perYear: '/yr',
       currentPlan: 'Current plan',
       subscribe: 'Start Your Adventure',
+      manageSubscription: 'Manage subscription',
+      manageHint: 'Change your payment method or cancel anytime. No questions asked.',
+      portalError: "We couldn't open the subscription portal. Message us and we'll sort it out.",
       trialBanner: 'Your first 25 turns are free — no credit card required',
       features: {
         allLores: 'All worlds (10+)',
