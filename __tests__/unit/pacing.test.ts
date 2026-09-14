@@ -177,3 +177,19 @@ describe('hilos cerrados y candado de escena (4to suscriptor: el DM recicló "la
     expect(src).toContain('sceneLockDirective(')
   })
 })
+
+describe('review 2: contador de escena y lock de combate', () => {
+  const src = fs.readFileSync(path.resolve(__dirname, '../../app/api/session/turn/route.ts'), 'utf8')
+  it('turns_in_scene se reinicia solo si la escena persistida cambió (no por un location_id repetido)', () => {
+    expect(src).toContain('const sceneActuallyChanged')
+    expect(src).not.toContain("Boolean(dmResponse.scene_change || dmResponse.location_id)")
+  })
+  it('el lock de combate NO se libera solo (el DM lo libera con navigation_locked:false)', () => {
+    expect(src).not.toMatch(/else if \(wasInCombatLock\) \{/)
+    expect(src).toContain("dmResponse.navigation_locked === false && !dmResponse.combat_trigger && !characterDied")
+  })
+  it('el último turno gratis no infiere viajes ni conserva el lock de combate del trigger quitado', () => {
+    expect(src).toContain("action && trialTurnsRemaining !== 0")
+    expect(src).toContain("if (dmResponse.lock_reason === 'combat') {")
+  })
+})

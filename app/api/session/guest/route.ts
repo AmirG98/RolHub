@@ -416,6 +416,17 @@ ${labels.important}:
       ]
     }
 
+    // Sin narración (tool_use vacío por max_tokens, etc.) → error recuperable,
+    // no un globo vacío con success:true (el turn route reintenta; acá el
+    // cliente muestra el error narrativo y el guest puede reenviar).
+    if (!dmResponse.narration || dmResponse.narration.replace(/[\s.·…"'—-]/g, '').length < 20) {
+      console.warn('[Guest DM] Narración vacía — 502')
+      return NextResponse.json(
+        { error: isEnglish ? 'The narrator lost the thread — try again' : 'El narrador perdió el hilo — intentá de nuevo', code: 'dm_empty_narration' },
+        { status: 502 }
+      )
+    }
+
     // Build full narration with HP notification if needed
     let fullNarration = dmResponse.narration
     if (dmResponse.hp_change && dmResponse.hp_change !== 0) {

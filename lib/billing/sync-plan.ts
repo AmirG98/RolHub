@@ -21,6 +21,8 @@ export interface SyncPlanResult {
   active: boolean
   source: 'db' | 'polar' | 'none'
   subscriptionId: string | null
+  /** Estado de la suscripción en Polar ('active' | 'trialing' | ...); null si no se consultó */
+  status: string | null
 }
 
 export class PolarUnavailableError extends Error {}
@@ -33,10 +35,10 @@ export async function syncPlanFromPolar(userId: string): Promise<SyncPlanResult 
   })
   if (!user) return null
 
-  const notActive: SyncPlanResult = { plan: user.plan, active: false, source: 'none', subscriptionId: user.stripeSubscriptionId }
+  const notActive: SyncPlanResult = { plan: user.plan, active: false, source: 'none', subscriptionId: user.stripeSubscriptionId, status: null }
 
   if (getPlanStatus(user) === 'pro') {
-    return { plan: user.plan, active: true, source: 'db', subscriptionId: user.stripeSubscriptionId }
+    return { plan: user.plan, active: true, source: 'db', subscriptionId: user.stripeSubscriptionId, status: null }
   }
   if (!isPolarConfigured()) return notActive
 
@@ -68,7 +70,7 @@ export async function syncPlanFromPolar(userId: string): Promise<SyncPlanResult 
     console.warn(`[billing/sync] stripeCustomerId ${polarCustomerId} ya tomado; activo a ${user.id} sin él`)
     await prisma.user.update({ where: { id: user.id }, data: fields })
   }
-  return { plan: 'PRO', active: true, source: 'polar', subscriptionId: sub.id }
+  return { plan: 'PRO', active: true, source: 'polar', subscriptionId: sub.id, status: sub.status }
 }
 
 // Throttle por user para el camino de denegación del paywall: un FREE que
@@ -85,9 +87,11 @@ export async function maybeSyncPlanOnDeny(userId: string): Promise<boolean> {
   const now = Date.now()
   const last = lastDenySync.get(userId)
   if (last !== undefined && now - last < DENY_SYNC_TTL_MS) return false
-  lastDenySync.set(userId, now)
   try {
     const r = await syncPlanFromPolar(userId)
+    // El throttle se estampa solo tras una consulta COMPLETA: si Polar estaba
+    // caído, el próximo intento del pagador vuelve a consultar.
+    lastDenySync.set(userId, now)
     return r?.active === true
   } catch (err) {
     console.warn('[billing/sync] autocuración en paywall falló:', err instanceof Error ? err.message : err)

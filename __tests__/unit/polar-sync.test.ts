@@ -120,7 +120,7 @@ describe('POST /api/billing/sync', () => {
       activeSubscriptions: [{ id: 'sub_1', status: 'active', productId: 'prod_rolhub', cancelAtPeriodEnd: false, currentPeriodEnd: new Date('2030-01-01') }],
     })
     const body = await (await POST()).json()
-    expect(body).toMatchObject({ plan: 'PRO', active: true, source: 'polar', subscriptionId: 'sub_1' })
+    expect(body).toMatchObject({ plan: 'PRO', active: true, source: 'polar', subscriptionId: 'sub_1', status: 'active' })
     expect(mockUpdate).toHaveBeenCalledWith({
       where: { id: 'usr_1' },
       data: { plan: 'PRO', planExpiresAt: null, stripeSubscriptionId: 'sub_1', stripeCustomerId: 'cust_1' },

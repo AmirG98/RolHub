@@ -161,3 +161,23 @@ describe('fence json en UNA línea (```json {...}``` sin saltos)', () => {
     expect(parseDMResponse('A sign: ```Danger``` ahead.').data.narration).toBe('A sign: Danger ahead.')
   })
 })
+
+describe('review 2: claves legacy y fences con CRLF', () => {
+  it('un bloque con solo claves de contratos viejos (world_state_updates, dice_required) se quita del texto', () => {
+    const r = parseDMResponse('You see a chest. {"world_state_updates": {"weather": "rain"}} It is locked.')
+    expect(r.data.narration).toBe('You see a chest. It is locked.')
+    expect((r.data as Record<string, unknown>).world_state_updates).toBeUndefined()
+  })
+  it('```json seguido de \\r\\n no deja "json" en la narración', () => {
+    const r = parseDMResponse('Prose.\n```json\r\n{"dice_request": {"reason": "r", "formula": "1d20", "type": "skill"}}\r\n```')
+    expect(r.data.narration).toBe('Prose.')
+    expect(r.recoveredKeys).toContain('dice_request')
+  })
+  it('```json con texto suelto en la línea de la tag tampoco', () => {
+    const r = parseDMResponse('Prose.\n```json title\n{"dice_request": {"reason": "r", "formula": "1d20", "type": "skill"}}\n```')
+    expect(r.data.narration).toBe('Prose.')
+  })
+  it('un fence de texto cuya primera línea tiene varias palabras conserva todo', () => {
+    expect(parseDMResponse('A sign:\n```BEWARE THE MARSH\nturn back\n```').data.narration).toContain('BEWARE THE MARSH')
+  })
+})

@@ -17,7 +17,10 @@
 import { dmResponseSchema } from '@/lib/validation/dm-response.schema'
 
 /** Campos del DMResponse, derivados del schema para que no se desincronicen. */
-const DM_KEYS: readonly string[] = Object.keys(dmResponseSchema.shape)
+// + claves de contratos viejos que el modelo a veces todavía emite: se
+// reconocen para QUITARLAS del texto (no pasan la validación, no se mezclan).
+const LEGACY_KEYS: readonly string[] = ['dice_required', 'world_state_updates', 'dm_notes', 'actions']
+const DM_KEYS: readonly string[] = [...Object.keys(dmResponseSchema.shape), ...LEGACY_KEYS]
 const DM_KEY_RE = new RegExp(`"(?:${DM_KEYS.join('|')})"\\s*:`)
 const JSON_TAGS = new Set(['json', 'js', 'javascript'])
 
@@ -129,10 +132,12 @@ function unwrapFences(text: string): string {
     // quitar el bloque queda "```json ```" y la palabra no debe filtrarse).
     // Una palabra suelta que NO es tag JSON y cierra en la misma línea es
     // contenido ("```Danger```") y se conserva.
-    const head = text.slice(open + 3).match(/^([A-Za-z]*)[ \t]*(\n|(?=```))/)
+    // (acepta \r\n y texto suelto tras una tag JSON: "```json title\n")
+    const head = text.slice(open + 3).match(/^([A-Za-z]*)([^\n]*?)\r?(\n|(?=```))/)
     const tag = (head?.[1] ?? '').toLowerCase()
     const isJsonTag = JSON_TAGS.has(tag)
-    const consumeTag = head !== null && (head[2] === '\n' || isJsonTag)
+    const restIsBlank = (head?.[2] ?? '').trim() === ''
+    const consumeTag = head !== null && ((head[3] === '\n' && restIsBlank) || isJsonTag)
     const innerStart = open + 3 + (consumeTag ? head[0].length : 0)
     if (close === undefined) {
       cursor = isJsonTag ? text.length : innerStart

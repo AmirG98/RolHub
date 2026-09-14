@@ -31,6 +31,8 @@ interface SyncResponse {
   active?: boolean
   subscriptionId?: string | null
   plan?: string
+  /** 'active' (pagó) | 'trialing' (trial gratis) | null (ya era PRO en la DB) */
+  status?: string | null
 }
 
 export default function CheckoutSuccessPage() {
@@ -67,7 +69,7 @@ export default function CheckoutSuccessPage() {
           const data = (await res.json().catch(() => ({}))) as SyncResponse
           if (cancelled) return
           if (data.active) {
-            trackPurchaseOnce(data.subscriptionId ?? null)
+            trackPurchaseOnce(data.subscriptionId ?? null, data.status ?? null)
             window.dispatchEvent(new CustomEvent('rolhub:plan-updated', { detail: { plan: data.plan ?? 'PRO' } }))
             setState('active')
             return
@@ -137,9 +139,15 @@ export default function CheckoutSuccessPage() {
 // sessionStorage) para que reabrir esta URL pública en otra pestaña, desde
 // el historial o desde el mail del recibo no vuelva a contar la compra.
 // Sin subscriptionId (PRO otorgado a mano) no hay compra que trackear.
-function trackPurchaseOnce(subscriptionId: string | null) {
+// Con trial gratis, la suscripción nueva es 'trialing' y NO es una compra:
+// dispara trial_started. 'active' = cobro real → purchase_complete. Si el
+// estado no se conoce (ya era PRO en la DB), no se dispara nada: el servidor
+// (Conversions API desde el webhook de Polar) ya reporta el cobro real.
+function trackPurchaseOnce(subscriptionId: string | null, status: string | null) {
   if (!subscriptionId) return
-  const key = `rolhub_purchase_tracked:${subscriptionId}`
+  const eventName = status === 'active' ? 'purchase_complete' : status === 'trialing' ? 'trial_started' : null
+  if (!eventName) return
+  const key = `rolhub_purchase_tracked:${subscriptionId}:${eventName}`
   try {
     if (localStorage.getItem(key)) return
     localStorage.setItem(key, '1')
@@ -148,7 +156,7 @@ function trackPurchaseOnce(subscriptionId: string | null) {
   }
   window.dataLayer = window.dataLayer || []
   window.dataLayer.push({
-    event: 'purchase_complete',
+    event: eventName,
     value: PLAN_CONFIG.PRO.priceMonthly,
     currency: 'USD',
     plan: 'PRO',

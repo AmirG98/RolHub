@@ -2,9 +2,12 @@
 
 import { useState, useRef, useEffect } from 'react'
 
-// Se prende con el primer 401/403 de /api/voice/stream (guest o sin plan):
-// el resto de la sesión no vuelve a pedir audio.
-let voiceUnavailable = false
+// Tras un 401/403 de /api/voice/stream (guest o sin plan) no se pide audio
+// por un rato. Con vencimiento: un 401 transitorio (refresh de sesión) o un
+// guest que se registra no deben dejar la voz apagada hasta recargar.
+const VOICE_RETRY_MS = 5 * 60 * 1000
+let voiceUnavailableUntil = 0
+const voiceUnavailable = () => Date.now() < voiceUnavailableUntil
 import { Volume2, VolumeX, Pause, Loader2 } from 'lucide-react'
 import { RunicButton } from '@/components/medieval/RunicButton'
 import { Lore } from '@prisma/client'
@@ -347,7 +350,7 @@ export function VoicePlayerAuto({
     // Sin permiso de voz (guests → 401): no pedir más segmentos ni esperar 5s
     // por cada uno. Antes: ~20 requests 401 por narración y la reproducción
     // "esperaba" segmento por segmento.
-    if (voiceUnavailable) {
+    if (voiceUnavailable()) {
       generationCompleteRef.current = true
       setIsLoading(false)
       return
@@ -369,7 +372,7 @@ export function VoicePlayerAuto({
       console.log(`[VoicePlayerAuto] Segment ${index} response: ${response.status} in ${Date.now() - startTime}ms`)
 
       if (response.status === 401 || response.status === 403) {
-        voiceUnavailable = true
+        voiceUnavailableUntil = Date.now() + VOICE_RETRY_MS
         generationCompleteRef.current = true
         setIsLoading(false)
         return

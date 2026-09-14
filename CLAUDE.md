@@ -1607,6 +1607,48 @@ SESION 2026-08-26 — fix/ad-launch-readiness (SIN mergear, SIN deployar):
      real del SDK). Pendiente: probar el portal en prod con una cuenta PRO
      real (Amir), el token local de Polar no sirve.
 
+  CODE REVIEW 2 (2026-09-14) — /code-review high 09f702c..HEAD (los 6 commits
+  de estos 3 días), 8 revisores. Prod verificado antes de tocar nada: 43
+  sesiones / 262 narraciones desde el último deploy con 0 JSON, 0 vacías, 0
+  español, 0 duplicados; flujo de dados (declinar + tirar) probado en prod.
+  Hallazgos de corrección APLICADOS (+14 tests, 508/508):
+  ✅ TIRADAS SIN DADO ESTRUCTURADO (P1): el auto-submit tras la tirada usaba
+     el closure de handleSubmit del render anterior → lastDiceRoll=null → el
+     servidor recibía el turno SIN diceRoll (0 de 78 tiradas en prod lo
+     tenían; el DM solo veía el número por el texto "[Roll: ...]" y a veces
+     lo re-pedía). Ahora handleSubmit recibe el roll explícito. Verificado
+     en browser: diceRolls persistido.
+  ✅ LOCK DE COMBATE: el auto-release "primer turno sin combat_trigger"
+     cortaba el combate narrativo en la UI tras un solo intercambio y
+     regalaba combats_won. Vuelve a liberarse solo con navigation_locked:
+     false explícito del DM (se mantiene la persistencia del lock al
+     disparar el trigger, que era lo que faltaba para contar victorias).
+  ✅ turns_in_scene se reinicia solo si la escena PERSISTIDA cambió (un
+     location_id repetido o scene_change igual al actual no cuenta).
+  ✅ Cierre de capítulo: al quitar combat_trigger también se quitan
+     navigation_locked/lock_reason 'combat'; el último turno gratis no
+     infiere viajes del texto (no teletransportar contra el paywall).
+  ✅ purchase_complete en /checkout/success solo con status 'active' (cobro
+     real); 'trialing' → trial_started; desconocido (ya PRO en DB) → nada
+     (el servidor ya reporta por CAPI). Antes disparaba Purchase en el
+     inicio del trial. /api/billing/sync devuelve `status`.
+  ✅ /api/user/plan devuelve `status` (getPlanStatus); /pricing muestra
+     "Gestionar" solo a PRO VIGENTE (un PRO vencido vuelve a ver el checkout).
+  ✅ Parser: claves legacy (world_state_updates, dice_required, dm_notes,
+     actions) se quitan del texto; ```json con \r\n o texto en la línea de
+     la tag ya no filtra "json".
+  ✅ Guest route: narración vacía → 502 recuperable (antes success:true con
+     globo vacío). Turn route: si el intento 1 se corta por max_tokens, el
+     2 va con 4000.
+  ✅ maybeSyncPlanOnDeny estampa el throttle solo tras consultar (Polar
+     caído no consume el intento). VoicePlayer: el latch de 401 vence a los
+     5 min (antes apagaba la voz hasta recargar).
+  ⏭ NO aplicados (diseño/costo, no bugs): quitar el JSON template + OUTPUT
+     RULES del prompt ahora que el tool schema manda (~1.6K tokens/turno de
+     schema; agregar cache_control); pasar el tool input directo sin
+     re-parsear; persistir firstPaidAt para la CAPI en vez de la ventana de
+     36h; decidir voz por plan server-side; useUserPlan compartido.
+
   PENDIENTE:
   - Decidir si la voz (TTS) queda para todos o solo PRO (costo Fish Audio).
   - Publicar el contenedor GTM (Submit → Publish) con el trigger nuevo.

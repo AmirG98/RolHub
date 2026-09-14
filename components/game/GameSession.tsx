@@ -509,13 +509,19 @@ export default function GameSession({
       setPendingDiceRequest(null)
       // Pequeño delay para que el jugador vea el resultado
       setTimeout(() => {
-        setLastDiceRoll(rollData) // Asegurar que se envía con la acción
-        handleSubmit(`[${rollLabel}: ${result.formula} = ${result.total}] ${rollDescription}`, 'do')
+        // El closure de handleSubmit es del render ANTERIOR a la tirada: leer
+        // lastDiceRoll ahí daba null y el servidor recibía el turno SIN el dado
+        // estructurado (0 de 78 tiradas en prod lo tenían). Se pasa explícito.
+        handleSubmit(`[${rollLabel}: ${result.formula} = ${result.total}] ${rollDescription}`, 'do', rollData)
       }, 800)
     }
   }
 
-  const handleSubmit = async (action: string, actionType: 'do' | 'talk' = 'talk') => {
+  const handleSubmit = async (
+    action: string,
+    actionType: 'do' | 'talk' = 'talk',
+    diceRollOverride?: { formula: string; result: number; rolls: number[] }
+  ) => {
     if (!action.trim()) {
       setError(t.errors.actionEmpty)
       return
@@ -548,7 +554,7 @@ export default function GameSession({
     }
     setLocalTurns(prev => [...prev, playerTurn])
     const submittedAction = action.trim()
-    const submittedDiceRoll = lastDiceRoll
+    const submittedDiceRoll = diceRollOverride ?? lastDiceRoll
     setLastDiceRoll(null)
 
     try {

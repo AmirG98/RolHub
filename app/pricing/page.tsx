@@ -21,14 +21,15 @@ export default function PricingPage() {
   // Plan actual: un PRO no tiene que ver "Comenzar Aventura" (el checkout le
   // devolvía 400) sino cómo GESTIONAR/CANCELAR. Un cliente tuvo que pedir la
   // cancelación por mail porque no había ningún link al portal de Polar.
-  const [userPlan, setUserPlan] = useState<string | null>(null)
-  const isPaidPlan = userPlan === 'PRO' || userPlan === 'GUILD'
+  const [planStatus, setPlanStatus] = useState<string | null>(null)
+  // Solo un PRO VIGENTE gestiona; un PRO vencido vuelve a ver el checkout.
+  const isPaidPlan = planStatus === 'pro'
 
   useEffect(() => {
     if (!isSignedIn) return
     fetch('/api/user/plan')
       .then(res => (res.ok ? res.json() : null))
-      .then(data => { if (data?.plan) setUserPlan(data.plan) })
+      .then(data => { if (data?.status) setPlanStatus(data.status) })
       .catch(() => {})
   }, [isSignedIn])
 

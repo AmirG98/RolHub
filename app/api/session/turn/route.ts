@@ -1733,7 +1733,9 @@ INSTRUCCIONES PARA HABILIDADES:
           // 2500 (antes 1500): con narraciones largas + diálogos escapados + todos
           // los campos JSON, 1500 truncaba la respuesta y el JSON quedaba cortado.
           // 3000 (antes 2500): 3/28 fugas de JSON en prod eran por truncado.
-          max_tokens: 3000,
+          // Si el intento 1 se cortó por max_tokens (el tool_use llega vacío o
+          // incompleto), el 2 tiene más espacio.
+          max_tokens: attempt === 1 ? 3000 : 4000,
           system: finalSystemPrompt,
           messages: conversationHistory as any,
           // Salida estructurada FORZADA: la API obliga al modelo a responder
@@ -1755,6 +1757,9 @@ INSTRUCCIONES PARA HABILIDADES:
       rawResponse = dmRaw.raw
       if (!dmRaw.viaTool) {
         console.warn(`[DM] Sin bloque tool_use (stop_reason=${dmRaw.stopReason}) — fallback al parser de texto`)
+      }
+      if (dmRaw.stopReason === 'max_tokens') {
+        console.warn(`[DM] Respuesta cortada por max_tokens (intento ${attempt})`)
       }
       // Probar la NARRACIÓN parseada (no el raw: un JSON válido con
       // narration:"..." tiene muchos chars pero cero contenido narrativo)
@@ -1896,7 +1901,16 @@ INSTRUCCIONES PARA HABILIDADES:
       // pide dados ni cambia de escena: el jugador no puede quedar a mitad de
       // una pelea contra el paywall.
       if (trialTurnsRemaining !== null && trialTurnsRemaining <= WIND_DOWN_TURNS) {
-        delete dmResponse.combat_trigger
+        if (dmResponse.combat_trigger) {
+          delete dmResponse.combat_trigger
+          // El prompt le pide al DM mandar navigation_locked:true + lock_reason:'combat'
+          // junto con el trigger: sin el trigger, ese lock sería un mapa trabado
+          // "en combate" contra el paywall (y un combats_won fantasma después).
+          if (dmResponse.lock_reason === 'combat') {
+            delete dmResponse.navigation_locked
+            delete dmResponse.lock_reason
+          }
+        }
         if (trialTurnsRemaining === 0) {
           delete dmResponse.dice_request
           delete dmResponse.scene_change
@@ -2427,8 +2441,11 @@ INSTRUCCIONES PARA HABILIDADES:
       // personaje vivo. El combate táctico corre en el cliente; la siguiente
       // llamada al turn route llega cuando terminó. (Antes exigía que el DM
       // mandara navigation_locked:false explícito → combats_won nunca subía.)
+      // El combate narrativo dura varios turnos en los que el DM NO re-manda
+      // combat_trigger: solo cuenta como ganado cuando el DM libera el lock
+      // explícitamente (navigation_locked:false) con el personaje vivo.
       const characterDied = worldStateUpdates._zeroHpEvent?.type === 'death'
-      if (wasInCombatLock && !dmResponse.combat_trigger && !characterDied) {
+      if (wasInCombatLock && dmResponse.navigation_locked === false && !dmResponse.combat_trigger && !characterDied) {
         after = recordMilestoneEvent(after, { type: 'combat_won' })
       }
 
@@ -2544,7 +2561,8 @@ INSTRUCCIONES PARA HABILIDADES:
 
     // Fallback: Si el jugador hizo una acción de viaje pero Claude no seteo location_id,
     // parsear el destino del texto de la acción del jugador
-    if (!dmResponse.location_id && action) {
+    // (no en el último turno gratis: el cierre de capítulo no puede teletransportar)
+    if (!dmResponse.location_id && action && trialTurnsRemaining !== 0) {
       const travelMatch = action.match(/[Vv]iajo (?:desde .+ )?hacia (.+)|[Tt]ravel(?:ing)? to (.+)|[Mm]e dirijo (?:a|hacia) (.+)|[Vv]oy (?:a|hacia) (.+)/i)
       if (travelMatch) {
         const destinationName = (travelMatch[1] || travelMatch[2] || travelMatch[3] || travelMatch[4] || '').trim()
@@ -2702,13 +2720,10 @@ INSTRUCCIONES PARA HABILIDADES:
       }
       worldStateUpdates.map_state.navigationLocked = dmResponse.navigation_locked
       worldStateUpdates.map_state.lockReason = dmResponse.lock_reason || 'none'
-    } else if (wasInCombatLock) {
-      if (!worldStateUpdates.map_state) {
-        worldStateUpdates.map_state = { ...(worldState.map_state || {}) }
-      }
-      worldStateUpdates.map_state.navigationLocked = false
-      worldStateUpdates.map_state.lockReason = 'none'
     }
+    // (Sin auto-release: el combate narrativo sigue varios turnos sin que el DM
+    // re-mande combat_trigger; liberar el lock acá cortaba la pelea en la UI
+    // tras un solo intercambio. El DM libera con navigation_locked:false.)
 
     // Update NPC state with location tracking — supports single object or array
     if (dmResponse.npc_update) {
@@ -2880,10 +2895,14 @@ INSTRUCCIONES PARA HABILIDADES:
       worldStateUpdates.last_suggested_actions = dmResponse.suggested_actions
     }
     // Contador de turnos en la escena (anti-bucle): se resetea al cambiar de escena
-    worldStateUpdates.turns_in_scene = nextTurnsInScene(
-      worldState.turns_in_scene,
-      Boolean(dmResponse.scene_change || dmResponse.location_id)
-    )
+    // Solo cuenta como cambio si la escena PERSISTIDA cambia: un DM que repite
+    // el location_id actual (o un scene_change igual al nombre actual) no
+    // reinicia el contador, si no las directivas de escena trabada nunca saltan.
+    const sceneActuallyChanged =
+      (worldStateUpdates.current_scene !== undefined && worldStateUpdates.current_scene !== worldState.current_scene) ||
+      (worldStateUpdates.map_state?.currentLocationId !== undefined &&
+        worldStateUpdates.map_state.currentLocationId !== worldState.map_state?.currentLocationId)
+    worldStateUpdates.turns_in_scene = nextTurnsInScene(worldState.turns_in_scene, sceneActuallyChanged)
 
     // Update campaign world state if there are updates
     let campaignUpdateData: { worldState: any } | null = null
