@@ -1649,6 +1649,33 @@ SESION 2026-08-26 — fix/ad-launch-readiness (SIN mergear, SIN deployar):
      re-parsear; persistir firstPaidAt para la CAPI en vez de la ventana de
      36h; decidir voz por plan server-side; useUserPlan compartido.
 
+  QUINTO TRIAL (Usuario_Zlt2Hh "Brandon", 2026-09-16, VETERAN, Isekai/5e,
+  Beast Tamer): 51 acciones en 2 h, trial en la acción 25 sin cortar el
+  ritmo, 7 escenas, acto 2, quest 2/2 + 2/3, 9 tiradas con dado estructurado.
+  Revisión de consistencia encontró dos fallas del DM:
+  - NPC FANTASMA "Inside": el detector registraba palabras posicionales/
+    genéricas como NPCs ("Inside: a folded note" → NPC "Inside") y el DM,
+    al verla en KNOWN NPCs, la hizo actuar ("Inside shifts her weight on a
+    mossy rock"). En prod: 27 de 144 campañas desde el 1/9 con basura
+    (Inside ×14, Woman ×8, Second ×5, Man, Ahead, Voice, Danger Rating...).
+  - CRIATURA → PERSONA: la Marshwarden fue una bestia de 4 m (DM#43-46) y
+    6 turnos después una exploradora humana con alabarda. Amnesia: solo el
+    último turno del DM iba íntegro; los anteriores, 2 frases sin diálogo.
+  ✅ FIX: blocklists ampliadas en npc-detect (posicionales/genéricos EN+ES y
+     palabras que delatan objeto: Rating, Fauna, Manual, Flute, Voice...);
+     sanitizeNpcStates() aplicado a TODO lo que va al prompt (KNOWN NPCs,
+     NPCs HERE, STATE ANCHOR, NPC States) → las campañas contaminadas dejan
+     de alimentar fantasmas sin tocar la DB. Ventana de historial: 3 turnos
+     del DM íntegros (antes 1); los anteriores siguen condensados (+~1.5K
+     chars de prompt). Playtest local 8 turnos 0 findings. Tests +10.
+  NOTA GIT: la campaña de emails (commit 8ef17e3) quedó en la rama
+  `email-campaign` (NO en main) hasta hacer `prisma db push` en prod: el
+  client generado con User.emailOptOut rompe TODO user.create/findUnique
+  contra la DB vieja (verificado en local: guest-create 500 "column
+  emailOptOut does not exist"). Orden obligatorio: db push → merge → deploy.
+  El test lifecycle-emails corregido está en el scratchpad de la sesión
+  (rows relativas a Date.now()).
+
   PENDIENTE:
   - Decidir si la voz (TTS) queda para todos o solo PRO (costo Fish Audio).
   - Publicar el contenedor GTM (Submit → Publish) con el trigger nuevo.

@@ -4,7 +4,7 @@
  * world state de un jugador de prod (2026-07-10).
  */
 import { describe, it, expect } from 'vitest'
-import { detectNpcNames, isValidNpcName } from '@/lib/game/npc-detect'
+import { detectNpcNames, isValidNpcName, sanitizeNpcStates } from '@/lib/game/npc-detect'
 
 // Basura real registrada como NPCs en prod por el regex viejo
 const REAL_GHOSTS = [
@@ -91,5 +91,31 @@ Encontrás tres cosas: una capa, un mapa y monedas.`
 
   it('narración sin diálogos → vacío', () => {
     expect(detectNpcNames('El bosque está en silencio. Nada se mueve.')).toEqual([])
+  })
+})
+
+describe('fantasmas reales de prod 2026-09 (27 campañas contaminadas)', () => {
+  const GHOSTS = ['Inside', 'Woman', 'Second', 'Man', 'Ahead', 'Voice', 'Unknown Voice', 'Above', 'Below', 'Close', 'Enclosed', 'Tameable', 'Danger Rating', 'Eastern Marsh Fauna', 'Unknown Contact Man', 'Status', 'Bestiary', 'Beast Flute', 'Monster Manual', 'Dentro', 'Hombre', 'Voz']
+  it.each(GHOSTS.map((g) => [g]))('rechaza "%s"', (g) => {
+    expect(isValidNpcName(g)).toBe(false)
+  })
+  it('sigue aceptando nombres reales', () => {
+    for (const n of ['Sera Voss', 'Marshwarden', 'Bogmaw Prowler', 'Reva', 'Guild Master Serath', 'Elena', 'Marcus', 'Jinete de Vado Viejo']) expect(isValidNpcName(n)).toBe(true)
+  })
+  it('sanitizeNpcStates deja solo nombres válidos y conserva sus datos', () => {
+    const out = sanitizeNpcStates({ Inside: { status: 'alive' }, 'Sera Voss': { status: 'wary' }, 'Danger Rating': 'x', Reva: 'alive' })
+    expect(Object.keys(out)).toEqual(['Sera Voss', 'Reva'])
+    expect(out['Sera Voss']).toEqual({ status: 'wary' })
+    expect(sanitizeNpcStates(undefined)).toEqual({})
+  })
+  it('"Inside: a folded note" ya no registra un NPC', () => {
+    expect(detectNpcNames('You open the drawer. Inside: a folded note and a small card. Maris: "Take it."')).toEqual(['Maris'])
+  })
+  it('el turn route usa la vista saneada y una ventana de 3 turnos íntegros', () => {
+    const fs = require('fs'); const path = require('path')
+    const src = fs.readFileSync(path.resolve(__dirname, '../../app/api/session/turn/route.ts'), 'utf8')
+    expect(src).toContain('sanitizeNpcStates(worldState.npc_states')
+    expect(src).not.toMatch(/Object\.entries\(worldState\.npc_states \|\| \{\}\)\.forEach\(\(\[name, data\]\) => \{\n\s+const info = typeof data === 'string' \? \{ status: data\b/)
+    expect(src).toContain('playerWantsToMove ? 0 : 3')
   })
 })

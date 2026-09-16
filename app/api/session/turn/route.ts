@@ -49,7 +49,7 @@ import type { AbilityRuntime } from '@/lib/types/ability'
 import type { Archetype as LoreArchetype } from '@/lib/types/lore'
 // Detección de NPCs con reglas de nombre propio (evita "NPCs fantasma" desde
 // fragmentos de oración como "Pero primero:" — bug observado en prod)
-import { NPC_DIALOGUE_REGEX, detectNpcNames } from '@/lib/game/npc-detect'
+import { NPC_DIALOGUE_REGEX, detectNpcNames, sanitizeNpcStates } from '@/lib/game/npc-detect'
 
 // Lore data para sub-locaciones
 import lotrData from '@/data/lores/lotr.json'
@@ -382,7 +382,11 @@ export async function POST(req: NextRequest) {
     const totalDMTurns = recentTurnsForHistory.filter(t => t.role === 'DM').length
     // Si el jugador quiere moverse: 0 turnos completos (todo condensado)
     // Si no: solo el ÚLTIMO turno DM semi-completo (con diálogos de NPCs ya conocidos limpiados)
-    const fullDMWindow = playerWantsToMove ? 0 : 1
+    // 3 (antes 1): con un solo turno íntegro el DM tenía amnesia de 2 turnos —
+    // convirtió a una criatura (Marshwarden, 4 m al hombro) en una exploradora
+    // con alabarda 6 turnos después, y en otra partida re-narró una acción
+    // vieja. Los turnos anteriores siguen condensados.
+    const fullDMWindow = playerWantsToMove ? 0 : 3
 
     const conversationHistory = recentTurnsForHistory.map((turn) => {
       // Turnos del usuario: siempre completos
@@ -512,6 +516,10 @@ export async function POST(req: NextRequest) {
     // (independiente de la escena actual). Se inyecta en el prompt como "NPCs
     // ya conocidos" para que el DM no los re-presente en turnos lejanos.
     let allKnownNPCs: Array<{ name: string; info: string }> = []
+    // Vista SANEADA de npc_states para todo lo que va al prompt: sin "Inside",
+    // "Woman", "Danger Rating"... (basura del detector viejo que el DM leía
+    // como personajes y llegaba a hacer actuar). La DB no se toca.
+    const knownNpcStates = sanitizeNpcStates(worldState.npc_states as Record<string, unknown> | undefined)
 
     try {
       const recentDMContent = allTurns.slice(-10).filter(t => t.role === 'DM').map(t => t.content || '')
@@ -527,7 +535,7 @@ export async function POST(req: NextRequest) {
       const introducedNPCs = new Set<string>()
       // Primero: NPCs de npc_states que están en la escena actual
       const currentSceneLower = (worldState.current_scene || '').toLowerCase()
-      Object.entries(worldState.npc_states || {}).forEach(([name, data]) => {
+      Object.entries(knownNpcStates).forEach(([name, data]) => {
         const info = typeof data === 'string' ? { status: data, location: '' } : (data as any)
         const loc = (info.location || '').toLowerCase()
         if (!loc || loc === currentSceneLower || currentSceneLower.includes(loc) || loc.includes(currentSceneLower)) {
@@ -544,7 +552,7 @@ export async function POST(req: NextRequest) {
       // Memoria persistente: TODOS los NPCs conocidos en cualquier punto de la
       // sesión, con su info estructurada del worldState.npc_states. Esto es la
       // fuente de verdad de largo plazo, independiente de la escena actual.
-      Object.entries(worldState.npc_states || {}).forEach(([name, data]) => {
+      Object.entries(knownNpcStates).forEach(([name, data]) => {
         const info = typeof data === 'string' ? { status: data } : (data as any)
         const parts: string[] = []
         if (info.status) parts.push(info.status)
@@ -665,7 +673,7 @@ export async function POST(req: NextRequest) {
     // en la ubicación y estado correctos. Claude trata esto como "su última narración"
     // y naturalmente continuará desde aquí, no desde escenas anteriores del historial.
     {
-      const npcsHereNames = Object.entries(worldState.npc_states || {})
+      const npcsHereNames = Object.entries(knownNpcStates)
         .filter(([_, data]) => {
           const info = typeof data === 'string' ? { location: '' } : (data as any)
           const loc = (info.location || '').toLowerCase()
@@ -1260,7 +1268,7 @@ ${(() => {
   const currentScene = worldState.current_scene || ''
   const npcsHere: string[] = []
   const npcsElsewhere: string[] = []
-  Object.entries(worldState.npc_states || {}).forEach(([name, data]) => {
+  Object.entries(knownNpcStates).forEach(([name, data]) => {
     const info = typeof data === 'string' ? { status: data, location: '' } : (data as any)
     const status = info.status || 'alive'
     const location = info.location || ''
@@ -1337,7 +1345,7 @@ ${isMultiplayer ? `- ${labels.type}: ${labels.multiplayer} (${partyMembers.lengt
 - ${labels.currentScene}: ${worldState.current_scene}
 - ${labels.time}: ${worldState.time_in_world}
 - ${labels.weather}: ${worldState.weather}
-${Object.keys(worldState.npc_states || {}).length > 0 ? `- ${isEnglish ? 'NPC States' : 'Estado de NPCs'}: ${Object.entries(worldState.npc_states || {}).map(([name, data]) => { const info = typeof data === 'string' ? { status: data, location: '' } : (data as any); return `${name}: ${info.status}${info.location ? ` (${info.location})` : ''}`; }).join(', ')}` : ''}
+${Object.keys(knownNpcStates).length > 0 ? `- ${isEnglish ? 'NPC States' : 'Estado de NPCs'}: ${Object.entries(knownNpcStates).map(([name, data]) => { const info = typeof data === 'string' ? { status: data, location: '' } : (data as any); return `${name}: ${info.status}${info.location ? ` (${info.location})` : ''}`; }).join(', ')}` : ''}
 ${(worldState.completed_quests || []).length > 0 ? `- ${isEnglish ? 'Completed Quests' : 'Quests Completadas'}: ${(worldState.completed_quests || []).join(', ')}` : ''}
 ${(worldState.narrative_anchors_hit || []).length > 0 ? `- ${isEnglish ? 'Story Milestones Reached' : 'Hitos Narrativos Alcanzados'}: ${(worldState.narrative_anchors_hit || []).join(', ')}` : ''}
 ${Object.keys(worldState.faction_relations || {}).length > 0 ? `- ${isEnglish ? 'Faction Relations' : 'Relaciones con Facciones'}: ${Object.entries(worldState.faction_relations || {}).map(([f, r]) => `${f}: ${r}`).join(', ')}` : ''}

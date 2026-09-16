@@ -34,6 +34,37 @@ const FIRST_WORD_BLOCKLIST = new Set([
   'but', 'first', 'then', 'now', 'when', 'while', 'although', 'because',
   'also', 'after', 'before', 'finally', 'some', 'each', 'this', 'that',
   'these', 'those', 'you', 'your', 'note', 'important', 'warning', 'remember',
+  // posicionales / genéricos que el DM usa como etiqueta ("Inside: ...") y
+  // que el regex tomaba por nombres: en prod "Inside" era un NPC en 14
+  // campañas y llegó a actuar como personaje ("Inside shifts her weight...")
+  'inside', 'outside', 'close', 'enclosed', 'tameable', 'above', 'ahead',
+  'below', 'behind', 'beyond', 'beneath', 'nearby', 'somewhere', 'elsewhere',
+  'here', 'there', 'later', 'meanwhile', 'suddenly', 'today', 'tonight',
+  'tomorrow', 'yesterday', 'nothing', 'something', 'everything', 'someone',
+  'nobody', 'everyone', 'anyone', 'man', 'woman', 'girl', 'boy', 'voice',
+  'unknown', 'second', 'third', 'status', 'danger', 'rating', 'option',
+  'choice', 'result', 'outcome', 'round', 'turn', 'day', 'night', 'morning',
+  'evening', 'dawn', 'dusk', 'yes', 'no', 'wait', 'stop', 'look', 'listen',
+  'roll', 'success', 'failure', 'hint', 'tip', 'reminder', 'objective',
+  'reward', 'meanwhile', 'elsewhere', 'inventory', 'quest', 'combat',
+  // español equivalentes
+  'dentro', 'adentro', 'fuera', 'afuera', 'cerca', 'lejos', 'arriba', 'abajo',
+  'delante', 'detrás', 'adelante', 'atrás', 'hombre', 'mujer', 'chico',
+  'chica', 'voz', 'desconocido', 'desconocida', 'tercero', 'tercera', 'estado',
+  'peligro', 'opción', 'resultado', 'éxito', 'fallo', 'fracaso', 'recompensa',
+  'pista', 'consejo', 'recordatorio', 'alguien', 'nadie', 'nada', 'algo',
+  'hoy', 'ayer', 'mañana', 'esperá', 'mirá', 'escuchá', 'tirada', 'objetivo',
+])
+
+// Palabras que, en cualquier posición, delatan una etiqueta/objeto y no un
+// personaje ("Danger Rating", "Eastern Marsh Fauna", "Unknown Contact Man",
+// "Beast Flute", "Monster Manual").
+const ANY_WORD_BLOCKLIST = new Set([
+  'rating', 'fauna', 'manual', 'bestiary', 'flute', 'status', 'contact',
+  'voice', 'unknown', 'figure', 'man', 'woman', 'stranger', 'inventory',
+  'checklist', 'summary', 'notes', 'guide', 'map', 'key', 'token',
+  'desconocido', 'desconocida', 'voz', 'figura', 'hombre', 'mujer', 'mapa',
+  'llave', 'manual', 'bestiario', 'flauta', 'estado', 'resumen', 'notas',
 ])
 
 // Etiquetas de sistema/lugares comunes que matchean el patrón (lista heredada)
@@ -62,6 +93,7 @@ export function isValidNpcName(name: string): boolean {
   const first = words[0].toLowerCase()
   if (FIRST_WORD_BLOCKLIST.has(first)) return false
   if (NAME_BLOCKLIST.has(name.toLowerCase())) return false
+  if (words.some((w) => ANY_WORD_BLOCKLIST.has(w.toLowerCase()))) return false
   // Toda palabra debe ser capitalizada o partícula permitida entre palabras
   const PARTICLES = new Set(['de', 'del', 'la', 'las', 'los', 'el'])
   for (let i = 0; i < words.length; i++) {
@@ -71,6 +103,19 @@ export function isValidNpcName(name: string): boolean {
     if (!isCapitalized && !isParticle) return false
   }
   return true
+}
+
+/**
+ * Deja en npc_states solo entradas con forma de nombre. Se usa al ARMAR el
+ * prompt: las campañas ya contaminadas (27 desde el 1/9) dejan de alimentar
+ * NPCs fantasma sin tocar la DB.
+ */
+export function sanitizeNpcStates<T>(npcStates: Record<string, T> | null | undefined): Record<string, T> {
+  const out: Record<string, T> = {}
+  for (const [name, data] of Object.entries(npcStates || {})) {
+    if (isValidNpcName(name)) out[name] = data
+  }
+  return out
 }
 
 /**
