@@ -1696,16 +1696,17 @@ SESION 2026-08-26 — fix/ad-launch-readiness (SIN mergear, SIN deployar):
     ahead of you") en 35 turnos de camino: estilístico, no bucle.
   - Pidió "update my Wisdom to 12 at level 4" a mano: no hay ASI/subida de
     stats en el level-up de 5e; el DM solo lo "anota".
-  ⚠ IMÁGENES EN PARTIDA = 0 EN PROD: en 7 días 132 imágenes = 132 sesiones =
-     solo la de apertura (server-side). Las imágenes de escena están gateadas
-     en el cliente por NEXT_PUBLIC_ENABLE_IMAGES === 'true' (GameSession:325),
-     variable de BUILD que en Vercel no está en true. /pricing promete
-     "AI-generated images" y un PRO recibió 1 imagen en 208 narraciones. FIX:
-     setear NEXT_PUBLIC_ENABLE_IMAGES=true en Vercel + redeploy (costo Fal
-     ~US$0.03-0.05 por scene_change; 166 cambios/semana ≈ US$5-8/semana).
+  ✅ CORRECCIÓN (2026-09-17): las imágenes en partida SÍ funcionan en prod.
+     Turn.imageUrl solo guarda la de apertura (server-side); las de escena
+     que pide el DM en partida las genera el CLIENTE (/api/session/image) y
+     se persisten en worldState.last_scene_image vía /api/campaign/update-ui
+     (solo la última URL). Medido bien: desde el 7/9, 42 de 59 campañas FREE
+     y 4 de 5 PRO tienen imagen en partida; los 6 suscriptores la tienen.
+     NEXT_PUBLIC_ENABLE_IMAGES=true existe en Vercel desde el 19/3. Lo que
+     NO se puede medir hoy es CUÁNTAS por sesión (una sola URL). Si se
+     quiere medir, guardar la URL en el Turn desde update-ui.
 
   PENDIENTE:
-  - NEXT_PUBLIC_ENABLE_IMAGES=true en Vercel (imágenes en partida, hoy 0).
   - Decidir si la voz (TTS) queda para todos o solo PRO (costo Fish Audio).
   - Publicar el contenedor GTM (Submit → Publish) con el trigger nuevo.
   - Decisión: ¿el admin puede pisar a Polar? Hoy el sync/webhook re-suben a
