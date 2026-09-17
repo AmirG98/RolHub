@@ -3,6 +3,8 @@
  * Emails de seguimiento: segmentación, plantillas, token de baja y cron.
  */
 import { describe, it, expect, vi, beforeEach } from 'vitest'
+import fs from 'fs'
+import path from 'path'
 import { pickTemplate, detectLocale, isRealEmail, type UserSnapshot } from '@/lib/email/segments'
 import { renderEmail, extractHook } from '@/lib/email/templates'
 import { unsubscribeToken, verifyUnsubscribeToken } from '@/lib/email/unsubscribe-token'
@@ -183,5 +185,17 @@ describe('ventana de edad configurable (?maxAgeDays)', () => {
   it('nunca pasa del tope duro de 45 días', () => {
     const ancient = base({ totalTurns: 25, createdAt: h(24 * 60), lastActiveAt: h(24 * 60) })
     expect(pickTemplate(ancient, NOW, 999)).toBeNull()
+  })
+})
+
+describe('middleware: el link de baja tiene que ser público', () => {
+  const src = fs.readFileSync(path.resolve(__dirname, '../../middleware.ts'), 'utf8')
+  it('/api/email/unsubscribe está en las rutas públicas', () => {
+    // Sin esto, el link del mail devuelve 401 a quien no tiene sesión de
+    // Clerk (todos, al clickear desde su bandeja) y nadie puede darse de baja
+    expect(src).toContain("'/api/email/unsubscribe'")
+  })
+  it('/api/email/preview también (valida CRON_SECRET adentro)', () => {
+    expect(src).toContain("'/api/email/preview'")
   })
 })

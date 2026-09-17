@@ -32,6 +32,12 @@ const isPublicRoute = createRouteMatcher([
   '/api/webhooks/polar',
   // Cron de Vercel - protegido por CRON_SECRET dentro del route
   '/api/cron(.*)',
+  // Emails de seguimiento: la BAJA la clickea alguien sin sesión desde su
+  // bandeja (si no fuera pública, el link del mail devolvería 401 y nadie
+  // podría darse de baja — requisito legal además de UX). Está protegida por
+  // el HMAC del user id. La previsualización valida CRON_SECRET adentro.
+  '/api/email/unsubscribe',
+  '/api/email/preview',
   // Guest routes - permiten jugar sin cuenta
   '/guest(.*)',
   '/play-guest(.*)',
