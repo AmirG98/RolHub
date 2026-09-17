@@ -41,6 +41,7 @@
     "react-konva": "^19.2.3",
     "react-resizable-panels": "^4.7.3",
     "replicate": "^1.4.0",
+    "resend": "^4.8.0",
     "tailwind-merge": "^3.5.0",
     "three": "^0.183.2",
     "zod": "^4.4.3",

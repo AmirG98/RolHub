@@ -1705,6 +1705,25 @@ SESION 2026-08-26 — fix/ad-launch-readiness (SIN mergear, SIN deployar):
      NEXT_PUBLIC_ENABLE_IMAGES=true existe en Vercel desde el 19/3. Lo que
      NO se puede medir hoy es CUÁNTAS por sesión (una sola URL). Si se
      quiere medir, guardar la URL en el Turn desde update-ui.
+  EMAILS DE SEGUIMIENTO (lib/email/* + cron) — DB PUSH APLICADO Y MERGEADO
+  A MAIN el 2026-09-17 (User.emailOptOut + tabla EmailLog ya en prod; el
+  orden obligatorio era db push → merge → deploy y se respetó). Diseño:
+  - Cron diario 15:00 UTC /api/cron/lifecycle-emails (CRON_SECRET). Tres
+    plantillas, UNA vez por usuario (EmailLog @@unique(userId, template)):
+    welcome_back (≤3 turnos, 3h idle), come_back (4-24 turnos, 20h idle),
+    paywall_followup (25+ turnos, FREE, sin checkout, 3h idle). Solo
+    registrados de ≤14 días con mail real, sin suscripción ni checkout, sin
+    opt-out. Idioma por heurística sobre la última narración. Personaliza
+    con personaje, mundo, escena y la última frase del DM como gancho; CTA
+    a /play/<sessionId> (o /pricing en paywall_followup) con utm_campaign.
+  - ?dry=1 (o sin RESEND_API_KEY) → devuelve el plan sin mandar.
+  - Baja: /api/email/unsubscribe?u=<id>&t=<HMAC> (EMAIL_UNSUBSCRIBE_SECRET,
+    fallback CRON_SECRET) + headers List-Unsubscribe one-click.
+  - Proveedor: Resend (npm resend). ENV en Vercel: RESEND_API_KEY,
+    EMAIL_FROM (default "The Narrator at RolHub <narrator@rol-hub.com>"),
+    EMAIL_UNSUBSCRIBE_SECRET. Requiere verificar el dominio rol-hub.com en
+    Resend (DNS). Segmentos al 15/09: 13 welcome_back, 15 come_back,
+    10 paywall_followup. Tests: lifecycle-emails.test.ts (14).
 
   PENDIENTE:
   - Decidir si la voz (TTS) queda para todos o solo PRO (costo Fish Audio).
