@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/db/prisma'
-import { pickTemplate, detectLocale, type EmailTemplate } from '@/lib/email/segments'
+import { pickTemplate, detectLocale, MAX_AGE_DAYS, MAX_AGE_DAYS_HARD_LIMIT, type EmailTemplate } from '@/lib/email/segments'
 import { renderEmail, extractHook } from '@/lib/email/templates'
 import { sendEmail, isEmailConfigured } from '@/lib/email/send'
 import { unsubscribeToken } from '@/lib/email/unsubscribe-token'
@@ -30,8 +30,14 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: 'No autorizado' }, { status: 401 })
   }
   const dry = req.nextUrl.searchParams.get('dry') === '1' || !isEmailConfigured()
+  // Ventana de edad: por defecto 14 días; ?maxAgeDays=N la amplía para una
+  // corrida puntual (tope duro de 45 para no escribirle a gente muy vieja).
+  const requestedAge = Number(req.nextUrl.searchParams.get('maxAgeDays'))
+  const maxAgeDays = Number.isFinite(requestedAge) && requestedAge > 0
+    ? Math.min(requestedAge, MAX_AGE_DAYS_HARD_LIMIT)
+    : MAX_AGE_DAYS
 
-  const since = new Date(Date.now() - 15 * 86400000)
+  const since = new Date(Date.now() - (maxAgeDays + 1) * 86400000)
   const users = await prisma.user.findMany({
     where: { createdAt: { gt: since }, NOT: { clerkId: { startsWith: 'guest' } } },
     select: {
@@ -54,7 +60,7 @@ export async function GET(req: NextRequest) {
 
   for (const u of users) {
     if (plan.length >= MAX_PER_RUN) break
-    const template = pickTemplate({ ...u, sent: u.emailLogs.map((l) => l.template) })
+    const template = pickTemplate({ ...u, sent: u.emailLogs.map((l) => l.template) }, new Date(), maxAgeDays)
     if (!template) continue
     const campaign = u.campaigns[0]
     const session = campaign?.sessions[0]
@@ -88,6 +94,7 @@ export async function GET(req: NextRequest) {
   console.log(`[lifecycle-emails] ${dry ? 'DRY RUN' : 'sent'}: ${plan.length} candidatos, ${results.filter((r) => r.ok).length} enviados, ${results.filter((r) => !r.ok).length} fallidos`)
   return NextResponse.json({
     dry,
+    maxAgeDays,
     configured: isEmailConfigured(),
     candidates: plan.length,
     byTemplate: plan.reduce<Record<string, number>>((a, p) => ((a[p.template] = (a[p.template] || 0) + 1), a), {}),

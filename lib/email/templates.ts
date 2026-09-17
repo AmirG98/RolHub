@@ -76,14 +76,14 @@ export function renderEmail(template: EmailTemplate, ctx: EmailContext): Rendere
   }
 
   // paywall_followup
-  const subject = en ? `Your free chapter ended. Here is what comes next for ${ctx.characterName ?? 'your character'}` : `Tu capítulo gratis terminó. Esto es lo que sigue para ${ctx.characterName ?? 'tu personaje'}`
+  const subject = en ? `${ctx.characterName ?? 'Your character'}'s next chapter is ready — 3 days free` : `El próximo capítulo de ${ctx.characterName ?? 'tu personaje'} está listo — 3 días gratis`
   const paragraphs = en
-    ? [`You played the whole free chapter with <strong>${name}</strong> in <strong>${world}</strong>. That is 25 turns most people never finish.`, hookLine(ctx), `The next chapter is ready. Adventurer is <strong>$8.99 a month</strong>, unlimited turns and worlds, and you can cancel in two clicks from your account.`]
-    : [`Jugaste el capítulo gratis completo con <strong>${name}</strong> en <strong>${world}</strong>. Son 25 turnos que la mayoría no termina.`, hookLine(ctx), `El próximo capítulo está listo. Aventurero cuesta <strong>US$8.99 por mes</strong>, turnos y mundos ilimitados, y se cancela en dos clics desde tu cuenta.`]
+    ? [`You played the whole free chapter with <strong>${name}</strong> in <strong>${world}</strong>. That is 25 turns most people never finish.`, hookLine(ctx), `The next chapter starts with <strong>3 days free</strong> — unlimited turns and worlds. After that it is $8.99 a month, and you can cancel in two clicks from your account at any time.`]
+    : [`Jugaste el capítulo gratis completo con <strong>${name}</strong> en <strong>${world}</strong>. Son 25 turnos que la mayoría no termina.`, hookLine(ctx), `El próximo capítulo empieza con <strong>3 días gratis</strong> — turnos y mundos ilimitados. Después son US$8.99 por mes, y cancelás en dos clics desde tu cuenta cuando quieras.`]
   const html = layout(en ? 'The Narrator saved your place' : 'El Narrador te guardó el lugar', paragraphs.filter(Boolean), { label: en ? 'Continue the story' : 'Continuar la historia', url: ctx.pricingUrl }, en ? 'Not sure? Reply and tell us what held you back. A human reads it.' : '¿No te convence? Respondé y contanos qué te frenó. Lo lee una persona.', ctx.unsubscribeUrl, unsub)
   const text = en
-    ? `You played the whole free chapter with ${ctx.characterName ?? 'your character'} in ${ctx.worldName ?? 'RolHub'}. The next chapter is ready: Adventurer is $8.99/month, unlimited, cancel anytime.\n\nContinue: ${ctx.pricingUrl}\n\nStop receiving these emails: ${ctx.unsubscribeUrl}`
-    : `Jugaste el capítulo gratis completo con ${ctx.characterName ?? 'tu personaje'} en ${ctx.worldName ?? 'RolHub'}. El próximo capítulo está listo: Aventurero US$8.99/mes, ilimitado, cancelás cuando quieras.\n\nContinuar: ${ctx.pricingUrl}\n\nNo recibir más estos emails: ${ctx.unsubscribeUrl}`
+    ? `You played the whole free chapter with ${ctx.characterName ?? 'your character'} in ${ctx.worldName ?? 'RolHub'}. The next chapter starts with 3 days free, then $8.99/month, unlimited, cancel anytime.\n\nContinue: ${ctx.pricingUrl}\n\nStop receiving these emails: ${ctx.unsubscribeUrl}`
+    : `Jugaste el capítulo gratis completo con ${ctx.characterName ?? 'tu personaje'} en ${ctx.worldName ?? 'RolHub'}. El próximo capítulo empieza con 3 días gratis, después US$8.99/mes, ilimitado, cancelás cuando quieras.\n\nContinuar: ${ctx.pricingUrl}\n\nNo recibir más estos emails: ${ctx.unsubscribeUrl}`
   return { subject, html, text }
 }
 

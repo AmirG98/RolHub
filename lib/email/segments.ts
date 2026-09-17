@@ -14,6 +14,8 @@ export const TEMPLATE_PRIORITY: readonly EmailTemplate[] = ['paywall_followup', 
 
 /** No molestar a nadie que se registró hace más de esto */
 export const MAX_AGE_DAYS = 14
+/** Ventana ampliada para una corrida puntual (?maxAgeDays=N en el cron) */
+export const MAX_AGE_DAYS_HARD_LIMIT = 45
 /** Espera mínima desde la última actividad antes de escribir */
 export const MIN_IDLE_HOURS: Record<EmailTemplate, number> = {
   welcome_back: 3,
@@ -39,10 +41,14 @@ export function isRealEmail(email: string): boolean {
 }
 
 /** Qué plantilla le toca hoy a este usuario, o null si ninguna. */
-export function pickTemplate(u: UserSnapshot, now: Date = new Date()): EmailTemplate | null {
+export function pickTemplate(
+  u: UserSnapshot,
+  now: Date = new Date(),
+  maxAgeDays: number = MAX_AGE_DAYS
+): EmailTemplate | null {
   if (u.emailOptOut || !isRealEmail(u.email)) return null
   const ageDays = (now.getTime() - u.createdAt.getTime()) / 86400000
-  if (ageDays > MAX_AGE_DAYS) return null
+  if (ageDays > Math.min(maxAgeDays, MAX_AGE_DAYS_HARD_LIMIT)) return null
   // Con suscripción (trial o paga) o con checkout completado: no es un lead
   if (u.stripeSubscriptionId || u.stripeCustomerId || u.plan !== 'FREE') return null
 
