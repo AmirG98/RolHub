@@ -6,7 +6,7 @@ import { sendEmail, isEmailConfigured } from '@/lib/email/send'
 import { unsubscribeToken } from '@/lib/email/unsubscribe-token'
 
 export const dynamic = 'force-dynamic'
-export const maxDuration = 120
+export const maxDuration = 300
 
 /**
  * Cron diario de emails de seguimiento (ver vercel.json).
@@ -30,6 +30,17 @@ export const maxDuration = 120
  */
 const DEFAULT_DAILY_CAP = 5
 const MAX_PER_RUN = 60
+
+/**
+ * Pausa entre envíos. Mandar N mails en el mismo segundo es una ráfaga que
+ * los filtros leen como automatizada; el correo legítimo sale espaciado.
+ * EMAIL_SEND_DELAY_MS en Vercel, o ?delayMs=N por corrida.
+ */
+const DEFAULT_SEND_DELAY_MS = 20_000
+/** Margen para que la función no se corte a la mitad de una tanda */
+const RUN_BUDGET_MS = (maxDuration - 45) * 1000
+
+const sleep = (ms: number) => new Promise<void>((r) => setTimeout(r, ms))
 const BASE_URL = () => process.env.NEXT_PUBLIC_APP_URL || 'https://rol-hub.com'
 
 export async function GET(req: NextRequest) {
@@ -55,6 +66,19 @@ export async function GET(req: NextRequest) {
       : DEFAULT_DAILY_CAP,
     MAX_PER_RUN
   )
+
+  // Pausa entre envíos y tope efectivo según el tiempo disponible
+  const requestedDelay = Number(req.nextUrl.searchParams.get('delayMs'))
+  const envDelay = Number(process.env.EMAIL_SEND_DELAY_MS)
+  const delayMs = Math.max(
+    0,
+    Number.isFinite(requestedDelay) && requestedDelay >= 0 ? requestedDelay
+      : Number.isFinite(envDelay) && envDelay >= 0 ? envDelay
+      : DEFAULT_SEND_DELAY_MS
+  )
+  // Con pausas, el límite real lo pone el timeout de la función, no el cap
+  const capByTime = delayMs > 0 ? Math.max(1, Math.floor(RUN_BUDGET_MS / delayMs)) : MAX_PER_RUN
+  const effectiveCap = Math.min(dailyCap, capByTime)
 
   const since = new Date(Date.now() - (maxAgeDays + 1) * 86400000)
   const users = await prisma.user.findMany({
@@ -86,7 +110,7 @@ export async function GET(req: NextRequest) {
     .sort((a, b) => TEMPLATE_PRIORITY.indexOf(a.template) - TEMPLATE_PRIORITY.indexOf(b.template))
 
   for (const { u, template } of candidates) {
-    if (plan.length >= dailyCap) break
+    if (plan.length >= effectiveCap) break
     const campaign = u.campaigns[0]
     const session = campaign?.sessions[0]
     const lastNarration = session?.turns[0]?.content ?? null
@@ -107,6 +131,9 @@ export async function GET(req: NextRequest) {
     plan.push({ userId: u.id, template, locale, to: u.email })
     if (dry) continue
 
+    // Espaciar: pausa ANTES de cada envío salvo el primero
+    if (results.length > 0 && delayMs > 0) await sleep(delayMs)
+
     const sent = await sendEmail(u.email, rendered, token ? `${base}/api/email/unsubscribe?u=${u.id}&t=${token}` : `${base}`)
     results.push({ userId: u.id, template, ok: sent.ok, id: sent.id, error: sent.error })
     if (sent.ok) {
@@ -121,6 +148,8 @@ export async function GET(req: NextRequest) {
     dry,
     maxAgeDays,
     dailyCap,
+    effectiveCap,
+    delayMs,
     configured: isEmailConfigured(),
     candidates: plan.length,
     byTemplate: plan.reduce<Record<string, number>>((a, p) => ((a[p.template] = (a[p.template] || 0) + 1), a), {}),

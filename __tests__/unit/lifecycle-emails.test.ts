@@ -220,3 +220,36 @@ describe('calentamiento del dominio: tope diario y prioridad', () => {
     expect(body.candidates).toBe(5)
   })
 })
+
+describe('cadencia: los mails salen espaciados, no en ráfaga', () => {
+  const mk = (id: string) => userRow(id, { totalTurns: 25, lastActiveAt: hh(25) })
+  it('con delayMs=0 no espacia (para tests y envíos puntuales)', async () => {
+    mockFindMany.mockResolvedValue([mk('a'), mk('b'), mk('c')])
+    const body = await (await cronGET(req('?cap=3&delayMs=0'))).json()
+    expect(body.delayMs).toBe(0)
+    expect(body.sent).toBe(3)
+  })
+  it('el tope efectivo se recorta por el timeout de la función', async () => {
+    // Con 60s de pausa y ~255s de presupuesto, no caben 20 mails
+    mockFindMany.mockResolvedValue(Array.from({ length: 20 }, (_, i) => mk('u' + i)))
+    const body = await (await cronGET(req('?dry=1&cap=20&delayMs=60000'))).json()
+    expect(body.dailyCap).toBe(20)
+    expect(body.effectiveCap).toBeLessThan(20)
+    expect(body.effectiveCap).toBeGreaterThan(0)
+    expect(body.candidates).toBe(body.effectiveCap)
+  })
+  it('espacia de verdad entre envíos', async () => {
+    vi.useFakeTimers()
+    try {
+      mockFindMany.mockResolvedValue([mk('a'), mk('b')])
+      const p = cronGET(req('?cap=2&delayMs=20000'))
+      await vi.waitFor(() => expect(mockSend).toHaveBeenCalledTimes(1))
+      expect(mockSend).toHaveBeenCalledTimes(1) // el 2º espera la pausa
+      await vi.advanceTimersByTimeAsync(20000)
+      const body = await (await p).json()
+      expect(body.sent).toBe(2)
+    } finally {
+      vi.useRealTimers()
+    }
+  })
+})
