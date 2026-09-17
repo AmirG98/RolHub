@@ -199,3 +199,24 @@ describe('middleware: el link de baja tiene que ser público', () => {
     expect(src).toContain("'/api/email/preview'")
   })
 })
+
+describe('calentamiento del dominio: tope diario y prioridad', () => {
+  const mk = (id: string, turns: number) => userRow(id, { totalTurns: turns, lastActiveAt: hh(25) })
+  it('?cap=2 manda solo 2 y prioriza paywall_followup sobre los demás', async () => {
+    // 2 que no jugaron, 2 a mitad, 2 en el paywall — con cap=2 tienen que
+    // salir los 2 del paywall (segmento más valioso), no los primeros por fecha
+    mockFindMany.mockResolvedValue([mk('w1', 1), mk('w2', 2), mk('c1', 10), mk('c2', 12), mk('p1', 25), mk('p2', 30)])
+    const body = await (await cronGET(req('?cap=2'))).json()
+    expect(body.dailyCap).toBe(2)
+    expect(body.sent).toBe(2)
+    expect(mockSend).toHaveBeenCalledTimes(2)
+    const subjects = mockSend.mock.calls.map((c) => c[1].subject)
+    for (const s of subjects) expect(s).toMatch(/3 days free|3 días gratis/)
+  })
+  it('sin cap explícito usa el default conservador de 5', async () => {
+    mockFindMany.mockResolvedValue(Array.from({ length: 12 }, (_, i) => mk('u' + i, 25)))
+    const body = await (await cronGET(req('?dry=1'))).json()
+    expect(body.dailyCap).toBe(5)
+    expect(body.candidates).toBe(5)
+  })
+})

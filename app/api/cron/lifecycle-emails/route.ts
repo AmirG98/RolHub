@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/db/prisma'
-import { pickTemplate, detectLocale, MAX_AGE_DAYS, MAX_AGE_DAYS_HARD_LIMIT, type EmailTemplate } from '@/lib/email/segments'
+import { pickTemplate, detectLocale, MAX_AGE_DAYS, MAX_AGE_DAYS_HARD_LIMIT, TEMPLATE_PRIORITY, type EmailTemplate } from '@/lib/email/segments'
 import { renderEmail, extractHook } from '@/lib/email/templates'
 import { sendEmail, isEmailConfigured } from '@/lib/email/send'
 import { unsubscribeToken } from '@/lib/email/unsubscribe-token'
@@ -20,6 +20,15 @@ export const maxDuration = 120
  * ?dry=1 → no manda ni registra: devuelve a quién le tocaría qué. Sin
  * RESEND_API_KEY también corre en seco. Protegido por CRON_SECRET.
  */
+/**
+ * Tope por corrida. Con un dominio SIN reputación de envío, mandar decenas
+ * de mails de golpe es la peor señal posible para Gmail (los 3 de prueba
+ * cayeron en spam el 17/9 con DKIM+SPF+DMARC correctos: el dominio nunca
+ * había enviado). Se calienta de a poco: EMAIL_DAILY_CAP en Vercel, o
+ * ?cap=N para una corrida puntual. Plan sugerido: 5/día la primera semana,
+ * 10/día la segunda, y recién después sin tope.
+ */
+const DEFAULT_DAILY_CAP = 5
 const MAX_PER_RUN = 60
 const BASE_URL = () => process.env.NEXT_PUBLIC_APP_URL || 'https://rol-hub.com'
 
@@ -36,6 +45,16 @@ export async function GET(req: NextRequest) {
   const maxAgeDays = Number.isFinite(requestedAge) && requestedAge > 0
     ? Math.min(requestedAge, MAX_AGE_DAYS_HARD_LIMIT)
     : MAX_AGE_DAYS
+
+  // Tope de envíos de esta corrida (calentamiento del dominio)
+  const requestedCap = Number(req.nextUrl.searchParams.get('cap'))
+  const envCap = Number(process.env.EMAIL_DAILY_CAP)
+  const dailyCap = Math.min(
+    Number.isFinite(requestedCap) && requestedCap > 0 ? requestedCap
+      : Number.isFinite(envCap) && envCap > 0 ? envCap
+      : DEFAULT_DAILY_CAP,
+    MAX_PER_RUN
+  )
 
   const since = new Date(Date.now() - (maxAgeDays + 1) * 86400000)
   const users = await prisma.user.findMany({
@@ -58,10 +77,16 @@ export async function GET(req: NextRequest) {
   const plan: Array<{ userId: string; template: EmailTemplate; locale: 'en' | 'es'; to: string }> = []
   const results: Array<{ userId: string; template: EmailTemplate; ok: boolean; id?: string; error?: string }> = []
 
-  for (const u of users) {
-    if (plan.length >= MAX_PER_RUN) break
-    const template = pickTemplate({ ...u, sent: u.emailLogs.map((l) => l.template) }, new Date(), maxAgeDays)
-    if (!template) continue
+  // Resolver la plantilla de cada candidato y ORDENAR por prioridad antes de
+  // aplicar el tope diario: con cap=5 tienen que salir primero los del
+  // paywall (el segmento más valioso), no los primeros 5 por fecha.
+  const candidates = users
+    .map((u) => ({ u, template: pickTemplate({ ...u, sent: u.emailLogs.map((l) => l.template) }, new Date(), maxAgeDays) }))
+    .filter((c): c is { u: typeof users[number]; template: EmailTemplate } => c.template !== null)
+    .sort((a, b) => TEMPLATE_PRIORITY.indexOf(a.template) - TEMPLATE_PRIORITY.indexOf(b.template))
+
+  for (const { u, template } of candidates) {
+    if (plan.length >= dailyCap) break
     const campaign = u.campaigns[0]
     const session = campaign?.sessions[0]
     const lastNarration = session?.turns[0]?.content ?? null
@@ -95,6 +120,7 @@ export async function GET(req: NextRequest) {
   return NextResponse.json({
     dry,
     maxAgeDays,
+    dailyCap,
     configured: isEmailConfigured(),
     candidates: plan.length,
     byTemplate: plan.reduce<Record<string, number>>((a, p) => ((a[p.template] = (a[p.template] || 0) + 1), a), {}),
