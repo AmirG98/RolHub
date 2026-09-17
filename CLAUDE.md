@@ -1676,7 +1676,36 @@ SESION 2026-08-26 — fix/ad-launch-readiness (SIN mergear, SIN deployar):
   El test lifecycle-emails corregido está en el scratchpad de la sesión
   (rows relativas a Date.now()).
 
+  BRANDON, DÍA COMPLETO (2026-09-16 14:22 → 21:59 UTC, una sola sentada de
+  7 h 37 min): 207 acciones + 208 narraciones (= los "415 turnos"). Nivel 4,
+  3 quests completadas 3/3, 8 vínculos NPC, 6 criaturas domadas, 40 tiradas
+  todas con dado estructurado, 44 acciones escritas a mano, 0 JSON, 0 combate
+  (Beast Tamer: doma en vez de pelear). El hilo "algo enorme al noreste" se
+  resolvió (menciones por bloque de 50 narraciones: 5,38,37,18,3,0,0,0) y la
+  historia pasó a arcos nuevos (camino de las tierras altas, Lens House).
+  Tras el deploy 236f563: cambios de escena 1 cada 5 narraciones (antes 1
+  cada 7), 0 menciones de "Inside" como personaje, la Marshwarden no volvió a
+  aparecer. Pendientes que dejó:
+  - La ficha de registro que el DM narra ("Class: Void-Adjacent", "Origin:",
+    "Temperament:") registró 44 "NPCs" en su campaña → el detector ahora
+    exige comilla tras "Nombre:" (con o sin **negrita**) para contar como
+    diálogo, + blocklist de etiquetas de ficha. Tests +3.
+  - El acto quedó en 2 con 3 quests cerradas: actDirective solo empuja el
+    acto 1. Falta un empujón para actos posteriores.
+  - Frase de apertura repetida ×9 ("The eastern highland road stretches
+    ahead of you") en 35 turnos de camino: estilístico, no bucle.
+  - Pidió "update my Wisdom to 12 at level 4" a mano: no hay ASI/subida de
+    stats en el level-up de 5e; el DM solo lo "anota".
+  ⚠ IMÁGENES EN PARTIDA = 0 EN PROD: en 7 días 132 imágenes = 132 sesiones =
+     solo la de apertura (server-side). Las imágenes de escena están gateadas
+     en el cliente por NEXT_PUBLIC_ENABLE_IMAGES === 'true' (GameSession:325),
+     variable de BUILD que en Vercel no está en true. /pricing promete
+     "AI-generated images" y un PRO recibió 1 imagen en 208 narraciones. FIX:
+     setear NEXT_PUBLIC_ENABLE_IMAGES=true en Vercel + redeploy (costo Fal
+     ~US$0.03-0.05 por scene_change; 166 cambios/semana ≈ US$5-8/semana).
+
   PENDIENTE:
+  - NEXT_PUBLIC_ENABLE_IMAGES=true en Vercel (imágenes en partida, hoy 0).
   - Decidir si la voz (TTS) queda para todos o solo PRO (costo Fish Audio).
   - Publicar el contenedor GTM (Submit → Publish) con el trigger nuevo.
   - Decisión: ¿el admin puede pisar a Polar? Hoy el sync/webhook re-suben a

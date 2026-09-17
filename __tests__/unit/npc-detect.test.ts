@@ -119,3 +119,17 @@ describe('fantasmas reales de prod 2026-09 (27 campañas contaminadas)', () => {
     expect(src).toContain('playerWantsToMove ? 0 : 3')
   })
 })
+
+describe('fichas/registros narrados no son diálogo (Brandon, 44 "NPCs" en una campaña)', () => {
+  it('"Class: Void-Adjacent" / "Origin: Ashfen" no registran NPC; el diálogo con comillas sí', () => {
+    const text = 'The clerk fills the form.\nClass: Void-Adjacent\nOrigin: Ashfen Marshes\nTemperament: calm\nTamability: high\nRegistry Clerk Voss: "Sign here, Tamer."\nKael «Bien hecho»'
+    expect(detectNpcNames(text)).toEqual(['Registry Clerk Voss', 'Kael'])
+  })
+  it('rechaza las etiquetas de ficha aunque vengan con comillas', () => {
+    for (const g of ['Form', 'Class', 'Origin', 'Taming', 'Tamability', 'Temperament', 'Classification', 'Taming Class', 'Primary Taming Credit']) expect(isValidNpcName(g)).toBe(false)
+    expect(isValidNpcName('Registry Clerk Voss')).toBe(true)
+  })
+  it('diálogo con comillas tipográficas y simples también cuenta', () => {
+    expect(detectNpcNames("Marshwarden: “I'm not a creature.” Milo: 'Fine.' **Aldric:** «Hola» **Kael**: \"Hey\"")).toEqual(['Marshwarden', 'Milo', 'Aldric', 'Kael'])
+  })
+})

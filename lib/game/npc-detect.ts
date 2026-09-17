@@ -11,8 +11,14 @@
 // Las clases incluyen diacríticos fantasy (Firindë, Eärendil, Völva).
 const UC = 'A-ZÁÉÍÓÚÑÄËÏÖÜÂÊÎÔÛ'
 const LC = 'a-záéíóúñäëïöüâêîôûàèìòù'
+// Solo cuenta como DIÁLOGO si tras "Nombre:" viene una comilla (o el « de
+// apertura, con o sin **negrita**): el DM escribe `Sera Voss: "..."` o
+// `**Aldric:** «...»`. Las fichas/registros que narra
+// ("Class: Void-Adjacent", "Origin: Ashfen", "Temperament: calm") no llevan
+// comillas y NO son personajes — en prod registraron 44 "NPCs" en una sola
+// campaña (Form, Class, Origin, Taming, Tamability, Classification...).
 export const NPC_DIALOGUE_REGEX = new RegExp(
-  `((?:[${UC}][${LC}]+)(?:\\s+(?:de|del|la|las|los|el)\\s+[${UC}][${LC}]+|\\s+[${UC}][${LC}]+){0,3})\\s*[:«]`,
+  `((?:[${UC}][${LC}]+)(?:\\s+(?:de|del|la|las|los|el)\\s+[${UC}][${LC}]+|\\s+[${UC}][${LC}]+){0,3})[*_]*\\s*(?::\\s*[*_]*\\s*["“«'‘]|«)`,
   'g'
 )
 
@@ -61,6 +67,9 @@ const FIRST_WORD_BLOCKLIST = new Set([
 // "Beast Flute", "Monster Manual").
 const ANY_WORD_BLOCKLIST = new Set([
   'rating', 'fauna', 'manual', 'bestiary', 'flute', 'status', 'contact',
+  'form', 'class', 'origin', 'taming', 'tamability', 'temperament',
+  'classification', 'formulario', 'clase', 'origen', 'temperamento',
+  'clasificación',
   'voice', 'unknown', 'figure', 'man', 'woman', 'stranger', 'inventory',
   'checklist', 'summary', 'notes', 'guide', 'map', 'key', 'token',
   'desconocido', 'desconocida', 'voz', 'figura', 'hombre', 'mujer', 'mapa',
