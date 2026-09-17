@@ -111,8 +111,10 @@ import { GET as cronGET } from '@/app/api/cron/lifecycle-emails/route'
 import { GET as unsubGET } from '@/app/api/email/unsubscribe/route'
 import { NextRequest } from 'next/server'
 
+// El cron usa Date.now() real: las filas se construyen relativas al reloj real
+const hh = (n: number) => new Date(Date.now() - n * 3600000)
 const userRow = (id: string, over: Record<string, unknown> = {}) => ({
-  id, email: `${id}@example.com`, plan: 'FREE', totalTurns: 25, createdAt: h(30), lastActiveAt: h(30), stripeCustomerId: null, stripeSubscriptionId: null, emailOptOut: false,
+  id, email: `${id}@example.com`, plan: 'FREE', totalTurns: 25, createdAt: hh(30), lastActiveAt: hh(30), stripeCustomerId: null, stripeSubscriptionId: null, emailOptOut: false,
   emailLogs: [], characters: [{ name: 'Tyr' }],
   campaigns: [{ name: 'Adventure in Zombie Apocalypse', lore: 'ZOMBIES', worldState: { current_scene: 'Base Camp' }, sessions: [{ id: 'sess_' + id, turns: [{ content: 'The gate creaks. Something moves in the dark beyond the fence.' }] }] }],
   ...over,
@@ -126,7 +128,7 @@ describe('GET /api/cron/lifecycle-emails', () => {
     expect((await cronGET(req('', 'Bearer nope'))).status).toBe(401)
   })
   it('dry run: planifica sin enviar ni registrar, mails enmascarados', async () => {
-    mockFindMany.mockResolvedValue([userRow('u1'), userRow('u2', { totalTurns: 10, lastActiveAt: h(25) }), userRow('u3', { totalTurns: 2, lastActiveAt: h(1) })])
+    mockFindMany.mockResolvedValue([userRow('u1'), userRow('u2', { totalTurns: 10, lastActiveAt: hh(25) }), userRow('u3', { totalTurns: 2, lastActiveAt: hh(1) })])
     const body = await (await cronGET(req('?dry=1'))).json()
     expect(body.dry).toBe(true)
     expect(body.candidates).toBe(2)
