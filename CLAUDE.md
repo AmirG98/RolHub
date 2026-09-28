@@ -1217,11 +1217,42 @@ REGLA: Una feature no está terminada hasta que tiene:
 
 ## 20. ESTADO ACTUAL DEL PROYECTO
 
-Ultima actualizacion: 2026-08-27
-Fase actual:         Pre-launch — LISTO PARA ADS (mergeado a main y deployado a prod)
-Ultima sesion:       Audit completo + ronda 2 + IP round 2, verificado E2E local y en prod
+Ultima actualizacion: 2026-09-28
+Fase actual:         EN PRODUCCION CON ADS — billing Polar.sh activo (BILLING_ENFORCED=true),
+                     6 suscriptores en trial/pago, campaña de emails lista para calentar dominio
+Ultima sesion:       2026-09-28 — sync del repo local (30 commits traídos, entorno verificado)
 
-SESION 2026-08-26 — fix/ad-launch-readiness (SIN mergear, SIN deployar):
+RESUMEN EJECUTIVO (leer esto primero si no hay tiempo para el resto):
+  - Billing: Polar.sh (Merchant of Record). Paddle (rechazó por IP ×2) y Lemon
+    Squeezy (reemplazado en PR #8) quedaron descartados. Producto único PRO
+    USD 8.99/mes con TRIAL GRATIS de 3 días en Polar; en la app FREE = 25
+    turnos jugados. Paywall activo desde 2026-08-27. Primer cobro real esperado
+    tras el trial de los suscriptores de septiembre. Portal de Polar desde
+    /pricing para gestionar/cancelar.
+  - DM: salida estructurada forzada por tool use (lib/claude/dm-tool.ts) +
+    parser de llaves balanceadas (parse-dm-response.ts) → 0 JSON en narración
+    desde el 2026-09-10. Anti-bucle (lib/game/pacing.ts): turns_in_scene,
+    quests con ids completables, act_advance, hilos cerrados, candado de escena.
+  - Idioma: inglés por defecto (ads), toggle ES. IP: 3 rondas de rebrand + gate
+    en CI (ip-blocklist.test.ts) + anti-ip-directive por lore (incl. CYBERPUNK).
+  - Emails de seguimiento con Resend (lib/email/*, cron diario 15:00 UTC), con
+    tope diario y envíos espaciados porque el dominio no tiene reputación aún.
+  - Suite: 566 tests, tsc 0. Nightly playtest SIGUE sin secrets en GitHub.
+
+SESION 2026-09-28 — sync del repo local (sin cambios de código):
+  El clon local estaba en 3b2ea66 (julio, pre-Polar). Se trajeron 30 commits
+  (b1c8b06..a3aea68), npm install, prisma generate, DB de prod verificada en
+  sync con el schema (migrate diff vacío), .next viejo borrado (referenciaba
+  la ruta de Lemon Squeezy eliminada), tsc 0, 566/566 tests.
+  ⚠ .env.local NO tiene las env vars nuevas (solo importan para probar billing/
+    emails/CAPI en local): POLAR_ACCESS_TOKEN, POLAR_WEBHOOK_SECRET,
+    POLAR_PRODUCT_ID, POLAR_PRICE_ID_MONTHLY, POLAR_SERVER, RESEND_API_KEY,
+    EMAIL_FROM, EMAIL_UNSUBSCRIBE_SECRET, EMAIL_DAILY_CAP, EMAIL_SEND_DELAY_MS,
+    META_PIXEL_ID, META_CAPI_ACCESS_TOKEN, NEXT_PUBLIC_APP_URL. En Vercel sí
+    están (prod funciona). Cargarlas a mano si hace falta; nunca por chat.
+  Nota: la rama remota fix/ad-launch-readiness ya está mergeada en main.
+
+SESION 2026-08-26 — fix/ad-launch-readiness (mergeado a2d9426, deployado 2026-08-27):
   CONTEXTO: Polar.sh aprobado e integrado (billing verificado E2E en prod). Antes de
   prender ads en inglés ("the first RPG platform with an autonomous DM across multiple
   worlds"), se auditó todo. Decisiones del user: (1) default inglés siempre + toggle ES;
@@ -1725,13 +1756,41 @@ SESION 2026-08-26 — fix/ad-launch-readiness (SIN mergear, SIN deployar):
     Resend (DNS). Segmentos al 15/09: 13 welcome_back, 15 come_back,
     10 paywall_followup. Tests: lifecycle-emails.test.ts (14).
 
+  EMAILS — AJUSTES PRE-PRIMER ENVÍO (2026-09-17, 5 commits d392d34..a3aea68):
+  ✅ paywall_followup menciona "3 días gratis" en asunto y cuerpo (decisión
+     del user: es el argumento más fuerte y baja la fricción de la tarjeta).
+  ✅ ?maxAgeDays=N en el cron amplía la ventana de 14 días para una corrida
+     puntual (tope duro 45) — para incluir por única vez a los 3 usuarios del
+     31/8 y 9/9 que llegaron al paywall. (Cubre el pendiente "email de
+     recuperación a quienes agotaron el trial".)
+  ✅ /api/email/preview (CRON_SECRET): ?template=X devuelve el HTML;
+     ?to=mail manda las 3 plantillas con asunto [TEST]. No toca la DB.
+  ✅ BUG: /api/email/unsubscribe devolvía 401 (el middleware solo tenía
+     /api/cron como público) → NADIE podía darse de baja. Ambas rutas de
+     /api/email al matcher público; la baja se protege por HMAC y la preview
+     valida CRON_SECRET adentro. Test de regresión.
+  ✅ CALENTAMIENTO DE DOMINIO: los 3 mails de prueba cayeron en SPAM en dos
+     casillas con DKIM+SPF+DMARC correctos (dominio sin reputación). Por eso:
+     - EMAIL_DAILY_CAP (Vercel) o ?cap=N, default conservador 5. Candidatos
+       ordenados por prioridad de segmento ANTES del tope (paywall primero).
+     - Pausa de 20s entre envíos (EMAIL_SEND_DELAY_MS o ?delayMs=N).
+       maxDuration 120→300; el tope efectivo se recorta por presupuesto de
+       tiempo. Tests con fake timers (lifecycle-emails: 21+).
+     Subir el cap de a poco (5 → 10 → 20) a medida que el dominio gane
+     reputación; revisar la carpeta de spam en los primeros envíos.
+
   PENDIENTE:
   - Decidir si la voz (TTS) queda para todos o solo PRO (costo Fish Audio).
   - Publicar el contenedor GTM (Submit → Publish) con el trigger nuevo.
   - Decisión: ¿el admin puede pisar a Polar? Hoy el sync/webhook re-suben a
     PRO a quien tenga suscripción activa/trialing en Polar (Keynan volvió a
     PRO tras el downgrade manual). Si se quiere, agregar bandera de bloqueo.
-  - Email de recuperación a quienes agotaron el trial (3 mails en la DB).
+  - ✅ Email de recuperación a quienes agotaron el trial → cubierto por
+    paywall_followup + ?maxAgeDays (falta ejecutar la corrida puntual).
+  - Nightly playtest: secrets ANTHROPIC_API_KEY / PLAYTEST_BYPASS_TOKEN /
+    AUTOFIX_PAT siguen sin cargar en GitHub → el workflow falla cada noche.
+  - Refactor pendiente del review: quitar JSON template + OUTPUT RULES del
+    prompt (tool schema manda; ~1.6K tokens/turno) + cache_control.
   - Vercel logs ~2026-09-09 12:36 UTC: qué le pasó a Riann (2 creates, 0 acciones).
   - ✅ BILLING_ENFORCED=true PRENDIDO en Vercel (2026-08-27) — paywall ACTIVO en prod.
     Verificado via /api/health que ahora expone billing_enforced. FREE = 25 turnos
@@ -1743,9 +1802,15 @@ SESION 2026-08-26 — fix/ad-launch-readiness (SIN mergear, SIN deployar):
     (Club Afterlife, Torre Arasaka, Naboo...) pueden perder el match de sub-locación
     hasta el próximo scene_change del DM. Riesgo aceptado (IP > continuidad).
 
-SESION 2026-07-05 (tarde) — feature/skills-and-playtest (SIN mergear aun):
+─────────────────────────────────────────────────────────────────────────
+HISTORIAL (julio 2026) — todo lo de abajo YA ESTÁ MERGEADO Y EN PROD.
+Se conserva como referencia de arquitectura; el estado vivo es lo de arriba.
+Entre julio y agosto además se hizo: bilingual abilities (PR #4), bugs de
+jugadores reales (PR #5), rebrand anti-IP round 1 (PR #6), Lemon Squeezy
+(PR #7, luego reemplazado por Polar en PR #8).
+─────────────────────────────────────────────────────────────────────────
 
-SESION 2026-07-05 (tarde) — feature/skills-and-playtest (SIN mergear aun):
+SESION 2026-07-05 (tarde) — feature/skills-and-playtest (mergeado en PR #2):
   ARBOL DE HABILIDADES (por logros/milestones, por arquetipo por lore):
   ✅ lib/types/skill-tree.ts, lib/validation/skill-tree.schema.ts (Zod),
      lib/game/milestones.ts (motor), lib/game/skill-trees.ts (registry)
@@ -1786,9 +1851,7 @@ SESION 2026-07-05 (tarde) — feature/skills-and-playtest (SIN mergear aun):
   - Nota: el enforcement del DMResponse schema esta en WARNING mode; endurecer
     tras ver la tasa de violaciones real en prod
 
-SESION 2026-07-05 (manana) — security-hardening verificada en local:
-
-SESION 2026-07-05 — security-hardening verificada en local:
+SESION 2026-07-05 (manana) — security-hardening (mergeado y deployado):
   ✅ Branch security-hardening checkouteada, npm install, prisma db push OK
      (tabla RateLimit + indices en Turn/Session creados en Supabase)
   ✅ 9 env vars nuevas agregadas a .env.local (ADMIN_EMAILS, CRON_SECRET,
