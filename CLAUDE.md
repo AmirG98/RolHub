@@ -1220,7 +1220,7 @@ REGLA: Una feature no está terminada hasta que tiene:
 Ultima actualizacion: 2026-09-28
 Fase actual:         EN PRODUCCION CON ADS — billing Polar.sh activo (BILLING_ENFORCED=true),
                      6 suscriptores en trial/pago, campaña de emails lista para calentar dominio
-Ultima sesion:       2026-09-28 — sync del repo local (30 commits traídos, entorno verificado)
+Ultima sesion:       2026-09-28 — mobile scroll + análisis de engagement + 8 fixes (ver abajo)
 
 RESUMEN EJECUTIVO (leer esto primero si no hay tiempo para el resto):
   - Billing: Polar.sh (Merchant of Record). Paddle (rechazó por IP ×2) y Lemon
@@ -1251,6 +1251,66 @@ SESION 2026-09-28 — sync del repo local (sin cambios de código):
     META_PIXEL_ID, META_CAPI_ACCESS_TOKEN, NEXT_PUBLIC_APP_URL. En Vercel sí
     están (prod funciona). Cargarlas a mano si hace falta; nunca por chat.
   Nota: la rama remota fix/ad-launch-readiness ya está mergeada en main.
+
+SESION 2026-09-28 (tarde) — MOBILE + ANÁLISIS DE ENGAGEMENT + FIXES (cf5a6c9 + siguiente):
+  ✅ SCROLL MOBILE ROTO EN TODO EL SITIO: .particle-bg tenía overflow-y:auto y
+     su ::before de 200% de alto lo hacía scroll container con ~1.800px de
+     espacio fantasma (medido: scrollHeight 4634 vs 2797). 3 scrollers
+     anidados bajo el dedo (narración → wrapper → ventana). Fix: ::before
+     fixed al viewport, wrapper sin overflow; backdrop-filter off en <768px
+     (blur en cada tarjeta = jank); overscroll-contain en la narración.
+     Landing recortada 35px por lado en 375px (hero sin min-w-0 + footer sin
+     wrap) → arreglado. Verificado en DOM local y en el bundle de prod.
+  ANÁLISIS DE ENGAGEMENT (agente, DB de prod 07/09→28/09, 123 registrados +
+  109 guests; reporte completo en scratchpad engagement-report.md):
+  - 36% de registrados llega a 25 turnos en ~61 min; 31 paran EXACTAMENTE
+    en 25 (hazard 70% vs 2-8% en otros turnos). 13 trial → 8 PRO (18%).
+  - Retorno otro día: FREE 12%, guests 3%, PRO 75%. 0 retornos por email.
+  - Guests: hazard 31%/29%/23% en turnos 0/1/2; 50% de las primeras
+    acciones eran los 3 botones genéricos. NO es bug (apertura y 1ª
+    respuesta llegan 100%): es diseño/expectativa.
+  - VETERAN (69%) juega la mitad que NOVICE (mediana 6 vs 17). ROMANTASY:
+    44% nunca actúa (acciones NSFW). PBTA/YEAR_ZERO: 56-64% abandona ≤3.
+  - Latencia ~15-30s/turno sin streaming (gap p05 25-33s); dobles submit.
+  - Anomalías: SummaryCheckpoint=0, CombatEncounter=0 (combate es narrativo,
+    by design), fallos de Claude invisibles (no se persiste el USER turn),
+    signups de Clerk sin campaña invisibles (User se crea lazy).
+  FIXES APLICADOS (572 tests, tsc 0, verificado E2E en browser):
+  ✅ BUG: app/play/[sessionId]/page.tsx NO serializaba turn.diceRolls → las
+     suggested_actions de la apertura nunca llegaban a GameSession y TODOS
+     arrancaban con "I examine the area for dangers" (1ª acción #1 en prod,
+     51 veces). Ahora se serializa y el seed toma el ÚLTIMO turno DM con
+     sugerencias.
+  ✅ APERTURA con 3 acciones ESPECÍFICAS de la escena (opening-turn.ts pide
+     JSON {narration, actions}; parseOpeningJson tolera fences; fallback a
+     genéricas). Visto en vivo: "Ask the halfling woman what troubles
+     Oldford" / "Cross the bridge and investigate the empty market" / "Draw
+     your blade and demand answers about the silence".
+  ✅ BUG: el summarizer NUNCA corrió en prod: `total % 10 === 0` pero el total
+     de turnos es siempre impar (apertura 1 + pares USER/DM). Nuevo
+     shouldTriggerSummary() (cruce de decena) + after() de next/server para
+     que Vercel no mate la promesa. Tests engagement-fixes.test.ts.
+  ✅ Turn.latencyMs (schema + db push aplicado en prod): ms desde la acción
+     hasta persistir la narración. Medido en local: 15.7s.
+  ✅ NarratorThinking: indicador de espera en 3 fases (0/6/16s) en vez de un
+     texto fijo 25s.
+  ✅ Gancho de retorno: al reabrir con >1h idle, card "Anteriormente en tu
+     historia" con las últimas 2 frases del DM + auto-scroll al final (antes
+     el que volvía veía la apertura y tenía que scrollear todo).
+  ✅ Paywall: trialEndedSub/chapterCompleteSub dicen "3 días gratis, sin cargo
+     hoy, cancelás cuando quieras" (Polar tiene trial de 3 días; 31 personas
+     rebotaron en un paywall que no lo decía).
+  ✅ ModeSelector: STORY_MODE/DND_5E con badge "Recomendado", PBTA/YEAR_ZERO
+     "Avanzado".
+  NO HECHO / DECISIONES PENDIENTES DEL USER:
+  - FREE_TRIAL_TURNS sigue en 25. Con los datos, subirlo a ~40 o cerrar el
+    capítulo 1 con final real es la palanca más grande, pero es decisión de
+    costo/negocio.
+  - Streaming de la narración (cambio grande en un route de 3000 líneas).
+  - Webhook Clerk user.created para medir el drop-off del onboarding (config
+    en el dashboard de Clerk).
+  - Persistir el USER turn cuando Claude falla (hoy invisible).
+  - ROMANTASY: ajustar expectativas en la card del mundo (acciones NSFW).
 
 SESION 2026-08-26 — fix/ad-launch-readiness (mergeado a2d9426, deployado 2026-08-27):
   CONTEXTO: Polar.sh aprobado e integrado (billing verificado E2E en prod). Antes de

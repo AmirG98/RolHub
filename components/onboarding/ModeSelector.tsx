@@ -164,10 +164,13 @@ export function ModeSelector({ selectedTutorialLevel, onSelect, onBack }: ModeSe
 
             <div className="grid grid-cols-2 gap-3 max-w-lg mx-auto">
               {[
-                { id: 'STORY_MODE' as GameEngine, icon: '📚', name: isEN ? 'Pure Narrative' : 'Narrativo Puro', desc: isEN ? 'No complex rules' : 'Sin reglas complejas', color: 'text-neon-blue' },
-                { id: 'DND_5E' as GameEngine, icon: '🐉', name: isEN ? '5e Rules (SRD)' : 'Reglas 5e (SRD)', desc: isEN ? 'd20 + ability scores' : 'd20 + habilidades', color: 'text-neon-purple' },
-                { id: 'PBTA' as GameEngine, icon: '🎲', name: isEN ? 'Simple Dice' : 'Dados Simples', desc: isEN ? '2d6, partial successes' : '2d6, éxitos parciales', color: 'text-gold' },
-                { id: 'YEAR_ZERO' as GameEngine, icon: '💀', name: isEN ? 'Survival' : 'Supervivencia', desc: isEN ? 'Scarce resources, push your luck' : 'Recursos escasos, arriesgá', color: 'text-blood' },
+                // Datos de prod (sep 2026): STORY_MODE y DND_5E retienen 2-3x mejor que
+                // PBTA/YEAR_ZERO (mediana 8 vs 2 acciones) → se marcan como recomendados
+                // y los otros dos como avanzados.
+                { id: 'STORY_MODE' as GameEngine, icon: '📚', name: isEN ? 'Pure Narrative' : 'Narrativo Puro', desc: isEN ? 'No complex rules' : 'Sin reglas complejas', color: 'text-neon-blue', badge: isEN ? 'Recommended' : 'Recomendado' },
+                { id: 'DND_5E' as GameEngine, icon: '🐉', name: isEN ? '5e Rules (SRD)' : 'Reglas 5e (SRD)', desc: isEN ? 'd20 + ability scores' : 'd20 + habilidades', color: 'text-neon-purple', badge: isEN ? 'Recommended' : 'Recomendado' },
+                { id: 'PBTA' as GameEngine, icon: '🎲', name: isEN ? 'Simple Dice' : 'Dados Simples', desc: isEN ? '2d6, partial successes' : '2d6, éxitos parciales', color: 'text-gold', badge: isEN ? 'Advanced' : 'Avanzado' },
+                { id: 'YEAR_ZERO' as GameEngine, icon: '💀', name: isEN ? 'Survival' : 'Supervivencia', desc: isEN ? 'Scarce resources, push your luck' : 'Recursos escasos, arriesgá', color: 'text-blood', badge: isEN ? 'Advanced' : 'Avanzado' },
               ].map(eng => (
                 <button
                   key={eng.id}
@@ -187,6 +190,9 @@ export function ModeSelector({ selectedTutorialLevel, onSelect, onBack }: ModeSe
                   }}
                 >
                   <div className="text-2xl mb-1">{eng.icon}</div>
+                  <span className={`inline-block mb-1 px-1.5 py-0.5 rounded font-ui text-[9px] uppercase tracking-wider ${
+                    eng.badge === 'Recommended' || eng.badge === 'Recomendado' ? 'bg-gold/20 text-gold-bright' : 'bg-parchment/10 text-parchment/40'
+                  }`}>{eng.badge}</span>
                   <h3 className="font-heading text-sm text-parchment">{eng.name}</h3>
                   <p className={`font-ui text-[10px] ${eng.color}`}>{eng.desc}</p>
                 </button>

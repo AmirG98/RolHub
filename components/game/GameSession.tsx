@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useEffect, useCallback } from 'react'
+import { useState, useRef, useMemo, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import { TRIAL_WARNING_TURNS } from '@/lib/plans/check-access'
 import { resolveNumericChoice } from '@/lib/game/numeric-choice'
@@ -56,6 +56,7 @@ import {
 import { DeathSaveTracker } from '@/components/game/DeathSaveTracker'
 import { LevelUpModal } from '@/components/game/LevelUpModal'
 import { GameTutorialTour } from '@/components/game/GameTutorialTour'
+import { NarratorThinking } from '@/components/game/NarratorThinking'
 import { UpgradePrompt } from '@/components/billing/UpgradePrompt'
 import dynamic from 'next/dynamic'
 
@@ -418,13 +419,29 @@ export default function GameSession({
   // Combat is now handled narratively — no separate handlers needed
   // The DM narrates combat actions and results through the normal turn system
 
-  // Auto-scroll cuando hay nuevos turnos (no en carga inicial)
+  // Auto-scroll cuando hay nuevos turnos, y también al REANUDAR una partida
+  // con historia: el que volvía veía la apertura y tenía que scrollear todo
+  // (dato de prod: 12% de retorno FREE — no se lo hagamos más difícil).
   const initialTurnCount = useRef(turns.length)
   useEffect(() => {
-    if (scrollRef.current && turns.length > initialTurnCount.current) {
+    if (scrollRef.current && (turns.length > initialTurnCount.current || initialTurnCount.current > 1)) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight
     }
   }, [turns])
+
+  // Gancho de retorno: si la última jugada fue hace >1h, mostramos "Anteriormente…"
+  // con la última frase del DM para volver a entrar en la ficción sin releer todo.
+  const previouslyOn = useMemo(() => {
+    if (initialTurns.length < 3) return null
+    const last = initialTurns[initialTurns.length - 1]
+    const idleMs = Date.now() - new Date(last.createdAt).getTime()
+    if (!(idleMs > 60 * 60 * 1000)) return null
+    const lastDM = [...initialTurns].reverse().find((t) => t.role === 'DM' && t.content.length > 40)
+    if (!lastDM) return null
+    const sentences = lastDM.content.replace(/\s+/g, ' ').match(/[^.!?]+[.!?]+/g) || [lastDM.content]
+    return sentences.slice(-2).join(' ').trim().slice(0, 320)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   // Portrait splash on session start
   useEffect(() => {
@@ -464,10 +481,12 @@ export default function GameSession({
     if (initialWorldState.last_suggested_actions?.length > 0) {
       setSuggestedActions(initialWorldState.last_suggested_actions)
     } else if (initialTurns.length > 0) {
-      const firstTurn = initialTurns[0]
-      if (firstTurn.diceRolls?.suggested_actions && Array.isArray(firstTurn.diceRolls.suggested_actions)) {
-        setSuggestedActions(firstTurn.diceRolls.suggested_actions)
-      }
+      // Último turno DM que traiga sugerencias (la apertura las guarda en
+      // diceRolls.suggested_actions). Antes se miraba solo initialTurns[0].
+      const withSuggestions = [...initialTurns].reverse().find(
+        (t) => t.role === 'DM' && Array.isArray(t.diceRolls?.suggested_actions) && t.diceRolls.suggested_actions.length > 0
+      )
+      if (withSuggestions) setSuggestedActions(withSuggestions.diceRolls.suggested_actions)
     }
 
     // Cargar imagen de escena persistida en worldState
@@ -1246,6 +1265,17 @@ export default function GameSession({
 
                 {/* overscroll-contain: al llegar al fondo de la narración el gesto
                     no se encadena a la página (saltos en mobile) */}
+                {previouslyOn && (
+                  <button
+                    type="button"
+                    onClick={() => { if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight }}
+                    className="mb-3 w-full text-left rounded-lg border border-gold/40 bg-gold/10 px-3 py-2 hover:bg-gold/15 transition"
+                  >
+                    <div className="font-heading text-[10px] uppercase tracking-wider text-gold-dim mb-1">{t.game.previouslyOn}</div>
+                    <p className="font-body text-sm italic text-ink/80 line-clamp-3">“{previouslyOn}”</p>
+                    <div className="font-ui text-xs text-gold mt-1">{t.game.previouslyOnCta}</div>
+                  </button>
+                )}
                 <div ref={scrollRef} className="space-y-3 md:space-y-4 overflow-y-auto overscroll-contain flex-1 min-h-0 pr-1 md:pr-2">
                   {turns.length === 0 ? (
                     <div className="text-center py-8">
@@ -1365,7 +1395,7 @@ export default function GameSession({
                           style={{ animationDelay: '0.2s' }}
                         />
                         <span className="font-body text-parchment/60 ml-2">
-                          {t.game.narratorThinking}
+                          <NarratorThinking />
                         </span>
                       </div>
                     </div>

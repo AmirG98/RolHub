@@ -10,6 +10,18 @@ const anthropic = new Anthropic({
 
 const HAIKU_MODEL = process.env.UTILITY_MODEL || 'claude-haiku-4-5-20251001'
 
+/**
+ * ¿Hay que disparar el summarizer después de persistir este par USER+DM?
+ * El total de turnos de una sesión es SIEMPRE impar (apertura de 1 turno +
+ * pares USER/DM), así que `total % 10 === 0` no se cumplía nunca → 0
+ * checkpoints en prod en sesiones de 400+ turnos. Dispara cuando el total
+ * cruza un múltiplo de 10 respecto del total anterior (total - 2).
+ */
+export function shouldTriggerSummary(totalTurnsAfterThisTurn: number): boolean {
+  if (totalTurnsAfterThisTurn < 20) return false
+  return Math.floor(totalTurnsAfterThisTurn / 10) > Math.floor((totalTurnsAfterThisTurn - 2) / 10)
+}
+
 interface TurnForSummary {
   role: string
   content: string

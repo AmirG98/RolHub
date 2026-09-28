@@ -148,6 +148,9 @@ model Turn {
   characterName    String?    // Character name for display
   playerName       String?    // Player username for display
   turnOrder        Int?       // Order in combat
+  // Ms desde que llegó la acción hasta que se persistió la narración (solo DM).
+  // Instrumentación: la latencia real de Claude era invisible en la DB.
+  latencyMs        Int?
   createdAt        DateTime   @default(now())
 
   @@index([sessionId, createdAt])

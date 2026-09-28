@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { after, NextRequest, NextResponse } from 'next/server'
 import { auth } from '@clerk/nextjs/server'
 import { prisma, withRetry } from '@/lib/db/prisma'
 import Anthropic from '@anthropic-ai/sdk'
@@ -14,7 +14,7 @@ import { type Lore as LoreType } from '@/lib/maps/map-config'
 import { type NavigationLockReason, type LocationKnowledgeLevel, type DynamicMapLocation } from '@/lib/types/map-state'
 import { calculateRelativePosition, normalizeLegacyCoordinates } from '@/lib/maps/position-calculator'
 import { type Quest, type QuestUpdate } from '@/lib/types/quest'
-import { generateSummaryCheckpoint } from '@/lib/claude/session-summarizer'
+import { generateSummaryCheckpoint, shouldTriggerSummary } from '@/lib/claude/session-summarizer'
 import { updateUserProgress, type ProgressUpdate } from '@/lib/game/user-progress'
 import { normalizeMilestones, recordMilestoneEvent, detectNewUnlockables } from '@/lib/game/milestones'
 import { getSkillTree } from '@/lib/game/skill-trees'
@@ -2968,6 +2968,7 @@ INSTRUCCIONES PARA HABILIDADES:
           role: 'DM',
           content: fullNarration,
           createdAt: dmTurnAt, // +1ms que el USER: orden determinístico del par
+          latencyMs: Date.now() - playerTurnAt.getTime(),
           worldStatePatch: dmTurnPatch,
         },
       }),
@@ -3011,7 +3012,12 @@ INSTRUCCIONES PARA HABILIDADES:
     try {
       const totalAfterThisTurn = await prisma.turn.count({ where: { sessionId: session.id } })
 
-      if (totalAfterThisTurn >= 20 && totalAfterThisTurn % 10 === 0) {
+      // BUG HISTÓRICO: la condición era `total % 10 === 0`, pero cada acción
+      // persiste USER+DM (+2) sobre una apertura de 1 turno → el total es
+      // SIEMPRE impar y el summarizer no corrió NUNCA en prod (0 checkpoints
+      // en sesiones de 400+ turnos). Ahora dispara cuando el total CRUZA un
+      // múltiplo de 10 respecto del turno anterior (total - 2).
+      if (shouldTriggerSummary(totalAfterThisTurn)) {
         // El chunk que queremos comprimir es [end-19, end-10] (los 10 turnos que
         // están justo afuera de la ventana activa de últimos 10).
         const chunkEndIndex = totalAfterThisTurn - 10 // 1-indexed turn number
@@ -3033,17 +3039,21 @@ INSTRUCCIONES PARA HABILIDADES:
           })
 
           if (chunkTurnsDb.length === 10) {
-            // Fire-and-forget — no await, no bloquea la respuesta
-            generateSummaryCheckpoint(
-              session.id,
-              chunkTurnsDb.map(t => ({ role: t.role as string, content: t.content })),
-              chunkStartIndex,
-              worldState,
-              session.campaign.lore,
-              locale as 'es' | 'en'
-            ).catch((err) => {
-              console.error('[turn] background summarizer failed:', err)
-            })
+            // after(): en Vercel una promesa suelta puede morir al congelarse
+            // la función tras el response; after() la mantiene viva sin
+            // bloquear al jugador.
+            after(() =>
+              generateSummaryCheckpoint(
+                session.id,
+                chunkTurnsDb.map(t => ({ role: t.role as string, content: t.content })),
+                chunkStartIndex,
+                worldState,
+                session.campaign.lore,
+                locale as 'es' | 'en'
+              ).catch((err) => {
+                console.error('[turn] background summarizer failed:', err)
+              })
+            )
           }
         }
       }

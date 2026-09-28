@@ -156,6 +156,10 @@ export const translations = {
       youLabel: 'Tú',
       systemLabel: 'Sistema',
       narratorThinking: 'El narrador está tejiendo la historia...',
+      narratorThinking2: 'Calculando las consecuencias de tu acción...',
+      narratorThinking3: 'Casi listo — la escena está tomando forma...',
+      previouslyOn: 'Anteriormente en tu historia',
+      previouslyOnCta: 'Continuá donde lo dejaste ↓',
       // Stats
       viewSheet: 'Ver Hoja',
       hideSheet: 'Ocultar',
@@ -588,7 +592,7 @@ export const translations = {
     // Upgrade prompts
     upgrade: {
       trialEnded: 'Tu capítulo de prueba ha terminado',
-      trialEndedSub: 'Tu aventura te espera. Suscribite para continuar la historia.',
+      trialEndedSub: 'Tu aventura te espera. Probá Pro 3 días gratis — sin cargo hoy, cancelás cuando quieras.',
       expired: 'Tu suscripción ha expirado',
       expiredSub: 'Renová para volver al reino.',
       cta: 'Ver planes',
@@ -596,7 +600,7 @@ export const translations = {
       turnsLeft: 'Te quedan {n} turnos gratis',
       lastTurn: 'Este es tu último turno gratis — el DM cierra el capítulo',
       chapterComplete: 'Capítulo gratis completo',
-      chapterCompleteSub: 'Tu historia sigue del otro lado. Suscribite para continuarla.',
+      chapterCompleteSub: 'Tu historia sigue del otro lado. 3 días gratis, sin cargo hoy — cancelás cuando quieras.',
       keepPlaying: 'Seguir jugando',
     },
 
@@ -771,6 +775,10 @@ export const translations = {
       youLabel: 'You',
       systemLabel: 'System',
       narratorThinking: 'The narrator is weaving the story...',
+      narratorThinking2: 'Working out the consequences of your action...',
+      narratorThinking3: 'Almost there — the scene is taking shape...',
+      previouslyOn: 'Previously in your story',
+      previouslyOnCta: 'Pick up where you left off ↓',
       // Stats
       viewSheet: 'View Sheet',
       hideSheet: 'Hide',
@@ -1203,7 +1211,7 @@ export const translations = {
     // Upgrade prompts
     upgrade: {
       trialEnded: 'Your trial chapter has ended',
-      trialEndedSub: 'Your adventure awaits. Subscribe to continue the story.',
+      trialEndedSub: 'Your adventure awaits. Try Pro free for 3 days — no charge today, cancel anytime.',
       expired: 'Your subscription has expired',
       expiredSub: 'Renew to return to the realm.',
       cta: 'View plans',
@@ -1211,7 +1219,7 @@ export const translations = {
       turnsLeft: '{n} free turns left',
       lastTurn: 'This is your last free turn — the DM will close the chapter',
       chapterComplete: 'Free chapter complete',
-      chapterCompleteSub: 'Your story continues on the other side. Subscribe to keep playing.',
+      chapterCompleteSub: 'Your story continues on the other side. 3 days free, no charge today — cancel anytime.',
       keepPlaying: 'Keep playing',
     },
 

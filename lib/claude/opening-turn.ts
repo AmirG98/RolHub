@@ -52,7 +52,9 @@ STRICT RULES:
 - Total length: 60-100 words. Be concise and evocative.
 - Atmospheric sensory detail, but no filler.
 - End with a single short question asking what the player wants to do.
-- Output PLAIN TEXT only. NO markdown, NO headings (no "#", no "##"), NO titles, NO stage directions, NO meta commentary. Just the narration prose.
+- The narration is PLAIN TEXT prose: NO markdown, NO headings, NO titles, NO stage directions, NO meta commentary.
+- Also give exactly 3 suggested actions, SPECIFIC to this scene (name the actual things, places or people you just described — never generic like "look around" or "explore"). First person, 4-9 words each. One social, one exploratory, one bold or risky.
+- Respond ONLY with a JSON object: {"narration": "...", "actions": ["...", "...", "..."]}
 - The world summary and location name below may contain Spanish words or proper names. Translate EVERY place name, proper noun, and word into natural English (e.g. "Vado Viejo" → "Oldford", "medianos" → "halflings", "umbríos" → "shadowkin"). Never leave a Spanish word in the narration.`
     : `Sos el DM de una partida de rol. Escribí una narración de apertura CORTA — lo primero que el jugador va a leer.
 
@@ -62,7 +64,9 @@ REGLAS ESTRICTAS:
 - Largo total: 60-100 palabras. Concisa y evocativa.
 - Detalle sensorial atmosférico, sin relleno.
 - Terminá con una sola pregunta corta sobre qué quiere hacer el jugador.
-- Devolvé TEXTO PLANO. NADA de markdown, NADA de títulos ni headings (nada de "#" ni "##"), nada de acotaciones, nada de meta-comentarios. Solo la prosa narrativa.`
+- La narración es prosa en TEXTO PLANO: nada de markdown, títulos, acotaciones ni meta-comentarios.
+- Además, dá exactamente 3 acciones sugeridas ESPECÍFICAS de esta escena (nombrá las cosas, lugares o personas que acabás de describir — nunca genéricas tipo "mirar alrededor" o "explorar"). Primera persona, 4-9 palabras cada una. Una social, una de exploración, una audaz o arriesgada.
+- Respondé SOLO con un objeto JSON: {"narration": "...", "actions": ["...", "...", "..."]}`
 
   const userMessage = locale === 'en'
     ? `Lore: ${loreName}
@@ -91,9 +95,12 @@ Escribí la narración de apertura ahora.`
     })
 
     const textBlock = response.content.find((b) => b.type === 'text')
-    let introContent = textBlock && 'text' in textBlock ? textBlock.text.trim() : ''
+    const rawText = textBlock && 'text' in textBlock ? textBlock.text.trim() : ''
 
-    // Scrub markdown headings that Claude a veces agrega aunque le pidas que no
+    const parsed = parseOpeningJson(rawText)
+    let introContent = (parsed?.narration ?? rawText).trim()
+
+    // Scrub markdown headings que Claude a veces agrega aunque le pidas que no
     introContent = introContent
       .replace(/^#{1,6}\s+.*$/gm, '')   // líneas enteras que son headings
       .replace(/^\*{1,3}.*\*{1,3}$/gm, '') // énfasis que ocupan una línea entera (títulos)
@@ -103,14 +110,46 @@ Escribí la narración de apertura ahora.`
       throw new Error('Claude returned empty content')
     }
 
-    // Acciones sugeridas genéricas pero traducidas
-    const suggestedActions = locale === 'en'
-      ? ['Look around', 'Talk to someone nearby', 'Explore the area']
-      : ['Mirar alrededor', 'Hablar con alguien cercano', 'Explorar el lugar']
+    // Acciones específicas de la escena. Dato de prod: el 50% de las primeras
+    // acciones eran los botones genéricos y el 79% de los guests no pasaba de
+    // 2 acciones — una sugerencia concreta ("Pregunto al tabernero por la
+    // caravana") mete al jugador en la ficción; "Mirar alrededor" no.
+    const suggestedActions = parsed?.actions?.length === 3
+      ? parsed.actions
+      : genericActions(locale)
 
     return { introContent, suggestedActions }
   } catch (err) {
     console.error('[openingTurn] Claude call failed:', err)
     throw err
+  }
+}
+
+function genericActions(locale: 'es' | 'en'): string[] {
+  return locale === 'en'
+    ? ['Look around', 'Talk to someone nearby', 'Explore the area']
+    : ['Mirar alrededor', 'Hablar con alguien cercano', 'Explorar el lugar']
+}
+
+/**
+ * Extrae {narration, actions} del texto del modelo. Tolera texto alrededor del
+ * JSON y fences. Devuelve null si no hay JSON usable (el caller usa el texto
+ * crudo como narración y acciones genéricas).
+ */
+export function parseOpeningJson(raw: string): { narration: string; actions: string[] } | null {
+  const m = raw.match(/\{[\s\S]*\}/)
+  if (!m) return null
+  try {
+    const obj = JSON.parse(m[0])
+    const narration = typeof obj.narration === 'string' ? obj.narration : ''
+    const actions = Array.isArray(obj.actions)
+      ? obj.actions
+          .filter((a: unknown): a is string => typeof a === 'string' && a.trim().length > 0)
+          .map((a: string) => a.trim().slice(0, 80))
+      : []
+    if (!narration.trim()) return null
+    return { narration, actions: actions.slice(0, 3) }
+  } catch {
+    return null
   }
 }

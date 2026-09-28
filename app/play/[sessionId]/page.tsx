@@ -150,6 +150,11 @@ export default async function PlayPage({ params }: PlayPageProps) {
     role: turn.role as 'USER' | 'DM' | 'SYSTEM',
     content: turn.content,
     imageUrl: turn.imageUrl || undefined,
+    // BUG HISTÓRICO: no se serializaba diceRolls → GameSession nunca veía las
+    // suggested_actions de la apertura y TODOS los jugadores nuevos arrancaban
+    // con los 3 botones genéricos ("I examine the area for dangers" fue la
+    // primera acción #1 en prod, 51 veces).
+    diceRolls: turn.diceRolls ?? undefined,
     createdAt: turn.createdAt.toISOString(),
     characterName: turn.characterName || undefined,
     playerName: turn.playerName || undefined,
