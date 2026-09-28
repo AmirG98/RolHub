@@ -32,7 +32,10 @@ export default function HomePage() {
 
   return (
     <div className="min-h-[85vh] flex items-center justify-center particle-bg px-4 py-8">
-      <div className="max-w-4xl mx-auto text-center content-wrapper">
+      {/* w-full min-w-0: como hijo de un flex, sin esto no podía encoger por
+          debajo de su min-content (~440px) y en mobile quedaba cortado ~35px
+          de cada lado (título, subtítulo y CTAs recortados en la landing). */}
+      <div className="w-full min-w-0 max-w-4xl mx-auto text-center content-wrapper">
         {/* Hero panel */}
         <div className="glass-panel-dark rounded-lg p-6 md:p-12 glow-effect">
           {/* Logo */}
@@ -121,7 +124,9 @@ export default function HomePage() {
         </div>
 
         {/* Footer links */}
-        <div className="flex items-center justify-center gap-6 mt-10 font-ui text-sm text-parchment/50">
+        {/* flex-wrap: 5 links + separadores no entran en 375px en una línea;
+            era lo que ensanchaba el hero y recortaba la landing en mobile */}
+        <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 md:gap-6 mt-10 font-ui text-sm text-parchment/50">
           <Link href="/privacy" className="hover:text-gold transition">{t.homeExtras.privacy}</Link>
           <span className="text-gold-dim/30">|</span>
           <Link href="/terms" className="hover:text-gold transition">{t.homeExtras.terms}</Link>

@@ -1244,7 +1244,9 @@ export default function GameSession({
                   <h2 className="font-title text-xl md:text-2xl text-ink">{t.game.narratorTitle}</h2>
                 </div>
 
-                <div ref={scrollRef} className="space-y-3 md:space-y-4 overflow-y-auto flex-1 min-h-0 pr-1 md:pr-2">
+                {/* overscroll-contain: al llegar al fondo de la narración el gesto
+                    no se encadena a la página (saltos en mobile) */}
+                <div ref={scrollRef} className="space-y-3 md:space-y-4 overflow-y-auto overscroll-contain flex-1 min-h-0 pr-1 md:pr-2">
                   {turns.length === 0 ? (
                     <div className="text-center py-8">
                       <p className="font-body text-stone/60 italic">
