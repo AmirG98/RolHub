@@ -1217,10 +1217,10 @@ REGLA: Una feature no está terminada hasta que tiene:
 
 ## 20. ESTADO ACTUAL DEL PROYECTO
 
-Ultima actualizacion: 2026-09-28
+Ultima actualizacion: 2026-10-02
 Fase actual:         EN PRODUCCION CON ADS — billing Polar.sh activo (BILLING_ENFORCED=true),
                      6 suscriptores en trial/pago, campaña de emails lista para calentar dominio
-Ultima sesion:       2026-09-28 — mobile scroll + análisis de engagement + 8 fixes (ver abajo)
+Ultima sesion:       2026-10-02 — guardia anti re-narración tras pedido de reembolso (ver abajo)
 
 RESUMEN EJECUTIVO (leer esto primero si no hay tiempo para el resto):
   - Billing: Polar.sh (Merchant of Record). Paddle (rechazó por IP ×2) y Lemon
@@ -1251,6 +1251,49 @@ SESION 2026-09-28 — sync del repo local (sin cambios de código):
     META_PIXEL_ID, META_CAPI_ACCESS_TOKEN, NEXT_PUBLIC_APP_URL. En Vercel sí
     están (prod funciona). Cargarlas a mano si hace falta; nunca por chat.
   Nota: la rama remota fix/ad-launch-readiness ya está mergeada en main.
+
+SESION 2026-10-02 — BUCLE NARRATIVO CON PEDIDO DE REEMBOLSO (Usuario_TfXkeF):
+  CASO: VETERAN, Zombies/PbtA, registrado 2026-10-01 23:53 UTC, 42 acciones en
+  3 h, inició trial (PRO hasta 10-05, orden $0 → NO hubo cobro; "reembolso" =
+  cancelar el trial en Polar). Mail: "the dialogue continuously comes back to
+  entering the gate and opening the boxes… doesn't remember what happened".
+  DIAGNÓSTICO (turnos en DB): el DM narró CUATRO veces la llegada al portón
+  (51/53/57/61: "the cargo truck rolls through the main gate just as the last
+  light bleeds out of the sky") y abrió las mismas cajas dos veces (59/63), en
+  vez de resolver la acción nueva. El jugador repitió "open the crates" 3
+  veces por eso. En 73 el DM narra "the dark road ahead" llevando 8 turnos en
+  el galpón. Los 7 SummaryCheckpoints existían y eran correctos (el fix del
+  28/9 funcionó): el problema no era memoria larga sino el presente.
+  CAUSAS RAÍZ:
+  1. La condensación del historial (turn route ~L414) guardaba las PRIMERAS 2
+     oraciones de cada turno DM viejo = la ambientación ("el camión entra por
+     el portón"), descartando la resolución. El modelo veía una cadena de
+     aperturas idénticas y seguía el patrón; cada re-narración sumaba otra
+     → se retroalimentaba. Con playerWantsToMove además se condensaba TODO
+     (0 turnos íntegros).
+  2. No existía verificación server-side de la salida: "no repitas" en el
+     prompt es una súplica, no una garantía.
+  FIX ESTRUCTURAL (lib/claude/repetition-guard.ts, puro, 14 tests con las
+  narraciones REALES del caso en __tests__/fixtures/zombie-loop-turns.json):
+  ✅ detectRenarration(candidato, últimas 6 narraciones, {turnsInScene,
+     sceneChangeInDraft}): Jaccard de palabras de la apertura (≥0.4), Jaccard
+     de 4-gramas del cuerpo (≥0.18) y regla determinística de RE-LLEGADA
+     (la apertura narra entrar/llegar/"looms ahead" estando ya en la escena
+     y sin scene_change). Calibrado: 53/57/61/67 → repetitivo; 55/59/63/65 →
+     legítimo (máx 0.16 en negativos).
+  ✅ Turn route: el loop de 2 intentos ahora reintenta cuando el borrador
+     repite, con renarrationRetryDirective (cita el borrador rechazado, la
+     acción del jugador, y exige que la 1ª oración sea su consecuencia). Si
+     el 2º también repite, se queda el menos repetitivo. Se persiste
+     worldStatePatch._repetition_guard ('retried'|'unresolved') para medirlo.
+  ✅ condenseNarration(): el historial condensado guarda las ÚLTIMAS 2
+     oraciones sustantivas (sin la pregunta-gancho), no las primeras.
+  ✅ fullDMWindow con playerWantsToMove: 0 → 1 turno íntegro.
+  ✅ STATE ANCHOR: "lleva N turnos acá: la LLEGADA ya se narró — nunca
+     vuelvas a narrar entrar/llegar". 
+  ✅ Playtest: invariante dm_renarration (P1) con el mismo detector.
+  CÓMO MEDIR: SELECT count(*) FROM "Turn" WHERE "worldStatePatch"->>'_repetition_guard'
+  IS NOT NULL — 'retried' = el guard salvó el turno; 'unresolved' = revisar.
 
 SESION 2026-09-28 (tarde) — MOBILE + ANÁLISIS DE ENGAGEMENT + FIXES (cf5a6c9 + siguiente):
   ✅ SCROLL MOBILE ROTO EN TODO EL SITIO: .particle-bg tenía overflow-y:auto y

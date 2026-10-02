@@ -5,6 +5,7 @@
 import type { Finding, Severity } from './findings'
 import { makeFingerprint } from './findings'
 import type { TurnResponse } from './client'
+import { detectRenarration } from '@/lib/claude/repetition-guard'
 
 export interface SessionTracker {
   characterName: string
@@ -15,6 +16,8 @@ export interface SessionTracker {
   completedQuests: Set<string>
   /** último HP conocido "x/y" */
   lastHp: string | null
+  /** últimas narraciones del DM (para detectar re-narración) */
+  recentNarrations?: string[]
 }
 
 function finding(
@@ -112,6 +115,22 @@ export function checkTurn(
         'La narración contiene JSON crudo o embebido — el parseo/saneo de la respuesta del DM falló',
         ev, ['lib/claude/parse-dm-response.ts'], true)
     )
+  }
+
+  // Re-narración: el DM repite una narración previa o vuelve a narrar la
+  // llegada a la escena (bucle real del 2026-10-01 → pedido de reembolso).
+  if (narration.trim().length >= 40) {
+    const prev = tracker.recentNarrations ?? (tracker.recentNarrations = [])
+    const verdict = detectRenarration(narration, prev, { turnsInScene: 2, sceneChangeInDraft: !!body?.sceneChange })
+    if (verdict.repetitive) {
+      findings.push(
+        finding(tracker, turnIndex, 'P1', 'dm_renarration',
+          `El DM re-narró (${verdict.reason}, ${Math.round(Math.max(verdict.openingScore, verdict.bodyScore) * 100)}%): «${verdict.openingSnippet.slice(0, 90)}»`,
+          ev, ['lib/claude/repetition-guard.ts', 'app/api/session/turn/route.ts'])
+      )
+    }
+    prev.push(narration)
+    if (prev.length > 6) prev.shift()
   }
 
   if (narration.trim().length < 40) {

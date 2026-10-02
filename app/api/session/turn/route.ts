@@ -15,6 +15,7 @@ import { type NavigationLockReason, type LocationKnowledgeLevel, type DynamicMap
 import { calculateRelativePosition, normalizeLegacyCoordinates } from '@/lib/maps/position-calculator'
 import { type Quest, type QuestUpdate } from '@/lib/types/quest'
 import { generateSummaryCheckpoint, shouldTriggerSummary } from '@/lib/claude/session-summarizer'
+import { detectRenarration, condenseNarration, renarrationRetryDirective } from '@/lib/claude/repetition-guard'
 import { updateUserProgress, type ProgressUpdate } from '@/lib/game/user-progress'
 import { normalizeMilestones, recordMilestoneEvent, detectNewUnlockables } from '@/lib/game/milestones'
 import { getSkillTree } from '@/lib/game/skill-trees'
@@ -386,7 +387,9 @@ export async function POST(req: NextRequest) {
     // convirtió a una criatura (Marshwarden, 4 m al hombro) en una exploradora
     // con alabarda 6 turnos después, y en otra partida re-narró una acción
     // vieja. Los turnos anteriores siguen condensados.
-    const fullDMWindow = playerWantsToMove ? 0 : 3
+    // 1 (antes 0) cuando quiere moverse: con 0 turnos íntegros el modelo solo
+    // veía aperturas condensadas y perdía el hilo del presente.
+    const fullDMWindow = playerWantsToMove ? 1 : 3
 
     const conversationHistory = recentTurnsForHistory.map((turn) => {
       // Turnos del usuario: siempre completos
@@ -420,8 +423,10 @@ export async function POST(req: NextRequest) {
       const withoutDialogue = content
         .replace(/[A-ZÁÉÍÓÚ][a-záéíóúñ]+(?:\s+[A-ZÁÉÍÓÚ]?[a-záéíóúñ]+)*\s*[:«][^»\n]*[»"]?/g, '')
         .replace(/\s{2,}/g, ' ').trim()
-      const sentences = withoutDialogue.split(/[.!?]/).filter(s => s.trim().length > 15)
-      const actionSummary = sentences.slice(0, 2).map(s => s.trim().substring(0, 80)).join('. ')
+      // ÚLTIMAS oraciones (la resolución), no las primeras (la ambientación):
+      // con las primeras el modelo veía "el camión entra por el portón" en
+      // cada turno condensado y re-narraba la llegada (bucle del 2026-10-01).
+      const actionSummary = condenseNarration(withoutDialogue)
       const npcTag = uniqueNPCs.length > 0 ? `[NPCs: ${uniqueNPCs.join(', ')} — ya interactuaste, NO re-introducir] ` : ''
       return { role: 'assistant' as const, content: `${npcTag}${actionSummary || '[Escena previa sin acción relevante]'}` }
     })
@@ -690,9 +695,16 @@ export async function POST(req: NextRequest) {
       const leftMsg = prevLocation
         ? (isEnglish ? ` You already LEFT ${prevLocation} — do NOT narrate anything there.` : ` Ya DEJASTE ${prevLocation} — NO narres nada que pase allí.`)
         : ''
+      // La llegada a la escena ya se narró: sin esto el DM volvía a narrar
+      // "el camión entra por el portón" turno tras turno.
+      const arrivedMsg = turnsInCurrentLocation >= 1
+        ? (isEnglish
+          ? ` The player has been here for ${turnsInCurrentLocation} turn(s): the ARRIVAL was already narrated — never narrate entering/arriving/pulling up here again.`
+          : ` El jugador lleva ${turnsInCurrentLocation} turno(s) acá: la LLEGADA ya se narró — nunca vuelvas a narrar entrar/llegar/estacionar acá.`)
+        : ''
       const stateAnchor = isEnglish
-        ? `[CURRENT STATE: Location: ${worldState.current_scene || 'Unknown'}. ${npcsStr}Time: ${worldState.time_in_world || 'Unknown'}. Weather: ${worldState.weather || 'Unknown'}.${leftMsg} Continue the story from HERE ONLY.]`
-        : `[ESTADO ACTUAL: Ubicación: ${worldState.current_scene || 'Desconocida'}. ${npcsStr}Hora: ${worldState.time_in_world || 'Desconocida'}. Clima: ${worldState.weather || 'Desconocido'}.${leftMsg} Continuá la historia SOLO desde AQUÍ.]`
+        ? `[CURRENT STATE: Location: ${worldState.current_scene || 'Unknown'}. ${npcsStr}Time: ${worldState.time_in_world || 'Unknown'}. Weather: ${worldState.weather || 'Unknown'}.${leftMsg}${arrivedMsg} Continue the story from HERE ONLY.]`
+        : `[ESTADO ACTUAL: Ubicación: ${worldState.current_scene || 'Desconocida'}. ${npcsStr}Hora: ${worldState.time_in_world || 'Desconocida'}. Clima: ${worldState.weather || 'Desconocido'}.${leftMsg}${arrivedMsg} Continuá la historia SOLO desde AQUÍ.]`
       conversationHistory.push({ role: 'assistant' as const, content: stateAnchor })
     }
 
@@ -1732,6 +1744,15 @@ INSTRUCCIONES PARA HABILIDADES:
     // no se consume y puede reenviarla).
     const MIN_NARRATION_CHARS = 20
     let rawResponse = ''
+    // Guardia anti re-narración (lib/claude/repetition-guard.ts): si el
+    // borrador repite una narración previa o vuelve a narrar la llegada a la
+    // escena, se reintenta UNA vez con una directiva correctiva. Si el
+    // segundo borrador también repite, se queda el menos repetitivo y se
+    // marca el turno para medirlo en prod.
+    const previousDMNarrations = session.turns.filter(t => t.role === 'DM').slice(-6).map(t => t.content)
+    let repetitionDirective = ''
+    let repetitionFlag: 'none' | 'retried' | 'unresolved' = 'none'
+    let repetitiveDraft: { raw: string; score: number } | null = null
     for (let attempt = 1; attempt <= 2; attempt++) {
       let response
       try {
@@ -1744,7 +1765,7 @@ INSTRUCCIONES PARA HABILIDADES:
           // Si el intento 1 se cortó por max_tokens (el tool_use llega vacío o
           // incompleto), el 2 tiene más espacio.
           max_tokens: attempt === 1 ? 3000 : 4000,
-          system: finalSystemPrompt,
+          system: finalSystemPrompt + repetitionDirective,
           messages: conversationHistory as any,
           // Salida estructurada FORZADA: la API obliga al modelo a responder
           // con un tool_use cuyo input cumple el JSON Schema derivado de
@@ -1771,9 +1792,27 @@ INSTRUCCIONES PARA HABILIDADES:
       }
       // Probar la NARRACIÓN parseada (no el raw: un JSON válido con
       // narration:"..." tiene muchos chars pero cero contenido narrativo)
-      const narrationProbe = parseDMResponse(rawResponse)
-        .data.narration.replace(/[\s.·…"'—-]/g, '')
-      if (narrationProbe.length >= MIN_NARRATION_CHARS) break
+      const probeParsed = parseDMResponse(rawResponse)
+      const narrationProbe = probeParsed.data.narration.replace(/[\s.·…"'—-]/g, '')
+      if (narrationProbe.length >= MIN_NARRATION_CHARS) {
+        const verdict = detectRenarration(probeParsed.data.narration, previousDMNarrations, {
+          turnsInScene: turnsInCurrentLocation,
+          sceneChangeInDraft: typeof (probeParsed.data as any).scene_change === 'string' && (probeParsed.data as any).scene_change.trim().length > 0,
+        })
+        if (!verdict.repetitive) break
+        const score = Math.max(verdict.openingScore, verdict.bodyScore)
+        console.warn(`[DM] repetition_guard intento ${attempt}: ${verdict.reason} opening=${verdict.openingScore.toFixed(2)} body=${verdict.bodyScore.toFixed(2)} «${verdict.openingSnippet.slice(0, 90)}»`)
+        if (attempt === 1) {
+          repetitiveDraft = { raw: rawResponse, score }
+          repetitionDirective = renarrationRetryDirective(verdict, action, worldState.current_scene || '', turnsInCurrentLocation, locale as 'es' | 'en')
+          repetitionFlag = 'retried'
+          continue
+        }
+        // Segundo borrador también repite: nos quedamos con el menos repetitivo
+        repetitionFlag = 'unresolved'
+        if (repetitiveDraft && repetitiveDraft.score < score) rawResponse = repetitiveDraft.raw
+        break
+      }
       console.warn(`[DM] Narración vacía/mínima (intento ${attempt}): "${rawResponse.slice(0, 60)}"`)
       if (attempt === 2) {
         return NextResponse.json(
@@ -2969,7 +3008,9 @@ INSTRUCCIONES PARA HABILIDADES:
           content: fullNarration,
           createdAt: dmTurnAt, // +1ms que el USER: orden determinístico del par
           latencyMs: Date.now() - playerTurnAt.getTime(),
-          worldStatePatch: dmTurnPatch,
+          // _repetition_guard: 'retried' (el 1er borrador repetía y el 2º no) o
+          // 'unresolved' (los dos repetían) — para medir el bucle en prod.
+          worldStatePatch: repetitionFlag === 'none' ? dmTurnPatch : { ...((dmTurnPatch as Record<string, unknown> | null) || {}), _repetition_guard: repetitionFlag },
         },
       }),
       ...(campaignUpdateData

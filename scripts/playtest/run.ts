@@ -83,6 +83,7 @@ async function playSession(args: CliArgs, profileId: string): Promise<SessionRes
     profile: profileId,
     sessionId: session.sessionId,
     completedQuests: new Set(),
+    recentNarrations: [],
     lastHp: null,
   }
 

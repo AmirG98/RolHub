@@ -116,7 +116,7 @@ describe('fantasmas reales de prod 2026-09 (27 campañas contaminadas)', () => {
     const src = fs.readFileSync(path.resolve(__dirname, '../../app/api/session/turn/route.ts'), 'utf8')
     expect(src).toContain('sanitizeNpcStates(worldState.npc_states')
     expect(src).not.toMatch(/Object\.entries\(worldState\.npc_states \|\| \{\}\)\.forEach\(\(\[name, data\]\) => \{\n\s+const info = typeof data === 'string' \? \{ status: data\b/)
-    expect(src).toContain('playerWantsToMove ? 0 : 3')
+    expect(src).toContain('playerWantsToMove ? 1 : 3')
   })
 })
 
