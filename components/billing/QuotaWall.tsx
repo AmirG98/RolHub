@@ -104,7 +104,7 @@ export function QuotaWall({ wall, locale, onUpgraded }: QuotaWallProps) {
         </div>
       )}
 
-      {error && <p className="mt-3 font-body text-sm text-blood">{error}</p>}
+      {error && <p role="alert" className="mt-3 font-body text-sm text-red-300">{error}</p>}
 
       <Link href="/pricing" className="mt-3 inline-block font-ui text-xs text-parchment/50 hover:text-gold">
         {t.upgrade.seePlans} →

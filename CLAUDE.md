@@ -1217,10 +1217,10 @@ REGLA: Una feature no está terminada hasta que tiene:
 
 ## 20. ESTADO ACTUAL DEL PROYECTO
 
-Ultima actualizacion: 2026-10-02
+Ultima actualizacion: 2026-10-04
 Fase actual:         EN PRODUCCION CON ADS — billing Polar.sh activo (BILLING_ENFORCED=true),
                      6 suscriptores en trial/pago, campaña de emails lista para calentar dominio
-Ultima sesion:       2026-10-02 — guardia anti re-narración tras pedido de reembolso (ver abajo)
+Ultima sesion:       2026-10-04 — costo del narrador + planes con cupo de turnos (ver abajo)
 
 RESUMEN EJECUTIVO (leer esto primero si no hay tiempo para el resto):
   - Billing: Polar.sh (Merchant of Record). Paddle (rechazó por IP ×2) y Lemon
@@ -1251,6 +1251,48 @@ SESION 2026-09-28 — sync del repo local (sin cambios de código):
     META_PIXEL_ID, META_CAPI_ACCESS_TOKEN, NEXT_PUBLIC_APP_URL. En Vercel sí
     están (prod funciona). Cargarlas a mano si hace falta; nunca por chat.
   Nota: la rama remota fix/ad-launch-readiness ya está mergeada en main.
+
+SESION 2026-10-04 — COSTO DEL NARRADOR + PLANES CON CUPO DE TURNOS (deployado, cupo sin lanzar):
+  COSTO (estimado, calibrado con usage real medido): ~$41-42/día el 3 y 4/10
+  (antes $2-17). Un turno ≈ 12-13K tokens in + ~850 out (Sonnet 4.6, sin
+  caché) ≈ $0.05; hasta $0.11 en sesiones largas porque los resúmenes se
+  mandan todos (20K tokens en una sesión de 739 turnos). 85-95% del gasto
+  son 2-3 PRO en maratón. Polar: 17 suscripciones (8+ en trial), $62.93 de
+  ingreso acumulado. PRO juega en maratón: racha máx 1 día (9 de 19) o 2 (8).
+  ✅ worldStatePatch._usage en cada turno DM: {in,out,cache_read,
+     cache_write,calls,model} → el costo real sale de una query.
+  ⚠ DB 3.8 GB: 3.75 GB son audios TTS en base64 en GeneratedAsset (70.680
+    filas, sin expiresAt → el cron no las borra; ~400 MB/día). SIN RESOLVER.
+  PLANES (decisiones del user): Aventurero $8.99/150 turnos, Héroe
+  $24.99/400, Leyenda $59.99/1.000 por período de facturación; trial de la
+  suscripción (3 días) con 60 turnos; al agotar → ofrecer plan siguiente o
+  esperar; suscriptores existentes ilimitados hasta su próxima renovación.
+  El user decidió NO recortar los resúmenes (calidad > costo; se armó y se
+  revirtió lib/claude/story-so-far.ts). Ojo: sin tope, Leyenda en una sola
+  campaña larga puede costar $80-110 vs $59.99 → prompt caching pendiente.
+  ✅ lib/plans/quota.ts (puro): TIERS, getQuotaStatus, quotaFieldsFromSubscription.
+     Rige solo para períodos que EMPIEZAN desde QUOTA_ENFORCED_FROM_DEFAULT,
+     hoy '2099-01-01' = no alcanza a nadie. PARA LANZAR: poner la fecha real.
+  ✅ User.planTier/subStatus/periodStart/periodEnd/periodTurns (db push hecho).
+     Webhook de Polar + sync los guardan; contador se reinicia al renovar o
+     cuando el trial pasa a pago; un upgrade conserva lo jugado.
+  ✅ Turn route: gate de cupo (403 code quota_exhausted + wall), autocuración
+     desde Polar, periodTurns atómico, reutiliza el cierre de escena del trial.
+  ✅ POST /api/billing/upgrade (cambio de producto con prorrateo 'invoice' /
+     start_now corta el trial). create-checkout acepta {tier}.
+  ✅ UI: components/billing/QuotaWall.tsx (confirmación antes de cobrar),
+     /pricing con 3 planes (sin toggle anual: no existía en Polar), términos.
+  ✅ Polar: productos RolHub Hero (5d85d2da-…) y RolHub Legend (ff4dbaef-…)
+     creados desde el dashboard; ids en lib/polar.ts (no son secretos).
+  ✅ E2E EN PROD con una cuenta del user (periodStart movido a 2099 y
+     periodTurns=147): aviso "2 turns left", cierre de escena del DM, muro,
+     confirmación, error cuando Polar rechaza, y muro por 403 tras recargar.
+  ⚠ NO VERIFICADO: el cambio de plan y el fin de trial contra una
+    suscripción REAL de Polar. La cuenta logueada en el Chrome del user
+    (Usuario_JDYeP8) es PRO por un id viejo de Lemon Squeezy, no de Polar; la
+    que tiene suscripción Polar es Usuario_ZfAvdG (amir@amirgomez.com).
+  PENDIENTE: probar upgrade real; fijar fecha de lanzamiento; mail de aviso
+  a suscriptores actuales; prompt caching; limpiar audios de la DB.
 
 SESION 2026-10-02 — BUCLE NARRATIVO CON PEDIDO DE REEMBOLSO (Usuario_TfXkeF):
   CASO: VETERAN, Zombies/PbtA, registrado 2026-10-01 23:53 UTC, 42 acciones en

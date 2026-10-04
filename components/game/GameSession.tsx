@@ -621,10 +621,13 @@ export default function GameSession({
               // el upgrade, no por el modal del trial gratis.
               setWall(d.wall as WallInfo)
               setTrialTurnsRemaining(0)
+              // La acción NO se jugó: sacar el turno optimista del historial.
+              setLocalTurns(prev => prev.filter(t => t.id !== playerTurn.id))
               return
             }
             if (d.upgradeRequired) {
               setShowUpgradePrompt(true)
+              setLocalTurns(prev => prev.filter(t => t.id !== playerTurn.id))
               return
             }
             throw new Error(d.error || (locale === 'en' ? 'Not authorized' : 'No autorizado'))
@@ -1495,7 +1498,9 @@ export default function GameSession({
                   <div className="mb-2 flex items-center justify-between gap-3 rounded-lg border border-gold/40 bg-gold/10 px-3 py-2">
                     <span className="font-ui text-xs text-parchment">
                       {wall
-                        ? (wall.kind === 'sub_trial' ? t.upgrade.subTrialLeft : t.upgrade.quotaLeft).replace('{n}', String(trialTurnsRemaining))
+                        ? trialTurnsRemaining === 1
+                          ? (wall.kind === 'sub_trial' ? t.upgrade.subTrialLastTurn : t.upgrade.quotaLastTurn)
+                          : (wall.kind === 'sub_trial' ? t.upgrade.subTrialLeft : t.upgrade.quotaLeft).replace('{n}', String(trialTurnsRemaining))
                         : trialTurnsRemaining === 1
                           ? t.upgrade.lastTurn
                           : t.upgrade.turnsLeft.replace('{n}', String(trialTurnsRemaining))}

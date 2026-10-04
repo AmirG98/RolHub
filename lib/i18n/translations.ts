@@ -618,6 +618,8 @@ export const translations = {
       // Cupo mensual del plan
       quotaLeft: 'Te quedan {n} turnos este mes',
       subTrialLeft: 'Te quedan {n} turnos de la prueba gratis',
+      quotaLastTurn: 'Este es tu último turno del mes — el narrador cierra la escena',
+      subTrialLastTurn: 'Este es el último turno de tu prueba gratis — el narrador cierra la escena',
       quotaTitle: 'Usaste tus {limit} turnos de este mes',
       quotaRenews: 'Tus turnos se renuevan el {date}.',
       quotaUpgradeSub: 'Seguí jugando ahora con {plan}: {turns} turnos por mes.',
@@ -1267,6 +1269,8 @@ export const translations = {
       // Monthly plan allowance
       quotaLeft: '{n} turns left this month',
       subTrialLeft: '{n} free-trial turns left',
+      quotaLastTurn: 'This is your last turn this month — the narrator will close the scene',
+      subTrialLastTurn: 'This is the last turn of your free trial — the narrator will close the scene',
       quotaTitle: "You've used your {limit} turns for this month",
       quotaRenews: 'Your turns renew on {date}.',
       quotaUpgradeSub: 'Keep playing now with {plan}: {turns} turns a month.',
