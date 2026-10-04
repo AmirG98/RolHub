@@ -1252,7 +1252,7 @@ SESION 2026-09-28 — sync del repo local (sin cambios de código):
     están (prod funciona). Cargarlas a mano si hace falta; nunca por chat.
   Nota: la rama remota fix/ad-launch-readiness ya está mergeada en main.
 
-SESION 2026-10-04 — COSTO DEL NARRADOR + PLANES CON CUPO DE TURNOS (deployado, cupo sin lanzar):
+SESION 2026-10-04 — COSTO DEL NARRADOR + PLANES CON CUPO DE TURNOS (LANZADO 22:00 UTC):
   COSTO (estimado, calibrado con usage real medido): ~$41-42/día el 3 y 4/10
   (antes $2-17). Un turno ≈ 12-13K tokens in + ~850 out (Sonnet 4.6, sin
   caché) ≈ $0.05; hasta $0.11 en sesiones largas porque los resúmenes se
@@ -1318,9 +1318,15 @@ SESION 2026-10-04 — COSTO DEL NARRADOR + PLANES CON CUPO DE TURNOS (deployado,
      planTier=hero y liberó el juego sin recargar. /pricing muestra Hero
      como plan actual. Esa cuenta QUEDÓ EN HÉROE ($24.99/mes).
   NO probado con cobro real: start_now (cortar el trial) y el salto a Leyenda.
-  PARA LANZAR EL CUPO: (1) QUOTA_ENFORCED_FROM_DEFAULT = fecha real en
-  lib/plans/quota.ts, (2) re-correr el backfill, (3) mail de aviso a los
-  suscriptores actuales (no escrito ni enviado).
+  🚀 CUPO LANZADO (b837567): QUOTA_ENFORCED_FROM_DEFAULT =
+     '2026-10-04T22:00:00Z'. Backfill re-ejecutado justo antes (18/18 con
+     garantía) y verificado después del deploy: 0 suscriptores existentes
+     con cupo. Suscriptores NUEVOS: trial 60 turnos → cupo del plan. Los
+     existentes pasan al cupo en su renovación posterior a su
+     quotaExemptUntil (el primero, el 12/10). NO mover la fecha hacia atrás.
+     Mail paywall_followup corregido (ya no dice "ilimitado").
+  PENDIENTE DEL LANZAMIENTO: mail de aviso a los suscriptores actuales (no
+  escrito ni enviado; el primero pasa al cupo el 12/10).
   PENDIENTE además: prompt caching; limpiar audios de la DB.
 
 SESION 2026-10-02 — BUCLE NARRATIVO CON PEDIDO DE REEMBOLSO (Usuario_TfXkeF):
