@@ -1753,6 +1753,9 @@ INSTRUCCIONES PARA HABILIDADES:
     let repetitionDirective = ''
     let repetitionFlag: 'none' | 'retried' | 'unresolved' = 'none'
     let repetitiveDraft: { raw: string; score: number } | null = null
+    // Consumo real de tokens del turno (suma de todos los intentos). Antes no
+    // se registraba y el costo del narrador solo se podía estimar.
+    const usageTotals = { in: 0, out: 0, cache_read: 0, cache_write: 0, calls: 0, model: '' }
     for (let attempt = 1; attempt <= 2; attempt++) {
       let response
       try {
@@ -1781,6 +1784,13 @@ INSTRUCCIONES PARA HABILIDADES:
           { status: 502 }
         )
       }
+
+      usageTotals.in += response.usage?.input_tokens ?? 0
+      usageTotals.out += response.usage?.output_tokens ?? 0
+      usageTotals.cache_read += response.usage?.cache_read_input_tokens ?? 0
+      usageTotals.cache_write += response.usage?.cache_creation_input_tokens ?? 0
+      usageTotals.calls += 1
+      usageTotals.model = response.model
 
       const dmRaw = dmRawFromMessage(response)
       rawResponse = dmRaw.raw
@@ -3010,7 +3020,12 @@ INSTRUCCIONES PARA HABILIDADES:
           latencyMs: Date.now() - playerTurnAt.getTime(),
           // _repetition_guard: 'retried' (el 1er borrador repetía y el 2º no) o
           // 'unresolved' (los dos repetían) — para medir el bucle en prod.
-          worldStatePatch: repetitionFlag === 'none' ? dmTurnPatch : { ...((dmTurnPatch as Record<string, unknown> | null) || {}), _repetition_guard: repetitionFlag },
+          // _usage: tokens reales del turno (para medir costo por día/usuario).
+          worldStatePatch: {
+            ...((dmTurnPatch as Record<string, unknown> | null) || {}),
+            _usage: usageTotals,
+            ...(repetitionFlag !== 'none' ? { _repetition_guard: repetitionFlag } : {}),
+          },
         },
       }),
       ...(campaignUpdateData
