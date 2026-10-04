@@ -32,7 +32,8 @@ describe('getQuotaStatus', () => {
     expect(getQuotaStatus({ planTier: 'adventurer', periodTurns: 500 }, LAUNCH).enforced).toBe(false)
   })
   it('período nuevo tras el lanzamiento → cupo del plan', () => {
-    const q = getQuotaStatus({ planTier: 'adventurer', subStatus: 'active', periodStart: after, periodEnd: new Date('2026-11-12'), periodTurns: 120 }, LAUNCH)
+    // subscribedAt posterior al lanzamiento = suscriptor nuevo (sin exención)
+    const q = getQuotaStatus({ planTier: 'adventurer', subStatus: 'active', periodStart: after, periodEnd: new Date('2026-11-12'), periodTurns: 120, subscribedAt: after }, LAUNCH)
     expect(q).toMatchObject({ enforced: true, kind: 'quota', tier: 'adventurer', limit: 150, used: 120, remaining: 30, nextTier: 'hero' })
     expect(q.resetsAt?.toISOString().slice(0, 10)).toBe('2026-11-12')
   })
@@ -44,7 +45,7 @@ describe('getQuotaStatus', () => {
     expect(getQuotaStatus({ planTier: 'legend', subStatus: 'active', periodStart: after, periodTurns: 10 }, LAUNCH)).toMatchObject({ limit: 1000, nextTier: null })
   })
   it('trial de la suscripción: 60 turnos, sea cual sea el plan', () => {
-    const q = getQuotaStatus({ planTier: 'legend', subStatus: 'trialing', periodStart: after, periodTurns: 60 }, LAUNCH)
+    const q = getQuotaStatus({ planTier: 'legend', subStatus: 'trialing', periodStart: after, periodTurns: 60, subscribedAt: after }, LAUNCH)
     expect(q).toMatchObject({ enforced: true, kind: 'sub_trial', limit: SUB_TRIAL_TURNS, remaining: 0 })
   })
   it('plan desconocido → Aventurero', () => {

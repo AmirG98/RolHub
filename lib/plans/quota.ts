@@ -69,6 +69,28 @@ export interface QuotaUser {
   periodStart?: Date | string | null
   periodEnd?: Date | string | null
   periodTurns?: number | null
+  /** alta de la suscripción en Polar */
+  subscribedAt?: Date | string | null
+  /** quien se suscribió antes del lanzamiento conserva ilimitado hasta acá */
+  quotaExemptUntil?: Date | string | null
+}
+
+const toDate = (v: Date | string | null | undefined): Date | null => (v ? new Date(v) : null)
+
+/** Suma un mes calendario (UTC). 31 ene → 3 mar: se pasa de largo, a favor del usuario. */
+export function addOneMonth(d: Date): Date {
+  const r = new Date(d)
+  r.setUTCMonth(r.getUTCMonth() + 1)
+  return r
+}
+
+/**
+ * ¿Se suscribió antes de que existiera el cupo? Sin fecha de alta conocida se
+ * asume que SÍ (a favor del usuario: nunca se le recorta por un dato faltante).
+ */
+export function isGrandfathered(subscribedAt: Date | string | null | undefined, enforcedFrom: Date): boolean {
+  const s = toDate(subscribedAt)
+  return !s || s.getTime() < enforcedFrom.getTime()
 }
 
 export interface QuotaStatus {
@@ -86,13 +108,31 @@ export interface QuotaStatus {
   resetsAt: Date | null
 }
 
-export function getQuotaStatus(user: QuotaUser, enforcedFrom: Date | null = quotaEnforcedFrom()): QuotaStatus {
+/**
+ * GARANTÍA LEGAL (decisión del user, 2026-10-04): quien se suscribió cuando
+ * el plan era "8.99 ilimitado" conserva ilimitado hasta terminar el período
+ * PAGO que tenía contratado — y si estaba en el trial, hasta terminar su
+ * primer mes pago. El cupo rige solo si se cumplen TODAS:
+ *   1. hay fecha de lanzamiento,
+ *   2. el período de facturación actual empezó en/después del lanzamiento,
+ *   3. y, para los que se suscribieron antes del lanzamiento, ya pasó su
+ *      quotaExemptUntil. Si esa fecha todavía no se calculó → ilimitado.
+ */
+export function getQuotaStatus(
+  user: QuotaUser,
+  enforcedFrom: Date | null = quotaEnforcedFrom(),
+  now: Date = new Date()
+): QuotaStatus {
   const tier: PlanTierId = isTierId(user.planTier) ? user.planTier : 'adventurer'
   const inTrial = user.subStatus === 'trialing'
   const limit = inTrial ? SUB_TRIAL_TURNS : TIERS[tier].turns
   const used = Math.max(0, Math.floor(user.periodTurns ?? 0))
-  const periodStart = user.periodStart ? new Date(user.periodStart) : null
-  const enforced = !!enforcedFrom && !!periodStart && periodStart.getTime() >= enforcedFrom.getTime()
+  const periodStart = toDate(user.periodStart)
+  let enforced = !!enforcedFrom && !!periodStart && periodStart.getTime() >= enforcedFrom.getTime()
+  if (enforced && enforcedFrom && isGrandfathered(user.subscribedAt, enforcedFrom)) {
+    const exemptUntil = toDate(user.quotaExemptUntil)
+    if (!exemptUntil || now.getTime() < exemptUntil.getTime()) enforced = false
+  }
   return {
     enforced,
     kind: inTrial ? 'sub_trial' : 'quota',
@@ -115,6 +155,9 @@ export interface SubscriptionForQuota {
   productId?: string | null
   currentPeriodStart?: Date | string | null
   currentPeriodEnd?: Date | string | null
+  startedAt?: Date | string | null
+  createdAt?: Date | string | null
+  trialEnd?: Date | string | null
 }
 
 export function tierFromProductId(
@@ -135,19 +178,53 @@ export function tierFromProductId(
  */
 export function quotaFieldsFromSubscription(
   sub: SubscriptionForQuota,
-  prev: { periodStart?: Date | string | null; subStatus?: string | null },
-  products: Record<PlanTierId, string>
-): { planTier: PlanTierId; subStatus: string; periodStart: Date | null; periodEnd: Date | null; periodTurns?: number } {
-  const periodStart = sub.currentPeriodStart ? new Date(sub.currentPeriodStart) : null
-  const periodEnd = sub.currentPeriodEnd ? new Date(sub.currentPeriodEnd) : null
-  const prevStart = prev.periodStart ? new Date(prev.periodStart) : null
+  prev: {
+    periodStart?: Date | string | null
+    subStatus?: string | null
+    subscribedAt?: Date | string | null
+    quotaExemptUntil?: Date | string | null
+  },
+  products: Record<PlanTierId, string>,
+  enforcedFrom: Date | null = quotaEnforcedFrom()
+): {
+  planTier: PlanTierId
+  subStatus: string
+  periodStart: Date | null
+  periodEnd: Date | null
+  subscribedAt: Date | null
+  quotaExemptUntil: Date | null
+  periodTurns?: number
+} {
+  const periodStart = toDate(sub.currentPeriodStart)
+  const periodEnd = toDate(sub.currentPeriodEnd)
+  const prevStart = toDate(prev.periodStart)
   const newPeriod = !!periodStart && (!prevStart || prevStart.getTime() !== periodStart.getTime())
   const trialConverted = prev.subStatus === 'trialing' && sub.status === 'active'
+
+  // Alta: se fija una sola vez (la primera conocida).
+  const subscribedAt = toDate(prev.subscribedAt) ?? toDate(sub.startedAt) ?? toDate(sub.createdAt)
+
+  // Hasta cuándo conserva ilimitado quien se suscribió antes del cupo. Se
+  // calcula UNA vez, con el período vigente al verlo por primera vez:
+  //  - pagando: fin de ese período pago;
+  //  - en trial: fin del trial + 1 mes (su primer mes pago completo).
+  let quotaExemptUntil = toDate(prev.quotaExemptUntil)
+  if (!quotaExemptUntil && enforcedFrom && isGrandfathered(subscribedAt, enforcedFrom)) {
+    if (sub.status === 'trialing') {
+      const trialEnd = toDate(sub.trialEnd) ?? periodEnd
+      quotaExemptUntil = trialEnd ? addOneMonth(trialEnd) : null
+    } else {
+      quotaExemptUntil = periodEnd
+    }
+  }
+
   return {
     planTier: tierFromProductId(sub.productId, products),
     subStatus: sub.status,
     periodStart,
     periodEnd,
+    subscribedAt,
+    quotaExemptUntil,
     ...(newPeriod || trialConverted ? { periodTurns: 0 } : {}),
   }
 }

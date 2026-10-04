@@ -132,6 +132,8 @@ describe('POST /api/billing/sync', () => {
         plan: 'PRO', planExpiresAt: null, stripeSubscriptionId: 'sub_1', stripeCustomerId: 'cust_1',
         // cupo: plan del producto, estado y período de la suscripción
         planTier: 'adventurer', subStatus: 'active', periodStart: null, periodEnd: new Date('2030-01-01'),
+        // sin fecha de alta → anterior al cupo: ilimitado hasta el fin de su período
+        subscribedAt: null, quotaExemptUntil: new Date('2030-01-01'),
       },
     })
   })

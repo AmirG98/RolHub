@@ -41,6 +41,10 @@ model User {
   periodStart           DateTime?
   periodEnd             DateTime?
   periodTurns           Int                    @default(0)
+  // Garantía a quienes se suscribieron con "ilimitado": alta de la
+  // suscripción en Polar y hasta cuándo conservan ilimitado.
+  subscribedAt          DateTime?
+  quotaExemptUntil      DateTime?
   trialSessionUsed      Boolean                @default(false)
   // Emails de seguimiento (lifecycle): opt-out del usuario + log de envíos
   emailOptOut           Boolean                @default(false)

@@ -33,7 +33,7 @@ export class PolarUnavailableError extends Error {}
 export async function syncPlanFromPolar(userId: string, opts: { force?: boolean } = {}): Promise<SyncPlanResult | null> {
   const user = await prisma.user.findUnique({
     where: { id: userId },
-    select: { id: true, plan: true, planExpiresAt: true, trialSessionUsed: true, stripeSubscriptionId: true, stripeCustomerId: true, periodStart: true, subStatus: true },
+    select: { id: true, plan: true, planExpiresAt: true, trialSessionUsed: true, stripeSubscriptionId: true, stripeCustomerId: true, periodStart: true, subStatus: true, subscribedAt: true, quotaExemptUntil: true },
   })
   if (!user) return null
 
@@ -95,7 +95,7 @@ export async function maybeRefreshQuotaOnExhausted(userId: string): Promise<Quot
     lastQuotaRefresh.set(userId, now)
     const fresh = await prisma.user.findUnique({
       where: { id: userId },
-      select: { planTier: true, subStatus: true, periodStart: true, periodEnd: true, periodTurns: true },
+      select: { planTier: true, subStatus: true, periodStart: true, periodEnd: true, periodTurns: true, subscribedAt: true, quotaExemptUntil: true },
     })
     if (!fresh) return null
     const q = getQuotaStatus(fresh)

@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
     await syncPlanFromPolar(user.id, { force: true })
     const fresh = await prisma.user.findUnique({
       where: { id: user.id },
-      select: { planTier: true, subStatus: true, periodStart: true, periodEnd: true, periodTurns: true },
+      select: { planTier: true, subStatus: true, periodStart: true, periodEnd: true, periodTurns: true, subscribedAt: true, quotaExemptUntil: true },
     })
     const quota = fresh ? getQuotaStatus(fresh) : null
     return NextResponse.json({

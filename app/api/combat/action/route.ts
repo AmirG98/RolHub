@@ -12,6 +12,7 @@ import { CombatState, CombatActionType, CombatLogEntry } from '@/lib/types/comba
 import { TacticalToken } from '@/lib/tactical/types'
 import { prisma } from '@/lib/db/prisma'
 import { canStartSession, isBillingEnforced } from '@/lib/plans/check-access'
+import { getQuotaStatus } from '@/lib/plans/quota'
 
 // Inicializar Claude
 const anthropic = new Anthropic({
@@ -79,7 +80,10 @@ export async function POST(req: NextRequest): Promise<NextResponse<CombatActionA
     if (isBillingEnforced()) {
       const u = await prisma.user.findUnique({
         where: { clerkId: userId },
-        select: { plan: true, trialSessionUsed: true, planExpiresAt: true, stripeSubscriptionId: true, totalTurns: true },
+        select: {
+          plan: true, trialSessionUsed: true, planExpiresAt: true, stripeSubscriptionId: true, totalTurns: true,
+          planTier: true, subStatus: true, periodStart: true, periodEnd: true, periodTurns: true, subscribedAt: true, quotaExemptUntil: true,
+        },
       })
       if (u) {
         const access = canStartSession({
@@ -89,7 +93,10 @@ export async function POST(req: NextRequest): Promise<NextResponse<CombatActionA
           stripeSubscriptionId: u.stripeSubscriptionId,
           totalTurns: u.totalTurns,
         })
-        if (!access.allowed) {
+        // Cupo del plan agotado: el combate táctico no puede ser un atajo
+        // para seguir generando llamadas al narrador.
+        const quota = u.plan !== 'FREE' ? getQuotaStatus(u) : null
+        if (!access.allowed || (quota?.enforced && quota.remaining <= 0)) {
           return NextResponse.json({
             success: false, narration: '',
             result: { narration: '', tokenUpdates: [], combatEnded: false },

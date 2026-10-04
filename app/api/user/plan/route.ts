@@ -18,7 +18,7 @@ export async function GET() {
     where: { clerkId },
     select: {
       plan: true, planExpiresAt: true, trialSessionUsed: true, totalTurns: true, stripeSubscriptionId: true,
-      planTier: true, subStatus: true, periodStart: true, periodEnd: true, periodTurns: true,
+      planTier: true, subStatus: true, periodStart: true, periodEnd: true, periodTurns: true, subscribedAt: true, quotaExemptUntil: true,
     },
   })
   if (!user) return NextResponse.json({ error: 'Usuario no encontrado' }, { status: 404 })

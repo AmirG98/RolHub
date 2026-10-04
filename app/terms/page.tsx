@@ -28,7 +28,7 @@ export default function TermsPage() {
               <li><strong className="text-parchment">Hero:</strong> $24.99/month — 400 turns per billing period</li>
               <li><strong className="text-parchment">Legend:</strong> $59.99/month — 1,000 turns per billing period</li>
               <li>Every paid plan includes all features, worlds, and game engines. A turn is one player action plus the narrator's reply. Unused turns do not carry over. Paid plans start with a 3-day free trial that includes 60 turns.</li>
-              <li>Subscribers who joined before the turn allowances were introduced keep unlimited turns until their next renewal.</li>
+              <li>If you subscribed while the plan was offered with unlimited turns, you keep unlimited turns through the end of the paid billing period you had at that time. If you were in the free trial, you keep unlimited turns through the end of your first paid month. The turn allowance applies from your following renewal.</li>
             </ul>
 
             <h3 className="font-heading text-base text-gold/80 mt-4">3.1 Billing Cycle</h3>

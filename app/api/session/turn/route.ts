@@ -128,10 +128,10 @@ export async function POST(req: NextRequest) {
         where: { clerkId: clerkUserId },
         select: {
           id: true, plan: true, trialSessionUsed: true, planExpiresAt: true, stripeSubscriptionId: true, email: true, totalTurns: true,
-          planTier: true, subStatus: true, periodStart: true, periodEnd: true, periodTurns: true,
+          planTier: true, subStatus: true, periodStart: true, periodEnd: true, periodTurns: true, subscribedAt: true, quotaExemptUntil: true,
         },
       })
-      if (user) authUserQuota = { planTier: user.planTier, subStatus: user.subStatus, periodStart: user.periodStart, periodEnd: user.periodEnd, periodTurns: user.periodTurns }
+      if (user) authUserQuota = { planTier: user.planTier, subStatus: user.subStatus, periodStart: user.periodStart, periodEnd: user.periodEnd, periodTurns: user.periodTurns, subscribedAt: user.subscribedAt, quotaExemptUntil: user.quotaExemptUntil }
       authUserId = user?.id || null
       authUserPlan = user?.plan || null
       authUserTrialUsed = user?.trialSessionUsed || false
