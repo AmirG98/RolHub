@@ -16,6 +16,7 @@ import { calculateRelativePosition, normalizeLegacyCoordinates } from '@/lib/map
 import { type Quest, type QuestUpdate } from '@/lib/types/quest'
 import { generateSummaryCheckpoint, shouldTriggerSummary } from '@/lib/claude/session-summarizer'
 import { detectRenarration, condenseNarration, renarrationRetryDirective } from '@/lib/claude/repetition-guard'
+import { buildStorySoFar } from '@/lib/claude/story-so-far'
 import { updateUserProgress, type ProgressUpdate } from '@/lib/game/user-progress'
 import { normalizeMilestones, recordMilestoneEvent, detectNewUnlockables } from '@/lib/game/milestones'
 import { getSkillTree } from '@/lib/game/skill-trees'
@@ -32,7 +33,8 @@ import { dmTurnTool, DM_TOOL_CHOICE, dmRawFromMessage } from '@/lib/claude/dm-to
 import { antiIpDirective } from '@/lib/claude/anti-ip-directive'
 import { canStartSession, trialTurnsRemainingAfter, isBillingEnforced, WIND_DOWN_TURNS } from '@/lib/plans/check-access'
 import { trialWindDownDirective } from '@/lib/claude/trial-winddown'
-import { maybeSyncPlanOnDeny } from '@/lib/billing/sync-plan'
+import { maybeSyncPlanOnDeny, maybeRefreshQuotaOnExhausted } from '@/lib/billing/sync-plan'
+import { getQuotaStatus, quotaRemainingAfter, type QuotaStatus, type QuotaUser } from '@/lib/plans/quota'
 import { rateLimit, rateLimitResponse } from '@/lib/rate-limit'
 import { verifyGuestCookie } from '@/lib/guest/cookie'
 import { healPlaceholderEmail } from '@/lib/auth/clerk-email'
@@ -120,12 +122,17 @@ export async function POST(req: NextRequest) {
     let authUserTotalTurns: number = 0
     let authUserPlanExpires: Date | null = null
     let authUserStripeSubId: string | null = null
+    let authUserQuota: QuotaUser | null = null
 
     if (clerkUserId) {
       const user = await prisma.user.findUnique({
         where: { clerkId: clerkUserId },
-        select: { id: true, plan: true, trialSessionUsed: true, planExpiresAt: true, stripeSubscriptionId: true, email: true, totalTurns: true },
+        select: {
+          id: true, plan: true, trialSessionUsed: true, planExpiresAt: true, stripeSubscriptionId: true, email: true, totalTurns: true,
+          planTier: true, subStatus: true, periodStart: true, periodEnd: true, periodTurns: true,
+        },
       })
+      if (user) authUserQuota = { planTier: user.planTier, subStatus: user.subStatus, periodStart: user.periodStart, periodEnd: user.periodEnd, periodTurns: user.periodTurns }
       authUserId = user?.id || null
       authUserPlan = user?.plan || null
       authUserTrialUsed = user?.trialSessionUsed || false
@@ -183,6 +190,10 @@ export async function POST(req: NextRequest) {
     // último en vez de cortar en mitad de una escena. null = no aplica
     // (guest, PRO, o billing apagado).
     let trialTurnsRemaining: number | null = null
+    // Cupo mensual del plan pago (lib/plans/quota.ts). Cuando rige, alimenta
+    // el MISMO mecanismo que el trial gratis (aviso en la UI + cierre de
+    // escena del DM en los últimos turnos), con otro texto en el cliente.
+    let quotaInfo: QuotaStatus | null = null
 
     if (isBillingEnforced() && authUserPlan !== null) {
       let access = canStartSession({
@@ -205,6 +216,32 @@ export async function POST(req: NextRequest) {
         )
       }
       if (authUserPlan === 'FREE') trialTurnsRemaining = trialTurnsRemainingAfter(authUserTotalTurns)
+
+      if (authUserPlan !== 'FREE' && authUserId && authUserQuota) {
+        let quota = getQuotaStatus(authUserQuota)
+        if (quota.enforced && quota.remaining <= 0) {
+          // Autocuración: renovación o upgrade cuyo webhook no llegó.
+          const fresh = await maybeRefreshQuotaOnExhausted(authUserId)
+          if (fresh) quota = getQuotaStatus(fresh)
+        }
+        if (quota.enforced && quota.remaining <= 0) {
+          return NextResponse.json(
+            {
+              error: locale403(req) === 'en'
+                ? 'You have used all the turns included in your plan for this period.'
+                : 'Usaste todos los turnos incluidos en tu plan para este período.',
+              upgradeRequired: true,
+              code: 'quota_exhausted',
+              wall: wallPayload(quota, 0),
+            },
+            { status: 403 }
+          )
+        }
+        if (quota.enforced) {
+          quotaInfo = quota
+          trialTurnsRemaining = quotaRemainingAfter(quota)
+        }
+      }
     }
 
     const body = await req.json()
@@ -477,15 +514,10 @@ export async function POST(req: NextRequest) {
     let storySoFar = ''
 
     if (checkpoints.length > 0) {
-      // Concatenar todos los checkpoints como bloques etiquetados con turn range.
-      // Cada checkpoint cubre ~10 turnos comprimidos a 4-6 oraciones por Haiku.
-      storySoFar = checkpoints
-        .map((c: any) => {
-          const start = Math.max(1, c.turnIndex - c.turnCount + 1)
-          const end = c.turnIndex
-          return `[Turns ${start}-${end}] ${c.summary}`
-        })
-        .join('\n\n')
+      // Últimos checkpoints íntegros + ledger acotado de hechos para los
+      // viejos (antes se concatenaban TODOS: 20K tokens por turno en sesiones
+      // de 700+ turnos). Ver lib/claude/story-so-far.ts.
+      storySoFar = buildStorySoFar(checkpoints, locale as 'es' | 'en')
     } else {
       // Fallback heurístico: primera oración de cada narración del DM
       const olderDMNarrations = allTurns.slice(0, -6).filter(t => t.role === 'DM' && t.content.length > 30)
@@ -3056,6 +3088,17 @@ INSTRUCCIONES PARA HABILIDADES:
       }
     }
 
+    // 4.45 Contador del cupo del período (planes pagos). Incremento atómico,
+    // aparte de updateUserProgress (que hace read-modify-write). Se cuenta
+    // siempre, rija o no el cupo, para tener el dato de uso por período.
+    if (clerkUserId && authUserId && authUserPlan !== null && authUserPlan !== 'FREE') {
+      try {
+        await prisma.user.update({ where: { id: authUserId }, data: { periodTurns: { increment: 1 } } })
+      } catch (err) {
+        console.error('[turn] periodTurns increment failed:', err)
+      }
+    }
+
     // 4.5 Trigger fire-and-forget del session summarizer cuando corresponde.
     // Política: cada vez que la cantidad total de turnos cruza un múltiplo de 10
     // (>= 20), comprimimos el chunk de 10 turnos que acaba de salir de la ventana
@@ -3154,8 +3197,11 @@ INSTRUCCIONES PARA HABILIDADES:
       skillUnlocks,
       // Nodos listos para aprender ahora (null para guests) — pill persistente en la UI
       skillsAvailable,
-      // Turnos gratis restantes tras este (null si no aplica). 0 = capítulo gratis cerrado.
+      // Turnos restantes tras este antes de un muro (trial gratis o cupo del
+      // plan); null si no aplica. 0 = escena cerrada, el input se reemplaza.
       trialTurnsRemaining,
+      // Qué muro es: null = trial gratis de 25 turnos; objeto = cupo del plan.
+      wall: quotaInfo ? wallPayload(quotaInfo, trialTurnsRemaining ?? 0) : null,
     })
   } catch (error) {
     console.error('Error processing turn:', error)
@@ -3167,4 +3213,21 @@ INSTRUCCIONES PARA HABILIDADES:
       { status: 500 }
     )
   }
+}
+
+// ── Cupo del plan: payload para el cliente ────────────────────────────────
+function wallPayload(q: QuotaStatus, remainingAfter: number) {
+  return {
+    kind: q.kind, // 'quota' | 'sub_trial'
+    tier: q.tier,
+    limit: q.limit,
+    used: Math.min(q.limit, q.limit - remainingAfter),
+    remaining: remainingAfter,
+    nextTier: q.nextTier,
+    resetsAt: q.resetsAt ? q.resetsAt.toISOString() : null,
+  }
+}
+
+function locale403(req: NextRequest): 'es' | 'en' {
+  return (req.headers.get('accept-language') || '').toLowerCase().startsWith('es') ? 'es' : 'en'
 }

@@ -1,6 +1,6 @@
 // Configuración de planes de monetización
 // Trial: 25 turnos jugados gratis post-registro (FREE_TRIAL_TURNS), después paywall
-// PRO: $8.99/mo todo ilimitado
+// PRO: planes pagos con cupo mensual de turnos — ver lib/plans/quota.ts (TIERS)
 
 export type PlanTier = 'FREE' | 'PRO' | 'GUILD'
 export type PlanStatus = 'trial' | 'trial_used' | 'pro' | 'pro_expired'
@@ -17,7 +17,7 @@ export const PLAN_CONFIG = {
     labelEs: 'Aventurero',
     priceMonthly: 8.99,
     priceYearly: 89.90,
-    description: 'Todo ilimitado',
+    description: '150 turnos por mes',
   },
   GUILD: {
     label: 'Guild',

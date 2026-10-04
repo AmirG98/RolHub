@@ -23,8 +23,12 @@ export default function TermsPage() {
             <h2 className="font-heading text-lg text-gold mt-6">3. Subscription Plans & Billing</h2>
             <p>RolHub offers the following plans:</p>
             <ul className="list-disc pl-6 space-y-1">
-              <li><strong className="text-parchment">Trial:</strong> one free session upon registration with full access to all features</li>
-              <li><strong className="text-parchment">Pro (Aventurero):</strong> $8.99/month — unlimited access to all features, worlds, and game engines</li>
+              <li><strong className="text-parchment">Trial:</strong> 25 free turns upon registration with full access to all features</li>
+              <li><strong className="text-parchment">Adventurer:</strong> $8.99/month — 150 turns per billing period</li>
+              <li><strong className="text-parchment">Hero:</strong> $24.99/month — 400 turns per billing period</li>
+              <li><strong className="text-parchment">Legend:</strong> $59.99/month — 1,000 turns per billing period</li>
+              <li>Every paid plan includes all features, worlds, and game engines. A turn is one player action plus the narrator's reply. Unused turns do not carry over. Paid plans start with a 3-day free trial that includes 60 turns.</li>
+              <li>Subscribers who joined before the turn allowances were introduced keep unlimited turns until their next renewal.</li>
             </ul>
 
             <h3 className="font-heading text-base text-gold/80 mt-4">3.1 Billing Cycle</h3>

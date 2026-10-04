@@ -17,11 +17,14 @@ beforeEach(() => { vi.clearAllMocks(); mockClerkId = 'user_abc' })
 describe('GET /api/user/plan', () => {
   it('PRO vigente → status pro', async () => {
     mockFindUnique.mockResolvedValue({ plan: 'PRO', planExpiresAt: null, trialSessionUsed: false, totalTurns: 50, stripeSubscriptionId: 's1' })
-    expect(await (await GET()).json()).toEqual({ plan: 'PRO', status: 'pro' })
+    const body = await (await GET()).json()
+    expect(body).toMatchObject({ plan: 'PRO', status: 'pro', tier: 'adventurer' })
+    // sin período sincronizado (suscriptor anterior al cupo) → no rige
+    expect(body.quota).toMatchObject({ enforced: false, limit: 150 })
   })
   it('PRO vencido → status pro_expired (no "gestionar" una suscripción muerta)', async () => {
     mockFindUnique.mockResolvedValue({ plan: 'PRO', planExpiresAt: new Date(Date.now() - 864e5), trialSessionUsed: false, totalTurns: 50 })
-    expect(await (await GET()).json()).toEqual({ plan: 'PRO', status: 'pro_expired' })
+    expect(await (await GET()).json()).toEqual({ plan: 'PRO', status: 'pro_expired', tier: null, quota: null })
   })
   it('FREE con trial agotado → trial_used', async () => {
     mockFindUnique.mockResolvedValue({ plan: 'FREE', planExpiresAt: null, trialSessionUsed: false, totalTurns: 25 })

@@ -33,6 +33,14 @@ model User {
   stripeCustomerId      String?                @unique
   stripeSubscriptionId  String?                @unique
   planExpiresAt         DateTime?
+  // Cupo de turnos por período de facturación (lib/plans/quota.ts).
+  // planTier/subStatus/periodStart/periodEnd se derivan de la suscripción de
+  // Polar (webhook + sync); periodTurns se reinicia cuando cambia periodStart.
+  planTier              String?                // 'adventurer' | 'hero' | 'legend'
+  subStatus             String?                // 'trialing' | 'active'
+  periodStart           DateTime?
+  periodEnd             DateTime?
+  periodTurns           Int                    @default(0)
   trialSessionUsed      Boolean                @default(false)
   // Emails de seguimiento (lifecycle): opt-out del usuario + log de envíos
   emailOptOut           Boolean                @default(false)
