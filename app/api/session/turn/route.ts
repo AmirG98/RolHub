@@ -16,7 +16,6 @@ import { calculateRelativePosition, normalizeLegacyCoordinates } from '@/lib/map
 import { type Quest, type QuestUpdate } from '@/lib/types/quest'
 import { generateSummaryCheckpoint, shouldTriggerSummary } from '@/lib/claude/session-summarizer'
 import { detectRenarration, condenseNarration, renarrationRetryDirective } from '@/lib/claude/repetition-guard'
-import { buildStorySoFar } from '@/lib/claude/story-so-far'
 import { updateUserProgress, type ProgressUpdate } from '@/lib/game/user-progress'
 import { normalizeMilestones, recordMilestoneEvent, detectNewUnlockables } from '@/lib/game/milestones'
 import { getSkillTree } from '@/lib/game/skill-trees'
@@ -514,10 +513,18 @@ export async function POST(req: NextRequest) {
     let storySoFar = ''
 
     if (checkpoints.length > 0) {
-      // Últimos checkpoints íntegros + ledger acotado de hechos para los
-      // viejos (antes se concatenaban TODOS: 20K tokens por turno en sesiones
-      // de 700+ turnos). Ver lib/claude/story-so-far.ts.
-      storySoFar = buildStorySoFar(checkpoints, locale as 'es' | 'en')
+      // Concatenar todos los checkpoints como bloques etiquetados con turn range.
+      // Cada checkpoint cubre ~10 turnos comprimidos a 4-6 oraciones por Haiku.
+      // Decisión del user (2026-10-04): NO recortar los resúmenes viejos para
+      // ahorrar tokens — el costo se cubre con el cupo de turnos por plan, y
+      // la memoria completa de la historia es parte de la calidad del producto.
+      storySoFar = checkpoints
+        .map((c: any) => {
+          const start = Math.max(1, c.turnIndex - c.turnCount + 1)
+          const end = c.turnIndex
+          return `[Turns ${start}-${end}] ${c.summary}`
+        })
+        .join('\n\n')
     } else {
       // Fallback heurístico: primera oración de cada narración del DM
       const olderDMNarrations = allTurns.slice(0, -6).filter(t => t.role === 'DM' && t.content.length > 30)
