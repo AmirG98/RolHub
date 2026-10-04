@@ -1291,8 +1291,31 @@ SESION 2026-10-04 — COSTO DEL NARRADOR + PLANES CON CUPO DE TURNOS (deployado,
     suscripción REAL de Polar. La cuenta logueada en el Chrome del user
     (Usuario_JDYeP8) es PRO por un id viejo de Lemon Squeezy, no de Polar; la
     que tiene suscripción Polar es Usuario_ZfAvdG (amir@amirgomez.com).
-  PENDIENTE: probar upgrade real; fijar fecha de lanzamiento; mail de aviso
-  a suscriptores actuales; prompt caching; limpiar audios de la DB.
+  GARANTÍA A SUSCRIPTORES EXISTENTES (requisito del user: quien empezó con
+  "8.99 ilimitado" lo conserva hasta el mes siguiente):
+  ✅ User.subscribedAt + quotaExemptUntil. Regla en getQuotaStatus: el cupo
+     rige solo si (1) hay fecha de lanzamiento, (2) el período actual empezó
+     en/después del lanzamiento y (3) para quien se suscribió ANTES, ya pasó
+     su quotaExemptUntil (fin del período pago vigente; para los que estaban
+     en trial, fin del trial + 1 mes). Sin dato → ilimitado, siempre.
+     __tests__/unit/quota-grandfathering.test.ts simula cada caso.
+  ✅ /api/cron/quota-backfill (CRON_SECRET, ?dry=1) ejecutado el 2026-10-04:
+     18/18 suscripciones Polar con fecha de exención; 0 con cupo vigente.
+     RE-EJECUTARLO el día del lanzamiento (es idempotente).
+  ✅ Combate táctico (/api/combat/action) respeta el cupo.
+  ✅ Verificado en prod: PRO ilimitado juega sin aviso ni muro; periodTurns
+     suma entre campañas distintas (4 → 6 con un turno en cada una).
+  DATOS REALES (_usage, 56 turnos de 6 usuarios): 12.107 tokens in / 810
+  out por turno = $0.0485/turno, máx 23.662 in, latencia 17.6 s.
+  ⚠ 4 suscripciones están past_due en Polar (cobro fallido) y siguen PRO en
+    la app: MpU9Ka, Zlt2Hh, BcAW43, W3n3n5. Decisión pendiente del user.
+  ⚠ 2 cuentas PRO sin suscripción Polar (ids viejos de Lemon Squeezy:
+    JDYeP8, UhHGDC) quedan ilimitadas para siempre; son cuentas del user.
+  PARA LANZAR EL CUPO: (1) QUOTA_ENFORCED_FROM_DEFAULT = fecha real en
+  lib/plans/quota.ts, (2) re-correr el backfill, (3) mail de aviso a los
+  suscriptores actuales (no escrito ni enviado), (4) probar un upgrade real
+  logueado con la cuenta que tiene suscripción Polar (amir@amirgomez.com).
+  PENDIENTE además: prompt caching; limpiar audios de la DB.
 
 SESION 2026-10-02 — BUCLE NARRATIVO CON PEDIDO DE REEMBOLSO (Usuario_TfXkeF):
   CASO: VETERAN, Zombies/PbtA, registrado 2026-10-01 23:53 UTC, 42 acciones en
