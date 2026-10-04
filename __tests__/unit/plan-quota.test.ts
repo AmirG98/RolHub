@@ -10,7 +10,12 @@ const after = new Date('2026-10-12T00:00:00Z')
 const before = new Date('2026-10-01T00:00:00Z')
 
 describe('quotaEnforcedFrom — flag por env', () => {
-  it('sin env: apagado', () => expect(quotaEnforcedFrom({})).toBeNull())
+  it('sin env: usa el default del código; hoy 2099 = no alcanza a ningún suscriptor real', () => {
+    const d = quotaEnforcedFrom({})
+    expect(d).not.toBeNull()
+    // un período real (de hoy) queda fuera → ilimitado
+    expect(getQuotaStatus({ planTier: 'adventurer', subStatus: 'active', periodStart: new Date(), periodTurns: 9999 }, d).enforced).toBe(false)
+  })
   it('fecha inválida: apagado', () => expect(quotaEnforcedFrom({ QUOTA_ENFORCED_FROM: 'pronto' })).toBeNull())
   it('fecha ISO', () => expect(quotaEnforcedFrom({ QUOTA_ENFORCED_FROM: '2026-10-10T00:00:00Z' })?.getTime()).toBe(LAUNCH.getTime()))
 })
