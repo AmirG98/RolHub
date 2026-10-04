@@ -1311,10 +1311,16 @@ SESION 2026-10-04 — COSTO DEL NARRADOR + PLANES CON CUPO DE TURNOS (deployado,
     la app: MpU9Ka, Zlt2Hh, BcAW43, W3n3n5. Decisión pendiente del user.
   ⚠ 2 cuentas PRO sin suscripción Polar (ids viejos de Lemon Squeezy:
     JDYeP8, UhHGDC) quedan ilimitadas para siempre; son cuentas del user.
+  ✅ UPGRADE REAL VERIFICADO (2026-10-04) con la cuenta del user que tiene
+     suscripción Polar (Usuario_ZfAvdG): muro → "Upgrade to Hero" → confirmar
+     → Polar cambió el producto a RolHub Hero, cobró USD 13.44 de prorrateo
+     (orden Paid), mantuvo la renovación del 29/10; la app guardó
+     planTier=hero y liberó el juego sin recargar. /pricing muestra Hero
+     como plan actual. Esa cuenta QUEDÓ EN HÉROE ($24.99/mes).
+  NO probado con cobro real: start_now (cortar el trial) y el salto a Leyenda.
   PARA LANZAR EL CUPO: (1) QUOTA_ENFORCED_FROM_DEFAULT = fecha real en
   lib/plans/quota.ts, (2) re-correr el backfill, (3) mail de aviso a los
-  suscriptores actuales (no escrito ni enviado), (4) probar un upgrade real
-  logueado con la cuenta que tiene suscripción Polar (amir@amirgomez.com).
+  suscriptores actuales (no escrito ni enviado).
   PENDIENTE además: prompt caching; limpiar audios de la DB.
 
 SESION 2026-10-02 — BUCLE NARRATIVO CON PEDIDO DE REEMBOLSO (Usuario_TfXkeF):
