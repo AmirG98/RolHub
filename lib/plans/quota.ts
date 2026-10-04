@@ -29,14 +29,13 @@ export const TIERS: Record<PlanTierId, { turns: number; priceMonthly: number; la
 export const SUB_TRIAL_TURNS = 60
 
 /**
- * Fecha de lanzamiento del cupo: rige para períodos de facturación que
- * EMPIEZAN desde acá. Hoy está en 2099 = armado pero sin alcanzar a ningún
- * suscriptor real (permite probar el flujo completo en una cuenta puntual
- * moviendo su periodStart). Al lanzar, poner la fecha real (ISO, p. ej.
- * '2026-10-06T00:00:00Z'). null = apagado del todo. La env
- * QUOTA_ENFORCED_FROM la pisa si existe. Ver quotaEnforcedFrom().
+ * Fecha de lanzamiento del cupo (lanzado el 2026-10-04 22:00 UTC). Rige para
+ * períodos de facturación que empiezan desde acá; quien se suscribió ANTES
+ * conserva ilimitado hasta su quotaExemptUntil (ver getQuotaStatus). No
+ * mover hacia atrás: le recortaría a gente que contrató "ilimitado". null =
+ * apagado del todo. La env QUOTA_ENFORCED_FROM la pisa si existe.
  */
-export const QUOTA_ENFORCED_FROM_DEFAULT: string | null = '2099-01-01T00:00:00Z'
+export const QUOTA_ENFORCED_FROM_DEFAULT: string | null = '2026-10-04T22:00:00Z'
 
 /** Desde este % de uso la UI muestra el contador del cupo. */
 export const QUOTA_WARNING_RATIO = 0.8

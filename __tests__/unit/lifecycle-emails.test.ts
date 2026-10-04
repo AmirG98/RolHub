@@ -55,6 +55,11 @@ describe('renderEmail', () => {
       const wb = renderEmail('welcome_back', { ...ctx, locale }); expect(wb.html).toContain(ctx.playUrl); expect(wb.html).toContain(ctx.unsubscribeUrl); expect(wb.text).toContain(ctx.unsubscribeUrl)
       const cb = renderEmail('come_back', { ...ctx, locale }); expect(cb.html).toContain(ctx.playUrl); expect(cb.html).toContain('Tyr'); expect(cb.html).toContain('car alarm')
       const pf = renderEmail('paywall_followup', { ...ctx, locale }); expect(pf.html).toContain(ctx.pricingUrl); expect(pf.html).toContain('8.99')
+      // Desde el lanzamiento del cupo (2026-10-04) el mail NO puede prometer
+      // "ilimitado" a suscriptores nuevos: dice los turnos que incluye.
+      expect(pf.html + pf.text).not.toMatch(/unlimited|ilimitad/i)
+      expect(pf.html).toContain('150')
+      expect(pf.text).toContain('150')
       // El trial de 3 días es el argumento más fuerte: tiene que estar en el asunto y en el cuerpo
       expect(pf.subject).toMatch(locale === 'en' ? /3 days free/ : /3 días gratis/)
       expect(pf.html).toMatch(locale === 'en' ? /3 days free/ : /3 días gratis/)

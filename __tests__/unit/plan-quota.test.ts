@@ -10,11 +10,14 @@ const after = new Date('2026-10-12T00:00:00Z')
 const before = new Date('2026-10-01T00:00:00Z')
 
 describe('quotaEnforcedFrom — flag por env', () => {
-  it('sin env: usa el default del código; hoy 2099 = no alcanza a ningún suscriptor real', () => {
+  it('sin env: usa la fecha de lanzamiento del código (2026-10-04 22:00 UTC)', () => {
     const d = quotaEnforcedFrom({})
-    expect(d).not.toBeNull()
-    // un período real (de hoy) queda fuera → ilimitado
-    expect(getQuotaStatus({ planTier: 'adventurer', subStatus: 'active', periodStart: new Date(), periodTurns: 9999 }, d).enforced).toBe(false)
+    expect(d?.toISOString()).toBe('2026-10-04T22:00:00.000Z')
+    // un período que empezó ANTES del lanzamiento queda ilimitado
+    expect(getQuotaStatus({ planTier: 'adventurer', subStatus: 'active', periodStart: new Date('2026-09-30T00:00:00Z'), periodTurns: 9999 }, d).enforced).toBe(false)
+    // un suscriptor NUEVO (alta posterior) tiene cupo desde el primer día
+    const alta = new Date('2026-10-05T10:00:00Z')
+    expect(getQuotaStatus({ planTier: 'adventurer', subStatus: 'trialing', periodStart: alta, subscribedAt: alta, periodTurns: 0 }, d)).toMatchObject({ enforced: true, limit: 60 })
   })
   it('fecha inválida: apagado', () => expect(quotaEnforcedFrom({ QUOTA_ENFORCED_FROM: 'pronto' })).toBeNull())
   it('fecha ISO', () => expect(quotaEnforcedFrom({ QUOTA_ENFORCED_FROM: '2026-10-10T00:00:00Z' })?.getTime()).toBe(LAUNCH.getTime()))
