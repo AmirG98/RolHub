@@ -58,6 +58,7 @@ import { LevelUpModal } from '@/components/game/LevelUpModal'
 import { GameTutorialTour } from '@/components/game/GameTutorialTour'
 import { NarratorThinking } from '@/components/game/NarratorThinking'
 import { UpgradePrompt } from '@/components/billing/UpgradePrompt'
+import { QuotaWall, type WallInfo } from '@/components/billing/QuotaWall'
 import dynamic from 'next/dynamic'
 
 // Dynamic import for 3D orb (SSR-safe)
@@ -223,6 +224,8 @@ export default function GameSession({
   // Turnos gratis restantes según el server (null = no aplica). Alimenta el
   // aviso previo al paywall y el cierre de capítulo cuando llega a 0.
   const [trialTurnsRemaining, setTrialTurnsRemaining] = useState<number | null>(null)
+  // Cupo del plan pago (null = el muro, si lo hay, es el trial gratis de 25 turnos)
+  const [wall, setWall] = useState<WallInfo | null>(null)
 
   // Interceptar TODAS las formas de salir de la partida
   useEffect(() => {
@@ -613,6 +616,13 @@ export default function GameSession({
           // 401/403/4xx permanentes: no retryear
           if (response.status === 401 || response.status === 403) {
             const d = await response.json().catch(() => ({}))
+            if (d.upgradeRequired && d.code === 'quota_exhausted' && d.wall) {
+              // Cupo del plan agotado: el input se reemplaza por el muro con
+              // el upgrade, no por el modal del trial gratis.
+              setWall(d.wall as WallInfo)
+              setTrialTurnsRemaining(0)
+              return
+            }
             if (d.upgradeRequired) {
               setShowUpgradePrompt(true)
               return
@@ -790,7 +800,11 @@ export default function GameSession({
       if ('trialTurnsRemaining' in data) {
         const remaining: number | null = typeof data.trialTurnsRemaining === 'number' ? data.trialTurnsRemaining : null
         setTrialTurnsRemaining(remaining)
-        if (remaining === 0) {
+        const nextWall: WallInfo | null = data.wall && typeof data.wall === 'object' ? (data.wall as WallInfo) : null
+        setWall(nextWall)
+        // El modal de "probá Pro" es solo para el trial gratis; con cupo de
+        // plan el muro inline ya ofrece el upgrade.
+        if (remaining === 0 && !nextWall) {
           if (upgradePromptTimeout.current) clearTimeout(upgradePromptTimeout.current)
           upgradePromptTimeout.current = setTimeout(() => setShowUpgradePrompt(true), 4000)
         }
@@ -1472,19 +1486,32 @@ export default function GameSession({
               />
             ) : (
               <div id="action-input">
-                {trialTurnsRemaining !== null && trialTurnsRemaining <= TRIAL_WARNING_TURNS && trialTurnsRemaining > 0 && (
+                {trialTurnsRemaining !== null && trialTurnsRemaining > 0 && (
+                  wall
+                    // Cupo del plan: se avisa desde el 80% de uso
+                    ? trialTurnsRemaining <= Math.max(TRIAL_WARNING_TURNS, Math.round(wall.limit * 0.2))
+                    : trialTurnsRemaining <= TRIAL_WARNING_TURNS
+                ) && (
                   <div className="mb-2 flex items-center justify-between gap-3 rounded-lg border border-gold/40 bg-gold/10 px-3 py-2">
                     <span className="font-ui text-xs text-parchment">
-                      {trialTurnsRemaining === 1
-                        ? t.upgrade.lastTurn
-                        : t.upgrade.turnsLeft.replace('{n}', String(trialTurnsRemaining))}
+                      {wall
+                        ? (wall.kind === 'sub_trial' ? t.upgrade.subTrialLeft : t.upgrade.quotaLeft).replace('{n}', String(trialTurnsRemaining))
+                        : trialTurnsRemaining === 1
+                          ? t.upgrade.lastTurn
+                          : t.upgrade.turnsLeft.replace('{n}', String(trialTurnsRemaining))}
                     </span>
                     <Link href="/pricing" className="font-heading text-xs text-gold hover:text-gold-bright whitespace-nowrap">
                       {t.upgrade.cta} →
                     </Link>
                   </div>
                 )}
-                {trialTurnsRemaining === 0 ? (
+                {trialTurnsRemaining === 0 && wall ? (
+                  <QuotaWall
+                    wall={wall}
+                    locale={locale as 'es' | 'en'}
+                    onUpgraded={() => { setWall(null); setTrialTurnsRemaining(null); setError(null) }}
+                  />
+                ) : trialTurnsRemaining === 0 ? (
                   <div className="rounded-lg border border-gold/40 glass-panel-dark p-5 text-center">
                     <p className="font-title text-lg text-gold-bright mb-1">{t.upgrade.chapterComplete}</p>
                     <p className="font-body text-sm text-parchment/70 mb-4">{t.upgrade.chapterCompleteSub}</p>

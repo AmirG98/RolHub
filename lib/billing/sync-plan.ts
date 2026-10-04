@@ -13,8 +13,10 @@ import {
   isPolarConfigured,
   pickActiveSubscription,
   planFieldsFromActiveSubscription,
+  POLAR_TIER_PRODUCTS,
   type PolarSubscriptionLike,
 } from '@/lib/polar'
+import { quotaFieldsFromSubscription, getQuotaStatus, type QuotaUser } from '@/lib/plans/quota'
 
 export interface SyncPlanResult {
   plan: string
@@ -28,16 +30,18 @@ export interface SyncPlanResult {
 export class PolarUnavailableError extends Error {}
 
 /** Sincroniza el plan del user (por id interno). Idempotente. */
-export async function syncPlanFromPolar(userId: string): Promise<SyncPlanResult | null> {
+export async function syncPlanFromPolar(userId: string, opts: { force?: boolean } = {}): Promise<SyncPlanResult | null> {
   const user = await prisma.user.findUnique({
     where: { id: userId },
-    select: { id: true, plan: true, planExpiresAt: true, trialSessionUsed: true, stripeSubscriptionId: true, stripeCustomerId: true },
+    select: { id: true, plan: true, planExpiresAt: true, trialSessionUsed: true, stripeSubscriptionId: true, stripeCustomerId: true, periodStart: true, subStatus: true },
   })
   if (!user) return null
 
   const notActive: SyncPlanResult = { plan: user.plan, active: false, source: 'none', subscriptionId: user.stripeSubscriptionId, status: null }
 
-  if (getPlanStatus(user) === 'pro') {
+  // force: consultar Polar aunque la DB ya diga PRO (cambio de plan, o
+  // renovación cuyo webhook se perdió y dejó el cupo sin reiniciar).
+  if (!opts.force && getPlanStatus(user) === 'pro') {
     return { plan: user.plan, active: true, source: 'db', subscriptionId: user.stripeSubscriptionId, status: null }
   }
   if (!isPolarConfigured()) return notActive
@@ -57,7 +61,10 @@ export async function syncPlanFromPolar(userId: string): Promise<SyncPlanResult 
   const sub = pickActiveSubscription(subs)
   if (!sub) return notActive
 
-  const fields = planFieldsFromActiveSubscription(sub)
+  const fields = {
+    ...planFieldsFromActiveSubscription(sub),
+    ...quotaFieldsFromSubscription(sub, user, POLAR_TIER_PRODUCTS),
+  }
   try {
     await prisma.user.update({
       where: { id: user.id },
@@ -71,6 +78,32 @@ export async function syncPlanFromPolar(userId: string): Promise<SyncPlanResult 
     await prisma.user.update({ where: { id: user.id }, data: fields })
   }
   return { plan: 'PRO', active: true, source: 'polar', subscriptionId: sub.id, status: sub.status }
+}
+
+// Cupo agotado: antes de frenar al jugador, refrescamos desde Polar por si
+// la renovación (o un upgrade) no llegó por webhook. Throttle propio.
+const lastQuotaRefresh = new Map<string, number>()
+const QUOTA_REFRESH_TTL_MS = 5 * 60 * 1000
+
+/** Devuelve los campos de cupo actualizados si Polar tenía novedades y queda cupo; null si no. */
+export async function maybeRefreshQuotaOnExhausted(userId: string): Promise<QuotaUser | null> {
+  const now = Date.now()
+  const last = lastQuotaRefresh.get(userId)
+  if (last !== undefined && now - last < QUOTA_REFRESH_TTL_MS) return null
+  try {
+    await syncPlanFromPolar(userId, { force: true })
+    lastQuotaRefresh.set(userId, now)
+    const fresh = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { planTier: true, subStatus: true, periodStart: true, periodEnd: true, periodTurns: true },
+    })
+    if (!fresh) return null
+    const q = getQuotaStatus(fresh)
+    return !q.enforced || q.remaining > 0 ? fresh : null
+  } catch (err) {
+    console.warn('[billing/sync] refresco de cupo falló:', err instanceof Error ? err.message : err)
+    return null
+  }
 }
 
 // Throttle por user para el camino de denegación del paywall: un FREE que

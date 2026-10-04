@@ -28,8 +28,24 @@ export function getPolar(): Polar {
 }
 
 export const POLAR_WEBHOOK_SECRET = process.env.POLAR_WEBHOOK_SECRET || ''
-export const POLAR_PRODUCT_ID = process.env.POLAR_PRODUCT_ID || ''
+// Aventurero (producto original, "RolHub Monthly Subscription"). Los ids de
+// producto no son secretos: el default evita depender de la env en cada entorno.
+export const POLAR_PRODUCT_ID = process.env.POLAR_PRODUCT_ID || 'af039a9e-b323-4321-87f0-4b7f50f07882'
 export const POLAR_PRICE_ID_MONTHLY = process.env.POLAR_PRICE_ID_MONTHLY || ''
+
+// Un producto de Polar por plan. POLAR_PRODUCT_ID es Aventurero (el original).
+export const POLAR_TIER_PRODUCTS = {
+  adventurer: POLAR_PRODUCT_ID,
+  // Creados en el dashboard de Polar el 2026-10-04 (mensuales, trial 3 días).
+  // Los ids de producto no son secretos; la env solo sirve para sandbox.
+  hero: process.env.POLAR_PRODUCT_ID_HERO || '5d85d2da-6630-43ec-99de-37ac0a733029',
+  legend: process.env.POLAR_PRODUCT_ID_LEGEND || 'ff4dbaef-5d85-4478-9e40-288ea01133ec',
+} as const
+
+/** Ids de producto configurados que otorgan plan pago. */
+export function tierProductIds(): string[] {
+  return Object.values(POLAR_TIER_PRODUCTS).filter(Boolean)
+}
 
 /** ¿Está configurado el checkout? (product o price presente + token) */
 export function isPolarConfigured(): boolean {
@@ -46,6 +62,7 @@ export interface PolarSubscriptionLike {
   status: string
   productId?: string | null
   cancelAtPeriodEnd?: boolean | null
+  currentPeriodStart?: Date | string | null
   currentPeriodEnd?: Date | string | null
   endsAt?: Date | string | null
 }
@@ -60,15 +77,17 @@ const ACTIVE_STATUSES = new Set(['active', 'trialing'])
  */
 export function pickActiveSubscription(
   subs: PolarSubscriptionLike[],
-  productId: string = POLAR_PRODUCT_ID
+  productId: string | string[] = tierProductIds()
 ): PolarSubscriptionLike | null {
   const active = subs.filter((s) => ACTIVE_STATUSES.has(s.status))
   if (active.length === 0) return null
-  if (!productId) return active[0]
-  const match = active.find((s) => s.productId === productId)
+  // Acepta cualquiera de los productos de plan (Aventurero/Héroe/Leyenda).
+  const accepted = (Array.isArray(productId) ? productId : [productId]).filter(Boolean)
+  if (accepted.length === 0) return active[0]
+  const match = active.find((s) => !!s.productId && accepted.includes(s.productId))
   if (!match) {
     console.warn(
-      `[polar] ${active.length} suscripción(es) activa(s) pero ninguna del producto ${productId}: ` +
+      `[polar] ${active.length} suscripción(es) activa(s) pero ninguna de los productos ${accepted.join('|')}: ` +
       active.map((s) => s.productId ?? '?').join(', ')
     )
   }

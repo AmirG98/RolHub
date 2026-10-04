@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { validateEvent, WebhookVerificationError } from '@polar-sh/sdk/webhooks'
 import { prisma } from '@/lib/db/prisma'
-import { planFieldsFromActiveSubscription } from '@/lib/polar'
+import { planFieldsFromActiveSubscription, POLAR_TIER_PRODUCTS } from '@/lib/polar'
+import { quotaFieldsFromSubscription } from '@/lib/plans/quota'
 import { sendMetaPurchaseEvent, attributionFromPolarMetadata, classifyPolarOrder } from '@/lib/meta/conversions-api'
 
 export const dynamic = 'force-dynamic'
@@ -80,6 +81,9 @@ export async function POST(req: NextRequest) {
           update.plan = fields.plan
           update.planExpiresAt = fields.planExpiresAt
           update.stripeSubscriptionId = fields.stripeSubscriptionId
+          // Plan, estado y período → cupo de turnos. Reinicia el contador si
+          // empezó un período nuevo (renovación) o el trial pasó a pago.
+          Object.assign(update, quotaFieldsFromSubscription(sub, user, POLAR_TIER_PRODUCTS))
         } else {
           update.plan = 'PRO'
           if (data?.subscriptionId) update.stripeSubscriptionId = data.subscriptionId
@@ -94,6 +98,7 @@ export async function POST(req: NextRequest) {
         update.plan = fields.plan
         update.planExpiresAt = fields.planExpiresAt
         update.stripeSubscriptionId = fields.stripeSubscriptionId
+        Object.assign(update, quotaFieldsFromSubscription(data, user, POLAR_TIER_PRODUCTS))
       } else if (status === 'past_due') {
         update.stripeSubscriptionId = data?.id ?? user.stripeSubscriptionId
         console.warn(`[Polar] Suscripción ${data?.id} past_due para user ${user.id}`)
@@ -101,6 +106,8 @@ export async function POST(req: NextRequest) {
         update.plan = 'FREE'
         update.planExpiresAt = null
         update.stripeSubscriptionId = null
+        update.planTier = null
+        update.subStatus = null
       }
 
       await prisma.user.update({ where: { id: user.id }, data: update })
@@ -157,7 +164,7 @@ export async function POST(req: NextRequest) {
       if (user) {
         await prisma.user.update({
           where: { id: user.id },
-          data: { plan: 'FREE', planExpiresAt: null, stripeSubscriptionId: null },
+          data: { plan: 'FREE', planExpiresAt: null, stripeSubscriptionId: null, planTier: null, subStatus: null },
         })
       }
     }

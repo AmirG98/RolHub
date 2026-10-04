@@ -6,8 +6,13 @@
  */
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 
-process.env.POLAR_ACCESS_TOKEN = 'tok'
-process.env.POLAR_PRODUCT_ID = 'prod_rolhub'
+// vi.hoisted: las env tienen que existir ANTES de que se evalúe lib/polar
+// (los imports se hoistean por encima de asignaciones sueltas; antes este
+// test pasaba de casualidad porque POLAR_PRODUCT_ID quedaba vacío).
+vi.hoisted(() => {
+  process.env.POLAR_ACCESS_TOKEN = 'tok'
+  process.env.POLAR_PRODUCT_ID = 'prod_rolhub'
+})
 
 let mockClerkId: string | null = 'user_abc'
 vi.mock('@clerk/nextjs/server', () => ({
@@ -123,7 +128,11 @@ describe('POST /api/billing/sync', () => {
     expect(body).toMatchObject({ plan: 'PRO', active: true, source: 'polar', subscriptionId: 'sub_1', status: 'active' })
     expect(mockUpdate).toHaveBeenCalledWith({
       where: { id: 'usr_1' },
-      data: { plan: 'PRO', planExpiresAt: null, stripeSubscriptionId: 'sub_1', stripeCustomerId: 'cust_1' },
+      data: {
+        plan: 'PRO', planExpiresAt: null, stripeSubscriptionId: 'sub_1', stripeCustomerId: 'cust_1',
+        // cupo: plan del producto, estado y período de la suscripción
+        planTier: 'adventurer', subStatus: 'active', periodStart: null, periodEnd: new Date('2030-01-01'),
+      },
     })
   })
 
@@ -148,7 +157,8 @@ describe('POST /api/billing/sync', () => {
     const body = await (await POST()).json()
     expect(body.active).toBe(true)
     expect(mockUpdate).toHaveBeenCalledTimes(2)
-    expect(mockUpdate.mock.calls[1][0].data).toEqual({ plan: 'PRO', planExpiresAt: null, stripeSubscriptionId: 'sub_1' })
+    expect(mockUpdate.mock.calls[1][0].data).toMatchObject({ plan: 'PRO', planExpiresAt: null, stripeSubscriptionId: 'sub_1' })
+    expect(mockUpdate.mock.calls[1][0].data).not.toHaveProperty('stripeCustomerId')
   })
 
   it('cualquier OTRO error de DB en el update se propaga (no se enmascara como P2002)', async () => {

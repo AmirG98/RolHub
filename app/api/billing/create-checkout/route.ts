@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@clerk/nextjs/server'
 import { prisma } from '@/lib/db/prisma'
-import { getPolar, POLAR_PRODUCT_ID, isPolarConfigured } from '@/lib/polar'
+import { getPolar, POLAR_PRODUCT_ID, POLAR_TIER_PRODUCTS, isPolarConfigured } from '@/lib/polar'
+import { isTierId } from '@/lib/plans/quota'
 import { attributionMetadataFromRequest } from '@/lib/meta/conversions-api'
 
 // Crea un checkout de Polar y devuelve la URL para redirigir al usuario.
@@ -29,8 +30,12 @@ export async function POST(req: NextRequest) {
     const origin = req.headers.get('origin') || 'https://rol-hub.com'
     const polar = getPolar()
 
+    // Plan elegido en /pricing (default Aventurero).
+    const body = (await req.json().catch(() => ({}))) as { tier?: unknown }
+    const productId = (isTierId(body.tier) && POLAR_TIER_PRODUCTS[body.tier]) || POLAR_PRODUCT_ID
+
     const checkout = await polar.checkouts.create({
-      products: [POLAR_PRODUCT_ID],
+      products: [productId],
       successUrl: `${origin}/checkout/success`,
       // Email real solo si no es placeholder (evita prefill basura)
       customerEmail: user.email.endsWith('@placeholder.local') ? undefined : user.email,
