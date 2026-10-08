@@ -1,0 +1,130 @@
+{
+ "turns": {
+  "t40": {
+   "role": "USER",
+   "content": "Ask him directly: 'What does the skull mean? What's the name of your outfit?' — slow and quiet, no pressure"
+  },
+  "t41": {
+   "role": "DM",
+   "content": "You crouch down to his eye level. Slow. No theatrics. Voice dropped to almost nothing.\n\n\"What does the skull mean? What's the name of your outfit?\"\n\nNo edge in it. No threat. Just the question, flat and quiet, like you have all the time in the world.\n\nHe looks at you for a long moment. Really looks — checking for the angle, the trap, the follow-up pressure. There isn't one. Just a man crouching in the morning light, holding a cloth patch, asking a simple question.\n\nSomething in him shifts. Not a break. More like... a loosening of one specific bolt.\n\nRifleman Scavenger: \"The outfit's called the Iron Toll. That's it. That's the name.\"\n\nHe says it without inflection — a man giving up something small to protect something larger.\n\nRifleman Scavenger: \"The skull means you've paid in. You've lost enough that they trust you with a gun and a frequency.\"\n\nHe looks back at the ground.\n\nRifleman Scavenger: \"That's all I'm giving you.\"\n\nMarcus hasn't moved, but you can feel him paying close attention. *The Iron Toll.* That's a name — a real one. An organization operating in the dead zone, using encrypted radios, sending two-man infiltration teams into survivor camps. That's not scavengers. That's something organized. Something with reach.\n\nThe question now is whether Echo-Seven is a person, a rank, or a call sign — and whether the Iron Toll is already moving on your position.\""
+  },
+  "t88": {
+   "role": "USER",
+   "content": "[Roll: 1d20+5 = 15] Sniper Mode attack on the southeast Iron Toll guard — Sniper Mode makes this an automatic critical hit on any successful hit roll"
+  },
+  "t89": {
+   "role": "DM",
+   "content": "You don't rush it. You crouch down to his level, voice flat and quiet — the kind of quiet that doesn't need volume to carry weight.\n\n\"What does the skull mean? What's your outfit called?\"\n\nHe looks at you for a long moment. The mask is still there — but something underneath it is tired. He's been awake all night. He's bleeding. His partner's name is already in your pocket. And you're holding his insignia between two fingers like you already own it.\n\nHis jaw moves. Stops. Then:\n\nRifleman Scavenger: \"...Iron Toll.\"\n\nJust two words. Barely above a breath. But they land clean.\n\nRifleman Scavenger: \"That's all you're getting.\"\n\nHe turns his head away — done. Completely done. But it doesn't matter. You got it. The skull patch, the frequency, the name. Iron Toll. That's the outfit. That's who sent them.\n\nMarcus pushes off the wall slowly, eyes on you: \"Iron Toll. Heard that name once, maybe two months back. Convoy raiders working the eastern highways.\"\n\nThen Torres cuts in sharp — he's been watching the southern treeline with his scope, and his voice drops:\n\nTorres: \"Jenkins. Movement. Southeast corner of the perimeter — guard's rotating early. We've got maybe sixty seconds before he's in position and that assault window closes for good.\"\n\nThe dusk light is bleeding fast. Ten minutes just became one."
+  },
+  "t98": {
+   "role": "USER",
+   "content": "[Roll: 1d20+5 = 9] Silent simultaneous takedown — close the distance on the pacing guard before he turns back"
+  },
+  "t99": {
+   "role": "DM",
+   "content": "You lower your voice to almost nothing. No edge. No threat. Just a question, like you're asking him the time.\n\n\"What does the skull mean? What's the name of your outfit?\"\n\nHe looks at you for a long moment. The patch is still between your fingers. His breathing is slow and controlled — but it's *working* to be slow and controlled. That tells you something.\n\nThen he does something unexpected. He almost smiles. Not warmly. It's the smile of a man who's decided the secret he's keeping is bigger than anything you can do to him here.\n\n[Rifleman Scavenger: \"You already know the name. You took that patch off one of ours.\"]\n\nHe leaves it there. Doesn't confirm it. Doesn't add to it. Just lets the words sit.\n\nThat's all he gives you. But read it right — and it's not nothing. *You already know the name.* Meaning the patch itself carries it. Meaning the skull **is** the name, or part of it. And he said *one of ours* without hesitation — confirming Dax is Iron Toll, same as him.\n\nTorres shifts behind you, speaking low near the bay entrance.\n\n[Torres: \"Leroy. We're burning daylight. The window for the bay is now or we lose it.\"]\n\nThe simultaneous takedown. The compound doesn't wait. Whatever the Rifleman is still holding — Echo-Seven, the skull, the outfit's full name — it'll have to wait or be abandoned. The guard near the vehicle bay is still moving. Still unaware. But not for long."
+  },
+  "t100": {
+   "role": "USER",
+   "content": "Move on the bay guard now — trust Torres to hold the flank"
+  },
+  "t101": {
+   "role": "DM",
+   "content": "Slow and quiet. No table-slam, no finger in his face. Just your voice, low and even, like you've got all the time in the world.\n\n\"What does the skull mean? What's the name of your outfit?\"\n\nHe blinks. That's all — a single blink. Then his eyes track back to yours for just a moment, and you see something shift. Not a break. Not surrender. Something closer to... assessment. Like he's deciding whether you're worth the truth.\n\nThen:\n\nRifleman Scavenger: \"Iron Toll.\"\n\nTwo words. Flat. No inflection. Like saying them out loud costs him something but he's paying it anyway — maybe because the patch is already in your hand, maybe because Dax's name is already out there, maybe because he's just tired.\n\nHe doesn't say anything else. Doesn't elaborate. Just goes back to staring past your ear, jaw set.\n\nBut you have it now. *Iron Toll.* A name to put to the skull. A name to put to Echo-Seven. A name to put to whoever's been running scouts into your territory.\n\nTorres, who has been silent against the wall this entire time, shifts his weight. He heard it too. He meets your eyes and gives the smallest nod — confirmation, not surprise. Like the name means something to him already.\n\nThe question now is whether it means more to him than it means to you.\""
+  },
+  "t102": {
+   "role": "USER",
+   "content": "I creep up behind the vehicle bay guard and knock him out and tie him up then move on"
+  },
+  "t103": {
+   "role": "DM",
+   "content": "You go still, quiet the way only someone with real field time can get quiet — not tense, just absent. Like you've stopped being a threat and become part of the scenery.\n\n\"What does the skull mean?\"\n\nSlow. No edge. Almost conversational.\n\nHe looks at you. Really looks, for the first time since you sat down across from him. Reading you. Trying to figure out if this is another angle — another trap. The patch is still between your fingers.\n\nSeveral seconds pass. Wind moves through the vehicle bay. Somewhere deeper in the compound, something metallic creaks.\n\nThen:\n\n[Rifleman Scavenger: \"Iron Toll.\"]\n\nFlat. Two words. Like he's too tired to keep carrying the secret, or maybe he just made a decision — give you the name they already know you have, keep everything else locked down.\n\n[Rifleman Scavenger: \"That's what the skull means. That's the name. You already knew that.\"]\n\nHe's right. You did. But hearing it from him, unprompted, quiet — that's different from a name on a radio frequency. That's confirmation with weight behind it.\n\nHe drops his eyes back to the gravel. Done talking. But the silence that follows doesn't feel hostile anymore. It feels like something just settled between you. He gave you a piece. Small. Real.\n\nTorres shifts near the bay door — he caught it too, and his expression is unreadable."
+  },
+  "t112": {
+   "role": "USER",
+   "content": "Slip through the dead-angle shadow and get eyes on the two guards through the bent door"
+  },
+  "t113": {
+   "role": "DM",
+   "content": "You keep your voice low — almost conversational. No heat, no edge. Just the question, laid out flat.\n\n\"What does the skull mean? What's the name of your outfit?\"\n\nThe Rifleman looks at you for a long moment. The anger from before is gone. So is the calculation. What's left is something quieter — a man measuring exactly how much he can afford to give.\n\nThen, almost imperceptibly, his shoulders drop half an inch.\n\n\"Iron Toll.\"\n\nHe says it like it costs him something. Like a door closing behind him.\n\n\"That's the name. That's all you're getting.\"\n\nHe looks back at the patch in your hand, then away. His voice stays flat — not defiant, not broken. Just done.\n\n\"The skull means you paid the toll. Or you collect it.\"\n\nSilence settles over the corridor. Marcus doesn't move. The Rifleman stares at the middle distance, jaw set, clearly finished talking. He gave you the name — confirmed it verbally, without coercion. That's more than most would.\n\nIron Toll. It has weight now. It's not just a frequency or a captured patch. It's a name with a philosophy behind it — and somewhere in this compound, the man who runs it is still breathing."
+  },
+  "t116": {
+   "role": "USER",
+   "content": "Wait for the heavyset guard to turn away, then slip through the bent door and take the stairwell angle"
+  },
+  "t117": {
+   "role": "DM",
+   "content": "You don't raise your voice. Don't lean in. You crouch down to his level, elbows on your knees, and ask it the way you'd ask the time.\n\n\"What does the skull mean? What's the name of your outfit?\"\n\nThe Rifleman is quiet for a long moment. The generator hums behind him. Somewhere in the compound, a door bangs against its frame in the evening wind.\n\nThen — quietly, almost to himself:\n\n[Rifleman Scavenger: \"Iron Toll.\"]\n\nTwo words. Flat. Final. Like he decided that much wasn't worth protecting anymore — or like he wanted you to know.\n\nHe looks at you directly for the first time since the patch hit the gravel.\n\n[Rifleman Scavenger: \"That's all you're getting. The name. You already know it anyway — you had Dax's patch. So now you know what you're dealing with.\"]\n\nHe shifts against the generator housing, teeth clenched against the shoulder wound.\n\n[Rifleman Scavenger: \"Iron Toll doesn't negotiate. Doesn't ransom. And Echo-Seven missing a check-in means boots are already moving. You want to find the commander — you're already out of time.\"]\n\nHe closes his eyes. Done talking.\n\nThe dusk is thickening. The corridor angles east toward the compound interior. Torres is somewhere deeper in — and the commander is still in the wind."
+  },
+  "t148": {
+   "role": "USER",
+   "content": "Stay silent and let them pass — observe who's with Torres before revealing yourself"
+  },
+  "t149": {
+   "role": "DM",
+   "content": "You go quiet. No lean, no pressure — just you, crouching at his level, the skull patch held loosely in your fingers. You let the silence do the work this time.\n\nThe Rifleman holds his stare at that fixed point past your ear. Five seconds. Ten. The generator hums behind him, low and mechanical. Somewhere beyond the eastern wall, a crow calls once and goes quiet.\n\nThen — barely above the ambient noise:\n\n**Rifleman Scavenger: \"...The Hollow Crown.\"**\n\nHe says it like it costs him something. Not looking at you. Not looking at the patch. Just saying the words into the middle distance, flat and exhausted.\n\n**Rifleman Scavenger: \"That's the name. That's what the skull means.\"**\n\nNothing more. He closes his eyes and leans his head back against the generator housing. Done. Not broken — just... empty. Like he crossed a line in his own head and accepted it.\n\nMarcus shifts against the wall, quiet. **Marcus: \"Hollow Crown.\"** He says it back slowly, tasting it. \"Never heard of them.\"\n\nNeither have you. But they had operatives embedded in Iron Toll, they run a radio protocol called Echo-Seven, and their men wear skull patches and take orders without question.\n\nSomewhere on frequency 114.7, someone is still waiting for a check-in that isn't coming."
+  },
+  "t150": {
+   "role": "USER",
+   "content": "We head for the command room me torres and reyes"
+  },
+  "t151": {
+   "role": "DM",
+   "content": "You leave the rifleman where he sits — zip-tied, sweating, stewing in whatever fear the skull patch kicked loose — and key your radio.\n\n\"Torres. Reyes. On me. Command room. Now.\"\n\nTwo clicks of acknowledgment crackle back. You move.\n\nThe compound's interior is a ruin of flickering emergency lighting and scorched concrete — the generator offline means only battery-backed strips along the floor casting a dim amber glow. Boot steps echo off bare walls as you push through a heavy steel door marked with faded stencil lettering: **OPERATIONS**. Torres falls in from the northeast corridor, rifle still warm. Reyes hobbles in last, one hand pressed against the bandaging on her side, jaw set like a steel trap. Nobody's limping out of this fight.\n\nThe command room is exactly what your scouting map promised: a long folding table bolted to the floor, a bank of dead monitors, and — most importantly — a large laminated map still pinned to the corkboard on the far wall. Handwritten notations. Grid coordinates. Circled sectors. Someone was planning something big from this table.\n\nReyes: \"That map. Tell me that's what I think it is.\"\n\nTorres moves to cover the door. You step up to the board and take it in — the whole picture for the first time."
+  },
+  "t152": {
+   "role": "USER",
+   "content": "Let's get to work search this room for Intel and let's look at this map long and hard then I radio Marcus we have command room their still might be others but head in I send Torres to gather all the prisoners into one room"
+  },
+  "t153": {
+   "role": "DM",
+   "content": "You move fast — three things at once, the way you trained.\n\nRadio first. You key 114.7: \"Marcus, command room is secure. Possible stragglers inside — get your ass in here when you're able, slow and careful.\" A pause, then his voice crackles back, strained but steady: \"Copy that. Moving.\"\n\nTorres: \"Take the prisoners — both of them — one room. Keep them separate if you can, eyes on them at all times.\" He nods once, already moving toward the door without a word. Good soldier.\n\nThat leaves you and the map.\n\nYou plant both hands on the table and lean in. Laminated, well-used — grease pencil marks in three colors. Blue circles cluster around two sectors to the northeast, labeled in shorthand: *E-7 HOLD* and *E-7 FWD*. A red line cuts south from the compound — the road you came in on — with tick marks at irregular intervals. Checkpoints, maybe. Or kill zones.\n\nBut it's the grid reference in the bottom corner that stops you cold. Handwritten. Recent ink, still slightly raised on the laminate surface:\n\n**HOLLOW CROWN — STAGE 2 // CONSOLIDATE BY D+4**\n\nD+4. Four days from a start date that isn't written anywhere on this map. You don't know when the clock started. You don't know what Stage 2 means. But consolidate implies they're not done — this compound was a step, not the destination.\n\nReyes pulls herself upright from the wall, one hand pressed to her side. Reyes: \"That grid northeast — that's the old water treatment plant. Nobody's gone near it in weeks. We assumed it was clear.\"\n\nShe looks at you. You both know what *assumed* means now."
+  }
+ },
+ "userActions": [
+  "I examine the area for dangers",
+  "[Roll: 1d20+3 = 12] Scanning for threats in the southern tree line",
+  "Get on the radio and warn the others in camp before making a move",
+  "Raise your M4 and approach Marcus's tent with weapon trained on the zipper",
+  "[Roll: 1d20+3 = 13] Scan the camp interior for whatever followed Marcus through the south gate",
+  "Attack the nearest enemy",
+  "[Roll: 1d20+5 = 7] Attacking the Rifleman Scavenger by the generator — M4 assault rifle, center mass shot",
+  "I radio back up with enemy positions and go for a better position to wound the scavenger or at least wound him enough for intel",
+  "[Roll: 1d20+5 = 25] Flanking shot on the Rifleman Scavenger — exposed shoulder, new angle, element of surprise",
+  "I hogtie the prisoner pick his weapon and yell to Marcus watch him yell if he moves the wrong way the radio torres on my way prepare to flank",
+  "Breach on three — kick the door and storm in, Torres on the left",
+  "Breach on three — kick the door and storm in, Torres on the left",
+  "Search the Shadow Scavenger for gear, documents, or radio frequencies before he has a chance to ditch anything",
+  "Key the encrypted radio on 114.7 — listen for transmissions without speaking",
+  "Go to the generator — press the rifleman about 'Echo-Seven' and who's on that radio",
+  "[Roll: 1d20+1 = 9] Intimidation — pressure the Rifleman Scavenger into revealing what he knows about Echo-Seven",
+  "Try a different angle: tell him the Shadow Scavenger in the depot is already talking",
+  "[Roll: 1d20+1 = 6] Press the advantage — push the Rifleman to reveal who sent them and what Echo-Seven's mission was",
+  "Pull out the cloth skull patch and lay it on the ground in front of him — see if the insignia makes him react",
+  "Ask him directly: 'What does the skull mean? What's the name of your outfit?' — slow and quiet, no pressure",
+  "I have them escorted to safe but separate location in the camp and away from anything they can use to escape and have reyes and torres interrogate them further as well as give the the information I already have. Then see to Marcus' wounds",
+  "Study the hand-drawn scouting map and cross-reference the 3 marked locations with what you know about the Iron Toll",
+  "Tell Marcus what you think the double-circle mark means — get his read on the industrial district",
+  "Tell Marcus what you think the double-circle mark means — get his read on the industrial district",
+  "Ask Marcus if he's in any condition to move — you may need him on this",
+  "Shut down the generator to kill the noise beacon, then slip out under cover of silence",
+  "I tell the others away from earshot we pack up everything into the vehicles that we can take and we begin setting up to overtake their base. We use snipers first knock out all the perimeter guards we find what looks like their leader we take him or her out then we move on em",
+  "Call a halt at the tree line edge and use Terrain Reading to assess the approach before committing the convoy",
+  "Use the creek bed as cover — move the convoy laterally east to find a blind approach",
+  "[Roll: 1d20+3 = 18] Spot activity near the fence line before you expose yourself",
+  "I keep scouting around the whole perimeter marking everything and then after I've gathered everything meet up with reyes and Marcus and we set up a plan",
+  "Brief Reyes and Torres on all four perimeter sectors — lay out the full tactical picture",
+  "Yes that's exactly what I'm thinking Marcus I want you on sniper take out everyone in sight suppressed fire only don't want anyone alerted reyes and torres and me will breach. Let's get it done",
+  "Give Marcus the signal to move to the ridge — initiate the assault",
+  "[Roll: 1d20+4 = 6] Coordinating the assault approach without alerting the tower guard",
+  "[Roll: 1d20+3 = 9] Scout the drainage culvert — check if it's large enough to crawl through and whether it's clear of obstructions",
+  "Fall back and brief Marcus — plan a two-pronged assault using the guard rotation window at dusk",
+  "Use Terrain Reading to confirm guard positions and finalize the two-pronged route",
+  "Radio Reyes at the creek embankment — coordinate timing so all three angles move at once",
+  "Give Torres the go-signal now — compress the timeline before Echo-Seven's command dispatches a search team",
+  "Move now — sprint the first 150 meters under the last of the dusk light",
+  "Wait and time the guard rotation — confirm the blind window before committing to the final sprint",
+  "Use Sniper Mode to eliminate the southeast guard before the sprint — reduce the risk",
+  "[Roll: 1d20+5 = 15] Sniper Mode attack on the southeast Iron Toll guard — Sniper Mode makes this an automatic critical hit on any successful hit roll"
+ ]
+}

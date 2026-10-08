@@ -17,6 +17,20 @@ import { type Quest, type QuestUpdate } from '@/lib/types/quest'
 import { generateSummaryCheckpoint, shouldTriggerSummary } from '@/lib/claude/session-summarizer'
 import { detectRenarration, condenseNarration, renarrationRetryDirective } from '@/lib/claude/repetition-guard'
 import { recentTurnsQuery, toChronological } from '@/lib/claude/turn-window'
+import {
+  assessTimeUpdate,
+  continuityRetryDirective,
+  detectNpcIdentityFlip,
+  detectStaleActionReplay,
+  issueKinds,
+  mergeNpcLedgerEntry,
+  npcIdentityLabel,
+  npcIdentityMissingDirective,
+  npcKnowledgeBlock,
+  type ContinuityIssueKind,
+  type ContinuityIssues,
+  type NpcLedgerEntry,
+} from '@/lib/claude/continuity-guard'
 import { updateUserProgress, type ProgressUpdate } from '@/lib/game/user-progress'
 import { normalizeMilestones, recordMilestoneEvent, detectNewUnlockables } from '@/lib/game/milestones'
 import { getSkillTree } from '@/lib/game/skill-trees'
@@ -1472,11 +1486,11 @@ ${isMultiplayer ? `8. ${labels.rule6} ${character.name}
 
 ${isEnglish
   ? `WORLD MEMORY (update these to track the story):
-- "npc_update": {"name": "NPC Name", "status": "alive/dead/fled/ally/enemy/missing", "location": "Current Location Name"} — ALWAYS send this when you INTRODUCE a new NPC or when an NPC's status/location changes. The location field tracks WHERE the NPC is.
+- "npc_update": {"name": "NPC Name", "status": "alive/dead/fled/ally/enemy/missing", "location": "Current Location Name", "pronouns": "she/her | he/him | they/them", "description": "who they are in ≤10 words, e.g. broad-shouldered woman, border guard sergeant", "learned": "what this NPC just learned about the player or witnessed, ≤15 words"} — ALWAYS send this when you INTRODUCE a new NPC (with pronouns + description: they become PERMANENT), when an NPC's status/location changes, when a known NPC listed without pronouns appears, and whenever an NPC learns something important about the player (learned). An NPC never forgets what is in their "learned" list. Send an array to update several NPCs.
 - "world_flag": {"flag": "description_of_decision", "value": true} — when the player makes an important choice or something irreversible happens
 Use these to build the world's memory. EVERY new NPC must be registered with npc_update so the system knows where they are.`
   : `MEMORIA DEL MUNDO (actualizá estos para rastrear la historia):
-- "npc_update": {"name": "Nombre NPC", "status": "vivo/muerto/huyó/aliado/enemigo/desaparecido", "location": "Nombre de Ubicación Actual"} — SIEMPRE enviar cuando INTRODUZCAS un NPC nuevo o cuando cambie su estado/ubicación. El campo location rastrea DÓNDE está el NPC.
+- "npc_update": {"name": "Nombre NPC", "status": "vivo/muerto/huyó/aliado/enemigo/desaparecido", "location": "Nombre de Ubicación Actual", "pronouns": "she/her | he/him | they/them", "description": "quién es en ≤10 palabras, ej. mujer corpulenta, sargento de la frontera", "learned": "lo que este NPC acaba de saber del jugador o presenció, ≤15 palabras"} — SIEMPRE enviar cuando INTRODUZCAS un NPC nuevo (con pronouns + description: quedan PERMANENTES), cuando cambie su estado/ubicación, cuando aparezca un NPC conocido listado sin pronombre, y cada vez que un NPC se entere de algo importante del jugador (learned). Un NPC nunca olvida lo que está en su lista de "learned". Mandá un array para actualizar varios NPCs.
 - "world_flag": {"flag": "descripcion_de_la_decision", "value": true} — cuando el jugador toma una decisión importante o pasa algo irreversible
 Usá estos para construir la memoria del mundo. CADA NPC nuevo debe registrarse con npc_update para que el sistema sepa dónde está.`}
 
@@ -1684,7 +1698,9 @@ Ejemplo:
 ${isEnglish ? `=== PACING ===
 Turn ${totalTurns}. In "${currentScene}" for ${turnsInCurrentLocation} turns.
 ${storySoFar ? `STORY SO FAR: ${storySoFar}` : ''}
-${allKnownNPCs.length > 0 ? `KNOWN NPCs: ${allKnownNPCs.map(n => `${n.name} (${n.info})`).join('; ')}. Do NOT re-introduce them.` : ''}
+${allKnownNPCs.length > 0 ? `KNOWN NPCs: ${allKnownNPCs.map(n => `${npcIdentityLabel(n.name, knownNpcStates[n.name])} (${n.info})`).join('; ')}. Do NOT re-introduce them. Their [pronouns; description] are PERMANENT — never change an NPC's gender, species or role.` : ''}
+${npcKnowledgeBlock(introducedNPCsList, knownNpcStates as Record<string, unknown>, 'en')}
+${npcIdentityMissingDirective(introducedNPCsList, knownNpcStates as Record<string, unknown>, 'en')}
 ${lastDMNarration ? `LAST NARRATION (continue from here): "${lastDMNarration}..."` : ''}
 ${introducedNPCsList.length > 0 ? `NPCs HERE NOW: ${introducedNPCsList.join(', ')} — already introduced, do NOT re-present.` : ''}
 ${completedActions.length > 0 ? `ALREADY HAPPENED: ${completedActions.join(', ')} — do NOT re-narrate.` : ''}
@@ -1703,7 +1719,9 @@ ${actDirective(worldState.act, totalTurns, 'en')}
 === END PACING ===` : `=== RITMO ===
 Turno ${totalTurns}. En "${currentScene}" hace ${turnsInCurrentLocation} turnos.
 ${storySoFar ? `HISTORIA HASTA AHORA: ${storySoFar}` : ''}
-${allKnownNPCs.length > 0 ? `NPCs CONOCIDOS: ${allKnownNPCs.map(n => `${n.name} (${n.info})`).join('; ')}. NO los re-presentes.` : ''}
+${allKnownNPCs.length > 0 ? `NPCs CONOCIDOS: ${allKnownNPCs.map(n => `${npcIdentityLabel(n.name, knownNpcStates[n.name])} (${n.info})`).join('; ')}. NO los re-presentes. Su [pronombre; descripción] es PERMANENTE — nunca cambies el género, la especie ni el rol de un NPC.` : ''}
+${npcKnowledgeBlock(introducedNPCsList, knownNpcStates as Record<string, unknown>, 'es')}
+${npcIdentityMissingDirective(introducedNPCsList, knownNpcStates as Record<string, unknown>, 'es')}
 ${lastDMNarration ? `ÚLTIMA NARRACIÓN (continuá desde acá): "${lastDMNarration}..."` : ''}
 ${introducedNPCsList.length > 0 ? `NPCs AQUÍ AHORA: ${introducedNPCsList.join(', ')} — ya presentados, NO re-presentar.` : ''}
 ${completedActions.length > 0 ? `YA PASÓ: ${completedActions.join(', ')} — NO re-narrar.` : ''}
@@ -1797,7 +1815,19 @@ INSTRUCCIONES PARA HABILIDADES:
     const previousDMNarrations = session.turns.filter(t => t.role === 'DM').slice(-6).map(t => t.content)
     let repetitionDirective = ''
     let repetitionFlag: 'none' | 'retried' | 'unresolved' = 'none'
-    let repetitiveDraft: { raw: string; score: number } | null = null
+    // Guardias de continuidad (lib/claude/continuity-guard.ts): acción vieja
+    // re-narrada, salto de hora sin motivo, NPC que cambia de género. Van en
+    // el MISMO reintento que la re-narración (nunca más de 2 llamadas).
+    const previousPlayerActions = session.turns.filter(t => t.role === 'USER').map(t => t.content)
+    const declaredNpcLedger: Record<string, NpcLedgerEntry> = {}
+    for (const [name, data] of Object.entries(knownNpcStates)) {
+      const entry = data as NpcLedgerEntry
+      if (entry && typeof entry === 'object' && entry.pronouns) declaredNpcLedger[name] = entry
+    }
+    let continuityRetried: ContinuityIssueKind[] = []
+    let continuityUnresolved: ContinuityIssueKind[] = []
+    // Primer borrador con problemas, por si el segundo sale peor
+    let firstDraft: { raw: string; badness: number; repScore: number; kinds: ContinuityIssueKind[] } | null = null
     // Consumo real de tokens del turno (suma de todos los intentos). Antes no
     // se registraba y el costo del narrador solo se podía estimar.
     const usageTotals = { in: 0, out: 0, cache_read: 0, cache_write: 0, calls: 0, model: '' }
@@ -1850,22 +1880,55 @@ INSTRUCCIONES PARA HABILIDADES:
       const probeParsed = parseDMResponse(rawResponse)
       const narrationProbe = probeParsed.data.narration.replace(/[\s.·…"'—-]/g, '')
       if (narrationProbe.length >= MIN_NARRATION_CHARS) {
-        const verdict = detectRenarration(probeParsed.data.narration, previousDMNarrations, {
+        const draft = probeParsed.data as any
+        const narrationDraft: string = draft.narration
+        const sceneChangeInDraft = typeof draft.scene_change === 'string' && draft.scene_change.trim().length > 0
+        const verdict = detectRenarration(narrationDraft, previousDMNarrations, {
           turnsInScene: turnsInCurrentLocation,
-          sceneChangeInDraft: typeof (probeParsed.data as any).scene_change === 'string' && (probeParsed.data as any).scene_change.trim().length > 0,
+          sceneChangeInDraft,
         })
-        if (!verdict.repetitive) break
-        const score = Math.max(verdict.openingScore, verdict.bodyScore)
-        console.warn(`[DM] repetition_guard intento ${attempt}: ${verdict.reason} opening=${verdict.openingScore.toFixed(2)} body=${verdict.bodyScore.toFixed(2)} «${verdict.openingSnippet.slice(0, 90)}»`)
+        const issues: ContinuityIssues = {
+          stale: detectStaleActionReplay(narrationDraft, action, previousPlayerActions),
+          time: assessTimeUpdate(worldState.time_in_world, typeof draft.time_update === 'string' ? draft.time_update : null, {
+            playerAction: action,
+            narration: narrationDraft,
+            sceneChange: sceneChangeInDraft,
+          }),
+          identity: detectNpcIdentityFlip(narrationDraft, declaredNpcLedger) ?? undefined,
+        }
+        const kinds = issueKinds(issues)
+        if (!verdict.repetitive && kinds.length === 0) break
+        const repScore = verdict.repetitive ? Math.max(verdict.openingScore, verdict.bodyScore) : 0
+        const badness = (verdict.repetitive ? 1 : 0) + kinds.length
+        if (verdict.repetitive) {
+          console.warn(`[DM] repetition_guard intento ${attempt}: ${verdict.reason} opening=${verdict.openingScore.toFixed(2)} body=${verdict.bodyScore.toFixed(2)} «${verdict.openingSnippet.slice(0, 90)}»`)
+        }
+        if (kinds.length > 0) {
+          console.warn(`[DM] continuity_guard intento ${attempt}: ${kinds.join(',')}${issues.stale?.stale ? ` «${issues.stale.fragment}»` : ''}${issues.time && !issues.time.ok ? ` "${issues.time.previous}"→"${issues.time.next}"` : ''}${issues.identity ? ` ${issues.identity.name}≠${issues.identity.expected}` : ''}`)
+        }
         if (attempt === 1) {
-          repetitiveDraft = { raw: rawResponse, score }
-          repetitionDirective = renarrationRetryDirective(verdict, action, worldState.current_scene || '', turnsInCurrentLocation, locale as 'es' | 'en')
-          repetitionFlag = 'retried'
+          firstDraft = { raw: rawResponse, badness, repScore, kinds }
+          repetitionDirective =
+            (verdict.repetitive ? renarrationRetryDirective(verdict, action, worldState.current_scene || '', turnsInCurrentLocation, locale as 'es' | 'en') : '') +
+            continuityRetryDirective(issues, action, locale as 'es' | 'en')
+          if (verdict.repetitive) repetitionFlag = 'retried'
+          continuityRetried = kinds
           continue
         }
-        // Segundo borrador también repite: nos quedamos con el menos repetitivo
-        repetitionFlag = 'unresolved'
-        if (repetitiveDraft && repetitiveDraft.score < score) rawResponse = repetitiveDraft.raw
+        // El segundo borrador también falla: el que tenga menos problemas
+        // (a igualdad, el segundo, que ya recibió la corrección; si ambos
+        // solo repiten, el menos repetitivo como antes).
+        if (verdict.repetitive) repetitionFlag = 'unresolved'
+        continuityUnresolved = kinds
+        if (firstDraft) {
+          const onlyRepetition = firstDraft.kinds.length === 0 && kinds.length === 0
+          const keepFirst = onlyRepetition ? firstDraft.repScore < repScore : firstDraft.badness < badness
+          if (keepFirst) {
+            rawResponse = firstDraft.raw
+            continuityUnresolved = firstDraft.kinds
+            if (repetitionFlag === 'unresolved' && firstDraft.repScore === 0) repetitionFlag = 'retried'
+          }
+        }
         break
       }
       console.warn(`[DM] Narración vacía/mínima (intento ${attempt}): "${rawResponse.slice(0, 60)}"`)
@@ -1936,7 +1999,7 @@ INSTRUCCIONES PARA HABILIDADES:
         on_failure?: string
       } | null
       // NPC state update (when NPC status or location changes) — single or array
-      npc_update?: { name: string; status: string; location?: string }
+      npc_update?: { name: string; status: string; location?: string; pronouns?: string; description?: string; learned?: string }
         | Array<{ name: string; status: string; location?: string }> | null
       // World flag (track important decisions/events)
       world_flag?: { flag: string; value: boolean } | null
@@ -2836,11 +2899,14 @@ INSTRUCCIONES PARA HABILIDADES:
         if (update && update.name) {
           const currentNPCStates = worldStateUpdates.npc_states || worldState.npc_states || {}
           if (!worldStateUpdates.npc_states) worldStateUpdates.npc_states = { ...currentNPCStates }
-          worldStateUpdates.npc_states[update.name] = {
-            status: update.status,
-            location: update.location || worldState.current_scene || '',
-            introduced: true,
-          }
+          // Fusionar (antes se pisaba la entrada entera): pronombre y
+          // descripción quedan fijos desde la presentación y `learned` se
+          // acumula en `knows` — la memoria del NPC no depende de la ventana.
+          worldStateUpdates.npc_states[update.name] = mergeNpcLedgerEntry(
+            currentNPCStates[update.name],
+            update,
+            worldState.current_scene || ''
+          )
           console.log(`[NPC] Updated: ${update.name} → ${update.status} @ ${update.location || worldState.current_scene}`)
         }
       }
@@ -3070,6 +3136,11 @@ INSTRUCCIONES PARA HABILIDADES:
             ...((dmTurnPatch as Record<string, unknown> | null) || {}),
             _usage: usageTotals,
             ...(repetitionFlag !== 'none' ? { _repetition_guard: repetitionFlag } : {}),
+            // _continuity_guard: qué detectó el 1er borrador (retried) y qué
+            // quedó sin resolver en el borrador final (unresolved).
+            ...(continuityRetried.length > 0 || continuityUnresolved.length > 0
+              ? { _continuity_guard: { retried: continuityRetried, unresolved: continuityUnresolved } }
+              : {}),
           },
         },
       }),

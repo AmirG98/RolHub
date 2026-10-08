@@ -6,6 +6,7 @@ import type { Finding, Severity } from './findings'
 import { makeFingerprint } from './findings'
 import type { TurnResponse } from './client'
 import { detectRenarration } from '@/lib/claude/repetition-guard'
+import { assessTimeUpdate, detectStaleActionReplay } from '@/lib/claude/continuity-guard'
 
 export interface SessionTracker {
   characterName: string
@@ -18,6 +19,10 @@ export interface SessionTracker {
   lastHp: string | null
   /** últimas narraciones del DM (para detectar re-narración) */
   recentNarrations?: string[]
+  /** acciones previas del jugador (para detectar acciones viejas re-narradas) */
+  recentActions?: string[]
+  /** último time_in_world conocido */
+  lastTime?: string | null
 }
 
 function finding(
@@ -131,6 +136,38 @@ export function checkTurn(
     }
     prev.push(narration)
     if (prev.length > 6) prev.shift()
+  }
+
+  // Continuidad (lib/claude/continuity-guard.ts): acción vieja re-narrada y
+  // salto de hora sin motivo — lo que el route ya debería haber corregido.
+  const playerAction = typeof (request as { action?: unknown })?.action === 'string' ? (request as { action: string }).action : ''
+  if (narration.trim().length >= 40) {
+    const actions = tracker.recentActions ?? (tracker.recentActions = [])
+    const stale = detectStaleActionReplay(narration, playerAction, actions)
+    if (stale.stale) {
+      findings.push(
+        finding(tracker, turnIndex, 'P1', 'dm_stale_action',
+          `El DM re-narró una acción vieja del jugador (hace ${stale.actionsAgo}): «${stale.fragment}»`,
+          ev, ['lib/claude/continuity-guard.ts', 'app/api/session/turn/route.ts'])
+      )
+    }
+    const nextTime = body?.worldStateUpdates?.time_in_world
+    if (typeof nextTime === 'string') {
+      const t = assessTimeUpdate(tracker.lastTime, nextTime, { playerAction, narration, sceneChange: !!body?.sceneChange })
+      if (!t.ok) {
+        findings.push(
+          finding(tracker, turnIndex, 'P2', 'dm_time_jump',
+            `Hora ${t.reason === 'backward' ? 'hacia atrás' : 'salteada'} sin motivo: "${t.previous}" → "${t.next}"`,
+            ev, ['lib/claude/continuity-guard.ts'])
+        )
+      }
+      tracker.lastTime = nextTime
+    }
+  }
+  if (playerAction) {
+    const actions = tracker.recentActions ?? (tracker.recentActions = [])
+    actions.push(playerAction)
+    if (actions.length > 20) actions.shift()
   }
 
   if (narration.trim().length < 40) {

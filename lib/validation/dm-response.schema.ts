@@ -68,6 +68,12 @@ const npcUpdateItemSchema = z.object({
   name: z.string().min(1),
   status: z.string().min(1),
   location: z.string().optional(),
+  // Ledger de continuidad (lib/claude/continuity-guard.ts): pronombre y
+  // descripción quedan FIJOS desde la presentación; `learned` suma lo que el
+  // NPC acaba de saber del jugador o presenció.
+  pronouns: z.string().describe('she/her, he/him or they/them. PERMANENT once set.').optional(),
+  description: z.string().describe('Who the NPC is in ≤10 words (e.g. "broad-shouldered woman, border guard sergeant"). PERMANENT once set.').optional(),
+  learned: z.string().describe('A fact this NPC just learned about the player or witnessed (≤15 words). The NPC remembers it forever.').optional(),
 })
 
 const createLocationSchema = z.object({
