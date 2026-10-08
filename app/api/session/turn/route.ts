@@ -16,6 +16,7 @@ import { calculateRelativePosition, normalizeLegacyCoordinates } from '@/lib/map
 import { type Quest, type QuestUpdate } from '@/lib/types/quest'
 import { generateSummaryCheckpoint, shouldTriggerSummary } from '@/lib/claude/session-summarizer'
 import { detectRenarration, condenseNarration, renarrationRetryDirective } from '@/lib/claude/repetition-guard'
+import { recentTurnsQuery, toChronological } from '@/lib/claude/turn-window'
 import { updateUserProgress, type ProgressUpdate } from '@/lib/game/user-progress'
 import { normalizeMilestones, recordMilestoneEvent, detectNewUnlockables } from '@/lib/game/milestones'
 import { getSkillTree } from '@/lib/game/skill-trees'
@@ -281,13 +282,11 @@ export async function POST(req: NextRequest) {
             },
           },
         },
-        turns: {
-          // Tiebreak por id: los pares USER/DM históricos comparten createdAt
-          // (misma transacción, default now() de la DB) y el cuid del USER se
-          // genera antes que el del DM → orden correcto garantizado.
-          orderBy: [{ createdAt: 'asc' }, { id: 'asc' }],
-          take: 40, // Ventana activa — los SummaryCheckpoints cubren turnos más viejos
-        },
+        // Los ÚLTIMOS 40 turnos (desc + take), no los primeros. Con asc+take
+        // el DM jugó 6 meses con el presente congelado en el turno 40. Ver
+        // lib/claude/turn-window.ts. Tiebreak por id: los pares USER/DM
+        // comparten createdAt y el cuid del USER se genera antes que el del DM.
+        turns: recentTurnsQuery,
         summaryCheckpoints: {
           orderBy: { turnIndex: 'asc' },
         },
@@ -297,6 +296,11 @@ export async function POST(req: NextRequest) {
     if (!session) {
       return NextResponse.json({ error: 'Sesion no encontrada' }, { status: 404 })
     }
+    // La consulta trae del más nuevo al más viejo; todo el route usa orden
+    // cronológico (session.turns.slice(-12) = los 12 más recientes).
+    session.turns = toChronological(session.turns)
+    // Total REAL de turnos de la sesión (session.turns está capado a 40).
+    const sessionTurnCount = await prisma.turn.count({ where: { sessionId: session.id } })
 
     // Check access: user must be session owner OR a campaign participant
     const isOwner = session.userId === authUserId
@@ -469,7 +473,9 @@ export async function POST(req: NextRequest) {
 
     // === DETECCIÓN DE ESTANCAMIENTO Y ANTI-REPETICIÓN ===
     const allTurns = session.turns
-    const totalTurns = allTurns.length
+    // Antes allTurns.length: capado a 40 → "Turn 40" para siempre en el
+    // prompt, actDirective ciego y habilidades que no se gastaban más.
+    const totalTurns = sessionTurnCount
     const recentUserActions = allTurns.slice(-8).filter(t => t.role === 'USER').map(t => t.content.toLowerCase().trim())
 
     // Acciones pasivas (esperar, mirar, no hacer nada)
@@ -2702,7 +2708,7 @@ INSTRUCCIONES PARA HABILIDADES:
           dangerLevel: cl.dangerLevel,
           coordinates: coords,
           connections: cl.connectTo || [],
-          createdAtTurn: session.turns.length,
+          createdAtTurn: totalTurns,
         }
 
         // Inicializar map_state si no existe
