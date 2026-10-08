@@ -1217,10 +1217,10 @@ REGLA: Una feature no está terminada hasta que tiene:
 
 ## 20. ESTADO ACTUAL DEL PROYECTO
 
-Ultima actualizacion: 2026-10-04
+Ultima actualizacion: 2026-10-08
 Fase actual:         EN PRODUCCION CON ADS — billing Polar.sh activo (BILLING_ENFORCED=true),
                      6 suscriptores en trial/pago, campaña de emails lista para calentar dominio
-Ultima sesion:       2026-10-04 — costo del narrador + planes con cupo de turnos (ver abajo)
+Ultima sesion:       2026-10-08 — VENTANA DE TURNOS CONGELADA (causa raíz de bucles y olvidos) + guardias de continuidad
 
 RESUMEN EJECUTIVO (leer esto primero si no hay tiempo para el resto):
   - Billing: Polar.sh (Merchant of Record). Paddle (rechazó por IP ×2) y Lemon
@@ -1237,7 +1237,50 @@ RESUMEN EJECUTIVO (leer esto primero si no hay tiempo para el resto):
     en CI (ip-blocklist.test.ts) + anti-ip-directive por lore (incl. CYBERPUNK).
   - Emails de seguimiento con Resend (lib/email/*, cron diario 15:00 UTC), con
     tope diario y envíos espaciados porque el dominio no tiene reputación aún.
-  - Suite: 566 tests, tsc 0. Nightly playtest SIGUE sin secrets en GitHub.
+  - Suite: 671 tests, tsc 0. Nightly playtest SIGUE sin secrets en GitHub.
+  - 2026-10-08: el DM veía los PRIMEROS 40 turnos (no los últimos) desde
+    abril → causa raíz de bucles y olvidos. Arreglado + guardias de
+    continuidad + ledger de NPCs. Ver sesión 2026-10-08.
+
+SESION 2026-10-08 — CAUSA RAÍZ DE BUCLES Y "OLVIDOS" (15de584 + 77a11ef):
+  Disparador: dos cancelaciones por calidad. Anthony (BcAW43, "low quality"):
+  el DM re-narró 8 veces el interrogatorio del Rifleman. Merlin (A9CvYu,
+  Isekai, canceló por plata pero "the ai forgets things and mixes stuff
+  up"): 8 correcciones en 85 acciones (Mira re-armando la cena del día 1,
+  la sargento que pasa de mujer a "his mustache", Brom preguntando lo que
+  ya sabía). Merlin agotó 25 FREE + 60 del trial en 5 h; no se le cobró.
+  🔴 BUG (desde 2026-04-09, commit a15895c): el turn route cargaba los
+     turnos con orderBy ASC + take 40 = los PRIMEROS 40 de la sesión. En
+     toda sesión >40 turnos el DM jugaba con el presente congelado en el
+     turno 40 (historial, LAST NARRATION, guard anti re-narración, contador
+     "Turn 40"), y los últimos ~10 turnos reales no estaban en el prompt
+     (los resúmenes van 10 atrás). 3.436 de 7.325 narraciones desde abril
+     (47%), 105 sesiones, 24 usuarios pagos/trial. Es la causa raíz de los
+     bucles de Darius, Anthony, el primer cliente ("something big moving
+     northeast"), uSXr8m y MpU9Ka: los fixes anti-bucle de sept/oct trataban
+     síntomas. También: habilidades que no se gastaban pasado el turno 40.
+  ✅ FIX: lib/claude/turn-window.ts (desc + take 40 + toChronological),
+     totalTurns = count real. Test turn-window.test.ts (sesión de 171).
+     Deployado 2026-10-08 13:47 UTC. E2E local: partida de 83 turnos
+     clonada → el DM sigue desde la posada (turno 83), no desde el Nazgûl
+     del turno 40.
+  ✅ GUARDIAS (lib/claude/continuity-guard.ts, puro, calibrado con ~5.600
+     narraciones de prod): acción vieja del jugador re-narrada (8+ palabras
+     literales, 0 FP), salto de hora 3+ franjas o hacia atrás sin motivo
+     (0 FP en turnos sanos), NPC con pronombre declarado que cambia de
+     género (umbral 3, ignora diálogos). Comparten el único reintento con
+     la re-narración. Turn.worldStatePatch._continuity_guard
+     {retried, unresolved}.
+  ✅ LEDGER DE NPCs: npc_update acepta pronouns/description (fijos) y
+     learned (→ knows, tope 8); antes cada npc_update pisaba la entrada.
+     Prompt: "Nombre [she/her; descripción]", lo que saben los NPCs
+     presentes, y directiva con nombres para fijar identidad faltante.
+     Verificado en vivo (Marta/Barliman completados y usados).
+  CÓMO MEDIR: SELECT "worldStatePatch"->'_continuity_guard' FROM "Turn"
+  WHERE "worldStatePatch" ? '_continuity_guard'.
+  NO HECHO: guest route (/api/session/guest) sin estas guardias (sesiones
+  cortas, <40 turnos). Inferencia automática de pronombres descartada
+  (adivinaba mal y generaba cascadas de falsos positivos).
 
 SESION 2026-09-28 — sync del repo local (sin cambios de código):
   El clon local estaba en 3b2ea66 (julio, pre-Polar). Se trajeron 30 commits
