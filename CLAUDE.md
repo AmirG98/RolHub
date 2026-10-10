@@ -1217,10 +1217,10 @@ REGLA: Una feature no está terminada hasta que tiene:
 
 ## 20. ESTADO ACTUAL DEL PROYECTO
 
-Ultima actualizacion: 2026-10-08
+Ultima actualizacion: 2026-10-10
 Fase actual:         EN PRODUCCION CON ADS — billing Polar.sh activo (BILLING_ENFORCED=true),
                      6 suscriptores en trial/pago, campaña de emails lista para calentar dominio
-Ultima sesion:       2026-10-08 — VENTANA DE TURNOS CONGELADA (causa raíz de bucles y olvidos) + guardias de continuidad
+Ultima sesion:       2026-10-10 — revisión post-arreglo + turnos duplicados por timeout (idempotencia) + plan de cuenta API nueva
 
 RESUMEN EJECUTIVO (leer esto primero si no hay tiempo para el resto):
   - Billing: Polar.sh (Merchant of Record). Paddle (rechazó por IP ×2) y Lemon
@@ -1237,10 +1237,32 @@ RESUMEN EJECUTIVO (leer esto primero si no hay tiempo para el resto):
     en CI (ip-blocklist.test.ts) + anti-ip-directive por lore (incl. CYBERPUNK).
   - Emails de seguimiento con Resend (lib/email/*, cron diario 15:00 UTC), con
     tope diario y envíos espaciados porque el dominio no tiene reputación aún.
-  - Suite: 671 tests, tsc 0. Nightly playtest SIGUE sin secrets en GitHub.
+  - Suite: 678 tests, tsc 0. Nightly playtest SIGUE sin secrets en GitHub.
   - 2026-10-08: el DM veía los PRIMEROS 40 turnos (no los últimos) desde
     abril → causa raíz de bucles y olvidos. Arreglado + guardias de
     continuidad + ledger de NPCs. Ver sesión 2026-10-08.
+
+SESION 2026-10-10 — REVISIÓN DE PARTIDAS 8-10/10 + TURNOS DUPLICADOS (43e108d):
+  EMBUDO: registros bajaron de ~9-11/día (1-4/10) a 1-4/día (5, 6 y 9/10);
+  la conversión de quien llega a 25 turnos se mantiene (~60%). La caída es
+  de arriba del embudo (ads), no del juego.
+  CALIDAD desde el arreglo de la ventana: 0 JSON, 0 narraciones vacías, 0
+  rechazos, 0 fugas de idioma y 0 correcciones del jugador ("we already...")
+  en ~440 acciones. El continuity guard disparó 3 veces.
+  🔴 BUG: el cliente (GameSession) cortaba a los 45 s y REENVIABA la acción;
+     el servidor terminaba el primero y el reintento creaba un 2º turno con
+     la misma acción (DM resolviendo dos veces, doble costo, doble cupo).
+     15 duplicados el 9/10, 7 tras turnos >45 s (reintento del guard en
+     partidas largas). ✅ FIX lib/game/turn-idempotency.ts: clientTurnId por
+     acción; turno ya guardado → replay sin Claude; en curso → 409
+     turn_in_progress (candado en RateLimit, TTL 130 s). Cliente: espera
+     125 s, ante 409 espera sin reenviar, ante replay recarga. E2E local OK.
+  Antonio Pinto (NIXZIm): jugó el 7/10 con el bug de la ventana (3
+  "We already..."). Trial extendido al 17/10 y después cancelado a fin de
+  período por pedido de Amir (cobro final $0).
+  PLAN API NUEVA (Amir abrió cuenta con USD 1.000 de créditos): ver la
+  conversación del 10/10. Riesgo clave: tier Start = tope de USD 500/mes
+  y el gasto actual es ~USD 41/día → pedir tier antes de cambiar la key.
 
 SESION 2026-10-08 — CAUSA RAÍZ DE BUCLES Y "OLVIDOS" (15de584 + 77a11ef):
   Disparador: dos cancelaciones por calidad. Anthony (BcAW43, "low quality"):
