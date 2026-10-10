@@ -146,6 +146,23 @@ interface GameSessionProps {
   dmMode?: 'AI' | 'HUMAN'
 }
 
+
+/** Espera por intento: cubre el maxDuration del turn route (120 s). */
+export const TURN_REQUEST_TIMEOUT_MS = 125_000
+/** Con 409 turn_in_progress: cada cuánto volver a consultar y hasta cuántas veces. */
+export const TURN_IN_PROGRESS_WAIT_MS = 4_000
+export const TURN_IN_PROGRESS_MAX_WAITS = 35
+
+/** Id único por acción, el mismo en todos sus reintentos. */
+export function newClientTurnId(): string {
+  try {
+    if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') return crypto.randomUUID()
+  } catch {
+    // sin crypto.randomUUID (navegadores viejos / contexto no seguro)
+  }
+  return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 12)}`
+}
+
 export default function GameSession({
   sessionId,
   campaignId,
@@ -580,11 +597,18 @@ export default function GameSession({
     setLastDiceRoll(null)
 
     try {
-      // Retry loop: hasta 3 intentos con backoff 0ms / 1500ms / 4000ms y timeout de 45s.
+      // Retry loop: hasta 3 intentos con backoff 0ms / 1500ms / 4000ms.
       // Cubre errores transitorios de deploy (Vercel alias switch), cold starts, pool timeouts.
       // No retryea 401/403 (auth) ni 4xx (body inválido) porque esos son permanentes.
+      // IDEMPOTENCIA: todos los intentos llevan el MISMO clientTurnId. Antes el
+      // timeout era 45 s y el reintento creaba un SEGUNDO turno con la misma
+      // acción (15 duplicados el 2026-10-09) — ver lib/game/turn-idempotency.ts.
+      // Ahora la espera cubre el maxDuration del route (120 s) y, si el
+      // servidor dice que el turno sigue en curso (409), se espera sin reenviar.
       const RETRY_BACKOFFS = [0, 1500, 4000]
-      const PER_ATTEMPT_TIMEOUT_MS = 45000
+      const PER_ATTEMPT_TIMEOUT_MS = TURN_REQUEST_TIMEOUT_MS
+      const clientTurnId = newClientTurnId()
+      let inProgressWaits = 0
 
       let data: any = null
       let lastError: Error | null = null
@@ -607,11 +631,26 @@ export default function GameSession({
               actionType, // 'do' for physical actions, 'talk' for dialogue
               diceRoll: submittedDiceRoll,
               locale, // Pass language preference for DM narration
+              clientTurnId,
             }),
             signal: controller.signal,
           })
           clearTimeout(timeoutId)
           attemptedOnce = true
+
+          // El mismo turno sigue procesándose en el servidor (un intento
+          // anterior que se cortó de este lado): esperar y volver a consultar,
+          // sin consumir intentos ni generar otro turno.
+          if (response.status === 409) {
+            const d = await response.json().catch(() => ({}))
+            if (d.code === 'turn_in_progress' && inProgressWaits < TURN_IN_PROGRESS_MAX_WAITS) {
+              inProgressWaits++
+              await new Promise((r) => setTimeout(r, TURN_IN_PROGRESS_WAIT_MS))
+              attempt--
+              continue
+            }
+            throw new Error(locale === 'en' ? 'Invalid request' : 'Solicitud inválida')
+          }
 
           // 401/403/4xx permanentes: no retryear
           if (response.status === 401 || response.status === 403) {
@@ -648,6 +687,12 @@ export default function GameSession({
           }
 
           data = await response.json()
+          if (data?.replayed) {
+            // El turno ya estaba guardado (lo procesó un intento anterior):
+            // recargar muestra el estado real sin volver a jugarlo.
+            window.location.reload()
+            return
+          }
           break // éxito, salir del loop
         } catch (err) {
           clearTimeout(timeoutId)

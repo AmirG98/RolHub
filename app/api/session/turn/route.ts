@@ -17,6 +17,7 @@ import { type Quest, type QuestUpdate } from '@/lib/types/quest'
 import { generateSummaryCheckpoint, shouldTriggerSummary } from '@/lib/claude/session-summarizer'
 import { detectRenarration, condenseNarration, renarrationRetryDirective } from '@/lib/claude/repetition-guard'
 import { recentTurnsQuery, toChronological } from '@/lib/claude/turn-window'
+import { acquireTurnLock, findCompletedTurn, isValidClientTurnId, type TurnIdempotencyDb } from '@/lib/game/turn-idempotency'
 import {
   assessTimeUpdate,
   continuityRetryDirective,
@@ -322,6 +323,23 @@ export async function POST(req: NextRequest) {
 
     if (!isOwner && !participant) {
       return NextResponse.json({ error: 'No autorizado' }, { status: 403 })
+    }
+
+    // === IDEMPOTENCIA (lib/game/turn-idempotency.ts) ===
+    // El cliente reintenta con el MISMO clientTurnId. Si ya se procesó, se
+    // devuelve lo guardado; si está en curso, 409 y el cliente espera. Antes,
+    // un reintento por timeout generaba un segundo turno con la misma acción.
+    const rawClientTurnId = (body as { clientTurnId?: unknown }).clientTurnId
+    const clientTurnId = isValidClientTurnId(rawClientTurnId) ? rawClientTurnId : null
+    if (clientTurnId) {
+      const idemDb = prisma as unknown as TurnIdempotencyDb
+      const done = await findCompletedTurn(idemDb, session.id, clientTurnId)
+      if (done) {
+        return NextResponse.json({ success: true, replayed: true, narration: done.narration, suggestedActions: done.suggestedActions })
+      }
+      if (!(await acquireTurnLock(idemDb, clientTurnId))) {
+        return NextResponse.json({ error: 'turn_in_progress', code: 'turn_in_progress' }, { status: 409 })
+      }
     }
 
     // === CAP DE TURNOS PARA GUESTS ===
@@ -3136,6 +3154,7 @@ INSTRUCCIONES PARA HABILIDADES:
             ...((dmTurnPatch as Record<string, unknown> | null) || {}),
             _usage: usageTotals,
             ...(repetitionFlag !== 'none' ? { _repetition_guard: repetitionFlag } : {}),
+            ...(clientTurnId ? { _client_turn_id: clientTurnId } : {}),
             // _continuity_guard: qué detectó el 1er borrador (retried) y qué
             // quedó sin resolver en el borrador final (unresolved).
             ...(continuityRetried.length > 0 || continuityUnresolved.length > 0
